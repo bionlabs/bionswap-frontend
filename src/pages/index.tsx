@@ -2,10 +2,12 @@ import { NextPage } from "next";
 import Head from "next/head";
 import styles from "../../styles/Home.module.css";
 import { ConnectButton, WalletInfo } from "../components";
+import Menu from '../views/Menu'
+import Footer from '../views/Footer'
 
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Connect Wallet Demo</title>
         <meta
@@ -16,8 +18,9 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <ConnectButton />
-        <WalletInfo />
+        <Menu />
+        
+        <Footer />
       </main>
     </div>
   );
