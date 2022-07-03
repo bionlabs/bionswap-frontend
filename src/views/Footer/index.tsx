@@ -11,14 +11,14 @@ import { footerMenuConfig, socialsConfig } from '../../configs/menu/config'
 const Footer = ({ children }: any) => {
     return (
         <Wrapper>
-            <Container maxWidth="xl">
+            <Container>
                 <WrapMenuItem>
                     <MenuItems>
                         <img src='logo.svg' alt='' width='200px' />
                         <Box mt={2} ml={2} gap={2} display="flex" alignItems="center" >
                             {
                                 socialsConfig.map((item, index) => (
-                                    <Box component='a' href={item.href}>
+                                    <Box key='' component='a' href={item.href}>
                                         <Box component='img' src={item.icon} alt={item.label} />
                                     </Box>
                                 ))
@@ -27,11 +27,11 @@ const Footer = ({ children }: any) => {
                     </MenuItems>
                     {
                         footerMenuConfig.map(footer =>
-                            <MenuItems>
+                            <MenuItems key=''>
                                 <Label>{footer.title}</Label>
                                 {
                                     footer.items.map(item => (
-                                        <Item href={item.href} key=''>
+                                        <Item key='' href={item.href}>
                                             {item.label}
                                         </Item>
                                     ))

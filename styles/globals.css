@@ -7,6 +7,10 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+body {
+  background-image: url('/images/Crowdfunding.png');
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -14,4 +18,35 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+
+label {
+  color: #000000;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 160%;
+}
+
+p {
+  margin: 0;
+  color: #787A9B;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 27px;
+}
+
+span {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 160%;
+  color: #787A9B;
 }
