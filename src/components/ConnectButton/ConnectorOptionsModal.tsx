@@ -10,8 +10,8 @@ import {
 import Image from "next/image";
 import { useState } from "react";
 import { Chain, Connector } from "wagmi";
-import { useConnect } from "../../hooks";
-import { getConnectorIcon } from "../../utils/getConnectorIcon";
+import { useConnect } from "hooks";
+import { getConnectorIcon } from "utils/getConnectorIcon";
 
 type Props = {
   chain: Chain | null;

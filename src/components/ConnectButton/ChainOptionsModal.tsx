@@ -11,9 +11,9 @@ import {
 import Image from "next/image";
 import { useState } from "react";
 import { Chain } from "wagmi";
-import { chains } from "../../configs/chain";
-import { useSwitchNetwork, useNetwork } from "../../hooks";
-import { getChainIcon } from "../../utils";
+import { chains } from "configs/chain";
+import { useSwitchNetwork, useNetwork } from "hooks";
+import { getChainIcon } from "utils";
 import CircleIcon from "@mui/icons-material/Circle";
 
 type Props = {

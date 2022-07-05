@@ -1,6 +1,6 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useState } from "react";
-import { useAccount, useBalance, useNetwork } from "../../hooks";
+import { useAccount, useBalance, useNetwork } from "hooks";
 import WalletInfoModal from "./WalletInfoModal";
 
 type Props = {};

@@ -8,11 +8,6 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-body {
-  background-image: url('/images/Crowdfunding.png');
-  background-repeat: no-repeat;
-}
-
 a {
   color: inherit;
   text-decoration: none;

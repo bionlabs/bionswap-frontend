@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, OutlinedInput, InputAdornment } from "@mui/material";
-import PrimaryButton from "../../../../components/PrimaryButton"
+import PrimaryButton from "components/PrimaryButton"
 
 interface DepositProps {
     // rewardItems: any,
