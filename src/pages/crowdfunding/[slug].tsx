@@ -1,4 +1,3 @@
-import { NextPage } from "next";
 import Head from "next/head";
 import Menu from 'views/Menu'
 import Footer from 'views/Footer'
@@ -12,13 +11,12 @@ import {
 } from '@mui/material'
 import Breadcrumb from './components/Breadcrumb'
 
-const Crowdfunding: NextPage = () => {
+const Crowdfunding = () => {
     return (
         <div>
             <Box component='section'>
                 <Container>
                     <Breadcrumb name={crowdfundingConfig[0].name} />
-                    
                 </Container>
             </Box>
         </div >
