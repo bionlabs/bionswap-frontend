@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from 'next/router';
 import { Box } from "@mui/material";
 
 interface ProjectItemProps {
@@ -6,6 +7,8 @@ interface ProjectItemProps {
 }
 
 const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
+    const router = useRouter();
+
     return (
         <Box>
             <Box sx={{
@@ -16,7 +19,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
                 overflow: 'hidden',
                 position: 'relative',
             }}>
-                <Box component='img' src={data?.projectThumb} alt={data?.name} />
+                <Box onClick={() => { router.push(`/crowdfunding/${data?.slug}`) }} component='img' src={data?.projectThumb} alt={data?.name} />
                 <Box component='p' sx={{
                     position: 'absolute',
                     background: '#25273D',

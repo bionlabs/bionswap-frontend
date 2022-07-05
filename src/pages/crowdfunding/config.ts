@@ -1,7 +1,9 @@
 export const crowdfundingConfig = [
     {
+        slug: 'acb',
         projectThumb: '/images/img_bg.png',
         name: 'Star Fox',
+        type: 'Gamefi',
         status: 'Coming Soon',
         coin: {
             name: '$FOX',
@@ -24,8 +26,10 @@ export const crowdfundingConfig = [
         },
     },
     {
+        slug: 'acb',
         projectThumb: '/images/img_bg.png',
         name: 'Star Fox',
+        type: 'Gamefi',
         status: 'Coming Soon',
         coin: {
             name: '$FOX',

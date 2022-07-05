@@ -104,24 +104,53 @@ const Crowdfunding: NextPage = () => {
                     </Container>
 
                     <Box sx={{
-                        
+                        backgroundImage: 'url(/images/bg.png)',
+                        paddingTop: '76px',
+                        paddingBottom: '112px',
+                        textAlign: 'center',
+                        zIndex: '0',
+                        position: 'relative',
                     }}>
                         <Container>
                             <TitleTag title="📝 For projects" />
-                            <Box>
+                            <Box sx={{
+                                letterSpacing: '-1.28px',
+                                color: '#25273D',
+                                fontWeight: '600',
+                                fontSize: '40px',
+                                lineHeight: '76px',
+                                fontFamily: 'Bai Jamjuree',
+                                marginBottom: '12px',
+                            }}>
                                 Ready to be launch on Bionswap ?
                             </Box>
-                            <Box>
+                            <Box component='p'
+                                sx={{
+                                    fontSize: '18px',
+                                    lineHeight: '150%',
+                                    color: '#787A9B',
+                                    fontWeight: '500',
+                                    marginBottom: '43px',
+                                    maxWidth: '766px',
+                                    width: '100%',
+                                    marginLeft: 'auto',
+                                    marginRight: 'auto',
+                                }}>
                                 BionicFox is very confident in saying that we have a lot of experience in developing dApp with many functions like: Swap, Farm, Pool, NFT Marketplace, Launchpad,...
                             </Box>
-                            <PrimaryButton label="Apply now ->" />
+                            <Box sx={{
+                                maxWidth: '248px',
+                                width: '100%',
+                                margin: 'auto',
+                            }}>
+                                <PrimaryButton label="Apply now ->" />
+                            </Box>
                         </Container>
                     </Box>
-
                 </Box>
                 <Footer />
-            </main>
-        </div>
+            </main >
+        </div >
     );
 };
 
