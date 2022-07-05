@@ -11,30 +11,17 @@ import {
     Container
 } from '@mui/material'
 import Breadcrumb from './components/Breadcrumb'
+import HeadDetail from './components/HeadDetail'
 
 const Crowdfunding: NextPage = () => {
     return (
-        <div>
-            <Head>
-                <title>Connect Wallet Demo</title>
-                <meta
-                    name="description"
-                    content="Demo app part of a tutorial on adding RainbowKit to a React application"
-                />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+        <Box component='section'>
+            <Container>
+                <Breadcrumb name={crowdfundingConfig[0].name} />
+                <HeadDetail avarta={crowdfundingConfig[0].coin.image} name={crowdfundingConfig[0].name} type={crowdfundingConfig[0].type} unit={crowdfundingConfig[0].fundraiseGoal.unit} />
 
-            <main>
-                <Menu />
-                <Box component='section'>
-                    <Container>
-                        <Breadcrumb name={crowdfundingConfig[0].name} />
-                        
-                    </Container>
-                </Box>
-                <Footer />
-            </main >
-        </div >
+            </Container>
+        </Box>
     );
 };
 
