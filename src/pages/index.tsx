@@ -1,6 +1,7 @@
 import Page from "components/Page";
 import { NextPage } from "next";
 import Head from "next/head";
+import Homepage from "views/Home";
 
 const Home: NextPage = () => {
   return (
@@ -15,10 +16,7 @@ const Home: NextPage = () => {
       </Head>
 
       <div>
-        <Page>
-          Hello Home
-        </Page>
-        
+        <Homepage/>
       </div>
     </div>
   );
