@@ -3,12 +3,12 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 import { Chain, Connector } from "wagmi";
 
-import { useNetwork } from "../../hooks";
+import { useNetwork } from "hooks";
 import ChainOptionsModal from "./ChainOptionsModal";
 import ConnectorOptionsModal from "./ConnectorOptionsModal";
-import { chains } from "../../configs/chain";
+import { chains } from "configs/chain";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { getChainIcon } from "../../utils";
+import { getChainIcon } from "utils";
 import Image from "next/image";
 
 type Props = {};

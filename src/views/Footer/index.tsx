@@ -5,13 +5,13 @@ import {
     Container
 } from '@mui/material'
 import styled from '@emotion/styled'
-import { footerMenuConfig, socialsConfig } from '../../configs/menu/config'
+import { footerMenuConfig, socialsConfig } from 'configs/menu/config'
 
 
 const Footer = ({ children }: any) => {
     return (
         <Wrapper>
-            <Container>
+            <Container maxWidth='xl'>
                 <WrapMenuItem>
                     <MenuItems>
                         <img src='logo.svg' alt='' width='200px' />

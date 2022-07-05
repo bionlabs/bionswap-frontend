@@ -1,6 +1,6 @@
 import { Dialog, DialogTitle, Modal, Typography } from "@mui/material";
 import React from "react";
-import { useAccount, useBalance, useNetwork } from "../../hooks";
+import { useAccount, useBalance, useNetwork } from "hooks";
 
 type Props = {
   open: boolean;
