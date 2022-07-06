@@ -98,6 +98,7 @@ const ChainButton = styled(Button)`
     min-width: fit-content;
     padding: 8.5px 24px;
     box-shadow: none;
+    min-height: 41px;
     text-transform: none;
     font-family: inherit;
     font-weight: 600;
@@ -128,6 +129,7 @@ const ConnectWalletButton = styled(Button)`
     font-family: inherit;
     font-weight: 600;
     align-items: center;
+    min-height: 41px;
     background-color: #25273D;
     color: #fff;
     transition: 0.15s ease-in;

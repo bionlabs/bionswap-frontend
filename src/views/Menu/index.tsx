@@ -40,17 +40,48 @@ const Menu = ({ children }: any) => {
 
     const list = (anchor: Anchor) => (
         <Box
-          sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : '95vw' ,height:'100vh'}}
+          sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : '95vw' ,minHeight:'100vh'}}
         >
-          <FlexBox flexDirection='column' gap='20px' width='100%' p='16px'>
-            <FlexBox justifyContent='end'>
+          <FlexBox flexDirection='column' width='100%'>
+            <FlexBox justifyContent='end' p='16px'>
                 <IconButton onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
                     <HiX/>
                 </IconButton>
             </FlexBox>
-            <Box>
+            <Box p='16px'>
                 <ConnectButton/>
             </Box>
+            <FlexBox flexDirection='column'>
+                {
+                    menuConfig.map(item =>
+                        <Box 
+                            key=''
+                            component="a"
+                            href={item.href}
+                            sx={{
+                                padding: '16px 0',
+                                color: "#0C1116",
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '10px',
+                                padding: '16px',
+                                'svg':{
+                                    fill: '#707a8a',
+                                    width: '24px',
+                                    height: '24px'
+                                }
+                            }}
+                            onClick={(e:any) => {
+                                e.preventDefault();
+                                router.push(item.href);
+                            }}
+                        >
+                            {item.icon}
+                            {item.label}
+                        </Box>
+                    )
+                }
+            </FlexBox>
           </FlexBox>
         </Box>
       );
