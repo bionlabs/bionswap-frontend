@@ -54,6 +54,7 @@ const ConnectButton = (props: Props) => {
             <Image
               src={getChainIcon(selectedChain!.id).iconUrl}
               layout="fixed"
+              alt=''
               width={24}
               height={24}
             />

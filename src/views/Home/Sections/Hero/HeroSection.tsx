@@ -65,6 +65,9 @@ const Wrapper = styled(Box)`
     min-height: 100vh;
     padding-top: calc(78px + 8vh);
     padding-bottom: 8vh;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
 `
 const StyledContained = styled(Container)`
     display: grid;

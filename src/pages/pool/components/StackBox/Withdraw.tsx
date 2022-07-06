@@ -83,7 +83,7 @@ const Withdraw: React.FC<WithdrawProps> = () => {
                         textAlign: 'center',
                         marginTop: '24px'
                     }}>
-                    You don't have any BUSD tokens staked
+                    You don&apos;t have any BUSD tokens staked
                 </Box>
             </Box>
         </Box >

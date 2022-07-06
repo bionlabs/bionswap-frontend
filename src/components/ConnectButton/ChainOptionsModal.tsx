@@ -100,6 +100,7 @@ const ChainOptionsModal = ({
                   <Image
                     src={getChainIcon(chain.id).iconUrl}
                     layout="fixed"
+                    alt=''
                     width={24}
                     height={24}
                   />
