@@ -7,7 +7,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>Connect Wallet Demo</title>
+        <title>BionSwap</title>
         <meta
           name="description"
           content="Demo app part of a tutorial on adding RainbowKit to a React application"

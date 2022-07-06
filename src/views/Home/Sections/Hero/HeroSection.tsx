@@ -12,7 +12,8 @@ const HeroSection = ({isMobile}:MobileProp) => {
   return (
     <Wrapper>
         <StyledContained maxWidth='lg' sx={{
-            gridTemplateColumns: isMobile ? '100%' :'60% 40%'
+            gridTemplateColumns: isMobile ? '100%' :'60% 40%',
+            rowGap: '10px'
         }}>
             <FlexBox flexDirection='column' gap='20px'>
                 <Box className='specialFont' sx={{
@@ -51,7 +52,34 @@ const HeroSection = ({isMobile}:MobileProp) => {
                 <img src="images/home/construct7.png" alt="" width='120px' />
             </Container>
         </ConstructSection>
-        
+        <Container>
+            <NumberSection sx={{
+                marginTop:'40px',
+                flexDirection: isMobile ? 'column' : 'row',
+                gap: isMobile ? '24px' : null
+            }}
+            >
+                <NumberBox>
+                    <Box className='specialFont' fontSize='34px'>30+</Box>
+                    <Box>Projects and Investors</Box>
+                </NumberBox>
+                {isMobile ? <Divider/> : <DividerVertical/>}
+                <NumberBox>
+                    <Box className='specialFont' fontSize='34px'>$600+</Box>
+                    <Box>Funds Raised</Box>
+                </NumberBox>
+                {isMobile ? <Divider/> : <DividerVertical/>}
+                <NumberBox>
+                    <Box className='specialFont' fontSize='34px'>400+</Box>
+                    <Box>AMAs</Box>
+                </NumberBox>
+                {isMobile ? <Divider/> : <DividerVertical/>}
+                <NumberBox>
+                    <Box className='specialFont' fontSize='34px'>1M+</Box>
+                    <Box>Media Coverage</Box>
+                </NumberBox>
+            </NumberSection>
+        </Container>
     </Wrapper>
   )
 }
@@ -95,6 +123,33 @@ const ConstructSection = styled(Container)`
     display: flex;
     flex-direction: column;
     align-items: center;
+`
+const NumberSection = styled(Box)`
+    border-radius: 10px;
+    border: 1px solid rgba(101, 84, 169, 0.2);
+    background: #fff;
+    padding: 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`
+const NumberBox = styled(Box)`
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+`
+const Divider = styled.div`
+    width: 100%;
+    height: 1px;
+    background: rgba(101, 84, 169, 0.2);
+`
+const DividerVertical = styled.div`
+    width: 1px;
+    min-height: 80px;
+    background: rgba(101, 84, 169, 0.2);
 `
 
 export default HeroSection

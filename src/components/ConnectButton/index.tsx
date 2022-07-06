@@ -1,22 +1,26 @@
-import { Box, Stack, Typography } from "@mui/material";
-import Button from "@mui/material/Button";
+import { Box, Stack, Typography, Button , useMediaQuery } from "@mui/material";
+import styled from "@emotion/styled";
+import {BsFillCaretDownFill} from 'react-icons/bs'
+import {IoWallet} from 'react-icons/io5'
 import { useState } from "react";
 import { Chain, Connector } from "wagmi";
 
-import { useNetwork } from "hooks";
+import { useNetwork , useAccount } from "hooks";
 import ChainOptionsModal from "./ChainOptionsModal";
 import ConnectorOptionsModal from "./ConnectorOptionsModal";
 import { chains } from "configs/chain";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { getChainIcon } from "utils";
 import Image from "next/image";
+import formatAccount from "hooks/formatAccount";
 
 type Props = {};
 
 const ConnectButton = (props: Props) => {
+  const isMobile = useMediaQuery('(max-width:1155px)');
   const [openConnectorsModal, setOpenConnectorsModal] = useState(false);
   const [openChainsModal, setOpenChainsModal] = useState(false);
   const [selectedChain, setSelectedChain] = useState<Chain | null>(chains[0]);
+  const {address} = useAccount()
 
   const { chain: connectedChain } = useNetwork();
 
@@ -36,21 +40,13 @@ const ConnectButton = (props: Props) => {
 
   return (
     <>
-      <Stack direction={"row"} gap={2}>
-        <Button
+      <Stack direction={isMobile ? 'column' : "row"} gap={2}>
+        <ChainButton
           onClick={() => setOpenChainsModal(true)}
-          variant="text"
-          disableTouchRipple
-          sx={{
-            textTransform: "none",
-            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-            "&:hover": {
-              transform: "matrix(1.025, 0, 0, 1.025, 0, 0)",
-            },
-          }}
-          endIcon={<KeyboardArrowDownIcon />}
+          variant="contained"
+          endIcon={<BsFillCaretDownFill color='#25273D' />}
         >
-          <Stack direction="row" gap={2} alignItems="center">
+          <Stack direction="row" gap={1} alignItems="center">
             <Image
               src={getChainIcon(selectedChain!.id).iconUrl}
               layout="fixed"
@@ -58,26 +54,25 @@ const ConnectButton = (props: Props) => {
               width={24}
               height={24}
             />
-
-            <Typography>{selectedChain?.name}</Typography>
+            <Box>{selectedChain?.name}</Box>
           </Stack>
-        </Button>
-        {!connectedChain && (
-          <Button
-            onClick={() => setOpenConnectorsModal(true)}
-            variant="text"
-            disableTouchRipple
-            sx={{
-              textTransform: "none",
-              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-              "&:hover": {
-                transform: "matrix(1.025, 0, 0, 1.025, 0, 0)",
-              },
-            }}
-          >
-            <Typography>Connect Wallet</Typography>
-          </Button>
-        )}
+        </ChainButton>
+        {!address ?
+            <ConnectWalletButton
+              onClick={() => setOpenConnectorsModal(true)}
+              variant="contained"
+            >
+              <Box>Connect Wallet</Box>
+            </ConnectWalletButton>
+          :
+            <ConnectWalletButton
+              onClick={() => setOpenConnectorsModal(true)}
+              variant="contained"
+              endIcon={<IoWallet color='#fff'/>}
+            >
+              <Box>{formatAccount(address ?? '')}</Box>
+            </ConnectWalletButton>
+        }
       </Stack>
 
       <ChainOptionsModal
@@ -97,5 +92,55 @@ const ConnectButton = (props: Props) => {
     </>
   );
 };
+
+const ChainButton = styled(Button)`
+    border-radius: 999px;
+    min-width: fit-content;
+    padding: 8.5px 24px;
+    box-shadow: none;
+    text-transform: none;
+    font-family: inherit;
+    font-weight: 600;
+    align-items: center;
+    background-color: #f2f2f2;
+    border: none;
+    color: #25273D;
+    transition: 0.15s ease-in;
+    line-height: 1;
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+    :hover {
+        box-shadow: none;
+        background-color: #f2f2f2;
+        opacity: .9;
+        border: none;
+    }
+`
+
+const ConnectWalletButton = styled(Button)`
+    border-radius: 999px;
+    min-width: fit-content;
+    padding: 8.5px 48px;
+    box-shadow: none;
+    text-transform: none;
+    font-family: inherit;
+    font-weight: 600;
+    align-items: center;
+    background-color: #25273D;
+    color: #fff;
+    transition: 0.15s ease-in;
+    line-height: 1;
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+    :hover {
+        background-color: #25273D;
+        opacity: .9;
+        box-shadow: none;
+    }
+`
 
 export default ConnectButton;

@@ -2,17 +2,21 @@
 import React from 'react'
 import {
     Box,
-    Container
+    Container,
+    useMediaQuery
 } from '@mui/material'
 import styled from '@emotion/styled'
 import { footerMenuConfig, socialsConfig } from 'configs/menu/config'
 
 
 const Footer = ({ children }: any) => {
+    const isMobile = useMediaQuery('(max-width:900px)')
     return (
         <Wrapper>
             <Container maxWidth='xl'>
-                <WrapMenuItem>
+                <WrapMenuItem sx={{
+                    flexDirection: isMobile ? 'column' : 'row'
+                }}>
                     <MenuItems>
                         <img src='logo.svg' alt='' width='200px' />
                         <Box mt={2} ml={2} gap={2} display="flex" alignItems="center" >
