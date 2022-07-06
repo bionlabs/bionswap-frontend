@@ -40,9 +40,9 @@ const bsc = {
 };
 
 const supportedChains: { [name: string]: Chain } = {
+  bsc,
   ethereum: WagmiChain.mainnet,
   polygon: WagmiChain.polygon,
-  bsc,
 };
 
 const { chains, provider, webSocketProvider } = configureChains(
@@ -53,17 +53,17 @@ const { chains, provider, webSocketProvider } = configureChains(
 export { chains };
 
 export const chainIcons = {
+  [supportedChains.bsc.id]: {
+    iconBackground: "#0b0e11",
+    iconUrl: "/images/chains/bsc.svg",
+  },
   [supportedChains.ethereum.id]: {
-    iconBackground: "#484c50",
+    iconBackground: "#5C6BC0",
     iconUrl: "/images/chains/ethereum.svg",
   },
   [supportedChains.polygon.id]: {
     iconBackground: "#9f71ec",
     iconUrl: "/images/chains/polygon.svg",
-  },
-  [supportedChains.bsc.id]: {
-    iconBackground: "#0b0e11",
-    iconUrl: "/images/chains/bsc.svg",
   },
 };
 

@@ -66,7 +66,7 @@ const ConnectButton = (props: Props) => {
             </ConnectWalletButton>
           :
             <ConnectWalletButton
-              onClick={() => setOpenConnectorsModal(true)}
+              // onClick={() => setOpenConnectorsModal(true)}
               variant="contained"
               endIcon={<IoWallet color='#fff'/>}
             >
