@@ -59,7 +59,6 @@ const Menu = ({ children }: any) => {
                             component="a"
                             href={item.href}
                             sx={{
-                                padding: '16px 0',
                                 color: "#0C1116",
                                 display: 'flex',
                                 alignItems: 'center',
