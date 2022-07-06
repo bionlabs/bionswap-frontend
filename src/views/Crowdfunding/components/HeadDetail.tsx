@@ -9,7 +9,7 @@ function handleClick(event: any) {
 interface HeadDetailProps {
     avarta: string,
     name: string,
-    type: string,
+    type: any,
     unit: string,
 }
 

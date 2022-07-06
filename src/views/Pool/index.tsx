@@ -1,7 +1,8 @@
 import Menu from 'views/Menu'
+import PrimaryButton from 'components/PrimaryButton'
+import Reward from './components/Reward'
 import TotalAvailable from './components/TotalAvailable'
 import StackBox from './components/StackBox'
-
 import {
     Box,
     Container

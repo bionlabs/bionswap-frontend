@@ -89,6 +89,7 @@ function ConnectorOptionsModal({
                   <Image
                     src={getConnectorIcon(connector.id)}
                     layout="fixed"
+                    alt=''
                     width={24}
                     height={24}
                   />

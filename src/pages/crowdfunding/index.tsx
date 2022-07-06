@@ -1,8 +1,7 @@
 import Crowdfunding from "views/Crowdfunding"
 
-
-export default function crowdFunding() {
-    return (
-        <Crowdfunding />
-    )
+const CrowdfundingPage = () => {
+    return <Crowdfunding/>
 }
+
+export default CrowdfundingPage

@@ -22,7 +22,7 @@ const Withdraw: React.FC<WithdrawProps> = () => {
                         sx={{
                             marginBottom: '16px'
                         }}>
-                        <Box component='label' for="outlined-basic">
+                        <Box component='label'>
                             Withdraw Amount 
                         </Box>
                         <Box component='span'>
@@ -83,7 +83,7 @@ const Withdraw: React.FC<WithdrawProps> = () => {
                         textAlign: 'center',
                         marginTop: '24px'
                     }}>
-                    You don't have any BUSD tokens staked
+                    You don&apos;t have any BUSD tokens staked
                 </Box>
             </Box>
         </Box >

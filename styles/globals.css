@@ -1,13 +1,27 @@
+@font-face {
+  font-family: 'Grifter';
+  src: url('/fonts/grifterbold.otf');
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: 'Inter', sans-serif;
+  color: #0C1116;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.specialFont {
+  font-family: 'Grifter';
+}
+
+.subtitle {
+  color: #25273D;
 }
 
 * {

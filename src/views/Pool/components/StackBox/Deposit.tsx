@@ -22,7 +22,7 @@ const Deposit: React.FC<DepositProps> = () => {
                         sx={{
                             marginBottom: '16px'
                         }}>
-                        <Box component='label' for="outlined-basic">
+                        <Box component='label'>
                             Input
                         </Box>
                         <Box component='span'>

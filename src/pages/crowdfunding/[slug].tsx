@@ -1,7 +1,7 @@
 import CrowdfundingDetail from "views/Crowdfunding/[slug]"
 
 
-export default function crowdFundingDetail() {
+export default function CrowdFundingDetailPage() {
     return (
         <CrowdfundingDetail />
     )

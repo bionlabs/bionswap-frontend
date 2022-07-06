@@ -1,6 +1,6 @@
 import Pool from "views/Pool"
 
-export default function stacks() {
+export default function StackPage() {
     return (
         <Pool />
     )
