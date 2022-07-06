@@ -6,14 +6,16 @@ import {
 } from '@mui/material'
 import styled from '@emotion/styled'
 import { menuConfig } from 'configs/menu/config'
+import { useRouter } from 'next/router'
 
 
 const Menu = ({ children }: any) => {
+    const router = useRouter()
     return (
         <>
             <MenuContainer>
                 <StyledContained maxWidth='xl'>
-                    <FlexBox alignItems='center' gap='20px'>
+                    <FlexBox alignItems='center' gap='60px'>
                         <Box>
                             <Box component="a" href='/'>
                                 <img src='logo.svg' alt='BionDex' width='200px' />
@@ -22,13 +24,24 @@ const Menu = ({ children }: any) => {
                         <Box alignItems="center" display="flex" gap={4}>
                             {
                                 menuConfig.map(item =>
-                                    <Box key='' component="a" href={item.href}
+                                    <Box 
+                                        key=''
+                                        component="a"
+                                        href={item.href}
                                         sx={{
-                                            color: "#A8B0B9",
-                                            fontWeight: '600',
+                                            color: "#787A9B",
+                                            fontWeight: '500',
                                             fontSize: '16px',
-                                            lineHeight: '160%',
-                                        }}>
+                                            transition: '.15s ease-in',
+                                            ':hover': {
+                                                color: '#0C1116',
+                                            }
+                                        }}
+                                        onClick={(e:any) => {
+                                            e.preventDefault();
+                                            router.push(item.href);
+                                        }}
+                                    >
                                         {item.label}
                                     </Box>
                                 )

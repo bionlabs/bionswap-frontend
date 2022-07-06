@@ -1,23 +1,24 @@
 import React from 'react'
 import {
     Box,
-    Container
+    Container,
+    useMediaQuery
 } from '@mui/material'
 import styled from '@emotion/styled'
+import HeroSection from './Sections/Hero/HeroSection'
 
 const Homepage = () => {
+  const isMobile = useMediaQuery('(max-width:700px)');
   return (
     <Page>
-        <Container>
-            Hello Home
-        </Container>
+        <HeroSection isMobile={isMobile}/>
     </Page>
   )
 }
 
 const Page = styled(Box)`
     min-height: 100vh;
-    padding-top: 78px;
 `
+
 
 export default Homepage
