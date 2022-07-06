@@ -22,7 +22,7 @@ const Withdraw: React.FC<WithdrawProps> = () => {
                         sx={{
                             marginBottom: '16px'
                         }}>
-                        <Box component='label' for="outlined-basic">
+                        <Box component='label'>
                             Withdraw Amount 
                         </Box>
                         <Box component='span'>
