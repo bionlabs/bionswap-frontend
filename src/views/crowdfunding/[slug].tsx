@@ -3,12 +3,13 @@ import Menu from 'views/Menu'
 import Footer from 'views/Footer'
 import TitleTag from 'components/TitleTag'
 import PrimaryButton from 'components/PrimaryButton'
+import ProjectItem from './components/ProjectItem'
+import { crowdfundingConfig } from "./config";
 import {
     Box,
     Container
 } from '@mui/material'
-import Breadcrumb from "views/crowdfunding/components/Breadcrumb";
-import { crowdfundingConfig } from "views/crowdfunding/config";
+import Breadcrumb from './components/Breadcrumb'
 
 const Crowdfunding = () => {
     return (
