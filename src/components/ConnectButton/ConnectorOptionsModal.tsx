@@ -6,6 +6,7 @@ import {
   Modal,
   Stack,
   Typography,
+  Backdrop
 } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
@@ -44,7 +45,15 @@ function ConnectorOptionsModal({
   });
 
   return (
-    <Modal onClose={onClose} open={open}>
+    <Modal 
+      onClose={onClose}
+      open={open}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 500,
+      }}
+    >
       <Stack
         sx={{
           position: "absolute" as "absolute",

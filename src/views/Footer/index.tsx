@@ -2,23 +2,37 @@
 import React from 'react'
 import {
     Box,
-    Container
+    Container,
+    useMediaQuery
 } from '@mui/material'
 import styled from '@emotion/styled'
 import { footerMenuConfig, socialsConfig } from 'configs/menu/config'
+import { useRouter } from 'next/router'
 
 
 const Footer = ({ children }: any) => {
+    const isMobile = useMediaQuery('(max-width:900px)')
+    const router = useRouter()
     return (
         <Wrapper>
             <Container maxWidth='xl'>
-                <WrapMenuItem>
+                <WrapMenuItem sx={{
+                    flexDirection: isMobile ? 'column' : 'row'
+                }}>
                     <MenuItems>
                         <img src='logo.svg' alt='' width='200px' />
                         <Box mt={2} ml={2} gap={2} display="flex" alignItems="center" >
                             {
                                 socialsConfig.map((item, index) => (
-                                    <Box key='' component='a' href={item.href}>
+                                    <Box 
+                                        key=''
+                                        component='a' 
+                                        href={item.href}
+                                        onClick={(e:any) => {
+                                            e.preventDefault();
+                                            router.push(item.href);
+                                        }}
+                                    >
                                         <Box component='img' src={item.icon} alt={item.label} />
                                     </Box>
                                 ))
@@ -31,7 +45,14 @@ const Footer = ({ children }: any) => {
                                 <Label>{footer.title}</Label>
                                 {
                                     footer.items.map(item => (
-                                        <Item key='' href={item.href}>
+                                        <Item
+                                            key='' 
+                                            href={item.href}
+                                            onClick={(e:any) => {
+                                                e.preventDefault();
+                                                router.push(item.href);
+                                            }}
+                                        >
                                             {item.label}
                                         </Item>
                                     ))

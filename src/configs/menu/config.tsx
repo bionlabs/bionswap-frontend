@@ -1,28 +1,33 @@
+import {MdSwapHorizontalCircle} from 'react-icons/md'
+import {GiPayMoney , GiReceiveMoney} from 'react-icons/gi'
+import {FaCoins} from 'react-icons/fa'
+import {HiChartBar} from 'react-icons/hi'
+
 export const menuConfig = [
     {
         label: 'Trade',
         href: '/trade',
-        icon: ''
+        icon: <MdSwapHorizontalCircle/>
     },
     {
         label: 'Crowdfunding',
         href: '/crowdfunding',
-        icon: ''
+        icon: <GiPayMoney/>
     },
     {
         label: 'Stacks',
         href: '/stacks',
-        icon: ''
+        icon: <FaCoins/>
     },
     {
         label: 'Earn',
         href: '/earn',
-        icon: ''
+        icon: <GiReceiveMoney/>
     },
     {
         label: 'Dashboard',
         href: '/dashboard',
-        icon: ''
+        icon: <HiChartBar/>
     }
 ]
 
