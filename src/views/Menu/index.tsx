@@ -68,8 +68,12 @@ const Menu = ({ children }: any) => {
                                     fill: '#707a8a',
                                     width: '24px',
                                     height: '24px'
+                                },
+                                '&.active': {
+                                    color: "#25273D",
                                 }
                             }}
+                            className={router.pathname == item.href ? "active" : ""}
                             onClick={(e:any) => {
                                 e.preventDefault();
                                 router.push(item.href);
@@ -109,12 +113,16 @@ const Menu = ({ children }: any) => {
                                                 transition: '.15s ease-in',
                                                 ':hover': {
                                                     color: '#0C1116',
+                                                },
+                                                '&.active': {
+                                                    color: "#25273D",
                                                 }
                                             }}
                                             onClick={(e:any) => {
                                                 e.preventDefault();
                                                 router.push(item.href);
                                             }}
+                                            className={router.pathname == item.href ? "active" : ""}
                                         >
                                             {item.label}
                                         </Box>

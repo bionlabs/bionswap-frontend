@@ -42,7 +42,7 @@ const Crowdfunding = () => {
                             }}>
                             Stake token to earn reward. See how it work -&gt;
                         </Box>
-                        <Box display='flex' gap={3} flexWrap='wrap'>
+                        <Box display='flex' gap={3} flexWrap='wrap' justifyContent='space-around'>
                             {
                                 crowdfundingConfig?.map((item, idex) => (
                                     <Box sx={{
@@ -79,7 +79,7 @@ const Crowdfunding = () => {
                             }}>
                             We bring new technologies to our community
                         </Box>
-                        <Box display='flex' gap={3} flexWrap='wrap'>
+                        <Box display='flex' gap={3} flexWrap='wrap' justifyContent='space-around'>
                             {
                                 crowdfundingConfig?.map((item, idex) => (
                                     <Box sx={{

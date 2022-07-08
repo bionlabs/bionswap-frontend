@@ -1,7 +1,9 @@
 import React from "react";
 import { useRouter } from 'next/router';
-import { Box, Tabs, Tab, Typography } from "@mui/material";
+import { Box, Tabs, Tab } from "@mui/material";
 import PropTypes from 'prop-types';
+import TokenSale from "./TokenSale";
+import VestingSchedule from "./VestingSchedule";
 
 interface TabsAreaProps {
     data: any,
@@ -19,8 +21,8 @@ function TabPanel(props: any) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                <Box>
+                    <div>{children}</div>
                 </Box>
             )}
         </div>
@@ -43,7 +45,7 @@ const TabsArea: React.FC<TabsAreaProps> = ({ data }) => {
 
     return (
         <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: '32px' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="About Game" {...a11yProps(0)} />
                     <Tab label="Token Sale" {...a11yProps(1)} />
@@ -54,10 +56,10 @@ const TabsArea: React.FC<TabsAreaProps> = ({ data }) => {
                 Item One
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Item Two
+                <TokenSale data={data} />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                Item Three
+                <VestingSchedule data={data} />
             </TabPanel>
         </Box>
     )

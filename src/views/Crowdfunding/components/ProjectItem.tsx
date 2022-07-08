@@ -11,15 +11,18 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
 
     return (
         <Box>
-            <Box sx={{
+            <Box onClick={() => { router.push(`/crowdfunding/${data?.slug}`) }} sx={{
                 border: '1px solid #EAECEE',
                 borderRadius: '8px',
                 background: '#FFFFFF',
                 width: '100%',
                 overflow: 'hidden',
                 position: 'relative',
+                cursor: 'pointer',
             }}>
-                <Box onClick={() => { router.push(`/crowdfunding/${data?.slug}`) }} component='img' src={data?.projectThumb} alt={data?.name} />
+                <Box component='img' src={data?.projectThumb} alt={data?.name} sx={{
+                    width: '100%'
+                }} />
                 <Box component='p' sx={{
                     position: 'absolute',
                     background: '#25273D',
@@ -138,7 +141,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
                 }
 
             </Box>
-        </Box >
+        </Box>
     )
 }
 
