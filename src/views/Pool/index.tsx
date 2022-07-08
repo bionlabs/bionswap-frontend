@@ -5,17 +5,23 @@ import TotalAvailable from './components/TotalAvailable'
 import StackBox from './components/StackBox'
 import {
     Box,
-    Container
+    Container,
+    useMediaQuery
 } from '@mui/material'
 
 const Pool = () => {
+    const isMobile = useMediaQuery('(max-width:700px)');
     return (
-        <div>
-            <Menu />
+        <Box display='flex'
+            sx={{
+                alignItems: 'center',
+                paddingTop: '78px',
+                minHeight: 'calc(100vh - 355px)',
+            }}>
             <Box display='flex' component='section' alignItems='center' flex='1'>
                 <Container>
                     {/* <Reward /> */}
-                    <Box display='flex' justifyContent='space-between' alignItems='center'>
+                    <Box display='flex' justifyContent='space-between' alignItems='center' gap={3} flexDirection={isMobile ? 'column' : 'row'}>
                         <Box>
                             <TotalAvailable title="TOTAL AVAILABLE BION STACKS " value="0.0" />
                             <Box sx={{
@@ -68,7 +74,7 @@ const Pool = () => {
                     </Box>
                 </Container>
             </Box>
-        </div>
+        </Box>
     );
 };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Tabs, Tab, Typography } from "@mui/material";
+import { Box, Tabs, Tab } from "@mui/material";
 import styled from '@emotion/styled'
 import Deposit from './Deposit';
 import Withdraw from './Withdraw';
@@ -21,7 +21,7 @@ function TabPanel(props:any) {
       >
         {value === index && (
           <Box>
-            <Typography>{children}</Typography>
+            <div>{children}</div>
           </Box>
         )}
       </div>
