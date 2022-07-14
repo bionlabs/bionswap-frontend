@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Tabs, Tab, Typography } from "@mui/material";
+import styled from '@emotion/styled'
+import { Box, Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table } from "@mui/material";
 import IDOProcess from "./IDOProcess";
 
 interface VestingScheduleProps {
@@ -9,75 +10,95 @@ interface VestingScheduleProps {
 const VestingSchedule: React.FC<VestingScheduleProps> = ({ data }) => {
     const fetchData = [
         {
-            allocation: 'Allocation',
-            tokenSale: 'Token Sale'
+            date: {
+                from: 'January 7th 2022',
+                to: 'January 7th 2022',
+            },
+            tokenPercentage: '25',
+            tokenAmount: '1000000'
         },
         {
-            allocation: 'Allocation',
-            tokenSale: 'Token Sale'
+            date: {
+                from: 'January 7th 2022',
+                to: 'January 7th 2022',
+            },
+            tokenPercentage: '25',
+            tokenAmount: '1000000'
         },
         {
-            allocation: 'Allocation',
-            tokenSale: 'Token Sale'
+            date: {
+                from: 'January 7th 2022',
+                to: 'January 7th 2022',
+            },
+            tokenPercentage: '25',
+            tokenAmount: '1000000'
         },
         {
-            allocation: 'Allocation',
-            tokenSale: 'Token Sale'
-        },
-        {
-            allocation: 'Allocation',
-            tokenSale: 'Token Sale'
-        },
-        {
-            allocation: 'Allocation',
-            tokenSale: 'Token Sale'
+            date: {
+                from: 'January 7th 2022',
+                to: 'January 7th 2022',
+            },
+            tokenPercentage: '25',
+            tokenAmount: '1000000'
         },
     ]
+
+    const TableCellCustome = styled(TableCell)`
+        font-family: 'Inter', sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 160%;
+        color: #25273D;
+        padding: 20px;
+    `
+    const TableCellHead = styled(TableCell)`
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 160%;
+        color: #787A9B;
+        padding: 20px;
+    `
+    const TableRowCustome = styled(TableRow)`
+        border: 1px solid #DEE0E2;
+    `
+
     return (
         <Box display='flex' gap={3} sx={{ width: '100%' }}>
             <Box width='70%'>
-                <Box sx={{
-                    border: '1px solid #DEE0E2',
-                    borderRadius: '8px',
-                    width: '100%',
-                    overflow: 'hidden',
+                <TableContainer component={Paper} sx= {{
+                    boxShadow: 'none',
                 }}>
-                    <Box sx={{
-                        fontWeight: '600',
-                        fontSize: '14px',
-                        lineHeight: '160%',
-                        color: '#787A9B',
-                        padding: '9px 20px',
-                        background: '#F7F7FB',
-                    }}>
-                        Token Sale
-                    </Box>
-                    {
-                        fetchData?.map((item, index) => (
-                            <Box component='p' display='flex' justifyContent='space-between' sx={{
-                                padding: '20px',
-                                borderTop: '1px solid #DEE0E2',
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                        <TableHead>
+                            <TableRowCustome sx={{
+                                backgroundColor: '#F7F7FB',
+                                borderRadius: '8px 8px 0px 0px',
                             }}>
-                                <Box component='p' sx={{
-                                    color: '#787A9B',
-                                    fontWeight: '400',
-                                    fontSize: '16px',
-                                    lineHeight: '160%',
-                                }}>
-                                    {item.allocation}
-                                </Box>
-                                <Box sx={{
-                                    color: '#25273D',
-                                    fontWeight: '600',
-                                    fontSize: '16px',
-                                    lineHeight: '160%',
-                                }}>
-                                    {item.tokenSale}
-                                </Box>
-                            </Box>
-                        ))
-                    }
-                </Box>
+                                <TableCellHead>Date</TableCellHead>
+                                <TableCellHead align="right">Token Percentage</TableCellHead>
+                                <TableCellHead align="right">Token Amount</TableCellHead>
+                            </TableRowCustome>
+                        </TableHead>
+                        <TableBody>
+                            {fetchData.map((row) => (
+                                <TableRowCustome>
+                                    <TableCellCustome>
+                                        {row?.date?.from}
+                                        <br />
+                                        {row?.date?.to}
+                                    </TableCellCustome>
+                                    <TableCellCustome align="right">
+                                        {row?.tokenPercentage}%
+                                    </TableCellCustome>
+                                    <TableCellCustome align="right">
+                                        {row?.tokenAmount}
+                                    </TableCellCustome>
+                                </TableRowCustome>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Box>
             <Box width='30%'>
                 <IDOProcess />

@@ -4,6 +4,8 @@ import { Box, Tabs, Tab } from "@mui/material";
 import PropTypes from 'prop-types';
 import TokenSale from "./TokenSale";
 import VestingSchedule from "./VestingSchedule";
+import styled from "@emotion/styled";
+import AboutGame from "./AboutGame";
 
 interface TabsAreaProps {
     data: any,
@@ -43,17 +45,55 @@ const TabsArea: React.FC<TabsAreaProps> = ({ data }) => {
         setValue(newValue);
     };
 
+    const WrapTab = styled(Box)`
+        &:after {
+            content: '';
+            position: absolute;
+            border-bottom: 1px solid #BCC2C6;
+            width: 100vw;
+            left: 0;
+            margin-top: 170px;
+        }
+    `
+    const TabCustom = styled(Tab)`
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 22px;
+        color: #A8B0B9;
+        font-family: 'Inter', sans-serif;
+        text-transform: inherit;
+
+        &.Mui-selected {
+            color: #000000;
+        }
+    `
+    const TabHead = styled(Box)`
+        .MuiTabs-indicator {
+            background: #FAA000;
+            border-radius: 3px 6px 0px 0px;
+            height: 4px;
+        }
+
+        &:after {
+            content: '';
+            position: absolute;
+            border-bottom: 1px solid #BCC2C6;
+            width: 100vw;
+            left: 0;
+        }
+    `
+
     return (
-        <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: '32px' }}>
+        <WrapTab sx={{ width: '100%', marginTop: '70px', marginBottom: '170px' }}>
+            <TabHead sx={{ marginBottom: '32px' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="About Game" {...a11yProps(0)} />
-                    <Tab label="Token Sale" {...a11yProps(1)} />
-                    <Tab label="Vesting Schedule" {...a11yProps(2)} />
+                    <TabCustom label="About Game" {...a11yProps(0)} />
+                    <TabCustom label="Token Sale" {...a11yProps(1)} />
+                    <TabCustom label="Vesting Schedule" {...a11yProps(2)} />
                 </Tabs>
-            </Box>
+            </TabHead>
             <TabPanel value={value} index={0}>
-                Item One
+                <AboutGame data={data} />
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <TokenSale data={data} />
@@ -61,7 +101,7 @@ const TabsArea: React.FC<TabsAreaProps> = ({ data }) => {
             <TabPanel value={value} index={2}>
                 <VestingSchedule data={data} />
             </TabPanel>
-        </Box>
+        </WrapTab>
     )
 }
 
