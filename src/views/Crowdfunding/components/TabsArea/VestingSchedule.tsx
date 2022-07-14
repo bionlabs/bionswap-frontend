@@ -5,9 +5,10 @@ import IDOProcess from "./IDOProcess";
 
 interface VestingScheduleProps {
     data: any,
+    isMobile: boolean
 }
 
-const VestingSchedule: React.FC<VestingScheduleProps> = ({ data }) => {
+const VestingSchedule: React.FC<VestingScheduleProps> = ({ data, isMobile = false }) => {
     const fetchData = [
         {
             date: {
@@ -64,8 +65,8 @@ const VestingSchedule: React.FC<VestingScheduleProps> = ({ data }) => {
     `
 
     return (
-        <Box display='flex' gap={3} sx={{ width: '100%' }}>
-            <Box width='70%'>
+        <Box display='flex' gap={3} sx={{ width: '100%' }} flexDirection={isMobile ? 'column' : 'row'}>
+            <Box width={isMobile ? '100%' : '70%'}>
                 <TableContainer component={Paper} sx= {{
                     boxShadow: 'none',
                 }}>
@@ -100,7 +101,7 @@ const VestingSchedule: React.FC<VestingScheduleProps> = ({ data }) => {
                     </Table>
                 </TableContainer>
             </Box>
-            <Box width='30%'>
+            <Box width={isMobile ? '100%' : '30%'}>
                 <IDOProcess />
             </Box>
         </Box >

@@ -8,11 +8,12 @@ function handleClick(event: any) {
 
 interface BreadcrumbProps {
     name: string,
+    isMobile: boolean
 }
 
-const Breadcrumb: React.FC<BreadcrumbProps> = ({name}) => {
+const Breadcrumb: React.FC<BreadcrumbProps> = ({name, isMobile = false}) => {
     return (
-        <div role="presentation" onClick={handleClick}>
+        <Box role="presentation" onClick={handleClick} marginBottom="24px">
             <Breadcrumbs aria-label="breadcrumb">
                 <Link underline="hover" color="inherit" href="/crowdfunding">
                     Project
@@ -26,7 +27,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({name}) => {
                     {name}
                 </Box>
             </Breadcrumbs>
-        </div>
+        </Box>
     );
 }
 

@@ -6,6 +6,7 @@ import Introduction from "./Introduction";
 
 interface AboutGameProps {
     data: any,
+    isMobile: boolean
 }
 
 function TabPanel(props: any) {
@@ -35,7 +36,7 @@ function a11yProps(index: number) {
     };
 }
 
-const AboutGame: React.FC<AboutGameProps> = ({ data }) => {
+const AboutGame: React.FC<AboutGameProps> = ({ data, isMobile = false }) => {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event: any, newValue: number) => {
@@ -55,9 +56,13 @@ const AboutGame: React.FC<AboutGameProps> = ({ data }) => {
         align-items: flex-start;
         padding: 0;
         justify-content: flex-start;
+        min-height: 0;
+        margin-bottom: 20px;
+        position: relative;
 
         &.Mui-selected {
             color: #25273D;
+            text-decoration: underline;
         }
     `
     const TabsCustom = styled(Tabs)`
@@ -69,7 +74,7 @@ const AboutGame: React.FC<AboutGameProps> = ({ data }) => {
     return (
         <Box display='flex' gap={3} sx={{ width: '100%' }}>
             <Box width='70%'>
-                <Box gap={3} sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex' }}>
+                <Box gap={4} sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex' }}>
                     <TabsCustom
                         orientation="vertical"
                         variant="scrollable"

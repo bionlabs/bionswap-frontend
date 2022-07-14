@@ -12,9 +12,10 @@ interface HeadDetailProps {
     name: string,
     type: any,
     unit: string,
+    isMobile: boolean,
 }
 
-const HeadDetail: React.FC<HeadDetailProps> = ({avarta, name, type, unit}) => {
+const HeadDetail: React.FC<HeadDetailProps> = ({avarta, name, type, unit, isMobile = false}) => {
     const Coin = styled(Box)`
         font-weight: 600;
         font-size: 16px;
@@ -29,8 +30,22 @@ const HeadDetail: React.FC<HeadDetailProps> = ({avarta, name, type, unit}) => {
             height: 24px;
         }
     `
+    const Status = styled(Box)`
+        background: #2BB673;
+        border-radius: 4px;
+        padding: 4px 10px;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 160%;
+        color: #FFFFFF;
+        font-family: 'Inter', sans-serif;
+    `
+    const Right = styled(Box)`
+        ${isMobile ? 'margin-left: auto; margin-top: 15px;' : ''}
+    `
+
     return (
-        <Box display="flex" alignItems="center">
+        <Box display="flex" alignItems="center" marginBottom='32px' flexWrap='wrap'>
             <Box marginRight='24px'>
                 <Box component='img' src={avarta} alt={name} />
             </Box> 
@@ -58,14 +73,17 @@ const HeadDetail: React.FC<HeadDetailProps> = ({avarta, name, type, unit}) => {
                     {type}
                 </Box>
             </Box>
-            <Box>
+            <Right display="flex" alignItems="center">
                 <Coin component='span'>
                     <Box component='img' src='/images/coins/BNB.png' alt='BNB' /> {unit}
                 </Coin>
                 <Coin component='span'>
-                    <Box component='img' src='/images/coins/BNB_coin.png' alt='BNB_coin' />{unit}
+                    <Box component='img' src='/images/coins/BNB_coin.png' alt='BNB_coin' /> {unit}
                 </Coin>
-            </Box>
+                <Status>
+                    Open Now
+                </Status>
+            </Right>
         </Box>
     );
 }

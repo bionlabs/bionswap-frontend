@@ -4,9 +4,10 @@ import IDOProcess from "./IDOProcess";
 
 interface TokenSaleProps {
     data: any,
+    isMobile: boolean
 }
 
-const TokenSale: React.FC<TokenSaleProps> = ({ data }) => {
+const TokenSale: React.FC<TokenSaleProps> = ({ data, isMobile = false }) => {
     const fetchData = [
         {
             allocation: 'Allocation',
@@ -34,8 +35,8 @@ const TokenSale: React.FC<TokenSaleProps> = ({ data }) => {
         },
     ]
     return (
-        <Box display='flex' gap={3} sx={{ width: '100%' }}>
-            <Box width='70%'>
+        <Box display='flex' gap={3} sx={{ width: '100%' }} flexDirection={isMobile ? 'column' : 'row'}>
+            <Box width={isMobile ? '100%' : '70%'}>
                 <Box sx={{
                     border: '1px solid #DEE0E2',
                     borderRadius: '8px',
@@ -79,7 +80,7 @@ const TokenSale: React.FC<TokenSaleProps> = ({ data }) => {
                     }
                 </Box>
             </Box>
-            <Box width='30%'>
+            <Box width={isMobile ? '100%' : '30%'}>
                 <IDOProcess />
             </Box>
         </Box >

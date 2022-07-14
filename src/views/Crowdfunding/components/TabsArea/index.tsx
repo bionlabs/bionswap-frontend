@@ -9,6 +9,7 @@ import AboutGame from "./AboutGame";
 
 interface TabsAreaProps {
     data: any,
+    isMobile: boolean
 }
 
 function TabPanel(props: any) {
@@ -38,7 +39,7 @@ function a11yProps(index: any) {
     };
 }
 
-const TabsArea: React.FC<TabsAreaProps> = ({ data }) => {
+const TabsArea: React.FC<TabsAreaProps> = ({ data, isMobile = false }) => {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event: any, newValue: number) => {
@@ -49,7 +50,7 @@ const TabsArea: React.FC<TabsAreaProps> = ({ data }) => {
         &:after {
             content: '';
             position: absolute;
-            border-bottom: 1px solid #BCC2C6;
+            border-bottom: 1px solid #DEE0E2;
             width: 100vw;
             left: 0;
             margin-top: 170px;
@@ -93,13 +94,13 @@ const TabsArea: React.FC<TabsAreaProps> = ({ data }) => {
                 </Tabs>
             </TabHead>
             <TabPanel value={value} index={0}>
-                <AboutGame data={data} />
+                <AboutGame data={data} isMobile={isMobile} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <TokenSale data={data} />
+                <TokenSale data={data} isMobile={isMobile} />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <VestingSchedule data={data} />
+                <VestingSchedule data={data} isMobile={isMobile} />
             </TabPanel>
         </WrapTab>
     )

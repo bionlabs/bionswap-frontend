@@ -1,42 +1,47 @@
 import * as React from 'react';
 import { Box, linearProgressClasses, LinearProgress } from "@mui/material";
-import { styled } from '@mui/material/styles';
 import PrimaryButton from 'components/PrimaryButton';
+import styled from '@emotion/styled';
 
 interface FundraiseAreaProps {
     data: any;
+    isMobile: boolean;
 }
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
     borderRadius: 5,
     [`&.${linearProgressClasses.colorPrimary}`]: {
-        backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
+        backgroundColor: '#F1F1F1',
     },
     [`& .${linearProgressClasses.bar}`]: {
         borderRadius: 5,
-        backgroundColor: theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
+        backgroundColor: '#1C7744',
     },
 }));
 
-const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data }) => {
+const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, isMobile = false }) => {
     const time = {
         days: '0',
         hours: '0',
         min: '0',
         sec: '0'
     }
+    const Values = styled(Box)`
+        font-weight: 600;
+        color: #25222D;
+    `
 
     return (
-        <Box display='flex' gap={3}>
-            <Box width='65%'>
+        <Box display='flex' gap={3} flexDirection={isMobile ? 'column' : 'row'}>
+            <Box width={isMobile ? '100%' : '65%'}>
                 <Box width='100%' component='img' src={data.projectThumb} alt={data.name} />
             </Box>
-            <Box width='35%'
+            <Box width={isMobile ? '100%' : '35%'}
                 sx={{
-                    width: '35%',
                     padding: '16px 20px',
                     background: '#ffffff',
+                    borderRadius: '8px',
                 }}>
                 <BorderLinearProgress variant="determinate" value={70} />
                 <Box sx={{
@@ -57,23 +62,23 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data }) => {
                 }}>
                     Fundraise goal: 500,000$
                 </Box>
-                <Box display='flex' justifyContent='space-between' sx={{ marginBottom: '12px' }}>
+                <Box display='flex' justifyContent='space-between' marginBottom='12px'>
                     <Box component='span'>Allocation</Box>
-                    <Box component='span' sx={{
-                        fontWeight: '600',
-                        color: '#25222D',
-                    }}>
+                    <Values component='span'>
                         $0 BUSD - $500 BUSD
-                    </Box>
+                    </Values>
                 </Box>
-                <Box display='flex' justifyContent='space-between' sx={{ marginBottom: '20px' }}>
+                <Box display='flex' justifyContent='space-between' marginBottom='20px'>
                     <Box component='span'>Price per token</Box>
-                    <Box component='span' sx={{
-                        fontWeight: '600',
-                        color: '#25222D',
-                    }}>
+                    <Values component='span'>
                         1 FOX = $0.5 BUSD
-                    </Box>
+                    </Values>
+                </Box>
+                <Box display='flex' justifyContent='space-between' marginBottom='20px'>
+                    <Box component='span'>Backers</Box>
+                    <Values component='span'>
+                        320
+                    </Values>
                 </Box>
                 <Box marginBottom='20px'>
                     <Box component='span' sx={{marginBottom: '10px', display: 'inline-block'}}>End in:</Box>
@@ -102,7 +107,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data }) => {
                         }
                     </Box>
                 </Box>
-                <PrimaryButton label="Apply now" />
+                <PrimaryButton label="Apply now" isMobile={isMobile}  />
                 <Box component='span'
                     sx={{
                         display: 'inline-block',
