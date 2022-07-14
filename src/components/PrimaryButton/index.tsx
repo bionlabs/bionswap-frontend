@@ -2,16 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { Box } from "@mui/material";
 
 interface PrimaryButtonProps {
-    label: string,
+    label?: string,
+    isMobile?: boolean,
 }
 
-const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label }) => {
+const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label, isMobile = false  }) => {
     return (
         <Box component='button'
             sx={{
                 color: '#FFFFFF',
                 fontWeight: '600',
-                fontSize: '16px',
+                fontSize: isMobile ? '14px' : '16px',
                 lineHeight: '27px',
                 fontFamily: 'Inter',
                 padding: '12px',

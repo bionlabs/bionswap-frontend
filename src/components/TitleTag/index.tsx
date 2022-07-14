@@ -7,10 +7,11 @@ import {
 import Image from 'next/image'
 
 interface TitleTagProps {
-  title: string
+  title?: string
+  isMobile?: boolean
 }
 
-const TitleTag: React.FC<TitleTagProps> = ({title}) => {
+const TitleTag: React.FC<TitleTagProps> = ({title, isMobile = false}) => {
 
   const Tag = styled(Box)`
     font-family: 'Bai Jamjuree';
@@ -42,8 +43,10 @@ const TitleTag: React.FC<TitleTagProps> = ({title}) => {
   `
 
   return (
-    <WrapTitleTag>
-        <Tag>{title}</Tag>
+    <WrapTitleTag >
+        <Tag fontSize={isMobile ? '12px' : '16px'}>
+          {title}
+        </Tag>
     </WrapTitleTag>
   )
 }

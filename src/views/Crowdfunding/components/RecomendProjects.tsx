@@ -8,7 +8,7 @@ interface RecomendProjectsProps {
 
 const RecomendProjects: React.FC<RecomendProjectsProps> = ({ data }) => {
     return (
-        <Box>
+        <Box paddingTop='52px'>
             <Box component='p'
                 sx={{
                     fontWeight: '600',

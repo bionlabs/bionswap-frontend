@@ -20,7 +20,7 @@ function TabPanel(props: any) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
+                <Box>
                     <div>{children}</div>
                 </Box>
             )}
@@ -42,33 +42,53 @@ const AboutGame: React.FC<AboutGameProps> = ({ data }) => {
         setValue(newValue);
     };
 
+    const TabPanelCustom = styled(TabPanel)`
+        flex: 1;
+    `
+    const TabCustom = styled(Tab)`
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 100%;
+        color: ##787A9B;
+        font-family: 'Inter', sans-serif;
+        text-transform: inherit;
+        align-items: flex-start;
+        padding: 0;
+        justify-content: flex-start;
+
+        &.Mui-selected {
+            color: #25273D;
+        }
+    `
+    const TabsCustom = styled(Tabs)`
+        .MuiTabs-indicator {
+            display: none;
+        }
+    `
+
     return (
         <Box display='flex' gap={3} sx={{ width: '100%' }}>
             <Box width='70%'>
-                <Box
-                    sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224 }}
-                >
-                    <Tabs
+                <Box gap={3} sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex' }}>
+                    <TabsCustom
                         orientation="vertical"
                         variant="scrollable"
                         value={value}
                         onChange={handleChange}
-                        aria-label="Vertical tabs example"
-                        sx={{ borderRight: 1, borderColor: 'divider' }}
-                    >
-                        <Tab label="Introduction" {...a11yProps(0)} />
-                        <Tab label="Team" {...a11yProps(1)} />
-                        <Tab label="Tokennomics" {...a11yProps(2)} />
-                    </Tabs>
-                    <TabPanel value={value} index={0}>
+                        aria-label="Vertical tabs example">
+                        <TabCustom label="Introduction" {...a11yProps(0)} />
+                        <TabCustom label="Team" {...a11yProps(1)} />
+                        <TabCustom label="Tokennomics" {...a11yProps(2)} />
+                    </TabsCustom>
+                    <TabPanelCustom value={value} index={0}>
                         <Introduction data={data} />
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
+                    </TabPanelCustom>
+                    <TabPanelCustom value={value} index={1}>
                         Team
-                    </TabPanel>
-                    <TabPanel value={value} index={2}>
+                    </TabPanelCustom>
+                    <TabPanelCustom value={value} index={2}>
                         Tokennomics
-                    </TabPanel>
+                    </TabPanelCustom>
                 </Box>
             </Box>
             <Box width='30%'>
