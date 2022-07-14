@@ -1,8 +1,8 @@
 import React from "react";
 import styled from '@emotion/styled'
 import { Box, Paper, Tabs, Tab, TableCell, TableBody, Table } from "@mui/material";
-import IDOProcess from "../IDOProcess";
 import Introduction from "./Introduction";
+import IDOProcess from "../../IDOProcess";
 
 interface AboutGameProps {
     data: any,
@@ -72,8 +72,8 @@ const AboutGame: React.FC<AboutGameProps> = ({ data, isMobile = false }) => {
     `
 
     return (
-        <Box display='flex' gap={3} sx={{ width: '100%' }}>
-            <Box width='70%'>
+        <Box display='flex' gap={3} sx={{ width: '100%' }} flexDirection={isMobile ? 'column' : 'row'}>
+            <Box width={isMobile ? '100%' : '70%'}>
                 <Box gap={4} sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex' }}>
                     <TabsCustom
                         orientation="vertical"
@@ -86,7 +86,7 @@ const AboutGame: React.FC<AboutGameProps> = ({ data, isMobile = false }) => {
                         <TabCustom label="Tokennomics" {...a11yProps(2)} />
                     </TabsCustom>
                     <TabPanelCustom value={value} index={0}>
-                        <Introduction data={data} />
+                        <Introduction data={data} isMobile={isMobile} />
                     </TabPanelCustom>
                     <TabPanelCustom value={value} index={1}>
                         Team
@@ -96,8 +96,8 @@ const AboutGame: React.FC<AboutGameProps> = ({ data, isMobile = false }) => {
                     </TabPanelCustom>
                 </Box>
             </Box>
-            <Box width='30%'>
-                <IDOProcess />
+            <Box  width={isMobile ? '100%' : '30%'}>
+                <IDOProcess data={data} isMobile={isMobile} />
             </Box>
         </Box >
     )

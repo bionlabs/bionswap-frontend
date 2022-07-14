@@ -1,4 +1,4 @@
-import CrowdfundingDetail from "views/Crowdfunding/[slug]"
+import CrowdfundingDetail from "views/CrowdfundingDetail"
 
 
 export default function CrowdFundingDetailPage() {

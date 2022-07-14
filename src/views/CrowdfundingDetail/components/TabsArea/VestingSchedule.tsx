@@ -1,7 +1,7 @@
 import React from "react";
 import styled from '@emotion/styled'
 import { Box, Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table } from "@mui/material";
-import IDOProcess from "./IDOProcess";
+import IDOProcess from "../IDOProcess";
 
 interface VestingScheduleProps {
     data: any,
@@ -102,7 +102,7 @@ const VestingSchedule: React.FC<VestingScheduleProps> = ({ data, isMobile = fals
                 </TableContainer>
             </Box>
             <Box width={isMobile ? '100%' : '30%'}>
-                <IDOProcess />
+                <IDOProcess data={data} isMobile={isMobile} />
             </Box>
         </Box >
     )

@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Tabs, Tab, Typography } from "@mui/material";
-import IDOProcess from "./IDOProcess";
+import IDOProcess from "../IDOProcess";
 
 interface TokenSaleProps {
     data: any,
@@ -81,7 +81,7 @@ const TokenSale: React.FC<TokenSaleProps> = ({ data, isMobile = false }) => {
                 </Box>
             </Box>
             <Box width={isMobile ? '100%' : '30%'}>
-                <IDOProcess />
+                <IDOProcess data={data} isMobile={isMobile} />
             </Box>
         </Box >
     )

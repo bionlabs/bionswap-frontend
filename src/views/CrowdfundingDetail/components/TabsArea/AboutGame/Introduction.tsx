@@ -4,14 +4,15 @@ import { Box, } from "@mui/material";
 
 interface IntroductionProps {
     data: any,
+    isMobile: boolean
 }
 
-const Introduction: React.FC<IntroductionProps> = ({ data }) => {
+const Introduction: React.FC<IntroductionProps> = ({ data, isMobile = false }) => {
     const HeadTitle = styled(Box)`
         color: #E7A236;
         text-transform: uppercase;
         font-weight: 400;
-        font-size: 16px;
+        font-size:  ${isMobile ? '14px' : '16px' };
         line-height: 100%;
         font-family: 'Inter', sans-serif;
         margin-bottom: 10px;
@@ -19,14 +20,14 @@ const Introduction: React.FC<IntroductionProps> = ({ data }) => {
     const Title = styled(Box)`
         color: #000000;
         font-weight: 600;
-        font-size: 32px;
+        font-size: ${isMobile ? '24px' : '32px' };
         line-height: 150%;
         font-family: 'Inter', sans-serif;
         margin-bottom: 16px;
     `
     const Content = styled(Box)`
         font-weight: 400;
-        font-size: 14px;
+        font-size: ${isMobile ? '12px' : '14px' };
         line-height: 160%;
         color: #31313B;
         font-family: 'Inter', sans-serif;
@@ -49,6 +50,8 @@ const Introduction: React.FC<IntroductionProps> = ({ data }) => {
                 sx={{
                     marginTop: '24px',
                     marginBottom: '40px',
+                    width: '100%',
+                    height: 'auto'
                 }}
                 src='/images/image36.png' alt='image36' />
             <HeadTitle>

@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 
 interface IDOProcessProps {
     data: any,
+    isMobile: boolean,
 }
 
 const steps = [
@@ -30,24 +31,18 @@ const steps = [
     },
 ];
 
-const IDOProcess = () => {
-    const [activeStep, setActiveStep] = React.useState(0);
-
+const IDOProcess: React.FC<IDOProcessProps> = ({ data, isMobile = false }) => {
     const Description = styled.p`
         color: #000000;
         font-weight: 400;
         font-size: 12px;
         line-height: 160%;
     `
-
-    const StepLabelCustome = styled(StepLabel)`
-        span {
-            color: #A8B0B9;
-            font-weight: 600;
-            font-size: 14px;
-            line-height: 160%;
-            font-family: 'Inter', sans-serif;
-        }
+    const WrapItem = styled(Box)`
+        display: flex;
+        flex-direction: ${isMobile ? 'row' : 'column'};
+        min-width: ${isMobile ? '550px' : '0'};
+        justify-content: space-between;
     `
 
     return (
@@ -59,7 +54,7 @@ const IDOProcess = () => {
             <Box component='p' sx={{
                 color: '#000000',
                 fontWeight: '600',
-                fontSize: '24px',
+                fontSize: isMobile ? '20px' : '24px',
                 lineHeight: '150%',
                 padding: '20px',
                 borderBottom: '1px solid #DEE0E2',
@@ -69,8 +64,9 @@ const IDOProcess = () => {
 
             <Box sx={{
                 padding: '24px 24px 0 24px',
+                overflowX: 'auto',
             }}>
-                <Box>
+                <WrapItem>
                     {steps.map((step, index) => (
                         <Box display='flex' gap={2} mb={3}>
                             <Box>
@@ -103,7 +99,7 @@ const IDOProcess = () => {
                             </Box>
                         </Box>
                     ))}
-                </Box>
+                </WrapItem>
             </Box>
         </Box>
     );

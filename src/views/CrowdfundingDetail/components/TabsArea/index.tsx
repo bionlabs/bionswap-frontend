@@ -53,12 +53,12 @@ const TabsArea: React.FC<TabsAreaProps> = ({ data, isMobile = false }) => {
             border-bottom: 1px solid #DEE0E2;
             width: 100vw;
             left: 0;
-            margin-top: 170px;
+            margin-top: ${isMobile ? '40px' : '170px'};
         }
     `
     const TabCustom = styled(Tab)`
         font-weight: 500;
-        font-size: 16px;
+        font-size: ${isMobile ? '14px' : '16px'} ;
         line-height: 22px;
         color: #A8B0B9;
         font-family: 'Inter', sans-serif;
@@ -85,7 +85,11 @@ const TabsArea: React.FC<TabsAreaProps> = ({ data, isMobile = false }) => {
     `
 
     return (
-        <WrapTab sx={{ width: '100%', marginTop: '70px', marginBottom: '170px' }}>
+        <WrapTab sx={{ 
+            width: '100%', 
+            marginTop: isMobile ? '40px' : '70px', 
+            marginBottom: isMobile ? '40px' : '170px',
+        }}>
             <TabHead sx={{ marginBottom: '32px' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     <TabCustom label="About Game" {...a11yProps(0)} />
