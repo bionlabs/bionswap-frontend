@@ -13,12 +13,12 @@ import ProjectItem from 'views/Crowdfunding/components/ProjectItem'
 const UpcommingProjectSection = ({ isMobile }: MobileProp) => {
     const Wrapper = styled(Box)`
         width: 100%;
-        background: url('images/home/upcomming_project_bg.png');
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-        background-position: center;
+        // background: url('images/home/upcomming_project_bg.png');
+        // background-repeat: no-repeat;
+        // background-size: 100% 100%;
+        // background-position: center;
         min-height: 100vh;
-        padding-top: calc(78px + 8vh);
+        padding-top: 8vh;
         padding-bottom: 8vh;
         display: flex;
         flex-direction: column;
@@ -48,11 +48,11 @@ const UpcommingProjectSection = ({ isMobile }: MobileProp) => {
         font-weight: 600;
         font-size: 16px;
         line-height: 27px;
-        color: #25273D;
+        color: #0b0b0b;
         font-family: 'Inter', sans-serif;
         padding: 12px;
         max-width: 343px;
-        border: 1px solid #25273D;
+        border: 1px solid #0b0b0b;
         border-radius: 31px;
         text-align: center;
         margin: auto;
@@ -61,9 +61,9 @@ const UpcommingProjectSection = ({ isMobile }: MobileProp) => {
         margin-top: 37px;
 
         &:hover {
-            background: #25273D;
+            background-color: #0b0b0b;
             color: #fafaf9;
-            transition: all .5s ease;
+            transition: all .2s ease;
         }
     `
 
