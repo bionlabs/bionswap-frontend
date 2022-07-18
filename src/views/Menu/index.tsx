@@ -108,7 +108,7 @@ const Menu = ({ children }: any) => {
                                             href={item.href}
                                             sx={{
                                                 color: "#787A9B",
-                                                fontWeight: '600',
+                                                fontWeight: '500',
                                                 fontSize: '16px',
                                                 transition: '.15s ease-in',
                                                 ':hover': {

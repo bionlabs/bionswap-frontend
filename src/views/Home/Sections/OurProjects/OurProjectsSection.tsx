@@ -72,7 +72,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
     return (
         <Wrapper>
             <Container maxWidth='lg'>
-                <HeadTitle>Our projects</HeadTitle>
+                <HeadTitle className='specialFont'>Our projects</HeadTitle>
                 <Subcontent>
                     BionDex globally distributed node infrastructure allows us to build the best possible multi chain tools as a foundational layer for Web3, DeFi, and the digital economy.
                 </Subcontent>

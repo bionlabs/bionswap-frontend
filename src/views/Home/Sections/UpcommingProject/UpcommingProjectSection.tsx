@@ -13,13 +13,7 @@ import ProjectItem from 'views/Crowdfunding/components/ProjectItem'
 const UpcommingProjectSection = ({ isMobile }: MobileProp) => {
     const Wrapper = styled(Box)`
         width: 100%;
-        // background: url('images/home/upcomming_project_bg.png');
-        // background-repeat: no-repeat;
-        // background-size: 100% 100%;
-        // background-position: center;
-        min-height: 100vh;
-        padding-top: 8vh;
-        padding-bottom: 8vh;
+        padding: 8vh 0;
         display: flex;
         flex-direction: column;
         gap: 60px;
@@ -48,31 +42,30 @@ const UpcommingProjectSection = ({ isMobile }: MobileProp) => {
         font-size: 16px;
         line-height: 27px;
         color: #0b0b0b;
-        font-family: 'Inter', sans-serif;
-        padding: 12px;
+        padding: 12px 50px;
         max-width: 343px;
         border: 1px solid #0b0b0b;
-        border-radius: 31px;
+        border-radius: 999px;
         text-align: center;
-        margin: auto;
-        cursor: pointer;
-        transition: all .5s ease;
-        font-family: 'Inter', sans-serif;
+        font-family: inherit;
         text-transform: inherit;
         margin-top: 37px;
-        display: block;
-
+        transition: .15s ease-in;
         &:hover {
             background-color: #0b0b0b;
             color: #fafaf9;
-            transition: all .2s ease;
+            
         }
     `
 
     return (
         <Wrapper>
-            <Container maxWidth='lg'>
-                <HeadTitle>🚀 Upcomming project</HeadTitle>
+            <Container maxWidth='lg' sx={{
+                display:'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+            }}>
+                <HeadTitle className='specialFont'>🚀 Upcomming project</HeadTitle>
                 <WrapItems>
                     {
                         crowdfundingConfig?.map((item, idex) => (

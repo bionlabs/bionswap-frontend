@@ -12,12 +12,16 @@ const Dashboard = () => {
     const isMobile = useMediaQuery('(max-width:767px)');
 
     const Section = styled(Box)`
-        margin-top: 73px;
-        padding-top: 40px;
+        padding: 8vh 0;
+        min-height: 100vh;
+        // background: url('/images/crowdfunding_detail_bg.png');
+        // background-repeat: no-repeat;
+        // background-size: cover;
+        // object-fit: cover;
     `
 
     return (
-        <Section component='section'>
+        <Section>
             <Container>
                 <Box display='flex' gap={4} flexDirection={isMobile ? 'column' : 'row'}>
                     <Box width={isMobile ? '100%' : '35%'}>

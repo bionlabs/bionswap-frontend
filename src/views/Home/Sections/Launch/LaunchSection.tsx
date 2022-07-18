@@ -24,7 +24,7 @@ const LaunchSection = ({ isMobile }: MobileProp) => {
         color: #0C1116;
         font-weight: 700;
         font-size: ${isMobile ? '32px' : '42px'};
-        line-height: 150%;
+        line-height: 120%;
         text-align: ${isMobile ? 'center' : 'left'}
     `
     const Subcontent = styled(Box)`
@@ -33,7 +33,6 @@ const LaunchSection = ({ isMobile }: MobileProp) => {
         font-size: ${isMobile ? '14px' : '20px'};
         line-height: 180%;
         max-width: 887px;
-        margin: auto;
         text-align: ${isMobile ? 'center' : 'left'}
     `
     const ButtonStyle = styled(Button)`
@@ -48,31 +47,28 @@ const LaunchSection = ({ isMobile }: MobileProp) => {
         border-radius: 9999px;
         text-align: center;
         cursor: pointer;
-        transition: all .5s ease;
-        font-family: 'Inter', sans-serif;
+        transition: .15s ease-in;
+        font-family: inherit;
         text-transform: inherit;
         display: block;
-        ${isMobile ? 'margin: auto' : ''}
-
-        // &:hover {
-        //     background: #0b0b0b;
-        //     color: #ffffff;
-        //     transition: all .5s ease;
-        // }
+        &:hover {
+            background: #0b0b0b;
+            color: #ffffff;
+        }
     `
 
     return (
         <Wrapper>
-            <Container maxWidth='lg'>
+            <Container>
                 <Box display="flex" gap={3} justifyContent="space-between">
                     <Box sx={{
-                        maxWidth: '450px',
+                        maxWidth: '500px',
                         width: '100%',
                         display: 'flex',
                         gap: '24px',
                         flexDirection: 'column'
                     }}>
-                        <HeadTitle>Want to launch your project on BionSwap ?</HeadTitle>
+                        <HeadTitle className='specialFont' >Want to launch your project on BionSwap ?</HeadTitle>
                         <Subcontent>
                             Ideas that launch on BionSwap are not only highly-vetted by our team of expert analysts, but also by industry-leading expertise.
                         </Subcontent>

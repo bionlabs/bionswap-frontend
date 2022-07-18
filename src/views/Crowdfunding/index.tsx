@@ -15,11 +15,13 @@ const Crowdfunding = () => {
     const isMobile = useMediaQuery('(max-width:767px)');
 
     const Section = styled(Box)`
-        padding-top: ${isMobile ? '20px' : '78px'};
-        background-image: url('/images/crowdfunding_bg.png');
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
+        .background {
+            padding: ${isMobile ? '20px 0' : '100px 0'};
+            background-image: url('/images/crowdfunding_bg.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
     `
     const Title = styled(Box)`
         color: #000000;
@@ -43,7 +45,7 @@ const Crowdfunding = () => {
         display: flex;
         gap: 32px;
         flex-wrap: wrap;
-        ${isMobile ? 'justify-content: center;' : ''}
+        justify-content: center;
     `
     const Items = styled(Box)`
         min-width: 340px;
@@ -53,46 +55,46 @@ const Crowdfunding = () => {
 
     return (
         <Section component='section'>
-            <Container>
-                <Box sx={{
-                    marginBottom: '78px'
-                }}>
-                    <Title>
-                        🚀  Upcoming on BionicFox
-                    </Title>
-                    <SubContent component='p'>
-                        Stake token to earn reward. <Link href='/'>See how it work -&gt;</Link>
-                    </SubContent>
-                    <WrapItems>
-                        {
-                            crowdfundingConfig?.map((item, idex) => (
-                                <Items>
-                                    <ProjectItem data={item} />
-                                </Items>
-                            ))
-                        }
-                    </WrapItems>
-                </Box>
-                <Box sx={{
-                    marginBottom: '100px'
-                }}>
-                    <Title>
-                        ✈️  Funded projects
-                    </Title>
-                    <SubContent component='p'>
-                        We bring new technologies to our community
-                    </SubContent>
-                    <WrapItems>
-                        {
-                            crowdfundingConfig?.map((item, idex) => (
-                                <Items>
-                                    <ProjectItem data={item} />
-                                </Items>
-                            ))
-                        }
-                    </WrapItems>
-                </Box>
-            </Container>
+            <Box className='background'>
+                <Container>
+                    <Box sx={{
+                        marginBottom: '78px'
+                    }}>
+                        <Title>
+                            🚀  Upcoming on BionicFox
+                        </Title>
+                        <SubContent component='p'>
+                            Stake token to earn reward. <Link href='/'>See how it work -&gt;</Link>
+                        </SubContent>
+                        <WrapItems>
+                            {
+                                crowdfundingConfig?.map((item, idex) => (
+                                    <Items>
+                                        <ProjectItem data={item} />
+                                    </Items>
+                                ))
+                            }
+                        </WrapItems>
+                    </Box>
+                    <Box>
+                        <Title>
+                            ✈️  Funded projects
+                        </Title>
+                        <SubContent component='p'>
+                            We bring new technologies to our community
+                        </SubContent>
+                        <WrapItems>
+                            {
+                                crowdfundingConfig?.map((item, idex) => (
+                                    <Items>
+                                        <ProjectItem data={item} />
+                                    </Items>
+                                ))
+                            }
+                        </WrapItems>
+                    </Box>
+                </Container>
+            </Box>
 
             <Box sx={{
                 backgroundImage: 'url(/images/bg.png)',

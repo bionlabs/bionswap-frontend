@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/jsx-key */
 import React, { useState } from 'react';
 import {
@@ -61,11 +62,11 @@ const BionStack: React.FC<BionStackProps> = () => {
                     <Content>
                         {minimizeAddressSmartContract('0xd3ad7Ac233f4b47B4eaD1f023C477bFdcaD625Ae')}
                     </Content>
-                    <Box component='img' src='/images/document-copy.png' alt='document-copy' marginLeft='10px' />
+                    <img src='/images/document-copy.png' alt='document-copy' style={{marginLeft:'10px'}} />
                 </Box>
                 <Box>
                     <Tier>
-                        <Box component='img' src='/images/Tier4.png' alt='Tier4' /> Tier 1
+                        <img src='/images/Tier4.png' alt='Tier4' /> Tier 1
                     </Tier>
                 </Box>
             </Box>
@@ -77,7 +78,9 @@ const BionStack: React.FC<BionStackProps> = () => {
                 <Content>Network</Content>
                 <Title>BNB Chain</Title>
             </Box>
-            <BgImage component='img' src='/images/Fox_bg.png' alt='Fox_bg' />
+            <BgImage>
+                <img src='/images/Fox_bg.png' alt='Fox_bg' />
+            </BgImage>
         </WrapCard>
     );
 };
