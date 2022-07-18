@@ -39,9 +39,9 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, isMobile = false })
                     objectFit: 'cover'
                 }
             }}>
-                <Box minHeight='445px' width='100%' component='img' src={data.projectThumb} alt={data.name} />
+                <Box minHeight={isMobile ? '200px' : '453px'} width='100%' component='img' src={data.projectThumb} alt={data.name} />
             </Box>
-            <Box width={isMobile ? '100%' : '35%'} minHeight='445px'
+            <Box width={isMobile ? '100%' : '35%'} minHeight='453px'
                 sx={{
                     padding: '16px 20px',
                     background: '#ffffff',
@@ -137,10 +137,12 @@ const StyledButton = styled(Button)`
     padding: 10px 25px;
     border-radius: 999px;
     width: 100%;
+    transition: .15s ease-in;
     color: #fff;
     :hover {
         background-color: #1C7744;
         box-shadow: none;
+        opacity: .9;
     }
 `
 

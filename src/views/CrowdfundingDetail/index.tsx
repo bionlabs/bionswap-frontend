@@ -15,11 +15,9 @@ const CrowdfundingDetail = () => {
     const isMobile = useMediaQuery('(max-width:767px)');
 
     const Section = styled(Box)`
-        margin-top: 73px;
         background-image: url('/images/crowdfunding_detail_bg.png');
         background-repeat: no-repeat;
         background-size: contain;
-        background-position: top;
         padding-top: 42px;
     `
     const WrapTabRecom = styled(Box)`

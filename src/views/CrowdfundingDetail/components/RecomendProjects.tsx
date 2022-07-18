@@ -9,7 +9,7 @@ interface RecomendProjectsProps {
 
 const RecomendProjects: React.FC<RecomendProjectsProps> = ({ data, isMobile = false }) => {
     return (
-        <Box paddingTop={isMobile ? '40px' : '52px'}>
+        <Box padding={isMobile ? '40px 0' : '52px 0'}>
             <Box component='p'
                 sx={{
                     fontWeight: '600',

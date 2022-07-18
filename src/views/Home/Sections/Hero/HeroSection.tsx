@@ -86,7 +86,7 @@ const HeroSection = ({isMobile}:MobileProp) => {
 
 const Wrapper = styled(Box)`
     width: 100%;
-    background: url('images/home/section01.png');
+    background: url('/images/home/section01.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
