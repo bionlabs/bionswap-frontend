@@ -29,7 +29,6 @@ const UpcommingProjectSection = ({ isMobile }: MobileProp) => {
         font-weight: 700;
         font-size: ${ isMobile ? '32px' : '42px' };
         line-height: 150%;
-        font-family: 'Inter', sans-serif;
         text-align: center;
         margin-bottom: 36px;
 `
@@ -44,27 +43,30 @@ const UpcommingProjectSection = ({ isMobile }: MobileProp) => {
         max-width: calc(94% / 3);
         width: 100%;
     `
-    const Button = styled(Box)`
+    const ButtonStyle = styled(Button)`
         font-weight: 600;
         font-size: 16px;
         line-height: 27px;
-        color: #25273D;
-        font-family: 'Inter', sans-serif;
+        color: #0b0b0b;
         padding: 12px;
         max-width: 343px;
-        border: 1px solid #25273D;
-        border-radius: 31px;
+        width: 100%;
+        border: 1px solid #0b0b0b;
+        border-radius: 9999px;
         text-align: center;
         margin: auto;
         cursor: pointer;
         transition: all .5s ease;
+        font-family: 'Inter', sans-serif;
+        text-transform: inherit;
         margin-top: 37px;
+        display: block;
 
-        &:hover {
-            background: #25273D;
-            color: #fafaf9;
-            transition: all .5s ease;
-        }
+        // &:hover {
+        //     background: #0b0b0b;
+        //     color: #ffffff;
+        //     transition: all .5s ease;
+        // }
     `
 
     return (
@@ -80,7 +82,7 @@ const UpcommingProjectSection = ({ isMobile }: MobileProp) => {
                         ))
                     }
                 </WrapItems>
-                <Button>More projects</Button>
+                <ButtonStyle>More projects</ButtonStyle>
             </Container>
         </Wrapper>
     )
