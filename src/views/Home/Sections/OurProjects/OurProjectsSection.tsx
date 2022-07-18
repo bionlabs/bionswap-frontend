@@ -11,7 +11,7 @@ import { ourProjectsConfig } from './config'
 const OurProjectsSection = ({ isMobile }: MobileProp) => {
     const Wrapper = styled(Box)`
         width: 100%;
-        background: url('images/home/Ou_ Projects_bg.png');
+        background: url('images/home/Ou_Projects_bg.png');
         background-repeat: no-repeat;
         background-size: 100% 100%;
         background-position: center;
