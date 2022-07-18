@@ -11,18 +11,17 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
     const router = useRouter();
 
     const WrapBox = styled(Box)`
-        border: 1px solid #EAECEE;
         border-radius: 8px;
         background: #FFFFFF;
         width: 100%;
         overflow: hidden;
         position: relative;
         cursor: pointer;
-        transition: all .5s ease;
-
-        &:hover {
-            transition: all .5s ease;
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        transition: .15s ease-in;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        :hover {
+            transform: scale3d(0.99, 0.99, 1);
+            transform-style: preserve-3d;
         }
     `
     return (
@@ -32,7 +31,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
             }} />
             <Box component='p' sx={{
                 position: 'absolute',
-                background: '#25273D',
+                background: '#0b0b0b',
                 padding: '4px 10px',
                 borderRadius: '4px',
                 color: '#FFFFFF',
@@ -105,7 +104,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
                         Fundraise Goal
                     </Box>
                     <Box component='p' sx={{
-                        color: '#25273D',
+                        color: '#0b0b0b',
                         fontWeight: '600',
                         fontSize: '14px',
                         lineHeight: '160%',
@@ -121,7 +120,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
                         Allocation
                     </Box>
                     <Box component='p' sx={{
-                        color: '#25273D',
+                        color: '#0b0b0b',
                         fontWeight: '600',
                         fontSize: '14px',
                         lineHeight: '160%',

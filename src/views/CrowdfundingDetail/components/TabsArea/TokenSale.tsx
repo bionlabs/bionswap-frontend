@@ -68,7 +68,7 @@ const TokenSale: React.FC<TokenSaleProps> = ({ data, isMobile = false }) => {
                                     {item.allocation}
                                 </Box>
                                 <Box sx={{
-                                    color: '#25273D',
+                                    color: '#0b0b0b',
                                     fontWeight: '600',
                                     fontSize: '16px',
                                     lineHeight: '160%',

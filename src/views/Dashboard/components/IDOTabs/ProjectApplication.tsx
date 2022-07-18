@@ -88,7 +88,7 @@ const ProjectApplication: React.FC<ProjectApplicationProps> = ({ data, isMobile 
         font-weight: 600;
         font-size: 14px;
         line-height: 160%;
-        color: #25273D;
+        color: #0b0b0b;
     `
     const WrapItem = styled(Box)`
         display: flex;

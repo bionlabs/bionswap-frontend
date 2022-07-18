@@ -13,12 +13,12 @@ import ProjectItem from 'views/Crowdfunding/components/ProjectItem'
 const UpcommingProjectSection = ({ isMobile }: MobileProp) => {
     const Wrapper = styled(Box)`
         width: 100%;
-        background: url('images/home/upcomming_project_bg.png');
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-        background-position: center;
+        // background: url('images/home/upcomming_project_bg.png');
+        // background-repeat: no-repeat;
+        // background-size: 100% 100%;
+        // background-position: center;
         min-height: 100vh;
-        padding-top: calc(78px + 8vh);
+        padding-top: 8vh;
         padding-bottom: 8vh;
         display: flex;
         flex-direction: column;
@@ -48,11 +48,11 @@ const UpcommingProjectSection = ({ isMobile }: MobileProp) => {
         font-size: 16px;
         line-height: 27px;
         color: #0b0b0b;
+        font-family: 'Inter', sans-serif;
         padding: 12px;
         max-width: 343px;
-        width: 100%;
         border: 1px solid #0b0b0b;
-        border-radius: 9999px;
+        border-radius: 31px;
         text-align: center;
         margin: auto;
         cursor: pointer;
@@ -62,11 +62,11 @@ const UpcommingProjectSection = ({ isMobile }: MobileProp) => {
         margin-top: 37px;
         display: block;
 
-        // &:hover {
-        //     background: #0b0b0b;
-        //     color: #ffffff;
-        //     transition: all .5s ease;
-        // }
+        &:hover {
+            background-color: #0b0b0b;
+            color: #fafaf9;
+            transition: all .2s ease;
+        }
     `
 
     return (
@@ -76,7 +76,7 @@ const UpcommingProjectSection = ({ isMobile }: MobileProp) => {
                 <WrapItems>
                     {
                         crowdfundingConfig?.map((item, idex) => (
-                            <Items>
+                            <Items key=''>
                                 <ProjectItem data={item} />
                             </Items>
                         ))

@@ -44,7 +44,7 @@ const ConnectButton = (props: Props) => {
         <ChainButton
           onClick={() => setOpenChainsModal(true)}
           variant="contained"
-          endIcon={<BsFillCaretDownFill color='#25273D' />}
+          endIcon={<BsFillCaretDownFill color='#0b0b0b' />}
         >
           <Stack direction="row" gap={1} alignItems="center">
             <Image
@@ -105,7 +105,7 @@ const ChainButton = styled(Button)`
     align-items: center;
     background-color: #f2f2f2;
     border: none;
-    color: #25273D;
+    color: #0b0b0b;
     transition: 0.15s ease-in;
     line-height: 1;
     svg {
@@ -130,7 +130,7 @@ const ConnectWalletButton = styled(Button)`
     font-weight: 600;
     align-items: center;
     min-height: 41px;
-    background-color: #25273D;
+    background-color: #0b0b0b;
     color: #fff;
     transition: 0.15s ease-in;
     line-height: 1;
@@ -139,7 +139,7 @@ const ConnectWalletButton = styled(Button)`
       height: 20px;
     }
     :hover {
-        background-color: #25273D;
+        background-color: #0b0b0b;
         opacity: .9;
         box-shadow: none;
     }

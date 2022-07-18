@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Box } from "@mui/material";
+import { Box , Button } from "@mui/material";
+import styled from '@emotion/styled';
 
 interface PrimaryButtonProps {
     label?: string,
@@ -8,30 +9,33 @@ interface PrimaryButtonProps {
 
 const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label, isMobile = false  }) => {
     return (
-        <Box component='button'
+        <StyledButton
+            variant='contained'
             sx={{
                 color: '#FFFFFF',
-                fontWeight: '600',
                 fontSize: isMobile ? '14px' : '16px',
-                lineHeight: '27px',
-                fontFamily: 'Inter',
                 padding: '12px',
-                border: '1px solid #F1F1F1',
-                borderRadius: '31px',
-                background: '#25273D',
+                textTransform: 'none',
                 width: '100%',
                 transition: 'all .3s ease',
                 cursor: 'pointer',
-
-                '&:hover': {
-                    border: '1px solid #25273D',
-                    background: '#F1F1F1',
-                    color: '#25273D',
-                }
             }}>
             {label}
-        </Box>
+        </StyledButton>
     )
 }
+
+const StyledButton = styled(Button)`
+    font-family: inherit;
+    box-shadow: none;
+    background-color: #0b0b0b;
+    border-radius: 999px;
+    font-weight: 500;
+    :hover {
+        box-shadow: none;
+        background-color: #0b0b0b;
+        opacity: .9;
+    }
+`
 
 export default PrimaryButton;

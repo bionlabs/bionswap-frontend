@@ -18,11 +18,11 @@ const RecomendItem: React.FC<RecomendItemProps> = ({ data }) => {
         overflow: hidden;
         position: relative;
         cursor: pointer;
-        transition: all .5s ease;
+        transition: .2s ease-in;
 
-        &:hover {
-            transition: all .5s ease;
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        :hover {
+            transform: scale3d(0.99, 0.99, 1);
+            transform-style: preserve-3d;
         }
     `
 
@@ -35,7 +35,7 @@ const RecomendItem: React.FC<RecomendItemProps> = ({ data }) => {
             }} />
             <Box component='p' sx={{
                 position: 'absolute',
-                background: '#25273D',
+                background: '#0b0b0b',
                 padding: '4px 10px',
                 borderRadius: '4px',
                 color: '#FFFFFF',

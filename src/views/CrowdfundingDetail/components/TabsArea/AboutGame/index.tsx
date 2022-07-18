@@ -61,7 +61,7 @@ const AboutGame: React.FC<AboutGameProps> = ({ data, isMobile = false }) => {
         position: relative;
 
         &.Mui-selected {
-            color: #25273D;
+            color: #0b0b0b;
             text-decoration: underline;
         }
     `

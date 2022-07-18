@@ -9,13 +9,13 @@ import {
     useMediaQuery
 } from '@mui/material'
 import styled from "@emotion/styled";
+import Link from 'next/link';
 
 const Crowdfunding = () => {
     const isMobile = useMediaQuery('(max-width:767px)');
 
     const Section = styled(Box)`
         padding-top: ${isMobile ? '20px' : '78px'};
-        margin-top: 100px;
         background-image: url('/images/crowdfunding_bg.png');
         background-position: center;
         background-repeat: no-repeat;
@@ -61,7 +61,7 @@ const Crowdfunding = () => {
                         🚀  Upcoming on BionicFox
                     </Title>
                     <SubContent component='p'>
-                        Stake token to earn reward. <a href='/'>See how it work -&gt;</a>
+                        Stake token to earn reward. <Link href='/'>See how it work -&gt;</Link>
                     </SubContent>
                     <WrapItems>
                         {
@@ -106,7 +106,7 @@ const Crowdfunding = () => {
                     <TitleTag title="📝 For projects" isMobile={isMobile} />
                     <Box sx={{
                         letterSpacing: '-1.28px',
-                        color: '#25273D',
+                        color: '#0b0b0b',
                         fontWeight: '600',
                         fontSize: isMobile ? '24px' : '40px',
                         lineHeight: '76px',
@@ -131,7 +131,7 @@ const Crowdfunding = () => {
                         width: '100%',
                         margin: 'auto',
                     }}>
-                        <PrimaryButton isMobile={isMobile} label="Apply now ->" />
+                        <PrimaryButton isMobile={isMobile} label="Apply now" />
                     </Box>
                 </Container>
             </Box>

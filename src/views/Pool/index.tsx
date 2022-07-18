@@ -54,7 +54,7 @@ const Pool = () => {
                                         fontWeight: '600',
                                         fontSize: '14px',
                                         lineHeight: '27px',
-                                        color: '#25273D',
+                                        color: '#0b0b0b',
                                         background: 'transparent',
                                         borderRadius: '20px',
                                         fontFamily: "'Inter', sans-serif",

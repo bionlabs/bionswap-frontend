@@ -70,7 +70,7 @@ const Menu = ({ children }: any) => {
                                     height: '24px'
                                 },
                                 '&.active': {
-                                    color: "#25273D",
+                                    color: "#0b0b0b",
                                 }
                             }}
                             className={router.pathname == item.href ? "active" : ""}
@@ -95,7 +95,7 @@ const Menu = ({ children }: any) => {
                 <StyledContained maxWidth='xl'>
                     <FlexBox alignItems='center' gap='60px'>
                         <Box component="a" href='/'>
-                            <img src='logo.svg' alt='BionDex' width='200px' />
+                            <img src='/logo.svg' alt='BionDex' width='200px' />
                         </Box>
                         {
                             !isMobile &&
@@ -115,7 +115,7 @@ const Menu = ({ children }: any) => {
                                                     color: '#0C1116',
                                                 },
                                                 '&.active': {
-                                                    color: "#25273D",
+                                                    color: "#0b0b0b",
                                                 }
                                             }}
                                             onClick={(e:any) => {
@@ -160,12 +160,12 @@ const Menu = ({ children }: any) => {
 }
 
 const MenuContainer = styled(Box)`
-    position: fixed;
+    position: relative;
     z-index: 1100;
     width: 100%;
     background-color: rgba(255,255,255);
-    top: 0;
-    left: 0;
+    // top: 0;
+    // left: 0;
 `
 const StyledContained = styled(Container)`
     display: flex;
@@ -185,13 +185,13 @@ const ChainButton = styled(Button)`
     font-size: 16px;
     font-weight: 600;
     align-items: center;
-    border: 1px solid #25273D;
-    color: #25273D;
+    border: 1px solid #0b0b0b;
+    color: #0b0b0b;
     width: 100%;
     transition: 0.15s ease-in;
     gap: 8px;
     :hover {
-        border: 1px solid #25273D;
+        border: 1px solid #0b0b0b;
         opacity: .9;
     }
 `
