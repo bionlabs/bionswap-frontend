@@ -9,15 +9,33 @@ interface ProjectApplicationProps {
 }
 
 const ProjectApplication: React.FC<ProjectApplicationProps> = ({ data, isMobile = false }) => {
-    const status = [
+    // const status = [
+    //     {
+    //         value: 1,
+    //         name: 'Claimable',
+    //     },
+    //     {
+    //         value: 2,
+    //         name: 'Waiting',
+    //     }
+    // ]
+
+    const dataFetch = [
         {
-            value: 1,
-            name: 'Claimable',
+            projectName: 'Star Fox Gamefi',
+            date: '07/05/2022, 05:00 PM',
+            status: 'applied'
         },
         {
-            value: 2,
-            name: 'Waiting',
-        }
+            projectName: 'Star Fox Gamefi',
+            date: '07/05/2022, 05:00 PM',
+            status: 'whitelisted'
+        },
+        {
+            projectName: 'Star Fox Gamefi',
+            date: '07/05/2022, 05:00 PM',
+            status: 'claimed'
+        },
     ]
 
     const WrapBox = styled(Box)`
@@ -91,18 +109,22 @@ const ProjectApplication: React.FC<ProjectApplicationProps> = ({ data, isMobile 
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow>
-                            <TableCell>
-                                Star Fox Gamefi
-                            </TableCell>
-                            <TableCell>
-                                07/05/2022, 05:00 PM
-                            </TableCell>
-                            <TableCell>
-                                Applied
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
+                        {
+                            dataFetch.map((item, index) => (
+                                <TableRow>
+                                    <TableCell>
+                                        Star Fox Gamefi
+                                    </TableCell>
+                                    <TableCell>
+                                        07/05/2022, 05:00 PM
+                                    </TableCell>
+                                    <TableCell>
+                                        Applied
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        }
+                        {/* <TableRow>
                             <TableCell>
                                 Star Fox Gamefi
                             </TableCell>
@@ -123,7 +145,7 @@ const ProjectApplication: React.FC<ProjectApplicationProps> = ({ data, isMobile 
                             <TableCell>
                             Claimed
                             </TableCell>
-                        </TableRow>
+                        </TableRow> */}
                     </TableBody>
                 </Table>
             </TableContainer>
