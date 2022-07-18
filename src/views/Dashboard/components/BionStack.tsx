@@ -6,6 +6,7 @@ import {
 } from '@mui/material'
 import styled from "@emotion/styled";
 import { minimizeAddressSmartContract } from 'utils/helper';
+import { useAccount, useNetwork } from 'hooks';
 
 interface BionStackProps {
     // data: any,
@@ -13,6 +14,9 @@ interface BionStackProps {
 
 const BionStack: React.FC<BionStackProps> = () => {
     const [walletAddress, setWalletAddress] = useState('');
+    const {address , connector: activeConnector} = useAccount()
+    const { chain: connectedChain } = useNetwork();
+
 
     const WrapCard = styled(Box)`
         background: linear-gradient(159.48deg, rgba(231, 162, 54, 0.2) 8.56%, rgba(231, 162, 54, 2e-05) 91.52%), #787A9B;
@@ -60,7 +64,7 @@ const BionStack: React.FC<BionStackProps> = () => {
             <Box display='flex' gap={6}>
                 <Box display='flex' alignItems='center'>
                     <Content>
-                        {minimizeAddressSmartContract('0xd3ad7Ac233f4b47B4eaD1f023C477bFdcaD625Ae')}
+                        {minimizeAddressSmartContract(address ?? '')}
                     </Content>
                     <img src='/images/document-copy.png' alt='document-copy' style={{marginLeft:'10px'}} />
                 </Box>

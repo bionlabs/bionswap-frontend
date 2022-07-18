@@ -17,10 +17,10 @@ const Crowdfunding = () => {
     const Section = styled(Box)`
         .background {
             padding: ${isMobile ? '20px 0' : '100px 0'};
-            background-image: url('/images/crowdfunding_bg.png');
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
+            // background-image: url('/images/crowdfunding_bg.png');
+            // background-position: center;
+            // background-repeat: no-repeat;
+            // background-size: cover;
         }
     `
     const Title = styled(Box)`

@@ -2,7 +2,7 @@ import { Box, Stack, Typography, Button , useMediaQuery } from "@mui/material";
 import styled from "@emotion/styled";
 import {BsFillCaretDownFill} from 'react-icons/bs'
 import {IoWallet} from 'react-icons/io5'
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Chain, Connector } from "wagmi";
 
 import { useNetwork , useAccount } from "hooks";
@@ -12,6 +12,8 @@ import { chains } from "configs/chain";
 import { getChainIcon } from "utils";
 import Image from "next/image";
 import formatAccount from "hooks/formatAccount";
+import { getConnectorIcon } from "utils/getConnectorIcon";
+import ProfileModal from "./ProfileModal";
 
 type Props = {};
 
@@ -19,8 +21,10 @@ const ConnectButton = (props: Props) => {
   const isMobile = useMediaQuery('(max-width:1155px)');
   const [openConnectorsModal, setOpenConnectorsModal] = useState(false);
   const [openChainsModal, setOpenChainsModal] = useState(false);
+  const [openProfileModal, setOpenProfileModal] = useState(false);
   const [selectedChain, setSelectedChain] = useState<Chain | null>(chains[0]);
-  const {address} = useAccount()
+  const {address , connector: activeConnector} = useAccount()
+  
 
   const { chain: connectedChain } = useNetwork();
 
@@ -38,6 +42,7 @@ const ConnectButton = (props: Props) => {
     setOpenConnectorsModal(false);
   };
 
+  
   return (
     <>
       <Stack direction={isMobile ? 'column' : "row"} gap={2}>
@@ -65,13 +70,20 @@ const ConnectButton = (props: Props) => {
               <Box>Connect Wallet</Box>
             </ConnectWalletButton>
           :
-            <ConnectWalletButton
-              // onClick={() => setOpenConnectorsModal(true)}
+            <ProfileButton
+              onClick={() => setOpenProfileModal(true)}
               variant="contained"
-              endIcon={<IoWallet color='#fff'/>}
             >
+              {/* <IoWallet color='#0b0b0b'/> */}
+              <Image
+                src={activeConnector ? getConnectorIcon(activeConnector.id) : '/'}
+                layout="fixed"
+                alt=''
+                width={22}
+                height={22}
+              />
               <Box>{formatAccount(address ?? '')}</Box>
-            </ConnectWalletButton>
+            </ProfileButton>
         }
       </Stack>
 
@@ -88,6 +100,10 @@ const ConnectButton = (props: Props) => {
         onClose={() => setOpenConnectorsModal(false)}
         open={openConnectorsModal}
         onConnectorConnected={handleConnectorConnected}
+      />
+      <ProfileModal
+        onClose={() => setOpenProfileModal(false)}
+        open={openProfileModal}
       />
     </>
   );
@@ -141,6 +157,31 @@ const ConnectWalletButton = styled(Button)`
     :hover {
         background-color: #0b0b0b;
         opacity: .9;
+        box-shadow: none;
+    }
+`
+const ProfileButton = styled(Button)`
+    border-radius: 999px;
+    min-width: fit-content;
+    padding: 8.5px 28px;
+    box-shadow: none;
+    text-transform: none;
+    font-family: inherit;
+    font-weight: 600;
+    align-items: center;
+    min-height: 41px;
+    background-color: transparent;
+    border: 1px solid rgb(225, 227, 234);
+    color: #0b0b0b;
+    transition: 0.15s ease-in;
+    line-height: 1;
+    gap: 5px;
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+    :hover {
+        background-color: #f9f9f9;
         box-shadow: none;
     }
 `

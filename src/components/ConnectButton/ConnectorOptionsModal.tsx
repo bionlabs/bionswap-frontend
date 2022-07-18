@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import {HiX} from 'react-icons/hi'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Chain, Connector } from "wagmi";
 import { useConnect } from "hooks";
 import { getConnectorIcon } from "utils/getConnectorIcon";
@@ -46,6 +46,7 @@ function ConnectorOptionsModal({
       onConnectorConnected(selectedConnector!);
     },
   });
+
 
   return (
     <Modal 
@@ -125,7 +126,7 @@ function ConnectorOptionsModal({
                       {!connector.ready && " (unsupported)"}
                       {isConnectLoading &&
                         connector.id === pendingConnector?.id &&
-                        " (connecting)"}
+                        "(connecting...)"}
                     </Box>
                   </Stack>
                 </MenuItem>

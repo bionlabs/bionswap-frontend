@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { useRouter } from 'next/router';
 import { Box } from "@mui/material";
@@ -27,15 +28,16 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
     `
     return (
         <WrapBox onClick={() => { router.push(`/crowdfunding/${data?.slug}`) }}>
-            <Box component='img' src={data?.projectThumb} alt={data?.name} sx={{
-                width: '100%'
+            <img src={data?.projectThumb} alt={data?.name} style={{
+                width: '100%',
+                objectFit: 'cover'
             }} />
-            <Box component='p' sx={{
+            <Box sx={{
                 position: 'absolute',
-                background: '#0b0b0b',
+                background: '#2BB673',
                 padding: '4px 10px',
                 borderRadius: '4px',
-                color: '#FFFFFF',
+                color: '#fff',
                 fontWeight: '600',
                 fontSize: '12px',
                 lineHeight: '160%',
@@ -52,10 +54,10 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
                         marginBottom: '20px',
                     }}>
                     <Box>
-                        <Box component='p'
+                        <Box
                             sx={{
-                                fontWeight: '600',
-                                fontSize: '20px',
+                                fontWeight: '700',
+                                fontSize: '24px',
                                 lineHeight: '160%',
                                 color: '#000000',
                                 marginBottom: '5px'
@@ -133,7 +135,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
             {
                 data?.status === 'Coming Soon' ?
                     <Box sx={{
-                        color: '#E7A236',
+                        color: '#ee7609',
                         fontWeight: '600',
                         fontSize: '14px',
                         lineHeight: '160%',
