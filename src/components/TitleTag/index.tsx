@@ -18,7 +18,7 @@ const TitleTag: React.FC<TitleTagProps> = ({title, isMobile = false}) => {
     font-weight: 600;
     font-size: 16px;
     line-height: 100%;
-    color: #25273D;
+    color: #0b0b0b;
   `
 
   const WrapTitleTag = styled(Box)`

@@ -49,7 +49,7 @@ const VestingSchedule: React.FC<VestingScheduleProps> = ({ data, isMobile = fals
         font-weight: 400;
         font-size: 16px;
         line-height: 160%;
-        color: #25273D;
+        color: #0b0b0b;
         padding: 20px;
     `
     const TableCellHead = styled(TableCell)`

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, linearProgressClasses, LinearProgress } from "@mui/material";
+import { Box, linearProgressClasses, LinearProgress, Button } from "@mui/material";
 import PrimaryButton from 'components/PrimaryButton';
 import styled from '@emotion/styled';
 
@@ -33,11 +33,15 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, isMobile = false })
     `
 
     return (
-        <Box display='flex' gap={3} flexDirection={isMobile ? 'column' : 'row'}>
-            <Box width={isMobile ? '100%' : '65%'}>
-                <Box width='100%' component='img' src={data.projectThumb} alt={data.name} />
+        <Box display='flex' gap={3} flexDirection={isMobile ? 'column' : 'row'} >
+            <Box width={isMobile ? '100%' : '65%'} sx={{
+                'img':{
+                    objectFit: 'cover'
+                }
+            }}>
+                <Box minHeight='445px' width='100%' component='img' src={data.projectThumb} alt={data.name} />
             </Box>
-            <Box width={isMobile ? '100%' : '35%'}
+            <Box width={isMobile ? '100%' : '35%'} minHeight='445px'
                 sx={{
                     padding: '16px 20px',
                     background: '#ffffff',
@@ -49,7 +53,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, isMobile = false })
                     fontWeight: '600',
                     fontSize: '32px',
                     lineHeight: '150%',
-                    marginTop: '10px',
+                    marginTop: '12px',
                 }}>
                     $46,800
                 </Box>
@@ -58,7 +62,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, isMobile = false })
                     fontWeight: '400',
                     fontSize: '14px',
                     lineHeight: '160%',
-                    marginBottom: '20px',
+                    marginBottom: '12px',
                 }}>
                     Fundraise goal: 500,000$
                 </Box>
@@ -68,24 +72,24 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, isMobile = false })
                         $0 BUSD - $500 BUSD
                     </Values>
                 </Box>
-                <Box display='flex' justifyContent='space-between' marginBottom='20px'>
+                <Box display='flex' justifyContent='space-between' marginBottom='12px'>
                     <Box component='span'>Price per token</Box>
                     <Values component='span'>
                         1 FOX = $0.5 BUSD
                     </Values>
                 </Box>
-                <Box display='flex' justifyContent='space-between' marginBottom='20px'>
+                <Box display='flex' justifyContent='space-between' marginBottom='12px'>
                     <Box component='span'>Backers</Box>
                     <Values component='span'>
                         320
                     </Values>
                 </Box>
-                <Box marginBottom='20px'>
-                    <Box component='span' sx={{marginBottom: '10px', display: 'inline-block'}}>End in:</Box>
+                <Box marginBottom='12px'>
+                    <Box component='span' sx={{marginBottom: '12px', display: 'inline-block'}}>End in:</Box>
                     <Box display='flex' gap={3}>
                         {
                             Object.entries(time).map(([key, value]) => (
-                                <Box width='100%' textAlign='center'>
+                                <Box width='100%' textAlign='center' key=''>
                                     <Box component='p'
                                         sx={{
                                             color: '#000000',
@@ -107,7 +111,9 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, isMobile = false })
                         }
                     </Box>
                 </Box>
-                <PrimaryButton label="Apply now" isMobile={isMobile}  />
+                <StyledButton variant='contained'>
+                    Join Now
+                </StyledButton>
                 <Box component='span'
                     sx={{
                         display: 'inline-block',
@@ -122,5 +128,20 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, isMobile = false })
         </Box>
     );
 }
+
+const StyledButton = styled(Button)`
+    background-color: #1C7744;
+    box-shadow: none;
+    text-transform: none;
+    min-height: fit-content;
+    padding: 10px 25px;
+    border-radius: 999px;
+    width: 100%;
+    color: #fff;
+    :hover {
+        background-color: #1C7744;
+        box-shadow: none;
+    }
+`
 
 export default FundraiseArea

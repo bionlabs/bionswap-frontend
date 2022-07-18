@@ -35,7 +35,7 @@ const RecomendItem: React.FC<RecomendItemProps> = ({ data }) => {
             }} />
             <Box component='p' sx={{
                 position: 'absolute',
-                background: '#25273D',
+                background: '#0b0b0b',
                 padding: '4px 10px',
                 borderRadius: '4px',
                 color: '#FFFFFF',

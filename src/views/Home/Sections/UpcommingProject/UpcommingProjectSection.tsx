@@ -106,7 +106,7 @@ const FlexBox = styled(Box)`
     display: flex;
 `
 const CTAButton = styled(Button)`
-    background-color: #25273D;
+    background-color: #0b0b0b;
     border-radius: 31px;
     padding: 12.5px 70px;
     width: fit-content;
@@ -115,7 +115,7 @@ const CTAButton = styled(Button)`
     box-shadow: none;
     transition: .15s ease-in;
     :hover {
-        background-color: #25273D;
+        background-color: #0b0b0b;
         opacity: .9;
     }
 `

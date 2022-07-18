@@ -68,11 +68,13 @@ const Footer = ({ children }: any) => {
 
 const Wrapper = styled(Box)`
     width: 100%;
-    background-image: url('/images/footer_bg.png');
+    // background-image: url('/images/footer_bg.png');
+    background-color: #0b0b0b;
     display: flex;
     padding-top: 80px;
     padding-bottom: 80px;
     background-size: cover;
+    color: #fff;
 `
 const WrapMenuItem = styled(Box)`
     display: flex;
@@ -85,7 +87,6 @@ const MenuItems = styled(Box)`
 const Item = styled.a`
     cursor: pointer;
     display: block;
-    color: #25273D;
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
@@ -99,7 +100,7 @@ const Label = styled.p`
     font-weight: 400;
     font-size: 18px;
     line-height: 27px;
-    color: #000000;
+    color: #fff;
     margin: 0;
     margin-bottom: 8px;
 `
