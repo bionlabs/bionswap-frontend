@@ -19,11 +19,11 @@ const Dashboard = () => {
     return (
         <Section component='section'>
             <Container>
-                <Box display='flex' gap={4}>
-                    <Box width='35%'>
+                <Box display='flex' gap={4} flexDirection={isMobile ? 'column' : 'row'}>
+                    <Box width={isMobile ? '100%' : '35%'}>
                         <BionStack />
                     </Box>
-                    <Box width='65%'>
+                    <Box width={isMobile ? '100%' : '65%'}>
                         <IDOTabs isMobile={isMobile} data={dashboardConfig} />
                     </Box>
                 </Box>

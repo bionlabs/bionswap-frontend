@@ -79,7 +79,7 @@ const IDOTabs: React.FC<IDOTabsProps> = ({ data, isMobile = false }) => {
                 </Tabs>
             </TabHead>
             <TabPanel value={value} index={0}>
-                <Box display="flex" gap={3}>
+                <Box display="flex" gap={3} flexDirection={isMobile ? 'column' : 'row'}>
                     {
                         data.map((item: any, index: number) => (
                             <ClaimIdoTokenItem data={item} isMobile={isMobile} />

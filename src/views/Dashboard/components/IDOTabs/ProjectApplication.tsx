@@ -113,39 +113,17 @@ const ProjectApplication: React.FC<ProjectApplicationProps> = ({ data, isMobile 
                             dataFetch.map((item, index) => (
                                 <TableRow>
                                     <TableCell>
-                                        Star Fox Gamefi
+                                        {item.projectName}
                                     </TableCell>
                                     <TableCell>
-                                        07/05/2022, 05:00 PM
+                                        {item.date}
                                     </TableCell>
                                     <TableCell>
-                                        Applied
+                                        {item.status}
                                     </TableCell>
                                 </TableRow>
                             ))
                         }
-                        {/* <TableRow>
-                            <TableCell>
-                                Star Fox Gamefi
-                            </TableCell>
-                            <TableCell>
-                                07/05/2022, 05:00 PM
-                            </TableCell>
-                            <TableCell>
-                                Whitelisted
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>
-                                Star Fox Gamefi
-                            </TableCell>
-                            <TableCell>
-                                07/05/2022, 05:00 PM
-                            </TableCell>
-                            <TableCell>
-                            Claimed
-                            </TableCell>
-                        </TableRow> */}
                     </TableBody>
                 </Table>
             </TableContainer>
