@@ -49,8 +49,6 @@ const Crowdfunding = () => {
         min-width: 340px;
         max-width: calc(94% / 3);
         width: 100%;
-
-
     `
 
     return (
