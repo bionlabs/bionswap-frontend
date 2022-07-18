@@ -9,18 +9,24 @@ import {
     useMediaQuery
 } from '@mui/material'
 
-const Pool = () => {
+const Stacks = () => {
     const isMobile = useMediaQuery('(max-width:700px)');
     return (
-        <Box display='flex'
+        <Box
             sx={{
-                alignItems: 'center',
-                paddingTop: '78px',
-                minHeight: 'calc(100vh - 355px)',
+                display: 'flex',
+                alignItems: 'start',
+                padding: '5vh 0',
+                minHeight: '100vh',
+                background: "url('/images/stackbg.png')",
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                objectFit: 'cover',
             }}>
             <Box display='flex' component='section' alignItems='center' flex='1'>
                 <Container>
-                    {/* <Reward /> */}
+                    <Reward />
                     <Box display='flex' justifyContent='space-between' alignItems='center' gap={3} flexDirection={isMobile ? 'column' : 'row'}>
                         <Box>
                             <TotalAvailable title="TOTAL AVAILABLE BION STACKS " value="0.0" />
@@ -78,4 +84,4 @@ const Pool = () => {
     );
 };
 
-export default Pool;
+export default Stacks;

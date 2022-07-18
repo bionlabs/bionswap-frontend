@@ -7,15 +7,18 @@ import {
   Modal,
   Stack,
   Typography,
-  Backdrop
+  Backdrop,
+  Box,
+  IconButton
 } from "@mui/material";
+import styled from "@emotion/styled";
+import {HiX} from 'react-icons/hi'
 import Image from "next/image";
 import { useState } from "react";
 import { Chain } from "wagmi";
 import { chains } from "configs/chain";
 import { useSwitchNetwork, useNetwork } from "hooks";
 import { getChainIcon } from "utils";
-import CircleIcon from "@mui/icons-material/Circle";
 
 type Props = {
   //   chains: Chain[];
@@ -58,90 +61,131 @@ const ChainOptionsModal = ({
         timeout: 500,
       }}
     >
-      <Stack
+      <Box
         sx={{
-          position: "absolute" as "absolute",
+          position: "absolute",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 400,
-          bgcolor: "background.paper",
-          border: "2px solid #000",
+          width: 'fit-content',
+          bgcolor: "#fff",
           boxShadow: 24,
+          borderRadius: '8px',
           p: 4,
         }}
       >
-        <Typography variant="h5" fontWeight={800} color="#ffc107">
-          {!selectToSwitch ? "Select a Network" : "Switch to a Network"}
-        </Typography>
-
-        <MenuList>
-          {chains.map((chain) => (
-            <MenuItem
-              sx={{
-                mb: 1,
-                p: 1.5,
-                width: "100%",
-                borderRadius: 2,
-                "&.Mui-selected": {
-                  backgroundColor: "#ffc107",
-                  boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.24)",
-                  "&:hover": { backgroundColor: "#ffc107" },
-                },
-              }}
-              key={chain.id}
-              onClick={() => {
-                if (!selectToSwitch) {
-                  setSelectedChain(chain);
-                  onChainSelected(chain);
-                } else {
-                  switchNetwork?.(chain?.id);
-                }
-              }}
-              selected={chain.id === selectedChain?.id}
-            >
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                width="100%"
+        <Box display='flex' flexDirection='column' gap='10px' >
+          <Box display='flex' justifyContent='space-between' alignItems='center' >
+            <Box fontSize='24px' fontWeight='700'>
+              Connect a blockchain
+            </Box>
+            <IconButton onClick={onClose}>
+              <HiX/>
+            </IconButton>
+          </Box>
+          <Box color='#787A9B' fontSize='14px'>Connect with one of our available blockchain providers.</Box>
+        </Box>
+        <Box mt='24px'>
+          <MenuList sx={{
+            border: '1px solid #787A9B',
+            borderRadius: '8px',
+            padding: 0
+          }}>
+            {chains.map((chain) => (
+              <MenuItem
+                sx={{
+                  p: 2,
+                  width: "100%",
+                  borderBottom: '1px solid #787A9B',
+                  ':last-child': {
+                    borderBottom: 'none'
+                  },
+                  // "&.Mui-selected": {
+                  //   backgroundColor: "#ffc107",
+                  //   boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.24)",
+                  //   "&:hover": { backgroundColor: "#ffc107" },
+                  // },
+                }}
+                key={chain.id}
+                onClick={() => {
+                  if (!selectToSwitch) {
+                    setSelectedChain(chain);
+                    onChainSelected(chain);
+                  } else {
+                    switchNetwork?.(chain?.id);
+                  }
+                }}
               >
-                <Stack direction="row" gap={2} alignItems="center">
-                  <Image
-                    src={getChainIcon(chain.id).iconUrl}
-                    layout="fixed"
-                    alt=''
-                    width={24}
-                    height={24}
-                  />
-
-                  <Typography variant="body1" fontWeight={700}>
-                    {chain.name}
-                  </Typography>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  width="100%"
+                >
+                  <Box display='flex' width='100%' alignItems="center" justifyContent='space-between'>
+                    <Box display='flex' gap='10px' alignItems="center">
+                      <Image
+                        src={getChainIcon(chain.id).iconUrl}
+                        layout="fixed"
+                        alt=''
+                        width={24}
+                        height={24}
+                      />
+                      <Box fontSize='16px' fontWeight={600}>
+                        {chain.name}
+                      </Box>
+                    </Box>
+                    {chain.id === selectedChain?.id && (
+                      <StatusBox>
+                        <div className="ring-container">
+                            <div className="ringring"/>
+                            <div className="circle"/>
+                        </div>
+                        <Box fontSize='12px' lineHeight='1' color='#787A9B' >Connected</Box>
+                      </StatusBox>
+                    )}
+                  </Box>
+                  
                 </Stack>
-                {connectedChain?.id === chain.id && (
-                  <Stack
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <Typography variant="caption">Connected</Typography>
-                    <CircleIcon
-                      color="success"
-                      sx={{
-                        "&.MuiSvgIcon-root": {
-                          fontSize: 10,
-                        },
-                      }}
-                    />
-                  </Stack>
-                )}
-              </Stack>
-            </MenuItem>
-          ))}
-        </MenuList>
-      </Stack>
+              </MenuItem>
+            ))}
+          </MenuList>
+        </Box>
+      </Box>
     </Modal>
   );
 };
+
+const StatusBox = styled(Box)`
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    position: relative;
+    .circle {
+        width: 15px;
+        height: 15px;
+        background-color: #62bd19;
+        border-radius: 50%;
+        position: absolute;
+        top: -2px;
+        left: -15px;
+    }
+    .ringring {
+      border: 2px solid #62bd19;
+      -webkit-border-radius: 30px;
+      height: 25px;
+      width: 25px;
+      position: absolute;
+      left: -20px;
+      top: -7px;
+      -webkit-animation: pulsate 1s ease-out;
+      -webkit-animation-iteration-count: infinite; 
+      opacity: 0.0
+    }
+    @-webkit-keyframes pulsate {
+        0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;}
+        50% {opacity: 1.0;}
+        100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
+    }
+`
 
 export default ChainOptionsModal;

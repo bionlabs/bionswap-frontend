@@ -6,9 +6,12 @@ import {
   Modal,
   Stack,
   Typography,
-  Backdrop
+  Backdrop,
+  Box,
+  IconButton
 } from "@mui/material";
 import Image from "next/image";
+import {HiX} from 'react-icons/hi'
 import { useState } from "react";
 import { Chain, Connector } from "wagmi";
 import { useConnect } from "hooks";
@@ -54,68 +57,83 @@ function ConnectorOptionsModal({
         timeout: 500,
       }}
     >
-      <Stack
+      <Box
         sx={{
-          position: "absolute" as "absolute",
+          position: "absolute",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 400,
-          bgcolor: "background.paper",
-          border: "2px solid #000",
+          width: 'fit-content',
+          bgcolor: "#fff",
           boxShadow: 24,
+          borderRadius: '8px',
           p: 4,
         }}
       >
-        <Typography variant="h5" fontWeight={800} color="#ffc107">
-          Select a Connector
-        </Typography>
+        <Box display='flex' flexDirection='column' gap='10px' >
+          <Box display='flex' justifyContent='space-between' alignItems='center' >
+            <Box fontSize='24px' fontWeight='700'>
+              Connect a wallet
+            </Box>
+            <IconButton onClick={onClose}>
+              <HiX/>
+            </IconButton>
+          </Box>
+          <Box color='#787A9B' fontSize='14px'>Connect with one of our available wallet providers or create a new one.</Box>
+        </Box>
+        <Box mt='24px'>
+          <MenuList sx={{
+            border: '1px solid #787A9B',
+            borderRadius: '8px',
+            padding: 0
+          }}>
+            {connectors.map((connector) => {
+              return (
+                <MenuItem
+                  sx={{
+                    p: 2,
+                    width: "100%",
+                    borderBottom: '1px solid #787A9B',
+                    ':last-child': {
+                      borderBottom: 'none'
+                    }
+                    // "&.Mui-selected": {
+                    //   backgroundColor: "#ffc107",
+                    //   boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.24)",
+                    //   "&:hover": { backgroundColor: "#ffc107" },
+                    // },
+                  }}
+                  key={connector.id}
+                  onClick={() => {
+                    connect({ connector, chainId: chain?.id });
+                    setSelectedConnector(connector);
+                    onConnectorSelected?.(connector);
+                  }}
+                  disabled={!connector.ready}
+                >
+                  <Stack direction="row" gap={2} alignItems="center">
+                    <Image
+                      src={getConnectorIcon(connector.id)}
+                      layout="fixed"
+                      alt=''
+                      width={24}
+                      height={24}
+                    />
 
-        <MenuList>
-          {connectors.map((connector) => {
-            return (
-              <MenuItem
-                sx={{
-                  mb: 1,
-                  p: 1.5,
-                  width: "100%",
-                  borderRadius: 2,
-                  "&.Mui-selected": {
-                    backgroundColor: "#ffc107",
-                    boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.24)",
-                    "&:hover": { backgroundColor: "#ffc107" },
-                  },
-                }}
-                key={connector.id}
-                onClick={() => {
-                  connect({ connector, chainId: chain?.id });
-                  setSelectedConnector(connector);
-                  onConnectorSelected?.(connector);
-                }}
-                disabled={!connector.ready}
-              >
-                <Stack direction="row" gap={2} alignItems="center">
-                  <Image
-                    src={getConnectorIcon(connector.id)}
-                    layout="fixed"
-                    alt=''
-                    width={24}
-                    height={24}
-                  />
-
-                  <Typography fontWeight={700}>
-                    {connector.name}
-                    {!connector.ready && " (unsupported)"}
-                    {isConnectLoading &&
-                      connector.id === pendingConnector?.id &&
-                      " (connecting)"}
-                  </Typography>
-                </Stack>
-              </MenuItem>
-            );
-          })}
-        </MenuList>
-      </Stack>
+                    <Box fontSize='16px' fontWeight={600}>
+                      {connector.name}
+                      {!connector.ready && " (unsupported)"}
+                      {isConnectLoading &&
+                        connector.id === pendingConnector?.id &&
+                        " (connecting)"}
+                    </Box>
+                  </Stack>
+                </MenuItem>
+              );
+            })}
+          </MenuList>
+        </Box>
+      </Box>
     </Modal>
   );
 }

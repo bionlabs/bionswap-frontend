@@ -1,7 +1,7 @@
-import Pool from "views/Pool"
+import Stack from "views/Stacks"
 
 export default function StackPage() {
     return (
-        <Pool />
+        <Stack />
     )
 }

@@ -41,6 +41,7 @@ const Menu = ({ children }: any) => {
     const list = (anchor: Anchor) => (
         <Box
           sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : '95vw' ,minHeight:'100vh'}}
+          onClick={toggleDrawer(anchor, false)}
         >
           <FlexBox flexDirection='column' width='100%'>
             <FlexBox justifyContent='end' p='16px'>
