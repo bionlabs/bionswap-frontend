@@ -157,26 +157,26 @@ const ChainOptionsModal = ({
 
 const StatusBox = styled(Box)`
     display: flex;
-    gap: 10px;
+    gap: 5px;
     align-items: center;
     position: relative;
     .circle {
-        width: 15px;
-        height: 15px;
+        width: 12px;
+        height: 12px;
         background-color: #62bd19;
         border-radius: 50%;
         position: absolute;
-        top: -2px;
+        top: -1px;
         left: -15px;
     }
     .ringring {
       border: 2px solid #62bd19;
       -webkit-border-radius: 30px;
-      height: 25px;
-      width: 25px;
+      height: 22px;
+      width: 22px;
       position: absolute;
-      left: -20px;
-      top: -7px;
+      left: -19.5px;
+      top: -6px;
       -webkit-animation: pulsate 1s ease-out;
       -webkit-animation-iteration-count: infinite; 
       opacity: 0.0
