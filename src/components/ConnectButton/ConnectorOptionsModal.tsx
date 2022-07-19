@@ -47,7 +47,6 @@ function ConnectorOptionsModal({
     },
   });
 
-
   return (
     <Modal 
       onClose={onClose}

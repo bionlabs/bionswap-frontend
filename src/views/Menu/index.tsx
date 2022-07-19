@@ -39,10 +39,7 @@ const Menu = ({ children }: any) => {
     }
 
     const list = (anchor: Anchor) => (
-        <Box
-          sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : '95vw' ,minHeight:'100vh'}}
-          onClick={toggleDrawer(anchor, false)}
-        >
+        <Box sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : '95vw' ,minHeight:'100vh'}}>
           <FlexBox flexDirection='column' width='100%'>
             <FlexBox justifyContent='end' p='16px'>
                 <IconButton onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
@@ -52,7 +49,7 @@ const Menu = ({ children }: any) => {
             <Box p='16px'>
                 <ConnectButton/>
             </Box>
-            <FlexBox flexDirection='column'>
+            <FlexBox flexDirection='column' onClick={toggleDrawer(anchor, false)}>
                 {
                     menuConfig.map(item =>
                         <Box 
