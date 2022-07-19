@@ -78,51 +78,114 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                 </Subcontent>
             </Container>
             <WrapItems>
-                <BoxLine>
-                    {
-                        ourProjectsConfig.map((item, index) => (
-                            index < 8
-                                ?
-                                <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
-                                    <Box component='img' src={item.logo} alt={item.name} />
-                                    <ItemName>{item.name}</ItemName>
-                                    <ItemSymbol>{item.symbol}</ItemSymbol>
-                                </Item>
-                                :
-                                null
-                        ))
-                    }
-                </BoxLine>
-                <BoxLine>
-                    {
-                        ourProjectsConfig.map((item, index) => (
-                            (index >= 8 && index < 15) || index === 7
-                                ?
-                                <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
-                                    <Box component='img' src={item.logo} alt={item.name} />
-                                    <ItemName>{item.name}</ItemName>
-                                    <ItemSymbol>{item.symbol}</ItemSymbol>
-                                </Item>
-                                :
-                                null
-                        ))
-                    }
-                </BoxLine>
-                <BoxLine>
-                    {
-                        ourProjectsConfig.map((item, index) => (
-                            index >= 15 || index === 1
-                                ?
-                                <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
-                                    <Box component='img' src={item.logo} alt={item.name} />
-                                    <ItemName>{item.name}</ItemName>
-                                    <ItemSymbol>{item.symbol}</ItemSymbol>
-                                </Item>
-                                :
-                                null
-                        ))
-                    }
-                </BoxLine>
+                <Box display='flex' gap='24px' alignItems="center">
+                    <BoxLine sx={{
+                        animation: 'animatedRightToLeftTransaction 25s infinite linear 0.5s both',
+                    }}>
+                        {
+                            ourProjectsConfig.map((item, index) => (
+                                index < 8
+                                    ?
+                                    <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
+                                        <Box component='img' src={item.logo} alt={item.name} />
+                                        <ItemName>{item.name}</ItemName>
+                                        <ItemSymbol>{item.symbol}</ItemSymbol>
+                                    </Item>
+                                    :
+                                    null
+                            ))
+                        }
+                    </BoxLine>
+                    <BoxLine sx={{
+                        animation: 'animatedRightToLeftTransaction 25s infinite linear 0.5s both',
+                    }}>
+                        {
+                            ourProjectsConfig.map((item, index) => (
+                                index < 8
+                                    ?
+                                    <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
+                                        <Box component='img' src={item.logo} alt={item.name} />
+                                        <ItemName>{item.name}</ItemName>
+                                        <ItemSymbol>{item.symbol}</ItemSymbol>
+                                    </Item>
+                                    :
+                                    null
+                            ))
+                        }
+                    </BoxLine>
+                </Box>
+                <Box display='flex' gap='24px' alignItems="center">
+                    <BoxLine sx={{
+                        animation: 'animatedLeftToRightTransaction 25s infinite linear 0.5s both',
+                    }}>
+                        {
+                            ourProjectsConfig.map((item, index) => (
+                                (index >= 8 && index < 15) || index === 7
+                                    ?
+                                    <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
+                                        <Box component='img' src={item.logo} alt={item.name} />
+                                        <ItemName>{item.name}</ItemName>
+                                        <ItemSymbol>{item.symbol}</ItemSymbol>
+                                    </Item>
+                                    :
+                                    null
+                            ))
+                        }
+                    </BoxLine>
+                    <BoxLine sx={{
+                        animation: 'animatedLeftToRightTransaction 25s infinite linear 0.5s both',
+                    }}>
+                        {
+                            ourProjectsConfig.map((item, index) => (
+                                (index >= 8 && index < 15) || index === 7
+                                    ?
+                                    <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
+                                        <Box component='img' src={item.logo} alt={item.name} />
+                                        <ItemName>{item.name}</ItemName>
+                                        <ItemSymbol>{item.symbol}</ItemSymbol>
+                                    </Item>
+                                    :
+                                    null
+                            ))
+                        }
+                    </BoxLine>
+                </Box>
+                <Box display='flex' gap='24px' alignItems="center">
+                    <BoxLine sx={{
+                        animation: 'animatedRightToLeftTransaction 25s infinite linear 0.5s both',
+                    }}>
+                        {
+                            ourProjectsConfig.map((item, index) => (
+                                index >= 15 || index === 1
+                                    ?
+                                    <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
+                                        <Box component='img' src={item.logo} alt={item.name} />
+                                        <ItemName>{item.name}</ItemName>
+                                        <ItemSymbol>{item.symbol}</ItemSymbol>
+                                    </Item>
+                                    :
+                                    null
+                            ))
+                        }
+                    </BoxLine>
+                    <BoxLine sx={{
+                        animation: 'animatedRightToLeftTransaction 25s infinite linear 0.5s both',
+                    }}>
+                        {
+                            ourProjectsConfig.map((item, index) => (
+                                index >= 15 || index === 1
+                                    ?
+                                    <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
+                                        <Box component='img' src={item.logo} alt={item.name} />
+                                        <ItemName>{item.name}</ItemName>
+                                        <ItemSymbol>{item.symbol}</ItemSymbol>
+                                    </Item>
+                                    :
+                                    null
+                            ))
+                        }
+                    </BoxLine>
+                </Box>
             </WrapItems>
         </Wrapper>
     )

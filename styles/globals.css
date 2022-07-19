@@ -67,3 +67,26 @@ span {
   line-height: 160%;
   color: #787A9B;
 }
+
+@keyframes animatedBackground {
+  from { background-position: 0px 0; }
+  to { background-position: -562px 0; }
+}
+
+@keyframes animatedRightToLeftTransaction {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - 24px));
+  }
+}
+
+@keyframes animatedLeftToRightTransaction {
+  from {
+    transform: translateX(calc(-100% - 24px));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
