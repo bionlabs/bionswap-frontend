@@ -41,7 +41,7 @@ const RecomendProjects: React.FC<RecomendProjectsProps> = ({ data, isMobile = fa
                             ))
                         }
                     </Box>
-                    <Swiper
+                    {/* <Swiper
                         spaceBetween={50}
                         slidesPerView={3}
                         onSlideChange={() => console.log('slide change')}
@@ -57,7 +57,7 @@ const RecomendProjects: React.FC<RecomendProjectsProps> = ({ data, isMobile = fa
                                 </Box>
                             ))
                         }
-                    </Swiper>
+                    </Swiper> */}
                 </Box>
             </Container>
         </Wrapper>
