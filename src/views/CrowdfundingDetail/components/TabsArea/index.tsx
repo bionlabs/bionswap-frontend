@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/router';
-import { Box, Tabs, Tab } from "@mui/material";
+import { Box, Tabs, Tab, Container } from "@mui/material";
 import PropTypes from 'prop-types';
 import TokenSale from "./TokenSale";
 import VestingSchedule from "./VestingSchedule";
@@ -41,20 +41,25 @@ function a11yProps(index: any) {
 
 const TabsArea: React.FC<TabsAreaProps> = ({ data, isMobile = false }) => {
     const [value, setValue] = React.useState(0);
+    const tabHead = useRef(null);
+
+    useEffect(() => {
+        window.addEventListener('scroll', pop);
+    }, []);
+
+
+    const pop = () => {
+        const topPosition = tabHead?.current?.getBoundingClientRect().top
+        if (tabHead.current) {
+            topPosition <= 0 ? tabHead.current.style.background = '#ffffff' : tabHead.current.style.background = 'transparent'
+        }
+    }
 
     const handleChange = (event: any, newValue: number) => {
         setValue(newValue);
     };
 
     const WrapTab = styled(Box)`
-        &:after {
-            content: '';
-            position: absolute;
-            border-bottom: 1px solid #DEE0E2;
-            width: 100vw;
-            left: 0;
-            margin-top: ${isMobile ? '40px' : '170px'};
-        }
     `
     const TabCustom = styled(Tab)`
         font-weight: 500;
@@ -69,43 +74,52 @@ const TabsArea: React.FC<TabsAreaProps> = ({ data, isMobile = false }) => {
         }
     `
     const TabHead = styled(Box)`
+        position: sticky;
+        top: 0;
+        box-shadow: 1px 1px #DEE0E2;
+        z-index: 10;
+
         .MuiTabs-indicator {
             background: #FAA000;
             border-radius: 3px 6px 0px 0px;
             height: 4px;
         }
-
-        &:after {
-            content: '';
-            position: absolute;
-            border-bottom: 1px solid #BCC2C6;
-            width: 100vw;
-            left: 0;
-        }
+    `
+    const TabPanelCustom = styled(TabPanel)`
+        padding-top: 40px;
+        padding-bottom: ${isMobile ? '40px' : '160px'};
+        background-color: #FAFAF9;
     `
 
     return (
-        <WrapTab sx={{ 
-            width: '100%', 
-            marginTop: isMobile ? '40px' : '70px', 
-            marginBottom: isMobile ? '40px' : '170px',
+        <WrapTab sx={{
+            width: '100%',
+            marginTop: isMobile ? '40px' : '70px'
         }}>
-            <TabHead sx={{ marginBottom: '32px' }}>
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <TabCustom label="About Game" {...a11yProps(0)} />
-                    <TabCustom label="Token Sale" {...a11yProps(1)} />
-                    <TabCustom label="Vesting Schedule" {...a11yProps(2)} />
-                </Tabs>
+            <TabHead ref={tabHead}>
+                <Container>
+                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                        <TabCustom label="About Game" {...a11yProps(0)} />
+                        <TabCustom label="Token Sale" {...a11yProps(1)} />
+                        <TabCustom label="Vesting Schedule" {...a11yProps(2)} />
+                    </Tabs>
+                </Container>
             </TabHead>
-            <TabPanel value={value} index={0}>
-                <AboutGame data={data} isMobile={isMobile} />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-                <TokenSale data={data} isMobile={isMobile} />
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-                <VestingSchedule data={data} isMobile={isMobile} />
-            </TabPanel>
+            <TabPanelCustom value={value} index={0}>
+                <Container>
+                    <AboutGame data={data} isMobile={isMobile} />
+                </Container>
+            </TabPanelCustom>
+            <TabPanelCustom value={value} index={1}>
+                <Container>
+                    <TokenSale data={data} isMobile={isMobile} />
+                </Container>
+            </TabPanelCustom>
+            <TabPanelCustom value={value} index={2}>
+                <Container>
+                    <VestingSchedule data={data} isMobile={isMobile} />
+                </Container>
+            </TabPanelCustom>
         </WrapTab>
     )
 }

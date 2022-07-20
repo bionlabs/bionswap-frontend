@@ -42,6 +42,7 @@ const TokenSale: React.FC<TokenSaleProps> = ({ data, isMobile = false }) => {
                     borderRadius: '8px',
                     width: '100%',
                     overflow: 'hidden',
+                    background: '#FFFFFF',
                 }}>
                     <Box sx={{
                         fontWeight: '600',
@@ -58,6 +59,7 @@ const TokenSale: React.FC<TokenSaleProps> = ({ data, isMobile = false }) => {
                             <Box component='p' display='flex' justifyContent='space-between' sx={{
                                 padding: '20px',
                                 borderTop: '1px solid #DEE0E2',
+                                
                             }}>
                                 <Box component='p' sx={{
                                     color: '#787A9B',

@@ -49,7 +49,8 @@ const IDOProcess: React.FC<IDOProcessProps> = ({ data, isMobile = false }) => {
         <Box sx={{
             border: '1px solid #DEE0E2',
             borderRadius: '8px',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            backgroundColor: '#FFFFFF',
         }}>
             <Box component='p' sx={{
                 color: '#000000',
@@ -59,7 +60,7 @@ const IDOProcess: React.FC<IDOProcessProps> = ({ data, isMobile = false }) => {
                 padding: '20px',
                 borderBottom: '1px solid #DEE0E2',
             }}>
-                IDO process
+                🚀 IDO process
             </Box>
 
             <Box sx={{

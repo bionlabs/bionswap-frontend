@@ -17,22 +17,11 @@ const CrowdfundingDetail = () => {
     const Section = styled(Box)`
         background-image: url('/images/crowdfunding_detail_bg.png');
         background-repeat: no-repeat;
-        background-size: contain;
+        background-size: 100% auto;
         padding-top: 42px;
+        background-position: top;
     `
     const WrapTabRecom = styled(Box)`
-        position: relative;
-        z-index: 10;
-
-        &:after {
-            content: '';
-            position: absolute;
-            top: 50px;
-            bottom: 0;
-            width: 100%;
-            background-color: #ffffff;
-            z-index: -1
-        }
     `
     return (
         <Section component='section'>
@@ -42,10 +31,8 @@ const CrowdfundingDetail = () => {
                 <FundraiseArea isMobile={isMobile} data={crowdfundingConfig[0]} />
             </Container>
             <WrapTabRecom>
-                <Container>
-                    <TabsArea isMobile={isMobile} data={crowdfundingConfig[0]} />
-                    <RecomendProjects isMobile={isMobile} data={crowdfundingConfig} />
-                </Container>
+                <TabsArea isMobile={isMobile} data={crowdfundingConfig[0]} />
+                <RecomendProjects isMobile={isMobile} data={crowdfundingConfig} />
             </WrapTabRecom>
         </Section>
     );

@@ -34,18 +34,17 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, isMobile = false })
 
     return (
         <Box display='flex' gap={3} flexDirection={isMobile ? 'column' : 'row'} >
-            <Box width={isMobile ? '100%' : '65%'} sx={{
-                'img':{
-                    objectFit: 'cover'
-                }
-            }}>
-                <Box minHeight={isMobile ? '200px' : '453px'} width='100%' component='img' src={data.projectThumb} alt={data.name} />
+            <Box width={isMobile ? '100%' : '65%'}>
+                <Box minHeight={isMobile ? '200px' : '453px'} width='100%' component='img' src={data.projectThumb} alt={data.name} sx={{
+                borderRadius: '8px',
+                }} />
             </Box>
             <Box width={isMobile ? '100%' : '35%'} minHeight='453px'
                 sx={{
                     padding: '16px 20px',
                     background: '#ffffff',
                     borderRadius: '8px',
+                    border: '1px solid transparent'
                 }}>
                 <BorderLinearProgress variant="determinate" value={70} />
                 <Box sx={{

@@ -80,7 +80,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
             <WrapItems>
                 <Box display='flex' gap='24px' alignItems="center">
                     <BoxLine sx={{
-                        animation: 'animatedRightToLeftTransaction 25s infinite linear 0.5s both',
+                        animation: 'animatedRightToLeftTransaction 153.814s infinite linear 0.5s both',
                     }}>
                         {
                             ourProjectsConfig.map((item, index) => (
@@ -97,7 +97,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                         }
                     </BoxLine>
                     <BoxLine sx={{
-                        animation: 'animatedRightToLeftTransaction 25s infinite linear 0.5s both',
+                        animation: 'animatedRightToLeftTransaction 153.814s infinite linear 0.5s both',
                     }}>
                         {
                             ourProjectsConfig.map((item, index) => (
@@ -116,7 +116,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                 </Box>
                 <Box display='flex' gap='24px' alignItems="center">
                     <BoxLine sx={{
-                        animation: 'animatedLeftToRightTransaction 25s infinite linear 0.5s both',
+                        animation: 'animatedLeftToRightTransaction 151.149s infinite linear 0.5s both',
                     }}>
                         {
                             ourProjectsConfig.map((item, index) => (
@@ -133,7 +133,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                         }
                     </BoxLine>
                     <BoxLine sx={{
-                        animation: 'animatedLeftToRightTransaction 25s infinite linear 0.5s both',
+                        animation: 'animatedLeftToRightTransaction 151.149s infinite linear 0.5s both',
                     }}>
                         {
                             ourProjectsConfig.map((item, index) => (
@@ -152,7 +152,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                 </Box>
                 <Box display='flex' gap='24px' alignItems="center">
                     <BoxLine sx={{
-                        animation: 'animatedRightToLeftTransaction 25s infinite linear 0.5s both',
+                        animation: 'animatedRightToLeftTransaction 150.465s infinite linear 0.5s both',
                     }}>
                         {
                             ourProjectsConfig.map((item, index) => (
@@ -169,7 +169,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                         }
                     </BoxLine>
                     <BoxLine sx={{
-                        animation: 'animatedRightToLeftTransaction 25s infinite linear 0.5s both',
+                        animation: 'animatedRightToLeftTransaction 150.465s infinite linear 0.5s both',
                     }}>
                         {
                             ourProjectsConfig.map((item, index) => (
