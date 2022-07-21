@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/router';
 import { Box, Tabs, Tab, Container } from "@mui/material";
 import PropTypes from 'prop-types';
@@ -41,19 +41,20 @@ function a11yProps(index: any) {
 
 const TabsArea: React.FC<TabsAreaProps> = ({ data, isMobile = false }) => {
     const [value, setValue] = React.useState(0);
-    const tabHead = useRef(null);
+    const tabHead = useRef<HTMLInputElement>(null);
+    const [topPosition , setTopPosition] = useState(0)
 
-    useEffect(() => {
-        window.addEventListener('scroll', pop);
-    }, []);
-
-
-    const pop = () => {
-        const topPosition = tabHead?.current?.getBoundingClientRect().top
+    const pop = useCallback(() => {
+        const temp = tabHead?.current?.getBoundingClientRect().top
+        setTopPosition(temp ? temp : 0)
         if (tabHead.current) {
             topPosition <= 0 ? tabHead.current.style.background = '#ffffff' : tabHead.current.style.background = 'transparent'
         }
-    }
+    },[topPosition])
+
+    useEffect(() => {
+        window.addEventListener('scroll', pop);
+    }, [pop]);
 
     const handleChange = (event: any, newValue: number) => {
         setValue(newValue);
