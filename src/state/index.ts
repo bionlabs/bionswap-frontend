@@ -1,20 +1,20 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import themeReducer from "./theme/reducer";
-// import swapReducer from "./swap/reducer";
-// import listsReducer from "./lists/reducer";
-// import multicallReducer from "./multicall/reducer";
-// import userReducer from "./user/reducer";
-// import transactionsReducer from "./transactions/reducer";
+import swapReducer from "./swap/reducer";
+import listsReducer from "./lists/reducer";
+import multicallReducer from "./multicall/reducer";
+import userReducer from "./user/reducer";
+import transactionsReducer from "./transactions/reducer";
 
 export const store = configureStore({
   reducer: {
     theme: themeReducer,
-    // multicall: multicallReducer,
-    // swap: swapReducer,
-    // lists: listsReducer,
-    // user: userReducer,
-    // transactions: transactionsReducer,
+    multicall: multicallReducer,
+    swap: swapReducer,
+    lists: listsReducer,
+    user: userReducer,
+    transactions: transactionsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

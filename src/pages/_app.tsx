@@ -7,6 +7,8 @@ import { store } from "state";
 import Footer from "views/Footer";
 import Menu from "views/Menu";
 import { WagmiConfig } from "wagmi";
+import { ListsUpdater } from "state/lists/updater";
+import { MulticallUpdater } from "state/multicall/updater";
 import "../../styles/globals.css";
 import { client } from "../configs/chain";
 
@@ -26,6 +28,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Provider store={store}>
         <StyledThemeProvider>
           <Menu>
+            <MulticallUpdater />
+            <ListsUpdater />
             <Component {...pageProps} />
             <Footer />
           </Menu>

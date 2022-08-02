@@ -34,9 +34,12 @@ export const lightPalette: ExtendedPaletteOptions = {
   // info: {},
   // success: {},
   // divider: {}
-  // extra: {
-  //   buyButton: "red",
-  // },
+  extra: {
+    button: {
+      background: "#25273D",
+      text: "white",
+    },
+  },
 };
 
 export const darkPalette: ExtendedPaletteOptions = {
@@ -63,9 +66,12 @@ export const darkPalette: ExtendedPaletteOptions = {
   // info: {},
   // success: {},
   // divider: {}
-  // extra: {
-  //   buyButton: "red",
-  // },
+  extra: {
+    button: {
+      background: "white",
+      text: "black",
+    },
+  },
 };
 
 const getComponentTheme = (
@@ -119,6 +125,8 @@ const getComponentTheme = (
         defaultProps: {
           color: "text.primary",
           fontFamily: "Inter",
+          fontWeight: 500,
+          fontSize: 14,
         },
       },
       MuiInputBase: {

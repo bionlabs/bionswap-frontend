@@ -1,5 +1,4 @@
-import { Dialog, DialogTitle, Modal, Typography } from "@mui/material";
-import React from "react";
+import { Dialog, DialogTitle, Typography } from "@mui/material";
 import { useAccount, useBalance, useNetwork } from "hooks";
 
 type Props = {

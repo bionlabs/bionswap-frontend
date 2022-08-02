@@ -15,7 +15,7 @@ const Swap = (props: Props) => {
         minHeight: "100vh",
       }}
     >
-      Swap
+      <SwapView />
     </Stack>
   );
 };
