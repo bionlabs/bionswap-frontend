@@ -11,7 +11,7 @@ import {
   useToken,
   useTokenComparator,
 } from "hooks";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { memo, useCallback, useMemo, useState } from "react";
 import CurrencyList from "./CurrencyList";
 import { isAddress } from "utils/validate";
 import { filterTokens } from "utils/filter";
@@ -92,4 +92,4 @@ const CurrencySearchModal = ({ open, onClose, onCurrencySelect }: Props) => {
   );
 };
 
-export default CurrencySearchModal;
+export default memo(CurrencySearchModal);

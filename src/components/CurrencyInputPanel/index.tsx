@@ -45,6 +45,10 @@ const CurrencyInputPanel = ({
     [onCurrencySelect]
   );
 
+  const handleCloseSearchModal = useCallback(() => {
+    setSearchModalOpen(false);
+  }, []);
+
   return (
     <Box>
       <Stack>
@@ -101,7 +105,7 @@ const CurrencyInputPanel = ({
             },
             borderRadius: 1,
             backgroundColor: "rgb(247, 248, 250)",
-            px: 2
+            px: 2,
           }}
           InputProps={{
             endAdornment: (
@@ -116,7 +120,7 @@ const CurrencyInputPanel = ({
         />
         <CurrencySearchModal
           open={searchModalOpen}
-          onClose={() => setSearchModalOpen(false)}
+          onClose={handleCloseSearchModal}
           onCurrencySelect={handleCurrencySelect}
         />
       </Stack>

@@ -12,7 +12,7 @@ export function MulticallUpdater() {
       chainId={chainId}
       latestBlockNumber={latestBlockNumber}
       contract={contract}
-      // listenerOptions={{ blocksPerFetch: 3 }}
+      // listenerOptions={{ blocksPerFetch: 10 }}
     />
   );
 }

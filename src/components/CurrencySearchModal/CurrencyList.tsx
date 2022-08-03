@@ -41,7 +41,7 @@ const CurrencyRow = ({
       <Stack direction="row" justifyContent="space-between" width="100%">
         <Stack direction="row">
           <CurrencyLogo currency={currency} />
-          <Stack sx={{ ml: 2 }}>
+          <Stack sx={{ ml: 2, alignItems: "flex-start" }}>
             <Typography sx={{ color: "text.secondary" }}>
               {currency.name}
             </Typography>
@@ -52,14 +52,14 @@ const CurrencyRow = ({
           <Typography sx={{ color: "text.secondary", mr: 2 }}>
             {balance.toFixed(2)}
           </Typography>
-        ) : (
+        ) : account ? (
           <CircularProgress
             size={15}
             sx={{
               mr: 2,
             }}
           />
-        )}
+        ) : null}
       </Stack>
     </MenuItem>
   );

@@ -25,9 +25,9 @@ const bsc = {
     decimals: 18,
   },
   rpcUrls: {
-    default: "https://bsc-dataseed.binance.org",
-    default2: "https://bsc-dataseed1.defibit.io/",
-    default3: "https://bsc-dataseed1.ninicoin.io/",
+    default: "https://rpc.ankr.com/bsc",
+    // default2: "https://bsc-dataseed1.defibit.io/",
+    // default3: "https://bsc-dataseed1.ninicoin.io/",
   },
   blockExplorers: {
     etherscan: {
