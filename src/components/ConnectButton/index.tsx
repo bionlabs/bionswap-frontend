@@ -1,11 +1,10 @@
 import styled from "@emotion/styled";
 import { Box, Button, Stack, useMediaQuery } from "@mui/material";
+import { CHAIN_INFO_MAP } from "configs/chain";
+import { useAccount, useChain } from "hooks";
+import Image from "next/image";
 import { useState } from "react";
 import { BsFillCaretDownFill } from "react-icons/bs";
-import { Chain, Connector } from "wagmi";
-import { chains } from "configs/chain";
-import { useAccount, useNetwork } from "hooks";
-import Image from "next/image";
 import { getChainIcon } from "utils/chains";
 import { getConnectorIcon } from "utils/connectors";
 import { shortenAddress } from "utils/format";
@@ -20,22 +19,19 @@ const ConnectButton = (props: Props) => {
   const [openConnectorsModal, setOpenConnectorsModal] = useState(false);
   const [openChainsModal, setOpenChainsModal] = useState(false);
   const [openProfileModal, setOpenProfileModal] = useState(false);
-  const [selectedChain, setSelectedChain] = useState<Chain | null>(chains[0]);
+
+  const { chainId } = useChain();
   const { address, connector: activeConnector } = useAccount();
 
-  const { chain: connectedChain } = useNetwork();
-
-  const handleChainSwitched = (chain: Chain) => {
+  const handleChainSwitched = () => {
     setOpenChainsModal(false);
-    setSelectedChain(chain);
   };
 
-  const handleChainSelected = (chain: Chain) => {
+  const handleChainSelected = () => {
     setOpenChainsModal(false);
-    setSelectedChain(chain);
   };
 
-  const handleConnectorConnected = (connector: Connector) => {
+  const handleConnectorConnected = () => {
     setOpenConnectorsModal(false);
   };
 
@@ -49,13 +45,13 @@ const ConnectButton = (props: Props) => {
         >
           <Stack direction="row" gap={1} alignItems="center">
             <Image
-              src={getChainIcon(selectedChain!.id).iconUrl}
+              src={getChainIcon(chainId).iconUrl}
               layout="fixed"
               alt=""
               width={24}
               height={24}
             />
-            <Box>{selectedChain?.name}</Box>
+            <Box>{CHAIN_INFO_MAP[chainId]?.name}</Box>
           </Stack>
         </ChainButton>
         {!address ? (
@@ -88,11 +84,9 @@ const ConnectButton = (props: Props) => {
         onClose={() => setOpenChainsModal(false)}
         onChainSelected={handleChainSelected}
         onChainSwitched={handleChainSwitched}
-        selectToSwitch={!!connectedChain}
       />
 
       <ConnectorOptionsModal
-        chain={selectedChain}
         onClose={() => setOpenConnectorsModal(false)}
         open={openConnectorsModal}
         onConnectorConnected={handleConnectorConnected}

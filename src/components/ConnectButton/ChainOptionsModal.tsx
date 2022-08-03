@@ -8,44 +8,28 @@ import {
   Modal,
   Stack,
 } from "@mui/material";
-import { chains } from "configs/chain";
-import { useNetwork, useSwitchNetwork } from "hooks";
+import { CHAIN_INFO_MAP } from "configs/chain";
+import { useChain, useSwitchNetwork } from "hooks";
 import Image from "next/image";
-import { useState } from "react";
 import { HiX } from "react-icons/hi";
 import { getChainIcon } from "utils/chains";
 import { Chain } from "wagmi";
 
 type Props = {
-  //   chains: Chain[];
   onChainSelected: (chain: Chain) => void;
   onClose?: () => void;
   open: boolean;
-  selectToSwitch?: boolean;
   onChainSwitched?: (chain: Chain) => void;
 };
 
 const ChainOptionsModal = ({
-  //   chains,
-  onChainSelected,
   onClose,
   open = false,
-  selectToSwitch = false,
   onChainSwitched,
 }: Props) => {
-  const [selectedChain, setSelectedChain] = useState<Chain | null>(chains[0]);
-  const { chain: connectedChain } = useNetwork();
+  const { chainId, isConnected } = useChain();
 
-  const {
-    switchNetwork,
-    error: switchError,
-    isLoading: isSwitchLoading,
-  } = useSwitchNetwork({
-    onSuccess: (chain) => {
-      setSelectedChain(chain);
-      onChainSwitched?.(chain);
-    },
-  });
+  const { switchNetwork } = useSwitchNetwork({});
 
   return (
     <Modal
@@ -95,7 +79,7 @@ const ChainOptionsModal = ({
               padding: 0,
             }}
           >
-            {chains.map((chain) => (
+            {Object.entries(CHAIN_INFO_MAP).map(([, chain]) => (
               <MenuItem
                 sx={{
                   p: 2,
@@ -104,20 +88,20 @@ const ChainOptionsModal = ({
                   ":last-child": {
                     borderBottom: "none",
                   },
-                  // "&.Mui-selected": {
-                  //   backgroundColor: "#ffc107",
-                  //   boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.24)",
-                  //   "&:hover": { backgroundColor: "#ffc107" },
-                  // },
                 }}
                 key={chain.id}
                 onClick={() => {
-                  if (!selectToSwitch) {
-                    setSelectedChain(chain);
-                    onChainSelected(chain);
-                  } else {
-                    switchNetwork?.(chain?.id);
-                  }
+                  // if (!selectToSwitch) {
+                  //   setSelectedChain(chain);
+                  //   onChainSelected(chain);
+                  // } else {
+                  //   switchNetwork?.(chain?.id);
+                  // }
+                  // setSelectedChain(chain);
+                  // onChainSelected(chain);
+                  switchNetwork?.(chain?.id);
+                  // setSelectedChain(chain);
+                  onChainSwitched?.(chain);
                 }}
               >
                 <Stack
@@ -133,7 +117,7 @@ const ChainOptionsModal = ({
                   >
                     <Box display="flex" gap="10px" alignItems="center">
                       <Image
-                        src={getChainIcon(chain.id).iconUrl}
+                        src={getChainIcon(chain.id)?.iconUrl}
                         layout="fixed"
                         alt=""
                         width={24}
@@ -143,7 +127,7 @@ const ChainOptionsModal = ({
                         {chain.name}
                       </Box>
                     </Box>
-                    {chain.id === selectedChain?.id && (
+                    {chain.id === chainId && isConnected && (
                       <StatusBox>
                         <div className="ring-container">
                           <div className="ringring" />

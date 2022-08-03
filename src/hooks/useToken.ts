@@ -3,12 +3,11 @@ import {
   useAllTokens,
   useBytes32TokenContract,
   useChain,
-  useNetwork,
   useSingleCallResult,
   useTokenContract,
 } from "hooks";
 import { useMemo } from "react";
-import { NEVER_RELOAD } from "state/multicall/reducer";
+import { NEVER_RELOAD } from "state/multicall";
 import { parseStringOrBytes32 } from "utils/parse";
 import { isAddress } from "utils/validate";
 

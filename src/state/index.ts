@@ -6,6 +6,7 @@ import listsReducer from "./lists/reducer";
 import multicallReducer from "./multicall/reducer";
 import userReducer from "./user/reducer";
 import transactionsReducer from "./transactions/reducer";
+import chainsReducer from "./chains/reducer";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     lists: listsReducer,
     user: userReducer,
     transactions: transactionsReducer,
+    chains: chainsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

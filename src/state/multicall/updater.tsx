@@ -1,14 +1,9 @@
-import {
-  useBlockNumber,
-  useChain,
-  useMulticallContract,
-  useNetwork,
-} from "hooks";
+import { useBlockNumber, useChain, useMulticallContract } from "hooks";
 import multicall from ".";
 
 export function MulticallUpdater() {
-  const { data: latestBlockNumber } = useBlockNumber({ watch: true });
   const { chainId } = useChain();
+  const latestBlockNumber = useBlockNumber();
 
   const contract = useMulticallContract();
 

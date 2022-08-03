@@ -9,6 +9,8 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { publicProvider } from "wagmi/providers/public";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
+import { allChains } from "wagmi";
 
 const bsc = {
   id: 56,
@@ -41,16 +43,28 @@ const bsc = {
 
 const supportedChains: { [name: string]: Chain } = {
   bsc,
-  ethereum: WagmiChain.mainnet,
+  ethereum: {
+    ...WagmiChain.mainnet,
+    rpcUrls: {
+      default: "https://rpc.ankr.com/eth",
+    },
+  },
   polygon: WagmiChain.polygon,
 };
 
 const { chains, provider, webSocketProvider } = configureChains(
   [...Object.entries(supportedChains).map(([_, value]) => value)],
+  // allChains,
   [publicProvider()]
 );
 
-export { chains };
+export const CHAIN_INFO_MAP: { [chainId: number]: Chain } = chains.reduce(
+  (o, chain) => {
+    o[chain.id] = chain;
+    return o;
+  },
+  {} as any
+);
 
 export const chainIcons = {
   [supportedChains.bsc.id]: {
@@ -75,7 +89,7 @@ export const client = createClient({
     new CoinbaseWalletConnector({
       chains,
       options: {
-        appName: "wagmi",
+        appName: "bionswap",
       },
     }),
     new WalletConnectConnector({
@@ -93,5 +107,5 @@ export const client = createClient({
     // }),
   ],
   provider,
-  webSocketProvider,
+  // webSocketProvider,
 });

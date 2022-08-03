@@ -1,16 +1,22 @@
 import { ThemeProvider } from "@mui/material";
+import { BlockNumberProvider } from "components";
 import { getTheme } from "configs/theme";
 import { useDarkMode } from "hooks";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { store } from "state";
+import { ListsUpdater } from "state/lists/updater";
+import { MulticallUpdater } from "state/multicall/updater";
 import Footer from "views/Footer";
 import Menu from "views/Menu";
 import { WagmiConfig } from "wagmi";
-import { ListsUpdater } from "state/lists/updater";
-import { MulticallUpdater } from "state/multicall/updater";
 import "../../styles/globals.css";
 import { client } from "../configs/chain";
+
+// console.log(
+//   "🚀 ~ file: _app.tsx ~ line 14 ~ client",
+//   (client?.config?.provider as any)?.({ chainId: 56 })
+// );
 
 type StyledThemeProviderProps = {
   children: React.ReactElement;
@@ -27,12 +33,14 @@ function MyApp({ Component, pageProps }: AppProps) {
     <WagmiConfig client={client}>
       <Provider store={store}>
         <StyledThemeProvider>
-          <Menu>
-            <MulticallUpdater />
-            <ListsUpdater />
-            <Component {...pageProps} />
-            <Footer />
-          </Menu>
+          <BlockNumberProvider>
+            <Menu>
+              <MulticallUpdater />
+              <ListsUpdater />
+              <Component {...pageProps} />
+              <Footer />
+            </Menu>
+          </BlockNumberProvider>
         </StyledThemeProvider>
       </Provider>
     </WagmiConfig>

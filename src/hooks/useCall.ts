@@ -56,7 +56,7 @@ export function useSingleContractWithCallData(
 }
 
 function useCallContext() {
-  const { data: latestBlock } = useBlockNumber();
+  const latestBlock = useBlockNumber();
   const { chainId } = useChain();
   return { chainId, latestBlock };
 }

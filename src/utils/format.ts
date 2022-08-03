@@ -8,7 +8,7 @@ export function shortenAddress(address: string, chars = 4): string {
       42 - chars
     )}`;
   } catch (error) {
-    console.error(`Invalid 'address' parameter '${address}'.`);
+    // console.error(`Invalid 'address' parameter '${address}'.`);
     return "";
   }
 }

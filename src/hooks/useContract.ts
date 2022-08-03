@@ -51,11 +51,11 @@ export function useContract<T extends Contract = Contract>(
   }, [
     addressOrAddressMap,
     ABI,
-    signer,
+    provider,
     chainId,
     withSignerIfPossible,
     account,
-    provider,
+    signer,
   ]) as T;
 }
 const MULTICALL_ADDRESS = {

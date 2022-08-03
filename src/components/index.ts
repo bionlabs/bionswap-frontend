@@ -5,6 +5,7 @@ export { default as BaseModal } from "./BaseModal";
 export { default as CurrencyInputPanel } from "./CurrencyInputPanel";
 export { default as Logo } from "./Logo";
 export { default as CurrencyLogo } from "./CurrencyLogo";
+export { default as BlockNumberProvider } from "./BlockNumberProvider";
 
 export const ConnectButton = dynamic(() => import("./ConnectButton"), {
   ssr: false,

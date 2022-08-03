@@ -1,6 +1,8 @@
+export type { CallStateResult } from "@uniswap/redux-multicall"; // re-export for convenience
+export { NEVER_RELOAD } from "@uniswap/redux-multicall"; // re-export for convenience
+
 import { createMulticall } from "@uniswap/redux-multicall";
 
-const multicall = createMulticall();
-export const multicallReducer = multicall.reducer;
+export const multicall = createMulticall();
 
 export default multicall;

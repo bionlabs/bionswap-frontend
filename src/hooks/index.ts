@@ -3,7 +3,7 @@ export {
   paginatedIndexesConfig,
   useAccount,
   useBalance,
-  useBlockNumber,
+  // useBlockNumber,
   useConnect,
   useContractEvent,
   useContractInfiniteReads,
@@ -22,7 +22,7 @@ export {
   useSigner,
   useSignMessage,
   useSignTypedData,
-  useSwitchNetwork,
+  // useSwitchNetwork,
   useWaitForTransaction,
   useWebSocketProvider,
 } from "wagmi";
@@ -80,3 +80,5 @@ export { useHttpLocations } from "./useHttpLocations";
 export { useTokenComparator } from "./useTokenComparator";
 export { useSortedTokensByQuery } from "./useSortedTokensByQuery";
 export { useChain } from "./useChain";
+export { useSwitchNetwork } from "./useSwitchNetwork";
+export { useBlockNumber } from "./useBlockNumber";

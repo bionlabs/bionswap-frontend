@@ -1,11 +1,27 @@
-import { ChainId } from "@bionswap/core-sdk";
-import { useAccount, useNetwork, useProvider, useSigner } from "hooks";
+import { useAccount, useNetwork, useSigner } from "hooks";
+import { useMemo } from "react";
+import { useAppSelector } from "state";
+import { useClient } from "wagmi";
 
 export function useChain() {
-  const { chain: { id: chainId } = { id: ChainId.BSC } } = useNetwork();
-  const { data: signer } = useSigner();
-  const provider = useProvider({ chainId });
-  const { address: account } = useAccount();
+  const selfManagedChainId = useAppSelector((state) => state.chains.chainId);
+  const { chain: { id: chainId } = { id: selfManagedChainId } } = useNetwork();
+  // const chainId = useAppSelector((state) => state.chains.chainId);
 
-  return { chainId, signer, provider, account };
+  const { data: signer } = useSigner();
+  const client = useClient();
+  // const provider = useProvider({ chainId });
+  const provider = useMemo(() => {
+    if (chainId && typeof client.config.provider === "function")
+      return client.config.provider({ chainId });
+    return client.provider;
+  }, [chainId, client.config, client.provider]);
+
+  // const provider = useMemo(() => {
+  //   return new providers.JsonRpcProvider(RPC[chainId as keyof typeof RPC]);
+  // }, [chainId]);
+
+  const { address: account, isConnected } = useAccount();
+
+  return { chainId, signer, provider, account, isConnected };
 }

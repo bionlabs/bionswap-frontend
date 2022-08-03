@@ -5,17 +5,16 @@ import {
   MenuItem,
   MenuList,
   Modal,
-  Stack,
+  Stack
 } from "@mui/material";
-import { useConnect } from "hooks";
+import { useChain, useConnect } from "hooks";
 import Image from "next/image";
 import { useState } from "react";
 import { HiX } from "react-icons/hi";
 import { getConnectorIcon } from "utils/connectors";
-import { Chain, Connector } from "wagmi";
+import { Connector } from "wagmi";
 
 type Props = {
-  chain: Chain | null;
   onConnectorSelected?: (connector: Connector) => void;
   onConnectorConnected: (connector: Connector) => void;
   onClose?: () => void;
@@ -23,12 +22,12 @@ type Props = {
 };
 
 function ConnectorOptionsModal({
-  chain,
   onConnectorSelected,
   onConnectorConnected,
   onClose,
   open = false,
 }: Props) {
+  const { chainId } = useChain();
   const [selectedConnector, setSelectedConnector] = useState<Connector | null>(
     null
   );
@@ -103,15 +102,10 @@ function ConnectorOptionsModal({
                     ":last-child": {
                       borderBottom: "none",
                     },
-                    // "&.Mui-selected": {
-                    //   backgroundColor: "#ffc107",
-                    //   boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.24)",
-                    //   "&:hover": { backgroundColor: "#ffc107" },
-                    // },
                   }}
                   key={connector.id}
                   onClick={() => {
-                    connect({ connector, chainId: chain?.id });
+                    connect({ connector, chainId });
                     setSelectedConnector(connector);
                     onConnectorSelected?.(connector);
                   }}
