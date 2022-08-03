@@ -19,7 +19,7 @@ const BaseModal = ({ children, open, onClose }: Props) => {
           minWidth: 400,
           bgcolor: "background.paper",
           boxShadow: 24,
-          p: 4,
+          p: 2,
           borderRadius: 1,
         }}
       >

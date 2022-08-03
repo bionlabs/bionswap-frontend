@@ -1,20 +1,28 @@
-import { TextField } from "@mui/material";
 import { ChainId, Currency, NATIVE, Token } from "@bionswap/core-sdk";
+import CloseIcon from "@mui/icons-material/Close";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import {
+  IconButton,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography
+} from "@mui/material";
 import { BaseModal } from "components";
 import {
   useAllTokens,
   useChain,
   useDebounce,
   useIsUserAddedToken,
-  useNetwork,
   useSortedTokensByQuery,
   useToken,
-  useTokenComparator,
+  useTokenComparator
 } from "hooks";
 import React, { memo, useCallback, useMemo, useState } from "react";
-import CurrencyList from "./CurrencyList";
-import { isAddress } from "utils/validate";
 import { filterTokens } from "utils/filter";
+import { isAddress } from "utils/validate";
+import CommonBases from "./CommonBases";
+import CurrencyList from "./CurrencyList";
 
 type Props = {
   open: boolean;
@@ -78,16 +86,64 @@ const CurrencySearchModal = ({ open, onClose, onCurrencySelect }: Props) => {
 
   return (
     <BaseModal open={open} onClose={onClose}>
-      <TextField
-        placeholder="Search name or paste address"
-        fullWidth
-        value={searchQuery}
-        onChange={handleInput}
-      ></TextField>
-      <CurrencyList
-        currencies={filteredSortedTokensWithETH}
-        onCurrencySelect={onCurrencySelect}
-      ></CurrencyList>
+      <Stack sx={{ width: "470px" }}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          mb={1}
+          width="100%"
+        >
+          <Typography fontSize={16}>Select a token</Typography>
+          <IconButton onClick={onClose}>
+            <CloseIcon />
+          </IconButton>
+        </Stack>
+        <Stack
+          sx={{
+            borderRadius: 1,
+            backgroundColor: "rgb(247, 248, 250)",
+            px: 2,
+            height: 50,
+            width: "100%",
+            mb: "8px",
+            "&:focus-within": {
+              border: "1px solid",
+              borderColor: "primary.main",
+            },
+          }}
+        >
+          <TextField
+            variant="standard"
+            placeholder="Search name or paste address"
+            fullWidth
+            value={searchQuery}
+            onChange={handleInput}
+            sx={{
+              borderRadius: 1,
+            }}
+            InputProps={{
+              disableUnderline: true,
+            }}
+          />
+        </Stack>
+
+        <Stack sx={{ mt: 1, mb: 2 }}>
+          <Stack direction="row" alignSelf="flex-start" gap={1} mb={1}>
+            <Typography fontSize={12} sx={{ color: "text.secondary" }}>
+              Common bases
+            </Typography>
+            <Tooltip title="These token are commonly paired with other tokens">
+              <HelpOutlineIcon sx={{ fontSize: 15 }} />
+            </Tooltip>
+          </Stack>
+          <CommonBases onCurrencySelect={onCurrencySelect} />
+        </Stack>
+
+        <CurrencyList
+          currencies={filteredSortedTokensWithETH}
+          onCurrencySelect={onCurrencySelect}
+        />
+      </Stack>
     </BaseModal>
   );
 };

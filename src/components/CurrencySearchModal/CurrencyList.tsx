@@ -1,4 +1,5 @@
 import {
+  Box,
   CircularProgress,
   ListItem,
   MenuItem,
@@ -88,16 +89,26 @@ const CurrencyList = ({
   );
 
   return (
-    <FixedSizeList
-      height={400}
-      width={360}
-      itemSize={55}
-      itemCount={currencies.length}
-      overscanCount={5}
-      itemData={currencies}
+    <Box
+      sx={{
+        width: "100%",
+        borderRadius: 2,
+        border: "1px solid #F2F3F3",
+        borderRightColor: "transparent",
+        overflow: "hidden",
+      }}
     >
-      {renderCurrencyRow}
-    </FixedSizeList>
+      <FixedSizeList
+        height={400}
+        width="100%"
+        itemSize={55}
+        itemCount={currencies.length}
+        overscanCount={10}
+        itemData={currencies}
+      >
+        {renderCurrencyRow}
+      </FixedSizeList>
+    </Box>
   );
 };
 
