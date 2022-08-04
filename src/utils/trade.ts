@@ -1,19 +1,20 @@
 import {
   Currency,
   CurrencyAmount,
+  currencyEquals,
   JSBI,
   Percent,
   Token,
-  Trade,
   TradeType,
 } from "@bionswap/core-sdk";
 import { ONE_HUNDRED_PERCENT, ZERO_PERCENT } from "constants/common";
 import { BigNumber } from "ethers";
+import { Trade } from "types";
 
 // returns whether tradeB is better than tradeA by at least a threshold percentage amount
 export function isTradeBetter(
-  tradeA: Trade<Currency, Currency, TradeType> | undefined | null,
-  tradeB: Trade<Currency, Currency, TradeType> | undefined | null,
+  tradeA: Trade | undefined | null,
+  tradeB: Trade | undefined | null,
   minimumDelta: Percent = ZERO_PERCENT
 ): boolean | undefined {
   if (tradeA && !tradeB) return false;
@@ -54,4 +55,25 @@ export function computeFiatValuePriceImpact(
 // add 20%
 export function calculateGasMargin(value: BigNumber): BigNumber {
   return value.mul(BigNumber.from(10000 + 2000)).div(BigNumber.from(10000));
+}
+
+/**
+ * Returns true if the trade requires a confirmation of details before we can submit it
+ * @param tradeA trade A
+ * @param tradeB trade B
+ */
+export function tradeMeaningfullyDiffers(
+  tradeA: Trade,
+  tradeB: Trade
+): boolean {
+  return (
+    tradeA.tradeType !== tradeB.tradeType ||
+    !currencyEquals(tradeA.inputAmount.currency, tradeB.inputAmount.currency) ||
+    !tradeA.inputAmount.equalTo(tradeB.inputAmount) ||
+    !currencyEquals(
+      tradeA.outputAmount.currency,
+      tradeB.outputAmount.currency
+    ) ||
+    !tradeA.outputAmount.equalTo(tradeB.outputAmount)
+  );
 }

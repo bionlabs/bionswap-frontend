@@ -1,13 +1,7 @@
 import { ChainId, Currency, NATIVE, Token } from "@bionswap/core-sdk";
 import CloseIcon from "@mui/icons-material/Close";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import {
-  IconButton,
-  Stack,
-  TextField,
-  Tooltip,
-  Typography
-} from "@mui/material";
+import { IconButton, Stack, TextField, Tooltip, Typography } from "@mui/material";
 import { BaseModal } from "components";
 import {
   useAllTokens,
@@ -16,7 +10,7 @@ import {
   useIsUserAddedToken,
   useSortedTokensByQuery,
   useToken,
-  useTokenComparator
+  useTokenComparator,
 } from "hooks";
 import React, { memo, useCallback, useMemo, useState } from "react";
 import { filterTokens } from "utils/filter";
@@ -59,16 +53,10 @@ const CurrencySearchModal = ({ open, onClose, onCurrencySelect }: Props) => {
     return filteredTokens.sort(tokenComparator);
   }, [filteredTokens, tokenComparator]);
 
-  const filteredSortedTokens = useSortedTokensByQuery(
-    sortedTokens,
-    debouncedSearchQuery
-  );
+  const filteredSortedTokens = useSortedTokensByQuery(sortedTokens, debouncedSearchQuery);
 
   // @ts-ignore TYPE NEEDS FIXING
-  const ether = useMemo(
-    () => chainId && ![ChainId.CELO].includes(chainId) && NATIVE[chainId],
-    [chainId]
-  );
+  const ether = useMemo(() => chainId && ![ChainId.CELO].includes(chainId) && NATIVE[chainId], [chainId]);
 
   const filteredSortedTokensWithETH: Currency[] = useMemo(() => {
     const s = debouncedSearchQuery.toLowerCase().trim();
@@ -87,13 +75,10 @@ const CurrencySearchModal = ({ open, onClose, onCurrencySelect }: Props) => {
   return (
     <BaseModal open={open} onClose={onClose}>
       <Stack sx={{ width: "470px" }}>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          mb={1}
-          width="100%"
-        >
-          <Typography fontSize={16}>Select a token</Typography>
+        <Stack direction="row" justifyContent="space-between" mb={1} width="100%">
+          <Typography fontSize={16} fontWeight={700}>
+            Select a token
+          </Typography>
           <IconButton onClick={onClose}>
             <CloseIcon />
           </IconButton>
@@ -139,10 +124,7 @@ const CurrencySearchModal = ({ open, onClose, onCurrencySelect }: Props) => {
           <CommonBases onCurrencySelect={onCurrencySelect} />
         </Stack>
 
-        <CurrencyList
-          currencies={filteredSortedTokensWithETH}
-          onCurrencySelect={onCurrencySelect}
-        />
+        <CurrencyList currencies={filteredSortedTokensWithETH} onCurrencySelect={onCurrencySelect} />
       </Stack>
     </BaseModal>
   );

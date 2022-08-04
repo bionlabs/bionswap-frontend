@@ -1,9 +1,4 @@
-import {
-  createTheme,
-  PaletteOptions,
-  SimplePaletteColorOptions,
-  ThemeOptions,
-} from "@mui/material";
+import { createTheme, PaletteOptions, SimplePaletteColorOptions, ThemeOptions } from "@mui/material";
 
 type ExtraThemeProp = { [any: string]: string | ExtraThemeProp };
 type ExtendedPaletteOptions = PaletteOptions & {
@@ -29,10 +24,16 @@ export const lightPalette: ExtendedPaletteOptions = {
     secondary: "#7A858C",
     disabled: "rgba(0, 0, 0, 0.38)",
   },
-  // error: {},
-  // warning: {},
+  error: {
+    main: "#EB5757",
+  },
+  warning: {
+    main: "rgba(255, 178, 55, 0.2)",
+  },
   // info: {},
-  // success: {},
+  // success: {
+  //   // main: "green",
+  // },
   // divider: {}
   extra: {
     button: {
@@ -74,9 +75,7 @@ export const darkPalette: ExtendedPaletteOptions = {
   },
 };
 
-const getComponentTheme = (
-  basePalette: ExtendedPaletteOptions
-): ThemeOptions => {
+const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions => {
   return {
     components: {
       MuiButtonBase: {
@@ -132,10 +131,9 @@ const getComponentTheme = (
       MuiInputBase: {
         styleOverrides: {
           root: {
-            "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-              {
-                display: "none",
-              },
+            "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+              display: "none",
+            },
             "& input[type=number]": {
               MozAppearance: "textfield",
             },

@@ -1,16 +1,6 @@
-import {
-  Currency,
-  JSBI,
-  Percent,
-  Token,
-  Trade as V2Trade,
-  TradeType,
-} from "@bionswap/core-sdk";
+import { Currency, JSBI, Percent, Token, Trade as V2Trade, TradeType } from "@bionswap/core-sdk";
 
-import {
-  ApprovalState,
-  useApproveCallbackFromTrade,
-} from "hooks/useApproveCallback";
+import { ApprovalState, useApproveCallbackFromTrade } from "hooks/useApproveCallback";
 import { confirmPriceImpactWithoutFee, warningSeverity } from "utils/prices";
 import { computeFiatValuePriceImpact } from "utils/trade";
 
@@ -31,17 +21,13 @@ import {
 import { WrapType } from "hooks/useWrapCallback";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Field } from "state/swap/actions";
-import {
-  useDefaultsFromURLSearch,
-  useDerivedSwapInfo,
-  useSwapActionHandlers,
-  useSwapState,
-} from "state/swap/hooks";
+import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from "state/swap/hooks";
 import { useExpertModeManager } from "state/user/hooks";
 import SwapDetail from "./components/SwapDetail";
 import SelectAmountInput from "./components/SelectAmountInput";
 import { maxAmountSpend } from "utils/currencies";
 import TradePrice from "./components/TradePrice";
+import ConfirmSwapModal from "./components/ConfirmSwapModal";
 
 type SwapProps = {};
 
@@ -67,13 +53,9 @@ const Swap = ({}: SwapProps) => {
     useCurrency(loadedUrlParams?.outputCurrencyId),
   ];
 
-  const [dismissTokenWarning, setDismissTokenWarning] =
-    useState<boolean>(false);
+  const [dismissTokenWarning, setDismissTokenWarning] = useState<boolean>(false);
   const urlLoadedTokens: Token[] = useMemo(
-    () =>
-      [loadedInputCurrency, loadedOutputCurrency]?.filter(
-        (c): c is Token => c?.isToken ?? false
-      ) ?? [],
+    () => [loadedInputCurrency, loadedOutputCurrency]?.filter((c): c is Token => c?.isToken ?? false) ?? [],
     [loadedInputCurrency, loadedOutputCurrency]
   );
   const handleConfirmTokenWarning = useCallback(() => {
@@ -91,11 +73,7 @@ const Swap = ({}: SwapProps) => {
     wrapType,
     execute: onWrap,
     inputError: wrapInputError,
-  } = useWrapCallback(
-    currencies[Field.INPUT],
-    currencies[Field.OUTPUT],
-    typedValue
-  );
+  } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue);
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE;
   const { data: recipientAddress } = useEnsAddress({ name: recipient });
 
@@ -109,30 +87,19 @@ const Swap = ({}: SwapProps) => {
             [Field.OUTPUT]: parsedAmount,
           }
         : {
-            [Field.INPUT]:
-              independentField === Field.INPUT
-                ? parsedAmount
-                : trade?.inputAmount,
-            [Field.OUTPUT]:
-              independentField === Field.OUTPUT
-                ? parsedAmount
-                : trade?.outputAmount,
+            [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+            [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
           },
     [independentField, parsedAmount, showWrap, trade]
   );
 
   const fiatValueInput = useUSDCValue(parsedAmounts[Field.INPUT]);
   const fiatValueOutput = useUSDCValue(parsedAmounts[Field.OUTPUT]);
-  const priceImpact = computeFiatValuePriceImpact(
-    fiatValueInput,
-    fiatValueOutput
-  );
-  const { onSwitchTokens, onCurrencySelection, onUserInput } =
-    useSwapActionHandlers();
+  const priceImpact = computeFiatValuePriceImpact(fiatValueInput, fiatValueOutput);
+  const { onSwitchTokens, onCurrencySelection, onUserInput } = useSwapActionHandlers();
 
   const isValid = !swapInputError;
-  const dependentField: Field =
-    independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT;
+  const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT;
 
   const inputCurrencyBalance = currencyBalances[Field.INPUT];
 
@@ -146,13 +113,10 @@ const Swap = ({}: SwapProps) => {
   const handleSelectAmountPercentInput = useCallback(
     (percent: number) => {
       if (percent === 100) {
-        onUserInput(
-          Field.INPUT,
-          maxAmountSpend(inputCurrencyBalance)?.toExact() || "0"
-        );
+        onUserInput(Field.INPUT, maxAmountSpend(inputCurrencyBalance)?.toSignificant(6) || "0");
       } else {
         const value = inputCurrencyBalance?.multiply(new Percent(percent, 100));
-        onUserInput(Field.INPUT, value?.toExact() || "0");
+        onUserInput(Field.INPUT, value?.toSignificant(6) || "0");
       }
     },
     [inputCurrencyBalance, onUserInput]
@@ -166,10 +130,7 @@ const Swap = ({}: SwapProps) => {
   );
 
   // modal and loading
-  const [
-    { showConfirm, tradeToConfirm, swapErrorMessage, attemptingTxn, txHash },
-    setSwapState,
-  ] = useState<{
+  const [{ showConfirm, tradeToConfirm, swapErrorMessage, attemptingTxn, txHash }, setSwapState] = useState<{
     showConfirm: boolean;
     tradeToConfirm: V2Trade<Currency, Currency, TradeType> | undefined;
     attemptingTxn: boolean;
@@ -193,18 +154,13 @@ const Swap = ({}: SwapProps) => {
 
   const userHasSpecifiedInputOutput = Boolean(
     /* @ts-ignore TYPE NEEDS FIXING */
-    currencies[Field.INPUT] &&
-      currencies[Field.OUTPUT] &&
-      parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
+    currencies[Field.INPUT] && currencies[Field.OUTPUT] && parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
   );
 
   const routeNotFound = !trade?.route;
 
   // check whether the user has approved the router on the input token
-  const [approvalState, approveCallback] = useApproveCallbackFromTrade(
-    trade,
-    allowedSlippage
-  );
+  const [approvalState, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage);
 
   const signatureData = undefined;
 
@@ -239,11 +195,7 @@ const Swap = ({}: SwapProps) => {
   //   const sushiGuardEnabled = useSushiGuardFeature();
 
   // the callback to execute the swap
-  const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(
-    trade,
-    allowedSlippage,
-    to
-  );
+  const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(trade, allowedSlippage, to);
 
   //   const [singleHopOnly] = useUserSingleHopOnly();
 
@@ -373,10 +325,7 @@ const Swap = ({}: SwapProps) => {
     [onCurrencySelection]
   );
 
-  const swapIsUnsupported = useIsSwapUnsupported(
-    currencies?.INPUT,
-    currencies?.OUTPUT
-  );
+  const swapIsUnsupported = useIsSwapUnsupported(currencies?.INPUT, currencies?.OUTPUT);
 
   const priceImpactCss = useMemo(() => {
     switch (priceImpactSeverity) {
@@ -414,8 +363,7 @@ const Swap = ({}: SwapProps) => {
     } else if (showApproveFlow) {
       if (approvalState !== ApprovalState.APPROVED) {
         onClick = handleApprove;
-        disabled =
-          approvalState !== ApprovalState.NOT_APPROVED || approvalSubmitted;
+        disabled = approvalState !== ApprovalState.NOT_APPROVED || approvalSubmitted;
         text = `Approve ${currencies[Field.INPUT]?.symbol}`;
       } else if (approvalState === ApprovalState.APPROVED) {
         onClick = () => {
@@ -431,10 +379,7 @@ const Swap = ({}: SwapProps) => {
             });
           }
         };
-        disabled =
-          !isValid ||
-          approvalState !== ApprovalState.APPROVED ||
-          (priceImpactSeverity > 3 && !isExpertMode);
+        disabled = !isValid || approvalState !== ApprovalState.APPROVED || (priceImpactSeverity > 3 && !isExpertMode);
 
         if (priceImpactSeverity > 3 && !isExpertMode) {
           text = `Price Impact High`;
@@ -458,10 +403,7 @@ const Swap = ({}: SwapProps) => {
           });
         }
       };
-      disabled =
-        !isValid ||
-        (priceImpactSeverity > 3 && !isExpertMode) ||
-        !!swapCallbackError;
+      disabled = !isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError;
 
       if (swapInputError) {
         text = swapInputError;
@@ -488,11 +430,7 @@ const Swap = ({}: SwapProps) => {
           },
         }}
       >
-        <Typography
-          fontWeight={600}
-          fontSize={14}
-          sx={{ color: "extra.button.text" }}
-        >
+        <Typography fontWeight={600} fontSize={14} sx={{ color: "extra.button.text" }}>
           {text}
         </Typography>
       </Button>
@@ -542,10 +480,7 @@ const Swap = ({}: SwapProps) => {
         />
 
         <Box sx={{ mt: 4 }}>
-          <SelectAmountInput
-            percents={[25, 50, 75, 100]}
-            onSelect={handleSelectAmountPercentInput}
-          />
+          <SelectAmountInput percents={[25, 50, 75, 100]} onSelect={handleSelectAmountPercentInput} />
         </Box>
 
         <Stack direction="row" mt={1}>
@@ -584,6 +519,19 @@ const Swap = ({}: SwapProps) => {
       >
         <SwapDetail trade={trade} />
       </Box>
+      <ConfirmSwapModal
+        open={showConfirm}
+        trade={trade}
+        originalTrade={tradeToConfirm}
+        onAcceptChanges={handleAcceptChanges}
+        attemptingTxn={attemptingTxn}
+        txHash={txHash}
+        recipient={recipient}
+        allowedSlippage={allowedSlippage}
+        onConfirm={handleSwap}
+        swapErrorMessage={swapErrorMessage}
+        onDismiss={handleConfirmDismiss}
+      />
     </Box>
   );
 };

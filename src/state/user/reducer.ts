@@ -49,7 +49,7 @@ export interface UserState {
 }
 
 export const initialState: UserState = {
-  userExpertMode: true,
+  userExpertMode: false,
   userSingleHopOnly: false,
   userDeadline: DEFAULT_DEADLINE_FROM_NOW,
   tokens: {},
