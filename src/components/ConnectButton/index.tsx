@@ -45,7 +45,7 @@ const ConnectButton = (props: Props) => {
         >
           <Stack direction="row" gap={1} alignItems="center">
             <Image
-              src={getChainIcon(chainId).iconUrl}
+              src={getChainIcon(chainId)?.iconUrl ? getChainIcon(chainId)?.iconUrl : "/"}
               layout="fixed"
               alt=""
               width={24}

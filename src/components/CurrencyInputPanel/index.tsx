@@ -4,6 +4,7 @@ import {
   Button,
   InputAdornment,
   Stack,
+  styled,
   TextField,
   Typography,
 } from "@mui/material";
@@ -50,14 +51,15 @@ const CurrencyInputPanel = ({
   }, []);
 
   return (
-    <Box>
+    <WrapCurrencyInputPanel>
       <Stack>
-        <Stack direction="row" justifyContent="space-between" width={"100%"}>
+        <Stack direction="row" justifyContent="space-between" width={"100%"} mb='15px'>
           <Button
             onClick={() => setSearchModalOpen(true)}
             sx={{
               boxShadow: "none",
               justifyContent: "space-between",
+              padding: '0'
             }}
             endIcon={
               <ArrowDropDownIcon
@@ -98,14 +100,15 @@ const CurrencyInputPanel = ({
             onInputBlur?.();
           }}
           sx={{
-            width: 350,
+            backgroundColor: 'transparent',
+
             "& .MuiInputBase-input": {
               fontWeight: "500",
-              fontSize: 28,
+              fontSize: '24px',
+              lineHeight: '16px',
+              padding: '0'
             },
             borderRadius: 1,
-            backgroundColor: "rgb(247, 248, 250)",
-            px: 2,
           }}
           InputProps={{
             endAdornment: (
@@ -124,8 +127,14 @@ const CurrencyInputPanel = ({
           onCurrencySelect={handleCurrencySelect}
         />
       </Stack>
-    </Box>
+    </WrapCurrencyInputPanel>
   );
 };
+
+const WrapCurrencyInputPanel = styled(Box)`
+  border-radius: 8px;
+  background: #121315;
+  padding: 15px;
+`
 
 export default CurrencyInputPanel;

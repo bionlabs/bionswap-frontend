@@ -6,7 +6,7 @@ export type ThemeState = {
 };
 
 const initialState: ThemeState = {
-  isDarkMode: false,
+  isDarkMode: true,
 };
 
 export default createReducer<ThemeState>(initialState, (builder) =>

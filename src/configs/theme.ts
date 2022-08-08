@@ -40,6 +40,10 @@ export const lightPalette: ExtendedPaletteOptions = {
       background: "#25273D",
       text: "white",
     },
+    swapButton: {
+      background: '#07E0E0',
+      color: '#000607'
+    }
   },
 };
 
@@ -48,7 +52,7 @@ export const darkPalette: ExtendedPaletteOptions = {
   primary: {
     main: "#E7A236",
     light: "#ffc107",
-    dark: "#FB8500",
+    dark: "#000A0D",
   },
   secondary: {
     main: "#25273d",
@@ -59,7 +63,7 @@ export const darkPalette: ExtendedPaletteOptions = {
   },
   text: {
     primary: "#FFFFFF",
-    secondary: "rgba(255, 255, 255, 0.7)",
+    secondary: "#B9B9B9",
     disabled: "rgba(255, 255, 255, 0.5)",
   },
   // error: {},
@@ -72,11 +76,24 @@ export const darkPalette: ExtendedPaletteOptions = {
       background: "white",
       text: "black",
     },
+    swapButton: {
+      background: '#07E0E0',
+      color: '#000607'
+    }
   },
 };
 
 const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions => {
   return {
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 900,
+        lg: 1200,
+        xl: 1536,
+      },
+    },
     components: {
       MuiButtonBase: {
         defaultProps: {

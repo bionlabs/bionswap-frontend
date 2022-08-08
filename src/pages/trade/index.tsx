@@ -1,23 +1,16 @@
 import { Stack } from "@mui/material";
 import dynamic from "next/dynamic";
 import React from "react";
-// import SwapView from "views/Swap";
-export const SwapView = dynamic(() => import("../../views/Swap"), {
-  ssr: false,
-});
+import Trade from "views/Trade";
 
 type Props = {};
 
-const Swap = (props: Props) => {
+const TradePage = (props: Props) => {
   return (
-    <Stack
-      sx={{
-        minHeight: "100vh",
-      }}
-    >
-      <SwapView />
-    </Stack>
+    <>
+      <Trade />
+    </>
   );
 };
 
-export default Swap;
+export default TradePage;

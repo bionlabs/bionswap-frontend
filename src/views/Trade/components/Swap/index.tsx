@@ -422,12 +422,14 @@ const Swap = ({}: SwapProps) => {
         onClick={onClick}
         fullWidth
         sx={{
-          backgroundColor: "extra.button.background",
-          height: 50,
-          borderRadius: "50px",
-          "&:hover": {
-            backgroundColor: "extra.button.background",
-          },
+          backgroundColor: "extra.swapButton.background",
+          color: "extra.swapButton.color",
+          marginTop: '22px',
+          fontWeight: '500',
+          fontSize: '14px',
+          lineHeight: '175%',
+          padding: '10px',
+          borderRadius: '4px',
         }}
       >
         <Typography fontWeight={600} fontSize={14} sx={{ color: "extra.button.text" }}>
@@ -463,14 +465,15 @@ const Swap = ({}: SwapProps) => {
           boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)",
           p: "18px",
           borderRadius: "8px",
+          backgroundColor: '#000607'
         }}
       >
-        <Stack direction="row" justifyContent="space-between" height={50}>
+        {/* <Stack direction="row" justifyContent="space-between" height={50}>
           <Typography fontWeight={600} fontSize={16} color="#5B6469">
             Swap Token
           </Typography>
-        </Stack>
-        <Divider sx={{ mb: 2 }} />
+        </Stack> */}
+        {/* <Divider sx={{ mb: 2 }} /> */}
         <CurrencyInputPanel
           value={formattedAmounts[Field.INPUT]}
           currency={currencies[Field.INPUT]}
@@ -479,11 +482,11 @@ const Swap = ({}: SwapProps) => {
           otherCurrency={currencies[Field.OUTPUT]}
         />
 
-        <Box sx={{ mt: 4 }}>
+        {/* <Box sx={{ mt: 4 }}>
           <SelectAmountInput percents={[25, 50, 75, 100]} onSelect={handleSelectAmountPercentInput} />
-        </Box>
+        </Box> */}
 
-        <Stack direction="row" mt={1}>
+        <Stack direction="row" mt={2} mb={2}>
           <Button
             sx={{
               borderRadius: "50%",
@@ -494,7 +497,8 @@ const Swap = ({}: SwapProps) => {
             }}
             onClick={onSwitchTokens}
           >
-            <ArrowDownwardIcon sx={{ fontSize: 15, color: "text.secondary" }} />
+            {/* <ArrowDownwardIcon sx={{ fontSize: 15, color: "text.secondary" }} /> */}
+            <img src='/images/trade/swap_icon.png' alt="swap_icon" />
           </Button>
         </Stack>
 
@@ -505,11 +509,13 @@ const Swap = ({}: SwapProps) => {
           onCurrencySelect={handleOutputSelect}
           otherCurrency={currencies[Field.INPUT]}
         />
-        <Divider sx={{ mt: 4, mb: 1 }} />
-        {trade && <TradePrice price={trade?.executionPrice} />}
+        {/* <Divider sx={{ mt: 4, mb: 1 }} /> */}
+        <Box mt='22px'>
+          {trade && <TradePrice price={trade?.executionPrice} />}
+        </Box>
         {SwapButton}
       </Box>
-      <Box
+      {/* <Box
         sx={{
           border: "1px solid #F2F3F3",
           borderRadius: "8px",
@@ -518,7 +524,7 @@ const Swap = ({}: SwapProps) => {
         }}
       >
         <SwapDetail trade={trade} />
-      </Box>
+      </Box> */}
       <ConfirmSwapModal
         open={showConfirm}
         trade={trade}
