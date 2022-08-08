@@ -4,14 +4,12 @@ import { ApprovalState, useApproveCallbackFromTrade } from "hooks/useApproveCall
 import { confirmPriceImpactWithoutFee, warningSeverity } from "utils/prices";
 import { computeFiatValuePriceImpact } from "utils/trade";
 
-import { Box, Button, Divider, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import { CurrencyInputPanel } from "components";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import {
   useAccount,
   useAllTokens,
   useCurrency,
-  useCurrencyBalance,
   useEnsAddress,
   useIsSwapUnsupported,
   useSwapCallback,
@@ -19,16 +17,14 @@ import {
   useWrapCallback,
 } from "hooks";
 import { WrapType } from "hooks/useWrapCallback";
+import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Field } from "state/swap/actions";
 import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from "state/swap/hooks";
 import { useExpertModeManager } from "state/user/hooks";
-import SwapDetail from "../SwapDetail";
-import SelectAmountInput from "../SelectAmountInput";
 import { maxAmountSpend } from "utils/currencies";
-import TradePrice from "../TradePrice";
 import ConfirmSwapModal from "../ConfirmSwapModal";
-import Image from "next/image"
+import TradePrice from "../TradePrice";
 
 type SwapProps = {};
 
@@ -425,12 +421,12 @@ const Swap = ({}: SwapProps) => {
         sx={{
           backgroundColor: "extra.swapButton.background",
           color: "extra.swapButton.color",
-          marginTop: '22px',
-          fontWeight: '500',
-          fontSize: '14px',
-          lineHeight: '175%',
-          padding: '10px',
-          borderRadius: '4px',
+          marginTop: "22px",
+          fontWeight: "500",
+          fontSize: "14px",
+          lineHeight: "175%",
+          padding: "10px",
+          borderRadius: "4px",
         }}
       >
         <Typography fontWeight={600} fontSize={14} sx={{ color: "extra.button.text" }}>
@@ -466,7 +462,7 @@ const Swap = ({}: SwapProps) => {
           boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)",
           p: "18px",
           borderRadius: "8px",
-          backgroundColor: '#000607'
+          backgroundColor: "#000607",
         }}
       >
         {/* <Stack direction="row" justifyContent="space-between" height={50}>
@@ -500,7 +496,7 @@ const Swap = ({}: SwapProps) => {
             onClick={onSwitchTokens}
           >
             {/* <ArrowDownwardIcon sx={{ fontSize: 15, color: "text.secondary" }} /> */}
-            <Image src='/images/trade/swap_icon.png' alt="swap_icon" width={35} height={35} />
+            <Image src="/images/trade/swap_icon.png" alt="swap_icon" width={35} height={35} />
           </Button>
         </Stack>
 
@@ -512,9 +508,7 @@ const Swap = ({}: SwapProps) => {
           otherCurrency={currencies[Field.INPUT]}
         />
         {/* <Divider sx={{ mt: 4, mb: 1 }} /> */}
-        <Box mt='22px'>
-          {trade && <TradePrice price={trade?.executionPrice} />}
-        </Box>
+        <Box mt="22px">{trade && <TradePrice price={trade?.executionPrice} />}</Box>
         {SwapButton}
       </Box>
       {/* <Box
