@@ -2,6 +2,7 @@ import { Currency, Price } from "@bionswap/core-sdk";
 import { Button, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
 import SyncAltIcon from "@mui/icons-material/SyncAlt";
+import Image from "next/image"
 
 type Props = {
   price?: Price<Currency, Currency>;
@@ -32,7 +33,7 @@ const TradePrice = ({ price }: Props) => {
           {`1 ${label} = ${formattedPrice} ${labelInverted}`}
         </Typography>
         
-        <img src='/images/trade/swap_horizontal_circle.png' alt="swap_horizontal_circle" />
+        <Image src='/images/trade/swap_horizontal_circle.png' alt="swap_horizontal_circle" width={21} height={20} />
         {/* <SyncAltIcon sx={{ fontSize: 15 }} /> */}
       </Button>
     </Stack>
