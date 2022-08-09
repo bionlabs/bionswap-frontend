@@ -3,6 +3,73 @@
   src: url('/fonts/grifterbold.otf');
 }
 
+@font-face {
+  font-family: 'SamsungSharpSans';
+  src: url('/fonts/SamsungSharpSans/SamsungSharpSans.eot');
+  src: url('/fonts/SamsungSharpSans/SamsungSharpSans.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/SamsungSharpSans/SamsungSharpSans.svg#SamsungSharpSans') format('svg'),
+       url('/fonts/SamsungSharpSans/SamsungSharpSans.ttf') format('truetype'),
+       url('/fonts/SamsungSharpSans/SamsungSharpSans.woff') format('woff'),
+       url('/fonts/SamsungSharpSans/SamsungSharpSans.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SamsungSharpSans-Bold';
+  src: url('/fonts/SamsungSharpSansBold/SamsungSharpSans-Bold.eot');
+  src: url('/fonts/SamsungSharpSansBold/SamsungSharpSans-Bold.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/SamsungSharpSansBold/SamsungSharpSans-Bold.svg#SamsungSharpSans-Bold') format('svg'),
+       url('/fonts/SamsungSharpSansBold/SamsungSharpSans-Bold.ttf') format('truetype'),
+       url('/fonts/SamsungSharpSansBold/SamsungSharpSans-Bold.woff') format('woff'),
+       url('/fonts/SamsungSharpSansBold/SamsungSharpSans-Bold.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SamsungSharpSans-Medium';
+  src: url('/fonts/SamsungSharpSansMedium/SamsungSharpSans-Medium.eot');
+  src: url('/fonts/SamsungSharpSansMedium/SamsungSharpSans-Medium.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/SamsungSharpSansMedium/SamsungSharpSans-Medium.svg#SamsungSharpSans-Medium') format('svg'),
+       url('/fonts/SamsungSharpSansMedium/SamsungSharpSans-Medium.ttf') format('truetype'),
+       url('/fonts/SamsungSharpSansMedium/SamsungSharpSans-Medium.woff') format('woff'),
+       url('/fonts/SamsungSharpSansMedium/SamsungSharpSans-Medium.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AnonymousPro-Regular';
+  src: url('/fonts/AnonymousPro/AnonymousPro-Regular.eot');
+  src: url('/fonts/AnonymousPro/AnonymousPro-Regular.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/AnonymousPro/AnonymousPro-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AnonymousPro';
+  src: url('/fonts/AnonymousPro/AnonymousPro.svg#AnonymousPro') format('svg'),
+       url('/fonts/AnonymousPro/AnonymousPro.ttf') format('truetype'),
+       url('/fonts/AnonymousPro/AnonymousPro.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AnonymousPro-Bold';
+  src: url('/fonts/AnonymousProBold/AnonymousPro-Bold.eot');
+  src: url('/fonts/AnonymousProBold/AnonymousPro-Bold.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/AnonymousProBold/AnonymousPro-Bold.svg#AnonymousPro-Bold') format('svg'),
+       url('/fonts/AnonymousProBold/AnonymousPro-Bold.ttf') format('truetype'),
+       url('/fonts/AnonymousProBold/AnonymousPro-Bold.woff') format('woff'),
+       url('/fonts/AnonymousProBold/AnonymousPro-Bold.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 html,
 body {
   padding: 0;
