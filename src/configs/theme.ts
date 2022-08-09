@@ -43,6 +43,15 @@ export const lightPalette: ExtendedPaletteOptions = {
     swapButton: {
       background: '#07E0E0',
       color: '#000607'
+    },
+    header: {
+      background: '#ffffff',
+      color: '#787A9B',
+      colorActive: '#0b0b0b'
+    },
+    input: {
+      background: '#FFFFFF',
+      color: "#000000"
     }
   },
 };
@@ -79,6 +88,15 @@ export const darkPalette: ExtendedPaletteOptions = {
     swapButton: {
       background: '#07E0E0',
       color: '#000607'
+    },
+    header: {
+      background: '#081319',
+      color: '#A8B0B9',
+      colorActive: '#F8F9F9'
+    },
+    input: {
+      background: '#001519',
+      color: "#F8F9F9"
     }
   },
 };
