@@ -23,11 +23,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Field } from "state/swap/actions";
 import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from "state/swap/hooks";
 import { useExpertModeManager } from "state/user/hooks";
-import SwapDetail from "./components/SwapDetail";
-import SelectAmountInput from "./components/SelectAmountInput";
+import SwapDetail from "../SwapDetail";
+import SelectAmountInput from "../SelectAmountInput";
 import { maxAmountSpend } from "utils/currencies";
-import TradePrice from "./components/TradePrice";
-import ConfirmSwapModal from "./components/ConfirmSwapModal";
+import TradePrice from "../TradePrice";
+import ConfirmSwapModal from "../ConfirmSwapModal";
+import Image from "next/image"
 
 type SwapProps = {};
 
@@ -480,6 +481,7 @@ const Swap = ({}: SwapProps) => {
           onUserInput={handleTypeInput}
           onCurrencySelect={handleInputSelect}
           otherCurrency={currencies[Field.OUTPUT]}
+          isMax={true}
         />
 
         {/* <Box sx={{ mt: 4 }}>
@@ -498,7 +500,7 @@ const Swap = ({}: SwapProps) => {
             onClick={onSwitchTokens}
           >
             {/* <ArrowDownwardIcon sx={{ fontSize: 15, color: "text.secondary" }} /> */}
-            <img src='/images/trade/swap_icon.png' alt="swap_icon" />
+            <Image src='/images/trade/swap_icon.png' alt="swap_icon" width={35} height={35} />
           </Button>
         </Stack>
 
