@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import Datafeed from "./datafeed";
+import { useCallback, useEffect, useRef } from "react";
+import Datafeed from "./Datafeed";
 
 type TradingViewChartProps = {
   widgetProps?:
@@ -33,6 +33,7 @@ const initialWidgetProps: TradingViewChartProps["widgetProps"] = {
     "paneProperties.vertGridProperties.color": "rgba(42, 46, 57, 1)",
     "paneProperties.horzGridProperties.color": "rgba(42, 46, 57, 1)",
     "scalesProperties.lineColor": "rgba(120, 123, 134, 1)",
+    "scalesProperties.textColor": "rgba(209, 212, 220, 1)",
   },
   loading_screen: {
     backgroundColor: "transparent",
@@ -43,14 +44,16 @@ function getLocalLanguage() {
   return navigator.language.split("-")[0] || "en";
 }
 
+const datafeedInstance = new Datafeed({ debug: false });
+
 const TradingViewChart = ({ widgetProps = initialWidgetProps, pairSymbol }: TradingViewChartProps) => {
   // const [isReady, setIsReady] = useState(false);
-  const datafeed = useRef(new Datafeed({ debug: false }));
+  const datafeed = useRef(datafeedInstance);
   const widgetOptions = useRef({
     container_id: "chart_container",
     datafeed: datafeed.current,
     library_path: "/scripts/charting_library/",
-    disabled_features: ["timeframes_toolbar", "header_undo_redo"],
+    disabled_features: ["timeframes_toolbar", "header_undo_redo", "header_symbol_search", "header_compare"],
     ...widgetProps,
   });
   const tradingViewWidget = useRef<any>(null);

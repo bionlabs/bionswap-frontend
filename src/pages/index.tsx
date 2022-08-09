@@ -12,7 +12,6 @@ const Home: NextPage = () => {
         <meta name="description" content="Demo app part of a tutorial on adding RainbowKit to a React application" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Script src="/scripts/charting_library/charting_library.js"></Script>
 
       <div>
         <Homepage />
