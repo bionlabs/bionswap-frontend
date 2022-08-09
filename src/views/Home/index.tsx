@@ -2,9 +2,9 @@ import React from 'react'
 import {
     Box,
     Container,
+    styled,
     useMediaQuery
 } from '@mui/material'
-import styled from '@emotion/styled'
 import HeroSection from './Sections/Hero/HeroSection'
 import UpcommingProjectSection from './Sections/UpcommingProject/UpcommingProjectSection'
 import OurProjectsSection from './Sections/OurProjects/OurProjectsSection'
@@ -24,6 +24,8 @@ const Homepage = () => {
 
 const Page = styled(Box)`
     min-height: 100vh;
+    background-color: ${prop => prop.theme.palette.background.default};
+    color: ${prop => prop.theme.palette.text.primary}
 `
 
 
