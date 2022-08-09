@@ -23,7 +23,7 @@ const HeroSection = ({isMobile}:MobileProp) => {
                 </Box>
                 <Box className='specialFont' sx={{
                     fontSize: isMobile ? '40px' : '62px',
-                    maxWidth: '600px'
+                    maxWidth: isMobile ? '100%' : '600px'
                 }}>
                     Own new token with <br/>low risk entrance
                 </Box>
@@ -31,11 +31,11 @@ const HeroSection = ({isMobile}:MobileProp) => {
                     Trade now
                 </CTAButton>
             </FlexBox>
-            <Box>
-                <img src="images/home/herocard.png" alt="" width='100%' />
-            </Box>
+            {/* <FlexBox justifyContent='center' >
+                <img src="images/home/pill.png" alt="" width='258px' />
+            </FlexBox> */}
         </StyledContained>
-        <ConstructSection maxWidth='xl'>
+        {/* <ConstructSection maxWidth='xl'>
             <Box color='#787A9B' fontSize='20px' mb='40px'>
                 Who is constructing with BionSwap?
             </Box>
@@ -54,8 +54,8 @@ const HeroSection = ({isMobile}:MobileProp) => {
                 <img src="images/home/construct6.png" alt="" width='120px' />
                 <img src="images/home/construct7.png" alt="" width='120px' />
             </Container>
-        </ConstructSection>
-        <Container>
+        </ConstructSection> */}
+        {/* <Container>
             <NumberSection sx={{
                 marginTop:'40px',
                 flexDirection: isMobile ? 'column' : 'row',
@@ -82,20 +82,19 @@ const HeroSection = ({isMobile}:MobileProp) => {
                     <Box>Media Coverage</Box>
                 </NumberBox>
             </NumberSection>
-        </Container>
+        </Container> */}
     </Wrapper>
   )
 }
 
 const Wrapper = styled(Box)`
     width: 100%;
-    // background: url('/images/home/section01.png');
-    // background-repeat: no-repeat;
-    // background-size: 100% 100%;
-    // background-position: center;
-    min-height: 100vh;
-    padding-top: 8vh;
-    padding-bottom: 8vh;
+    background: url('/images/home/section01.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: calc(100vh - 78px);
+    padding: 8rem 0;
     display: flex;
     flex-direction: column;
     gap: 60px;

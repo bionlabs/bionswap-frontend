@@ -90,7 +90,7 @@ const Menu = ({ children }: any) => {
     return (
         <>
             <MenuContainer>
-                <StyledContained maxWidth='xl'>
+                <StyledContained>
                     <FlexBox alignItems='center' gap='60px'>
                         <Box component="a" href='/'>
                             <img src='/logo.svg' alt='BionDex' width='auto' />
@@ -164,8 +164,10 @@ const MenuContainer = styled(Box)`
     background-color: ${props => (props.theme.palette as any).extra.header.background};
     border-bottom: 1px solid ${props => (props.theme.palette as any).extra.border.color};
 `
-const StyledContained = styled(Container)`
+const StyledContained = styled(Box)`
+    padding: 0 16px;
     display: flex;
+    width: 100%;
     min-height: 78px;
     align-items: center;
     justify-content: space-between;
