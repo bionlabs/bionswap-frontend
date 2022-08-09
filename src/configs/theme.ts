@@ -59,7 +59,7 @@ export const lightPalette: ExtendedPaletteOptions = {
 export const darkPalette: ExtendedPaletteOptions = {
   mode: "dark",
   primary: {
-    main: "#E7A236",
+    main: "#07E0E0",
     light: "#ffc107",
     dark: "#000A0D",
   },
@@ -67,7 +67,7 @@ export const darkPalette: ExtendedPaletteOptions = {
     main: "#25273d",
   },
   background: {
-    default: "#303030",
+    default: "#000A0D",
     paper: "#424242",
   },
   text: {
@@ -97,6 +97,9 @@ export const darkPalette: ExtendedPaletteOptions = {
     input: {
       background: '#001519',
       color: "#F8F9F9"
+    },
+    border: {
+      color: '#424242'
     }
   },
 };
@@ -115,7 +118,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
     components: {
       MuiButtonBase: {
         defaultProps: {
-          disableRipple: true,
+          disableRipple: false,
         },
       },
       MuiButton: {
@@ -126,9 +129,9 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
           root: {
             textTransform: "none",
             boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-            "&:hover": {
-              transform: "matrix(1.025, 0, 0, 1.025, 0, 0)",
-            },
+            // "&:hover": {
+            //   transform: "matrix(1.025, 0, 0, 1.025, 0, 0)",
+            // },
           },
         },
       },

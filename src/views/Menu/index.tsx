@@ -6,9 +6,9 @@ import {
     Container,
     Drawer,
     IconButton,
-    useMediaQuery
+    useMediaQuery,
+    styled
 } from '@mui/material'
-import styled from '@emotion/styled'
 import {HiMenu , HiX} from 'react-icons/hi'
 import { menuConfig } from 'configs/menu/config'
 import { useRouter } from 'next/router'
@@ -161,7 +161,8 @@ const MenuContainer = styled(Box)`
     position: relative;
     z-index: 1100;
     width: 100%;
-    background-color: ${props => props.theme.palette.extra.header.background};
+    background-color: ${props => (props.theme.palette as any).extra.header.background};
+    border-bottom: 1px solid ${props => (props.theme.palette as any).extra.border.color};
 `
 const StyledContained = styled(Container)`
     display: flex;
