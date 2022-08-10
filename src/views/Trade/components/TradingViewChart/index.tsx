@@ -75,7 +75,7 @@ const TradingViewChart = ({ widgetProps = initialWidgetProps, pairSymbol }: Trad
     chartReady();
   }, [chartReady, pairSymbol]);
 
-  return <Box sx={{ width: "1000px", height: "100vh" }} id="chart_container"></Box>;
+  return <Box sx={{ width: "100%", height: "70vh", borderRadius: "8px", overflow: "hidden" }} id="chart_container"></Box>;
 };
 
 export default TradingViewChart;
