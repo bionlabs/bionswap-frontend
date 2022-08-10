@@ -212,14 +212,22 @@ export default instance;
 
 export function usePairSupportedChart(pairSymbol: string) {
   const [supportedSymbols, setSupportedSymbols] = useState(instance.symbols);
+  const symbols: [string, string] = useMemo(() => {
+    const parsed = pairSymbol.split(":");
+
+    return [`${parsed[0]}${parsed[1]}`, `${parsed[1]}${parsed[0]}`];
+  }, [pairSymbol]);
 
   useEffect(() => {
     if (supportedSymbols.length === 0) {
-      instance.fetchAndInitSymbols().then((symbols) => setSupportedSymbols(symbols));
+      instance.fetchAndInitSymbols().then((s) => setSupportedSymbols(s));
     }
   }, [supportedSymbols]);
 
-  const isSupported = useMemo(() => supportedSymbols.some((s) => s.symbol === pairSymbol), [pairSymbol, supportedSymbols]);
+  const supportedPair = useMemo(() => {
+    return supportedSymbols.filter((supported) => supported.symbol === symbols[0] || supported.symbol === symbols[1])[0]
+      ?.symbol;
+  }, [supportedSymbols, symbols]);
 
-  return isSupported;
+  return supportedPair;
 }

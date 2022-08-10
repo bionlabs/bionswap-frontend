@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef } from "react";
 import Datafeed, { usePairSupportedChart } from "./Datafeed";
 
 type TradingViewChartProps = {
@@ -36,6 +36,7 @@ const initialWidgetProps: TradingViewChartProps["widgetProps"] = {
     "scalesProperties.lineColor": "rgba(0, 0, 0, 0.12)",
     "scalesProperties.textColor": "rgba(178, 181, 190, 1)",
   },
+  toolbar_bg: "black",
   loading_screen: {
     backgroundColor: "transparent",
   },
@@ -45,18 +46,36 @@ function getLocalLanguage() {
   return navigator.language.split("-")[0] || "en";
 }
 
-const TradingViewChart = ({ widgetProps = initialWidgetProps, pairSymbol }: TradingViewChartProps) => {
+const TradingViewChart = ({ widgetProps, pairSymbol }: TradingViewChartProps) => {
   // const [isReady, setIsReady] = useState(false);
-  const isPairSupportedChart = usePairSupportedChart(pairSymbol);
+  const supportedPairSymbol = usePairSupportedChart(pairSymbol);
 
   const datafeed = useRef(Datafeed);
-  const widgetOptions = useRef({
-    container_id: "chart_container",
-    datafeed: datafeed.current,
-    library_path: "/scripts/charting_library/",
-    disabled_features: ["header_undo_redo", "header_symbol_search", "header_compare"],
-    ...widgetProps,
-  });
+  const widgetOptions = useMemo(
+    () => ({
+      container_id: "chart_container",
+      datafeed: datafeed.current,
+      library_path: "/scripts/charting_library/",
+      disabled_features: [
+        "header_undo_redo",
+        "header_symbol_search",
+        "header_fullscreen_button",
+        "header_compare",
+        "header_saveload",
+        "drawing_templates",
+      ],
+      enabled_features: [
+        "study_templates",
+        "create_volume_indicator_by_default",
+        "save_chart_properties_to_local_storage",
+        "use_localstorage_for_settings",
+      ],
+      ...initialWidgetProps,
+      ...widgetProps,
+    }),
+    [widgetProps]
+  );
+
   const tradingViewWidget = useRef<any>(null);
   const chartObject = useRef<any>(null);
 
@@ -64,26 +83,38 @@ const TradingViewChart = ({ widgetProps = initialWidgetProps, pairSymbol }: Trad
     if (!tradingViewWidget.current) return;
     tradingViewWidget.current.onChartReady(() => {
       chartObject.current = tradingViewWidget.current.activeChart();
+      tradingViewWidget.current.applyOverrides(widgetOptions.overrides);
     });
-  }, []);
+  }, [widgetOptions.overrides]);
 
   useEffect(() => {
-    if (isPairSupportedChart) {
+    if (supportedPairSymbol) {
+      if (tradingViewWidget.current) tradingViewWidget.current.remove();
       tradingViewWidget.current = (window as any).tvWidget = new (window as any).TradingView.widget({
-        ...widgetOptions.current,
-        symbol: pairSymbol,
+        ...widgetOptions,
+        symbol: supportedPairSymbol,
       });
+
       chartReady();
     }
-  }, [chartReady, isPairSupportedChart, pairSymbol]);
+  }, [chartReady, supportedPairSymbol, widgetOptions]);
 
   return (
     <>
-      {isPairSupportedChart && (
-        <Box sx={{ width: "100%", height: "70vh", borderRadius: "8px", overflow: "hidden" }} id="chart_container"></Box>
+      {supportedPairSymbol && (
+        <Box
+          sx={{
+            width: "100%",
+            height: "70vh",
+            borderRadius: "8px",
+            overflow: "hidden",
+            border: "1px solid rgb(28, 28, 28)",
+          }}
+          id="chart_container"
+        ></Box>
       )}
     </>
   );
 };
 
-export default TradingViewChart;
+export default memo(TradingViewChart);
