@@ -13,11 +13,6 @@ import { WagmiConfig } from "wagmi";
 import "../../styles/globals.css";
 import { client } from "../configs/chain";
 
-// console.log(
-//   "🚀 ~ file: _app.tsx ~ line 14 ~ client",
-//   (client?.config?.provider as any)?.({ chainId: 56 })
-// );
-
 type StyledThemeProviderProps = {
   children: React.ReactElement;
 };

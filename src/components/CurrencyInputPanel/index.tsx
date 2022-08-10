@@ -4,6 +4,7 @@ import {
   Button,
   InputAdornment,
   Stack,
+  styled,
   TextField,
   Typography,
 } from "@mui/material";
@@ -21,6 +22,7 @@ type Props = {
   onCurrencySelect?: (currency: Currency) => void;
   currency?: Currency;
   otherCurrency?: Currency;
+  isMax?: boolean;
 };
 
 const CurrencyInputPanel = ({
@@ -30,6 +32,7 @@ const CurrencyInputPanel = ({
   onCurrencySelect,
   currency,
   otherCurrency,
+  isMax = false,
 }: Props) => {
   const { address: account } = useAccount();
   const currencyBalance = useCurrencyBalance(account, currency);
@@ -45,44 +48,28 @@ const CurrencyInputPanel = ({
     [onCurrencySelect]
   );
 
+  const handleMaxBalance = () => {
+    onUserInput(currencyBalance?.toFixed(2)?.toString() || "")
+  }
+
   const handleCloseSearchModal = useCallback(() => {
     setSearchModalOpen(false);
   }, []);
 
   return (
-    <Box>
+    <WrapCurrencyInputPanel>
       <Stack>
-        <Stack direction="row" justifyContent="space-between" width={"100%"}>
-          <Button
-            onClick={() => setSearchModalOpen(true)}
-            sx={{
-              boxShadow: "none",
-              justifyContent: "space-between",
-            }}
-            endIcon={
-              <ArrowDropDownIcon
-                sx={{
-                  color: "text.secondary",
-                }}
-              />
-            }
-          >
-            <Stack direction="row">
-              <CurrencyLogo currency={currency} size={20} />
-              <Typography
-                sx={{
-                  ml: 1,
-                  fontWeight: 500,
-                  fontSize: 16,
-                }}
-              >
-                {currency?.symbol}
-              </Typography>
-            </Stack>
-          </Button>
+        <Stack direction="row" justifyContent={isMax ? 'space-between' : 'end'} width={"100%"} mb='15px'>
+          {
+            isMax
+            &&
+            <MaxButton onClick={handleMaxBalance}>
+              Max
+            </MaxButton>
+          }
 
           <Typography
-            sx={{ color: "text.secondary", fontWeight: 500, fontSize: 14 }}
+            sx={{ color: "#7A858C", fontWeight: 400, fontSize: 12, lineHeight: "12px", fontFamily: "'Poppins', sans-serif" }}
           >
             Balance: {`${currencyBalance?.toFixed(2) || 0}`}
           </Typography>
@@ -98,22 +85,53 @@ const CurrencyInputPanel = ({
             onInputBlur?.();
           }}
           sx={{
-            width: 350,
+            backgroundColor: 'transparent',
+
             "& .MuiInputBase-input": {
               fontWeight: "500",
-              fontSize: 28,
+              fontSize: '24px',
+              lineHeight: '16px',
+              padding: '0'
             },
             borderRadius: 1,
-            backgroundColor: "rgb(247, 248, 250)",
-            px: 2,
           }}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end">
-                <Typography color={"text.secondary"} fontSize={14}>{`~$${
-                  usdValue?.toFixed(2) || 0
-                }`}</Typography>
-              </InputAdornment>
+              // <InputAdornment position="end">
+              //   <Typography color={"text.secondary"} fontSize={14}>{`~$${
+              //     usdValue?.toFixed(2) || 0
+              //   }`}</Typography>
+              // </InputAdornment>
+              <Button
+                onClick={() => setSearchModalOpen(true)}
+                sx={{
+                  boxShadow: "none",
+                  justifyContent: "space-between",
+                  minWidth: 'auto',
+                  background: '#202124',
+                  padding: '7px 10px'
+                }}
+                endIcon={
+                  <ArrowDropDownIcon
+                    sx={{
+                      color: "text.secondary",
+                    }}
+                  />
+                }
+              >
+                <Stack direction="row">
+                  <CurrencyLogo currency={currency} size={20} />
+                  <Typography
+                    sx={{
+                      ml: 1,
+                      fontWeight: 500,
+                      fontSize: 16,
+                    }}
+                  >
+                    {currency?.symbol}
+                  </Typography>
+                </Stack>
+              </Button>
             ),
             disableUnderline: true,
           }}
@@ -124,8 +142,28 @@ const CurrencyInputPanel = ({
           onCurrencySelect={handleCurrencySelect}
         />
       </Stack>
-    </Box>
+    </WrapCurrencyInputPanel>
   );
 };
+
+const WrapCurrencyInputPanel = styled(Box)`
+  border-radius: 8px;
+  background: #121315;
+  padding: 15px;
+`
+const MaxButton = styled(Button)`
+  color: #07E0E0;
+  text-align: center;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  font-family: 'Poppins', sans-serif;
+  background: rgba(141, 241, 250, 0.05);
+  border: 1px solid rgba(141, 241, 250, 0.5);
+  border-radius: 8px;
+  max-width: 60px;
+  width: 100%;
+  padding: 1px;
+`
 
 export default CurrencyInputPanel;

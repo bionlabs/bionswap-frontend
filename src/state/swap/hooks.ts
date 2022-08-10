@@ -7,6 +7,8 @@ import {
   SUSHI_ADDRESS,
   ChainId,
   WNATIVE_ADDRESS,
+  USDC_ADDRESS,
+  USD,
 } from "@bionswap/core-sdk";
 import {
   useAccount,
@@ -21,21 +23,9 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { AppState, useAppDispatch, useAppSelector } from "state";
 import { tryParseAmount } from "utils/parse";
-import {
-  Field,
-  replaceSwapState,
-  selectCurrency,
-  switchCurrencies,
-  typeInput,
-} from "./actions";
-import {
-  useV2TradeExactIn as useTradeExactIn,
-  useV2TradeExactOut as useTradeExactOut,
-} from "hooks";
-import {
-  useExpertModeManager,
-  useUserSlippageTolerance,
-} from "state/user/hooks";
+import { Field, replaceSwapState, selectCurrency, switchCurrencies, typeInput } from "./actions";
+import { useV2TradeExactIn as useTradeExactIn, useV2TradeExactOut as useTradeExactOut } from "hooks";
+import { useExpertModeManager, useUserSlippageTolerance } from "state/user/hooks";
 import { ParsedQs } from "qs";
 import { SwapState } from "./reducer";
 import { isAddress } from "utils/validate";
@@ -50,31 +40,20 @@ export function useSwapState(): AppState["swap"] {
  * @param trade to check for the given address
  * @param checksummedAddress address to check in the pairs and tokens
  */
-function involvesAddress(
-  trade: V2Trade<Currency, Currency, TradeType>,
-  checksummedAddress: string
-): boolean {
+function involvesAddress(trade: V2Trade<Currency, Currency, TradeType>, checksummedAddress: string): boolean {
   const path = trade.route.path;
   return (
     path.some((token) => token.address === checksummedAddress) ||
-    (trade instanceof V2Trade
-      ? trade.route.pairs.some(
-          (pair) => pair.liquidityToken.address === checksummedAddress
-        )
-      : false)
+    (trade instanceof V2Trade ? trade.route.pairs.some((pair) => pair.liquidityToken.address === checksummedAddress) : false)
   );
 }
 
 function parseTokenAmountURLParameter(urlParam: any): string {
-  return typeof urlParam === "string" && !isNaN(parseFloat(urlParam))
-    ? urlParam
-    : "";
+  return typeof urlParam === "string" && !isNaN(parseFloat(urlParam)) ? urlParam : "";
 }
 
 function parseIndependentFieldURLParameter(urlParam: any): Field {
-  return typeof urlParam === "string" && urlParam.toLowerCase() === "output"
-    ? Field.OUTPUT
-    : Field.INPUT;
+  return typeof urlParam === "string" && urlParam.toLowerCase() === "output" ? Field.OUTPUT : Field.INPUT;
 }
 
 function parseCurrencyFromURLParameter(urlParam: any): string {
@@ -86,8 +65,7 @@ function parseCurrencyFromURLParameter(urlParam: any): string {
   return "";
 }
 
-const ENS_NAME_REGEX =
-  /^[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)?$/;
+const ENS_NAME_REGEX = /^[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)?$/;
 const ADDRESS_REGEX = /^0x[a-fA-F0-9]{40}$/;
 function validatedRecipient(recipient: any): string | undefined {
   if (typeof recipient !== "string") return undefined;
@@ -110,8 +88,7 @@ export function useSwapActionHandlers(): {
 
   const inputCurrencyId = router.query.inputCurrency || "ETH";
   const outputCurrencyId =
-    router.query.outputCurrency ||
-    (chainId && chainId in SUSHI_ADDRESS ? SUSHI_ADDRESS[chainId] : undefined);
+    router.query.outputCurrency || (chainId && chainId in SUSHI_ADDRESS ? SUSHI_ADDRESS[chainId] : undefined);
 
   // adjust query parameters when user manually selects another currency
   const onCurrencySelection = useCallback(
@@ -287,28 +264,17 @@ export function useDerivedSwapInfo(): {
 
   const isExactIn: boolean = independentField === Field.INPUT;
 
-  const parsedAmount = tryParseAmount(
-    typedValue,
-    (isExactIn ? inputCurrency : outputCurrency) ?? undefined
-  );
+  const parsedAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined);
 
-  const bestTradeExactIn = useTradeExactIn(
-    isExactIn ? parsedAmount : undefined,
-    outputCurrency ?? undefined,
-    {
-      // maxHops: singleHopOnly ? 1 : undefined,
-      maxHops: undefined,
-    }
-  );
+  const bestTradeExactIn = useTradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined, {
+    // maxHops: singleHopOnly ? 1 : undefined,
+    maxHops: undefined,
+  });
 
-  const bestTradeExactOut = useTradeExactOut(
-    inputCurrency ?? undefined,
-    !isExactIn ? parsedAmount : undefined,
-    {
-      // maxHops: singleHopOnly ? 1 : undefined,
-      maxHops: undefined,
-    }
-  );
+  const bestTradeExactOut = useTradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined, {
+    // maxHops: singleHopOnly ? 1 : undefined,
+    maxHops: undefined,
+  });
 
   const v2Trade = isExactIn ? bestTradeExactIn : bestTradeExactOut;
 
@@ -356,10 +322,7 @@ export function useDerivedSwapInfo(): {
   const allowedSlippage = useUserSlippageTolerance();
 
   // compare input balance to max input based on version
-  const [balanceIn, amountIn] = [
-    currencyBalances[Field.INPUT],
-    v2Trade?.maximumAmountIn(allowedSlippage),
-  ];
+  const [balanceIn, amountIn] = [currencyBalances[Field.INPUT], v2Trade?.maximumAmountIn(allowedSlippage)];
 
   if (balanceIn && amountIn && balanceIn.lessThan(amountIn)) {
     // inputError = i18n._(t`Insufficient Balance`);
@@ -377,21 +340,19 @@ export function useDerivedSwapInfo(): {
   };
 }
 
-export function queryParametersToSwapState(
-  parsedQs: ParsedQs,
-  chainId: ChainId = ChainId.ETHEREUM
-): SwapState {
+export function queryParametersToSwapState(parsedQs: ParsedQs, chainId: ChainId = ChainId.ETHEREUM): SwapState {
   let inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency);
   let outputCurrency = parseCurrencyFromURLParameter(parsedQs.outputCurrency);
   const eth = chainId === ChainId.CELO ? WNATIVE_ADDRESS[chainId] : "ETH";
-  const sushi = SUSHI_ADDRESS[chainId];
+  // const sushi = SUSHI_ADDRESS[chainId];
+  const stableCoin = USD[chainId].address;
   if (inputCurrency === "" && outputCurrency === "") {
     inputCurrency = eth;
-    outputCurrency = sushi;
+    outputCurrency = stableCoin;
   } else if (inputCurrency === "") {
-    inputCurrency = outputCurrency === eth ? sushi : eth;
+    inputCurrency = outputCurrency === eth ? stableCoin : eth;
   } else if (outputCurrency === "" || inputCurrency === outputCurrency) {
-    outputCurrency = inputCurrency === eth ? sushi : eth;
+    outputCurrency = inputCurrency === eth ? stableCoin : eth;
   }
 
   const recipient = validatedRecipient(parsedQs.recipient);
@@ -448,9 +409,7 @@ export function useDefaultsFromURLSearch():
     });
 
     router.replace(
-      `?inputCurrency=${parsed[Field.INPUT].currencyId}&outputCurrency=${
-        parsed[Field.OUTPUT].currencyId
-      }`,
+      `?inputCurrency=${parsed[Field.INPUT].currencyId}&outputCurrency=${parsed[Field.OUTPUT].currencyId}`,
       undefined,
       {
         shallow: true,

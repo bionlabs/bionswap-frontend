@@ -41,11 +41,11 @@ const ConnectButton = (props: Props) => {
         <ChainButton
           onClick={() => setOpenChainsModal(true)}
           variant="contained"
-          endIcon={<BsFillCaretDownFill color="#0b0b0b" />}
+          endIcon={<BsFillCaretDownFill color="#FBB03B" />}
         >
           <Stack direction="row" gap={1} alignItems="center">
             <Image
-              src={getChainIcon(chainId).iconUrl}
+              src={getChainIcon(chainId)?.iconUrl ? getChainIcon(chainId)?.iconUrl : "/"}
               layout="fixed"
               alt=""
               width={24}
@@ -67,14 +67,24 @@ const ConnectButton = (props: Props) => {
             variant="contained"
           >
             {/* <IoWallet color='#0b0b0b'/> */}
-            <Image
-              src={activeConnector ? getConnectorIcon(activeConnector.id) : "/"}
-              layout="fixed"
-              alt=""
-              width={22}
-              height={22}
-            />
-            <Box>{shortenAddress(address ?? "")}</Box>
+            <Box>
+              5 BNB
+            </Box>
+            <Box sx={{
+              display: 'flex',alignItems:'center', gap:'8px',
+              backgroundColor: '#012D44', padding: '6px 15px',
+              borderRadius: '4px'
+            }}>
+              <Box>{shortenAddress(address ?? "")}</Box>
+              <Image
+                src={activeConnector ? getConnectorIcon(activeConnector.id) : "/"}
+                layout="fixed"
+                alt=""
+                width={20}
+                height={20}
+              />
+            </Box>
+            
           </ProfileButton>
         )}
       </Stack>
@@ -100,18 +110,18 @@ const ConnectButton = (props: Props) => {
 };
 
 const ChainButton = styled(Button)`
-  border-radius: 999px;
+  border-radius: 4px;
   min-width: fit-content;
   padding: 8.5px 24px;
   box-shadow: none;
   min-height: 41px;
   text-transform: none;
   font-family: inherit;
-  font-weight: 600;
+  font-weight: 500;
+  background-color: #000B0D;
   align-items: center;
-  background-color: #f2f2f2;
-  border: none;
-  color: #0b0b0b;
+  border: 1px solid #6B4F03;
+  color: #FBB03B;
   transition: 0.15s ease-in;
   line-height: 1;
   svg {
@@ -119,25 +129,24 @@ const ChainButton = styled(Button)`
     height: 12px;
   }
   :hover {
-    box-shadow: none;
-    background-color: #f2f2f2;
-    opacity: 0.9;
-    border: none;
+    color: #FBB03B;
+    border: 1px solid #6B4F03;
+    background-color: #000B0D;
   }
 `;
 
 const ConnectWalletButton = styled(Button)`
-  border-radius: 999px;
+  border-radius: 4px;
   min-width: fit-content;
   padding: 8.5px 48px;
   box-shadow: none;
   text-transform: none;
   font-family: inherit;
-  font-weight: 600;
+  font-weight: 500;
   align-items: center;
   min-height: 41px;
-  background-color: #0b0b0b;
-  color: #fff;
+  background-color: rgba(61, 255, 255, 0.1);
+  color: #07E0E0;
   transition: 0.15s ease-in;
   line-height: 1;
   svg {
@@ -145,33 +154,31 @@ const ConnectWalletButton = styled(Button)`
     height: 20px;
   }
   :hover {
-    background-color: #0b0b0b;
-    opacity: 0.9;
+    background-color: rgba(61, 255, 255, 0.2);
     box-shadow: none;
   }
 `;
 const ProfileButton = styled(Button)`
-  border-radius: 999px;
+  border-radius: 4px;
   min-width: fit-content;
-  padding: 8.5px 28px;
+  padding: 2px 4px 2px 12px;
   box-shadow: none;
   text-transform: none;
   font-family: inherit;
-  font-weight: 600;
+  font-weight: 500;
   align-items: center;
-  min-height: 41px;
-  background-color: transparent;
-  border: 1px solid rgb(225, 227, 234);
-  color: #0b0b0b;
+  height: 43px;
+  background-color: #000;
+  color: #fff;
   transition: 0.15s ease-in;
   line-height: 1;
-  gap: 5px;
+  gap: 8px;
   svg {
     width: 20px;
     height: 20px;
   }
   :hover {
-    background-color: #f9f9f9;
+    background-color: #000;
     box-shadow: none;
   }
 `;

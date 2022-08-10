@@ -86,7 +86,7 @@ const CurrencySearchModal = ({ open, onClose, onCurrencySelect }: Props) => {
         <Stack
           sx={{
             borderRadius: 1,
-            backgroundColor: "rgb(247, 248, 250)",
+            backgroundColor: "extra.input.background",
             px: 2,
             height: 50,
             width: "100%",

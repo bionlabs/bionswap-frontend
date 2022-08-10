@@ -40,26 +40,39 @@ export const lightPalette: ExtendedPaletteOptions = {
       background: "#25273D",
       text: "white",
     },
+    swapButton: {
+      background: '#07E0E0',
+      color: '#000607'
+    },
+    header: {
+      background: '#ffffff',
+      color: '#787A9B',
+      colorActive: '#0b0b0b'
+    },
+    input: {
+      background: '#FFFFFF',
+      color: "#000000"
+    }
   },
 };
 
 export const darkPalette: ExtendedPaletteOptions = {
   mode: "dark",
   primary: {
-    main: "#E7A236",
+    main: "#07E0E0",
     light: "#ffc107",
-    dark: "#FB8500",
+    dark: "#000A0D",
   },
   secondary: {
     main: "#25273d",
   },
   background: {
-    default: "#303030",
+    default: "#000A0D",
     paper: "#424242",
   },
   text: {
     primary: "#FFFFFF",
-    secondary: "rgba(255, 255, 255, 0.7)",
+    secondary: "#B9B9B9",
     disabled: "rgba(255, 255, 255, 0.5)",
   },
   // error: {},
@@ -72,15 +85,40 @@ export const darkPalette: ExtendedPaletteOptions = {
       background: "white",
       text: "black",
     },
+    swapButton: {
+      background: '#07E0E0',
+      color: '#000607'
+    },
+    header: {
+      background: '#081319',
+      color: '#A8B0B9',
+      colorActive: '#F8F9F9'
+    },
+    input: {
+      background: '#001519',
+      color: "#F8F9F9"
+    },
+    border: {
+      color: '#424242'
+    }
   },
 };
 
 const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions => {
   return {
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 900,
+        lg: 1200,
+        xl: 1536,
+      },
+    },
     components: {
       MuiButtonBase: {
         defaultProps: {
-          disableRipple: true,
+          disableRipple: false,
         },
       },
       MuiButton: {
@@ -91,9 +129,9 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
           root: {
             textTransform: "none",
             boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-            "&:hover": {
-              transform: "matrix(1.025, 0, 0, 1.025, 0, 0)",
-            },
+            // "&:hover": {
+            //   transform: "matrix(1.025, 0, 0, 1.025, 0, 0)",
+            // },
           },
         },
       },

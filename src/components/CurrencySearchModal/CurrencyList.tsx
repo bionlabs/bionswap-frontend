@@ -94,7 +94,6 @@ const CurrencyList = ({
         width: "100%",
         borderRadius: 2,
         border: "1px solid #F2F3F3",
-        borderRightColor: "transparent",
         overflow: "hidden",
       }}
     >

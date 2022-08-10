@@ -6,9 +6,9 @@ import {
     Container,
     Drawer,
     IconButton,
-    useMediaQuery
+    useMediaQuery,
+    styled
 } from '@mui/material'
-import styled from '@emotion/styled'
 import {HiMenu , HiX} from 'react-icons/hi'
 import { menuConfig } from 'configs/menu/config'
 import { useRouter } from 'next/router'
@@ -39,7 +39,7 @@ const Menu = ({ children }: any) => {
     }
 
     const list = (anchor: Anchor) => (
-        <Box sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : '95vw' ,minHeight:'100vh'}}>
+        <Box sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : '95vw', minHeight:'100vh'}}>
           <FlexBox flexDirection='column' width='100%'>
             <FlexBox justifyContent='end' p='16px'>
                 <IconButton onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
@@ -57,7 +57,7 @@ const Menu = ({ children }: any) => {
                             component="a"
                             href={item.href}
                             sx={{
-                                color: "#0C1116",
+                                color: "extra.header.color",
                                 display: 'flex',
                                 alignItems: 'center',
                                 gap: '10px',
@@ -68,7 +68,7 @@ const Menu = ({ children }: any) => {
                                     height: '24px'
                                 },
                                 '&.active': {
-                                    color: "#0b0b0b",
+                                    color: "extra.header.colorActive",
                                 }
                             }}
                             className={router.pathname == item.href ? "active" : ""}
@@ -90,10 +90,10 @@ const Menu = ({ children }: any) => {
     return (
         <>
             <MenuContainer>
-                <StyledContained maxWidth='xl'>
+                <StyledContained>
                     <FlexBox alignItems='center' gap='60px'>
                         <Box component="a" href='/'>
-                            <img src='/logo.svg' alt='BionDex' width='200px' />
+                            <img src='/logo.svg' alt='BionDex' width='auto' />
                         </Box>
                         {
                             !isMobile &&
@@ -105,15 +105,15 @@ const Menu = ({ children }: any) => {
                                             component="a"
                                             href={item.href}
                                             sx={{
-                                                color: "#787A9B",
+                                                color: "extra.header.color",
                                                 fontWeight: '500',
                                                 fontSize: '16px',
                                                 transition: '.15s ease-in',
                                                 ':hover': {
-                                                    color: '#0C1116',
+                                                    color: 'extra.header.colorActive',
                                                 },
                                                 '&.active': {
-                                                    color: "#0b0b0b",
+                                                    color: "extra.header.colorActive",
                                                 }
                                             }}
                                             onClick={(e:any) => {
@@ -161,12 +161,13 @@ const MenuContainer = styled(Box)`
     position: relative;
     z-index: 1100;
     width: 100%;
-    background-color: rgba(255,255,255);
-    // top: 0;
-    // left: 0;
+    background-color: ${props => (props.theme.palette as any).extra.header.background};
+    border-bottom: 1px solid ${props => (props.theme.palette as any).extra.border.color};
 `
-const StyledContained = styled(Container)`
+const StyledContained = styled(Box)`
+    padding: 0 16px;
     display: flex;
+    width: 100%;
     min-height: 78px;
     align-items: center;
     justify-content: space-between;
@@ -174,28 +175,5 @@ const StyledContained = styled(Container)`
 const FlexBox = styled(Box)`
     display: flex;
 `
-const ChainButton = styled(Button)`
-    border-radius: 35px;
-    padding: 12px 25px;
-    height: fit-content;
-    text-transform: none;
-    font-family: inherit;
-    font-size: 16px;
-    font-weight: 600;
-    align-items: center;
-    border: 1px solid #0b0b0b;
-    color: #0b0b0b;
-    width: 100%;
-    transition: 0.15s ease-in;
-    gap: 8px;
-    :hover {
-        border: 1px solid #0b0b0b;
-        opacity: .9;
-    }
-`
-const ConnectWalletButton = styled(Button)`
-
-`
-
 
 export default Menu

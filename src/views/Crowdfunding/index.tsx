@@ -13,16 +13,17 @@ import Link from 'next/link';
 
 const Crowdfunding = () => {
     const isMobile = useMediaQuery('(max-width:767px)');
-
+    
     const Section = styled(Box)`
-        .background {
-            padding: ${isMobile ? '20px 0' : '100px 0'};
-            // background-image: url('/images/crowdfunding_bg.png');
-            // background-position: center;
-            // background-repeat: no-repeat;
-            // background-size: cover;
-        }
-    `
+    .background {
+        padding: ${isMobile ? '20px 0' : '100px 0'};
+        // background-image: url('/images/crowdfunding_bg.png');
+        // background-position: center;
+        // background-repeat: no-repeat;
+        // background-size: cover;
+    }
+`
+
     const Title = styled(Box)`
         color: #000000;
         font-weight: 600;

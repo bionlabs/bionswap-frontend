@@ -3,9 +3,9 @@ import React from 'react'
 import {
     Box,
     Button,
-    Container
+    Container,
+    styled
 } from '@mui/material'
-import styled from '@emotion/styled'
 import { MobileProp } from 'configs/Type/Mobile/type'
 
 const HeroSection = ({isMobile}:MobileProp) => {
@@ -16,23 +16,26 @@ const HeroSection = ({isMobile}:MobileProp) => {
             rowGap: '10px'
         }}>
             <FlexBox flexDirection='column' gap='20px'>
+                <Box sx={{
+                    fontSize: '20px'
+                }}>
+                    The next-gen decentralize
+                </Box>
                 <Box className='specialFont' sx={{
-                    fontSize: isMobile ? '40px' : '60px'
+                    fontSize: isMobile ? '40px' : '62px',
+                    maxWidth: isMobile ? '100%' : '600px'
                 }}>
                     Own new token with <br/>low risk entrance
                 </Box>
-                <Box maxWidth='500px' className='subtitle' fontSize='20px' lineHeight='36px'>
-                    Earn a yield, Multiply your exposure or Borrow against your crypto. ETH, BTC and 30 more cryptos available to put to work.
-                </Box>
                 <CTAButton variant='contained'>
-                    Explore Projects
+                    Trade now
                 </CTAButton>
             </FlexBox>
-            <Box>
-                <img src="images/home/herocard.png" alt="" width='100%' />
-            </Box>
+            {/* <FlexBox justifyContent='center' >
+                <img src="images/home/pill.png" alt="" width='258px' />
+            </FlexBox> */}
         </StyledContained>
-        <ConstructSection maxWidth='xl'>
+        {/* <ConstructSection maxWidth='xl'>
             <Box color='#787A9B' fontSize='20px' mb='40px'>
                 Who is constructing with BionSwap?
             </Box>
@@ -51,8 +54,8 @@ const HeroSection = ({isMobile}:MobileProp) => {
                 <img src="images/home/construct6.png" alt="" width='120px' />
                 <img src="images/home/construct7.png" alt="" width='120px' />
             </Container>
-        </ConstructSection>
-        <Container>
+        </ConstructSection> */}
+        {/* <Container>
             <NumberSection sx={{
                 marginTop:'40px',
                 flexDirection: isMobile ? 'column' : 'row',
@@ -79,7 +82,7 @@ const HeroSection = ({isMobile}:MobileProp) => {
                     <Box>Media Coverage</Box>
                 </NumberBox>
             </NumberSection>
-        </Container>
+        </Container> */}
     </Wrapper>
   )
 }
@@ -88,11 +91,10 @@ const Wrapper = styled(Box)`
     width: 100%;
     background: url('/images/home/section01.png');
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: cover;
     background-position: center;
-    min-height: 100vh;
-    padding-top: 8vh;
-    padding-bottom: 8vh;
+    min-height: calc(100vh - 78px);
+    padding: 8rem 0;
     display: flex;
     flex-direction: column;
     gap: 60px;
@@ -106,16 +108,17 @@ const FlexBox = styled(Box)`
     display: flex;
 `
 const CTAButton = styled(Button)`
-    background-color: #0b0b0b;
-    border-radius: 31px;
+    border-radius: 4px;
     padding: 12.5px 70px;
     width: fit-content;
-    color: #fff;
     text-transform: none;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
     box-shadow: none;
     transition: .15s ease-in;
     :hover {
-        background-color: #0b0b0b;
+        background-color: ${prop => prop.theme.palette.primary.main};
         opacity: .9;
     }
 `
@@ -141,12 +144,12 @@ const NumberBox = styled(Box)`
     width: 100%;
     padding: 10px;
 `
-const Divider = styled.div`
+const Divider = styled(Box)`
     width: 100%;
     height: 1px;
     background: rgba(101, 84, 169, 0.2);
 `
-const DividerVertical = styled.div`
+const DividerVertical = styled(Box)`
     width: 1px;
     min-height: 80px;
     background: rgba(101, 84, 169, 0.2);
