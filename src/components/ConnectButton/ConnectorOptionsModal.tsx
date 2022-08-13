@@ -60,8 +60,11 @@ function ConnectorOptionsModal({
           left: "50%",
           transform: "translate(-50%, -50%)",
           width: "fit-content",
-          bgcolor: "#fff",
-          boxShadow: 24,
+          bgcolor: "#081319",
+          color: '#fff',
+          minWidth: "353px",
+          boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+          border: '1px solid #424242',
           borderRadius: "8px",
           p: 4,
         }}

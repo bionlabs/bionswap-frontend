@@ -1,5 +1,6 @@
 import {MdSwapHorizontalCircle} from 'react-icons/md'
 import {GiPayMoney , GiReceiveMoney} from 'react-icons/gi'
+import {IoDocumentText} from 'react-icons/io5'
 import {FaCoins} from 'react-icons/fa'
 import {HiChartBar} from 'react-icons/hi'
 
@@ -28,7 +29,13 @@ export const menuConfig = [
         label: 'Dashboard',
         href: '/dashboard',
         icon: <HiChartBar/>
-    }
+    },
+    {
+        label: 'Docs',
+        href: 'https://docs.bionswap.com',
+        newWindow: true,
+        icon: <IoDocumentText/>
+    },
 ]
 
 export const footerMenuConfig = [

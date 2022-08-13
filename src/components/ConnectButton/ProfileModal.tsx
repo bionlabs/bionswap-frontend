@@ -8,6 +8,7 @@ import {
   MenuList,
   Modal,
   Skeleton,
+  useMediaQuery
 } from "@mui/material";
 import { useBalance } from "hooks";
 import Image from "next/image";
@@ -24,6 +25,7 @@ type Props = {
 
 const ProfileModal = ({ onClose, open = false }: Props) => {
   const { address, connector: activeConnector } = useAccount();
+  const isMobile = useMediaQuery("(max-width:1155px)");
   const { disconnect } = useDisconnect();
   const { data } = useBalance({
     addressOrName: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
@@ -46,10 +48,12 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
           left: "50%",
           transform: "translate(-50%, -50%)",
           width: "fit-content",
-          bgcolor: "#fff",
-          boxShadow: 24,
+          bgcolor: "#081319",
+          color: '#fff',
+          boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+          border: '1px solid #424242',
           borderRadius: "8px",
-          minWidth: "453px",
+          minWidth: isMobile ? "353px" : '453px',
           display: "flex",
           flexDirection: "column",
           gap: "24px",
@@ -83,7 +87,7 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
             </Box>
             <IconButton
               onClick={onClose}
-              sx={{ color: "#0b0b0b", padding: "0" }}
+              sx={{ color: "#fff", padding: "0" }}
             >
               <HiX />
             </IconButton>
@@ -91,7 +95,7 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
         </Box>
         <Divider sx={{ borderBottom: "1px solid #787A9B" }} />
         <Box>
-          <WrapCard>
+          <WrapCard >
             <Box>
               <Content>Your Balance</Content>
               <Title>5.938200193 BNB</Title>
@@ -101,7 +105,7 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
               <Title>0.00</Title>
             </Box>
             <BgImage>
-              <img src="/images/Fox_bg.png" alt="Fox_bg" />
+              <img src="/images/Fox_bg.png" alt="Fox_bg" width='110px' />
             </BgImage>
           </WrapCard>
         </Box>
@@ -167,15 +171,11 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
 };
 
 const WrapCard = styled(Box)`
-  background: linear-gradient(
-      159.48deg,
-      rgba(231, 162, 54, 0.2) 8.56%,
-      rgba(231, 162, 54, 2e-5) 91.52%
-    ),
-    #787a9b;
+  background: rgba(255,255,255,.1);
   border-radius: 10px;
   padding: 20px;
   position: relative;
+  object-fit: cover;
 `;
 const Title = styled(Box)`
   font-weight: 700;
