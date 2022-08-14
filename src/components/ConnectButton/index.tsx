@@ -41,6 +41,7 @@ const ConnectButton = (props: Props) => {
         <ChainButton
           onClick={() => setOpenChainsModal(true)}
           variant="contained"
+          fullWidth={isMobile}
           endIcon={<BsFillCaretDownFill color="#FBB03B" />}
         >
           <Stack direction="row" gap={1} alignItems="center">
@@ -58,6 +59,7 @@ const ConnectButton = (props: Props) => {
           <ConnectWalletButton
             onClick={() => setOpenConnectorsModal(true)}
             variant="contained"
+            fullWidth={isMobile}
           >
             <Box>Connect Wallet</Box>
           </ConnectWalletButton>
@@ -65,6 +67,7 @@ const ConnectButton = (props: Props) => {
           <ProfileButton
             onClick={() => setOpenProfileModal(true)}
             variant="contained"
+            fullWidth={isMobile}
           >
             {/* <IoWallet color='#0b0b0b'/> */}
             <Box>
@@ -72,7 +75,7 @@ const ConnectButton = (props: Props) => {
             </Box>
             <Box sx={{
               display: 'flex',alignItems:'center', gap:'8px',
-              backgroundColor: '#012D44', padding: '6px 15px',
+              backgroundColor: '#012D44', height: '35px', padding: '5px 12px',
               borderRadius: '4px'
             }}>
               <Box>{shortenAddress(address ?? "")}</Box>
@@ -161,13 +164,12 @@ const ConnectWalletButton = styled(Button)`
 const ProfileButton = styled(Button)`
   border-radius: 4px;
   min-width: fit-content;
-  padding: 2px 4px 2px 12px;
+  padding: 5px 5px 5px 12px;
   box-shadow: none;
   text-transform: none;
   font-family: inherit;
   font-weight: 500;
   align-items: center;
-  height: 43px;
   background-color: #000;
   color: #fff;
   transition: 0.15s ease-in;

@@ -468,7 +468,7 @@ const Swap = ({}: SwapProps) => {
         >
           <Stack justifyContent="flex-start" alignItems="flex-start" flexGrow={1}>
             <PairStats />
-            {!showWrap && <TradingViewChart pairSymbol={`${currencies.INPUT?.symbol}${currencies.OUTPUT?.symbol}`} />}
+            {!showWrap && <TradingViewChart pairSymbol={`${currencies.INPUT?.symbol}:${currencies.OUTPUT?.symbol}`} />}
           </Stack>
           <Box
             sx={{

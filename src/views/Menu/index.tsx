@@ -39,7 +39,7 @@ const Menu = ({ children }: any) => {
     }
 
     const list = (anchor: Anchor) => (
-        <Box sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : '95vw', minHeight:'100vh'}}>
+        <Box sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : '300px', minHeight:'100vh', backgroundColor: '#081319', borderLeft: '1px solid #424242'}}>
           <FlexBox flexDirection='column' width='100%'>
             <FlexBox justifyContent='end' p='16px'>
                 <IconButton onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
@@ -55,6 +55,7 @@ const Menu = ({ children }: any) => {
                         <Box 
                             key=''
                             component="a"
+                            target={item.newWindow ? '_blank' : '_self'}
                             href={item.href}
                             sx={{
                                 color: "extra.header.color",
@@ -103,6 +104,7 @@ const Menu = ({ children }: any) => {
                                         <Box 
                                             key=''
                                             component="a"
+                                            target={item.newWindow ? '_blank' : '_self'}
                                             href={item.href}
                                             sx={{
                                                 color: "extra.header.color",
@@ -136,7 +138,7 @@ const Menu = ({ children }: any) => {
                         </>
                         :
                         <>
-                            <IconButton onClick={toggleDrawer('right', true)} sx={{color:'#0C1116'}}>
+                            <IconButton onClick={toggleDrawer('right', true)} sx={{color:'#fff'}}>
                                 <HiMenu/>
                             </IconButton>
                         </>

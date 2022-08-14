@@ -1,15 +1,16 @@
 import SocketClient from "./SocketClient";
 import BinanceAPI, { CandleChartInterval_LT, CandleChartResult, Symbol } from "binance-api-node";
+import { useEffect, useMemo, useState } from "react";
 
 type CandleChartType = CandleChartResult & { time: number };
-export default class Datafeed {
+
+class Datafeed {
   // private host: string;
   private client;
   private ws: SocketClient;
-  private symbols: Symbol[] = [];
+  public symbols: Symbol[] = [];
 
-  constructor(options: any) {
-    // this.host = "https://api.binance.com";
+  constructor() {
     this.ws = new SocketClient();
     this.client = BinanceAPI();
   }
@@ -20,9 +21,12 @@ export default class Datafeed {
   //   return json.symbols;
   // }
 
-  async fetchSymbols() {
-    const res = await this.client.exchangeInfo();
-    return res.symbols;
+  async fetchAndInitSymbols() {
+    if (this.symbols.length === 0) {
+      const res = await this.client.exchangeInfo();
+      this.symbols = res.symbols;
+    }
+    return this.symbols;
   }
 
   // async binanceKlines(symbol: string, interval: string, startTime: number, endTime: number, limit: number) {
@@ -58,7 +62,7 @@ export default class Datafeed {
     console.debug("Datafeed: onReady called");
 
     if (this.symbols.length === 0) {
-      this.symbols = await this.fetchSymbols();
+      await this.fetchAndInitSymbols();
     }
 
     callback({
@@ -201,4 +205,29 @@ export default class Datafeed {
   unsubscribeBars(subscriberUID: string) {
     this.ws.unsubscribeFromStream(subscriberUID);
   }
+}
+
+const instance = new Datafeed();
+export default instance;
+
+export function usePairSupportedChart(pairSymbol: string) {
+  const [supportedSymbols, setSupportedSymbols] = useState(instance.symbols);
+  const symbols: [string, string] = useMemo(() => {
+    const parsed = pairSymbol.split(":");
+
+    return [`${parsed[0]}${parsed[1]}`, `${parsed[1]}${parsed[0]}`];
+  }, [pairSymbol]);
+
+  useEffect(() => {
+    if (supportedSymbols.length === 0) {
+      instance.fetchAndInitSymbols().then((s) => setSupportedSymbols(s));
+    }
+  }, [supportedSymbols]);
+
+  const supportedPair = useMemo(() => {
+    return supportedSymbols.filter((supported) => supported.symbol === symbols[0] || supported.symbol === symbols[1])[0]
+      ?.symbol;
+  }, [supportedSymbols, symbols]);
+
+  return supportedPair;
 }

@@ -48,8 +48,11 @@ const ChainOptionsModal = ({
           left: "50%",
           transform: "translate(-50%, -50%)",
           width: "fit-content",
-          bgcolor: "#fff",
-          boxShadow: 24,
+          bgcolor: "#081319",
+          color: '#fff',
+          boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+          border: '1px solid #424242',
+          minWidth: "353px",
           borderRadius: "8px",
           p: 4,
         }}
@@ -157,14 +160,14 @@ const StatusBox = styled(Box)`
   .circle {
     width: 12px;
     height: 12px;
-    background-color: #62bd19;
+    background-color: #07E0E0;
     border-radius: 50%;
     position: absolute;
     top: -1px;
     left: -15px;
   }
   .ringring {
-    border: 2px solid #62bd19;
+    border: 2px solid #07E0E0;
     -webkit-border-radius: 30px;
     height: 22px;
     width: 22px;
