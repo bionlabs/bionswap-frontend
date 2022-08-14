@@ -84,7 +84,8 @@ export const darkPalette: ExtendedPaletteOptions = {
     text: {
       primary: "#D6DADE",
       secondary: '#E0E0E0',
-      thirst: "#575757"
+      subtitle: "#575757",
+      highlight: '#6803B8',
     },
     button: {
       background: "white",
@@ -135,7 +136,6 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         fontFamily: 'AnonymousPro-Bold',
         fontSize: '20px',
         lineHeight: '180%',
-        letterSpacing: '0.09em',
       },
       body1: {
         fontWeight: 500,

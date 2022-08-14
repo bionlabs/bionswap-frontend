@@ -8,6 +8,7 @@ import {
     Typography,
     Stack
 } from '@mui/material'
+import { keyframes } from '@emotion/react'
 import { MobileProp } from 'configs/Type/Mobile/type'
 import Image from "next/image";
 import PrimaryButton from 'components/PrimaryButton';
@@ -15,8 +16,8 @@ import PrimaryButton from 'components/PrimaryButton';
 const HeroSection = ({ isMobile }: MobileProp) => {
     return (
         <Wrapper>
-            <FlexBox>
-                <Box display='flex' width='50%'>
+            <FlexBox flexDirection={isMobile ? 'column' : 'row'}>
+                <Box display='flex' width={isMobile ? '100%' : '50%'} p={isMobile ? '8rem 16px' : '8rem'}>
                     <WrapContentArea>
                         <FlexBox gap='20px'>
                             <Image src="/icons/home/code_symbol.svg" alt="code_symbol" width={37} height={25} />
@@ -39,63 +40,22 @@ const HeroSection = ({ isMobile }: MobileProp) => {
                                 <PrimaryButton label="Trade now" />
                             </Box>
                             <Box maxWidth='218px' width='100%'>
-                                <PrimaryButton label="Get in touch ->" />
+                                <PrimaryButton variant='outlined' label="Learn more" />
                             </Box>
                         </FlexBox>
                     </WrapContentArea>
                 </Box>
-                <WrapGlassArea>
-                    {/* <img src="images/home/herocard.png" alt="" width='100%' /> */}
-                </WrapGlassArea>
+                {
+                    !isMobile &&
+                    <FlexBox width='50%' justifyContent='end' position='relative'>
+                        <WrapGlassArea/>
+                        <PillBox>
+                            <img src="images/home/pill.png" alt="" width='230px'/>
+                        </PillBox>
+                    </FlexBox>
+                    
+                }
             </FlexBox>
-            {/* <ConstructSection maxWidth='xl'>
-                <Box color='#787A9B' fontSize='20px' mb='40px'>
-                    Who is constructing with BionSwap?
-                </Box>
-                <Container sx={{
-                    display: 'flex', alignItems: 'center',
-                    flexWrap: 'wrap',
-                    width: '100%',
-                    justifyContent: 'space-between',
-                    gap: '10px'
-                }}>
-                    <img src="images/home/construct1.png" alt="" width='120px' />
-                    <img src="images/home/construct2.png" alt="" width='120px' />
-                    <img src="images/home/construct3.png" alt="" width='120px' />
-                    <img src="images/home/construct4.png" alt="" width='120px' />
-                    <img src="images/home/construct5.png" alt="" width='120px' />
-                    <img src="images/home/construct6.png" alt="" width='120px' />
-                    <img src="images/home/construct7.png" alt="" width='120px' />
-                </Container>
-            </ConstructSection>
-            <Container>
-                <NumberSection sx={{
-                    marginTop: '40px',
-                    flexDirection: isMobile ? 'column' : 'row',
-                    gap: isMobile ? '24px' : null
-                }}
-                >
-                    <NumberBox>
-                        <Box className='specialFont' fontSize='34px'>30+</Box>
-                        <Box>Projects and Investors</Box>
-                    </NumberBox>
-                    {isMobile ? <Divider /> : <DividerVertical />}
-                    <NumberBox>
-                        <Box className='specialFont' fontSize='34px'>$600+</Box>
-                        <Box>Funds Raised</Box>
-                    </NumberBox>
-                    {isMobile ? <Divider /> : <DividerVertical />}
-                    <NumberBox>
-                        <Box className='specialFont' fontSize='34px'>400+</Box>
-                        <Box>AMAs</Box>
-                    </NumberBox>
-                    {isMobile ? <Divider /> : <DividerVertical />}
-                    <NumberBox>
-                        <Box className='specialFont' fontSize='34px'>1M+</Box>
-                        <Box>Media Coverage</Box>
-                    </NumberBox>
-                </NumberSection>
-            </Container> */}
         </Wrapper>
     )
 }
@@ -118,8 +78,6 @@ const Wrapper = styled(Box)`
     background-size: cover;
     background-position: right -75px;
     min-height: 100vh;
-    // padding-top: 8vh;
-    // padding-bottom: 8vh;
     display: flex;
     flex-direction: column;
     gap: 60px;
@@ -130,16 +88,36 @@ const WrapContentArea = styled(Box)`
     gap: 20px;
     max-width: 560px;
     width: 100%;
-    margin: auto;
 `
 const WrapGlassArea = styled(Box)`
-    background: url('/images/home/glag.png');
-    background-repeat: no-repeat;
-    background-size: 120%;
-    background-position: center;
-    max-width: 700px;
+    background: linear-gradient(304.69deg, rgba(0, 0, 0, 0.728) 3.38%, rgba(0, 0, 0, 0.750278) 14.04%, rgba(19, 56, 74, 0.8) 42.9%, rgba(35, 151, 130, 0.8) 57.12%, rgba(20, 103, 128, 0.8) 66.12%, rgba(14, 14, 14, 0.8) 91.34%);
     width: 100%;
-    height: 723px;
+    mix-blend-mode: screen;
+    height: 800px;
+    position: relative;
+    z-index: 3;
+    border-left: 1px solid rgba(171, 171, 171, 0.5);
+    border-bottom: 1px solid rgba(171, 171, 171, 0.5);
+`
+const FloatingAnimation = keyframes`
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-25px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+`
+const PillBox = styled(Box)`
+    img {
+        position: absolute;
+        animation: ${FloatingAnimation} 2.5s ease infinite;
+        z-index: 2;
+        top: 20%;
+        left: 40%;
+    }
 `
 
 export default HeroSection

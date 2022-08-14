@@ -457,7 +457,7 @@ const Swap = ({}: SwapProps) => {
 
   return (
     <Section>
-      <Container maxWidth="lg">
+      <Container maxWidth="xl">
         <Box
           sx={{
             display: "flex",

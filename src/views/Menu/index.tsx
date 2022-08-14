@@ -10,6 +10,7 @@ import {
     styled
 } from '@mui/material'
 import {HiMenu , HiX} from 'react-icons/hi'
+import {BsThreeDots} from 'react-icons/bs'
 import { menuConfig } from 'configs/menu/config'
 import { useRouter } from 'next/router'
 import { ConnectButton } from 'components'
@@ -75,7 +76,8 @@ const Menu = ({ children }: any) => {
                             className={router.pathname == item.href ? "active" : ""}
                             onClick={(e:any) => {
                                 e.preventDefault();
-                                router.push(item.href);
+                                if(item.newWindow) window.open(item.href);
+                                else router.push(item.href);
                             }}
                         >
                             {item.icon}
@@ -104,7 +106,6 @@ const Menu = ({ children }: any) => {
                                         <Box 
                                             key=''
                                             component="a"
-                                            target={item.newWindow ? '_blank' : '_self'}
                                             href={item.href}
                                             sx={{
                                                 color: "extra.header.color",
@@ -120,7 +121,8 @@ const Menu = ({ children }: any) => {
                                             }}
                                             onClick={(e:any) => {
                                                 e.preventDefault();
-                                                router.push(item.href);
+                                                if(item.newWindow) window.open(item.href);
+                                                else router.push(item.href);
                                             }}
                                             className={router.pathname == item.href ? "active" : ""}
                                         >
@@ -131,18 +133,30 @@ const Menu = ({ children }: any) => {
                             </Box>
                         }
                     </FlexBox>
-                    {
-                        !isMobile ? 
-                        <>
+                    <FlexBox gap='16px'>
+                        {!isMobile &&
                             <ConnectButton/>
-                        </>
-                        :
-                        <>
-                            <IconButton onClick={toggleDrawer('right', true)} sx={{color:'#fff'}}>
+                        }
+                        <IconButton sx={{
+                            color:'#fff',
+                            backgroundColor: '#0b0b0b',
+                            borderRadius: '12px'
+                        }}>
+                            <BsThreeDots/>
+                        </IconButton>
+                        {
+                            isMobile && 
+                            <IconButton onClick={toggleDrawer('right', true)} 
+                                sx={{
+                                    color:'#fff',
+                                    backgroundColor: '#0b0b0b',
+                                    borderRadius: '12px'
+                                }}
+                            >
                                 <HiMenu/>
                             </IconButton>
-                        </>
-                    }
+                        }
+                    </FlexBox>
                 </StyledContained>
                 <Drawer
                     anchor={'right'}

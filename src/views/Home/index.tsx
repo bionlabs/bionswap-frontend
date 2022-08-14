@@ -16,7 +16,7 @@ const Homepage = () => {
   return (
     <Page>
         <HeroSection isMobile={isMobile}/>
-        <NetworkSection />
+        <NetworkSection isMobile={isMobile}/>
         <UpcommingProjectSection isMobile={isMobile}/>
         <OurProjectsSection isMobile={isMobile}/>
         <LaunchSection isMobile={isMobile} />

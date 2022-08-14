@@ -6,16 +6,18 @@ interface PrimaryButtonProps {
     label?: string,
     color?: string,
     backgroundColor?: string,
+    variant?: any
 }
 
-const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label, color = 'text.secondary', backgroundColor = 'primary.main'  }) => {
+const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label, color = 'text.secondary', backgroundColor = 'primary.main', variant='contained'}) => {
     return (
         <Button
-            variant='contained'
+            variant={variant}
             sx={{
-                color: color,
-                backgroundColor: backgroundColor,
+                color: variant === 'outlined' ? 'primary' : color,
+                backgroundColor: variant === 'outlined' ? 'transparent' : backgroundColor,
                 fontSize: '16px',
+                border: variant === 'outlined' ? '1px solid #07E0E0' : 'none',
                 fontWeight: '500',
                 lineHeight: '27px',
                 padding: '10px',
