@@ -138,7 +138,7 @@ const ClaimIdoTokenItem: React.FC<ClaimIdoTokenItemProps> = ({ data, isMobile = 
                 </WrapItem>
             </Box>
             <Box marginTop="30px">
-                <PrimaryButton isMobile={isMobile} label="Claim tokens" />
+                <PrimaryButton label="Claim tokens" />
             </Box>
         </WrapBox>
     )

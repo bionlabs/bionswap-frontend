@@ -60,19 +60,19 @@ export const darkPalette: ExtendedPaletteOptions = {
   mode: "dark",
   primary: {
     main: "#07E0E0",
-    light: "#ffc107",
-    dark: "#000A0D",
+    // light: "#ffc107",
+    // dark: "#000A0D",
   },
   secondary: {
-    main: "#25273d",
+    main: "#6803B8",
   },
   background: {
     default: "#000A0D",
-    paper: "#424242",
+    paper: "#EDEDED",
   },
   text: {
     primary: "#FFFFFF",
-    secondary: "#B9B9B9",
+    secondary: "#000000",
     disabled: "rgba(255, 255, 255, 0.5)",
   },
   // error: {},
@@ -81,6 +81,11 @@ export const darkPalette: ExtendedPaletteOptions = {
   // success: {},
   // divider: {}
   extra: {
+    text: {
+      primary: "#D6DADE",
+      secondary: '#E0E0E0',
+      thirst: "#575757"
+    },
     button: {
       background: "white",
       text: "black",
@@ -106,6 +111,39 @@ export const darkPalette: ExtendedPaletteOptions = {
 
 const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions => {
   return {
+    typography: {
+      fontFamily: "'Poppins', sans-serif",
+      h1: {
+        fontFamily: 'SamsungSharpSans-Bold',
+        fontSize: '64px',
+        lineHeight: '80px',
+      },
+      h2: {
+        fontFamily: 'SamsungSharpSans-Bold',
+        fontSize: '56px',
+        lineHeight: '80px',
+      },
+      h3: {
+
+      },
+      h6: {
+        fontWeight: '400',
+        fontSize: '20px',
+        lineHeight: '30px',
+      },
+      subtitle1: {
+        fontFamily: 'AnonymousPro-Bold',
+        fontSize: '20px',
+        lineHeight: '180%',
+        letterSpacing: '0.09em',
+      },
+      body1: {
+        fontWeight: 500,
+      },
+      button: {
+        fontStyle: 'italic',
+      },
+    },
     breakpoints: {
       values: {
         xs: 0,
@@ -128,7 +166,8 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         styleOverrides: {
           root: {
             textTransform: "none",
-            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+            boxShadow: "none",
+            fontStyle: 'normal',
             // "&:hover": {
             //   transform: "matrix(1.025, 0, 0, 1.025, 0, 0)",
             // },
@@ -161,9 +200,8 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       MuiTypography: {
         defaultProps: {
           color: "text.primary",
-          fontFamily: "Inter",
-          fontWeight: 500,
-          fontSize: 14,
+          // fontWeight: 500,
+          // fontSize: 14,
         },
       },
       MuiInputBase: {

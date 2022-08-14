@@ -590,7 +590,7 @@ const Swap = ({}: SwapProps) => {
 const Section = styled(Box)`
   padding: 8vh 0;
   min-height: 100vh;
-  background-color: ${(props) => props.theme.palette.primary.dark};
+  background-color: ${(props) => props.theme.palette.background.default};
 `;
 const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
 

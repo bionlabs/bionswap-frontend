@@ -4,38 +4,29 @@ import styled from '@emotion/styled';
 
 interface PrimaryButtonProps {
     label?: string,
-    isMobile?: boolean,
+    color?: string,
+    backgroundColor?: string,
 }
 
-const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label, isMobile = false  }) => {
+const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label, color = 'text.secondary', backgroundColor = 'primary.main'  }) => {
     return (
-        <StyledButton
+        <Button
             variant='contained'
             sx={{
-                color: '#FFFFFF',
-                fontSize: isMobile ? '14px' : '16px',
-                padding: '12px',
-                textTransform: 'none',
+                color: color,
+                backgroundColor: backgroundColor,
+                fontSize: '16px',
+                fontWeight: '500',
+                lineHeight: '27px',
+                padding: '10px',
                 width: '100%',
                 transition: 'all .3s ease',
                 cursor: 'pointer',
+                borderRadius: '4px',
             }}>
             {label}
-        </StyledButton>
+        </Button>
     )
 }
-
-const StyledButton = styled(Button)`
-    font-family: inherit;
-    box-shadow: none;
-    background-color: #0b0b0b;
-    border-radius: 999px;
-    font-weight: 500;
-    :hover {
-        box-shadow: none;
-        background-color: #0b0b0b;
-        opacity: .9;
-    }
-`
 
 export default PrimaryButton;
