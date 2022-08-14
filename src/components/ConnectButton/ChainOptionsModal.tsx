@@ -1,13 +1,5 @@
 import styled from "@emotion/styled";
-import {
-  Backdrop,
-  Box,
-  IconButton,
-  MenuItem,
-  MenuList,
-  Modal,
-  Stack,
-} from "@mui/material";
+import { Backdrop, Box, IconButton, MenuItem, MenuList, Modal, Stack } from "@mui/material";
 import { CHAIN_INFO_MAP } from "configs/chain";
 import { useChain, useSwitchNetwork } from "hooks";
 import Image from "next/image";
@@ -22,11 +14,7 @@ type Props = {
   onChainSwitched?: (chain: Chain) => void;
 };
 
-const ChainOptionsModal = ({
-  onClose,
-  open = false,
-  onChainSwitched,
-}: Props) => {
+const ChainOptionsModal = ({ onClose, open = false, onChainSwitched }: Props) => {
   const { chainId, isConnected } = useChain();
 
   const { switchNetwork } = useSwitchNetwork({});
@@ -49,20 +37,16 @@ const ChainOptionsModal = ({
           transform: "translate(-50%, -50%)",
           width: "fit-content",
           bgcolor: "#081319",
-          color: '#fff',
-          boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
-          border: '1px solid #424242',
+          color: "#fff",
+          boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+          border: "1px solid #424242",
           minWidth: "353px",
           borderRadius: "8px",
           p: 4,
         }}
       >
         <Box display="flex" flexDirection="column" gap="10px">
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
+          <Box display="flex" justifyContent="space-between" alignItems="center">
             <Box fontSize="24px" fontWeight="700">
               Connect a blockchain
             </Box>
@@ -107,25 +91,10 @@ const ChainOptionsModal = ({
                   onChainSwitched?.(chain);
                 }}
               >
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  width="100%"
-                >
-                  <Box
-                    display="flex"
-                    width="100%"
-                    alignItems="center"
-                    justifyContent="space-between"
-                  >
+                <Stack direction="row" justifyContent="space-between" width="100%">
+                  <Box display="flex" width="100%" alignItems="center" justifyContent="space-between">
                     <Box display="flex" gap="10px" alignItems="center">
-                      <Image
-                        src={getChainIcon(chain.id)?.iconUrl}
-                        layout="fixed"
-                        alt=""
-                        width={24}
-                        height={24}
-                      />
+                      <Image src={getChainIcon(chain.id)?.iconUrl} layout="fixed" alt="" width={24} height={24} />
                       <Box fontSize="16px" fontWeight={600}>
                         {chain.name}
                       </Box>
@@ -160,14 +129,14 @@ const StatusBox = styled(Box)`
   .circle {
     width: 12px;
     height: 12px;
-    background-color: #07E0E0;
+    background-color: #07e0e0;
     border-radius: 50%;
     position: absolute;
     top: -1px;
     left: -15px;
   }
   .ringring {
-    border: 2px solid #07E0E0;
+    border: 2px solid #07e0e0;
     -webkit-border-radius: 30px;
     height: 22px;
     width: 22px;

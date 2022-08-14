@@ -34,8 +34,30 @@ const bsc = {
   },
 };
 
+const okc = {
+  id: 66,
+  name: "OKC",
+  network: "bsc",
+  testnet: false,
+  nativeCurrency: {
+    name: "OKT",
+    symbol: "OKT",
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: "https://exchainrpc.okex.org",
+  },
+  blockExplorers: {
+    default: {
+      name: "OKC Explorer",
+      url: "https://www.oklink.com/okc/",
+    },
+  },
+};
+
 const supportedChains: { [name: string]: Chain } = {
   bsc,
+  okc,
   ethereum: {
     ...WagmiChain.mainnet,
     rpcUrls: {
@@ -60,6 +82,10 @@ export const chainIcons = {
   [supportedChains.bsc.id]: {
     iconBackground: "#0b0e11",
     iconUrl: "/images/chains/bsc.svg",
+  },
+  [supportedChains.okc.id]: {
+    iconBackground: "#0b0e11",
+    iconUrl: "/images/chains/okc.png",
   },
   [supportedChains.ethereum.id]: {
     iconBackground: "#5C6BC0",

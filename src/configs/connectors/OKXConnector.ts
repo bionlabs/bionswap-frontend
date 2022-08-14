@@ -10,7 +10,7 @@ export interface OKEXChain extends Omit<Ethereum, "isMetamask"> {
 
 declare global {
   interface Window {
-    okexchain: OKEXChain;
+    okexchain?: OKEXChain;
   }
 }
 
@@ -24,7 +24,7 @@ export type OKXWalletConnectorOptions = Pick<InjectedConnectorOptions, "shimChai
 export class OKXWalletConnector extends InjectedConnector {
   readonly id = "okxWallet";
   readonly name = "OKX Wallet";
-  readonly ready = typeof window != "undefined" && window.okexchain.isOKExWallet;
+  readonly ready = typeof window != "undefined" && !!window.okexchain?.isOKExWallet;
 
   private provider?: Window["okexchain"];
   UNSTABLE_shimOnConnectSelectAccount: OKXWalletConnectorOptions["UNSTABLE_shimOnConnectSelectAccount"];
