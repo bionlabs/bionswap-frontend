@@ -1,16 +1,9 @@
-import {
-  Chain,
-  chain as WagmiChain,
-  configureChains,
-  createClient,
-} from "wagmi";
+import { Chain, chain as WagmiChain, configureChains, createClient } from "wagmi";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
-import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { publicProvider } from "wagmi/providers/public";
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
-import { allChains } from "wagmi";
+import { OKXWalletConnector } from "./connectors/OKXConnector";
 
 const bsc = {
   id: 56,
@@ -58,13 +51,10 @@ const { chains, provider, webSocketProvider } = configureChains(
   [publicProvider()]
 );
 
-export const CHAIN_INFO_MAP: { [chainId: number]: Chain } = chains.reduce(
-  (o, chain) => {
-    o[chain.id] = chain;
-    return o;
-  },
-  {} as any
-);
+export const CHAIN_INFO_MAP: { [chainId: number]: Chain } = chains.reduce((o, chain) => {
+  o[chain.id] = chain;
+  return o;
+}, {} as any);
 
 export const chainIcons = {
   [supportedChains.bsc.id]: {
@@ -86,6 +76,9 @@ export const client = createClient({
   autoConnect: true,
   connectors: [
     new MetaMaskConnector({ chains }),
+    new OKXWalletConnector({
+      chains,
+    }),
     new CoinbaseWalletConnector({
       chains,
       options: {
@@ -98,13 +91,6 @@ export const client = createClient({
         qrcode: true,
       },
     }),
-    // new InjectedConnector({
-    //   chains,
-    //   options: {
-    //     name: "Injected",
-    //     shimDisconnect: true,
-    //   },
-    // }),
   ],
   provider,
   // webSocketProvider,
