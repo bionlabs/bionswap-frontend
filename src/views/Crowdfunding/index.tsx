@@ -134,7 +134,7 @@ const Crowdfunding = () => {
                         width: '100%',
                         margin: 'auto',
                     }}>
-                        <PrimaryButton isMobile={isMobile} label="Apply now" />
+                        <PrimaryButton label="Apply now" />
                     </Box>
                 </Container>
             </Box>
