@@ -56,7 +56,6 @@ const Menu = ({ children }: any) => {
                         <Box 
                             key=''
                             component="a"
-                            target={item.newWindow ? '_blank' : '_self'}
                             href={item.href}
                             sx={{
                                 color: "extra.header.color",

@@ -98,7 +98,7 @@ export const darkPalette: ExtendedPaletteOptions = {
     header: {
       background: '#081319',
       color: '#A8B0B9',
-      colorActive: '#F8F9F9'
+      colorActive: '#07E0E0'
     },
     input: {
       background: '#001519',
