@@ -12,11 +12,11 @@ import { MobileProp } from 'configs/Type/Mobile/type'
 import Image from "next/image";
 import PrimaryButton from 'components/PrimaryButton';
 
-const NetworkSection = ({ isMobile }: MobileProp) => {
+const NetworkSection = ({ isMobile , isTablet }: MobileProp) => {
     return (
         <Wrapper>
-            <FlexBox flexDirection={isMobile ? 'column' : 'row'} justifyContent='center' gap='24px'>
-                <FlexBox flexDirection='column' gap='24px' p={isMobile ? '3rem 16px' : '8rem'}>
+            <FlexBox flexDirection={isTablet ? 'column' : 'row'} justifyContent='center' gap='24px'>
+                <FlexBox flexDirection='column' gap='24px' p={isMobile ? '3rem 16px' : '7rem'}>
                     <FlexBox gap='20px'>
                         <Image src="/icons/home/network_symbol.svg" alt="network_symbol" width={37} height={25} />
                         <Typography variant='subtitle1' sx={{ color: 'extra.text.subtitle' }}>
@@ -35,7 +35,7 @@ const NetworkSection = ({ isMobile }: MobileProp) => {
                     </ExploreButton>
                 </FlexBox>
                 <FlexBox alignItems='end'>
-                    <img src="/images/home/computer.png" alt="" width={isMobile ? '100%' : '600px'} />
+                    <img src="/images/home/computer.png" alt="" width={isTablet ? '100%' : '500px'} />
                 </FlexBox>
             </FlexBox>
         </Wrapper>

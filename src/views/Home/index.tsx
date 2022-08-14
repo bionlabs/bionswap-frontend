@@ -13,10 +13,12 @@ import NetworkSection from './Sections/Network/NetworkSection'
 
 const Homepage = () => {
   const isMobile = useMediaQuery('(max-width:700px)');
+  const isTablet = useMediaQuery('(max-width:1050px)');
+
   return (
     <Page>
-        <HeroSection isMobile={isMobile}/>
-        <NetworkSection isMobile={isMobile}/>
+        <HeroSection isMobile={isMobile} isTablet={isTablet}/>
+        <NetworkSection isMobile={isMobile} isTablet={isTablet}/>
         <UpcommingProjectSection isMobile={isMobile}/>
         <OurProjectsSection isMobile={isMobile}/>
         <LaunchSection isMobile={isMobile} />

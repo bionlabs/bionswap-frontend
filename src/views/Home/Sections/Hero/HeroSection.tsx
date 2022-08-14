@@ -13,11 +13,11 @@ import { MobileProp } from 'configs/Type/Mobile/type'
 import Image from "next/image";
 import PrimaryButton from 'components/PrimaryButton';
 
-const HeroSection = ({ isMobile }: MobileProp) => {
+const HeroSection = ({ isMobile , isTablet }: MobileProp) => {
     return (
         <Wrapper>
             <FlexBox flexDirection={isMobile ? 'column' : 'row'}>
-                <Box display='flex' width={isMobile ? '100%' : '50%'} p={isMobile ? '8rem 16px' : '8rem'}>
+                <Box display='flex' width={isTablet ? '100%' : '50%'} p={isMobile ? '8rem 16px' : '8rem'}>
                     <WrapContentArea>
                         <FlexBox gap='20px'>
                             <Image src="/icons/home/code_symbol.svg" alt="code_symbol" width={37} height={25} />
@@ -46,14 +46,13 @@ const HeroSection = ({ isMobile }: MobileProp) => {
                     </WrapContentArea>
                 </Box>
                 {
-                    !isMobile &&
+                    !isTablet &&
                     <FlexBox width='50%' justifyContent='end' position='relative'>
                         <WrapGlassArea/>
                         <PillBox>
                             <img src="images/home/pill.png" alt="" width='230px'/>
                         </PillBox>
                     </FlexBox>
-                    
                 }
             </FlexBox>
         </Wrapper>
