@@ -5,6 +5,27 @@ type ExtendedPaletteOptions = PaletteOptions & {
   extra?: ExtraThemeProp;
 };
 
+declare module '@mui/material/styles' {
+  interface TypographyVariants {
+    bodyPoppins: React.CSSProperties,
+    body3Poppins: React.CSSProperties,
+  }
+
+  // allow configuration using `createTheme`
+  interface TypographyVariantsOptions {
+    bodyPoppins: React.CSSProperties,
+    body3Poppins: React.CSSProperties,
+  }
+}
+
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    bodyPoppins: true,
+    body3Poppins: true,
+  }
+}
+
+
 export const lightPalette: ExtendedPaletteOptions = {
   mode: "light",
   primary: {
@@ -30,11 +51,6 @@ export const lightPalette: ExtendedPaletteOptions = {
   warning: {
     main: "rgba(255, 178, 55, 0.2)",
   },
-  // info: {},
-  // success: {
-  //   // main: "green",
-  // },
-  // divider: {}
   extra: {
     button: {
       background: "#25273D",
@@ -75,11 +91,6 @@ export const darkPalette: ExtendedPaletteOptions = {
     secondary: "#000000",
     disabled: "rgba(255, 255, 255, 0.5)",
   },
-  // error: {},
-  // warning: {},
-  // info: {},
-  // success: {},
-  // divider: {}
   extra: {
     text: {
       primary: "#D6DADE",
@@ -106,6 +117,15 @@ export const darkPalette: ExtendedPaletteOptions = {
     },
     border: {
       color: '#424242'
+    },
+    divider: {
+      background: '#595959'
+    },
+    other: {
+      first: '#011216',
+      second: '#272727',
+      third: '#D9D9D9',
+      fourth: '#82FFFF',
     }
   },
 };
@@ -125,7 +145,14 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         lineHeight: '80px',
       },
       h3: {
-
+        fontWeight: '400',
+        fontSize: '24px',
+        lineHeight: '180%',
+      },
+      h4: {
+        fontWeight: '600',
+        fontSize: '28px',
+        lineHeight: '180%'
       },
       h6: {
         fontWeight: '400',
@@ -138,8 +165,20 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         lineHeight: '180%',
       },
       body1: {
-        fontWeight: 500,
+        fontWeight: '400',
+        fontSize: '16px',
+        lineHeight: '24px'
       },
+
+      bodyPoppins: {
+        fontSize: '20px',
+        lineHeight: '180%',
+      },
+      body3Poppins: {
+        fontSize: '16px',
+        lineHeight: '180%',
+      },
+
       button: {
         fontStyle: 'italic',
       },
@@ -200,8 +239,6 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       MuiTypography: {
         defaultProps: {
           color: "text.primary",
-          // fontWeight: 500,
-          // fontSize: 14,
         },
       },
       MuiInputBase: {
