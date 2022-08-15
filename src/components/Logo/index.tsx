@@ -1,48 +1,36 @@
-import { Box } from "@mui/material";
-import Image from "next/image";
-import { FC, useCallback, useState } from "react";
+import { useState } from "react";
+import HelpIcon from "@mui/icons-material/Help";
 
-export const UNKNOWN_ICON =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/token/unknown.png";
+export const BAD_SRCS: { [imageSrc: string]: true } = {};
 
-const BAD_SRCS: { [tokenAddress: string]: true } = {};
-
-interface LogoProps {
+export interface LogoProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   srcs: string[];
-  width: string | number;
-  height: string | number;
-  alt?: string;
 }
 
 /**
  * Renders an image by sequentially trying a list of URIs, and then eventually a fallback triangle alert
  */
-const Logo: FC<LogoProps> = ({ srcs, width, height, alt = "" }) => {
+const Logo: React.FC<LogoProps> = ({ srcs, alt, ...rest }) => {
   const [, refresh] = useState<number>(0);
-  const src = srcs.find((src) => !BAD_SRCS[src]);
-  const onErrorCapture = useCallback(() => {
-    if (src) BAD_SRCS[src] = true;
-    refresh((i) => i + 1);
-  }, [src]);
-  return (
-    <Box
-      sx={{
-        justifyContent: "center",
-        alignItems: "center",
-        display: "flex",
-      }}
-    >
-      <Image
-        src={src || UNKNOWN_ICON}
-        onErrorCapture={onErrorCapture}
-        width={width}
-        height={height}
-        style={{ borderRadius: "50%" }}
+
+  const src: string | undefined = srcs.find((s) => !BAD_SRCS[s]);
+
+  if (src) {
+    return (
+      <img
+        {...rest}
         alt={alt}
-        layout="fixed"
+        src={src}
+        onError={() => {
+          if (src) BAD_SRCS[src] = true;
+          refresh((i) => i + 1);
+        }}
+        style={{ borderRadius: "50%" }}
       />
-    </Box>
-  );
+    );
+  }
+
+  return <HelpIcon sx={{ color: "text", ...rest }} />;
 };
 
 export default Logo;

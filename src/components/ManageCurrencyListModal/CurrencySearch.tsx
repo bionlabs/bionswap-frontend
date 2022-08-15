@@ -1,8 +1,6 @@
 import { ChainId, Currency, NATIVE, Token } from "@bionswap/core-sdk";
-import CloseIcon from "@mui/icons-material/Close";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import { IconButton, Stack, TextField, Tooltip, Typography } from "@mui/material";
-import { BaseModal } from "components";
+import { Button, Stack, TextField, Tooltip, Typography } from "@mui/material";
 import {
   useAllTokens,
   useChain,
@@ -17,18 +15,21 @@ import { filterTokens } from "utils/filter";
 import { isAddress } from "utils/validate";
 import CommonBases from "./CommonBases";
 import CurrencyList from "./CurrencyList";
+import { ManageCurrencyListModalView, useManageCurrencyListModalContext } from ".";
 
 type Props = {
-  open: boolean;
-  onClose: () => void;
-  onCurrencySelect?: (currency: Currency) => void;
+  otherSelectedCurrency?: Currency | null;
+  showCommonBases?: boolean;
+  currencyList?: (string | undefined)[];
+  allowManageTokenList?: boolean;
 };
 
-const CurrencySearchModal = ({ open, onClose, onCurrencySelect }: Props) => {
+const CurrencySearch = ({ otherSelectedCurrency, showCommonBases, currencyList, allowManageTokenList = true }: Props) => {
   const { chainId } = useChain();
   const allTokens = useAllTokens();
-  const currencies = useMemo(() => Object.values(allTokens), [allTokens]);
+  // const currencies = useMemo(() => Object.values(allTokens), [allTokens]);
 
+  const { setView, onDismiss, onSelect, includeNative, showSearch, setImportToken } = useManageCurrencyListModalContext();
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearchQuery, setDebouncedSearchQuery] = React.useState("");
 
@@ -73,61 +74,62 @@ const CurrencySearchModal = ({ open, onClose, onCurrencySelect }: Props) => {
   }, []);
 
   return (
-    <BaseModal open={open} onClose={onClose}>
-      <Stack sx={{ width: "470px" }}>
-        <Stack direction="row" justifyContent="space-between" mb={1} width="100%">
-          <Typography fontSize={16} fontWeight={700}>
-            Select a token
-          </Typography>
-          <IconButton onClick={onClose}>
-            <CloseIcon />
-          </IconButton>
-        </Stack>
-        <Stack
+    <Stack>
+      <Stack direction="row" justifyContent="space-between" mb={1} width="100%">
+        <Typography fontSize={16} fontWeight={700}>
+          Select a token
+        </Typography>
+      </Stack>
+      <Stack
+        sx={{
+          borderRadius: 1,
+          backgroundColor: "extra.input.background",
+          px: 2,
+          height: 50,
+          width: "100%",
+          mb: "8px",
+          "&:focus-within": {
+            border: "1px solid",
+            borderColor: "primary.main",
+          },
+        }}
+      >
+        <TextField
+          variant="standard"
+          placeholder="Search name or paste address"
+          fullWidth
+          value={searchQuery}
+          onChange={handleInput}
           sx={{
             borderRadius: 1,
-            backgroundColor: "extra.input.background",
-            px: 2,
-            height: 50,
-            width: "100%",
-            mb: "8px",
-            "&:focus-within": {
-              border: "1px solid",
-              borderColor: "primary.main",
-            },
           }}
+          InputProps={{
+            disableUnderline: true,
+          }}
+        />
+      </Stack>
+      <Stack gap={2}>
+        <Stack
+        // sx={{ mt: 1, mb: 2 }}
         >
-          <TextField
-            variant="standard"
-            placeholder="Search name or paste address"
-            fullWidth
-            value={searchQuery}
-            onChange={handleInput}
-            sx={{
-              borderRadius: 1,
-            }}
-            InputProps={{
-              disableUnderline: true,
-            }}
-          />
-        </Stack>
-
-        <Stack sx={{ mt: 1, mb: 2 }}>
           <Stack direction="row" alignSelf="flex-start" gap={1} mb={1}>
             <Typography fontSize={12} sx={{ color: "text.secondary" }}>
               Common bases
             </Typography>
             <Tooltip title="These token are commonly paired with other tokens">
-              <HelpOutlineIcon sx={{ fontSize: 15 }} />
+              <HelpOutlineIcon sx={{ fontSize: 15, color: "text.primary" }} />
             </Tooltip>
           </Stack>
-          <CommonBases onCurrencySelect={onCurrencySelect} />
+          <CommonBases onCurrencySelect={onSelect} />
         </Stack>
 
-        <CurrencyList currencies={filteredSortedTokensWithETH} onCurrencySelect={onCurrencySelect} />
+        <CurrencyList currencies={filteredSortedTokensWithETH} onCurrencySelect={onSelect} />
+        <Button fullWidth onClick={() => setView(ManageCurrencyListModalView.manage)}>
+          <Typography>Manage token list</Typography>
+        </Button>
       </Stack>
-    </BaseModal>
+    </Stack>
   );
 };
 
-export default memo(CurrencySearchModal);
+export default memo(CurrencySearch);

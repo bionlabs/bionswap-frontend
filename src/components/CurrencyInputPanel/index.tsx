@@ -1,19 +1,12 @@
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import {
-  Box,
-  Button,
-  InputAdornment,
-  Stack,
-  styled,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, InputAdornment, Stack, styled, TextField, Typography } from "@mui/material";
 import { Currency, CurrencyAmount, JSBI } from "@bionswap/core-sdk";
 import { CurrencyLogo } from "components";
-import CurrencySearchModal from "components/CurrencySearchModal";
+import CurrencySearch from "components/ManageCurrencyListModal/CurrencySearch";
 import { useAccount, useCurrencyBalance, useUSDCValue } from "hooks";
 import { useCallback, useState } from "react";
 import { tryParseAmount } from "utils/parse";
+import ManageCurrencyListModal from "components/ManageCurrencyListModal";
 
 type Props = {
   value: string;
@@ -49,8 +42,8 @@ const CurrencyInputPanel = ({
   );
 
   const handleMaxBalance = () => {
-    onUserInput(currencyBalance?.toFixed(2)?.toString() || "")
-  }
+    onUserInput(currencyBalance?.toFixed(2)?.toString() || "");
+  };
 
   const handleCloseSearchModal = useCallback(() => {
     setSearchModalOpen(false);
@@ -59,14 +52,8 @@ const CurrencyInputPanel = ({
   return (
     <WrapCurrencyInputPanel>
       <Stack>
-        <Stack direction="row" justifyContent={isMax ? 'space-between' : 'end'} width={"100%"} mb='15px'>
-          {
-            isMax
-            &&
-            <MaxButton onClick={handleMaxBalance}>
-              Max
-            </MaxButton>
-          }
+        <Stack direction="row" justifyContent={isMax ? "space-between" : "end"} width={"100%"} mb="15px">
+          {isMax && <MaxButton onClick={handleMaxBalance}>Max</MaxButton>}
 
           <Typography
             sx={{ color: "#7A858C", fontWeight: 400, fontSize: 12, lineHeight: "12px", fontFamily: "'Poppins', sans-serif" }}
@@ -85,13 +72,13 @@ const CurrencyInputPanel = ({
             onInputBlur?.();
           }}
           sx={{
-            backgroundColor: 'transparent',
+            backgroundColor: "transparent",
 
             "& .MuiInputBase-input": {
               fontWeight: "500",
-              fontSize: '24px',
-              lineHeight: '16px',
-              padding: '0'
+              fontSize: "24px",
+              lineHeight: "16px",
+              padding: "0",
             },
             borderRadius: 1,
           }}
@@ -107,9 +94,9 @@ const CurrencyInputPanel = ({
                 sx={{
                   boxShadow: "none",
                   justifyContent: "space-between",
-                  minWidth: 'auto',
-                  background: '#202124',
-                  padding: '7px 10px'
+                  minWidth: "auto",
+                  background: "#202124",
+                  padding: "7px 10px",
                 }}
                 endIcon={
                   <ArrowDropDownIcon
@@ -136,9 +123,9 @@ const CurrencyInputPanel = ({
             disableUnderline: true,
           }}
         />
-        <CurrencySearchModal
+        <ManageCurrencyListModal
           open={searchModalOpen}
-          onClose={handleCloseSearchModal}
+          onDismiss={handleCloseSearchModal}
           onCurrencySelect={handleCurrencySelect}
         />
       </Stack>
@@ -150,20 +137,20 @@ const WrapCurrencyInputPanel = styled(Box)`
   border-radius: 8px;
   background: #121315;
   padding: 15px;
-`
+`;
 const MaxButton = styled(Button)`
-  color: #07E0E0;
+  color: #07e0e0;
   text-align: center;
   font-weight: 400;
   font-size: 12px;
   line-height: 18px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   background: rgba(141, 241, 250, 0.05);
   border: 1px solid rgba(141, 241, 250, 0.5);
   border-radius: 8px;
   max-width: 60px;
   width: 100%;
   padding: 1px;
-`
+`;
 
 export default CurrencyInputPanel;

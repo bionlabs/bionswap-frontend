@@ -11,17 +11,18 @@ const nextConfig = {
   },
   images: {
     domains: [
-      "raw.githubusercontent.com",
-      "gemini.com",
-      "assets.coingecko.com",
-      "s2.coinmarketcap.com",
-      "jpyc.jp",
-      "pbs.twimg.com",
-      "bscscan.com",
-      "shibawallet.pro",
-      "static.bafang.com",
-      "static.coinall.ltd",
+      // "gemini.com",
+      // "assets.coingecko.com",
+      // "s2.coinmarketcap.com",
+      // "jpyc.jp",
+      // "pbs.twimg.com",
+      // "bscscan.com",
+      // "shibawallet.pro",
+      // "static.bafang.com",
+      // "static.coinall.ltd",
     ],
+    // loader: "cloudinary",
+    // path: "https://res.cloudinary.com/demo/image/fetch/",
   },
 };
 

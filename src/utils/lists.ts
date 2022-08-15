@@ -1,4 +1,4 @@
-import { TokenInfo, TokenList } from "@uniswap/token-lists";
+import { TokenInfo, TokenList, Version } from "@uniswap/token-lists";
 import schema from "@uniswap/token-lists/src/tokenlist.schema.json";
 import Ajv from "ajv";
 import { DEFAULT_LIST_OF_LISTS } from "configs/token-lists";
@@ -13,20 +13,13 @@ type Mutable<T> = {
   -readonly [P in keyof T]: Mutable<T[P]>;
 };
 
-const mapCache =
-  typeof WeakMap !== "undefined"
-    ? new WeakMap<TokenList | TokenInfo[], ChainTokenMap>()
-    : null;
+const mapCache = typeof WeakMap !== "undefined" ? new WeakMap<TokenList | TokenInfo[], ChainTokenMap>() : null;
 
-export function tokensToChainTokenMap(
-  tokens: TokenList | TokenInfo[]
-): ChainTokenMap {
+export function tokensToChainTokenMap(tokens: TokenList | TokenInfo[]): ChainTokenMap {
   const cached = mapCache?.get(tokens);
   if (cached) return cached;
 
-  const [list, infos] = Array.isArray(tokens)
-    ? [undefined, tokens]
-    : [tokens, tokens.tokens];
+  const [list, infos] = Array.isArray(tokens) ? [undefined, tokens] : [tokens, tokens.tokens];
   const map = infos.reduce<Mutable<ChainTokenMap>>((map, info) => {
     const token = new WrappedTokenInfo(info, list);
     if (map[token.chainId]?.[token.address] !== undefined) {
@@ -44,9 +37,7 @@ export function tokensToChainTokenMap(
 }
 
 const listCache: WeakMap<TokenList, TokenAddressMap> | null =
-  typeof WeakMap !== "undefined"
-    ? new WeakMap<TokenList, TokenAddressMap>()
-    : null;
+  typeof WeakMap !== "undefined" ? new WeakMap<TokenList, TokenAddressMap>() : null;
 
 export function listToTokenMap(list: TokenList): TokenAddressMap {
   const result = listCache?.get(list);
@@ -86,10 +77,7 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
  * @param map1 the base token map
  * @param map2 the map of additioanl tokens to add to the base map
  */
-export function combineMaps(
-  map1: TokenAddressMap,
-  map2: TokenAddressMap
-): TokenAddressMap {
+export function combineMaps(map1: TokenAddressMap, map2: TokenAddressMap): TokenAddressMap {
   const chainIds = Object.keys(
     Object.keys(map1)
       .concat(Object.keys(map2))
@@ -170,12 +158,8 @@ export function combineMaps(
 
 // use ordering of default list of lists to assign priority
 export function sortByListPriority(urlA: string, urlB: string) {
-  const first = DEFAULT_LIST_OF_LISTS.includes(urlA)
-    ? DEFAULT_LIST_OF_LISTS.indexOf(urlA)
-    : Number.MAX_SAFE_INTEGER;
-  const second = DEFAULT_LIST_OF_LISTS.includes(urlB)
-    ? DEFAULT_LIST_OF_LISTS.indexOf(urlB)
-    : Number.MAX_SAFE_INTEGER;
+  const first = DEFAULT_LIST_OF_LISTS.includes(urlA) ? DEFAULT_LIST_OF_LISTS.indexOf(urlA) : Number.MAX_SAFE_INTEGER;
+  const second = DEFAULT_LIST_OF_LISTS.includes(urlB) ? DEFAULT_LIST_OF_LISTS.indexOf(urlB) : Number.MAX_SAFE_INTEGER;
 
   // need reverse order to make sure mapping includes top priority last
   if (first < second) return 1;
@@ -207,9 +191,7 @@ export async function getTokenList(
       translatedUri = contenthashToUri(contentHashUri);
     } catch (error) {
       console.debug("Failed to translate contenthash to URI", contentHashUri);
-      throw new Error(
-        `Failed to translate contenthash to URI: ${contentHashUri}`
-      );
+      throw new Error(`Failed to translate contenthash to URI: ${contentHashUri}`);
     }
     urls = uriToHttp(`${translatedUri}${parsedENS.ensPath ?? ""}`);
   } else {
@@ -244,4 +226,8 @@ export async function getTokenList(
     return json as any;
   }
   throw new Error("Unrecognized list URL protocol.");
+}
+
+export function listVersionLabel(version: Version): string {
+  return `v${version.major}.${version.minor}.${version.patch}`;
 }

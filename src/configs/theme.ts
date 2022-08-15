@@ -5,41 +5,40 @@ type ExtendedPaletteOptions = PaletteOptions & {
   extra?: ExtraThemeProp;
 };
 
-declare module '@mui/material/styles' {
+declare module "@mui/material/styles" {
   interface TypographyVariants {
-    h3Samsung: React.CSSProperties,
+    h3Samsung: React.CSSProperties;
 
-    h3Poppins: React.CSSProperties,
-    h6Poppins: React.CSSProperties,
-    bodyPoppins: React.CSSProperties,
-    body3Poppins: React.CSSProperties,
-    subtitle2Poppins: React.CSSProperties,
+    h3Poppins: React.CSSProperties;
+    h6Poppins: React.CSSProperties;
+    bodyPoppins: React.CSSProperties;
+    body3Poppins: React.CSSProperties;
+    subtitle2Poppins: React.CSSProperties;
   }
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
-    h3Samsung: React.CSSProperties,
+    h3Samsung: React.CSSProperties;
 
-    h3Poppins: React.CSSProperties,
-    h6Poppins: React.CSSProperties,
-    bodyPoppins: React.CSSProperties,
-    body3Poppins: React.CSSProperties,
-    subtitle2Poppins: React.CSSProperties,
+    h3Poppins: React.CSSProperties;
+    h6Poppins: React.CSSProperties;
+    bodyPoppins: React.CSSProperties;
+    body3Poppins: React.CSSProperties;
+    subtitle2Poppins: React.CSSProperties;
   }
 }
 
-declare module '@mui/material/Typography' {
+declare module "@mui/material/Typography" {
   interface TypographyPropsVariantOverrides {
-    h3Samsung: true,
+    h3Samsung: true;
 
-    h3Poppins: true,
-    h6Poppins: true,
-    bodyPoppins: true,
-    body3Poppins: true,
-    subtitle2Poppins: true,
+    h3Poppins: true;
+    h6Poppins: true;
+    bodyPoppins: true;
+    body3Poppins: true;
+    subtitle2Poppins: true;
   }
 }
-
 
 export const lightPalette: ExtendedPaletteOptions = {
   mode: "light",
@@ -72,18 +71,18 @@ export const lightPalette: ExtendedPaletteOptions = {
       text: "white",
     },
     swapButton: {
-      background: '#07E0E0',
-      color: '#000607'
+      background: "#07E0E0",
+      color: "#000607",
     },
     header: {
-      background: '#ffffff',
-      color: '#787A9B',
-      colorActive: '#0b0b0b'
+      background: "#ffffff",
+      color: "#787A9B",
+      colorActive: "#0b0b0b",
     },
     input: {
-      background: '#FFFFFF',
-      color: "#000000"
-    }
+      background: "#FFFFFF",
+      color: "#000000",
+    },
   },
 };
 
@@ -103,49 +102,49 @@ export const darkPalette: ExtendedPaletteOptions = {
   },
   text: {
     primary: "#FFFFFF",
-    secondary: "#000000",
+    secondary: "#FFFFED",
     disabled: "rgba(255, 255, 255, 0.5)",
   },
   extra: {
     text: {
       primary: "#D6DADE",
-      secondary: '#E0E0E0',
+      secondary: "#E0E0E0",
       subtitle: "#575757",
-      highlight: '#6803B8',
+      highlight: "#6803B8",
     },
     button: {
       background: "white",
       text: "black",
     },
     swapButton: {
-      background: '#07E0E0',
-      color: '#000607'
+      background: "#07E0E0",
+      color: "#000607",
     },
     header: {
-      background: '#081319',
-      color: '#A8B0B9',
-      colorActive: '#07E0E0'
+      background: "#081319",
+      color: "#A8B0B9",
+      colorActive: "#07E0E0",
     },
     input: {
-      background: '#001519',
-      color: "#F8F9F9"
+      background: "#001519",
+      color: "#F8F9F9",
     },
     border: {
-      color: '#424242'
+      color: "#424242",
     },
     divider: {
-      background: '#595959'
+      background: "#595959",
     },
     other: {
-      first: '#011216',
-      second: '#272727',
-      third: '#D9D9D9',
-      fourth: '#82FFFF',
-      fifth: '#000918',
-      sixth: '#121116',
-      seventh: '#31313B',
-      eight: '#535353'
-    }
+      first: "#011216",
+      second: "#272727",
+      third: "#D9D9D9",
+      fourth: "#82FFFF",
+      fifth: "#000918",
+      sixth: "#121116",
+      seventh: "#31313B",
+      eight: "#535353",
+    },
   },
 };
 
@@ -154,70 +153,70 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
     typography: {
       fontFamily: "'Poppins', sans-serif",
       h1: {
-        fontFamily: 'SamsungSharpSans-Bold',
-        fontSize: '64px',
-        lineHeight: '80px',
+        fontFamily: "SamsungSharpSans-Bold",
+        fontSize: "64px",
+        lineHeight: "80px",
       },
       h2: {
-        fontFamily: 'SamsungSharpSans-Bold',
-        fontSize: '56px',
-        lineHeight: '80px',
+        fontFamily: "SamsungSharpSans-Bold",
+        fontSize: "56px",
+        lineHeight: "80px",
       },
       h3: {
-        fontWeight: '400',
-        fontSize: '24px',
-        lineHeight: '180%',
+        fontWeight: "400",
+        fontSize: "24px",
+        lineHeight: "180%",
       },
       h4: {
-        fontWeight: '600',
-        fontSize: '28px',
-        lineHeight: '180%'
+        fontWeight: "600",
+        fontSize: "28px",
+        lineHeight: "180%",
       },
       h6: {
-        fontWeight: '400',
-        fontSize: '20px',
-        lineHeight: '30px',
+        fontWeight: "400",
+        fontSize: "20px",
+        lineHeight: "30px",
       },
       subtitle1: {
-        fontFamily: 'AnonymousPro-Bold',
-        fontSize: '20px',
-        lineHeight: '180%',
+        fontFamily: "AnonymousPro-Bold",
+        fontSize: "20px",
+        lineHeight: "180%",
       },
       body1: {
-        fontWeight: '400',
-        fontSize: '16px',
-        lineHeight: '24px'
+        fontWeight: "400",
+        fontSize: "16px",
+        lineHeight: "24px",
       },
 
       h3Samsung: {
-        fontFamily: 'SamsungSharpSans-Bold',
-        fontSize: '32px',
-        lineHeight: '180%',
+        fontFamily: "SamsungSharpSans-Bold",
+        fontSize: "32px",
+        lineHeight: "180%",
       },
 
       h3Poppins: {
-        fontSize: '32px',
-        lineHeight: '180%',
+        fontSize: "32px",
+        lineHeight: "180%",
       },
       h6Poppins: {
-        fontSize: '20px',
-        lineHeight: '40px',
+        fontSize: "20px",
+        lineHeight: "40px",
       },
       bodyPoppins: {
-        fontSize: '20px',
-        lineHeight: '180%',
+        fontSize: "20px",
+        lineHeight: "180%",
       },
       body3Poppins: {
-        fontSize: '16px',
-        lineHeight: '180%',
+        fontSize: "16px",
+        lineHeight: "180%",
       },
       subtitle2Poppins: {
-        fontSize: '15px',
-        lineHeight: '180%',
+        fontSize: "15px",
+        lineHeight: "180%",
       },
 
       button: {
-        fontStyle: 'italic',
+        fontStyle: "italic",
       },
     },
     breakpoints: {
@@ -243,7 +242,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
           root: {
             textTransform: "none",
             boxShadow: "none",
-            fontStyle: 'normal',
+            fontStyle: "normal",
             // "&:hover": {
             //   transform: "matrix(1.025, 0, 0, 1.025, 0, 0)",
             // },
@@ -287,6 +286,8 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
             "& input[type=number]": {
               MozAppearance: "textfield",
             },
+            "& legend": { display: "none" },
+            "& fieldset": { top: 0 },
           },
         },
       },
