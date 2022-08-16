@@ -98,7 +98,7 @@ const CurrencyList = ({
       }}
     >
       <FixedSizeList
-        height={400}
+        height={300}
         width="100%"
         itemSize={55}
         itemCount={currencies.length}
