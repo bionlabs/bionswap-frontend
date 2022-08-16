@@ -41,22 +41,24 @@ const PartnersSection = ({ isMobile, isTablet }: MobileProp) => {
                             <img src="/images/home/Group481768.png" alt="Group481768" width='290px' height='auto' />
                         </WrapImage>
                     </FlexBox>
-                    <FlexBox flexDirection='column' gap='24px' justifyContent='center'>
-                        <FlexBox gap='20px'>
-                            <Image src="/icons/home/launchpad_icon.svg" alt="launchpad_icon" width={37} height={25} />
-                            <Typography variant='subtitle1' sx={{ color: 'extra.text.primary' }}>
-                                For partners
-                            </Typography>
+                    <FlexBox flexDirection='column' gap='24px' justifyContent='center' alignItems='center' sx={{ width: {xs: '100%', md: '50%'} }}>
+                        <FlexBox flexDirection='column' gap='24px' justifyContent='center'>
+                            <FlexBox gap='20px'>
+                                <Image src="/icons/home/launchpad_icon.svg" alt="launchpad_icon" width={37} height={25} />
+                                <Typography variant='subtitle1' sx={{ color: 'extra.text.primary' }}>
+                                    For partners
+                                </Typography>
+                            </FlexBox>
+                            <WrapNetworkHead>
+                                <Typography variant='h3Samsung' fontWeight='700'>
+                                    Want to launch your
+                                    project on BionSwap ?
+                                </Typography>
+                            </WrapNetworkHead>
+                            <Box maxWidth='218px' width='100%'>
+                                <PrimaryButton label="Create  now +" />
+                            </Box>
                         </FlexBox>
-                        <WrapNetworkHead>
-                            <Typography variant='h3Poppins' fontWeight='700'>
-                                Want to launch your
-                                project on BionSwap ?
-                            </Typography>
-                        </WrapNetworkHead>
-                        <Box maxWidth='218px' width='100%'>
-                            <PrimaryButton label="Create  now +" />
-                        </Box>
                     </FlexBox>
                 </FlexBox>
             </Container>
@@ -83,41 +85,9 @@ const Wrapper = styled(Box)`
     background-size: 100%;
     padding: 35px 0 70px;
 `
-const Line = styled(Box)`
-    width: 1px;
-    height: 89px;
-    background-color: ${(props) => (props.theme.palette as any).extra.divider.background};
-`
-const ConfigItem = styled(Box)`
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    align-items: center;
-`
-const WrapConfig = styled(Box)`
-    background-color: ${(props) => props.theme.palette.background.paper};;
-    border: 1px solid #000000;
-    padding: 37px 72px;
-    display: flex;
-    gap: 71px;
-    margin-top: -28%;
-    justify-content: space-between;
-
-    ${props => props.theme.breakpoints.down("sm")} {
-        flex-direction: column;
-        padding: 30px;
-        gap: 30px;
-    }
-`
 const WrapNetworkHead = styled(Box)`
-    max-width: 445px;
+    max-width: 352px;
     width: 100%;
-`
-const ExploreButton = styled(Button)`
-    width: fit-content;
-    padding: 12px 70px;
-    background: ${prop => prop.theme.palette.background.default};
-    color: ${prop => prop.theme.palette.text.primary}
 `
 
 export default PartnersSection

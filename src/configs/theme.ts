@@ -7,24 +7,36 @@ type ExtendedPaletteOptions = PaletteOptions & {
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {
+    h3Samsung: React.CSSProperties,
+
+    h3Poppins: React.CSSProperties,
+    h6Poppins: React.CSSProperties,
     bodyPoppins: React.CSSProperties,
     body3Poppins: React.CSSProperties,
-    h3Poppins: React.CSSProperties,
+    subtitle2Poppins: React.CSSProperties,
   }
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
+    h3Samsung: React.CSSProperties,
+
+    h3Poppins: React.CSSProperties,
+    h6Poppins: React.CSSProperties,
     bodyPoppins: React.CSSProperties,
     body3Poppins: React.CSSProperties,
-    h3Poppins: React.CSSProperties,
+    subtitle2Poppins: React.CSSProperties,
   }
 }
 
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
+    h3Samsung: true,
+
+    h3Poppins: true,
+    h6Poppins: true,
     bodyPoppins: true,
     body3Poppins: true,
-    h3Poppins: true,
+    subtitle2Poppins: true,
   }
 }
 
@@ -130,6 +142,9 @@ export const darkPalette: ExtendedPaletteOptions = {
       third: '#D9D9D9',
       fourth: '#82FFFF',
       fifth: '#000918',
+      sixth: '#121116',
+      seventh: '#31313B',
+      eight: '#535353'
     }
   },
 };
@@ -174,9 +189,19 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         lineHeight: '24px'
       },
 
+      h3Samsung: {
+        fontFamily: 'SamsungSharpSans-Bold',
+        fontSize: '32px',
+        lineHeight: '180%',
+      },
+
       h3Poppins: {
         fontSize: '32px',
         lineHeight: '180%',
+      },
+      h6Poppins: {
+        fontSize: '20px',
+        lineHeight: '40px',
       },
       bodyPoppins: {
         fontSize: '20px',
@@ -184,6 +209,10 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       },
       body3Poppins: {
         fontSize: '16px',
+        lineHeight: '180%',
+      },
+      subtitle2Poppins: {
+        fontSize: '15px',
         lineHeight: '180%',
       },
 

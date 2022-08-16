@@ -3,6 +3,7 @@ import React from 'react'
 import {
     Box,
     Container,
+    Typography,
     useMediaQuery
 } from '@mui/material'
 import styled from '@emotion/styled'
@@ -15,20 +16,28 @@ const Footer = ({ children }: any) => {
     const router = useRouter()
     return (
         <Wrapper>
-            <Container maxWidth='xl'>
+            <Container maxWidth='lg'>
                 <WrapMenuItem sx={{
                     flexDirection: isMobile ? 'column' : 'row'
                 }}>
                     <MenuItems>
-                        <img src='logo.svg' alt='' width='200px' />
-                        <Box mt={2} ml={2} gap={2} display="flex" alignItems="center" >
+                        <img src='logo_dark.svg' alt='' width='200px' />
+                        <Typography variant='subtitle2Poppins'
+                            sx={{
+                                color: 'extra.other.eight',
+                                fontWeight: '400',
+                                maxWidth: '191px'
+                            }}>
+                            Discover NFTs by category, track the latest drops, and follow the collections you love. Enjoy it!
+                        </Typography>
+                        <Box gap={2} display="flex" alignItems="center" >
                             {
                                 socialsConfig.map((item, index) => (
-                                    <Box 
+                                    <Box
                                         key=''
-                                        component='a' 
+                                        component='a'
                                         href={item.href}
-                                        onClick={(e:any) => {
+                                        onClick={(e: any) => {
                                             e.preventDefault();
                                             router.push(item.href);
                                         }}
@@ -41,20 +50,27 @@ const Footer = ({ children }: any) => {
                     </MenuItems>
                     {
                         footerMenuConfig.map(footer =>
-                            <MenuItems key=''>
-                                <Label>{footer.title}</Label>
+                            <MenuItems key={footer.title}>
+                                <Typography variant='h6Poppins' color='extra.other.sixth' fontWeight='600'>
+                                    {footer.title}
+                                </Typography>
                                 {
                                     footer.items.map(item => (
-                                        <Item
-                                            key='' 
+                                        <Typography variant='body3Poppins'
+                                            component='a'
+                                            key={item.label}
                                             href={item.href}
-                                            onClick={(e:any) => {
+                                            onClick={(e: any) => {
                                                 e.preventDefault();
                                                 router.push(item.href);
                                             }}
+                                            sx={{
+                                                color: 'extra.other.seventh',
+                                                fontWeight: '400',
+                                            }}
                                         >
                                             {item.label}
-                                        </Item>
+                                        </Typography>
                                     ))
                                 }
                             </MenuItems>
@@ -68,41 +84,22 @@ const Footer = ({ children }: any) => {
 
 const Wrapper = styled(Box)`
     width: 100%;
-    // background-image: url('/images/footer_bg.png');
-    background-color: #0b0b0b;
+    background-color: ${(props) => props.theme.palette.background.paper};
     display: flex;
     padding-top: 80px;
     padding-bottom: 80px;
-    background-size: cover;
-    color: #fff;
 `
 const WrapMenuItem = styled(Box)`
     display: flex;
     align-items: start;
     gap: 40px;
+    justify-content: space-between;
 `
 const MenuItems = styled(Box)`
-    width: calc(100% / 4)
-`
-const Item = styled.a`
-    cursor: pointer;
-    display: block;
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 24px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-`
-const Label = styled.p`
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 27px;
-    color: #fff;
-    margin: 0;
-    margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
 `
 
 export default Footer

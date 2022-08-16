@@ -40,61 +40,6 @@ export const menuConfig = [
 
 export const footerMenuConfig = [
     {
-        title: 'About',
-        items: [
-            {
-                label: 'Team',
-                href: '/team',
-                icon: ''
-            },
-            {
-                label: 'Careers',
-                href: '/careers',
-                icon: ''
-            },
-            {
-                label: 'Privacy',
-                href: '/privacy',
-                icon: ''
-            },
-            {
-                label: 'Terms',
-                href: '/terms',
-                icon: ''
-            },
-            {
-                label: 'Contact',
-                href: '/contact',
-                icon: ''
-            },
-        ]
-    },
-    {
-        title: 'Resources',
-        items: [
-            {
-                label: 'Blog',
-                href: '/blog',
-                icon: ''
-            },
-            {
-                label: 'FAQ',
-                href: '/faq',
-                icon: ''
-            },
-            {
-                label: 'Knowledge Centre',
-                href: '/knowledge-centre',
-                icon: ''
-            },
-            {
-                label: 'Oracles',
-                href: '/oracles',
-                icon: ''
-            },
-        ]
-    },
-    {
         title: 'Products',
         items: [
             {
@@ -103,13 +48,63 @@ export const footerMenuConfig = [
                 icon: ''
             },
             {
-                label: 'Farm',
-                href: '/farm',
+                label: 'Stacks',
+                href: '/stacks',
                 icon: ''
             },
             {
-                label: 'Pool',
-                href: '/pool',
+                label: 'Crowdfunding',
+                href: '/crowdfunding',
+                icon: ''
+            },
+            {
+                label: 'Dashboard',
+                href: '/dashboard',
+                icon: ''
+            },
+        ]
+    },
+    {
+        title: 'Help',
+        items: [
+            {
+                label: 'How to participate',
+                href: '/how-to-participate',
+                icon: ''
+            },
+            {
+                label: 'FAQ',
+                href: '/faq',
+                icon: ''
+            },
+            {
+                label: 'Support',
+                href: '/support',
+                icon: ''
+            },
+            {
+                label: 'Term & privacy',
+                href: '/term-and-privacy',
+                icon: ''
+            },
+        ]
+    },
+    {
+        title: 'For partner',
+        items: [
+            {
+                label: 'Apply for ido',
+                href: '/apply-for-ido',
+                icon: ''
+            },
+            {
+                label: 'About us',
+                href: '/about-us',
+                icon: ''
+            },
+            {
+                label: 'Career',
+                href: '/career',
                 icon: ''
             },
         ]
