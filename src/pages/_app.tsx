@@ -3,8 +3,8 @@ import { BlockNumberProvider } from "components";
 import { getTheme } from "configs/theme";
 import { useDarkMode } from "hooks";
 import type { AppProps } from "next/app";
-import { Provider } from "react-redux";
-import { store } from "state";
+import { Provider as ReduxProvider } from "react-redux";
+import { persistor, store } from "state";
 import { ListsUpdater } from "state/lists/updater";
 import { MulticallUpdater } from "state/multicall/updater";
 import Footer from "views/Footer";
@@ -12,6 +12,7 @@ import Menu from "views/Menu";
 import { WagmiConfig } from "wagmi";
 import "../../styles/globals.css";
 import { client } from "../configs/chain";
+import { PersistGate } from "redux-persist/integration/react";
 
 type StyledThemeProviderProps = {
   children: React.ReactElement;
@@ -26,18 +27,20 @@ const StyledThemeProvider = ({ children }: StyledThemeProviderProps) => {
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig client={client}>
-      <Provider store={store}>
-        <StyledThemeProvider>
-          <BlockNumberProvider>
-            <Menu>
-              <MulticallUpdater />
-              <ListsUpdater />
-              <Component {...pageProps} />
-              <Footer />
-            </Menu>
-          </BlockNumberProvider>
-        </StyledThemeProvider>
-      </Provider>
+      <ReduxProvider store={store}>
+        <PersistGate persistor={persistor}>
+          <StyledThemeProvider>
+            <BlockNumberProvider>
+              <Menu>
+                <MulticallUpdater />
+                <ListsUpdater />
+                <Component {...pageProps} />
+                <Footer />
+              </Menu>
+            </BlockNumberProvider>
+          </StyledThemeProvider>
+        </PersistGate>
+      </ReduxProvider>
     </WagmiConfig>
   );
 }
