@@ -2,15 +2,11 @@
 import React from 'react'
 import {
     Box,
-    Button,
     Container,
     styled,
     Typography,
-    Stack
 } from '@mui/material'
-import { MobileProp } from 'configs/Type/Mobile/type'
 import Image from "next/image";
-import PrimaryButton from 'components/PrimaryButton';
 
 const config = [
     {
@@ -56,101 +52,87 @@ const MissionSection = () => {
                         </Typography>
                     </FlexBox>
                 </FlexBox>
-                <FlexBox>
-                    <ItemConfig>
-                        <FlexBox flexDirection='column' gap='19px'>
-                            <Box>
-                                <Image src='/images/home/arrange-circle.png' alt='Swap token with low gas fee and  fast. transaction' width='29px' height='29px' />
-                            </Box>
-                            <Typography variant='bodyPoppins' fontWeight='600'>
-                                Swap token with low gas fee and  fast. transaction
-                            </Typography>
-                        </FlexBox>
-                        <FlexBox alignItems='center' gap='13px'>
-                            <Line sx={{ backgroundColor: '#FFFFFF' }} />
-                            <Typography variant='body3Poppins' fontWeight='400'>
-                                Swap now
-                            </Typography>
-                        </FlexBox>
-                    </ItemConfig>
-                    <ItemConfig sx={{}}>
-                        <FlexBox flexDirection='column' gap='19px'>
-                            <Box>
-                                <Image src='/images/home/arrange-circle.png' alt='Swap token with low gas fee and  fast. transaction' width='29px' height='29px' />
-                            </Box>
-                            <Box>
-                                <Typography variant='body3Poppins' fontWeight='500'>
-                                    Create
+                <Box mt='128px' sx={{position: 'relative'}}>
+                    <WrapLogo>
+                        <Image src='/images/home/Frame481747.png' alt='Frame481747' width='103px' height='74px' />
+                    </WrapLogo>
+                    <FlexBox justifyContent='flex-end' sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
+                        <ItemConfig sx={{ backgroundColor: 'background.default' }}>
+                            <FlexBox flexDirection='column' gap='19px' alignItems='baseline'>
+                                <WrapIcon sx={{ backgroundColor: 'extra.other.second' }}>
+                                    <Image src='/images/home/arrange-circle.png' alt='Swap token with low gas fee and  fast. transaction' width='29px' height='29px' />
+                                </WrapIcon>
+                                <Typography variant='bodyPoppins' fontWeight='600'>
+                                    Swap token with low gas fee and  fast. transaction
                                 </Typography>
-                                <Typography variant='body3Poppins' fontWeight='600'>
-                                    <br />
-                                    &#8226; Launchpad
-                                    <br />
-                                    &#8226; Token
-                                    <br />
-                                    &#8226; Airdrop
-                                    <br />
-                                    &#8226; Farm, pools
-                                    <br />
-                                    &#8226; Minigames
+                            </FlexBox>
+                            <FlexBox alignItems='center' gap='13px'>
+                                <Line sx={{ backgroundColor: 'background.paper' }} />
+                                <Typography variant='body3Poppins' fontWeight='400' sx={{ color: 'background.paper' }}>
+                                    Swap now
                                 </Typography>
-                            </Box>
-                        </FlexBox>
-                        <FlexBox alignItems='center' gap='13px'>
-                            <Line sx={{ backgroundColor: '#FFFFFF' }} />
-                            <Typography variant='body3Poppins' fontWeight='400'>
-                                Swap now
-                            </Typography>
-                        </FlexBox>
-                    </ItemConfig>
-                    <ItemConfig sx={{}}>
-                        <FlexBox flexDirection='column' gap='19px'>
-                            <Box>
-                                <Image src='/images/home/arrange-circle.png' alt='Swap token with low gas fee and  fast. transaction' width='29px' height='29px' />
-                            </Box>
-                            <Box>
-                                <Typography variant='body3Poppins' fontWeight='500'>
-                                    Create
-                                </Typography>
-                                <Typography variant='body3Poppins' fontWeight='600'>
-                                    <br />
-                                    &#8226; Launchpad
-                                    <br />
-                                    &#8226; Token
-                                    <br />
-                                    &#8226; Airdrop
-                                    <br />
-                                    &#8226; Farm, pools
-                                    <br />
-                                    &#8226; Minigames
-                                </Typography>
-                            </Box>
-                        </FlexBox>
-                        <FlexBox alignItems='center' gap='13px'>
-                            <Line sx={{ backgroundColor: '#FFFFFF' }} />
-                            <Typography variant='body3Poppins' fontWeight='400'>
-                                Swap now
-                            </Typography>
-                        </FlexBox>
-                    </ItemConfig>
-                    {/* {
-                        config.map((item, index) => (
-                            <ItemConfig key={item.label}>
-                                <FlexBox flexDirection='column' gap='19px'>
-                                    <Box>
-                                        <Image src={item.icon} alt={item.label} width='29px' height='29px' />
-                                    </Box>
-                                    <Typography variant='body3Poppins' fontWeight=''>
-                                       {item.label}
+                            </FlexBox>
+                        </ItemConfig>
+                        <ItemConfig sx={{ backgroundColor: 'background.paper' }}>
+                            <FlexBox flexDirection='column' gap='19px' alignItems='baseline'>
+                                <WrapIcon sx={{ backgroundColor: 'extra.other.third' }}>
+                                    <Image src='/images/home/additem.png' alt='additem' width='29px' height='29px' />
+                                </WrapIcon>
+                                <Box>
+                                    <Typography variant='body3Poppins' fontWeight='500' sx={{ color: 'secondary.main' }}>
+                                        Create
                                     </Typography>
-                                </FlexBox>
-                                <FlexBox gap='13px'>
-
-                                </FlexBox>
-                            </ItemConfig>
-                        ))
-                    } */}
-                </FlexBox>
+                                    <Typography variant='body3Poppins' fontWeight='600' sx={{ color: 'text.secondary' }}>
+                                        <br />
+                                        &#8226; Launchpad
+                                        <br />
+                                        &#8226; Token
+                                        <br />
+                                        &#8226; Airdrop
+                                        <br />
+                                        &#8226; Farm, pools
+                                        <br />
+                                        &#8226; Minigames
+                                    </Typography>
+                                </Box>
+                            </FlexBox>
+                            <FlexBox alignItems='center' gap='13px'>
+                                <Line sx={{ backgroundColor: 'text.secondary' }} />
+                                <Typography variant='body3Poppins' fontWeight='400' sx={{ color: 'text.secondary' }}>
+                                    Create now
+                                </Typography>
+                            </FlexBox>
+                        </ItemConfig>
+                        <ItemConfig sx={{ backgroundColor: 'extra.swapButton.background' }}>
+                            <FlexBox flexDirection='column' gap='19px' alignItems='baseline'>
+                                <WrapIcon sx={{ backgroundColor: 'extra.other.fourth' }}>
+                                    <Image src='/images/home/award.png' alt='award' width='29px' height='29px' />
+                                </WrapIcon>
+                                <Box>
+                                    <Typography variant='body3Poppins' fontWeight='500' sx={{ color: 'secondary.main' }}>
+                                        Participate
+                                    </Typography>
+                                    <Typography variant='body3Poppins' fontWeight='600' sx={{ color: 'text.secondary' }}>
+                                        <br />
+                                        &#8226; Token sales
+                                        <br />
+                                        &#8226; Lucky events
+                                        <br />
+                                        &#8226; Yield farming
+                                        <br />
+                                        &#8226; Bounty reward
+                                    </Typography>
+                                </Box>
+                            </FlexBox>
+                            <FlexBox alignItems='center' gap='13px'>
+                                <Line sx={{ backgroundColor: 'text.secondary' }} />
+                                <Typography variant='body3Poppins' fontWeight='400' sx={{ color: 'text.secondary' }}>
+                                    Join now
+                                </Typography>
+                            </FlexBox>
+                        </ItemConfig>
+                    </FlexBox>
+                </Box>
             </Container>
         </Wrapper>
     )
@@ -172,6 +154,7 @@ const Wrapper = styled(Box)`
     gap: 60px;
     justify-content: center;
     position: relative;
+    padding-top: 68px;
 `
 const ItemConfig = styled(Box)`
     width: 1px;
@@ -180,37 +163,28 @@ const ItemConfig = styled(Box)`
     max-width: 329px;
     width: 100%;
     aspect-ratio: 1;
-`
-const ConfigItem = styled(Box)`
+    height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    align-items: center;
-`
-const WrapConfig = styled(Box)`
-    background-color: ${(props) => props.theme.palette.background.paper};;
-    border: 1px solid #000000;
-    padding: 37px 72px;
-    display: flex;
-    gap: 71px;
-    margin-top: -28%;
     justify-content: space-between;
 
     ${props => props.theme.breakpoints.down("sm")} {
-        flex-direction: column;
-        padding: 30px;
-        gap: 30px;
+        max-width: 100%;
     }
 `
-const WrapNetworkHead = styled(Box)`
-    max-width: 445px;
-    width: 100%;
+const WrapIcon = styled(Box)`
+    border-radius: 4px;
+    padding: 9px;
+    display: flex;
 `
-const ExploreButton = styled(Button)`
-    width: fit-content;
-    padding: 12px 70px;
-    background: ${prop => prop.theme.palette.background.default};
-    color: ${prop => prop.theme.palette.text.primary}
+const WrapLogo = styled(Box)`
+    position: absolute;
+    right: 11px;
+    top: -35px;
+
+    ${props => props.theme.breakpoints.down("sm")} {
+        display: none;
+    }
 `
 
 export default MissionSection

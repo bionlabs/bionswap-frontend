@@ -9,12 +9,14 @@ declare module '@mui/material/styles' {
   interface TypographyVariants {
     bodyPoppins: React.CSSProperties,
     body3Poppins: React.CSSProperties,
+    h3Poppins: React.CSSProperties,
   }
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
     bodyPoppins: React.CSSProperties,
     body3Poppins: React.CSSProperties,
+    h3Poppins: React.CSSProperties,
   }
 }
 
@@ -22,6 +24,7 @@ declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     bodyPoppins: true,
     body3Poppins: true,
+    h3Poppins: true,
   }
 }
 
@@ -126,6 +129,7 @@ export const darkPalette: ExtendedPaletteOptions = {
       second: '#272727',
       third: '#D9D9D9',
       fourth: '#82FFFF',
+      fifth: '#000918',
     }
   },
 };
@@ -170,6 +174,10 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         lineHeight: '24px'
       },
 
+      h3Poppins: {
+        fontSize: '32px',
+        lineHeight: '180%',
+      },
       bodyPoppins: {
         fontSize: '20px',
         lineHeight: '180%',

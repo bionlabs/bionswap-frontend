@@ -3,41 +3,78 @@ import React from 'react'
 import {
     Box,
     Button,
-    Container
+    Container,
+    Typography
 } from '@mui/material'
 import styled from '@emotion/styled'
 import { MobileProp } from 'configs/Type/Mobile/type'
 import { crowdfundingConfig } from 'views/Crowdfunding/config'
 import ProjectItem from 'views/Crowdfunding/components/ProjectItem'
+import Image from "next/image";
+import PrimaryButton from 'components/PrimaryButton'
 
-const UpcommingProjectSection = ({ isMobile }: MobileProp) => {
-    const Wrapper = styled(Box)`
+const UpcommingProjectSection = () => {
+    return (
+        <Wrapper>
+            <Container maxWidth='lg' sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+            }}>
+                <FlexBox mb='60px' alignItems='center' flexDirection='column'>
+                    <FlexBox gap='20px'>
+                        <Image src="/icons/home/launchpad_icon.svg" alt="launchpad_icon" width={37} height={25} />
+                        <Typography variant='subtitle1' sx={{ color: 'extra.text.primary' }}>
+                            launchpad
+                        </Typography>
+                    </FlexBox>
+                    <Typography variant='h3Poppins' fontWeight='600'>
+                        Upcoming launching projects
+                    </Typography>
+                </FlexBox>
+                <WrapItems>
+                    {
+                        crowdfundingConfig?.map((item, idex) => (
+                            <Items key=''>
+                                <ProjectItem data={item} />
+                            </Items>
+                        ))
+                    }
+                </WrapItems>
+                <Box mt='63px' maxWidth='218px' width='100%'>
+                    <PrimaryButton label="Explore more ->" />
+                </Box>
+            </Container>
+        </Wrapper>
+    )
+}
+
+const FlexBox = styled(Box)`
+    display: flex;
+`
+const Wrapper = styled(Box)`
         width: 100%;
         padding: 8vh 0;
         display: flex;
         flex-direction: column;
         gap: 60px;
+        background-color: ${(props) => props.theme.palette.extra.other.fifth};
 `
-    const HeadTitle = styled(Box)`
-        color: #0C1116;
-        font-weight: 700;
-        font-size: ${ isMobile ? '32px' : '42px' };
-        line-height: 150%;
-        text-align: center;
-        margin-bottom: 36px;
-`
-    const WrapItems = styled(Box)`
+const WrapItems = styled(Box)`
         display: flex;
         gap: 32px;
         flex-wrap: wrap;
-        ${isMobile ? 'justify-content: center;' : ''}
+
+        ${props => props.theme.breakpoints.down("sm")} {
+            justify-content: center;
+        }
     `
-    const Items = styled(Box)`
+const Items = styled(Box)`
         min-width: 340px;
         max-width: calc(94% / 3);
         width: 100%;
     `
-    const ButtonStyle = styled(Button)`
+const ButtonStyle = styled(Button)`
         font-weight: 600;
         font-size: 16px;
         line-height: 27px;
@@ -57,28 +94,5 @@ const UpcommingProjectSection = ({ isMobile }: MobileProp) => {
             
         }
     `
-
-    return (
-        <Wrapper>
-            <Container maxWidth='lg' sx={{
-                display:'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
-            }}>
-                <HeadTitle className='specialFont'>🚀 Upcomming project</HeadTitle>
-                <WrapItems>
-                    {
-                        crowdfundingConfig?.map((item, idex) => (
-                            <Items key=''>
-                                <ProjectItem data={item} />
-                            </Items>
-                        ))
-                    }
-                </WrapItems>
-                <ButtonStyle>More projects</ButtonStyle>
-            </Container>
-        </Wrapper>
-    )
-}
 
 export default UpcommingProjectSection

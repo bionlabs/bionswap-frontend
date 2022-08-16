@@ -11,6 +11,7 @@ import OurProjectsSection from './Sections/OurProjects/OurProjectsSection'
 import LaunchSection from './Sections/Launch/LaunchSection'
 import NetworkSection from './Sections/Network/NetworkSection'
 import MissionSection from './Sections/Mission/MissionSection'
+import PartnersSection from './Sections/Partners/PartnersSection'
 
 const Homepage = () => {
   const isMobile = useMediaQuery('(max-width:700px)');
@@ -21,7 +22,8 @@ const Homepage = () => {
         <HeroSection isMobile={isMobile} isTablet={isTablet}/>
         <NetworkSection isMobile={isMobile} isTablet={isTablet}/>
         <MissionSection />
-        <UpcommingProjectSection isMobile={isMobile}/>
+        <UpcommingProjectSection/>
+        <PartnersSection />
         {/* <OurProjectsSection isMobile={isMobile}/>
         <LaunchSection isMobile={isMobile} /> */}
     </Page>

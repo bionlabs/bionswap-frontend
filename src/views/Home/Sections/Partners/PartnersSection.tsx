@@ -31,54 +31,32 @@ const config = [
     },
 ]
 
-const NetworkSection = ({ isMobile, isTablet }: MobileProp) => {
+const PartnersSection = ({ isMobile, isTablet }: MobileProp) => {
     return (
         <Wrapper>
             <Container maxWidth='lg'>
-                <WrapConfig>
-                    {
-                        config.map((item, index) => (
-                            <>
-                                <ConfigItem key={item.label}>
-                                    <Typography variant='h4' sx={{ color: 'text.secondary' }}>
-                                        {item.value}
-                                    </Typography>
-                                    <Typography variant='body1' sx={{ color:'text.secondary' }}>
-                                        {item.label}
-                                    </Typography>
-                                </ConfigItem>
-                                {
-                                    index !== config.length - 1 && <Line sx={{ display: {xs: 'none', md: 'block'} }} />
-                                } 
-                            </>
-                        ))
-                    }
-                </WrapConfig>
-            </Container>
-            <Container maxWidth='lg'>
                 <FlexBox flexDirection={isTablet ? 'column' : 'row'} justifyContent='space-between'>
-                    <FlexBox flexDirection='column' gap='24px'>
+                    <FlexBox alignItems='end' width='50%' sx={{ display: { xs: 'none', md: 'block' } }}>
+                        <WrapImage>
+                            <img src="/images/home/Group481768.png" alt="Group481768" width='290px' height='auto' />
+                        </WrapImage>
+                    </FlexBox>
+                    <FlexBox flexDirection='column' gap='24px' justifyContent='center'>
                         <FlexBox gap='20px'>
-                            <Image src="/icons/home/network_symbol.svg" alt="network_symbol" width={37} height={25} />
-                            <Typography variant='subtitle1' sx={{ color: 'extra.text.subtitle' }}>
-                                network
+                            <Image src="/icons/home/launchpad_icon.svg" alt="launchpad_icon" width={37} height={25} />
+                            <Typography variant='subtitle1' sx={{ color: 'extra.text.primary' }}>
+                                For partners
                             </Typography>
                         </FlexBox>
                         <WrapNetworkHead>
-                            <Typography variant='h2' sx={{ color: 'text.secondary', fontSize: isMobile ? '48px' : null }}>
-                                All activities on multi-chain <Box sx={{ color: 'extra.text.highlight' }}>Multi-powers!</Box>
+                            <Typography variant='h3Poppins' fontWeight='700'>
+                                Want to launch your
+                                project on BionSwap ?
                             </Typography>
                         </WrapNetworkHead>
-                        <ExploreButton
-                            variant='contained'
-                        >
-                            Explore now !
-                        </ExploreButton>
-                    </FlexBox>
-                    <FlexBox alignItems='end' width='50%' sx={{display: {xs: 'none', md: 'block'}}}>
-                        <WrapImage>
-                            <img src="/images/home/computer.png" alt="" width='100%' height='auto' />
-                        </WrapImage>
+                        <Box maxWidth='218px' width='100%'>
+                            <PrimaryButton label="Create  now +" />
+                        </Box>
                     </FlexBox>
                 </FlexBox>
             </Container>
@@ -90,20 +68,20 @@ const FlexBox = styled(Box)`
     display: flex;
 `
 const WrapImage = styled(Box)`
-    position: absolute;
-    bottom: -7px;
-    max-width: 40%;
-    width: 100%;
+    text-align: center;
 `
 const Wrapper = styled(Box)`
     width: 100%;
-    background-color: ${(props) => props.theme.palette.background.paper};
+    background-color: ${(props) => props.theme.palette.text.secondary};
+    background-image: url('/images/home/Vector.png');
     display: flex;
     flex-direction: column;
     gap: 60px;
-    min-height: 100vh;
     justify-content: center;
     position: relative;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    padding: 35px 0 70px;
 `
 const Line = styled(Box)`
     width: 1px;
@@ -142,4 +120,4 @@ const ExploreButton = styled(Button)`
     color: ${prop => prop.theme.palette.text.primary}
 `
 
-export default NetworkSection
+export default PartnersSection

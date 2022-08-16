@@ -11,21 +11,6 @@ interface ProjectItemProps {
 const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
     const router = useRouter();
 
-    const WrapBox = styled(Box)`
-        border-radius: 8px;
-        background: #FFFFFF;
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-        cursor: pointer;
-        transition: .15s ease-in;
-        border: 1.5px solid #EAECEE;
-        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-        :hover {
-            transform: scale3d(0.99, 0.99, 1);
-            transform-style: preserve-3d;
-        }
-    `
     return (
         <WrapBox onClick={() => { router.push(`/crowdfunding/${data?.slug}`) }}>
             <img src={data?.projectThumb} alt={data?.name} style={{
@@ -152,5 +137,21 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
         </WrapBox>
     )
 }
+
+const WrapBox = styled(Box)`
+        border-radius: 8px;
+        background: #FFFFFF;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        transition: .15s ease-in;
+        border: 1.5px solid #EAECEE;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        :hover {
+            transform: scale3d(0.99, 0.99, 1);
+            transform-style: preserve-3d;
+        }
+    `
 
 export default ProjectItem;
