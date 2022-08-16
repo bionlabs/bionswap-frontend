@@ -102,7 +102,7 @@ export const darkPalette: ExtendedPaletteOptions = {
   },
   text: {
     primary: "#FFFFFF",
-    secondary: "#FFFFED",
+    secondary: "#000000",
     disabled: "rgba(255, 255, 255, 0.5)",
   },
   extra: {
