@@ -4,9 +4,9 @@ import {
     Box,
     Container,
     Typography,
-    useMediaQuery
+    useMediaQuery,
+    styled
 } from '@mui/material'
-import styled from '@emotion/styled'
 import { footerMenuConfig, socialsConfig } from 'configs/menu/config'
 import { useRouter } from 'next/router'
 

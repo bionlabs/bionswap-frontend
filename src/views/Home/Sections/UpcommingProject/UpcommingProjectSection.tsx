@@ -4,9 +4,9 @@ import {
     Box,
     Button,
     Container,
-    Typography
+    Typography,
+    styled
 } from '@mui/material'
-import styled from '@emotion/styled'
 import { MobileProp } from 'configs/Type/Mobile/type'
 import { crowdfundingConfig } from 'views/Crowdfunding/config'
 import ProjectItem from 'views/Crowdfunding/components/ProjectItem'
@@ -58,7 +58,7 @@ const Wrapper = styled(Box)`
         display: flex;
         flex-direction: column;
         gap: 60px;
-        background-color: ${(props) => props.theme.palette.extra.other.fifth};
+        background-color: ${(props) => (props.theme.palette as any).extra.other.fifth};
 `
 const WrapItems = styled(Box)`
         display: flex;
