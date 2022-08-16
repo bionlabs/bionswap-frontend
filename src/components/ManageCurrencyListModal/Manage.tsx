@@ -12,7 +12,7 @@ const Manage = (props: Props) => {
   const [selectedTab, setSelectedTab] = useState(0);
 
   return (
-    <Stack gap={1}>
+    <Stack gap={2}>
       <Stack direction="row" justifyContent="start" width="100%" gap={1}>
         <IconButton onClick={() => setView(ManageCurrencyListModalView.search)}>
           <ArrowBackIcon />

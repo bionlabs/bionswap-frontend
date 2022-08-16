@@ -8,14 +8,15 @@ import {
   useIsUserAddedToken,
   useSortedTokensByQuery,
   useToken,
-  useTokenComparator,
+  useTokenComparator
 } from "hooks";
 import React, { memo, useCallback, useMemo, useState } from "react";
 import { filterTokens } from "utils/filter";
 import { isAddress } from "utils/validate";
+import { ManageCurrencyListModalView, useManageCurrencyListModalContext } from ".";
 import CommonBases from "./CommonBases";
 import CurrencyList from "./CurrencyList";
-import { ManageCurrencyListModalView, useManageCurrencyListModalContext } from ".";
+import ImportRow from "./ImportRow";
 
 type Props = {
   otherSelectedCurrency?: Currency | null;
@@ -73,6 +74,14 @@ const CurrencySearch = ({ otherSelectedCurrency, showCommonBases, currencyList, 
     setSearchQuery(checkSum || input);
   }, []);
 
+  const handleImport = useCallback(() => {
+    if (searchToken) {
+      setImportToken(searchToken);
+    }
+
+    setView(ManageCurrencyListModalView.importToken);
+  }, [searchToken, setImportToken, setView]);
+
   return (
     <Stack>
       <Stack direction="row" justifyContent="space-between" mb={1} width="100%">
@@ -122,6 +131,7 @@ const CurrencySearch = ({ otherSelectedCurrency, showCommonBases, currencyList, 
           </Stack>
           <CommonBases onCurrencySelect={onSelect} />
         </Stack>
+        {searchToken && !searchTokenIsAdded && <ImportRow token={searchToken} onClick={handleImport} />}
 
         <CurrencyList currencies={filteredSortedTokensWithETH} onCurrencySelect={onSelect} />
         <Button fullWidth onClick={() => setView(ManageCurrencyListModalView.manage)}>
