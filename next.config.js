@@ -19,6 +19,8 @@ const nextConfig = {
       "pbs.twimg.com",
       "bscscan.com",
       "shibawallet.pro",
+      "static.bafang.com",
+      "static.coinall.ltd",
     ],
   },
 };

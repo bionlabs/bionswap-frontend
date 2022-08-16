@@ -1,25 +1,9 @@
 import { MaxUint256 } from "@ethersproject/constants";
 import { TransactionResponse } from "@ethersproject/providers";
-import {
-  Currency,
-  CurrencyAmount,
-  Percent,
-  ROUTER_ADDRESS,
-  Trade as V2Trade,
-  TradeType,
-} from "@bionswap/core-sdk";
-import {
-  useAccount,
-  useChain,
-  useNetwork,
-  useTokenAllowance,
-  useTokenContract,
-} from "hooks";
+import { Currency, CurrencyAmount, Percent, ROUTER_ADDRESS, Trade as V2Trade, TradeType } from "@bionswap/core-sdk";
+import { useAccount, useChain, useNetwork, useTokenAllowance, useTokenContract } from "hooks";
 import { useCallback, useMemo } from "react";
-import {
-  useHasPendingApproval,
-  useTransactionAdder,
-} from "state/transactions/hooks";
+import { useHasPendingApproval, useTransactionAdder } from "state/transactions/hooks";
 import { calculateGasMargin } from "utils/trade";
 
 export enum ApprovalState {
@@ -35,14 +19,8 @@ export function useApproveCallback(
   spender?: string
 ): [ApprovalState, () => Promise<void>] {
   const { address: account } = useAccount();
-  const token = amountToApprove?.currency?.isToken
-    ? amountToApprove.currency
-    : undefined;
-  const currentAllowance = useTokenAllowance(
-    token,
-    account ?? undefined,
-    spender
-  );
+  const token = amountToApprove?.currency?.isToken ? amountToApprove.currency : undefined;
+  const currentAllowance = useTokenAllowance(token, account ?? undefined, spender);
   const pendingApproval = useHasPendingApproval(token?.address, spender);
 
   // check the current approval status
@@ -65,49 +43,35 @@ export function useApproveCallback(
 
   const approve = useCallback(async (): Promise<void> => {
     if (approvalState !== ApprovalState.NOT_APPROVED) {
-      console.error("approve was called unnecessarily");
       return;
     }
     if (!token) {
-      console.error("no token");
       return;
     }
 
     if (!tokenContract) {
-      console.error("tokenContract is null");
       return;
     }
 
     if (!amountToApprove) {
-      console.error("missing amount to approve");
       return;
     }
 
     if (!spender) {
-      console.error("no spender");
       return;
     }
 
     let useExact = false;
-    const estimatedGas = await tokenContract.estimateGas
-      .approve(spender, MaxUint256)
-      .catch(() => {
-        // general fallback for tokens who restrict approval amounts
-        useExact = true;
-        return tokenContract.estimateGas.approve(
-          spender,
-          amountToApprove.quotient.toString()
-        );
-      });
+    const estimatedGas = await tokenContract.estimateGas.approve(spender, MaxUint256).catch(() => {
+      // general fallback for tokens who restrict approval amounts
+      useExact = true;
+      return tokenContract.estimateGas.approve(spender, amountToApprove.quotient.toString());
+    });
 
     return tokenContract
-      .approve(
-        spender,
-        useExact ? amountToApprove.quotient.toString() : MaxUint256,
-        {
-          gasLimit: calculateGasMargin(estimatedGas),
-        }
-      )
+      .approve(spender, useExact ? amountToApprove.quotient.toString() : MaxUint256, {
+        gasLimit: calculateGasMargin(estimatedGas),
+      })
       .then((response: TransactionResponse) => {
         addTransaction(response, {
           summary: "Approve " + amountToApprove.currency.symbol,
@@ -115,17 +79,9 @@ export function useApproveCallback(
         });
       })
       .catch((error: Error) => {
-        console.debug("Failed to approve token", error);
         throw error;
       });
-  }, [
-    approvalState,
-    token,
-    tokenContract,
-    amountToApprove,
-    spender,
-    addTransaction,
-  ]);
+  }, [approvalState, token, tokenContract, amountToApprove, spender, addTransaction]);
 
   return [approvalState, approve];
 }
@@ -137,18 +93,11 @@ export function useApproveCallbackFromTrade(
 ) {
   const { chainId } = useChain();
   const amountToApprove = useMemo(
-    () =>
-      trade && trade.inputAmount.currency.isToken
-        ? trade.maximumAmountIn(allowedSlippage)
-        : undefined,
+    () => (trade && trade.inputAmount.currency.isToken ? trade.maximumAmountIn(allowedSlippage) : undefined),
     [trade, allowedSlippage]
   );
   return useApproveCallback(
     amountToApprove,
-    chainId
-      ? trade instanceof V2Trade
-        ? ROUTER_ADDRESS[chainId]
-        : undefined
-      : undefined
+    chainId ? (trade instanceof V2Trade ? ROUTER_ADDRESS[chainId] : undefined) : undefined
   );
 }
