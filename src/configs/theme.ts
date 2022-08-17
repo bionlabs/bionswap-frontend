@@ -1,11 +1,13 @@
-import { createTheme, PaletteOptions, SimplePaletteColorOptions, ThemeOptions } from "@mui/material";
+import { createTheme, Palette, PaletteOptions, ThemeOptions } from "@mui/material";
+import { ColorPartial } from "@mui/material/styles/createPalette";
+import { PartialDeep } from "type-fest";
 
 type ExtraThemeProp = { [any: string]: string | ExtraThemeProp };
-type ExtendedPaletteOptions = PaletteOptions & {
+type ExtendedPaletteOptions = PartialDeep<Palette> & {
   extra?: ExtraThemeProp;
 };
 
-declare module "@mui/material/styles" {
+declare module "@mui/material" {
   interface TypographyVariants {
     h3Samsung: React.CSSProperties;
 
@@ -16,19 +18,6 @@ declare module "@mui/material/styles" {
     subtitle2Poppins: React.CSSProperties;
   }
 
-  // allow configuration using `createTheme`
-  interface TypographyVariantsOptions {
-    h3Samsung: React.CSSProperties;
-
-    h3Poppins: React.CSSProperties;
-    h6Poppins: React.CSSProperties;
-    bodyPoppins: React.CSSProperties;
-    body3Poppins: React.CSSProperties;
-    subtitle2Poppins: React.CSSProperties;
-  }
-}
-
-declare module "@mui/material/Typography" {
   interface TypographyPropsVariantOverrides {
     h3Samsung: true;
 
@@ -37,6 +26,10 @@ declare module "@mui/material/Typography" {
     bodyPoppins: true;
     body3Poppins: true;
     subtitle2Poppins: true;
+  }
+
+  interface Palette {
+    green: ColorPartial;
   }
 }
 
@@ -88,6 +81,9 @@ export const lightPalette: ExtendedPaletteOptions = {
 
 export const darkPalette: ExtendedPaletteOptions = {
   mode: "dark",
+  green: {
+    "50": "#F6FFF0",
+  },
   primary: {
     main: "#07E0E0",
     // light: "#ffc107",
@@ -187,13 +183,11 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         fontSize: "16px",
         lineHeight: "24px",
       },
-
       h3Samsung: {
         fontFamily: "SamsungSharpSans-Bold",
         fontSize: "32px",
         lineHeight: "180%",
       },
-
       h3Poppins: {
         fontSize: "32px",
         lineHeight: "180%",
@@ -305,17 +299,17 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         },
       },
     },
-  };
+  } as ThemeOptions;
 };
 
 export const getTheme = (mode: "light" | "dark") => {
   if (mode === "light")
     return createTheme({
-      palette: lightPalette,
-      ...getComponentTheme(lightPalette),
+      palette: lightPalette as any as PaletteOptions,
+      ...(getComponentTheme(lightPalette) as any as ThemeOptions),
     });
   return createTheme({
-    palette: darkPalette,
-    ...getComponentTheme(darkPalette),
+    palette: darkPalette as any as PaletteOptions,
+    ...(getComponentTheme(darkPalette) as any as ThemeOptions),
   });
 };
