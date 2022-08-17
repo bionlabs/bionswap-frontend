@@ -5,7 +5,7 @@ import {
     Container,
     styled,
     Typography,
-    useMediaQuery
+    useMediaQuery,
 } from '@mui/material'
 import { footerMenuConfig, socialsConfig } from 'configs/menu/config'
 import { useRouter } from 'next/router'

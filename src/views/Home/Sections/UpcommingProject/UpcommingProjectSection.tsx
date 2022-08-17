@@ -4,7 +4,7 @@ import {
     Box,
     Container,
     styled,
-    Typography
+    Typography,
 } from '@mui/material'
 import { crowdfundingConfig } from 'views/Crowdfunding/config'
 import ProjectItem from 'views/Crowdfunding/components/ProjectItem'

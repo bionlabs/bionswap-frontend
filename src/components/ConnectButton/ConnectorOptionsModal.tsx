@@ -1,12 +1,4 @@
-import {
-  Backdrop,
-  Box,
-  IconButton,
-  MenuItem,
-  MenuList,
-  Modal,
-  Stack
-} from "@mui/material";
+import { Backdrop, Box, IconButton, MenuItem, MenuList, Modal, Stack } from "@mui/material";
 import { useChain, useConnect } from "hooks";
 import Image from "next/image";
 import { useState } from "react";
@@ -21,16 +13,9 @@ type Props = {
   open: boolean;
 };
 
-function ConnectorOptionsModal({
-  onConnectorSelected,
-  onConnectorConnected,
-  onClose,
-  open = false,
-}: Props) {
+function ConnectorOptionsModal({ onConnectorSelected, onConnectorConnected, onClose, open = false }: Props) {
   const { chainId } = useChain();
-  const [selectedConnector, setSelectedConnector] = useState<Connector | null>(
-    null
-  );
+  const [selectedConnector, setSelectedConnector] = useState<Connector | null>(null);
   const {
     connect,
     connectors,
@@ -61,20 +46,16 @@ function ConnectorOptionsModal({
           transform: "translate(-50%, -50%)",
           width: "fit-content",
           bgcolor: "#081319",
-          color: '#fff',
+          color: "#fff",
           minWidth: "353px",
-          boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
-          border: '1px solid #424242',
+          boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+          border: "1px solid #424242",
           borderRadius: "8px",
           p: 4,
         }}
       >
         <Box display="flex" flexDirection="column" gap="10px">
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
+          <Box display="flex" justifyContent="space-between" alignItems="center">
             <Box fontSize="24px" fontWeight="700">
               Connect a wallet
             </Box>
@@ -83,8 +64,7 @@ function ConnectorOptionsModal({
             </IconButton>
           </Box>
           <Box color="#787A9B" fontSize="14px">
-            Connect with one of our available wallet providers or create a new
-            one.
+            Connect with one of our available wallet providers or create a new one.
           </Box>
         </Box>
         <Box mt="24px">
@@ -115,20 +95,12 @@ function ConnectorOptionsModal({
                   disabled={!connector.ready}
                 >
                   <Stack direction="row" gap={2} alignItems="center">
-                    <Image
-                      src={getConnectorIcon(connector.id)}
-                      layout="fixed"
-                      alt=""
-                      width={24}
-                      height={24}
-                    />
+                    <Image src={getConnectorIcon(connector.id)} layout="fixed" alt="" width={24} height={24} />
 
                     <Box fontSize="16px" fontWeight={600}>
                       {connector.name}
                       {!connector.ready && " (unsupported)"}
-                      {isConnectLoading &&
-                        connector.id === pendingConnector?.id &&
-                        "(connecting...)"}
+                      {isConnectLoading && connector.id === pendingConnector?.id && "(connecting...)"}
                     </Box>
                   </Stack>
                 </MenuItem>

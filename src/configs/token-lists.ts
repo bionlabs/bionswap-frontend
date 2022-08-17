@@ -1,27 +1,23 @@
-const BA_LIST =
-  "https://raw.githubusercontent.com/The-Blockchain-Association/sec-notice-list/master/ba-sec-list.json";
+const BA_LIST = "https://raw.githubusercontent.com/The-Blockchain-Association/sec-notice-list/master/ba-sec-list.json";
 const YEARN_LIST = "https://yearn.science/static/tokenlist.json";
 const NFTX_LIST = "https://nftx.ethereumdb.com/v2/tokenlist/";
 const SYNTHETIX_LIST = "synths.snx.eth";
 const AAVE_LIST = "tokenlist.aave.eth";
-const CMC_ALL_LIST =
-  "https://api.coinmarketcap.com/data-api/v3/uniswap/all.json";
+const CMC_ALL_LIST = "https://api.coinmarketcap.com/data-api/v3/uniswap/all.json";
 const COINGECKO_LIST = "https://tokens.coingecko.com/uniswap/all.json";
-const COMPOUND_LIST =
-  "https://raw.githubusercontent.com/compound-finance/token-list/master/compound.tokenlist.json";
+const COMPOUND_LIST = "https://raw.githubusercontent.com/compound-finance/token-list/master/compound.tokenlist.json";
 const GEMINI_LIST = "https://www.gemini.com/uniswap/manifest.json";
 const KLEROS_LIST = "t2crtokens.eth";
 export const ARBITRUM_LIST = "https://bridge.arbitrum.io/token-list-42161.json";
-export const OPTIMISM_LIST =
-  "https://static.optimism.io/optimism.tokenlist.json";
-const SET_LIST =
-  "https://raw.githubusercontent.com/SetProtocol/uniswap-tokenlist/main/set.tokenlist.json";
+export const OPTIMISM_LIST = "https://static.optimism.io/optimism.tokenlist.json";
+const SET_LIST = "https://raw.githubusercontent.com/SetProtocol/uniswap-tokenlist/main/set.tokenlist.json";
 const UMA_LIST = "https://umaproject.org/uma.tokenlist.json";
 const WRAPPED_LIST = "wrapped.tokensoft.eth";
 const ROLL_LIST = "https://app.tryroll.com/tokens.json";
 const DHEDGE_LIST = "https://list.dhedge.eth.link";
 const SUSHI_LIST = "https://token-list.sushi.com";
 const CHAINLINK_LIST = "https://token-list.sushi.com/chainlink";
+const CHERRYSWAP_LIST = "https://www.cherryswap.net/swapimages/json/t3/cherryswap.json";
 
 export const UNSUPPORTED_LIST_URLS: string[] = [BA_LIST];
 
@@ -44,6 +40,7 @@ const DEFAULT_LIST_OF_LISTS_TO_DISPLAY: string[] = [
   ROLL_LIST,
   NFTX_LIST,
   DHEDGE_LIST,
+  CHERRYSWAP_LIST,
 ];
 
 export const DEFAULT_LIST_OF_LISTS: string[] = [
@@ -52,9 +49,4 @@ export const DEFAULT_LIST_OF_LISTS: string[] = [
 ];
 
 // default lists to be 'active' aka searched across
-export const DEFAULT_ACTIVE_LIST_URLS: string[] = [
-  SUSHI_LIST,
-  CHAINLINK_LIST,
-  GEMINI_LIST,
-  NFTX_LIST,
-];
+export const DEFAULT_ACTIVE_LIST_URLS: string[] = [SUSHI_LIST, CHAINLINK_LIST, GEMINI_LIST, NFTX_LIST];

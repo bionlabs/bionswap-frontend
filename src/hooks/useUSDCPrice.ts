@@ -1,11 +1,4 @@
-import {
-  ChainId,
-  Currency,
-  CurrencyAmount,
-  Price,
-  Token,
-  USD,
-} from "@bionswap/core-sdk";
+import { ChainId, Currency, CurrencyAmount, Price, Token, USD } from "@bionswap/core-sdk";
 import { useChain, useNetwork } from "hooks";
 import { useMemo } from "react";
 import { useV2TradeExactOut } from "./useV2Trades";
@@ -16,37 +9,19 @@ import { useV2TradeExactOut } from "./useV2Trades";
 export const STABLECOIN_AMOUNT_OUT: {
   [chainId: number]: CurrencyAmount<Token>;
 } = {
-  [ChainId.ETHEREUM]: CurrencyAmount.fromRawAmount(
-    USD[ChainId.ETHEREUM],
-    100_000e6
-  ),
-  [ChainId.ROPSTEN]: CurrencyAmount.fromRawAmount(
-    USD[ChainId.ROPSTEN],
-    100_000e6
-  ),
+  [ChainId.ETHEREUM]: CurrencyAmount.fromRawAmount(USD[ChainId.ETHEREUM], 100_000e6),
+  [ChainId.ROPSTEN]: CurrencyAmount.fromRawAmount(USD[ChainId.ROPSTEN], 100_000e6),
   [ChainId.KOVAN]: CurrencyAmount.fromRawAmount(USD[ChainId.KOVAN], 100_000e1),
   [ChainId.MATIC]: CurrencyAmount.fromRawAmount(USD[ChainId.MATIC], 100_000e6),
-  [ChainId.FANTOM]: CurrencyAmount.fromRawAmount(
-    USD[ChainId.FANTOM],
-    100_000e6
-  ),
+  [ChainId.FANTOM]: CurrencyAmount.fromRawAmount(USD[ChainId.FANTOM], 100_000e6),
   [ChainId.BSC]: CurrencyAmount.fromRawAmount(USD[ChainId.BSC], 10_000e18),
-  [ChainId.HARMONY]: CurrencyAmount.fromRawAmount(
-    USD[ChainId.HARMONY],
-    100_000e6
-  ),
+  [ChainId.HARMONY]: CurrencyAmount.fromRawAmount(USD[ChainId.HARMONY], 100_000e6),
   [ChainId.HECO]: CurrencyAmount.fromRawAmount(USD[ChainId.HECO], 100_000e6),
   [ChainId.OKEX]: CurrencyAmount.fromRawAmount(USD[ChainId.OKEX], 100_000e18),
   [ChainId.XDAI]: CurrencyAmount.fromRawAmount(USD[ChainId.XDAI], 100_000e6),
-  [ChainId.ARBITRUM]: CurrencyAmount.fromRawAmount(
-    USD[ChainId.ARBITRUM],
-    100_000e6
-  ),
+  [ChainId.ARBITRUM]: CurrencyAmount.fromRawAmount(USD[ChainId.ARBITRUM], 100_000e6),
   [ChainId.CELO]: CurrencyAmount.fromRawAmount(USD[ChainId.CELO], 100_000e18),
-  [ChainId.MOONRIVER]: CurrencyAmount.fromRawAmount(
-    USD[ChainId.MOONRIVER],
-    100_000e6
-  ),
+  [ChainId.MOONRIVER]: CurrencyAmount.fromRawAmount(USD[ChainId.MOONRIVER], 100_000e6),
   [ChainId.FUSE]: CurrencyAmount.fromRawAmount(USD[ChainId.FUSE], 100_000e6),
   // [ChainId.TELOS]: CurrencyAmount.fromRawAmount(USD[ChainId.TELOS], 100_000e6),
   // [ChainId.AVALANCHE]: CurrencyAmount.fromRawAmount(
@@ -63,9 +38,7 @@ export const STABLECOIN_AMOUNT_OUT: {
  * Returns the price in USDC of the input currency
  * @param currency currency to compute the USDC price of
  */
-export function useUSDPrice(
-  currency?: Currency
-): Price<Currency, Token> | undefined {
+export function useUSDPrice(currency?: Currency): Price<Currency, Token> | undefined {
   const { chainId } = useChain();
 
   const amountOut = chainId ? STABLECOIN_AMOUNT_OUT[chainId] : undefined;
@@ -99,9 +72,7 @@ export function useUSDPrice(
   }, [currency, stablecoin, v2USDCTrade]);
 }
 
-export function useUSDValue(
-  currencyAmount: CurrencyAmount<Currency> | undefined | null
-) {
+export function useUSDValue(currencyAmount: CurrencyAmount<Currency> | undefined | null) {
   // Bandaid solution for now, might become permanent
   const price = useUSDPrice(currencyAmount?.currency);
 
@@ -127,9 +98,7 @@ export function useUSDCPriceWithLoadingIndicator(currency?: Currency) {
   }, [currency, price]);
 }
 
-export function useUSDCValueWithLoadingIndicator(
-  currencyAmount: CurrencyAmount<Currency> | undefined
-) {
+export function useUSDCValueWithLoadingIndicator(currencyAmount: CurrencyAmount<Currency> | undefined) {
   const price = useUSDPrice(currencyAmount?.currency);
   return useMemo(() => {
     if (!price || !currencyAmount) return { value: undefined, loading: false };
