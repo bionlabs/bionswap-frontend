@@ -3,10 +3,10 @@ import React from 'react'
 import {
     Box,
     Container,
+    styled,
     Typography,
     useMediaQuery
 } from '@mui/material'
-import styled from '@emotion/styled'
 import { footerMenuConfig, socialsConfig } from 'configs/menu/config'
 import { useRouter } from 'next/router'
 
@@ -34,7 +34,7 @@ const Footer = ({ children }: any) => {
                             {
                                 socialsConfig.map((item, index) => (
                                     <Box
-                                        key=''
+                                        key={item.label}
                                         component='a'
                                         href={item.href}
                                         onClick={(e: any) => {

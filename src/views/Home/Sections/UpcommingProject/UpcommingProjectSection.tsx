@@ -2,12 +2,10 @@
 import React from 'react'
 import {
     Box,
-    Button,
     Container,
+    styled,
     Typography
 } from '@mui/material'
-import styled from '@emotion/styled'
-import { MobileProp } from 'configs/Type/Mobile/type'
 import { crowdfundingConfig } from 'views/Crowdfunding/config'
 import ProjectItem from 'views/Crowdfunding/components/ProjectItem'
 import Image from "next/image";
@@ -58,7 +56,7 @@ const Wrapper = styled(Box)`
         display: flex;
         flex-direction: column;
         gap: 60px;
-        background-color: ${(props) => props.theme.palette.extra.other.fifth};
+        background-color: ${(props) => (props.theme.palette as any).extra.other.fifth};
 `
 const WrapItems = styled(Box)`
         display: flex;
@@ -73,26 +71,6 @@ const Items = styled(Box)`
         min-width: 340px;
         max-width: calc(94% / 3);
         width: 100%;
-    `
-const ButtonStyle = styled(Button)`
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 27px;
-        color: #0b0b0b;
-        padding: 12px 50px;
-        max-width: 343px;
-        border: 1px solid #0b0b0b;
-        border-radius: 999px;
-        text-align: center;
-        font-family: inherit;
-        text-transform: inherit;
-        margin-top: 37px;
-        transition: .15s ease-in;
-        &:hover {
-            background-color: #0b0b0b;
-            color: #fafaf9;
-            
-        }
     `
 
 export default UpcommingProjectSection

@@ -2,9 +2,14 @@ export const crowdfundingConfig = [
     {
         slug: 'acb',
         projectThumb: '/images/img_bg.png',
+        logo: '/images/launchpad_logo.png',
         name: 'Star Fox',
         type: 'Gamefi',
         status: 'Coming Soon',
+        statusDescription: [
+            'Token sale',
+            'Pair launch'
+        ],
         coin: {
             name: '$FOX',
             image: '/images/coins/foxcoin.png'
@@ -30,7 +35,7 @@ export const crowdfundingConfig = [
         projectThumb: '/images/img_bg.png',
         name: 'Star Fox',
         type: 'Gamefi',
-        status: 'Coming Soon',
+        status: 'Open',
         coin: {
             name: '$FOX',
             image: '/images/coins/foxcoin.png'
@@ -54,7 +59,7 @@ export const crowdfundingConfig = [
     {
         projectThumb: '/images/img_bg.png',
         name: 'Star Fox',
-        status: 'Coming Soon',
+        status: 'Closed',
         coin: {
             name: '$FOX',
             image: '/images/coins/foxcoin.png'

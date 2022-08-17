@@ -8,35 +8,41 @@ type ExtendedPaletteOptions = PaletteOptions & {
 declare module '@mui/material/styles' {
   interface TypographyVariants {
     h3Samsung: React.CSSProperties,
+    h5Samsung: React.CSSProperties,
 
     h3Poppins: React.CSSProperties,
     h6Poppins: React.CSSProperties,
     bodyPoppins: React.CSSProperties,
     body3Poppins: React.CSSProperties,
     subtitle2Poppins: React.CSSProperties,
+    captionPoppins: React.CSSProperties,
   }
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
     h3Samsung: React.CSSProperties,
+    h5Samsung: React.CSSProperties,
 
     h3Poppins: React.CSSProperties,
     h6Poppins: React.CSSProperties,
     bodyPoppins: React.CSSProperties,
     body3Poppins: React.CSSProperties,
     subtitle2Poppins: React.CSSProperties,
+    captionPoppins: React.CSSProperties,
   }
 }
 
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     h3Samsung: true,
+    h5Samsung: true,
 
     h3Poppins: true,
     h6Poppins: true,
     bodyPoppins: true,
     body3Poppins: true,
     subtitle2Poppins: true,
+    captionPoppins: true,
   }
 }
 
@@ -144,7 +150,11 @@ export const darkPalette: ExtendedPaletteOptions = {
       fifth: '#000918',
       sixth: '#121116',
       seventh: '#31313B',
-      eight: '#535353'
+      eight: '#535353',
+      nineth: '#0C1620',
+      tenth: '#014959',
+      eleventh: '#0B2029',
+      twelfth: '#717D8A'
     }
   },
 };
@@ -194,6 +204,11 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         fontSize: '32px',
         lineHeight: '180%',
       },
+      h5Samsung: {
+        fontFamily: 'SamsungSharpSans-Bold',
+        fontSize: '24px',
+        lineHeight: '30px',
+      },
 
       h3Poppins: {
         fontSize: '32px',
@@ -213,6 +228,10 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       },
       subtitle2Poppins: {
         fontSize: '15px',
+        lineHeight: '180%',
+      },
+      captionPoppins: {
+        fontSize: '12px',
         lineHeight: '180%',
       },
 

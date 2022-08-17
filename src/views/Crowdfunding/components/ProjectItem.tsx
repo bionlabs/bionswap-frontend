@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { useRouter } from 'next/router';
-import { Box } from "@mui/material";
-import styled from "@emotion/styled";
+import { Box, styled, Typography } from "@mui/material";
+import Image from "next/image";
 
 interface ProjectItemProps {
     data: any,
@@ -13,24 +13,57 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
 
     return (
         <WrapBox onClick={() => { router.push(`/crowdfunding/${data?.slug}`) }}>
-            <img src={data?.projectThumb} alt={data?.name} style={{
-                width: '100%',
-                objectFit: 'cover'
-            }} />
             <Box sx={{
-                position: 'absolute',
-                background: '#2BB673',
-                padding: '4px 10px',
-                borderRadius: '4px',
-                color: '#fff',
-                fontWeight: '600',
-                fontSize: '12px',
-                lineHeight: '160%',
-                top: '10px',
-                right: '20px',
-            }} >
-                {data?.status}
+                width: '100%',
+                height: '123px',
+            }}>
+                <img src={data?.projectThumb} alt={data?.name} width='100%' height='100%' />
             </Box>
+            <Status>
+                {data?.status}
+            </Status>
+            <WrapTopArea>
+                <WrapLogo>
+                    <Image src={data?.logo} alt={data?.name} width='57px' height='57px' />
+                </WrapLogo>
+                <TimeLineBg>
+                    <FlexBox ml='120px' gap='3px'>
+                        <Typography variant="captionPoppins"
+                            sx={{
+                                color: 'primary.main',
+                                fontWeight: '400',
+                            }}>
+                            Sale starts in:
+                        </Typography>
+                        <Typography variant="captionPoppins" sx={{
+                            color: 'primary.main',
+                            fontWeight: '500',
+                        }}>
+                            00d 10:46:35
+                        </Typography>
+                    </FlexBox>
+                </TimeLineBg>
+            </WrapTopArea>
+            <FlexBox flexDirection='column' gap='20px' sx={{
+                padding: '28px 15px 22px'
+            }}>
+                <FlexBox>
+                    <Box>
+                        <Typography>Token sale - Pair launch</Typography>
+                        <Typography variant="h5Samsung"
+                            sx={{
+                                fontWeight: '700',
+                                color: 'background.paper'
+                            }}>
+                            {data?.name}
+                        </Typography>
+                    </Box>
+                    <Box>
+                        <Image src={data?.coin?.image} alt={data?.coin?.name} width='38px' height='38px' />
+                    </Box>
+                </FlexBox>
+            </FlexBox>
+
             <Box sx={{
                 padding: '20px'
             }}>
@@ -137,21 +170,58 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
         </WrapBox>
     )
 }
-
+const FlexBox = styled(Box)`
+    display: flex;
+`
 const WrapBox = styled(Box)`
-        border-radius: 8px;
-        background: #FFFFFF;
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-        cursor: pointer;
-        transition: .15s ease-in;
-        border: 1.5px solid #EAECEE;
-        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-        :hover {
-            transform: scale3d(0.99, 0.99, 1);
-            transform-style: preserve-3d;
-        }
-    `
+    border-radius: 8px;
+    background: ${(props) => (props.theme.palette as any).extra.other.nineth};
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: .15s ease-in;
+    border: 1px solid ${(props) => (props.theme.palette as any).extra.other.tenth};
+
+    :hover {
+        transform: scale3d(0.99, 0.99, 1);
+        transform-style: preserve-3d;
+    }
+`
+const WrapLogo = styled(Box)`
+    border: 2.75px solid ${(props) => (props.theme.palette as any).extra.other.nineth};
+    background: linear-gradient(180deg, #008A61 0%, #033039 100%);
+    border-radius: 8px;
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+    max-width: 88px;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 15px;
+`
+const WrapTopArea = styled(Box)`
+    margin-top: -38px;
+`
+const TimeLineBg = styled(Box)`
+    background: ${(props) => (props.theme.palette as any).extra.other.eleventh};
+    width: 100%;
+    padding: 4px 5px 6px;
+    margin-top: -50px;
+`
+const Status = styled(Box)`
+position: absolute;
+                background: #2BB673;
+                padding: 4px 10px;
+                border-radius: 4px;
+                color: #fff;
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 160%;
+                top: 10px;
+                right: 20px;
+`
 
 export default ProjectItem;
