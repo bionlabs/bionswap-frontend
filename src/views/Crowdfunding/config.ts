@@ -29,13 +29,15 @@ export const crowdfundingConfig = [
                 unit: 'BUSD'
             }
         },
+        verified: true,
+        lovedByBionswap: true,
     },
     {
         slug: 'acb',
         projectThumb: '/images/img_bg.png',
         name: 'Star Fox',
         type: 'Gamefi',
-        status: 'Open',
+        status: 'Sale Open',
         coin: {
             name: '$FOX',
             image: '/images/coins/foxcoin.png'
@@ -54,7 +56,9 @@ export const crowdfundingConfig = [
                 price: '500',
                 unit: 'BUSD'
             }
-        }
+        },
+        verified: true,
+        lovedByBionswap: true,
     },
     {
         projectThumb: '/images/img_bg.png',
@@ -79,5 +83,7 @@ export const crowdfundingConfig = [
                 unit: 'BUSD'
             }
         },
+        verified: true,
+        lovedByBionswap: true,
     },
 ]

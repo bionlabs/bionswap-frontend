@@ -16,6 +16,7 @@ declare module '@mui/material/styles' {
     body3Poppins: React.CSSProperties,
     subtitle2Poppins: React.CSSProperties,
     captionPoppins: React.CSSProperties,
+    caption6Poppins: React.CSSProperties,
   }
 
   // allow configuration using `createTheme`
@@ -29,6 +30,7 @@ declare module '@mui/material/styles' {
     body3Poppins: React.CSSProperties,
     subtitle2Poppins: React.CSSProperties,
     captionPoppins: React.CSSProperties,
+    caption6Poppins: React.CSSProperties,
   }
 }
 
@@ -43,6 +45,7 @@ declare module '@mui/material/Typography' {
     body3Poppins: true,
     subtitle2Poppins: true,
     captionPoppins: true,
+    caption6Poppins: true,
   }
 }
 
@@ -154,7 +157,13 @@ export const darkPalette: ExtendedPaletteOptions = {
       nineth: '#0C1620',
       tenth: '#014959',
       eleventh: '#0B2029',
-      twelfth: '#717D8A'
+      twelfth: '#717D8A',
+      thirteenth: '#242D35',
+      fourteenth: '#A0EC8A',
+      fourteenthOpacity: 'rgba(160, 236, 138, 0.15)',
+      fifteenth: '#9A6AFF',
+      fifteenthOpacity: 'rgba(154, 106, 255, 0.15)',
+      sixteenth: '#2BA52E'
     }
   },
 };
@@ -233,6 +242,10 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       captionPoppins: {
         fontSize: '12px',
         lineHeight: '180%',
+      },
+      caption6Poppins: {
+        fontSize: '14px',
+        lineHeight: '160%',
       },
 
       button: {
