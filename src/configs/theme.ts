@@ -30,6 +30,7 @@ declare module "@mui/material" {
 
   interface Palette {
     green: ColorPartial;
+    gray: ColorPartial;
   }
 }
 
@@ -83,6 +84,13 @@ export const darkPalette: ExtendedPaletteOptions = {
   mode: "dark",
   green: {
     "50": "#F6FFF0",
+    "300": "#A0EC8A",
+  },
+  gray: {
+    "900": "#0C1620",
+    "400": "#A8B0B9",
+    "700": "#373F47",
+    "50": "#FAFAFA",
   },
   primary: {
     main: "#07E0E0",
@@ -237,8 +245,17 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
             textTransform: "none",
             boxShadow: "none",
             fontStyle: "normal",
-            // "&:hover": {
-            //   transform: "matrix(1.025, 0, 0, 1.025, 0, 0)",
+            // "&.MuiButton-outlined:hover": {
+            //   // transform: "matrix(1.025, 0, 0, 1.025, 0, 0)",
+            //   // backgroundColor: basePalette.primary?.main,
+            //   backgroundColor: "transparent",
+            //   opacity: 0.9,
+            // },
+            // "&.MuiButton-contained:hover": {
+            //   // transform: "matrix(1.025, 0, 0, 1.025, 0, 0)",
+            //   backgroundColor: basePalette.primary?.main,
+            //   // backgroundColor: "transparent",
+            //   opacity: 0.9,
             // },
           },
         },
@@ -269,6 +286,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       MuiTypography: {
         defaultProps: {
           color: "text.primary",
+          variant: "body3Poppins",
         },
       },
       MuiInputBase: {
@@ -289,6 +307,25 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         styleOverrides: {
           root: {
             backgroundColor: "rgba(0, 0, 0, 0.3)",
+          },
+        },
+      },
+      MuiPopover: {
+        styleOverrides: {
+          root: {
+            "& .MuiBackdrop-root": {
+              backgroundColor: "transparent",
+            },
+          },
+        },
+      },
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            "&.MuiPopover-paper": {
+              backgroundImage: "none",
+              backgroundColor: "transparent",
+            },
           },
         },
       },

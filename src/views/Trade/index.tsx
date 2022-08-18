@@ -1,6 +1,6 @@
 import { Currency, JSBI, Percent, Token, Trade as V2Trade, TradeType } from "@bionswap/core-sdk";
 import { Autocomplete, Box, Button, Container, Stack, styled, TextField, Typography } from "@mui/material";
-import { CurrencyInputPanel } from "components";
+import { CurrencyInputPanel, TransactionSettings } from "components";
 import {
   useAccount,
   useAllTokens,
@@ -477,7 +477,7 @@ const Swap = ({}: SwapProps) => {
           >
             <Box display="flex" justifyContent="space-between" mt="25px">
               <SwapLabel>Swap Token</SwapLabel>
-              <Image src="/images/trade/Setting.png" alt="Setting" width={21} height={21} />
+              <TransactionSettings />
             </Box>
             <Box mt="30px">
               <Autocomplete
