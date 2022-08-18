@@ -39,5 +39,5 @@ export const removeSerializedPair = createAction<{
 }>("user/removeSerializedPair");
 export const toggleURLWarning = createAction<void>("app/toggleURLWarning");
 export const updateUserSlippageTolerance = createAction<{
-  userSlippageTolerance: number;
+  userSlippageTolerance: string;
 }>("user/updateUserSlippageTolerance");

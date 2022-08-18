@@ -11,7 +11,7 @@ type Props = {
 };
 
 const SwapDetail = ({ recipient, trade, minimumAmountOut }: Props) => {
-  const allowedSlippage = useUserSlippageTolerance();
+  const [allowedSlippage] = useUserSlippageTolerance();
 
   const minReceived = minimumAmountOut || trade?.minimumAmountOut(allowedSlippage);
 
