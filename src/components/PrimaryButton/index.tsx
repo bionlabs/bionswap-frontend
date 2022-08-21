@@ -1,34 +1,51 @@
-import React, { useEffect, useState } from 'react'
-import { Box , Button } from "@mui/material";
-import styled from '@emotion/styled';
+import { Button, ButtonProps, Typography, TypographyProps } from "@mui/material";
+import React from "react";
 
-interface PrimaryButtonProps {
-    label?: string,
-    color?: string,
-    backgroundColor?: string,
-    variant?: any
+interface PrimaryButtonProps extends ButtonProps {
+  label?: string;
+  backgroundColor?: string;
+  labelVariant?: TypographyProps["variant"];
+  labelSx?: React.CSSProperties;
 }
 
-const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label, color = 'text.secondary', backgroundColor = 'primary.main', variant='contained'}) => {
-    return (
-        <Button
-            variant={variant}
-            sx={{
-                color: variant === 'outlined' ? 'primary' : color,
-                backgroundColor: variant === 'outlined' ? 'transparent' : backgroundColor,
-                fontSize: '16px',
-                border: variant === 'outlined' ? '1px solid #07E0E0' : 'none',
-                fontWeight: '500',
-                lineHeight: '27px',
-                padding: '10px',
-                width: '100%',
-                transition: 'all .3s ease',
-                cursor: 'pointer',
-                borderRadius: '4px',
-            }}>
-            {label}
-        </Button>
-    )
-}
+const PrimaryButton: React.FC<PrimaryButtonProps> = ({
+  label,
+  color = "text.secondary",
+  backgroundColor = "primary.main",
+  variant = "contained",
+  labelVariant,
+  sx,
+  labelSx,
+  ...rest
+}) => {
+  return (
+    <Button
+      variant={variant}
+      sx={{
+        backgroundColor: variant === "outlined" ? "transparent" : backgroundColor,
+        border: variant === "outlined" ? "1px solid #07E0E0" : "none",
+        padding: "10px",
+        width: "100%",
+        transition: "all .3s ease",
+        cursor: "pointer",
+        borderRadius: "4px",
+        "&:hover": {
+          backgroundColor: variant === "outlined" ? "transparent" : backgroundColor,
+          opacity: 0.9,
+        },
+        ...sx,
+      }}
+      {...rest}
+    >
+      <Typography
+        variant={labelVariant}
+        color={variant === "outlined" ? "primary" : color}
+        sx={{ ...(labelVariant ? {} : { fontSize: "16px", fontWeight: "500", lineHeight: "27px" }), ...labelSx }}
+      >
+        {label}
+      </Typography>
+    </Button>
+  );
+};
 
 export default PrimaryButton;

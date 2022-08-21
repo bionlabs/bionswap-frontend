@@ -34,8 +34,10 @@
     "react-redux": "^8.0.2",
     "react-use": "^17.4.0",
     "react-window": "^1.8.7",
+    "redux-persist": "^6.0.0",
     "swiper": "^8.3.1",
     "tls": "^0.0.1",
+    "type-fest": "^2.18.0",
     "wagmi": "^0.6.3"
   },
   "devDependencies": {

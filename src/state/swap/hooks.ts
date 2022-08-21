@@ -319,7 +319,7 @@ export function useDerivedSwapInfo(): {
     }
   }
 
-  const allowedSlippage = useUserSlippageTolerance();
+  const [allowedSlippage] = useUserSlippageTolerance();
 
   // compare input balance to max input based on version
   const [balanceIn, amountIn] = [currencyBalances[Field.INPUT], v2Trade?.maximumAmountIn(allowedSlippage)];

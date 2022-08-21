@@ -11,9 +11,10 @@ import {
   toggleURLWarning,
   updateUserDeadline,
   updateUserExpertMode,
+  updateUserSlippageTolerance,
 } from "./actions";
 
-const V2_SWAP_DEFAULT_SLIPPAGE = new Percent(50, 10_000);
+export const V2_SWAP_DEFAULT_SLIPPAGE = new Percent(50, 10_000);
 const currentTimestamp = () => new Date().getTime();
 function pairKey(token0Address: string, token1Address: string) {
   return `${token0Address};${token1Address}`;
@@ -45,7 +46,7 @@ export interface UserState {
   timestamp: number;
   URLWarningVisible: boolean;
   // user defined slippage tolerance in bips, used in all txns
-  userSlippageTolerance: string;
+  userSlippageToleranceInput: string;
 }
 
 export const initialState: UserState = {
@@ -56,7 +57,7 @@ export const initialState: UserState = {
   pairs: {},
   timestamp: currentTimestamp(),
   URLWarningVisible: true,
-  userSlippageTolerance: V2_SWAP_DEFAULT_SLIPPAGE.toFixed(),
+  userSlippageToleranceInput: V2_SWAP_DEFAULT_SLIPPAGE.toFixed(),
 };
 
 export default createReducer(initialState, (builder) =>
@@ -70,20 +71,15 @@ export default createReducer(initialState, (builder) =>
       state.timestamp = currentTimestamp();
     })
     .addCase(addSerializedToken, (state, { payload: { serializedToken } }) => {
-      state.tokens[serializedToken.chainId] =
-        state.tokens[serializedToken.chainId] || {};
-      state.tokens[serializedToken.chainId][serializedToken.address] =
-        serializedToken;
+      state.tokens[serializedToken.chainId] = state.tokens[serializedToken.chainId] || {};
+      state.tokens[serializedToken.chainId][serializedToken.address] = serializedToken;
       state.timestamp = currentTimestamp();
     })
-    .addCase(
-      removeSerializedToken,
-      (state, { payload: { address, chainId } }) => {
-        state.tokens[chainId] = state.tokens[chainId] || {};
-        delete state.tokens[chainId][address];
-        state.timestamp = currentTimestamp();
-      }
-    )
+    .addCase(removeSerializedToken, (state, { payload: { address, chainId } }) => {
+      state.tokens[chainId] = state.tokens[chainId] || {};
+      delete state.tokens[chainId][address];
+      state.timestamp = currentTimestamp();
+    })
     .addCase(addSerializedPair, (state, { payload: { serializedPair } }) => {
       if (
         serializedPair.token0.chainId === serializedPair.token1.chainId &&
@@ -91,24 +87,22 @@ export default createReducer(initialState, (builder) =>
       ) {
         const chainId = serializedPair.token0.chainId;
         state.pairs[chainId] = state.pairs[chainId] || {};
-        state.pairs[chainId][
-          pairKey(serializedPair.token0.address, serializedPair.token1.address)
-        ] = serializedPair;
+        state.pairs[chainId][pairKey(serializedPair.token0.address, serializedPair.token1.address)] = serializedPair;
       }
       state.timestamp = currentTimestamp();
     })
-    .addCase(
-      removeSerializedPair,
-      (state, { payload: { chainId, tokenAAddress, tokenBAddress } }) => {
-        if (state.pairs[chainId]) {
-          // just delete both keys if either exists
-          delete state.pairs[chainId][pairKey(tokenAAddress, tokenBAddress)];
-          delete state.pairs[chainId][pairKey(tokenBAddress, tokenAAddress)];
-        }
-        state.timestamp = currentTimestamp();
+    .addCase(removeSerializedPair, (state, { payload: { chainId, tokenAAddress, tokenBAddress } }) => {
+      if (state.pairs[chainId]) {
+        // just delete both keys if either exists
+        delete state.pairs[chainId][pairKey(tokenAAddress, tokenBAddress)];
+        delete state.pairs[chainId][pairKey(tokenBAddress, tokenAAddress)];
       }
-    )
+      state.timestamp = currentTimestamp();
+    })
     .addCase(toggleURLWarning, (state) => {
       state.URLWarningVisible = !state.URLWarningVisible;
+    })
+    .addCase(updateUserSlippageTolerance, (state, action) => {
+      state.userSlippageToleranceInput = action.payload.userSlippageTolerance;
     })
 );

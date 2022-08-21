@@ -17,14 +17,19 @@ const SelectTokens = () => {
 
     return (
         <FlexBox gap='12px'>
+            <WrapImage>
             <Image src='/images/coins/BionicFoxCoin.png' alt="BionicFoxCoin" width={52} height={52} objectFit='cover' />
-            <FormControl fullWidth>
-                <SelectCustom value={age} onChange={handleChange}>
-                    <MenuItem value={10}>FOX/BUSD</MenuItem>
-                    <MenuItem value={20}>FOX/USDT</MenuItem>
-                    <MenuItem value={30}>FOX/BNB</MenuItem>
-                </SelectCustom> 
-            </FormControl>
+            </WrapImage>
+            <FlexBox flexDirection='column' gap='4px'>
+                <FormControl fullWidth>
+                    <SelectCustom value={age} onChange={handleChange}>
+                        <MenuItem value={10}>FOX/BUSD</MenuItem>
+                        <MenuItem value={20}>FOX/USDT</MenuItem>
+                        <MenuItem value={30}>FOX/BNB</MenuItem>
+                    </SelectCustom>
+                </FormControl>
+                <TokenValue>$0.503</TokenValue>
+            </FlexBox>
         </FlexBox>
     );
 };
@@ -39,11 +44,23 @@ const SelectCustom = styled(Select)`
         font-size: 16px;
         font-family: 'Poppins', sans-serif;
         padding: 0;
+        line-height: 20px;
     }
 
     fieldset {
         display: none;
     }
 `
+const WrapImage = styled(Box)`
+    width: 52px;
+    height: 52px;
+`
+const TokenValue = styled(Box)`
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 30px;
+  color: #00eaff;
+`;
 
 export default SelectTokens;

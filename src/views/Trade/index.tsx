@@ -1,6 +1,6 @@
 import { Currency, JSBI, Percent, Token, Trade as V2Trade, TradeType } from "@bionswap/core-sdk";
 import { Autocomplete, Box, Button, Container, Stack, styled, TextField, Typography } from "@mui/material";
-import { CurrencyInputPanel } from "components";
+import { CurrencyInputPanel, TransactionSettings } from "components";
 import {
   useAccount,
   useAllTokens,
@@ -23,12 +23,13 @@ import { confirmPriceImpactWithoutFee, warningSeverity } from "utils/prices";
 import { computeFiatValuePriceImpact } from "utils/trade";
 import ConfirmSwapModal from "./components/ConfirmSwapModal";
 import PairStats from "./components/PairStats";
+import SwapDetail from "./components/SwapDetail";
 import TradePrice from "./components/TradePrice";
 import TradingViewChart from "./components/TradingViewChart";
 
 type SwapProps = {};
 
-const Swap = ({}: SwapProps) => {
+const Swap = ({ }: SwapProps) => {
   const loadedUrlParams = useDefaultsFromURLSearch();
   const { address: account } = useAccount();
   const defaultTokens = useAllTokens();
@@ -80,13 +81,13 @@ const Swap = ({}: SwapProps) => {
     () =>
       showWrap
         ? {
-            [Field.INPUT]: parsedAmount,
-            [Field.OUTPUT]: parsedAmount,
-          }
+          [Field.INPUT]: parsedAmount,
+          [Field.OUTPUT]: parsedAmount,
+        }
         : {
-            [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-            [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-          },
+          [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+          [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+        },
     [independentField, parsedAmount, showWrap, trade]
   );
 
@@ -145,7 +146,7 @@ const Swap = ({}: SwapProps) => {
     [independentField]: typedValue,
     [dependentField]: showWrap
       ? /* @ts-ignore TYPE NEEDS FIXING */
-        parsedAmounts[independentField]?.toExact() ?? ""
+      parsedAmounts[independentField]?.toExact() ?? ""
       : parsedAmounts[dependentField]?.toSignificant(6) ?? "",
   };
 
@@ -475,46 +476,44 @@ const Swap = ({}: SwapProps) => {
               width: { xs: "100%", md: "35%" },
             }}
           >
-            <Box display="flex" justifyContent="space-between" mt="25px">
-              <SwapLabel>Swap Token</SwapLabel>
-              <Image src="/images/trade/Setting.png" alt="Setting" width={21} height={21} />
-            </Box>
+            <FlexBox justifyContent="space-between" mt="25px">
+              <Typography variant="h6Samsung" sx={{
+                fontWeight: '700',
+                color: 'primary.main',
+              }}>
+                Swap Token
+              </Typography>
+              <TransactionSettings />
+            </FlexBox>
             <Box mt="30px">
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={top100Films}
-                sx={{
-                  marginBottom: "22px",
-
-                  input: {
-                    fontFamily: "'Poppins', sans-serif",
-                    color: "#ffffff",
-                    fontWeight: "400",
-                    fontSize: "14px",
-                    lineHeight: "20px",
-                    padding: "17px 5px !important",
-                  },
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} variant="standard" placeholder="Enter token name / address..." />
-                )}
-              />
-              <Box>
-                <Box
+              <WrapSwapBox>
+                <Autocomplete
+                  disablePortal
+                  options={top100Films}
                   sx={{
-                    boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)",
-                    p: "18px",
-                    borderRadius: "8px",
-                    backgroundColor: "#000607",
+                    marginBottom: "30px",
+
+                    '.MuiAutocomplete-inputRoot': {
+                      '&::before': {
+                        borderBottom: `1px solid`,
+                        borderColor: 'gray.600'
+                      }
+                    },
+
+                    input: {
+                      fontFamily: "'Poppins', sans-serif",
+                      color: "text.primary",
+                      fontWeight: "400",
+                      fontSize: "16px",
+                      lineHeight: "180%",
+                      padding: "14px 7px 11px 20px !important",
+                    },
                   }}
-                >
-                  {/* <Stack direction="row" justifyContent="space-between" height={50}>
-          <Typography fontWeight={600} fontSize={16} color="#5B6469">
-            Swap Token
-          </Typography>
-        </Stack> */}
-                  {/* <Divider sx={{ mb: 2 }} /> */}
+                  renderInput={(params) => (
+                    <TextField {...params} variant="standard" placeholder="Enter token name / address..." />
+                  )}
+                />
+                <Box>
                   <CurrencyInputPanel
                     value={formattedAmounts[Field.INPUT]}
                     currency={currencies[Field.INPUT]}
@@ -523,11 +522,6 @@ const Swap = ({}: SwapProps) => {
                     otherCurrency={currencies[Field.OUTPUT]}
                     isMax={true}
                   />
-
-                  {/* <Box sx={{ mt: 4 }}>
-          <SelectAmountInput percents={[25, 50, 75, 100]} onSelect={handleSelectAmountPercentInput} />
-        </Box> */}
-
                   <Stack direction="row" mt={2} mb={2}>
                     <Button
                       sx={{
@@ -555,16 +549,17 @@ const Swap = ({}: SwapProps) => {
                   <Box mt="22px">{trade && <TradePrice price={trade?.executionPrice} />}</Box>
                   {SwapButton}
                 </Box>
-                {/* <Box
-        sx={{
-          border: "1px solid #F2F3F3",
-          borderRadius: "8px",
-          p: "12px",
-          mt: 4.5,
-        }}
-      >
-        <SwapDetail trade={trade} />
-      </Box> */}
+                <Box
+                  sx={{
+                    border: "1px solid",
+                    borderColor: 'grey.800',
+                    borderRadius: "8px",
+                    p: "15px",
+                    mt: '25px',
+                  }}
+                >
+                  <SwapDetail trade={trade} />
+                </Box>
                 <ConfirmSwapModal
                   open={showConfirm}
                   trade={trade}
@@ -578,7 +573,7 @@ const Swap = ({}: SwapProps) => {
                   swapErrorMessage={swapErrorMessage}
                   onDismiss={handleConfirmDismiss}
                 />
-              </Box>
+              </WrapSwapBox>
             </Box>
           </Box>
         </Box>
@@ -592,13 +587,14 @@ const Section = styled(Box)`
   min-height: 100vh;
   background-color: ${(props) => props.theme.palette.background.default};
 `;
+const FlexBox = styled(Box)`
+  display: flex
+`
 const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
-
-const SwapLabel = styled(Box)`
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 20px;
-  color: #f8f9f9;
+const WrapSwapBox = styled(Box)`
+  background-color: ${(props) => props.theme.palette.text.secondary};
+  border-radius: 8.78282px;
+  padding: 15px;
 `;
+
 export default Swap;

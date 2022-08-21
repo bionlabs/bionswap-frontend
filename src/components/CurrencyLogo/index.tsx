@@ -1,6 +1,5 @@
 import { ChainId, Currency, WNATIVE } from "@bionswap/core-sdk";
 import { Logo } from "components";
-import { UNKNOWN_ICON } from "components/Logo";
 import { WrappedTokenInfo } from "entities/WrappedTokenInfo";
 
 import { useHttpLocations } from "hooks";
@@ -61,40 +60,23 @@ export const getCurrencyLogoUrls = (currency: Currency): string[] => {
   return urls;
 };
 
-const AvalancheLogo =
-  "https://raw.githubusercontent.com/sushiswap/logos/main/token/avax.jpg";
-const BinanceCoinLogo =
-  "https://raw.githubusercontent.com/sushiswap/logos/main/token/bnb.jpg";
-const EthereumLogo =
-  "https://raw.githubusercontent.com/sushiswap/logos/main/token/eth.jpg";
-const FantomLogo =
-  "https://raw.githubusercontent.com/sushiswap/logos/main/token/ftm.jpg";
-const HarmonyLogo =
-  "https://raw.githubusercontent.com/sushiswap/logos/main/token/one.jpg";
-const HecoLogo =
-  "https://raw.githubusercontent.com/sushiswap/logos/main/token/heco.jpg";
-const MaticLogo =
-  "https://raw.githubusercontent.com/sushiswap/logos/main/token/polygon.jpg";
-const MoonbeamLogo =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/moonbeam.jpg";
-const OKExLogo =
-  "https://raw.githubusercontent.com/sushiswap/logos/main/token/okt.jpg";
-const xDaiLogo =
-  "https://raw.githubusercontent.com/sushiswap/logos/main/token/xdai.jpg";
-const CeloLogo =
-  "https://raw.githubusercontent.com/sushiswap/logos/main/token/celo.jpg";
-const PalmLogo =
-  "https://raw.githubusercontent.com/sushiswap/logos/main/token/palm.jpg";
-const MovrLogo =
-  "https://raw.githubusercontent.com/sushiswap/logos/main/token/movr.jpg";
-const FuseLogo =
-  "https://raw.githubusercontent.com/sushiswap/logos/main/token/fuse.jpg";
-const TelosLogo =
-  "https://raw.githubusercontent.com/sushiswap/logos/main/token/telos.jpg";
-const KavaLogo =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/token/kava.svg";
-const MetisLogo =
-  "https://raw.githubusercontent.com/sushiswap/icons/master/network/metis.svg";
+const AvalancheLogo = "https://raw.githubusercontent.com/sushiswap/logos/main/token/avax.jpg";
+const BinanceCoinLogo = "https://raw.githubusercontent.com/sushiswap/logos/main/token/bnb.jpg";
+const EthereumLogo = "https://raw.githubusercontent.com/sushiswap/logos/main/token/eth.jpg";
+const FantomLogo = "https://raw.githubusercontent.com/sushiswap/logos/main/token/ftm.jpg";
+const HarmonyLogo = "https://raw.githubusercontent.com/sushiswap/logos/main/token/one.jpg";
+const HecoLogo = "https://raw.githubusercontent.com/sushiswap/logos/main/token/heco.jpg";
+const MaticLogo = "https://raw.githubusercontent.com/sushiswap/logos/main/token/polygon.jpg";
+const MoonbeamLogo = "https://raw.githubusercontent.com/sushiswap/icons/master/network/moonbeam.jpg";
+const OKExLogo = "https://raw.githubusercontent.com/sushiswap/logos/main/token/okt.jpg";
+const xDaiLogo = "https://raw.githubusercontent.com/sushiswap/logos/main/token/xdai.jpg";
+const CeloLogo = "https://raw.githubusercontent.com/sushiswap/logos/main/token/celo.jpg";
+const PalmLogo = "https://raw.githubusercontent.com/sushiswap/logos/main/token/palm.jpg";
+const MovrLogo = "https://raw.githubusercontent.com/sushiswap/logos/main/token/movr.jpg";
+const FuseLogo = "https://raw.githubusercontent.com/sushiswap/logos/main/token/fuse.jpg";
+const TelosLogo = "https://raw.githubusercontent.com/sushiswap/logos/main/token/telos.jpg";
+const KavaLogo = "https://raw.githubusercontent.com/sushiswap/icons/master/token/kava.svg";
+const MetisLogo = "https://raw.githubusercontent.com/sushiswap/icons/master/network/metis.svg";
 
 const LOGO: Record<ChainId, string> = {
   [ChainId.ETHEREUM]: EthereumLogo,
@@ -140,30 +122,25 @@ export interface CurrencyLogoProps {
   className?: string;
 }
 
-const CurrencyLogo: FunctionComponent<CurrencyLogoProps> = ({
-  currency,
-  size = "24px",
-}) => {
+const CurrencyLogo: FunctionComponent<CurrencyLogoProps> = ({ currency, size = "24px" }) => {
   const uriLocations = useHttpLocations(
-    currency instanceof WrappedTokenInfo
-      ? currency.logoURI || currency.tokenInfo.logoURI
-      : undefined
+    currency instanceof WrappedTokenInfo ? currency.logoURI || currency.tokenInfo.logoURI : undefined
   );
   const srcs: string[] = useMemo(() => {
     if (currency?.isNative || currency?.equals?.(WNATIVE[currency.chainId])) {
-      return [LOGO[currency.chainId as keyof typeof LOGO], UNKNOWN_ICON];
+      return [LOGO[currency.chainId as keyof typeof LOGO]];
     }
 
     if (currency?.isToken) {
       const defaultUrls = [...getCurrencyLogoUrls(currency)];
 
       if (currency instanceof WrappedTokenInfo) {
-        return [...uriLocations, ...defaultUrls, UNKNOWN_ICON];
+        return [...uriLocations, ...defaultUrls];
       }
       return defaultUrls;
     }
 
-    return [UNKNOWN_ICON];
+    return [];
   }, [currency, uriLocations]);
 
   return <Logo srcs={srcs} width={size} height={size} alt={currency?.symbol} />;
