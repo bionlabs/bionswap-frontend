@@ -122,7 +122,16 @@ const ManageCurrencyListModal = ({
       <BaseModal
         open={open}
         onClose={onDismiss}
-        sx={{ backgroundColor: "background.default", width: "500px", minHeight: 600 }}
+        sx={{ 
+          backgroundColor: "gray.900", 
+          maxWidth: "500px",
+          minHeight: 600,
+          border: '1px solid',
+          borderColor: 'gray.700',
+          borderRadius: '8px',
+          boxShadow: '0px 4px 11px #000000',
+          padding: '0',
+        }}
       >
         {view === ManageCurrencyListModalView.search ? (
           <CurrencySearch

@@ -1,6 +1,6 @@
 import { ChainId, Currency, NATIVE, Token } from "@bionswap/core-sdk";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import { Button, Stack, TextField, Tooltip, Typography } from "@mui/material";
+import { Button, Stack, styled, TextField, Tooltip, Typography } from "@mui/material";
 import {
   useAllTokens,
   useChain,
@@ -84,43 +84,53 @@ const CurrencySearch = ({ otherSelectedCurrency, showCommonBases, currencyList, 
 
   return (
     <Stack>
-      <Stack direction="row" justifyContent="space-between" mb={1} width="100%">
-        <Typography fontSize={16} fontWeight={700}>
+      <Stack direction="column" alignItems='flex-start' gap='20px' width="100%" padding='25px 15px 20px'>
+        <Typography variant="body3Poppins" color='text.primary' fontWeight='400'>
           Select a token
         </Typography>
-      </Stack>
-      <Stack
-        sx={{
-          borderRadius: 1,
-          backgroundColor: "extra.input.background",
-          px: 2,
-          height: 50,
-          width: "100%",
-          mb: "8px",
-          "&:focus-within": {
-            border: "1px solid",
-            borderColor: "primary.main",
-          },
-        }}
-      >
         <TextField
           variant="standard"
-          placeholder="Search name or paste address"
+          placeholder="Enter token name / address..."
           fullWidth
           value={searchQuery}
           onChange={handleInput}
           sx={{
-            borderRadius: 1,
+
+            '.MuiInputBase-formControl': {
+              borderRadius: '8px',
+              padding: '13px 15px',
+              backgroundColor: 'background.default',
+              border: '1px solid',
+              borderColor: 'gray.600',
+
+              '&.Mui-focused': {
+                borderColor: '#9A6AFF'
+              }
+            },
+
+            'input': {
+              fontWeight: '400',
+              fontSize: '16px',
+              lineHeight: '180%',
+            }
           }}
           InputProps={{
+            endAdornment: <img src="/images/search.png" alt="search" />,
             disableUnderline: true,
           }}
         />
+        <CommonBases onCurrencySelect={onSelect} />
       </Stack>
-      <Stack gap={2}>
-        <Stack
-        // sx={{ mt: 1, mb: 2 }}
-        >
+      <Stack sx={{
+        borderTop: '1px solid',
+        borderTopColor: 'gray.800',
+        width: '100%'
+      }}>
+        {searchToken && !searchTokenIsAdded && <ImportRow token={searchToken} onClick={handleImport} />}
+        <CurrencyList currencies={filteredSortedTokensWithETH} onCurrencySelect={onSelect} />
+      </Stack>
+
+      {/* <Stack>
           <Stack direction="row" alignSelf="flex-start" gap={1} mb={1}>
             <Typography fontSize={12} sx={{ color: "text.secondary" }}>
               Common bases
@@ -129,17 +139,23 @@ const CurrencySearch = ({ otherSelectedCurrency, showCommonBases, currencyList, 
               <HelpOutlineIcon sx={{ fontSize: 15, color: "text.primary" }} />
             </Tooltip>
           </Stack>
-          <CommonBases onCurrencySelect={onSelect} />
-        </Stack>
-        {searchToken && !searchTokenIsAdded && <ImportRow token={searchToken} onClick={handleImport} />}
 
-        <CurrencyList currencies={filteredSortedTokensWithETH} onCurrencySelect={onSelect} />
-        <Button fullWidth onClick={() => setView(ManageCurrencyListModalView.manage)}>
-          <Typography>Manage token list</Typography>
-        </Button>
-      </Stack>
+        </Stack> */}
+      <ManageTokenBtn fullWidth onClick={() => setView(ManageCurrencyListModalView.manage)}>
+        <img src="/images/sticky_note_2.png" alt='sticky_note_2.png' />
+        <Typography variant="body3Poppins" fontWeight='400' color='primary.main'>
+          Manage Token List
+        </Typography>
+      </ManageTokenBtn>
     </Stack>
   );
 };
+
+const ManageTokenBtn = styled(Button)`
+  display: flex;
+  gap: 10px;
+  padding: 16px;
+  background-color: ${(props) => props.theme.palette.gray[800]};
+`
 
 export default memo(CurrencySearch);

@@ -1,5 +1,5 @@
 import { Currency } from "@bionswap/core-sdk";
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, Stack, styled, Typography } from "@mui/material";
 import CurrencyLogo from "components/CurrencyLogo";
 import { COMMON_BASES } from "configs/routing";
 import { useChain } from "hooks";
@@ -18,23 +18,30 @@ const CommonBases = ({ onCurrencySelect }: Props) => {
     <Stack
       flexWrap={"wrap"}
       direction="row"
-      gap={1}
+      gap='10px'
       justifyContent="flex-start"
     >
       {bases.map((currency) => (
-        <Button
+        <WrapButton
           key={currency.name}
-          sx={{ borderRadius: 8 }}
           onClick={() => onCurrencySelect?.(currency)}
         >
-          <Stack direction="row" gap={1}>
+          <Stack direction="row" gap='5px'>
             <CurrencyLogo currency={currency} />
-            <Typography>{currency.symbol}</Typography>
+            <Typography variant="body3Poppins" fontWeight='400' color='#FFF3F3'>
+              {currency.symbol}
+            </Typography>
           </Stack>
-        </Button>
+        </WrapButton>
       ))}
     </Stack>
   );
 };
+
+const WrapButton = styled(Button)`
+  border-radius: 8px;
+  border: 1px solid #373F47;
+  padding: 10px;
+`
 
 export default CommonBases;

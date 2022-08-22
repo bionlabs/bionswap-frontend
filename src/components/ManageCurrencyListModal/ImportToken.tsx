@@ -19,12 +19,17 @@ const ImportToken = ({ tokens, onBack }: Props) => {
   // const importList = importToken instanceof WrappedTokenInfo ? importToken.list : undefined;
 
   return (
-    <Stack gap={1}>
-      <Stack direction="row" justifyContent="start" width="100%" gap={1}>
-        <IconButton onClick={onBack}>
+    <Stack gap='20px' padding='25px 15px 15px'>
+      <Stack direction="row" justifyContent="center" width="100%" gap={1} position='relative' >
+        <IconButton onClick={onBack} sx={{
+          position: 'absolute',
+          left: '0'
+        }}>
           <ArrowBackIcon />
         </IconButton>
-        <Typography>Import token</Typography>
+        <Typography variant="h6Poppins" color='text.primary' fontWeight='400'>
+          Import
+        </Typography>
       </Stack>
       <Stack width="100%" gap={2}>
         <Typography>

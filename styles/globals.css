@@ -150,6 +150,27 @@ span {
   font-weight: 400;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #4F5B67;
+  border-radius: 7px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 @keyframes animatedBackground {
   from { background-position: 0px 0; }
   to { background-position: -562px 0; }

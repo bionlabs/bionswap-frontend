@@ -19,6 +19,7 @@ declare module "@mui/material" {
     body2Poppins: React.CSSProperties,
     body3Poppins: React.CSSProperties,
     body4Poppins: React.CSSProperties,
+    body6Poppins: React.CSSProperties,
     subtitle2Poppins: React.CSSProperties,
     captionPoppins: React.CSSProperties,
     caption6Poppins: React.CSSProperties,
@@ -36,6 +37,7 @@ declare module "@mui/material" {
     body2Poppins: React.CSSProperties,
     body3Poppins: React.CSSProperties,
     body4Poppins: React.CSSProperties,
+    body6Poppins: React.CSSProperties,
     subtitle2Poppins: React.CSSProperties,
     captionPoppins: React.CSSProperties,
     caption6Poppins: React.CSSProperties,
@@ -44,9 +46,12 @@ declare module "@mui/material" {
 
 declare module '@mui/material/styles/createPalette' {
   interface Palette {
-    green: ColorPartial;
-    gray: ColorPartial;
     blue: ColorPartial;
+    green: ColorPartial;
+    yellow: ColorPartial;
+    red: ColorPartial;
+    gray: ColorPartial;
+    darkGreen: ColorPartial;
   }
 }
 
@@ -62,6 +67,7 @@ declare module '@mui/material/Typography' {
     body2Poppins: true,
     body3Poppins: true,
     body4Poppins: true,
+    body6Poppins: true,
     subtitle2Poppins: true,
     captionPoppins: true,
     caption6Poppins: true,
@@ -116,17 +122,86 @@ export const lightPalette: ExtendedPaletteOptions = {
 
 export const darkPalette: ExtendedPaletteOptions = {
   mode: "dark",
+  blue: {
+    '50': "#F7F7FB",
+    '100': "#D6DADE",
+    '200': "#B3B3FD",
+    '300': "#8484F8",
+    '400': "#6E6EF7",
+    '500': "#4040F2",
+    '600': "#3333D1",
+    '700': "#2323BE",
+    '800': "#181894",
+    '900': "#0D0D54",
+  },
   green: {
     "50": "#F6FFF0",
+    "100": "#E6FBD9",
+    "200": "#C9F884",
     "300": "#A0EC8A",
+    "400": "#79D969",
+    "500": "#44C13C",
+    "600": "#2BA52E",
+    "700": "#1E8A29",
+    "800": "#0F5B1D",
+    "900": "#073E16",
+  },
+  yellow: {
+    "50": "#FFFEEC",
+    "100": "#FFF9CF",
+    "200": "#FFF19F",
+    "300": "#FFE86F",
+    "400": "#FFDE4B",
+    "500": "#FFCF0F",
+    "600": "#DBAD0A",
+    "700": "#B78D07",
+    "800": "#7B5C03",
+    "900": "#4F3903",
+  },
+  red: {
+    "50": "#FFF4EC",
+    "100": "#FFE8D7",
+    "200": "#FFCCB0",
+    "300": "#FFA988",
+    "400": "#FF886B",
+    "500": "#FF513A",
+    "600": "#DB302A",
+    "700": "#B71D23",
+    "800": "#931222",
+    "900": "#7A0B21",
   },
   gray: {
     "50": "#FAFAFA",
+    "100": "#F1F1F1",
+    "200": "#EAECEE",
+    "300": "#D6DADE",
     "400": "#A8B0B9",
+    "500": "#717A8D",
     "600": "#4F5B67",
     "700": "#373F47",
     "800": "#242D35",
     "900": "#0C1620",
+  },
+  darkGreen: {
+    "50": "#02B0B0",
+    "100": "#029E9E",
+    "200": "#017E7E",
+    "300": "#016B6B",
+    "400": "#015858",
+    "500": "#014E4E",
+    "600": "#004545",
+    "700": "#003939",
+    "800": "#013535",
+    "900": "#012D2D",
+  },
+  warning: {
+    main: "#FFB21E"
+  },
+  error: {
+    main: "#F93232"
+  },
+  success: {
+    main: "#2BB673"
   },
   primary: {
     main: "#07E0E0",
@@ -144,9 +219,6 @@ export const darkPalette: ExtendedPaletteOptions = {
     primary: "#FFFFFF",
     secondary: "#000000",
     disabled: "rgba(255, 255, 255, 0.5)",
-  },
-  blue: {
-    '100': "#D6DADE"
   },
   extra: {
     text: {
@@ -278,6 +350,10 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       },
       body4Poppins: {
         fontSize: "14px",
+        lineHeight: "180%",
+      },
+      body6Poppins: {
+        fontSize: "10px",
         lineHeight: "180%",
       },
       subtitle2Poppins: {
