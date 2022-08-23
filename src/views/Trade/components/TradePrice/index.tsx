@@ -29,12 +29,15 @@ const TradePrice = ({ price }: Props) => {
           },
         }}
       >
-        <Typography fontSize="14px" fontWeight={500} mr={1} lineHeight="16px" color="text.secondary">
+        <Typography variant="body3Poppins" sx={{
+          fontWeight: '400',
+          color: '#FFFCFC',
+          marginRight: '8px'
+        }}>
           {`1 ${label} = ${formattedPrice} ${labelInverted}`}
         </Typography>
         
         <Image src='/images/trade/swap_horizontal_circle.png' alt="swap_horizontal_circle" width={21} height={20} />
-        {/* <SyncAltIcon sx={{ fontSize: 15 }} /> */}
       </Button>
     </Stack>
   );

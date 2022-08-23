@@ -9,28 +9,62 @@ type ExtendedPaletteOptions = PartialDeep<Palette> & {
 
 declare module "@mui/material" {
   interface TypographyVariants {
-    h3Samsung: React.CSSProperties;
+    h3Samsung: React.CSSProperties,
+    h5Samsung: React.CSSProperties,
+    h6Samsung: React.CSSProperties,
 
-    h3Poppins: React.CSSProperties;
-    h6Poppins: React.CSSProperties;
-    bodyPoppins: React.CSSProperties;
-    body3Poppins: React.CSSProperties;
-    subtitle2Poppins: React.CSSProperties;
+    h3Poppins: React.CSSProperties,
+    h6Poppins: React.CSSProperties,
+    bodyPoppins: React.CSSProperties,
+    body2Poppins: React.CSSProperties,
+    body3Poppins: React.CSSProperties,
+    body4Poppins: React.CSSProperties,
+    subtitle2Poppins: React.CSSProperties,
+    captionPoppins: React.CSSProperties,
+    caption6Poppins: React.CSSProperties,
   }
 
-  interface TypographyPropsVariantOverrides {
-    h3Samsung: true;
+  // allow configuration using `createTheme`
+  interface TypographyVariantsOptions {
+    h3Samsung: React.CSSProperties,
+    h5Samsung: React.CSSProperties,
+    h6Samsung: React.CSSProperties,
 
-    h3Poppins: true;
-    h6Poppins: true;
-    bodyPoppins: true;
-    body3Poppins: true;
-    subtitle2Poppins: true;
+    h3Poppins: React.CSSProperties,
+    h6Poppins: React.CSSProperties,
+    bodyPoppins: React.CSSProperties,
+    body2Poppins: React.CSSProperties,
+    body3Poppins: React.CSSProperties,
+    body4Poppins: React.CSSProperties,
+    subtitle2Poppins: React.CSSProperties,
+    captionPoppins: React.CSSProperties,
+    caption6Poppins: React.CSSProperties,
   }
+}
 
+declare module '@mui/material/styles/createPalette' {
   interface Palette {
     green: ColorPartial;
     gray: ColorPartial;
+    blue: ColorPartial;
+  }
+}
+
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    h3Samsung: true,
+    h5Samsung: true,
+    h6Samsung: true,
+
+    h3Poppins: true,
+    h6Poppins: true,
+    bodyPoppins: true,
+    body2Poppins: true,
+    body3Poppins: true,
+    body4Poppins: true,
+    subtitle2Poppins: true,
+    captionPoppins: true,
+    caption6Poppins: true,
   }
 }
 
@@ -87,10 +121,12 @@ export const darkPalette: ExtendedPaletteOptions = {
     "300": "#A0EC8A",
   },
   gray: {
-    "900": "#0C1620",
-    "400": "#A8B0B9",
-    "700": "#373F47",
     "50": "#FAFAFA",
+    "400": "#A8B0B9",
+    "600": "#4F5B67",
+    "700": "#373F47",
+    "800": "#242D35",
+    "900": "#0C1620",
   },
   primary: {
     main: "#07E0E0",
@@ -108,6 +144,9 @@ export const darkPalette: ExtendedPaletteOptions = {
     primary: "#FFFFFF",
     secondary: "#000000",
     disabled: "rgba(255, 255, 255, 0.5)",
+  },
+  blue: {
+    '100': "#D6DADE"
   },
   extra: {
     text: {
@@ -140,15 +179,25 @@ export const darkPalette: ExtendedPaletteOptions = {
       background: "#595959",
     },
     other: {
-      first: "#011216",
-      second: "#272727",
-      third: "#D9D9D9",
-      fourth: "#82FFFF",
-      fifth: "#000918",
-      sixth: "#121116",
-      seventh: "#31313B",
-      eight: "#535353",
-    },
+      first: '#011216',
+      second: '#272727',
+      third: '#D9D9D9',
+      fourth: '#82FFFF',
+      fifth: '#000918',
+      sixth: '#121116',
+      seventh: '#31313B',
+      eight: '#535353',
+      nineth: '#0C1620',
+      tenth: '#014959',
+      eleventh: '#0B2029',
+      twelfth: '#717D8A',
+      thirteenth: '#242D35',
+      fourteenth: '#A0EC8A',
+      fourteenthOpacity: 'rgba(160, 236, 138, 0.15)',
+      fifteenth: '#9A6AFF',
+      fifteenthOpacity: 'rgba(154, 106, 255, 0.15)',
+      sixteenth: '#2BA52E'
+    }
   },
 };
 
@@ -196,6 +245,17 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         fontSize: "32px",
         lineHeight: "180%",
       },
+      h5Samsung: {
+        fontFamily: 'SamsungSharpSans-Bold',
+        fontSize: '24px',
+        lineHeight: '30px',
+      },
+      h6Samsung: {
+        fontFamily: 'SamsungSharpSans-Bold',
+        fontSize: '20px',
+        lineHeight: '30px',
+      },
+
       h3Poppins: {
         fontSize: "32px",
         lineHeight: "180%",
@@ -208,13 +268,29 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         fontSize: "20px",
         lineHeight: "180%",
       },
+      body2Poppins: {
+        fontSize: "18px",
+        lineHeight: "180%",
+      },
       body3Poppins: {
         fontSize: "16px",
+        lineHeight: "180%",
+      },
+      body4Poppins: {
+        fontSize: "14px",
         lineHeight: "180%",
       },
       subtitle2Poppins: {
         fontSize: "15px",
         lineHeight: "180%",
+      },
+      captionPoppins: {
+        fontSize: '12px',
+        lineHeight: '180%',
+      },
+      caption6Poppins: {
+        fontSize: '14px',
+        lineHeight: '160%',
       },
 
       button: {

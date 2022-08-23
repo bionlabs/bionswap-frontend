@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { useRouter } from 'next/router';
-import { Box } from "@mui/material";
-import styled from "@emotion/styled";
+import { Box, styled, Typography } from "@mui/material";
+import Image from "next/image";
 
 interface ProjectItemProps {
     data: any,
@@ -13,145 +13,196 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
 
     return (
         <WrapBox onClick={() => { router.push(`/crowdfunding/${data?.slug}`) }}>
-            <img src={data?.projectThumb} alt={data?.name} style={{
+            <Box sx={{
                 width: '100%',
-                objectFit: 'cover'
-            }} />
-            <Box sx={{
-                position: 'absolute',
-                background: '#2BB673',
-                padding: '4px 10px',
-                borderRadius: '4px',
-                color: '#fff',
-                fontWeight: '600',
-                fontSize: '12px',
-                lineHeight: '160%',
-                top: '10px',
-                right: '20px',
-            }} >
-                {data?.status}
-            </Box>
-            <Box sx={{
-                padding: '20px'
+                height: '123px',
             }}>
-                <Box display='flex' justifyContent='space-between' alignItems='center'
+                <img src={data?.projectThumb} alt={data?.name} width='100%' height='100%' />
+            </Box>
+            <Status sx={{
+                backgroundColor: 'extra.other.thirteenth',
+                ...(data?.status === 'Sale Open' && {
+                    backgroundColor: 'extra.other.sixteenth',
+                }),
+                ...(data?.status === 'Closed' && {
+                    backgroundColor: 'extra.header.color',
+                }),
+            }}>
+                <Typography variant="captionPoppins"
                     sx={{
-                        marginBottom: '20px',
+                        color: 'background.paper',
+                        fontWeight: '500',
+                        ...(data?.status === 'Closed' && {
+                            color: 'extra.other.nineth',
+                        }),
                     }}>
-                    <Box>
-                        <Box
+                    {data?.status}
+                </Typography>
+            </Status>
+            <WrapTopArea>
+                <WrapLogo>
+                    <Image src={data?.logo} alt={data?.name} width='57px' height='57px' />
+                </WrapLogo>
+                <TimeLineBg>
+                    <FlexBox ml='120px' gap='3px'>
+                        <Typography variant="captionPoppins"
+                            sx={{
+                                color: 'primary.main',
+                                fontWeight: '400',
+                            }}>
+                            Sale starts in:
+                        </Typography>
+                        <Typography variant="captionPoppins" sx={{
+                            color: 'primary.main',
+                            fontWeight: '500',
+                        }}>
+                            00d 10:46:35
+                        </Typography>
+                    </FlexBox>
+                </TimeLineBg>
+            </WrapTopArea>
+            <FlexBox flexDirection='column' gap='20px' sx={{
+                padding: '28px 15px 22px'
+            }}>
+                <FlexBox justifyContent='space-between' alignItems='center'>
+                    <FlexBox flexDirection='column' gap='5px'>
+                        <Typography variant="captionPoppins" sx={{
+                            fontWeight: '400',
+                            color: 'extra.other.twelfth'
+                        }}>
+                            Token sale - Pair launch
+                        </Typography>
+                        <Typography variant="h5Samsung"
                             sx={{
                                 fontWeight: '700',
-                                fontSize: '24px',
-                                lineHeight: '160%',
-                                color: '#000000',
-                                marginBottom: '5px'
+                                color: 'background.paper'
                             }}>
                             {data?.name}
-                        </Box>
-                        <Box component='p'
-                            sx={{
-                                fontWeight: '400',
-                                fontSize: '12px',
-                                lineHeight: '160%',
-                                color: '#E7A236',
-                            }}>
-                            {data?.coin?.name}
-                        </Box>
+                        </Typography>
+                    </FlexBox>
+                    <Box>
+                        <Image src={data?.coin?.image} alt={data?.coin?.name} width='38px' height='38px' />
                     </Box>
-                    <Box sx={{
-                        position: 'relative',
+                </FlexBox>
+                <FlexBox justifyContent='space-between'>
+                    <Typography variant="caption6Poppins" sx={{
+                        fontWeight: '400',
+                        color: 'primary.main'
                     }}>
-                        <Box component='img' src={data?.coin?.image} alt={data?.coin?.name} />
-                        <Box component='img' src='/images/coins/BNB_coin.png' alt='BNB_coin'
-                            sx={{
-                                position: 'absolute',
-                                bottom: '5px',
-                                right: '-10px',
-                            }} />
-                    </Box>
-                </Box>
-                <Box sx={{
-                    fontWeight: '400',
-                    fontSize: '14px',
-                    lineHeight: '160%',
-                    color: '#31313B',
-                    marginBottom: '30px',
-                }}>
-                    {data?.description}
-                </Box>
-                <Box display='flex' justifyContent='space-between'
-                    sx={{
-                        marginBottom: '12px'
-                    }}>
-                    <Box component='p'
-                        sx={{
-                            fontSize: '14px',
-                            lineHeight: '160%',
-                        }}>
-                        Fundraise Goal
-                    </Box>
-                    <Box component='p' sx={{
-                        color: '#0b0b0b',
+                        Total Goal
+                    </Typography>
+                    <Typography variant="caption6Poppins" sx={{
                         fontWeight: '600',
-                        fontSize: '14px',
-                        lineHeight: '160%',
+                        color: 'text.primary'
                     }}>
                         ${data?.fundraiseGoal?.price} {data?.fundraiseGoal?.unit}
-                    </Box>
-                </Box>
-                <Box display='flex' justifyContent='space-between'>
-                    <Box component='p' sx={{
-                        fontSize: '14px',
-                        lineHeight: '160%',
+                    </Typography>
+                </FlexBox>
+                <FlexBox justifyContent='space-between'>
+                    <Typography variant="caption6Poppins" sx={{
+                        fontWeight: '400',
+                        color: 'primary.main'
                     }}>
                         Allocation
-                    </Box>
-                    <Box component='p' sx={{
-                        color: '#0b0b0b',
+                    </Typography>
+                    <Typography variant="caption6Poppins" sx={{
                         fontWeight: '600',
-                        fontSize: '14px',
-                        lineHeight: '160%',
+                        color: 'text.primary'
                     }}>
                         ${data?.allocation?.from?.price} {data?.allocation?.from?.unit} - ${data?.allocation?.to?.price} {data?.allocation?.to?.unit}
-                    </Box>
-                </Box>
-            </Box>
-            {
-                data?.status === 'Coming Soon' ?
-                    <Box sx={{
-                        color: '#ee7609',
-                        fontWeight: '600',
-                        fontSize: '14px',
-                        lineHeight: '160%',
-                        padding: '11px',
-                        textAlign: 'center',
-                        background: 'rgba(231, 162, 54, 0.15)',
-                    }}>
-                        TOKEN SALE - LUCKY NFTs DROP
-                    </Box>
-                    :
-                    null
-            }
-
+                    </Typography>
+                </FlexBox>
+                <Line />
+                <FlexBox gap='12px'>
+                    {
+                        data?.verified &&
+                        <Tag sx={{
+                            backgroundColor: 'extra.other.fourteenthOpacity'
+                        }}>
+                            <Typography variant="captionPoppins" sx={{
+                                fontWeight: '400',
+                                color: 'extra.other.fourteenth'
+                            }}>
+                                Verified
+                            </Typography>
+                        </Tag>
+                    }
+                    {
+                        data?.lovedByBionswap &&
+                        <Tag sx={{
+                            backgroundColor: 'extra.other.fifteenthOpacity'
+                        }}>
+                            <Typography variant="captionPoppins" sx={{
+                                fontWeight: '400',
+                                color: 'extra.other.fifteenth'
+                            }}>
+                                Loved by Bionswap
+                            </Typography>
+                        </Tag>
+                    }
+                </FlexBox>
+            </FlexBox>
         </WrapBox>
     )
 }
-
+const FlexBox = styled(Box)`
+    display: flex;
+`
 const WrapBox = styled(Box)`
-        border-radius: 8px;
-        background: #FFFFFF;
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-        cursor: pointer;
-        transition: .15s ease-in;
-        border: 1.5px solid #EAECEE;
-        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-        :hover {
-            transform: scale3d(0.99, 0.99, 1);
-            transform-style: preserve-3d;
-        }
-    `
+    border-radius: 8px;
+    background: ${(props) => (props.theme.palette as any).extra.other.nineth};
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: .15s ease-in;
+    border: 1px solid ${(props) => (props.theme.palette as any).extra.other.tenth};
+
+    :hover {
+        transform: scale3d(0.99, 0.99, 1);
+        transform-style: preserve-3d;
+    }
+`
+const WrapLogo = styled(Box)`
+    border: 2.75px solid ${(props) => (props.theme.palette as any).extra.other.nineth};
+    background: linear-gradient(180deg, #008A61 0%, #033039 100%);
+    border-radius: 8px;
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+    max-width: 88px;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 15px;
+`
+const WrapTopArea = styled(Box)`
+    margin-top: -38px;
+`
+const TimeLineBg = styled(Box)`
+    background: ${(props) => (props.theme.palette as any).extra.other.eleventh};
+    width: 100%;
+    padding: 4px 5px 6px;
+    margin-top: -50px;
+`
+const Status = styled(Box)`
+    position: absolute;
+    padding: 1px 10px 3px;
+    background: #2BB673;
+    border-radius: 4px;
+    top: 13px;
+    right: 13px;
+`
+const Line = styled(Box)`
+    width: 95%;
+    height: 1px;
+    margin: auto;
+    background-color: ${(props) => (props.theme.palette as any).extra.other.thirteenth};;
+`
+const Tag = styled(Box)`
+    border-radius: 4px;
+    padding: 1px 10px 3px;
+`
 
 export default ProjectItem;

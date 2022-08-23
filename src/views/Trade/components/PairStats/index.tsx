@@ -1,4 +1,4 @@
-import { Box, styled } from "@mui/material";
+import { Box, styled, Typography } from "@mui/material";
 import SelectTokens from "../SelectTokens";
 
 type Props = {};
@@ -19,22 +19,51 @@ const PairStats = (props: Props) => {
       >
         <Box>
           <SelectTokens />
-          <TokenValue mt="4px">$0.503</TokenValue>
         </Box>
-        <Box display="flex" gap="24px">
+        <Box display="flex" gap="24px" alignItems='center'>
           <WrapItem>
-            <Title>24h Change</Title>
-            <Value sx={{ color: "#2BB673 !important" }}>+0.97%</Value>
+            <Typography variant="body4Poppins" sx={{
+              fontWeight: '400',
+              color: 'gray.400'
+            }}>
+              24h Change
+            </Typography>
+            <Typography variant="body3Poppins" sx={{
+              fontWeight: '400',
+              color: '#2BB673'
+            }}>
+              +0.97%
+            </Typography>
           </WrapItem>
           <Line />
           <WrapItem>
-            <Title>Liquidity</Title>
-            <Value>$204.14K</Value>
+            <Typography variant="body4Poppins" sx={{
+              fontWeight: '400',
+              color: 'gray.400'
+            }}>
+              Liquidity
+            </Typography>
+            <Typography variant="body3Poppins" sx={{
+              fontWeight: '400',
+              color: 'text.primary'
+            }}>
+              $204.14K
+            </Typography>
           </WrapItem>
           <Line />
           <WrapItem>
-            <Title>Total Supply</Title>
-            <Value>500.000.000</Value>
+            <Typography variant="body4Poppins" sx={{
+              fontWeight: '400',
+              color: 'gray.400'
+            }}>
+              Total Supply
+            </Typography>
+            <Typography variant="body3Poppins" sx={{
+              fontWeight: '400',
+              color: 'text.primary'
+            }}>
+              500.000.000
+            </Typography>
           </WrapItem>
         </Box>
       </Box>
@@ -46,33 +75,12 @@ const PairStats = (props: Props) => {
 const WrapItem = styled(Box)`
   display: flex;
   flex-direction: column;
-  gap: 4px;
-`;
-const Title = styled(Box)`
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 18px;
-  color: #a8b0b9;
-`;
-const Value = styled(Box)`
-  font-family: "Poppins", sans-serif;
-  color: #ffffff;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 18px;
+  gap: 8px;
 `;
 const Line = styled(Box)`
   background: #2b3247;
-  height: 36px;
+  height: 40px;
   width: 1px;
-`;
-const TokenValue = styled(Box)`
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 18px;
-  color: #00eaff;
 `;
 
 export default PairStats;

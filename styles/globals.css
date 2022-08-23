@@ -135,6 +135,21 @@ span {
   color: #787A9B;
 }
 
+::-webkit-input-placeholder {
+  color: #4F5B67;
+  font-weight: 400;
+}
+
+:-ms-input-placeholder {
+  color: #4F5B67;
+  font-weight: 400;
+}
+
+::placeholder {
+  color: #4F5B67;
+  font-weight: 400;
+}
+
 @keyframes animatedBackground {
   from { background-position: 0px 0; }
   to { background-position: -562px 0; }

@@ -52,12 +52,17 @@ const CurrencyInputPanel = ({
   return (
     <WrapCurrencyInputPanel>
       <Stack>
-        <Stack direction="row" justifyContent={isMax ? "space-between" : "end"} width={"100%"} mb="15px">
-          {isMax && <MaxButton onClick={handleMaxBalance}>Max</MaxButton>}
-
-          <Typography
-            sx={{ color: "#7A858C", fontWeight: 400, fontSize: 12, lineHeight: "12px", fontFamily: "'Poppins', sans-serif" }}
-          >
+        <Stack direction="row" justifyContent="space-between" width={"100%"} mb="7px">
+          <Typography variant="body3Poppins" sx={{
+            color: 'blue.100',
+            fontWeight: '400',
+          }}>
+            {`~$${usdValue?.toFixed(2) || 0}`}
+          </Typography>
+          <Typography variant="body3Poppins" sx={{
+            color: 'blue.100',
+            fontWeight: '400',
+          }}>
             Balance: {`${currencyBalance?.toFixed(2) || 0}`}
           </Typography>
         </Stack>
@@ -73,21 +78,21 @@ const CurrencyInputPanel = ({
           }}
           sx={{
             backgroundColor: "transparent",
+            width: '100%',
 
             "& .MuiInputBase-input": {
-              fontWeight: "500",
-              fontSize: "24px",
-              lineHeight: "16px",
+              fontWeight: "400",
+              fontSize: "28px",
+              lineHeight: "180%",
               padding: "0",
+              color: 'text.primary'
             },
             borderRadius: 1,
           }}
           InputProps={{
             endAdornment: (
               // <InputAdornment position="end">
-              //   <Typography color={"text.secondary"} fontSize={14}>{`~$${
-              //     usdValue?.toFixed(2) || 0
-              //   }`}</Typography>
+
               // </InputAdornment>
               <Button
                 onClick={() => setSearchModalOpen(true)}
@@ -95,26 +100,24 @@ const CurrencyInputPanel = ({
                   boxShadow: "none",
                   justifyContent: "space-between",
                   minWidth: "auto",
-                  background: "#202124",
-                  padding: "7px 10px",
+                  backgroundColor: "gray.700",
+                  borderRadius: '9px',
+                  padding: "0 9px",
                 }}
                 endIcon={
                   <ArrowDropDownIcon
                     sx={{
-                      color: "text.secondary",
+                      color: "text.primary",
                     }}
                   />
                 }
               >
-                <Stack direction="row">
+                <Stack direction="row" gap='5px'>
                   <CurrencyLogo currency={currency} size={20} />
-                  <Typography
-                    sx={{
-                      ml: 1,
-                      fontWeight: 500,
-                      fontSize: 16,
-                    }}
-                  >
+                  <Typography variant="body2Poppins" sx={{
+                    fontWeight: '500',
+                    color: '#FFF3F3',
+                  }}>
                     {currency?.symbol}
                   </Typography>
                 </Stack>
@@ -123,6 +126,9 @@ const CurrencyInputPanel = ({
             disableUnderline: true,
           }}
         />
+        <Stack alignItems='flex-start' width='100%' mt='8px'>
+          {isMax && <MaxButton onClick={handleMaxBalance}>Max</MaxButton>}
+        </Stack>
         <ManageCurrencyListModal
           open={searchModalOpen}
           onDismiss={handleCloseSearchModal}
@@ -135,21 +141,20 @@ const CurrencyInputPanel = ({
 
 const WrapCurrencyInputPanel = styled(Box)`
   border-radius: 8px;
-  background: #121315;
+  background: ${(props) => (props.theme.palette as any).extra.other.nineth};
   padding: 15px;
 `;
 const MaxButton = styled(Button)`
-  color: #07e0e0;
+  color: ${(props) => props.theme.palette.primary.main};;
   text-align: center;
   font-weight: 400;
   font-size: 12px;
-  line-height: 18px;
+  line-height: 24px;
   font-family: "Poppins", sans-serif;
-  background: rgba(141, 241, 250, 0.05);
-  border: 1px solid rgba(141, 241, 250, 0.5);
+  background: transparent;
+  border: 1px solid rgba(141, 241, 250, .5);
   border-radius: 8px;
-  max-width: 60px;
-  width: 100%;
+  width: 45px;
   padding: 1px;
 `;
 

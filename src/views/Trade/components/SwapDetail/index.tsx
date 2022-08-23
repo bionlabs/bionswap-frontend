@@ -29,23 +29,49 @@ const SwapDetail = ({ recipient, trade, minimumAmountOut }: Props) => {
   }, [trade]);
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Stack sx={{ width: "100%" }} gap='22px' alignItems='inherit'>
       <Stack direction="row" justifyContent={"space-between"}>
-        <Typography color="text.secondary">{`Slippage tolerance`}</Typography>
-        <Typography color="text.secondary">{allowedSlippage.toFixed(2)}%</Typography>
+        <Typography variant="body3Poppins" sx={{
+          fontWeight: '500',
+          color: 'extra.other.fifteenth'
+        }}>
+          {`Slippage tolerance`}
+        </Typography>
+        <Typography variant="body3Poppins" sx={{
+          fontWeight: '500',
+          color: 'primary.main'
+        }}>
+          {allowedSlippage.toFixed(2)}%
+        </Typography>
       </Stack>
       {trade && (
         <Stack direction="row" justifyContent={"space-between"}>
-          <Typography color="text.secondary">{`Minimum received after slippage`}</Typography>
-          <Typography color="text.secondary">
+          <Typography variant="body3Poppins" sx={{
+            fontWeight: '400',
+            color: 'gray.400'
+          }}>
+            {`Minimum received after slippage`}
+          </Typography>
+          <Typography variant="body3Poppins" sx={{
+            fontWeight: '400',
+            color: 'text.primary'
+          }}>
             {minReceived?.toSignificant(6)} {minReceived?.currency.symbol}
           </Typography>
         </Stack>
       )}
       {trade && (
         <Stack direction="row" justifyContent={"space-between"}>
-          <Typography color="text.secondary">{`Price impact`}</Typography>
-          <Typography color="text.secondary">
+          <Typography variant="body3Poppins" sx={{
+            fontWeight: '400',
+            color: 'gray.400'
+          }}>
+            {`Price impact`}
+          </Typography>
+          <Typography variant="body3Poppins" sx={{
+            fontWeight: '400',
+            color: '#2BB673'
+          }}>
             {priceImpact instanceof Percent ? `${priceImpact.multiply(-1).toFixed(2)}%` : null}
             {typeof priceImpact === "number" ? `${-priceImpact?.toFixed(2)}%` : null}
           </Typography>
@@ -53,17 +79,37 @@ const SwapDetail = ({ recipient, trade, minimumAmountOut }: Props) => {
       )}
       {trade && (
         <Stack direction="row" justifyContent={"space-between"}>
-          <Typography color="text.secondary">{`Liquidity provider fee`}</Typography>
-          <Typography color="text.secondary">{realizedLpFeePercent?.toFixed(2)}%</Typography>
+          <Typography variant="body3Poppins" sx={{
+            fontWeight: '400',
+            color: 'gray.400'
+          }}>
+            {`Liquidity provider fee`}
+          </Typography>
+          <Typography variant="body3Poppins" sx={{
+            fontWeight: '400',
+            color: 'text.primary'
+          }}>
+            {realizedLpFeePercent?.toFixed(2)}%
+          </Typography>
         </Stack>
       )}
       {path && (
         <Stack direction="row" justifyContent={"space-between"}>
-          <Typography color="text.secondary">{`Route`}</Typography>
-          <Typography color="text.secondary">{path.map((el) => el.symbol).join(" > ")}</Typography>
+          <Typography variant="body3Poppins" sx={{
+            fontWeight: '400',
+            color: 'gray.400'
+          }}>
+            {`Route`}
+          </Typography>
+          <Typography variant="body3Poppins" sx={{
+            fontWeight: '400',
+            color: 'text.primary'
+          }}>
+            {path.map((el) => el.symbol).join(" > ")}
+          </Typography>
         </Stack>
       )}
-    </Box>
+    </Stack>
   );
 };
 
