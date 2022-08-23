@@ -142,7 +142,7 @@ export const darkPalette: ExtendedPaletteOptions = {
   },
   text: {
     primary: "#FFFFFF",
-    secondary: "#000000",
+    secondary: "#1b1b1b",
     disabled: "rgba(255, 255, 255, 0.5)",
   },
   blue: {
@@ -162,6 +162,9 @@ export const darkPalette: ExtendedPaletteOptions = {
     swapButton: {
       background: "#07E0E0",
       color: "#000607",
+    },
+    swapPanel: {
+      background: '#0C1620'
     },
     header: {
       background: "#081319",

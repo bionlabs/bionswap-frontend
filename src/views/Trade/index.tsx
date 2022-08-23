@@ -473,7 +473,7 @@ const Swap = ({ }: SwapProps) => {
           </Stack>
           <Box
             sx={{
-              width: { xs: "100%", md: "35%" },
+              width: { xs: "100%", md: "30%" },
             }}
           >
             <FlexBox justifyContent="space-between" mt="25px">
@@ -592,7 +592,7 @@ const FlexBox = styled(Box)`
 `
 const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
 const WrapSwapBox = styled(Box)`
-  background-color: ${(props) => props.theme.palette.text.secondary};
+  background-color: ${(props) => (props.theme.palette as any).extra.swapPanel.background};
   border-radius: 8.78282px;
   padding: 15px;
 `;

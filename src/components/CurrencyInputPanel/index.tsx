@@ -141,8 +141,8 @@ const CurrencyInputPanel = ({
 
 const WrapCurrencyInputPanel = styled(Box)`
   border-radius: 8px;
-  background: ${(props) => (props.theme.palette as any).extra.other.nineth};
-  padding: 15px;
+  background: ${(props) => (props.theme.palette as any).background.default};
+  padding: 12px;
 `;
 const MaxButton = styled(Button)`
   color: ${(props) => props.theme.palette.primary.main};;
