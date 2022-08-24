@@ -623,13 +623,8 @@ const top100Films = [
   { label: "Dogecoin", token: '0xba2ae424d960c26247dd6c32edc70b295c744c43' },
 ];
 const WrapSwapBox = styled(Box)`
-<<<<<<< HEAD
   background-color: ${(props) => props.theme.palette.gray[900]};
   border-radius: 8px;
-=======
-  background-color: ${(props) => (props.theme.palette as any).extra.swapPanel.background};
-  border-radius: 8.78282px;
->>>>>>> dev
   padding: 15px;
 `;
 const PaperItem = styled(Box)`
