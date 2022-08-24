@@ -7,7 +7,7 @@ const PairStats = (props: Props) => {
   return (
     <Box
       sx={{
-        width: { xs: "65%", md: "100%" },
+        width: '100%',
       }}
     >
       <Box
