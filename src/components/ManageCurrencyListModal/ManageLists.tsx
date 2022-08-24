@@ -186,6 +186,7 @@ const ManageLists = (props: Props) => {
 
           '&.Mui-focused': {
             borderColor: '#9A6AFF',
+            boxShadow: 'rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset',
           },
 
           'fieldset': {

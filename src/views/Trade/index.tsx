@@ -422,7 +422,7 @@ const Swap = ({ }: SwapProps) => {
         sx={{
           backgroundColor: "extra.swapButton.background",
           color: "extra.swapButton.color",
-          marginTop: "22px",
+          marginTop: "15px",
           fontWeight: "500",
           fontSize: "14px",
           lineHeight: "175%",
@@ -474,6 +474,7 @@ const Swap = ({ }: SwapProps) => {
           <Box
             sx={{
               width: { xs: "100%", md: "35%" },
+              maxWidth: '460px',
             }}
           >
             <FlexBox justifyContent="space-between" mt="25px">
@@ -491,13 +492,25 @@ const Swap = ({ }: SwapProps) => {
                   disablePortal
                   options={top100Films}
                   sx={{
-                    marginBottom: "30px",
+                    marginBottom: "15px",
 
                     '.MuiAutocomplete-inputRoot': {
+                      border: '1px solid transparent',
+                      borderBottomColor: 'gray.600',
+
                       '&::before': {
-                        borderBottom: `1px solid`,
-                        borderColor: 'gray.600'
-                      }
+                        content: 'none',
+                      },
+
+                      '&::after': {
+                        content: 'none',
+                      },
+
+                      '&.Mui-focused': {
+                        borderRadius: '8px',
+                        borderColor: '#9A6AFF',
+                        boxShadow: 'rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset',
+                      },
                     },
 
                     input: {
@@ -532,7 +545,10 @@ const Swap = ({ }: SwapProps) => {
                     otherCurrency={currencies[Field.OUTPUT]}
                     isMax={true}
                   />
-                  <Stack direction="row" mt={2} mb={2}>
+                  <Stack direction="row" sx={{
+                      marginTop: '-15px',
+                      marginBottom: '-15px',
+                  }}>
                     <Button
                       sx={{
                         borderRadius: "50%",
@@ -540,6 +556,7 @@ const Swap = ({ }: SwapProps) => {
                         height: 35,
                         padding: 0,
                         minWidth: 0,
+                        border: '4px solid #0C1620'
                       }}
                       onClick={onSwitchTokens}
                     >
@@ -547,7 +564,6 @@ const Swap = ({ }: SwapProps) => {
                       <Image src="/images/trade/swap_icon.png" alt="swap_icon" width={35} height={35} />
                     </Button>
                   </Stack>
-
                   <CurrencyInputPanel
                     value={formattedAmounts[Field.OUTPUT]}
                     onUserInput={handleTypeOutput}
@@ -556,7 +572,7 @@ const Swap = ({ }: SwapProps) => {
                     otherCurrency={currencies[Field.INPUT]}
                   />
                   {/* <Divider sx={{ mt: 4, mb: 1 }} /> */}
-                  <Box mt="22px">{trade && <TradePrice price={trade?.executionPrice} />}</Box>
+                  <Box mt="15px">{trade && <TradePrice price={trade?.executionPrice} />}</Box>
                   {SwapButton}
                 </Box>
                 <Box
@@ -564,7 +580,7 @@ const Swap = ({ }: SwapProps) => {
                     border: "1px solid",
                     borderColor: 'grey.800',
                     borderRadius: "8px",
-                    mt: '25px',
+                    mt: '15px',
                   }}
                 >
                   <SwapDetail trade={trade} />
@@ -607,8 +623,8 @@ const top100Films = [
   { label: "Dogecoin", token: '0xba2ae424d960c26247dd6c32edc70b295c744c43' },
 ];
 const WrapSwapBox = styled(Box)`
-  background-color: ${(props) => props.theme.palette.text.secondary};
-  border-radius: 8.78282px;
+  background-color: ${(props) => props.theme.palette.gray[900]};
+  border-radius: 8px;
   padding: 15px;
 `;
 const PaperItem = styled(Box)`

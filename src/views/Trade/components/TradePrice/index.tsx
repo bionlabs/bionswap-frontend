@@ -23,6 +23,7 @@ const TradePrice = ({ price }: Props) => {
         onClick={() => setInverted(!inverted)}
         sx={{
           boxShadow: "none",
+          padding: '0',
           "&:hover": {
             transform: "none",
             backgroundColor: "transparent",

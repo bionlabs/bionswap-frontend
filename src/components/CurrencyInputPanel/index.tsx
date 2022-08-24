@@ -70,6 +70,7 @@ const CurrencyInputPanel = ({
           type={"number"}
           variant="standard"
           value={value}
+          placeholder='0.0'
           onChange={(e) => {
             onUserInput(e.target.value);
           }}
@@ -141,8 +142,14 @@ const CurrencyInputPanel = ({
 
 const WrapCurrencyInputPanel = styled(Box)`
   border-radius: 8px;
-  background: ${(props) => (props.theme.palette as any).extra.other.nineth};
+  background: ${(props) => props.theme.palette.primary.dark};
   padding: 15px;
+  border: 1px solid;
+  border-color: ${(props) => props.theme.palette.primary.dark};
+
+  &:hover {
+    border-color: ${(props) => props.theme.palette.gray[500]};
+  }
 `;
 const MaxButton = styled(Button)`
   color: ${(props) => props.theme.palette.primary.main};;

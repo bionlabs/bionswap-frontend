@@ -26,7 +26,7 @@ function ConfirmationPendingContent({ pendingText }: { pendingText: string }) {
       <Typography my={2} fontWeight={600}>
         {pendingText}
       </Typography>
-      <Typography mb={2} color="text.secondary">
+      <Typography mb={2}>
         Confirm this transaction in your wallet
       </Typography>
     </Stack>
@@ -129,6 +129,9 @@ const TransactionConfirmationModal = ({
       boxShadow: '0px 4px 11px #000000',
       padding: '25px 15px 15px',
     }}>
+      <IconButton onClick={onDismiss} sx={{ position: "absolute", right: 8, top: 8 }}>
+        <CloseIcon />
+      </IconButton>
       <Stack sx={{ minWidth: 200 }}>
         <Stack justifyContent="flex-start" direction="row" sx={{ width: "100%", mb: 3 }}>
           <Typography variant="body3Poppins" fontWeight={400} color='text.primary'>

@@ -29,7 +29,7 @@ const SwapDetail = ({ recipient, trade, minimumAmountOut }: Props) => {
   }, [trade]);
 
   return (
-    <Stack sx={{ width: "100%", padding: '15px' }} gap='22px' alignItems='inherit'>
+    <Stack sx={{ width: "100%", padding: '15px' }} gap='15px' alignItems='inherit'>
       <Stack direction="row" justifyContent={"space-between"} width='100%'>
         <Typography variant="body3Poppins" sx={{
           fontWeight: '500',
@@ -93,7 +93,7 @@ const SwapDetail = ({ recipient, trade, minimumAmountOut }: Props) => {
           </Typography>
         </Stack>
       )}
-      {path && (
+      {/* {path && (
         <Stack direction="row" justifyContent={"space-between"} width='100%'>
           <Typography variant="body3Poppins" sx={{
             fontWeight: '400',
@@ -108,7 +108,7 @@ const SwapDetail = ({ recipient, trade, minimumAmountOut }: Props) => {
             {path.map((el) => el.symbol).join(" > ")}
           </Typography>
         </Stack>
-      )}
+      )} */}
     </Stack>
   );
 };
