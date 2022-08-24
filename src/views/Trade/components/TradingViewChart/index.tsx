@@ -105,10 +105,10 @@ const TradingViewChart = ({ widgetProps, pairSymbol }: TradingViewChartProps) =>
         <Box
           sx={{
             width: "100%",
-            height: "70vh",
+            height: "595px",
             borderRadius: "8px",
             overflow: "hidden",
-            border: "1px solid rgb(28, 28, 28)",
+            border: "1px solid #242D35",
           }}
           id="chart_container"
         ></Box>
