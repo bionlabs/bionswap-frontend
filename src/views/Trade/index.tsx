@@ -564,7 +564,6 @@ const Swap = ({ }: SwapProps) => {
                     border: "1px solid",
                     borderColor: 'grey.800',
                     borderRadius: "8px",
-                    p: "15px",
                     mt: '25px',
                   }}
                 >

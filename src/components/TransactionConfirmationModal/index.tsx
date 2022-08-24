@@ -51,11 +51,11 @@ export function TransactionSubmittedContent({
       <Button
         fullWidth
         sx={{
-          backgroundColor: "extra.button.background",
+          backgroundColor: "primary.main",
           height: 50,
-          borderRadius: "50px",
+          borderRadius: "8px",
           "&:hover": {
-            backgroundColor: "extra.button.background",
+            backgroundColor: "primary.main",
           },
           "&.Mui-disabled": {
             opacity: 0.4,
@@ -63,7 +63,7 @@ export function TransactionSubmittedContent({
         }}
         onClick={onDismiss}
       >
-        <Typography fontWeight={600} fontSize={14} sx={{ color: "extra.button.text" }}>
+        <Typography variant="body4Poppins" fontWeight={600} color="#000607">
           Close
         </Typography>
       </Button>
@@ -79,11 +79,11 @@ export function TransactionErrorContent({ message, onDismiss }: { message: strin
       <Button
         fullWidth
         sx={{
-          backgroundColor: "extra.button.background",
+          backgroundColor: "primary.main",
           height: 50,
-          borderRadius: "50px",
+          borderRadius: "8px",
           "&:hover": {
-            backgroundColor: "extra.button.background",
+            backgroundColor: "primary.main",
           },
           "&.Mui-disabled": {
             opacity: 0.4,
@@ -91,7 +91,7 @@ export function TransactionErrorContent({ message, onDismiss }: { message: strin
         }}
         onClick={onDismiss}
       >
-        <Typography fontWeight={600} fontSize={14} sx={{ color: "extra.button.text" }}>
+        <Typography variant="body4Poppins" fontWeight={600} color="#000607">
           Dismiss
         </Typography>
       </Button>
@@ -118,13 +118,20 @@ const TransactionConfirmationModal = ({
   if (!chainId) return null;
 
   return (
-    <BaseModal open={open}>
-      <IconButton onClick={onDismiss} sx={{ position: "absolute", right: 5, top: 5 }}>
-        <CloseIcon />
-      </IconButton>
-      <Stack sx={{ minWidth: 400 }}>
+    <BaseModal open={open} sx={{ 
+      backgroundColor: "gray.900", 
+      minWidth: '200px',
+      maxWidth: "556px",
+      width: "90vW",
+      border: '1px solid',
+      borderColor: 'gray.700',
+      borderRadius: '8px',
+      boxShadow: '0px 4px 11px #000000',
+      padding: '25px 15px 15px',
+    }}>
+      <Stack sx={{ minWidth: 200 }}>
         <Stack justifyContent="flex-start" direction="row" sx={{ width: "100%", mb: 3 }}>
-          <Typography fontSize={16} fontWeight={700}>
+          <Typography variant="body3Poppins" fontWeight={400} color='text.primary'>
             {title}
           </Typography>
         </Stack>

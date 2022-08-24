@@ -125,7 +125,8 @@ const ManageCurrencyListModal = ({
         sx={{ 
           backgroundColor: "gray.900", 
           maxWidth: "500px",
-          minHeight: 600,
+          minWidth: '200px',
+          width: '90vw',
           border: '1px solid',
           borderColor: 'gray.700',
           borderRadius: '8px',

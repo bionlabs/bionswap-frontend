@@ -14,6 +14,7 @@ declare module "@mui/material" {
     h6Samsung: React.CSSProperties,
 
     h3Poppins: React.CSSProperties,
+    h4Poppins: React.CSSProperties,
     h6Poppins: React.CSSProperties,
     bodyPoppins: React.CSSProperties,
     body2Poppins: React.CSSProperties,
@@ -32,6 +33,7 @@ declare module "@mui/material" {
     h6Samsung: React.CSSProperties,
 
     h3Poppins: React.CSSProperties,
+    h4Poppins: React.CSSProperties,
     h6Poppins: React.CSSProperties,
     bodyPoppins: React.CSSProperties,
     body2Poppins: React.CSSProperties,
@@ -62,6 +64,7 @@ declare module '@mui/material/Typography' {
     h6Samsung: true,
 
     h3Poppins: true,
+    h4Poppins: true,
     h6Poppins: true,
     bodyPoppins: true,
     body2Poppins: true,
@@ -331,6 +334,10 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       h3Poppins: {
         fontSize: "32px",
         lineHeight: "180%",
+      },
+      h4Poppins: {
+        fontSize: "28px",
+        lineHeight: "100%",
       },
       h6Poppins: {
         fontSize: "20px",

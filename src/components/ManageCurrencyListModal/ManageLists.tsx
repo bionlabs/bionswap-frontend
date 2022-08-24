@@ -1,4 +1,4 @@
-import { Button, OutlinedInput, Stack, Switch, TextField, Typography } from "@mui/material";
+import { Box, Button, OutlinedInput, Stack, Switch, TextField, Typography } from "@mui/material";
 import { TokenList } from "@uniswap/token-lists";
 import ListLogo from "components/ListLogo";
 import { UNSUPPORTED_LIST_URLS } from "configs/token-lists";
@@ -66,13 +66,20 @@ const ListRow = memo(({ listUrl }: { listUrl: string }) => {
   if (!list) return null;
 
   return (
-    <Stack direction="row" width="100%" justifyContent="start" gap={1}>
+    <Stack direction="row" width="100%" justifyContent="start" gap="10px" sx={{
+      background: 'rgba(160, 236, 138, 0.15)',
+      border: '1px solid #44C13C',
+      borderRadius: '8px',
+      padding: '18px 15px',
+    }}>
       {list.logoURI && <ListLogo size="40px" logoURI={list.logoURI} alt={`${list.name} list logo`} />}
       <Stack alignItems="start">
-        <Typography>
+        <Typography variant="body4Poppins" fontWeight="500" color="text.primary">
           {list.name} <Typography component="span">{listVersionLabel(list.version)}</Typography>
         </Typography>
-        <Typography>{list.tokens.length} tokens</Typography>
+        <Typography variant="body4Poppins" fontWeight="400" color="blue.100">
+          {list.tokens.length} tokens
+        </Typography>
       </Stack>
       <Stack flex={1} justifyContent="end" direction="row" mr={1}>
         <Switch checked={isActive} onChange={() => (isActive ? handleDisableList() : handleEnableList())} />
@@ -128,8 +135,8 @@ const ManageLists = (props: Props) => {
           return l1.name.toLowerCase() < l2.name.toLowerCase()
             ? -1
             : l1.name.toLowerCase() === l2.name.toLowerCase()
-            ? 0
-            : 1;
+              ? 0
+              : 1;
         }
         if (l1) return -1;
         if (l2) return 1;
@@ -170,12 +177,35 @@ const ManageLists = (props: Props) => {
 
   return (
     <Stack width="100%" gap={2}>
-      <OutlinedInput fullWidth placeholder="https:// or ipfs:// or ENS name" onChange={handleInput} />
-      {addError ? (
-        <Typography color="error" title={addError}>
-          {addError}
-        </Typography>
-      ) : null}
+      <Box padding='0 15px 15px' width='100%'>
+        <OutlinedInput fullWidth placeholder="Enter token name / address..." onChange={handleInput} sx={{
+          background: 'primary.dark',
+          border: '1px solid',
+          borderColor: 'gray.600',
+          borderRadius: '8px',
+
+          '&.Mui-focused': {
+            borderColor: '#9A6AFF',
+          },
+
+          'fieldset': {
+            display: 'none',
+          },
+
+          'input': {
+            fontWeight: '400',
+            fontSize: '16px',
+            lineHeight: '180%',
+            color: 'text.primary',
+            padding: '13px 15px',
+          }
+        }} />
+        {addError ? (
+          <Typography color="error" title={addError}>
+            {addError}
+          </Typography>
+        ) : null}
+      </Box>
       {tempList && !addError && (
         <Stack direction="row" gap={1} width="100%" my={2}>
           <ListLogo size="40px" logoURI={tempList.logoURI} alt={`${tempList.name} list logo`} />
@@ -197,7 +227,14 @@ const ManageLists = (props: Props) => {
           </Stack>
         </Stack>
       )}
-      <Stack sx={{ overflowY: "scroll" }} gap={1} width="100%">
+      <Stack gap="20px" width="100%" sx={{
+        borderTop: '1px solid',
+        borderTopColor: 'gray.800',
+        padding: '15px',
+        maxHeight: '370px',
+        overflowY: "auto",
+        justifyContent: "flex-start"
+      }}>
         {sortedLists.map((listUrl) => (
           <ListRow key={listUrl} listUrl={listUrl} />
         ))}
