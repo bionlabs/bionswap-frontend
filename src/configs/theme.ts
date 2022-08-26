@@ -226,7 +226,7 @@ export const darkPalette: ExtendedPaletteOptions = {
   extra: {
     text: {
       primary: "#D6DADE",
-      secondary: "#E0E0E0",
+      secondary: "#A8B0B9",
       subtitle: "#575757",
       highlight: "#6803B8",
     },

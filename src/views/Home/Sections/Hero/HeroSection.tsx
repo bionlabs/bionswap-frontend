@@ -19,11 +19,13 @@ const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
               </Typography>
             </FlexBox>
             <WrapHeroHead>
-              <Typography variant="h1">Own new token with low risk entrance</Typography>
+              <Typography variant="h1">
+                Think Different, Think <span style={{color: '#07E0E0', fontSize:'inherit', fontWeight:'inherit'}}>Bion</span>
+              </Typography>
             </WrapHeroHead>
             <WrapHeroContent>
               <Typography variant="h6" sx={{ color: "extra.text.primary" }}>
-                Bionswap is a decentralized exchange native to BNB Chain and other chains
+              BionSwap is a platform that allows Project Owners to self-launch their projects and  a Multichain Decentralize Exchange where users can trade tokens in the most optimal way
               </Typography>
             </WrapHeroContent>
             <FlexBox gap="28px">
@@ -54,11 +56,9 @@ const FlexBox = styled(Box)`
 `;
 const WrapHeroHead = styled(Box)`
   max-width: 600px;
-  width: 100%;
 `;
 const WrapHeroContent = styled(Box)`
-  max-width: 460px;
-  width: 100%;
+  max-width: 500px;
 `;
 const Wrapper = styled(Box)`
   width: 100%;
