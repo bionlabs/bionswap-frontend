@@ -9,6 +9,10 @@ import PrimaryButton from "components/PrimaryButton";
 const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
   return (
     <Wrapper>
+      <video loop muted autoPlay>
+        <source src="/videos/H2.mp4" type="video/mp4" />
+        <source src="/videos/H2.webm" type="video/webm" />
+      </video>
       <FlexBox flexDirection={isMobile ? "column" : "row"}>
         <Box display="flex" width={isTablet ? "100%" : "50%"} p={isMobile ? "8rem 16px" : "8rem"}>
           <WrapContentArea>
@@ -36,14 +40,14 @@ const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
             </FlexBox>
           </WrapContentArea>
         </Box>
-        {!isTablet && (
+        {/* {!isTablet && (
           <FlexBox width="50%" justifyContent="end" position="relative">
             <WrapGlassArea />
             <PillBox>
               <img src="images/home/pill.png" alt="" width="230px" />
             </PillBox>
           </FlexBox>
-        )}
+        )} */}
       </FlexBox>
     </Wrapper>
   );
@@ -62,14 +66,35 @@ const WrapHeroContent = styled(Box)`
 `;
 const Wrapper = styled(Box)`
   width: 100%;
-  background: url("/images/home/hero_bg.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: right -75px;
-  min-height: 100vh;
+  min-height: 92vh;
   display: flex;
   flex-direction: column;
   gap: 60px;
+  z-index: 10;
+  position: relative;
+
+  video {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    object-fit: cover;
+  }
+
+  ${props => props.theme.breakpoints.down("sm")} {
+    background: url("/images/home/hero_bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: right -75px;
+
+    video {
+      display: none;
+    }
+  }
 `;
 const WrapContentArea = styled(Box)`
   display: flex;

@@ -104,6 +104,11 @@ const Wrapper = styled(Box)`
     min-height: 100vh;
     justify-content: center;
     position: relative;
+    z-index: 10;
+
+    ${props => props.theme.breakpoints.down("sm")} {
+        padding-bottom: 8vh;
+    }
 `
 const Line = styled(Box)`
     width: 1px;
