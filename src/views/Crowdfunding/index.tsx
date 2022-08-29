@@ -6,15 +6,18 @@ import { crowdfundingConfig } from "./config";
 import {
     Box,
     Container,
+    styled,
     useMediaQuery
 } from '@mui/material'
-import styled from "@emotion/styled";
 import Link from 'next/link';
+import HeroSection from './components/Hero/HeroSection';
 
 const Crowdfunding = () => {
     const isMobile = useMediaQuery('(max-width:767px)');
     
     const Section = styled(Box)`
+    background-color: ${(props) => props.theme.palette.background.default};
+
     .background {
         padding: ${isMobile ? '20px 0' : '100px 0'};
         // background-image: url('/images/crowdfunding_bg.png');
@@ -55,7 +58,9 @@ const Crowdfunding = () => {
     `
 
     return (
-        <Section component='section'>
+        <>
+            <HeroSection />
+            <Section component='section'>
             <Box className='background'>
                 <Container>
                     <Box sx={{
@@ -139,6 +144,7 @@ const Crowdfunding = () => {
                 </Container>
             </Box>
         </Section>
+        </>
     );
 };
 

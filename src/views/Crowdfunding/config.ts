@@ -35,6 +35,7 @@ export const crowdfundingConfig = [
     {
         slug: 'acb',
         projectThumb: '/images/img_bg.png',
+        logo: '/images/launchpad_logo.png',
         name: 'Star Fox',
         type: 'Gamefi',
         status: 'Sale Open',
@@ -61,7 +62,9 @@ export const crowdfundingConfig = [
         lovedByBionswap: true,
     },
     {
+        slug: 'acb',
         projectThumb: '/images/img_bg.png',
+        logo: '/images/launchpad_logo.png',
         name: 'Star Fox',
         status: 'Closed',
         coin: {
