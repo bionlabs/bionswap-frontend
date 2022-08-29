@@ -10,8 +10,8 @@ const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
   return (
     <Wrapper>
       <video loop muted autoPlay>
-        <source src="/videos/H2.mp4" type="video/mp4" />
-        <source src="/videos/H2.webm" type="video/webm" />
+        <source src="/videos/H3.webm" type="video/webm" />
+        <source src="/videos/H3.mp4" type="video/mp4" />
       </video>
       <FlexBox flexDirection={isMobile ? "column" : "row"}>
         <Box display="flex" width={isTablet ? "100%" : "50%"} p={isMobile ? "8rem 16px" : "8rem"}>
