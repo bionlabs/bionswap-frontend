@@ -74,7 +74,7 @@ const WrapImage = styled(Box)`
 `
 const Wrapper = styled(Box)`
     width: 100%;
-    background-color: ${(props) => props.theme.palette.text.secondary};
+    background-color: ${(props) => props.theme.palette.background.default};
     background-image: url('/images/home/Vector.png');
     display: flex;
     flex-direction: column;

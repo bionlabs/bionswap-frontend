@@ -107,6 +107,9 @@ export const lightPalette: ExtendedPaletteOptions = {
       background: "#25273D",
       text: "white",
     },
+    background : {
+      gray: "#EDEDED",
+    },
     swapButton: {
       background: "#07E0E0",
       color: "#000607",
@@ -216,7 +219,7 @@ export const darkPalette: ExtendedPaletteOptions = {
   },
   background: {
     default: "#000A0D",
-    paper: "#EDEDED",
+    paper: "#fff",
   },
   text: {
     primary: "#FFFFFF",
@@ -226,9 +229,12 @@ export const darkPalette: ExtendedPaletteOptions = {
   extra: {
     text: {
       primary: "#D6DADE",
-      secondary: "#E0E0E0",
+      secondary: "#A8B0B9",
       subtitle: "#575757",
       highlight: "#6803B8",
+    },
+    background : {
+      gray: "#EDEDED",
     },
     button: {
       background: "white",

@@ -6,9 +6,30 @@ import {HiChartBar} from 'react-icons/hi'
 
 export const menuConfig = [
     {
-        label: 'Trade',
+        label: 'Swap',
         href: '/trade',
         icon: <MdSwapHorizontalCircle/>
+    },
+    {
+        label: 'Launchpad',
+        href: '/launchpad',
+        icon: <GiPayMoney/>
+    },
+    {
+        label: 'Earn',
+        href: '/earn',
+        icon: <GiReceiveMoney/>
+    },
+    {
+        label: 'Governance',
+        href: 'https://gov.bionswap.com',
+        newWindow: true,
+        icon: <GiPayMoney/>
+    },
+    {
+        label: 'Game Center',
+        href: '/gamecenter',
+        icon: <GiPayMoney/>
     },
     {
         label: 'Crowdfunding',
@@ -19,11 +40,6 @@ export const menuConfig = [
         label: 'Stacks',
         href: '/stacks',
         icon: <FaCoins/>
-    },
-    {
-        label: 'Earn',
-        href: '/earn',
-        icon: <GiReceiveMoney/>
     },
     {
         label: 'Dashboard',

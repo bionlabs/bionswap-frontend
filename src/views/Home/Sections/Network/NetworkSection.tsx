@@ -75,7 +75,7 @@ const NetworkSection = ({ isMobile, isTablet }: MobileProp) => {
                             Explore now !
                         </ExploreButton>
                     </FlexBox>
-                    <FlexBox alignItems='end' width='50%' sx={{display: {xs: 'none', md: 'block'}}}>
+                    <FlexBox alignItems='end' width='40%' sx={{display: {xs: 'none', md: 'block'}}}>
                         <WrapImage>
                             <img src="/images/home/computer.png" alt="" width='100%' height='auto' />
                         </WrapImage>
@@ -92,7 +92,7 @@ const FlexBox = styled(Box)`
 const WrapImage = styled(Box)`
     position: absolute;
     bottom: -7px;
-    max-width: 40%;
+    max-width: 30%;
     width: 100%;
 `
 const Wrapper = styled(Box)`
@@ -101,7 +101,7 @@ const Wrapper = styled(Box)`
     display: flex;
     flex-direction: column;
     gap: 60px;
-    min-height: 100vh;
+    padding: 8rem 0;
     justify-content: center;
     position: relative;
     z-index: 10;
@@ -127,14 +127,13 @@ const WrapConfig = styled(Box)`
     padding: 37px 72px;
     display: flex;
     gap: 71px;
-    margin-top: -33vh;
+    margin-top: -12rem;
     justify-content: space-between;
 
     ${props => props.theme.breakpoints.down("sm")} {
         flex-direction: column;
         padding: 30px;
         gap: 30px;
-        margin-top: 50px;
     }
 `
 const WrapNetworkHead = styled(Box)`
