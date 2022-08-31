@@ -216,7 +216,7 @@ export const darkPalette: ExtendedPaletteOptions = {
   },
   background: {
     default: "#000A0D",
-    paper: "#EDEDED",
+    paper: "#fff",
   },
   text: {
     primary: "#FFFFFF",

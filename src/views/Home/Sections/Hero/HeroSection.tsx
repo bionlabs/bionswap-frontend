@@ -5,8 +5,10 @@ import { keyframes } from "@emotion/react";
 import { MobileProp } from "configs/Type/Mobile/type";
 import Image from "next/image";
 import PrimaryButton from "components/PrimaryButton";
+import { useRouter } from "next/router";
 
 const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
+  const router = useRouter();
   return (
     <Wrapper>
       <FlexBox flexDirection={isMobile ? "column" : "row"}>
@@ -30,7 +32,14 @@ const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
             </WrapHeroContent>
             <FlexBox gap="28px">
               <Box maxWidth="218px" width="100%">
-                <PrimaryButton label="Trade now" />
+                <PrimaryButton
+                  label="Trade now"
+                  href='/trade'
+                  onClick={(e) => {
+                    e.preventDefault();
+                    router.push('/trade')
+                  }}
+                />
               </Box>
               <Box maxWidth="218px" width="100%">
                 <PrimaryButton variant="outlined" label="Learn more" />

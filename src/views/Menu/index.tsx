@@ -1,13 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react'
+import React , {useState} from 'react'
 import {
     Box,
     Button,
-    Container,
     Drawer,
     IconButton,
     useMediaQuery,
-    styled
+    styled,
+    Menu as MuiMenu,
+    MenuProps,
+    MenuItem
 } from '@mui/material'
 import {HiMenu , HiX} from 'react-icons/hi'
 import {BsThreeDots} from 'react-icons/bs'
@@ -26,6 +28,15 @@ const Menu = ({ children }: any) => {
         bottom: false,
         right: false,
       })
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+    setAnchorEl(null);
+    };
+
 
     const toggleDrawer = (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -101,7 +112,7 @@ const Menu = ({ children }: any) => {
                             !isMobile &&
                             <Box alignItems="center" display="flex" gap={4}>
                                 {
-                                    menuConfig.map(item =>
+                                    menuConfig.slice(0, 5).map(item =>
                                         <Box 
                                             key=''
                                             component="a"
@@ -129,27 +140,77 @@ const Menu = ({ children }: any) => {
                                         </Box>
                                     )
                                 }
+                                <IconButton 
+                                    sx={{
+                                        color:'#fff',
+                                    }}
+                                    onClick={handleClick}
+                                >
+                                    <BsThreeDots/>
+                                </IconButton>
+                                <MuiMenu
+                                    anchorEl={anchorEl}
+                                    open={open}
+                                    onClose={handleClose}
+                                    sx={{
+                                        '.MuiPaper-root': {
+                                            backgroundColor: '#081319!important',
+                                            border: "1px solid #424242", borderRadius: '8px',
+                                            minWidth: '200px'
+                                        }
+                                    }}
+                                >
+                                    {
+                                        menuConfig.slice(5, menuConfig.length).map(item =>
+                                            <MenuItem 
+                                                key=''
+                                                component="a"
+                                                href={item.href}
+                                                sx={{
+                                                    color: "extra.header.color",
+                                                    fontWeight: '500',
+                                                    fontSize: '16px',
+                                                    padding: '10px 20px',
+                                                    transition: '.15s ease-in',
+                                                    ':hover': {
+                                                        color: 'extra.header.colorActive',
+                                                    },
+                                                    '&.active': {
+                                                        color: "extra.header.colorActive",
+                                                    }
+                                                }}
+                                                onClick={(e:any) => {
+                                                    e.preventDefault();
+                                                    if(item.newWindow) window.open(item.href);
+                                                    else router.push(item.href);
+                                                    handleClose();
+                                                }}
+                                                className={router.pathname == item.href ? "active" : ""}
+                                                disableRipple
+                                            >
+                                                {item.label}
+                                            </MenuItem>
+                                        )
+                                    }
+                                </MuiMenu>
                             </Box>
                         }
                     </FlexBox>
                     <FlexBox gap='16px'>
                         {!isMobile &&
-                            <ConnectButton/>
+                            <>
+                                {/* <LaunchpadButton>
+                                    Create +
+                                </LaunchpadButton> */}
+                                <ConnectButton/>
+                            </>
                         }
-                        <IconButton sx={{
-                            color:'#fff',
-                            backgroundColor: '#0b0b0b',
-                            borderRadius: '12px'
-                        }}>
-                            <BsThreeDots/>
-                        </IconButton>
+                        
                         {
                             isMobile && 
                             <IconButton onClick={toggleDrawer('right', true)} 
                                 sx={{
                                     color:'#fff',
-                                    backgroundColor: '#0b0b0b',
-                                    borderRadius: '12px'
                                 }}
                             >
                                 <HiMenu/>
@@ -190,5 +251,28 @@ const StyledContained = styled(Box)`
 const FlexBox = styled(Box)`
     display: flex;
 `
+const LaunchpadButton = styled(Button)`
+  border-radius: 4px;
+  min-width: fit-content;
+  padding: 8.5px 48px;
+  box-shadow: none;
+  text-transform: none;
+  font-family: inherit;
+  font-weight: 600;
+  align-items: center;
+  min-height: 41px;
+  background-color: rgba(205, 61, 255, 0.1);
+  color: #9A6AFF;
+  transition: 0.15s ease-in;
+  line-height: 1;
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+  :hover {
+    background-color: rgba(205, 61, 255, 0.15);
+    box-shadow: none;
+  }
+`;
 
 export default Menu
