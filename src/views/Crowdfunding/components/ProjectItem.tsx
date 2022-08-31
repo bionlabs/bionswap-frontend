@@ -16,6 +16,10 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
             <Box sx={{
                 width: '100%',
                 height: '123px',
+
+                'img': {
+                    objectFit: 'cover',
+                }
             }}>
                 <img src={data?.projectThumb} alt={data?.name} width='100%' height='100%' />
             </Box>

@@ -44,7 +44,7 @@ const PartnersSection = ({ isMobile, isTablet }: MobileProp) => {
                     <FlexBox flexDirection='column' gap='24px' justifyContent='center' alignItems='center' sx={{ width: {xs: '100%', md: '50%'} }}>
                         <FlexBox flexDirection='column' gap='24px' justifyContent='center'>
                             <FlexBox gap='20px'>
-                                <Image src="/icons/home/launchpad_icon.svg" alt="launchpad_icon" width={37} height={25} />
+                                <Image src="/icons/home/partner.svg" alt="partner" width={37} height={25} />
                                 <Typography variant='subtitle1' sx={{ color: 'extra.text.primary' }}>
                                     For partners
                                 </Typography>
@@ -56,7 +56,7 @@ const PartnersSection = ({ isMobile, isTablet }: MobileProp) => {
                                 </Typography>
                             </WrapNetworkHead>
                             <Box maxWidth='218px' width='100%'>
-                                <PrimaryButton label="Create  now +" />
+                                <PrimaryButton label="Create now" />
                             </Box>
                         </FlexBox>
                     </FlexBox>

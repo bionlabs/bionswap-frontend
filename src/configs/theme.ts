@@ -318,6 +318,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         fontSize: "16px",
         lineHeight: "24px",
       },
+      
       h3Samsung: {
         fontFamily: "SamsungSharpSans-Bold",
         fontSize: "32px",

@@ -104,6 +104,11 @@ const Wrapper = styled(Box)`
     min-height: 100vh;
     justify-content: center;
     position: relative;
+    z-index: 10;
+
+    ${props => props.theme.breakpoints.down("sm")} {
+        padding-bottom: 8vh;
+    }
 `
 const Line = styled(Box)`
     width: 1px;
@@ -122,13 +127,14 @@ const WrapConfig = styled(Box)`
     padding: 37px 72px;
     display: flex;
     gap: 71px;
-    margin-top: -28%;
+    margin-top: -33vh;
     justify-content: space-between;
 
     ${props => props.theme.breakpoints.down("sm")} {
         flex-direction: column;
         padding: 30px;
         gap: 30px;
+        margin-top: 50px;
     }
 `
 const WrapNetworkHead = styled(Box)`

@@ -3,6 +3,7 @@ import {
   BUSD_ADDRESS,
   SUSHI_ADDRESS,
   USDC_ADDRESS,
+  USDT_ADDRESS,
   WETH9_ADDRESS,
   WNATIVE_ADDRESS,
 } from "./addresses";
@@ -163,9 +164,20 @@ export const BUSD: TokenMap = {
   ),
 };
 
+export const USDT: TokenMap = {
+  [ChainId.OKEX]: new Token(
+    ChainId.OKEX,
+    USDT_ADDRESS[ChainId.OKEX],
+    18,
+    "USDT",
+    "USDT Coin"
+  ),
+};
+
 export const USD: TokenMap = {
   ...USDC,
   ...BUSD,
+  ...USDT,
   [ChainId.CELO]: new Token(
     ChainId.CELO,
     USDC_ADDRESS[ChainId.CELO],
