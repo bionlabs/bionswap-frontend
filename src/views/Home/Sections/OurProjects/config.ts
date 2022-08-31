@@ -110,3 +110,30 @@ export const ourProjectsConfig = [
         symbol: 'HNG'
     },
 ]
+
+export const serviceConfig = [
+    {
+        icon: '/images/chat-icon.png',
+        title: {
+            content: 'Incubating program',
+            color: '#2AC89F'
+        },
+        description: 'Smart contracts support and stragegies advice.'
+    },
+    {
+        icon: '/images/chat-icon01.png',
+        title: {
+            content: 'All automative',
+            color: '#07E0E0'
+        },
+        description: 'Launch your projects on Bionswap with a single click!'
+    },
+    {
+        icon: '/images/chat-icon02.png',
+        title: {
+            content: 'Payout',
+            color: '#9A6AFF'
+        },
+        description: 'Helping early-born projects with a reasonable price.'
+    },
+]
