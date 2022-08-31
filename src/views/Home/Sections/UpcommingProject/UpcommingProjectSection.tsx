@@ -39,9 +39,9 @@ const UpcommingProjectSection = () => {
                         ))
                     }
                 </WrapItems>
-                <Box mt='63px' maxWidth='218px' width='100%'>
+                {/* <Box mt='63px' maxWidth='218px' width='100%'>
                     <PrimaryButton label="Explore more ->" />
-                </Box>
+                </Box> */}
             </Container>
         </Wrapper>
     )
@@ -62,6 +62,7 @@ const WrapItems = styled(Box)`
         display: flex;
         gap: 32px;
         flex-wrap: wrap;
+        width: 100%;
 
         ${props => props.theme.breakpoints.down("sm")} {
             justify-content: center;
