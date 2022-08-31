@@ -97,7 +97,7 @@ const FlexBox = styled(Box)`
 `
 const Wrapper = styled(Box)`
     width: 100%;
-    background-color: ${(props) => props.theme.palette.background.paper};
+    background-color: ${(props) => (props.theme.palette as any).extra.background.gray};
     background-image: url('/images/global.png');
     background-size: contain;
     background-position: right bottom;
