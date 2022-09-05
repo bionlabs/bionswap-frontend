@@ -5,8 +5,10 @@ import { keyframes } from "@emotion/react";
 import { MobileProp } from "configs/Type/Mobile/type";
 import Image from "next/image";
 import PrimaryButton from "components/PrimaryButton";
+import { useRouter } from "next/router";
 
 const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
+  const router = useRouter();
   return (
     <Wrapper>
       <video loop muted autoPlay>
@@ -23,16 +25,25 @@ const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
               </Typography>
             </FlexBox>
             <WrapHeroHead>
-              <Typography variant="h1">Own new token with low risk entrance</Typography>
+              <Typography variant="h1">
+                Think Different, Think <span style={{color: '#07E0E0', fontSize:'inherit', fontWeight:'inherit'}}>Bion</span>
+              </Typography>
             </WrapHeroHead>
             <WrapHeroContent>
               <Typography variant="h6" sx={{ color: "extra.text.primary" }}>
-                Bionswap is a decentralized exchange native to BNB Chain and other chains
+              BionSwap is a platform that allows Project Owners to self-launch their projects and  a Multichain Decentralize Exchange where users can trade tokens in the most optimal way
               </Typography>
             </WrapHeroContent>
             <FlexBox gap="28px">
               <Box maxWidth="218px" width="100%">
-                <PrimaryButton label="Trade now" />
+                <PrimaryButton
+                  label="Trade now"
+                  href='/trade'
+                  onClick={(e) => {
+                    e.preventDefault();
+                    router.push('/trade')
+                  }}
+                />
               </Box>
               <Box maxWidth="218px" width="100%">
                 <PrimaryButton variant="outlined" label="Learn more" />
@@ -58,11 +69,9 @@ const FlexBox = styled(Box)`
 `;
 const WrapHeroHead = styled(Box)`
   max-width: 600px;
-  width: 100%;
 `;
 const WrapHeroContent = styled(Box)`
-  max-width: 460px;
-  width: 100%;
+  max-width: 500px;
 `;
 const Wrapper = styled(Box)`
   width: 100%;
