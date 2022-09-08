@@ -9,6 +9,7 @@ type ExtendedPaletteOptions = PartialDeep<Palette> & {
 
 declare module "@mui/material" {
   interface TypographyVariants {
+    h2Samsung: React.CSSProperties,
     h3Samsung: React.CSSProperties,
     h5Samsung: React.CSSProperties,
     h6Samsung: React.CSSProperties,
@@ -28,6 +29,7 @@ declare module "@mui/material" {
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
+    h2Samsung: React.CSSProperties,
     h3Samsung: React.CSSProperties,
     h5Samsung: React.CSSProperties,
     h6Samsung: React.CSSProperties,
@@ -59,6 +61,7 @@ declare module '@mui/material/styles/createPalette' {
 
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
+    h2Samsung: true,
     h3Samsung: true,
     h5Samsung: true,
     h6Samsung: true,
@@ -109,6 +112,7 @@ export const lightPalette: ExtendedPaletteOptions = {
     },
     background : {
       gray: "#EDEDED",
+      darkGreen: '#001015',
     },
     swapButton: {
       background: "#07E0E0",
@@ -235,6 +239,8 @@ export const darkPalette: ExtendedPaletteOptions = {
     },
     background : {
       gray: "#EDEDED",
+      darkGreen: '#001015',
+      primaryDarkGreen: '#066C6C',
     },
     button: {
       background: "white",
@@ -280,7 +286,8 @@ export const darkPalette: ExtendedPaletteOptions = {
       fourteenthOpacity: 'rgba(160, 236, 138, 0.15)',
       fifteenth: '#9A6AFF',
       fifteenthOpacity: 'rgba(154, 106, 255, 0.15)',
-      sixteenth: '#2BA52E'
+      sixteenth: '#2BA52E',
+      seventeenth: '#08878E'
     }
   },
 };
@@ -324,7 +331,11 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         fontSize: "16px",
         lineHeight: "24px",
       },
-      
+      h2Samsung: {
+        fontFamily: "SamsungSharpSans-Bold",
+        fontSize: "48px",
+        lineHeight: "180%",
+      },
       h3Samsung: {
         fontFamily: "SamsungSharpSans-Bold",
         fontSize: "32px",
@@ -333,7 +344,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       h5Samsung: {
         fontFamily: 'SamsungSharpSans-Bold',
         fontSize: '24px',
-        lineHeight: '30px',
+        lineHeight: '40px',
       },
       h6Samsung: {
         fontFamily: 'SamsungSharpSans-Bold',

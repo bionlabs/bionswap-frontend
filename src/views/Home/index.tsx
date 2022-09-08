@@ -13,6 +13,7 @@ import NetworkSection from './Sections/Network/NetworkSection'
 import MissionSection from './Sections/Mission/MissionSection'
 import PartnersSection from './Sections/Partners/PartnersSection'
 import CommunitySection from './Sections/Community/CommunitySection'
+import Page from 'components/Page'
 
 const Homepage = () => {
   const isMobile = useMediaQuery('(max-width:700px)');
@@ -32,12 +33,6 @@ const Homepage = () => {
     </Page>
   )
 }
-
-const Page = styled(Box)`
-    min-height: 100vh;
-    background-color: ${prop => prop.theme.palette.background.default};
-    color: ${prop => prop.theme.palette.text.primary}
-`
 
 
 export default Homepage

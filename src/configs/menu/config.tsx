@@ -21,12 +21,6 @@ export const menuConfig = [
         icon: <GiReceiveMoney/>
     },
     {
-        label: 'Governance',
-        href: 'https://gov.bionswap.com',
-        newWindow: true,
-        icon: <GiPayMoney/>
-    },
-    {
         label: 'Game Center',
         href: '/gamecenter',
         icon: <GiPayMoney/>

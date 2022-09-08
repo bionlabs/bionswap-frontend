@@ -8,11 +8,11 @@ interface ProjectItemProps {
     data: any,
 }
 
-const ProjectItem: React.FC<ProjectItemProps> = ({ data }) => {
+const Card: React.FC<ProjectItemProps> = ({ data }) => {
     const router = useRouter();
 
     return (
-        <WrapBox onClick={() => { router.push(`/crowdfunding/${data?.slug}`) }}>
+        <WrapBox onClick={() => { router.push(`/launchpad/${data?.slug}`) }}>
             <Box sx={{
                 width: '100%',
                 height: '123px',
@@ -212,4 +212,4 @@ const Tag = styled(Box)`
     padding: 1px 10px 3px;
 `
 
-export default ProjectItem;
+export default Card;
