@@ -13,7 +13,7 @@ interface RecomendProjectsProps {
 const RecomendProjects: React.FC<RecomendProjectsProps> = ({ data, isMobile = false }) => {
     const Wrapper = styled(Box)`
         border-top: 1px solid #dee0e2;
-        background: #FAFAF9;
+        background: #000A0D;
     `
     return (
         <Wrapper padding={isMobile ? '40px 0' : '52px 0'}>

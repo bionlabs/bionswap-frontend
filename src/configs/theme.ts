@@ -1,5 +1,5 @@
 import { createTheme, Palette, PaletteOptions, ThemeOptions } from "@mui/material";
-import { ColorPartial } from "@mui/material/styles/createPalette";
+import { ColorPartial, SimplePaletteColorOptions } from "@mui/material/styles/createPalette";
 import { PartialDeep } from "type-fest";
 
 type ExtraThemeProp = { [any: string]: string | ExtraThemeProp };
@@ -9,10 +9,12 @@ type ExtendedPaletteOptions = PartialDeep<Palette> & {
 
 declare module "@mui/material" {
   interface TypographyVariants {
+    h2Samsung: React.CSSProperties,
     h3Samsung: React.CSSProperties,
     h5Samsung: React.CSSProperties,
     h6Samsung: React.CSSProperties,
 
+    h1Poppins: React.CSSProperties,
     h3Poppins: React.CSSProperties,
     h4Poppins: React.CSSProperties,
     h6Poppins: React.CSSProperties,
@@ -28,10 +30,12 @@ declare module "@mui/material" {
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
+    h2Samsung: React.CSSProperties,
     h3Samsung: React.CSSProperties,
     h5Samsung: React.CSSProperties,
     h6Samsung: React.CSSProperties,
 
+    h1Poppins: React.CSSProperties,
     h3Poppins: React.CSSProperties,
     h4Poppins: React.CSSProperties,
     h6Poppins: React.CSSProperties,
@@ -59,10 +63,12 @@ declare module '@mui/material/styles/createPalette' {
 
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
+    h2Samsung: true,
     h3Samsung: true,
     h5Samsung: true,
     h6Samsung: true,
 
+    h1Poppins: true,
     h3Poppins: true,
     h4Poppins: true,
     h6Poppins: true,
@@ -109,6 +115,7 @@ export const lightPalette: ExtendedPaletteOptions = {
     },
     background : {
       gray: "#EDEDED",
+      darkGreen: '#001015',
     },
     swapButton: {
       background: "#07E0E0",
@@ -235,6 +242,8 @@ export const darkPalette: ExtendedPaletteOptions = {
     },
     background : {
       gray: "#EDEDED",
+      darkGreen: '#001015',
+      primaryDarkGreen: '#066C6C',
     },
     button: {
       background: "white",
@@ -280,7 +289,8 @@ export const darkPalette: ExtendedPaletteOptions = {
       fourteenthOpacity: 'rgba(160, 236, 138, 0.15)',
       fifteenth: '#9A6AFF',
       fifteenthOpacity: 'rgba(154, 106, 255, 0.15)',
-      sixteenth: '#2BA52E'
+      sixteenth: '#2BA52E',
+      seventeenth: '#08878E'
     }
   },
 };
@@ -324,7 +334,11 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         fontSize: "16px",
         lineHeight: "24px",
       },
-      
+      h2Samsung: {
+        fontFamily: "SamsungSharpSans-Bold",
+        fontSize: "48px",
+        lineHeight: "180%",
+      },
       h3Samsung: {
         fontFamily: "SamsungSharpSans-Bold",
         fontSize: "32px",
@@ -333,7 +347,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       h5Samsung: {
         fontFamily: 'SamsungSharpSans-Bold',
         fontSize: '24px',
-        lineHeight: '30px',
+        lineHeight: '40px',
       },
       h6Samsung: {
         fontFamily: 'SamsungSharpSans-Bold',
@@ -341,6 +355,10 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         lineHeight: '30px',
       },
 
+      h1Poppins: {
+        fontSize: "36px",
+        lineHeight: "150%",
+      },
       h3Poppins: {
         fontSize: "32px",
         lineHeight: "180%",
@@ -422,25 +440,25 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       },
       MuiMenuItem: {
         styleOverrides: {
-          // root: {
-          //   width: "100%",
-          //   p: 1.5,
-          //   borderRadius: "8px",
-          //   "&.Mui-selected": {
-          //     backgroundColor: (
-          //       basePalette.primary as SimplePaletteColorOptions
-          //     ).light,
-          //     boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.24)",
-          //     "&:hover": {
-          //       backgroundColor: (
-          //         basePalette.primary as SimplePaletteColorOptions
-          //       ).light,
-          //     },
-          //   },
-          //   "& .MuiTouchRipple-root": {
-          //     color: (basePalette.primary as SimplePaletteColorOptions).main,
-          //   },
-          // },
+          root: {
+            width: "100%",
+            p: 1.5,
+            borderRadius: "0",
+            "&.Mui-selected": {
+              backgroundColor: (
+                basePalette.primary as SimplePaletteColorOptions
+              ).light,
+              boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.24)",
+              "&:hover": {
+                backgroundColor: (
+                  basePalette.primary as SimplePaletteColorOptions
+                ).light,
+              },
+            },
+            "& .MuiTouchRipple-root": {
+              color: (basePalette.primary as SimplePaletteColorOptions).main,
+            },
+          },
         },
       },
       MuiTypography: {
@@ -458,8 +476,8 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
             "& input[type=number]": {
               MozAppearance: "textfield",
             },
-            "& legend": { display: "none" },
-            "& fieldset": { top: 0 },
+            // "& legend": { display: "none" },
+            // "& fieldset": { top: 0 },
           },
         },
       },
@@ -484,7 +502,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
           root: {
             "&.MuiPopover-paper": {
               backgroundImage: "none",
-              backgroundColor: "transparent",
+              backgroundColor: "#08878E",
             },
           },
         },

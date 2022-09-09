@@ -1,7 +1,3 @@
-import Crowdfunding from "views/Crowdfunding"
+import Launchpad from "views/Launchpad"
 
-const CrowdfundingPage = () => {
-    return <Crowdfunding/>
-}
-
-export default CrowdfundingPage
+export default Launchpad

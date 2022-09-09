@@ -42,7 +42,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, isMobile = false })
             <Box width={isMobile ? '100%' : '35%'} minHeight='453px'
                 sx={{
                     padding: '16px 20px',
-                    background: '#ffffff',
+                    backgroundColor: 'gray.900',
                     borderRadius: '8px',
                     border: '1px solid transparent'
                 }}>
@@ -138,6 +138,7 @@ const StyledButton = styled(Button)`
     width: 100%;
     transition: .15s ease-in;
     color: #fff;
+
     :hover {
         background-color: #1C7744;
         box-shadow: none;
