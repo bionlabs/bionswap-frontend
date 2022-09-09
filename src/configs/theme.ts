@@ -1,5 +1,5 @@
 import { createTheme, Palette, PaletteOptions, ThemeOptions } from "@mui/material";
-import { ColorPartial } from "@mui/material/styles/createPalette";
+import { ColorPartial, SimplePaletteColorOptions } from "@mui/material/styles/createPalette";
 import { PartialDeep } from "type-fest";
 
 type ExtraThemeProp = { [any: string]: string | ExtraThemeProp };
@@ -442,25 +442,25 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       },
       MuiMenuItem: {
         styleOverrides: {
-          // root: {
-          //   width: "100%",
-          //   p: 1.5,
-          //   borderRadius: "8px",
-          //   "&.Mui-selected": {
-          //     backgroundColor: (
-          //       basePalette.primary as SimplePaletteColorOptions
-          //     ).light,
-          //     boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.24)",
-          //     "&:hover": {
-          //       backgroundColor: (
-          //         basePalette.primary as SimplePaletteColorOptions
-          //       ).light,
-          //     },
-          //   },
-          //   "& .MuiTouchRipple-root": {
-          //     color: (basePalette.primary as SimplePaletteColorOptions).main,
-          //   },
-          // },
+          root: {
+            width: "100%",
+            p: 1.5,
+            borderRadius: "0",
+            "&.Mui-selected": {
+              backgroundColor: (
+                basePalette.primary as SimplePaletteColorOptions
+              ).light,
+              boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.24)",
+              "&:hover": {
+                backgroundColor: (
+                  basePalette.primary as SimplePaletteColorOptions
+                ).light,
+              },
+            },
+            "& .MuiTouchRipple-root": {
+              color: (basePalette.primary as SimplePaletteColorOptions).main,
+            },
+          },
         },
       },
       MuiTypography: {
@@ -478,8 +478,8 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
             "& input[type=number]": {
               MozAppearance: "textfield",
             },
-            "& legend": { display: "none" },
-            "& fieldset": { top: 0 },
+            // "& legend": { display: "none" },
+            // "& fieldset": { top: 0 },
           },
         },
       },
@@ -504,7 +504,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
           root: {
             "&.MuiPopover-paper": {
               backgroundImage: "none",
-              backgroundColor: "transparent",
+              backgroundColor: "#08878E",
             },
           },
         },
