@@ -89,7 +89,7 @@ const TabsArea: React.FC<TabsAreaProps> = ({ data, isMobile = false }) => {
     const TabPanelCustom = styled(TabPanel)`
         padding-top: 40px;
         padding-bottom: ${isMobile ? '40px' : '160px'};
-        background-color: #FAFAF9;
+        background-color: #000A0D;
     `
 
     return (

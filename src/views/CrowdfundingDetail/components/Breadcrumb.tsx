@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Link, Breadcrumbs } from "@mui/material";
+import { Box, Link, Breadcrumbs, Typography, styled } from "@mui/material";
 
 function handleClick(event: any) {
     event.preventDefault();
@@ -7,28 +7,29 @@ function handleClick(event: any) {
 }
 
 interface BreadcrumbProps {
-    name: string,
-    isMobile: boolean
+    name: string
 }
 
-const Breadcrumb: React.FC<BreadcrumbProps> = ({name, isMobile = false}) => {
+const Breadcrumb: React.FC<BreadcrumbProps> = ({name}) => {
     return (
-        <Box role="presentation" onClick={handleClick} marginBottom="24px">
-            <Breadcrumbs aria-label="breadcrumb">
-                <Link underline="hover" color="inherit" href="/crowdfunding">
-                    Project
+        <Box marginBottom="17px">
+            <FlexBox gap='16px' alignItems='center'>
+                <Link underline="hover" color="inherit" href="/launchpad">
+                    <Typography variant='body3Poppins' color='#9B9B9B' fontWeight='400'>
+                        Project
+                    </Typography>
                 </Link>
-                <Box component='p' sx={{
-                    color: '#000000',
-                    fontWeight: '600',
-                    fontSize: '16px',
-                    lineHeight: '160%',
-                }}>
+                <img src='/icons/launchpad/keyboard_arrow_right.svg' alt='' />
+                <Typography variant='body3Poppins' color='#F8F9F9' fontWeight='600'>
                     {name}
-                </Box>
-            </Breadcrumbs>
+                </Typography>
+            </FlexBox>
         </Box>
     );
 }
+
+const FlexBox = styled(Box)`
+    display: flex;
+`
 
 export default Breadcrumb
