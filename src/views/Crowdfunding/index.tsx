@@ -7,6 +7,7 @@ import {
     Box,
     Container,
     styled,
+    Typography,
     useMediaQuery
 } from '@mui/material'
 import Link from 'next/link';
@@ -28,12 +29,14 @@ const Crowdfunding = () => {
 `
 
     const Title = styled(Box)`
-        color: #000000;
-        font-weight: 600;
-        font-size: ${isMobile ? '25px' : '32px'};
-        line-height: 150%;
-        margin-top: 0;
-        margin-bottom: 8px;
+        position: relative;
+
+        &::after {
+            content: '';
+            background: #07E0E0;
+            height: 51%;
+            width: 5px;
+        }
     `
     const SubContent = styled(Box)`
         font-weight: 400;
@@ -67,11 +70,10 @@ const Crowdfunding = () => {
                         marginBottom: '78px'
                     }}>
                         <Title>
-                            🚀  Upcoming on BionicFox
+                            <Typography variant='h5Samsung' fontWeight='700' color='gray.200' ml='30px'>
+                                Feature Project
+                            </Typography>
                         </Title>
-                        <SubContent component='p'>
-                            Stake token to earn reward. <Link href='/'>See how it work -&gt;</Link>
-                        </SubContent>
                         <WrapItems>
                             {
                                 crowdfundingConfig?.map((item, idex) => (
