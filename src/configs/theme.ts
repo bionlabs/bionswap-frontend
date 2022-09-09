@@ -414,18 +414,9 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
             textTransform: "none",
             boxShadow: "none",
             fontStyle: "normal",
-            // "&.MuiButton-outlined:hover": {
-            //   // transform: "matrix(1.025, 0, 0, 1.025, 0, 0)",
-            //   // backgroundColor: basePalette.primary?.main,
-            //   backgroundColor: "transparent",
-            //   opacity: 0.9,
-            // },
-            // "&.MuiButton-contained:hover": {
-            //   // transform: "matrix(1.025, 0, 0, 1.025, 0, 0)",
-            //   backgroundColor: basePalette.primary?.main,
-            //   // backgroundColor: "transparent",
-            //   opacity: 0.9,
-            // },
+            '&:hover': {
+              opacity: '1',
+            }
           },
         },
       },

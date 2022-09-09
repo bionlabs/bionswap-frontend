@@ -55,7 +55,11 @@ const TransactionSettings = (props: Props) => {
           horizontal: "right",
         }}
       >
-        <Stack width={380} bgcolor="gray.900" px="15px" py="25px" borderRadius="8px" gap={1}>
+        <Stack width={380} bgcolor="gray.900" px="15px" py="25px" borderRadius="8px" gap={1} sx={{
+              border:'1px solid',
+              borderColor: 'gray.700',
+              boxShadow: '0px 4px 11px #000000',
+        }}>
           <Stack width="100%" alignItems="start" borderRadius="8px" sx={{ border: "1px solid rgba(32,34,49,.6)", p: 1 }}>
             <Typography variant="body3Poppins">Transaction Settings</Typography>
 

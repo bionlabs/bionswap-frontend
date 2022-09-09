@@ -122,8 +122,11 @@ const Menu = ({ children }: any) => {
                                                 fontWeight: '500',
                                                 fontSize: '16px',
                                                 transition: '.15s ease-in',
+                                                padding: '5px 10px',
+                                                borderRadius: '4px',
+                                                backgroundColor: 'transparent',
                                                 ':hover': {
-                                                    color: 'extra.header.colorActive',
+                                                    backgroundColor: 'gray.800',
                                                 },
                                                 '&.active': {
                                                     color: "extra.header.colorActive",

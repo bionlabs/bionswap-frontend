@@ -14,11 +14,15 @@ const Manage = (props: Props) => {
   return (
     <Stack>
       <Box width='100%' padding='25px 15px 15px' display='flex' gap={2} flexDirection='column'>
-        <Stack direction="row" justifyContent="start" width="100%" gap={1}>
-          <IconButton onClick={() => setView(ManageCurrencyListModalView.search)}>
+        <Stack direction="row" justifyContent="start" width="100%" gap={1} position='relative'>
+          <IconButton onClick={() => setView(ManageCurrencyListModalView.search)} sx={{
+            position: 'absolute'
+          }}>
             <ArrowBackIcon />
           </IconButton>
-          <Typography>Manage</Typography>
+          <Typography variant="bodyPoppins" margin='auto' fontWeight='400' color='text.primary'>
+            Manage
+          </Typography>
         </Stack>
         <WrapTab direction="row" gap={1} sx={{ width: "100%" }}>
           {["Lists", "Tokens"].map((label, i) => (

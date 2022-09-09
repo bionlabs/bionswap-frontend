@@ -1,4 +1,5 @@
-import { Box, Button, OutlinedInput, Stack, Switch, TextField, Typography } from "@mui/material";
+import { Box, Button, OutlinedInput, Stack, TextField, Typography } from "@mui/material";
+import { Switch } from "components";
 import { TokenList } from "@uniswap/token-lists";
 import ListLogo from "components/ListLogo";
 import { UNSUPPORTED_LIST_URLS } from "configs/token-lists";
@@ -70,7 +71,7 @@ const ListRow = memo(({ listUrl }: { listUrl: string }) => {
       background: 'rgba(160, 236, 138, 0.15)',
       border: '1px solid #44C13C',
       borderRadius: '8px',
-      padding: '18px 15px',
+      padding: '15px',
     }}>
       {list.logoURI && <ListLogo size="40px" logoURI={list.logoURI} alt={`${list.name} list logo`} />}
       <Stack alignItems="start">
@@ -83,6 +84,7 @@ const ListRow = memo(({ listUrl }: { listUrl: string }) => {
       </Stack>
       <Stack flex={1} justifyContent="end" direction="row" mr={1}>
         <Switch checked={isActive} onChange={() => (isActive ? handleDisableList() : handleEnableList())} />
+        {/* <Switch checked={isActive} onChange={() => (isActive ? handleDisableList() : handleEnableList())} /> */}
       </Stack>
     </Stack>
   );

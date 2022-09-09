@@ -8,7 +8,6 @@ type Props = {
 };
 
 const ImportRow = ({ token, onClick }: Props) => {
-  console.log('token==>', token);
   return (
     // <Stack
     //   direction="row"
