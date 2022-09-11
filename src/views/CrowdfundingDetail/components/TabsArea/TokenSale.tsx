@@ -10,80 +10,67 @@ interface TokenSaleProps {
 const TokenSale: React.FC<TokenSaleProps> = ({ data, isMobile = false }) => {
     const fetchData = [
         {
-            allocation: 'Allocation',
-            tokenSale: 'Token Sale'
+            allocation: 'Sale Price',
+            tokenSale: '1FOX = 0.5BUSD'
         },
         {
-            allocation: 'Allocation',
-            tokenSale: 'Token Sale'
+            allocation: 'Sale End Time',
+            tokenSale: '06/22/2022 - 10:00:00 AM'
         },
         {
-            allocation: 'Allocation',
-            tokenSale: 'Token Sale'
+            allocation: 'Sale Start Time',
+            tokenSale: '06/20/2022 - 10:00:00 AM'
         },
         {
-            allocation: 'Allocation',
-            tokenSale: 'Token Sale'
+            allocation: 'Token Distribution Time',
+            tokenSale: '06/25/2022 - 10:00:00 AM'
         },
         {
-            allocation: 'Allocation',
-            tokenSale: 'Token Sale'
+            allocation: 'Token Address',
+            tokenSale: '0xdfd7b0dd7bf1012dfdf3307a964c36b972300ac8'
         },
         {
-            allocation: 'Allocation',
-            tokenSale: 'Token Sale'
+            allocation: 'Contract Address',
+            tokenSale: '0x49D4008930ABb6AD1e25E2C19B78230157B756B7'
         },
     ]
     return (
         <Box display='flex' gap={3} sx={{ width: '100%' }} flexDirection={isMobile ? 'column' : 'row'}>
             <Box width={isMobile ? '100%' : '70%'}>
                 <Box sx={{
-                    border: '1px solid #DEE0E2',
+                    border: '1px solid',
+                    borderColor: 'gray.700',
                     borderRadius: '8px',
                     width: '100%',
                     overflow: 'hidden',
-                    background: '#FFFFFF',
+                    backgroundColor: 'gray.900',
                 }}>
                     <Box sx={{
-                        fontWeight: '600',
-                        fontSize: '14px',
-                        lineHeight: '160%',
-                        color: '#787A9B',
                         padding: '9px 20px',
-                        background: '#F7F7FB',
+                        background: '#001015',
                     }}>
-                        Token Sale
+                        <Typography variant="body4Poppins" fontWeight='500' color='primary.main' >
+                            Token Sale
+                        </Typography>
                     </Box>
                     {
                         fetchData?.map((item, index) => (
                             <Box key={index} component='p' display='flex' justifyContent='space-between' sx={{
                                 padding: '20px',
-                                borderTop: '1px solid #DEE0E2',
-                                
+                                borderTop: '1px solid',
+                                borderColor: 'gray.700'
+
                             }}>
-                                <Box component='p' sx={{
-                                    color: '#787A9B',
-                                    fontWeight: '400',
-                                    fontSize: '16px',
-                                    lineHeight: '160%',
-                                }}>
+                                <Typography variant="body3Poppins" fontWeight='400' color='gray.400' >
                                     {item.allocation}
-                                </Box>
-                                <Box sx={{
-                                    color: '#0b0b0b',
-                                    fontWeight: '600',
-                                    fontSize: '16px',
-                                    lineHeight: '160%',
-                                }}>
+                                </Typography>
+                                <Typography variant="body3Poppins" fontWeight='400' color='text.primary' >
                                     {item.tokenSale}
-                                </Box>
+                                </Typography>
                             </Box>
                         ))
                     }
                 </Box>
-            </Box>
-            <Box width={isMobile ? '100%' : '30%'}>
-                <IDOProcess data={data} isMobile={isMobile} />
             </Box>
         </Box >
     )

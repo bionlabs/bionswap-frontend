@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Box, linearProgressClasses, LinearProgress, Button } from "@mui/material";
+import { Box, linearProgressClasses, LinearProgress, Button, styled, Typography } from "@mui/material";
 import PrimaryButton from 'components/PrimaryButton';
-import styled from '@emotion/styled';
+import CountDownTime from './CountDownTime';
 
 interface FundraiseAreaProps {
     data: any;
@@ -21,129 +21,94 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, isMobile = false }) => {
-    const time = {
-        days: '0',
-        hours: '0',
-        min: '0',
-        sec: '0'
-    }
-    const Values = styled(Box)`
-        font-weight: 600;
-        color: #25222D;
-    `
+    const startTime = 1672782648546;
+    const endTime = 1692785648546;
 
     return (
-        <Box display='flex' gap={3} flexDirection={isMobile ? 'column' : 'row'} >
-            <Box width={isMobile ? '100%' : '65%'}>
+        <FlexBox gap='50px' sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
+            <Box width='100%'>
                 <Box minHeight={isMobile ? '200px' : '453px'} width='100%' component='img' src={data.projectThumb} alt={data.name} sx={{
-                borderRadius: '8px',
+                    borderRadius: '8px',
                 }} />
             </Box>
-            <Box width={isMobile ? '100%' : '35%'} minHeight='453px'
-                sx={{
-                    padding: '16px 20px',
-                    backgroundColor: 'gray.900',
-                    borderRadius: '8px',
-                    border: '1px solid transparent'
-                }}>
+            <WrapInforBox sx={{ maxWidth: { xs: '100%', md: '430px' } }}>
                 <BorderLinearProgress variant="determinate" value={70} />
-                <Box sx={{
-                    color: '#1C7744',
-                    fontWeight: '600',
-                    fontSize: '32px',
-                    lineHeight: '150%',
-                    marginTop: '12px',
-                }}>
-                    $46,800
+                <FlexBox flexDirection='column'>
+                    <Typography variant='h0Poppins' color='gray.50' fontWeight='600'>
+                        46,800 BUSD
+                    </Typography>
+                    <Typography variant='body2Poppins' color='primary.main' fontWeight='400'>
+                        Pledged of 100,000 BUSD goal
+                    </Typography>
+                </FlexBox>
+                <FlexBox flexDirection='column' gap='15px'>
+                    <FlexBox justifyContent='space-between' sx={{ flexDirection: {xs: 'column', md: 'row'} }}>
+                        <Typography variant='h6Poppins' color='gray.400' fontWeight='400'>
+                            Allocation
+                        </Typography>
+                        <Typography variant='h6Poppins' color='gray.200' fontWeight='400'>
+                            0 BUSD - 500 BUSD
+                        </Typography>
+                    </FlexBox>
+                    <FlexBox justifyContent='space-between' sx={{ flexDirection: {xs: 'column', md: 'row'} }}>
+                        <Typography variant='h6Poppins' color='gray.400' fontWeight='400'>
+                            Price per token
+                        </Typography>
+                        <Typography variant='h6Poppins' color='gray.200' fontWeight='400'>
+                            1 FOX = $0.5 BUSD
+                        </Typography>
+                    </FlexBox>
+                    <FlexBox justifyContent='space-between' sx={{ flexDirection: {xs: 'column', md: 'row'} }}>
+                        <Typography variant='h6Poppins' color='gray.400' fontWeight='400'>
+                            Participaters
+                        </Typography>
+                        <Typography variant='h6Poppins' color='gray.200' fontWeight='400'>
+                            320
+                        </Typography>
+                    </FlexBox>
+                </FlexBox>
+                <Line />
+                <FlexBox>
+                    <JoinButton>
+                        <Typography variant='body3Poppins' color='#000000' fontWeight='600'>
+                            Join IDO Now!
+                        </Typography>
+                    </JoinButton>
+                </FlexBox>
+                <Box>
+                    <CountDownTime endTime={endTime} startTime={startTime} />
                 </Box>
-                <Box sx={{
-                    color: '#E7A236',
-                    fontWeight: '400',
-                    fontSize: '14px',
-                    lineHeight: '160%',
-                    marginBottom: '12px',
-                }}>
-                    Fundraise goal: 500,000$
-                </Box>
-                <Box display='flex' justifyContent='space-between' marginBottom='12px'>
-                    <Box component='span'>Allocation</Box>
-                    <Values component='span'>
-                        $0 BUSD - $500 BUSD
-                    </Values>
-                </Box>
-                <Box display='flex' justifyContent='space-between' marginBottom='12px'>
-                    <Box component='span'>Price per token</Box>
-                    <Values component='span'>
-                        1 FOX = $0.5 BUSD
-                    </Values>
-                </Box>
-                <Box display='flex' justifyContent='space-between' marginBottom='12px'>
-                    <Box component='span'>Backers</Box>
-                    <Values component='span'>
-                        320
-                    </Values>
-                </Box>
-                <Box marginBottom='12px'>
-                    <Box component='span' sx={{marginBottom: '12px', display: 'inline-block'}}>End in:</Box>
-                    <Box display='flex' gap={3}>
-                        {
-                            Object.entries(time).map(([key, value]) => (
-                                <Box width='100%' textAlign='center' key=''>
-                                    <Box component='p'
-                                        sx={{
-                                            color: '#000000',
-                                            fontWeight: '600',
-                                            fontSize: '20px',
-                                            lineHeight: '160%',
-                                            padding: '8px',
-                                            background: '#F1F1F1',
-                                            borderRadius: '6px',
-                                            marginBottom: '4px'
-                                        }}>
-                                        {value}
-                                    </Box>
-                                    <Box component='span'>
-                                        {key}
-                                    </Box>
-                                </Box>
-                            ))
-                        }
-                    </Box>
-                </Box>
-                <StyledButton variant='contained'>
-                    Join Now
-                </StyledButton>
-                <Box component='span'
-                    sx={{
-                        display: 'inline-block',
-                        marginTop: '12px',
-                        textAlign: 'center',
-                        width: '100%',
-                        fontSize: '12px',
-                    }}>
-                    Successfully funded and closed on May 10, 2022.
-                </Box>
-            </Box>
-        </Box>
+            </WrapInforBox>
+        </FlexBox>
     );
 }
 
-const StyledButton = styled(Button)`
-    background-color: #1C7744;
-    box-shadow: none;
-    text-transform: none;
-    min-height: fit-content;
-    padding: 10px 25px;
-    border-radius: 999px;
+const FlexBox = styled(Box)`
+    display: flex;
+`
+const WrapInforBox = styled(Box)`
+    padding: 16px;
+    background-color: ${(props) => props.theme.palette.gray[900]};
+    border-radius: 8px;
+    border: 1px solid;
+    border-color: ${(props) => props.theme.palette.gray[700]};
+    min-height: 453px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    transition: .15s ease-in;
-    color: #fff;
-
-    :hover {
-        background-color: #1C7744;
-        box-shadow: none;
-        opacity: .9;
-    }
+`
+const Line = styled(Box)`
+    width: 100%;
+    height: 1px;
+    background-color: ${(props) => props.theme.palette.gray[800]};
+`
+const JoinButton = styled(Button)`
+    background: #2BB673;
+    border-radius: 4px;
+    width: 100%;
+    text-align: center;
+    padding: 8px;
 `
 
 export default FundraiseArea

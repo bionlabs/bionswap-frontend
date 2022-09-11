@@ -1,6 +1,5 @@
 import React from "react";
-import styled from "@emotion/styled";
-import { Box, Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table } from "@mui/material";
+import { Box, Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table, Typography, styled } from "@mui/material";
 import IDOProcess from "../IDOProcess";
 
 interface VestingScheduleProps {
@@ -44,25 +43,6 @@ const VestingSchedule: React.FC<VestingScheduleProps> = ({ data, isMobile = fals
     },
   ];
 
-  const TableCellCustome = styled(TableCell)`
-    font-family: "Inter", sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 160%;
-    color: #0b0b0b;
-    padding: 20px;
-  `;
-  const TableCellHead = styled(TableCell)`
-    font-family: "Inter", sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 160%;
-    color: #787a9b;
-    padding: 20px;
-  `;
-  const TableRowCustome = styled(TableRow)`
-    border: 1px solid #dee0e2;
-  `;
 
   return (
     <Box display="flex" gap={3} sx={{ width: "100%" }} flexDirection={isMobile ? "column" : "row"}>
@@ -77,36 +57,70 @@ const VestingSchedule: React.FC<VestingScheduleProps> = ({ data, isMobile = fals
             <TableHead>
               <TableRowCustome
                 sx={{
-                  backgroundColor: "#F7F7FB",
+                  backgroundColor: "#001015",
                   borderRadius: "8px 8px 0px 0px",
                 }}
               >
-                <TableCellHead>Date</TableCellHead>
-                <TableCellHead align="right">Token Percentage</TableCellHead>
-                <TableCellHead align="right">Token Amount</TableCellHead>
+                <TableCellHead>
+                  <Typography variant="body4Poppins" fontWeight='500' color='primary.main' >
+                    Date
+                  </Typography>
+                </TableCellHead>
+                <TableCellHead align="right">
+                  <Typography variant="body4Poppins" fontWeight='500' color='primary.main' >
+                    Token Percentage
+                  </Typography>
+                </TableCellHead>
+                <TableCellHead align="right">
+                  <Typography variant="body4Poppins" fontWeight='500' color='primary.main' >
+                    Token Amount
+                  </Typography>
+                </TableCellHead>
               </TableRowCustome>
             </TableHead>
             <TableBody>
               {fetchData.map((row, index) => (
                 <TableRowCustome key={index}>
                   <TableCellCustome>
-                    {row?.date?.from}
-                    <br />
-                    {row?.date?.to}
+                    <Typography variant="body3Poppins" fontWeight='400' color='gray.400' >
+                      {row?.date?.from}
+                      <br />
+                      {row?.date?.to}
+                    </Typography>
                   </TableCellCustome>
-                  <TableCellCustome align="right">{row?.tokenPercentage}%</TableCellCustome>
-                  <TableCellCustome align="right">{row?.tokenAmount}</TableCellCustome>
+                  <TableCellCustome align="right">
+                    <Typography variant="body3Poppins" fontWeight='400' color='gray.400' >
+                      {row?.tokenPercentage}%
+                    </Typography>
+                  </TableCellCustome>
+                  <TableCellCustome align="right">
+                    <Typography variant="body3Poppins" fontWeight='400' color='gray.400' >
+                      {row?.tokenAmount}%
+                    </Typography>
+                  </TableCellCustome>
                 </TableRowCustome>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
       </Box>
-      <Box width={isMobile ? "100%" : "30%"}>
+      {/* <Box width={isMobile ? "100%" : "30%"}>
         <IDOProcess data={data} isMobile={isMobile} />
-      </Box>
+      </Box> */}
     </Box>
   );
 };
+
+const TableCellCustome = styled(TableCell)`
+padding: 20px;
+background-color: ${(props) => props.theme.palette.gray[900]};
+`;
+const TableCellHead = styled(TableCell)`
+padding: 9px 20px;
+`;
+const TableRowCustome = styled(TableRow)`
+border: 1px solid;
+border-color: ${(props) => props.theme.palette.gray[700]};
+`;
 
 export default VestingSchedule;
