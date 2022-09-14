@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Container, styled, Typography } from "@mui/material";
+import { Box, Container, styled, Typography , useMediaQuery } from "@mui/material";
 import RecomendItem from './RecomendItem';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -10,7 +10,11 @@ interface RecomendProjectsProps {
     isMobile: boolean
 }
 
-const RecomendProjects: React.FC<RecomendProjectsProps> = ({ data, isMobile = false }) => {
+const RecomendProjects: React.FC<RecomendProjectsProps> = ({ data }) => {
+    const isMobile = useMediaQuery('(max-width:700px)');
+    const isTablet = useMediaQuery('(max-width:1050px)');
+    const isDesktop = useMediaQuery('(max-width:1380px)');
+
     const Wrapper = styled(Box)`
         border-top: 1px solid;
         border-color: ${(props) => props.theme.palette.gray[800]};
@@ -24,7 +28,10 @@ const RecomendProjects: React.FC<RecomendProjectsProps> = ({ data, isMobile = fa
                         Recomend other projects
                     </Typography>
                     <Box>
-                        <FlexBox gap={3} flexWrap='wrap' justifyContent='space-between'>
+                        <Box sx={{
+                            display:'grid' , gridTemplateColumns: isMobile ? 'auto' : isTablet ? 'auto auto' : isDesktop ? 'auto auto auto' : 'auto auto auto auto',
+                            gap: '32px'
+                        }}>
                             {
                                 data?.map((item: any, index: any) => (
                                     <Box maxWidth='423px' key={item} sx={{
@@ -34,7 +41,7 @@ const RecomendProjects: React.FC<RecomendProjectsProps> = ({ data, isMobile = fa
                                     </Box>
                                 ))
                             }
-                        </FlexBox>
+                        </Box>
                     </Box>
                 </FlexBox>
             </Container>
