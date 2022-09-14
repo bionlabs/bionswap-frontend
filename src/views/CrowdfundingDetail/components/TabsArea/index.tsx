@@ -95,7 +95,7 @@ const WrapTab = styled(Box)`
 `
 const TabCustom = styled(Tab)`
     font-weight: 500;
-    font-size: ${(props) => props.theme.breakpoints.down('md') ? '20px' : '16px'} ;
+    font-size: 20px;
     line-height: 33px;
     color: ${(props) => props.theme.palette.gray[400]};
     font-family: 'Poppins', sans-serif;
@@ -105,6 +105,10 @@ const TabCustom = styled(Tab)`
     &.Mui-selected {
         color: ${(props) => props.theme.palette.text.primary};
     }
+
+    ${props => props.theme.breakpoints.down("md")} {
+        font-size: 15px;
+      }
 `
 const TabHead = styled(Box)`
         position: sticky;

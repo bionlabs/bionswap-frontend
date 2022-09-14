@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import { useRouter } from 'next/router';
 import { Box, styled, Typography } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 interface ProjectItemProps {
     data: any,

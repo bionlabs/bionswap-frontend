@@ -26,8 +26,10 @@ const RecomendProjects: React.FC<RecomendProjectsProps> = ({ data, isMobile = fa
                     <Box>
                         <FlexBox gap={3} flexWrap='wrap' justifyContent='space-between'>
                             {
-                                data?.map((item: any, idex: any) => (
-                                    <Box key={item}>
+                                data?.map((item: any, index: any) => (
+                                    <Box maxWidth='423px' key={item} sx={{
+                                        width: {xs: '100%', md: '31%'}
+                                    }}>
                                         <ProjectItem data={item} />
                                     </Box>
                                 ))

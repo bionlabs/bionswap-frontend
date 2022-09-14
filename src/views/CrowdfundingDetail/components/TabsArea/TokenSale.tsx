@@ -55,11 +55,11 @@ const TokenSale: React.FC<TokenSaleProps> = ({ data, isMobile = false }) => {
                     </Box>
                     {
                         fetchData?.map((item, index) => (
-                            <Box key={index} component='p' display='flex' justifyContent='space-between' sx={{
+                            <Box key={index} display='flex' justifyContent='space-between' sx={{
                                 padding: '20px',
                                 borderTop: '1px solid',
-                                borderColor: 'gray.700'
-
+                                borderColor: 'gray.700',
+                                flexDirection: {xs: 'column', md: 'row'}
                             }}>
                                 <Typography variant="body3Poppins" fontWeight='400' color='gray.400' >
                                     {item.allocation}
