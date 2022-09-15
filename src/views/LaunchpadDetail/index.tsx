@@ -27,7 +27,7 @@ const config = [
     },
 ]
 
-const CrowdfundingDetail = () => {
+const LaunchpadDetail = () => {
     const isMobile = useMediaQuery('(max-width:767px)');
     return (
         <Section component='section'>
@@ -81,4 +81,4 @@ const FlexBox = styled(Box)`
     display: flex;
 `
 
-export default CrowdfundingDetail;
+export default LaunchpadDetail;

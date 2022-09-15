@@ -26,11 +26,6 @@ export const menuConfig = [
         icon: <GiPayMoney/>
     },
     {
-        label: 'Crowdfunding',
-        href: '/crowdfunding',
-        icon: <GiPayMoney/>
-    },
-    {
         label: 'Stacks',
         href: '/stacks',
         icon: <FaCoins/>
@@ -60,11 +55,6 @@ export const footerMenuConfig = [
             {
                 label: 'Stacks',
                 href: '/stacks',
-                icon: ''
-            },
-            {
-                label: 'Crowdfunding',
-                href: '/crowdfunding',
                 icon: ''
             },
             {

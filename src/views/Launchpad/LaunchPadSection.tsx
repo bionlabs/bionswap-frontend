@@ -226,6 +226,20 @@ const LaunchPadSection = () => {
                   </WrapItem>
                 ))
               }
+              {
+                crowdfundingConfig?.map((item, idex) => (
+                  <WrapItem key={item.slug} >
+                    <Card data={item} />
+                  </WrapItem>
+                ))
+              }
+              {
+                crowdfundingConfig?.map((item, idex) => (
+                  <WrapItem key={item.slug} >
+                    <Card data={item} />
+                  </WrapItem>
+                ))
+              }
             </Flex>
           </Section>
           <Flex alignItems='center' justifyContent='center'>

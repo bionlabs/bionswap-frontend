@@ -1,8 +1,8 @@
-import CrowdfundingDetail from "views/CrowdfundingDetail"
+import LaunchpadDetail from "views/LaunchpadDetail"
 
 
-export default function CrowdFundingDetailPage() {
+export default function LaunchpadDetailPage() {
     return (
-        <CrowdfundingDetail />
+        <LaunchpadDetail />
     )
 }
