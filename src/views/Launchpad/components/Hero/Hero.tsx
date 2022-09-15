@@ -1,48 +1,53 @@
 import React from 'react'
-import { 
-    Box,
-    styled,
-    Typography,
-    useMediaQuery
-  } from '@mui/material'
+import {
+  Box,
+  Container,
+  styled,
+  Typography,
+  useMediaQuery
+} from '@mui/material'
 import { MobileProp } from 'configs/Type/Mobile/type'
 import Image from 'next/image'
 
 
-const Hero = ({isMobile , isTablet}:MobileProp) => {
+const Hero = () => {
   return (
-    <Banner padding={isTablet ? '5rem 16px' : '2rem 8rem 0 8rem'}>
-    <Flex justifyContent='space-between' alignItems='center'>
-        <Box>
-            <Box>
-                <Typography variant='h2Samsung'>
-                Early access to the future
-                </Typography>
-            </Box>
-            <Box>
-                <Typography variant='body2Poppins' sx={{color: 'gray.200'}}>
-                Supported by industry-leading creators and funds
-                </Typography>
-            </Box>
-            <Flex pt='36px' gap='15px' alignItems='center' flexWrap='wrap'>
-                <StyledBox>
-                    Create
-                </StyledBox>
+    <Banner>
+      <Container maxWidth='xl'>
+        <Flex justifyContent='space-between' alignItems='center'>
+          <Flex gap='10px' flexDirection='column'>
+            <Typography variant='h3Samsung' color='text.primary'>
+              Early access to the future
+            </Typography>
+            <Typography variant='body2Poppins' sx={{ color: 'gray.400' }}>
+              Supported by industry-leading creators and funds
+            </Typography>
+            <Flex pt='30px' alignItems='center' flexWrap='wrap' sx={{
+              gap: { xs: '12px', md: '15px' },
+              flexDirection: { xs: 'column', sm: 'row' }
+            }}>
+              <StyledBox>
+                Create
+              </StyledBox>
+              <ImageArrow>
                 <Image src='/images/launchpad/arrow.svg' alt='' width='35px' height='20px' />
-                <StyledBox>
-                    Subcription
-                </StyledBox>
+              </ImageArrow>
+              <StyledBox>
+                Subcription
+              </StyledBox>
+              <ImageArrow>
                 <Image src='/images/launchpad/arrow.svg' alt='' width='35px' height='20px' />
-                <StyledBox>
-                    Distribution
-                </StyledBox>
+              </ImageArrow>
+              <StyledBox>
+                Distribution
+              </StyledBox>
             </Flex>
-        </Box>
-        {
-        !isTablet &&
-        <img src="/images/launchpad/hero-illus.png" alt="" width={isTablet ? '100%' : '508px'} />
-        }
-    </Flex>
+          </Flex>
+          <WrapImage>
+            <img src="/images/launchpad/hero-illus.png" alt="" width='508px' />
+          </WrapImage>
+        </Flex>
+      </Container>
     </Banner>
   )
 }
@@ -53,8 +58,23 @@ const Banner = styled(Box)`
   background-repeat: no-repeat;
   background-size: 100% 100%;
   object-fit: cover;
-`
 
+  ${props => props.theme.breakpoints.down("lg")} {
+    min-height: 300px;
+    height: auto;
+    display: flex;
+    align-items: center;
+  }
+
+  ${props => props.theme.breakpoints.down("sm")} {
+    padding: 40px 0;
+  }
+`
+const ImageArrow = styled(Box)`
+  ${props => props.theme.breakpoints.down("sm")} {
+    transform: rotate(90deg)
+  }
+`
 const Flex = styled(Box)`
   display: flex;
 `
@@ -68,6 +88,11 @@ const StyledBox = styled(Box)`
     align-items: center;
     padding: 13px 30px;
     font-weight: 600;
+`
+const WrapImage = styled(Box)`
+  ${props => props.theme.breakpoints.down("lg")} {
+    display: none;
+  } 
 `
 
 export default Hero

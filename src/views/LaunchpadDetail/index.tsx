@@ -27,17 +27,17 @@ const config = [
     },
 ]
 
-const CrowdfundingDetail = () => {
+const LaunchpadDetail = () => {
     const isMobile = useMediaQuery('(max-width:767px)');
     return (
         <Section component='section'>
-            <Container>
+            <Container maxWidth='xl'>
                 <Breadcrumb name={crowdfundingConfig[0].name} />
-                <HeadDetail isMobile={isMobile} avarta={crowdfundingConfig[0].coin.image} name={crowdfundingConfig[0].name} type={crowdfundingConfig[0].type} unit={crowdfundingConfig[0].fundraiseGoal.unit} />
+                <HeadDetail avarta={crowdfundingConfig[0].coin.image} name={crowdfundingConfig[0].name} type={crowdfundingConfig[0].type} unit={crowdfundingConfig[0].fundraiseGoal.unit} />
                 <FundraiseArea isMobile={isMobile} data={crowdfundingConfig[0]} />
             </Container>
             <WrapService>
-                <Container>
+                <Container maxWidth='xl'>
                     <FlexBox justifyContent='space-between' sx={{
                         flexDirection: {xs: 'column', md: 'row'},
                         gap: {xs: '40px', md: '30px'}
@@ -81,4 +81,4 @@ const FlexBox = styled(Box)`
     display: flex;
 `
 
-export default CrowdfundingDetail;
+export default LaunchpadDetail;

@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/router';
-import { Box, Tabs, Tab, Container } from "@mui/material";
+import { Box, Tabs, Tab, Container, styled } from "@mui/material";
 import PropTypes from 'prop-types';
 import TokenSale from "./TokenSale";
 import VestingSchedule from "./VestingSchedule";
-import styled from "@emotion/styled";
 import AboutGame from "./AboutGame";
 
 interface TabsAreaProps {
@@ -42,15 +41,15 @@ function a11yProps(index: any) {
 const TabsArea: React.FC<TabsAreaProps> = ({ data, isMobile = false }) => {
     const [value, setValue] = React.useState(0);
     const tabHead = useRef<HTMLInputElement>(null);
-    const [topPosition , setTopPosition] = useState(0)
+    const [topPosition, setTopPosition] = useState(0)
 
     const pop = useCallback(() => {
         const temp = tabHead?.current?.getBoundingClientRect().top
         setTopPosition(temp ? temp : 0)
         if (tabHead.current) {
-            topPosition <= 0 ? tabHead.current.style.background = '#ffffff' : tabHead.current.style.background = 'transparent'
+            topPosition <= 0 ? tabHead.current.style.background = '#001015' : tabHead.current.style.background = 'transparent'
         }
-    },[topPosition])
+    }, [topPosition])
 
     useEffect(() => {
         window.addEventListener('scroll', pop);
@@ -60,69 +59,73 @@ const TabsArea: React.FC<TabsAreaProps> = ({ data, isMobile = false }) => {
         setValue(newValue);
     };
 
-    const WrapTab = styled(Box)`
-    `
-    const TabCustom = styled(Tab)`
-        font-weight: 500;
-        font-size: ${isMobile ? '14px' : '16px'} ;
-        line-height: 22px;
-        color: #A8B0B9;
-        font-family: 'Inter', sans-serif;
-        text-transform: inherit;
-
-        &.Mui-selected {
-            color: #000000;
-        }
-    `
-    const TabHead = styled(Box)`
-        position: sticky;
-        top: 0;
-        box-shadow: 1px 1px #DEE0E2;
-        z-index: 10;
-
-        .MuiTabs-indicator {
-            background: #FAA000;
-            border-radius: 3px 6px 0px 0px;
-            height: 4px;
-        }
-    `
-    const TabPanelCustom = styled(TabPanel)`
-        padding-top: 40px;
-        padding-bottom: ${isMobile ? '40px' : '160px'};
-        background-color: #000A0D;
-    `
-
     return (
         <WrapTab sx={{
             width: '100%',
-            marginTop: isMobile ? '40px' : '70px'
         }}>
             <TabHead ref={tabHead}>
-                <Container>
+                <Container maxWidth='xl'>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                        <TabCustom label="About Game" {...a11yProps(0)} />
+                        <TabCustom label="About Fox" {...a11yProps(0)} />
                         <TabCustom label="Token Sale" {...a11yProps(1)} />
                         <TabCustom label="Vesting Schedule" {...a11yProps(2)} />
                     </Tabs>
                 </Container>
             </TabHead>
             <TabPanelCustom value={value} index={0}>
-                <Container>
-                    <AboutGame data={data} isMobile={isMobile} />
+                <Container maxWidth='xl'>
+                    {/* <AboutGame data={data} /> */}
                 </Container>
             </TabPanelCustom>
             <TabPanelCustom value={value} index={1}>
-                <Container>
+                <Container maxWidth='xl'>
                     <TokenSale data={data} isMobile={isMobile} />
                 </Container>
             </TabPanelCustom>
             <TabPanelCustom value={value} index={2}>
-                <Container>
+                <Container maxWidth='xl'>
                     <VestingSchedule data={data} isMobile={isMobile} />
                 </Container>
             </TabPanelCustom>
         </WrapTab>
     )
 }
+
+const WrapTab = styled(Box)`
+`
+const TabCustom = styled(Tab)`
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 33px;
+    color: ${(props) => props.theme.palette.gray[400]};
+    font-family: 'Poppins', sans-serif;
+    text-transform: inherit;
+    font-style: inherit;
+
+    &.Mui-selected {
+        color: ${(props) => props.theme.palette.text.primary};
+    }
+
+    ${props => props.theme.breakpoints.down("md")} {
+        font-size: 15px;
+      }
+`
+const TabHead = styled(Box)`
+        position: sticky;
+        top: 0;
+        box-shadow: 1px 1px #242D35;
+        z-index: 10;
+
+        .MuiTabs-indicator {
+            background-color: ${(props) => props.theme.palette.primary.main};
+            border-radius: 3px 6px 0px 0px;
+            height: 4px;
+        }
+    `
+const TabPanelCustom = styled(TabPanel)`
+        padding-top: 40px;
+        padding-bottom: ${(props) => props.theme.breakpoints.down('md') ? '40px' : '160px'};
+        background-color: #001015;
+    `
 
 export default TabsArea;
