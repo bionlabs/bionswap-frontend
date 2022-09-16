@@ -33,7 +33,7 @@ const config = [
 
 const PartnersSection = ({ isMobile, isTablet }: MobileProp) => {
     return (
-        <Wrapper>
+        <Wrapper padding={isMobile ? '5rem 0' : '7rem 0 4rem'}>
             <Container maxWidth='lg'>
                 <FlexBox flexDirection={isTablet ? 'column' : 'row'} justifyContent='space-between'>
                     <FlexBox alignItems='end' width='50%' sx={{ display: { xs: 'none', md: 'block' } }}>
@@ -83,7 +83,7 @@ const Wrapper = styled(Box)`
     position: relative;
     background-repeat: no-repeat;
     background-size: 100%;
-    padding: 35px 0 70px;
+    
 `
 const WrapNetworkHead = styled(Box)`
     max-width: 352px;
