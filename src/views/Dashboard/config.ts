@@ -30,3 +30,26 @@ export const dashboardConfig = [
         nextClaim: '00d 00h 00m 00s',
     }
 ]
+
+export const dashboardMenu = [
+    {
+        name: 'Overview',
+        link: '/overview',
+        icon: ''
+    },
+    {
+        name: 'Allocations',
+        link: '/allocations',
+        icon: ''
+    },
+    {
+        name: 'Inventory',
+        link: '/inventory',
+        icon: ''
+    },
+    {
+        name: 'History',
+        link: '/history',
+        icon: ''
+    },
+]
