@@ -46,7 +46,7 @@ const RecomendProjects: React.FC<RecomendProjectsProps> = ({ data }) => {
                             {
                                 data?.map((item: any, index: any) => (
                                     <Box key={item} sx={{
-                                        width: { xs: '362px !important', lg: 'calc(100% / 3)' },
+                                        width: { xs: '362px !important', lg: 'calc(100% / 3) !important' },
                                     }}>
                                         <Card data={item} />
                                     </Box>
