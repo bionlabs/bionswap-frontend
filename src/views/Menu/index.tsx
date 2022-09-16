@@ -110,7 +110,7 @@ const Menu = ({ children }: any) => {
                         </Box>
                         {
                             !isMobile &&
-                            <Box alignItems="center" display="flex" gap={4}>
+                            <Box alignItems="center" display="flex" gap={0}>
                                 {
                                     menuConfig.slice(0, 5).map(item =>
                                         <Box 
@@ -122,7 +122,7 @@ const Menu = ({ children }: any) => {
                                                 fontWeight: '500',
                                                 fontSize: '16px',
                                                 transition: '.15s ease-in',
-                                                padding: '5px 10px',
+                                                padding: '8px 20px',
                                                 borderRadius: '4px',
                                                 backgroundColor: 'transparent',
                                                 ':hover': {
