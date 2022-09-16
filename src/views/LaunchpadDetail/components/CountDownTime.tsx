@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Typography } from '@mui/material'
-import styled from '@emotion/styled'
+import { Box, Typography, styled } from '@mui/material'
 
 const CountDownTime = ({ endTime, startTime }: any) => {
     const currentTime = +new Date();
@@ -44,7 +43,7 @@ const CountDownTime = ({ endTime, startTime }: any) => {
             <Typography variant='body3Poppins' color='gray.50' fontWeight='400'>
                 {currentTime > startTime ? 'Sales end in:' : 'Sales start in:'}
             </Typography>
-            <WrapCountDownTime gap="10px" alignItems="center">
+            <WrapCountDownTime>
                 <BoxItem>
                     <TimeBox>
                         <Typography variant='h3' color='text.primary' fontWeight='700'>
@@ -96,6 +95,9 @@ const FlexBox = styled(Box)`
 const WrapCountDownTime = styled(Box)`
     display: flex;
     width: 100%;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
 `
 const BoxItem = styled(Box)`
     display: flex;

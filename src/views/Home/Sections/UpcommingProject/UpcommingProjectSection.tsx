@@ -6,10 +6,10 @@ import {
     styled,
     Typography,
 } from '@mui/material'
-import { crowdfundingConfig } from 'views/Crowdfunding/config'
-import ProjectItem from 'views/Crowdfunding/components/ProjectItem'
 import Image from "next/image";
 import PrimaryButton from 'components/PrimaryButton'
+import Card from 'components/Card';
+import { crowdfundingConfig } from 'views/LaunchpadDetail/config';
 
 const UpcommingProjectSection = () => {
     return (
@@ -34,7 +34,7 @@ const UpcommingProjectSection = () => {
                     {
                         crowdfundingConfig?.map((item, idex) => (
                             <Items key=''>
-                                <ProjectItem data={item} />
+                                <Card data={item} />
                             </Items>
                         ))
                     }

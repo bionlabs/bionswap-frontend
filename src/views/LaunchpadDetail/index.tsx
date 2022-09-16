@@ -59,7 +59,7 @@ const LaunchpadDetail = () => {
             </WrapService>
             <WrapTabRecom>
                 <TabsArea isMobile={isMobile} data={crowdfundingConfig[0]} />
-                <RecomendProjects isMobile={isMobile} data={crowdfundingConfig} />
+                <RecomendProjects data={crowdfundingConfig} />
             </WrapTabRecom>
         </Section>
     );

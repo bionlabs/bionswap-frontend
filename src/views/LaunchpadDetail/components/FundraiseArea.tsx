@@ -25,13 +25,19 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, isMobile = false })
     const endTime = 1692785648546;
 
     return (
-        <FlexBox gap='50px' sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
+        <FlexBox sx={{
+            flexDirection: { xs: 'column', md: 'row' },
+            gap: { xs: '20px', lg: '50px' },
+        }}>
             <Box width='100%'>
-                <Box minHeight={isMobile ? '200px' : '453px'} width='100%' component='img' src={data.projectThumb} alt={data.name} sx={{
+                <Box width='100%' height='100%' component='img' src={data.projectThumb} alt={data.name} sx={{
                     borderRadius: '8px',
+                    objectFit: 'cover'
                 }} />
             </Box>
-            <WrapInforBox sx={{ maxWidth: { xs: '100%', md: '430px' } }}>
+            <WrapInforBox sx={{
+                maxWidth: { xs: '100%', md: '365px', lg: '430px' }
+            }}>
                 <BorderLinearProgress variant="determinate" value={70} />
                 <FlexBox flexDirection='column'>
                     <Typography variant='h0Poppins' color='gray.50' fontWeight='600'>
@@ -42,7 +48,9 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, isMobile = false })
                     </Typography>
                 </FlexBox>
                 <FlexBox flexDirection='column' gap='15px'>
-                    <FlexBox justifyContent='space-between' sx={{ flexDirection: {xs: 'column', md: 'row'} }}>
+                    <FlexBox justifyContent='space-between' sx={{
+                        flexDirection: { xs: 'column', sm: 'row' }
+                    }}>
                         <Typography variant='h6Poppins' color='gray.400' fontWeight='400'>
                             Allocation
                         </Typography>
@@ -50,7 +58,9 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, isMobile = false })
                             0 BUSD - 500 BUSD
                         </Typography>
                     </FlexBox>
-                    <FlexBox justifyContent='space-between' sx={{ flexDirection: {xs: 'column', md: 'row'} }}>
+                    <FlexBox justifyContent='space-between' sx={{ 
+                        flexDirection: { xs: 'column', sm: 'row' } 
+                    }}>
                         <Typography variant='h6Poppins' color='gray.400' fontWeight='400'>
                             Price per token
                         </Typography>
@@ -58,7 +68,9 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, isMobile = false })
                             1 FOX = $0.5 BUSD
                         </Typography>
                     </FlexBox>
-                    <FlexBox justifyContent='space-between' sx={{ flexDirection: {xs: 'column', md: 'row'} }}>
+                    <FlexBox justifyContent='space-between' sx={{ 
+                        flexDirection: { xs: 'column', sm: 'row' } 
+                        }}>
                         <Typography variant='h6Poppins' color='gray.400' fontWeight='400'>
                             Participaters
                         </Typography>
@@ -92,7 +104,6 @@ const WrapInforBox = styled(Box)`
     border-radius: 8px;
     border: 1px solid;
     border-color: ${(props) => props.theme.palette.gray[700]};
-    min-height: 453px;
     gap: 20px;
     display: flex;
     flex-direction: column;

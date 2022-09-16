@@ -18,10 +18,10 @@ import {
 } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import React from 'react'
-import Slider from "react-slick";
-import { crowdfundingConfig } from 'views/Crowdfunding/config'
+import Slider from "react-slick"
 import Title from './components/Title/Title'
 import Card from 'components/Card'
+import { crowdfundingConfig } from 'views/LaunchpadDetail/config'
 
 const tags = [
   {
