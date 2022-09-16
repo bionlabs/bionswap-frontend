@@ -15,11 +15,12 @@ const RecomendProjects: React.FC<RecomendProjectsProps> = ({ data }) => {
         speed: 300,
         slidesToShow: 1,
         slidesToScroll: 1,
-
         responsive: [
             {
                 breakpoint: 10000,
-                settings: 'unslick'
+                settings: {
+                    unslick: true,
+                }
             },
             {
                 breakpoint: 1199,

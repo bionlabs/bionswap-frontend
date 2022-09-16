@@ -84,7 +84,7 @@ const TabsArea: React.FC<TabsAreaProps> = ({ data, isMobile = false }) => {
             </TabPanelCustom>
             <TabPanelCustom value={value} index={2}>
                 <Container maxWidth='xl'>
-                    <VestingSchedule data={data} isMobile={isMobile} />
+                    <VestingSchedule data={data} />
                 </Container>
             </TabPanelCustom>
         </WrapTab>

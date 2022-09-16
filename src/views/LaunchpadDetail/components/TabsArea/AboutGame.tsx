@@ -9,8 +9,8 @@ interface AboutGameProps {
 
 const AboutGame: React.FC<AboutGameProps> = ({ data }) => {
   return (
-    <Box display="flex" gap={3} sx={{ width: "100%" }} flexDirection={isMobile ? "column" : "row"}>
-      <Box display="flex" gap={isMobile ? "0%" : "46px"} width={isMobile ? "100%" : "70%"}>
+    <Box display="flex" gap={3} sx={{ width: "100%" }}>
+      <Box display="flex">
         <Box>
           <WrapTag>
             <HeadItem className="active">
@@ -87,7 +87,6 @@ const HeadTitle = styled(Box)`
     color: #e7a236;
     text-transform: uppercase;
     font-weight: 400;
-    font-size: ${isMobile ? "14px" : "16px"};
     line-height: 100%;
     font-family: "Inter", sans-serif;
     margin-bottom: 10px;
@@ -95,20 +94,17 @@ const HeadTitle = styled(Box)`
   const Title = styled(Box)`
     color: #000000;
     font-weight: 600;
-    font-size: ${isMobile ? "24px" : "32px"};
     line-height: 150%;
     font-family: "Inter", sans-serif;
     margin-bottom: 16px;
   `;
   const Content = styled(Box)`
     font-weight: 400;
-    font-size: ${isMobile ? "12px" : "14px"};
     line-height: 160%;
     color: #31313b;
     font-family: "Inter", sans-serif;
   `;
   const WrapTag = styled(Box)`
-    display: ${isMobile ? "none" : "flex"};
     flex-direction: column;
     gap: 20px;
     position: sticky;
