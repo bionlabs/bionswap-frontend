@@ -18,6 +18,7 @@ import { useAccount, useDisconnect } from "wagmi";
 import { getConnectorIcon } from "utils/connectors";
 import { shortenAddress } from "utils/format";
 import profileMenu from "./profileConfig";
+import { useRouter } from "next/router";
 
 type Props = {
   onClose?: () => void;
@@ -31,6 +32,8 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
   const { data } = useBalance({
     addressOrName: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
   });
+
+  const router = useRouter()
 
   return (
     <Modal
@@ -123,7 +126,10 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
                     borderBottom: "none",
                   },
                 }}
-                href={item.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.push(item.href);
+                }}
               >
                 {item.label}
               </MenuItem>

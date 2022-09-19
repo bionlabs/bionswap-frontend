@@ -75,7 +75,7 @@ const ConnectButton = (props: Props) => {
             </Box>
             <Box sx={{
               display: 'flex',alignItems:'center', gap:'8px',
-              backgroundColor: '#0C1620', height: '35px', padding: '5px 12px',
+              backgroundColor: '#014959', height: '35px', padding: '5px 12px',
               borderRadius: '4px'
             }}>
               <Box>{shortenAddress(address ?? "")}</Box>
