@@ -20,7 +20,7 @@ import { ConnectButton } from 'components'
 type Anchor = 'top' | 'left' | 'bottom' | 'right'
 
 const Menu = ({ children }: any) => {
-    const isMobile = useMediaQuery('(max-width:1155px)');
+    const isMobile = useMediaQuery('(max-width:1224px)');
     const router = useRouter()
     const [state, setState] = React.useState({
         top: false,
@@ -104,7 +104,7 @@ const Menu = ({ children }: any) => {
         <>
             <MenuContainer>
                 <StyledContained>
-                    <FlexBox alignItems='center' gap='60px'>
+                    <FlexBox alignItems='center' gap='42px'>
                         <Box component="a" href='/'>
                             <img src='/logo.svg' alt='BionDex' width='auto' />
                         </Box>
@@ -112,14 +112,13 @@ const Menu = ({ children }: any) => {
                             !isMobile &&
                             <Box alignItems="center" display="flex" gap={0}>
                                 {
-                                    menuConfig.slice(0, 5).map(item =>
+                                    menuConfig.slice(0, 4).map(item =>
                                         <Box 
                                             key=''
                                             component="a"
                                             href={item.href}
                                             sx={{
                                                 color: "extra.header.color",
-                                                fontWeight: '500',
                                                 fontSize: '16px',
                                                 transition: '.15s ease-in',
                                                 padding: '8px 20px',
@@ -164,7 +163,7 @@ const Menu = ({ children }: any) => {
                                     }}
                                 >
                                     {
-                                        menuConfig.slice(5, menuConfig.length).map(item =>
+                                        menuConfig.slice(4, menuConfig.length).map(item =>
                                             <MenuItem 
                                                 key=''
                                                 component="a"

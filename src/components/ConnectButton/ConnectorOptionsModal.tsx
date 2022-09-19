@@ -1,4 +1,4 @@
-import { Backdrop, Box, IconButton, MenuItem, MenuList, Modal, Stack } from "@mui/material";
+import { Backdrop, Box, IconButton, MenuItem, MenuList, Modal, Stack , styled , Typography } from "@mui/material";
 import { useChain, useConnect } from "hooks";
 import Image from "next/image";
 import { useState } from "react";
@@ -38,27 +38,26 @@ function ConnectorOptionsModal({ onConnectorSelected, onConnectorConnected, onCl
         timeout: 500,
       }}
     >
-      <Box
+      <Wrapper
         sx={{
           position: "absolute",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
           width: "fit-content",
-          bgcolor: "#081319",
           color: "#fff",
           minWidth: "353px",
-          boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-          border: "1px solid #424242",
+          maxWidth: "453px",
+          // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
           borderRadius: "8px",
           p: 4,
         }}
       >
         <Box display="flex" flexDirection="column" gap="10px">
           <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Box fontSize="24px" fontWeight="700">
+            <Typography variant='h5Samsung' sx={{color: 'primary.main'}}>
               Connect a wallet
-            </Box>
+            </Typography>
             <IconButton onClick={onClose}>
               <HiX />
             </IconButton>
@@ -97,10 +96,12 @@ function ConnectorOptionsModal({ onConnectorSelected, onConnectorConnected, onCl
                   <Stack direction="row" gap={2} alignItems="center">
                     <Image src={getConnectorIcon(connector.id)} layout="fixed" alt="" width={24} height={24} />
 
-                    <Box fontSize="16px" fontWeight={600}>
+                    <Box display='flex' alignItems='center' gap='10px' fontSize="16px">
                       {connector.name}
                       {!connector.ready && " (unsupported)"}
-                      {isConnectLoading && connector.id === pendingConnector?.id && "(connecting...)"}
+                      <Typography variant='body1' sx={{color: 'primary.main'}}>
+                        {isConnectLoading && connector.id === pendingConnector?.id && "connecting..."}
+                      </Typography>
                     </Box>
                   </Stack>
                 </MenuItem>
@@ -108,9 +109,14 @@ function ConnectorOptionsModal({ onConnectorSelected, onConnectorConnected, onCl
             })}
           </MenuList>
         </Box>
-      </Box>
+      </Wrapper>
     </Modal>
   );
 }
+
+const Wrapper = styled(Box)`
+  background: ${(props:any) => (props.theme.palette as any).extra.other.nineth};
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.other.tenth};
+`
 
 export default ConnectorOptionsModal;

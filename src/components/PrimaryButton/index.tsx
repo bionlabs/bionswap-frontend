@@ -24,7 +24,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
       sx={{
         backgroundColor: variant === "outlined" ? "transparent" : backgroundColor,
         border: variant === "outlined" ? "1px solid #07E0E0" : "none",
-        padding: "10px",
+        padding: "8px 20px",
         width: "100%",
         transition: "all .3s ease",
         cursor: "pointer",
