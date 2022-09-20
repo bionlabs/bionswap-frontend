@@ -108,29 +108,6 @@
 //     }
 // ]
 
-export const dataConfig = {
-    projectTitle: '',
-    projectLogo: '',
-    saleBanner: '',
-    videoPromo: '',
-    community: '',
-    tokenContract: '',
-    currency: 'busd',
-    saleFee: 0,
-    tokenPrice: '',
-    whitelist: true,
-    goal: {
-        min: '',
-        max: ''
-    },
-    sale: {
-        min: '',
-        max: ''
-    },
-    launchTime: '',
-    preSaleDuration: 0,
-}
-
 export const steps = [
     {
         step: 1,

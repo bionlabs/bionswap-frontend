@@ -74,7 +74,7 @@ const Step02 = ({ data, setData, onNextStep, onShowError }: any) => {
                                     Contract <RequireSymbol component='span'>*</RequireSymbol>
                                 </Typography>
                                 <InputCustom fullWidth
-                                    className={onShowError('discord') ? 'onError' : ''}
+                                    className={onShowError('tokenContract') ? 'onError' : ''}
                                     value={data.tokenContract}
                                     onChange={handleChange('tokenContract')}
                                     placeholder="Enter contract token" />

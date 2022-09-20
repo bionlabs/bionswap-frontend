@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, Tab, Tabs, Typography, styled } from "@mui/material";
-import { steps, dataConfig } from "./config";
+import { steps } from "./config";
 import Step01 from "./components/Step01";
 import { Container } from "@mui/system";
 import Step02 from "./components/Step02";
@@ -82,6 +82,12 @@ const CreateLaunchpad = () => {
         website: Joi.string().required(),
         telegram: Joi.string().required(),
         discord: Joi.string().required(),
+
+        tokenPrice: Joi.string().required(),
+        minGoal: Joi.string().required(),
+        maxGoal: Joi.string().required(),
+        minSale: Joi.string().required(),
+        maxSale: Joi.string().required(),
     })
 
     const onNextStep = async (step: number) => {
@@ -102,6 +108,16 @@ const CreateLaunchpad = () => {
             if (step === 2) {
                 const value = await schema.validateAsync({ 
                     tokenContract: data.tokenContract,
+                }, 
+                {abortEarly: false});
+            }
+            if (step === 3) {
+                const value = await schema.validateAsync({ 
+                    tokenPrice: data.tokenPrice,
+                    minGoal: data.minGoal,
+                    maxGoal: data.maxGoal,
+                    minSale: data.minGoal,
+                    maxSale: data.maxGoal,
                 }, 
                 {abortEarly: false});
             }

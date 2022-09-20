@@ -1,43 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, styled, FormControl, OutlinedInput, Button, Select, MenuItem, RadioGroup, FormControlLabel, Radio } from "@mui/material";
-import { useToken } from "hooks/useToken";
+import { Box, Typography, styled, FormControl, OutlinedInput, Button, Select, MenuItem, RadioGroup, FormControlLabel, Radio, TextField } from "@mui/material";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { setPresaleForm } from "state/presale/action";
 
-const currencies = [
-    {
-        value: 'busd',
-        label: 'BUSD'
-    },
-    {
-        value: 'usdt',
-        label: 'USDT'
-    },
-    {
-        value: 'usdc',
-        label: 'USDC'
-    },
-    {
-        value: 'bnb',
-        label: 'BNB'
-    },
-]
-
-const FeeOptions = [
+const whiteOptions = [
     {
         value: 0,
-        label: '5% BNB raised only'
+        label: 'Enable'
     },
     {
         value: 1,
-        label: '2%  BNB raised + 2% token sold'
+        label: 'Disable'
     },
 ]
 
 const Step03 = ({ data, setData, onNextStep, onShowError }: any) => {
-    const tokenContract = useToken(data.tokenContract);
-    const [openModal, setOpenModal] = useState(false);
-
     const handleChange = (prop: any) => (event: any) => {
-        setData({ ...data, [prop]: event.target.value })
+        // setData({ ...data, [prop]: event.target.value })
+        setData(setPresaleForm({ ...data, [prop]: event.target.value }))
+
     }
 
     return (
@@ -67,17 +50,19 @@ const Step03 = ({ data, setData, onNextStep, onShowError }: any) => {
                                     Token price <RequireSymbol component='span'>*</RequireSymbol>
                                 </Typography>
                                 <InputCustom fullWidth
-                                    className={onShowError('discord') ? 'onError' : ''}
-                                    value={data.tokenContract}
-                                    onChange={handleChange('tokenContract')}
-                                    placeholder="Enter contract token"
+                                    className={onShowError('tokenPrice') ? 'onError' : ''}
+                                    value={data.tokenPrice}
+                                    onChange={handleChange('tokenPrice')}
+                                    placeholder="Enter token price"
                                     startAdornment={
-                                        <Typography>
-                                            {data.currency}
-                                        </Typography>
+                                        <WrapStartAdornment>
+                                            <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
+                                                {data.currency}
+                                            </Typography>
+                                        </WrapStartAdornment>
                                     } />
                                 <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                                    {onShowError('tokenContract')}
+                                    {onShowError('tokenPrice')}
                                 </Typography>
                             </WrapForm>
                         </WrapValue>
@@ -85,54 +70,23 @@ const Step03 = ({ data, setData, onNextStep, onShowError }: any) => {
                     <WrapLine>
                         <WrapDescription>
                             <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                                Which currency will you want to take
+                                Whitelist
                             </Typography>
                             <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                                Users will pay with the currency they choose for your token
-                            </Typography>
-                        </WrapDescription>
-                        <WrapValue>
-                            <FormControl fullWidth>
-                                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                                    Currency <RequireSymbol component='span'>*</RequireSymbol>
-                                </Typography>
-                                <Select
-                                    value={data.currency}
-                                    onChange={handleChange('currency')}
-                                    displayEmpty
-                                    inputProps={{ 'aria-label': 'Without label' }}>
-                                    {
-                                        currencies?.map(item => (
-                                            <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
-                                        ))
-                                    }
-                                </Select>
-                            </FormControl>
-                        </WrapValue>
-                    </WrapLine>
-                    <WrapLine sx={{
-                        borderBottom: '1px solid',
-                        borderColor: 'gray.600',
-                    }}>
-                        <WrapDescription>
-                            <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                                Sale fee option
-                            </Typography>
-                            <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                                This is the fee that you are required to pay to veify your token.
+                                Choose &ldquo;Enable&ldquo;  if you have a whitelist of presale contributors. You can enable/disable whitelist anytime
                             </Typography>
                         </WrapDescription>
                         <WrapValue>
                             <FormControl fullWidth>
                                 <RadioGroup
-                                    value={data.saleFee}
-                                    onChange={handleChange('saleFee')}
+                                    value={data.whitelist}
+                                    onChange={handleChange('whitelist')}
                                     name="radio-buttons-group"
                                 >
                                     {
-                                        FeeOptions?.map(item => (
+                                        whiteOptions?.map(item => (
                                             <FormControlLabel key={item.value} value={item.value} label={
-                                                <Typography variant="body4Poppins" color={data.saleFee == item.value ? 'blue.100' : 'gray.700'} fontWeight="400">
+                                                <Typography variant="body4Poppins" color={data.whitelist == item.value ? 'blue.100' : 'gray.700'} fontWeight="400">
                                                     {item.label}
                                                 </Typography>
                                             }
@@ -148,6 +102,152 @@ const Step03 = ({ data, setData, onNextStep, onShowError }: any) => {
                                     }
                                 </RadioGroup>
                             </FormControl>
+                        </WrapValue>
+                    </WrapLine>
+                    <WrapLine>
+                        <WrapDescription>
+                            <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                                How much are you looking to raise with Bionswap?
+                            </Typography>
+                            <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+                                Set an achievable goal that covers what you need to complete your project.
+                            </Typography>
+                        </WrapDescription>
+                        <WrapValue gap='10px !important'>
+                            <FlexBox justifyContent='space-between'>
+                                <WrapForm fullWidth sx={{ maxWidth: '300px', width: '100%' }}>
+                                    <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                                        Minimum goal <RequireSymbol component='span'>*</RequireSymbol>
+                                    </Typography>
+                                    <InputCustom fullWidth
+                                        className={onShowError('minGoal') ? 'onError' : ''}
+                                        value={data.tokenPrice}
+                                        onChange={handleChange('minGoal')}
+                                        placeholder="Enter minimum goal"
+                                        startAdornment={
+                                            <WrapStartAdornment>
+                                                <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
+                                                    {data.currency}
+                                                </Typography>
+                                            </WrapStartAdornment>
+                                        } />
+                                    <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                                        {onShowError('minGoal')}
+                                    </Typography>
+                                </WrapForm>
+                                <WrapForm fullWidth sx={{ maxWidth: '300px', width: '100%' }}>
+                                    <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                                        Maximum goal <RequireSymbol component='span'>*</RequireSymbol>
+                                    </Typography>
+                                    <InputCustom fullWidth
+                                        className={onShowError('maxGoal') ? 'onError' : ''}
+                                        value={data.tokenPrice}
+                                        onChange={handleChange('maxGoal')}
+                                        placeholder="Enter maximum goal"
+                                        startAdornment={
+                                            <WrapStartAdornment>
+                                                <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
+                                                    {data.currency}
+                                                </Typography>
+                                            </WrapStartAdornment>
+                                        } />
+                                    <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                                        {onShowError('maxGoal')}
+                                    </Typography>
+                                </WrapForm>
+                            </FlexBox>
+                            <Typography variant="body6Poppins" fontWeight="400" color="primary.main" sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                <img src="/icons/lightbulb_outline.svg" alt="lightbulb_outline" />
+                                Give backers the best first impression of your project with great titles. Learn more...
+                            </Typography>
+                            <Typography variant="body6Poppins" fontWeight="400" color="blue.400">
+                                &#8226; Minimum goal must be greater than or equal 50% of Maximum goal
+                            </Typography>
+                        </WrapValue>
+                    </WrapLine>
+                    <WrapLine>
+                        <WrapDescription>
+                            <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                                Sale allocation
+                            </Typography>
+                            <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+                                The limit rate when the buyer want to hold your token
+                            </Typography>
+                        </WrapDescription>
+                        <WrapValue gap='10px !important'>
+                            <FlexBox justifyContent='space-between'>
+                                <WrapForm fullWidth sx={{ maxWidth: '300px', width: '100%' }}>
+                                    <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                                        Minimum buy <RequireSymbol component='span'>*</RequireSymbol>
+                                    </Typography>
+                                    <InputCustom fullWidth
+                                        className={onShowError('minSale') ? 'onError' : ''}
+                                        value={data.tokenPrice}
+                                        onChange={handleChange('minSale')}
+                                        placeholder="Enter minimum buy"
+                                        startAdornment={
+                                            <WrapStartAdornment>
+                                                <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
+                                                    {data.currency}
+                                                </Typography>
+                                            </WrapStartAdornment>
+                                        } />
+                                    <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                                        {onShowError('minSale')}
+                                    </Typography>
+                                </WrapForm>
+                                <WrapForm fullWidth sx={{ maxWidth: '300px', width: '100%' }}>
+                                    <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                                        Maximum buy <RequireSymbol component='span'>*</RequireSymbol>
+                                    </Typography>
+                                    <InputCustom fullWidth
+                                        className={onShowError('maxSale') ? 'onError' : ''}
+                                        value={data.tokenPrice}
+                                        onChange={handleChange('maxSale')}
+                                        placeholder="Enter maximum buy"
+                                        startAdornment={
+                                            <WrapStartAdornment>
+                                                <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
+                                                    {data.currency}
+                                                </Typography>
+                                            </WrapStartAdornment>
+                                        } />
+                                    <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                                        {onShowError('maxSale')}
+                                    </Typography>
+                                </WrapForm>
+                            </FlexBox>
+                        </WrapValue>
+                    </WrapLine>
+                    <WrapLine>
+                        <WrapDescription>
+                            <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                                When would you like to launch?
+                            </Typography>
+                            <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+                                We’ll provide you with recommendations on when to complete steps that may take a few days to process. You can edit this date up until the moment you launch your project, which must always be done manually.
+                            </Typography>
+                        </WrapDescription>
+                        <WrapValue gap='10px !important'>
+                            <WrapForm>
+                                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                                    Minimum buy <RequireSymbol component='span'>*</RequireSymbol>
+                                </Typography>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DateTimePicker
+                                        renderInput={(props) =>
+                                            <TextField {...props} />
+                                        }
+                                        value={data.launchTime}
+                                        onChange={(newValue) => {
+                                            setData(setPresaleForm({ ...data, ['launchTime']: newValue }));
+                                        }}
+                                    />
+                                </LocalizationProvider>
+                                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                                    {onShowError('launchTime')}
+                                </Typography>
+                            </WrapForm>
                         </WrapValue>
                     </WrapLine>
                 </FlexBox>
@@ -197,14 +297,15 @@ const Next = styled(Button)`
     background-color: ${(props) => props.theme.palette.primary.main};
     border-radius: 4px;
 `
-const ContractItem = styled(Box)`
+const WrapStartAdornment = styled(Box)`
+    max-width: 67px;
+    width: 100%;
+    height: 100%;
     display: flex;
-    justify-content: space-between;
-`
-const Line = styled(Box)`
-    background-color: ${(props) => props.theme.palette.gray[800]};
-    height: 1px;
-    widht: 100%;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid;
+    border-color: ${(props) => props.theme.palette.gray[700]};
 `
 const WrapForm = styled(FormControl)`
     display: flex;
@@ -212,6 +313,11 @@ const WrapForm = styled(FormControl)`
     gap: 6px;
 `
 const InputCustom = styled(OutlinedInput)`
+    padding: 0;
+    border: 1px solid;
+    border-color: ${(props) => props.theme.palette.gray[700]};
+    border-radius: 4px;
+
     fieldset {
         display: none
     }
@@ -219,9 +325,6 @@ const InputCustom = styled(OutlinedInput)`
     input {
         font-family: 'Poppins', sans-serif;
         padding: 12px 16px;
-        border: 1px solid;
-        border-color: ${(props) => props.theme.palette.gray[700]};
-        border-radius: 4px;
         font-weight: 400;
         font-size: 14px;
         line-height: 180%;
@@ -238,17 +341,13 @@ const InputCustom = styled(OutlinedInput)`
     }
 
     &.Mui-focused {
-        input {
-            border-color: #9A6AFF;
-            box-shadow: rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-        }
+        border-color: #9A6AFF;
+        box-shadow: rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
     }
 
     &.onError {
-        input {
-            border-color: ${(props) => props.theme.palette.red[500]};
-            box-shadow: none;
-        }
+        border-color: ${(props) => props.theme.palette.red[500]};
+        box-shadow: none;
     }
 `
 const RequireSymbol = styled(Box)`

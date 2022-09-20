@@ -12,15 +12,11 @@ export type PreSaleState = {
         currency: string,
         saleFee: number,
         tokenPrice: string,
-        whitelist: boolean,
-        goal: {
-            min: string,
-            max: string
-        },
-        sale: {
-            min: string,
-            max: string
-        },
+        whitelist: number,
+        minGoal: string,
+        maxGoal: string,
+        minSale: string,
+        maxSale: string,
         launchTime: string,
         preSaleDuration: number,
         listing: number,
@@ -43,15 +39,11 @@ const initialState: PreSaleState = {
         currency: 'busd',
         saleFee: 0,
         tokenPrice: '',
-        whitelist: true,
-        goal: {
-            min: '',
-            max: ''
-        },
-        sale: {
-            min: '',
-            max: ''
-        },
+        whitelist: 0,
+        minGoal: '',
+        maxGoal: '',
+        minSale: '',
+        maxSale: '',
         launchTime: '',
         preSaleDuration: 0,
         listing: 0,
