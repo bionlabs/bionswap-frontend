@@ -20,10 +20,12 @@ const BaseModal = ({ children, open, onClose, sx }: Props) => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             minWidth: 400,
-            bgcolor: "background.paper",
-            boxShadow: 24,
+            bgcolor: "gray.900",
+            boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.5)',
             p: 2,
-            borderRadius: 1,
+            borderRadius: '12px',
+            border: '1px solid',
+            borderColor: 'gray.700',
             ...sx,
           }}
         >

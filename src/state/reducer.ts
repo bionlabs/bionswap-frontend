@@ -5,15 +5,17 @@ import multicall from "./multicall/reducer";
 import user from "./user/reducer";
 import transactions from "./transactions/reducer";
 import chains from "./chains/reducer";
+import presale from "./presale/reducer";
 import { combineReducers } from "@reduxjs/toolkit";
 
 const reducer = combineReducers({
-  theme,
   swap,
   lists,
   multicall,
   user,
   transactions,
   chains,
+  presale, 
+  theme,
 });
 export default reducer;
