@@ -20,11 +20,11 @@ export const menuConfig = [
         href: '/earn',
         icon: <GiReceiveMoney/>
     },
-    // {
-    //     label: 'Launch with BionSwap',
-    //     href: '/launch',
-    //     icon: <FaCoins/>
-    // },
+    {
+        label: 'Launch with BionSwap',
+        href: '/launch',
+        icon: <FaCoins/>
+    },
     {
         label: 'Game Center',
         href: '/gamecenter',
