@@ -15,7 +15,7 @@ import ProfileModal from "./ProfileModal";
 type Props = {};
 
 const ConnectButton = (props: Props) => {
-  const isMobile = useMediaQuery("(max-width:1155px)");
+  const isMobile = useMediaQuery("(max-width:1224px)");
   const [openConnectorsModal, setOpenConnectorsModal] = useState(false);
   const [openChainsModal, setOpenChainsModal] = useState(false);
   const [openProfileModal, setOpenProfileModal] = useState(false);
@@ -75,7 +75,7 @@ const ConnectButton = (props: Props) => {
             </Box>
             <Box sx={{
               display: 'flex',alignItems:'center', gap:'8px',
-              backgroundColor: '#0C1620', height: '35px', padding: '5px 12px',
+              backgroundColor: '#014959', height: '35px', padding: '5px 12px',
               borderRadius: '4px'
             }}>
               <Box>{shortenAddress(address ?? "")}</Box>

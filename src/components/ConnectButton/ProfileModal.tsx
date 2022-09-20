@@ -8,15 +8,17 @@ import {
   MenuList,
   Modal,
   Skeleton,
-  useMediaQuery
+  useMediaQuery,
+  styled
 } from "@mui/material";
 import { useBalance } from "hooks";
 import Image from "next/image";
 import { HiX } from "react-icons/hi";
 import { useAccount, useDisconnect } from "wagmi";
-import styled from "@emotion/styled";
 import { getConnectorIcon } from "utils/connectors";
 import { shortenAddress } from "utils/format";
+import profileMenu from "./profileConfig";
+import { useRouter } from "next/router";
 
 type Props = {
   onClose?: () => void;
@@ -31,6 +33,8 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
     addressOrName: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
   });
 
+  const router = useRouter()
+
   return (
     <Modal
       onClose={onClose}
@@ -41,22 +45,16 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
         timeout: 500,
       }}
     >
-      <Box
+      <Wrapper
         sx={{
           position: "absolute",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "fit-content",
-          bgcolor: "#081319",
-          color: '#fff',
-          boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
-          border: '1px solid #424242',
+          color: "#fff",
+          minWidth: isMobile ? '90%' : "423px",
+          // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
           borderRadius: "8px",
-          minWidth: isMobile ? "353px" : '453px',
-          display: "flex",
-          flexDirection: "column",
-          gap: "24px",
           p: 4,
         }}
       >
@@ -115,47 +113,33 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
           }}
           onClick={onClose}
         >
+          {
+            profileMenu.map(item =>
+              <MenuItem
+                key=''
+                sx={{
+                  p: 2,
+                  width: "100%",
+                  // borderBottom: "1px solid #787A9B",
+                  borderRadius: '4px',
+                  ":last-child": {
+                    borderBottom: "none",
+                  },
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.push(item.href);
+                }}
+              >
+                {item.label}
+              </MenuItem>
+            )
+          }
           <MenuItem
             sx={{
               p: 2,
               width: "100%",
-              borderBottom: "1px solid #787A9B",
-              ":last-child": {
-                borderBottom: "none",
-              },
-            }}
-          >
-            Profile
-          </MenuItem>
-          <MenuItem
-            sx={{
-              p: 2,
-              width: "100%",
-              borderBottom: "1px solid #787A9B",
-              ":last-child": {
-                borderBottom: "none",
-              },
-            }}
-          >
-            My collections
-          </MenuItem>
-          <MenuItem
-            sx={{
-              p: 2,
-              width: "100%",
-              borderBottom: "1px solid #787A9B",
-              ":last-child": {
-                borderBottom: "none",
-              },
-            }}
-          >
-            Setting
-          </MenuItem>
-          <MenuItem
-            sx={{
-              p: 2,
-              width: "100%",
-              borderBottom: "1px solid #787A9B",
+              // borderBottom: "1px solid #787A9B",
               ":last-child": {
                 borderBottom: "none",
               },
@@ -165,10 +149,17 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
             Log out
           </MenuItem>
         </MenuList>
-      </Box>
+      </Wrapper>
     </Modal>
   );
 };
+const Wrapper = styled(Box)`
+  background: ${(props:any) => (props.theme.palette as any).extra.other.nineth};
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.other.tenth};
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+`
 
 const WrapCard = styled(Box)`
   background: rgba(255,255,255,.1);

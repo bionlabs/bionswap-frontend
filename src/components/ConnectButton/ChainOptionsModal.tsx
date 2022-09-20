@@ -1,5 +1,4 @@
-import styled from "@emotion/styled";
-import { Backdrop, Box, IconButton, MenuItem, MenuList, Modal, Stack } from "@mui/material";
+import { Backdrop, Box, IconButton, MenuItem, MenuList, Modal, Stack , styled , Typography } from "@mui/material";
 import { CHAIN_INFO_MAP } from "configs/chain";
 import { useChain, useSwitchNetwork } from "hooks";
 import Image from "next/image";
@@ -29,27 +28,26 @@ const ChainOptionsModal = ({ onClose, open = false, onChainSwitched }: Props) =>
         timeout: 500,
       }}
     >
-      <Box
+      <Wrapper
         sx={{
           position: "absolute",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
           width: "fit-content",
-          bgcolor: "#081319",
           color: "#fff",
-          boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-          border: "1px solid #424242",
           minWidth: "353px",
+          maxWidth: "453px",
+          // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
           borderRadius: "8px",
           p: 4,
         }}
       >
         <Box display="flex" flexDirection="column" gap="10px">
           <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Box fontSize="24px" fontWeight="700">
+            <Typography variant='h5Samsung' sx={{color: 'primary.main'}}>
               Connect a blockchain
-            </Box>
+            </Typography>
             <IconButton onClick={onClose}>
               <HiX />
             </IconButton>
@@ -116,10 +114,15 @@ const ChainOptionsModal = ({ onClose, open = false, onChainSwitched }: Props) =>
             ))}
           </MenuList>
         </Box>
-      </Box>
+      </Wrapper>
     </Modal>
   );
 };
+
+const Wrapper = styled(Box)`
+  background: ${(props:any) => (props.theme.palette as any).extra.other.nineth};
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.other.tenth};
+`
 
 const StatusBox = styled(Box)`
   display: flex;
