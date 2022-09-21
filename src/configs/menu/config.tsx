@@ -35,11 +35,11 @@ export const menuConfig = [
     //     href: '/stacks',
     //     icon: <FaCoins/>
     // },
-    {
-        label: 'Dashboard',
-        href: '/dashboard',
-        icon: <HiChartBar/>
-    },
+    // {
+    //     label: 'Dashboard',
+    //     href: '/dashboard',
+    //     icon: <HiChartBar/>
+    // },
     {
         label: 'Docs',
         href: 'https://docs.bionswap.com',

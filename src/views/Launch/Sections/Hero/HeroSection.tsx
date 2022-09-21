@@ -30,7 +30,7 @@ const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
             href='/trade'
             onClick={(e) => {
               e.preventDefault();
-              router.push('/trade')
+              router.push('/launchpad/create')
             }}
           />
         </Box>
