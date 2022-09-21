@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Box, Tab, Tabs, Typography, styled } from "@mui/material";
 import { steps } from "./config";
-import Step01 from "./components/Step01";
 import { Container } from "@mui/system";
-import Step02 from "./components/Step02";
-import Step03 from "./components/Step03";
 import { useAppDispatch, useAppSelector } from "state";
 import { setPresaleForm } from "state/presale/action";
+import Step01 from "./components/Step01";
+import Step02 from "./components/Step02";
+import Step03 from "./components/Step03";
+import Step04 from "./components/Step04";
+import Step05 from "./components/Step05";
+import Step06 from "./components/Step06";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -88,6 +91,14 @@ const CreateLaunchpad = () => {
         maxGoal: Joi.string().required(),
         minSale: Joi.string().required(),
         maxSale: Joi.string().required(),
+        launchTime: Joi.string().required(),
+        tokenDistributionTime: Joi.string().required(),
+
+        listing: Joi.string().required(),
+        dex: Joi.when('listing', {is: '0', then: Joi.string().required()}),
+        pricePerToken: Joi.string().required(),
+        liquidityPercentage: Joi.string().required(),
+        lockupTime: Joi.string().required(),
     })
 
     const onNextStep = async (step: number) => {
@@ -118,6 +129,18 @@ const CreateLaunchpad = () => {
                     maxGoal: data.maxGoal,
                     minSale: data.minGoal,
                     maxSale: data.maxGoal,
+                    launchTime: data.launchTime,
+                    tokenDistributionTime: data.tokenDistributionTime,
+                }, 
+                {abortEarly: false});
+            }
+            if (step === 4) {
+                const value = await schema.validateAsync({ 
+                    listing: data.listing,
+                    dex: data.dex,
+                    pricePerToken: data.pricePerToken,
+                    liquidityPercentage: data.liquidityPercentage,
+                    lockupTime: data.lockupTime
                 }, 
                 {abortEarly: false});
             }
@@ -171,6 +194,15 @@ const CreateLaunchpad = () => {
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     <Step03 data={data} setData={dispatch} onNextStep={onNextStep} onShowError={onShowError} />
+                </TabPanel>
+                <TabPanel value={value} index={3}>
+                    <Step04 data={data} setData={dispatch} onNextStep={onNextStep} onShowError={onShowError} />
+                </TabPanel>
+                <TabPanel value={value} index={4}>
+                    <Step05 data={data} setData={dispatch} onNextStep={onNextStep} onShowError={onShowError} />
+                </TabPanel>
+                <TabPanel value={value} index={5}>
+                    <Step06 data={data} setData={dispatch} onNextStep={onNextStep} onShowError={onShowError} />
                 </TabPanel>
             </Box>
             </Container>

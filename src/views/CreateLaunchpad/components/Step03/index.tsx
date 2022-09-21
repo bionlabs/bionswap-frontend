@@ -16,6 +16,40 @@ const whiteOptions = [
     },
 ]
 
+const preSaleDurations = [
+    {
+        value: 0,
+        label: 'Fixed number of days (1-60)'
+    },
+    {
+        value: 1,
+        label: 'End on a specific date & time'
+    }
+]
+
+const unsoldTokens = [
+    {
+        value: 0,
+        label: 'Refund'
+    },
+    {
+        value: 1,
+        label: 'Burn'
+    }
+]
+
+const vestingTokens = [
+    {
+        value: 0,
+        label: '100% contribute',
+        description: 'All of token sold will be released in the frist release',
+    },
+    {
+        value: 1,
+        label: 'End on a specific date & time'
+    }
+]
+
 const Step03 = ({ data, setData, onNextStep, onShowError }: any) => {
     const handleChange = (prop: any) => (event: any) => {
         // setData({ ...data, [prop]: event.target.value })
@@ -230,9 +264,6 @@ const Step03 = ({ data, setData, onNextStep, onShowError }: any) => {
                         </WrapDescription>
                         <WrapValue gap='10px !important'>
                             <WrapForm>
-                                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                                    Minimum buy <RequireSymbol component='span'>*</RequireSymbol>
-                                </Typography>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DateTimePicker
                                         renderInput={(props) =>
@@ -250,9 +281,160 @@ const Step03 = ({ data, setData, onNextStep, onShowError }: any) => {
                             </WrapForm>
                         </WrapValue>
                     </WrapLine>
+                    <WrapLine>
+                        <WrapDescription>
+                            <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                                Pre-sale duration
+                            </Typography>
+                            <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+                                Set a time limit for your pre-sale. You won’t be able to change this after you launch.
+                            </Typography>
+                        </WrapDescription>
+                        <WrapValue gap='10px !important'>
+                            <WrapForm>
+                                <FormControl fullWidth>
+                                    <RadioGroup
+                                        value={data.preSaleDuration}
+                                        onChange={handleChange('preSaleDuration')}
+                                        name="radio-buttons-group"
+                                    >
+                                        {
+                                            preSaleDurations?.map(item => (
+                                                <FormControlLabel key={item.label} value={item.value} label={
+                                                    <Typography variant="body4Poppins" color={data.preSaleDuration == item.value ? 'blue.100' : 'gray.700'} fontWeight="400">
+                                                        {item.label}
+                                                    </Typography>
+                                                }
+                                                    control={
+                                                        <Radio sx={{
+                                                            color: 'gray.700',
+                                                            '&.Mui-checked': {
+                                                                color: 'blue.500',
+                                                            },
+                                                        }} />
+                                                    } />
+                                            ))
+                                        }
+                                    </RadioGroup>
+                                </FormControl>
+                            </WrapForm>
+                        </WrapValue>
+                    </WrapLine>
+                    <WrapLine>
+                        <WrapDescription>
+                            <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                                Unsold token
+                            </Typography>
+                            <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+                                After the end of the token sale, the remaining tokens that are not sold can be refunded or burned.
+                            </Typography>
+                        </WrapDescription>
+                        <WrapValue gap='10px !important'>
+                            <WrapForm>
+                                <FormControl fullWidth>
+                                    <RadioGroup
+                                        value={data.unsoldToken}
+                                        onChange={handleChange('unsoldToken')}
+                                        name="radio-buttons-group"
+                                    >
+                                        {
+                                            unsoldTokens?.map(item => (
+                                                <FormControlLabel key={item.label} value={item.value} label={
+                                                    <Typography variant="body4Poppins" color={data.unsoldToken == item.value ? 'blue.100' : 'gray.700'} fontWeight="400">
+                                                        {item.label}
+                                                    </Typography>
+                                                }
+                                                    control={
+                                                        <Radio sx={{
+                                                            color: 'gray.700',
+                                                            '&.Mui-checked': {
+                                                                color: 'blue.500',
+                                                            },
+                                                        }} />
+                                                    } />
+                                            ))
+                                        }
+                                    </RadioGroup>
+                                </FormControl>
+                            </WrapForm>
+                        </WrapValue>
+                    </WrapLine>
+                    <WrapLine>
+                        <WrapDescription>
+                            <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                                Token distribution date
+                            </Typography>
+                            <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+                                Notice to people the date and time that your token will be launched
+                            </Typography>
+                        </WrapDescription>
+                        <WrapValue gap='10px !important'>
+                            <WrapForm>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DateTimePicker
+                                        renderInput={(props) =>
+                                            <TextField {...props} />
+                                        }
+                                        value={data.tokenDistributionTime}
+                                        onChange={(newValue) => {
+                                            setData(setPresaleForm({ ...data, ['tokenDistributionTime']: newValue }));
+                                        }}
+                                    />
+                                </LocalizationProvider>
+                                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                                    {onShowError('tokenDistributionTime')}
+                                </Typography>
+                            </WrapForm>
+                        </WrapValue>
+                    </WrapLine>
+                    <WrapLine>
+                        <WrapDescription>
+                            <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                                Vesting token
+                            </Typography>
+                            <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+                                How many tokens will be released each cycle following the First Token Release batch and how long, in days, between each batch of vested tokens is released.
+                            </Typography>
+                        </WrapDescription>
+                        <WrapValue gap='10px !important'>
+                            <WrapForm>
+                                <FormControl fullWidth>
+                                    <RadioGroup
+                                        value={data.vestingToken}
+                                        onChange={handleChange('vestingToken')}
+                                        name="radio-buttons-group"
+                                        sx={{gap: '25px'}}
+                                    >
+                                        {
+                                            vestingTokens?.map(item => (
+                                                <BoxRadioButtonItem key={item.label}>
+                                                    <FormControlLabel value={item.value} label={
+                                                        <Typography variant="body4Poppins" color={data.vestingToken == item.value ? 'blue.100' : 'gray.700'} fontWeight="400">
+                                                            {item.label}
+                                                        </Typography>
+                                                    }
+                                                        control={
+                                                            <Radio sx={{
+                                                                color: 'gray.700',
+                                                                '&.Mui-checked': {
+                                                                    color: 'blue.500',
+                                                                },
+                                                            }} />
+                                                        } />
+                                                    <Typography variant="captionPoppins" color="blue.100">
+                                                        {item.description}
+                                                    </Typography>
+                                                </BoxRadioButtonItem>
+                                            ))
+                                        }
+                                    </RadioGroup>
+                                </FormControl>
+                            </WrapForm>
+                        </WrapValue>
+                    </WrapLine>
                 </FlexBox>
                 <FlexBox justifyContent='flex-end'>
-                    <Next onClick={() => onNextStep(2)}>
+                    <Next onClick={() => onNextStep(3)}>
                         <Typography variant="body3Poppins" color="#000000" fontWeight="600">
                             Next
                         </Typography>
@@ -352,6 +534,13 @@ const InputCustom = styled(OutlinedInput)`
 `
 const RequireSymbol = styled(Box)`
     color: ${(props) => props.theme.palette.red[500]};
+`
+const BoxRadioButtonItem = styled(Box)`
+    border: 1px solid #373F47;
+    border-radius: 4px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
 `
 
 export default Step03 
