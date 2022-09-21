@@ -91,6 +91,8 @@ const CreateLaunchpad = () => {
         maxGoal: Joi.string().required(),
         minSale: Joi.string().required(),
         maxSale: Joi.string().required(),
+        preSaleDurations: Joi.string().required(),
+        endTime: Joi.when('preSaleDurations', {is: '1', then: Joi.string().required()}),
         launchTime: Joi.string().required(),
         tokenDistributionTime: Joi.string().required(),
 
@@ -130,6 +132,8 @@ const CreateLaunchpad = () => {
                     minSale: data.minGoal,
                     maxSale: data.maxGoal,
                     launchTime: data.launchTime,
+                    preSaleDurations: data.preSaleDuration,
+                    endTime: data.endTime,
                     tokenDistributionTime: data.tokenDistributionTime,
                 }, 
                 {abortEarly: false});

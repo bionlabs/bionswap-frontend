@@ -316,6 +316,27 @@ const Step03 = ({ data, setData, onNextStep, onShowError }: any) => {
                                             ))
                                         }
                                     </RadioGroup>
+                                    {
+                                        data.preSaleDuration === '1'
+                                        &&
+                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                            <DateTimePicker
+                                                renderInput={(props) =>
+                                                    <TextField {...props} />
+                                                }
+                                                value={data.endTime}
+                                                onChange={(newValue) => {
+                                                    setData(setPresaleForm({ ...data, ['endTime']: newValue }));
+                                                }}
+                                            />
+                                        </LocalizationProvider>
+                                    }
+                                    <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                                        {onShowError('preSaleDuration')}
+                                    </Typography>
+                                    <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                                        {onShowError('endTime')}
+                                    </Typography>
                                 </FormControl>
                             </WrapForm>
                         </WrapValue>
@@ -403,7 +424,7 @@ const Step03 = ({ data, setData, onNextStep, onShowError }: any) => {
                                         value={data.vestingToken}
                                         onChange={handleChange('vestingToken')}
                                         name="radio-buttons-group"
-                                        sx={{gap: '25px'}}
+                                        sx={{ gap: '25px' }}
                                     >
                                         {
                                             vestingTokens?.map(item => (

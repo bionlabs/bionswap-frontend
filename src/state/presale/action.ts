@@ -17,6 +17,7 @@ export const setPresaleForm = createAction<{
     maxSale: string,
     launchTime: string,
     preSaleDuration: number,
+    endTime: string,
     unsoldToken: number,
     tokenDistributionTime: string,
     vestingToken: string,

@@ -22,13 +22,107 @@ const Step06 = ({ data, setData, onNextStep, onShowError }: any) => {
                     label: 'Address',
                     value: `${data.tokenContract}`
                 },
-                ,
                 {
                     label: 'Token name',
                     value: `${tokenContract?.name}`
                 },
+                {
+                    label: 'Token symbol',
+                    value: `${tokenContract?.symbol}`
+                },
+                {
+                    label: 'Token decimais',
+                    value: `${tokenContract?.decimals}`
+                },
+                {
+                    label: 'Token price',
+                    value: `${data.tokenPrice || 0} ${data.currency}`
+                },
+                {
+                    label: 'Listing price',
+                    value: `${data.pricePerToken || 0} ${data.currency}`
+                },
             ]
-        }
+        },
+        {
+            head: 'Sale Information',
+            subHead: 'The Launchpad information that you want to raise',
+            items: [
+                {
+                    label: 'Sale method',
+                    value: `Not Available`
+                },
+                {
+                    label: 'Softcap',
+                    value: `${data.minGoal || 0} ${data.currency}`
+                },
+                {
+                    label: 'Hardcap',
+                    value: `${data.maxGoal || 0} ${data.currency}`
+                },
+                {
+                    label: 'Unsold tokens',
+                    value: `${data.unsoldToken === '0' ? 'Refund' : 'Burn'}`
+                },
+                {
+                    label: 'Minimum buy',
+                    value: `${data.minSale || 0} ${data.currency}`
+                },
+                {
+                    label: 'Maximum buy',
+                    value: `${data.maxSale || 0} ${data.currency}`
+                },
+            ]
+        },
+        {
+            head: 'Liquidity information',
+            subHead: 'Token Liquidity information that you want to raise',
+            items: [
+                {
+                    label: 'Liquidity',
+                    value: `${data.liquidityPercentage || 0}%`
+                },
+                {
+                    label: 'Start time',
+                    value: `${data.launchTime}`
+                },
+                {
+                    label: 'End time',
+                    value: `${data.preSaleDuration === '0' ? new Date(data.preSaleDuration).getDate() + 60 : data.endTime}`
+                },
+                {
+                    label: 'Liquidity lockup time',
+                    value: `${data.lockupTime} days`
+                },
+                {
+                    label: 'Using vesting',
+                    value: `${data.vestingToken === '0' ? 'No' : 'Yes'}`
+                }
+            ]
+        },
+        {
+            head: 'Description',
+            subHead: "Describe what you're raising funds to do, why you care about it, how you plan to make it happen, and who you are.",
+            description: 'A wallet address is a string of letters and numbers from which cryptocurrencies or NFTs can be sent to and from. A wallet address is also known as a Public Key and can be shared with different contacts like an email address....'
+        },
+        {
+            head: 'Community',
+            subHead: 'Where people can follow, discuss and find more information about your project',
+            items: [
+                {
+                    label: 'Website',
+                    value: `${data.community}`
+                },
+                {
+                    label: 'Telegram',
+                    value: `${data.community}`
+                },
+                {
+                    label: 'Discord',
+                    value: `${data.community}`
+                },
+            ]
+        },
     ]
 
     return (
@@ -57,16 +151,21 @@ const Step06 = ({ data, setData, onNextStep, onShowError }: any) => {
                                 <WrapValue>
                                     <FlexBox flexDirection='column' gap='12px'>
                                         {
-                                            item.items?.map(i => (
+                                            item?.items?.map(i => (
                                                 <BoxItem key={i?.label}>
                                                     <Typography variant="body4Poppins" color="#717D8A" fontWeight="400" >
-                                                        Total token
+                                                        {i?.label}
                                                     </Typography>
-                                                    <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
-                                                        {tokenForSale + tokenForLiquidity} {tokenContract?.name}
+                                                    <Typography variant="body4Poppins" color="text.primary" fontWeight="500" >
+                                                        {i?.value}
                                                     </Typography>
                                                 </BoxItem>
                                             ))
+                                        }
+                                        {
+                                            <Typography variant="body4Poppins" color="#717D8A" fontWeight="400" >
+                                                {item?.description}<a>See all</a>
+                                            </Typography>
                                         }
                                     </FlexBox>
                                 </WrapValue>
