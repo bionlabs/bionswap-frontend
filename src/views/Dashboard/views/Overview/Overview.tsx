@@ -8,22 +8,23 @@ import {
 } from '@mui/material'
 import Header from './components/Header'
 import FundSection from './FundSection'
+import BalanceSection from './BalanceSection'
 
 
 const Overview = () => {
   const isMobile = useMediaQuery('(max-width:767px)');
+  const isDesktop = useMediaQuery('(max-width:1467px)')
 
   return (
     <Page>
       <Wrapper padding={isMobile ? '40px 16px' : '40px'}>
         <Header isMobile={isMobile}/>
         <Layout sx={{
-          marginTop: '42px', gridTemplateColumns: isMobile ? '100%' : '59% 39%'
+          marginTop: '42px', gridTemplateColumns: isDesktop ? 'auto' : 'auto auto',
+          alignItems: "start"
         }}>
           <FundSection isMobile={isMobile}/>
-          <Box>
-            Hello
-          </Box>
+          <BalanceSection isMobile={isMobile}/>
         </Layout>
         
       </Wrapper>
@@ -36,7 +37,7 @@ const Wrapper = styled(Box)`
 `
 const Layout = styled(Box)`
   display: grid;
-  gap: 42px;
+  gap: 24px;
 `
 
 

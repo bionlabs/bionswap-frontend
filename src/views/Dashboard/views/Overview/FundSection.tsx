@@ -71,12 +71,12 @@ const FundSection = ({isMobile}:MobileProp) => {
                 <Box>
                     <Box>
                         <Typography variant='body3Poppins' sx={{color: 'primary.main'}}>
-                            Buy BIONC
+                            Get Game Ticket
                         </Typography>
                     </Box>
                     <Box>
                         <Typography variant='captionPoppins' sx={{color: 'extra.text.primary'}}>
-                            Get BIONC with the best price.
+                            Buy ticket and get super multiply profit.
                         </Typography>
                     </Box>
                 </Box>
