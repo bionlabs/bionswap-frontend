@@ -23,7 +23,7 @@ const dexs = [
     },
 ]
 
-const Step04 = ({ data, setData, onNextStep, onShowError }: any) => {
+const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => {
     const tokenContract = useToken(data.tokenContract);
 
     const tokenForSale = Number(data.maxGoal) / Number(data.tokenPrice) || 0;
@@ -255,8 +255,13 @@ const Step04 = ({ data, setData, onNextStep, onShowError }: any) => {
                     </WrapLine>
 
                 </FlexBox>
-                <FlexBox justifyContent='flex-end'>
-                    <Next onClick={() => onNextStep(4)}>
+                <FlexBox justifyContent='flex-end' gap='14px'>
+                    <Back onClick={() => handleBack(4)}>
+                        <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
+                            Back
+                        </Typography>
+                    </Back>
+                    <Next onClick={() => handleNext(4)}>
                         <Typography variant="body3Poppins" color="#000000" fontWeight="600">
                             Next
                         </Typography>
@@ -299,6 +304,16 @@ const Next = styled(Button)`
     justify-content: center;
     display: flex;
     background-color: ${(props) => props.theme.palette.primary.main};
+    border-radius: 4px;
+`
+const Back = styled(Button)`
+    max-width: 200px;
+    width: 100%;
+    height: 45px;
+    align-item: center;
+    justify-content: center;
+    display: flex;
+    background-color: rgba(7, 224, 224, 0.15);;
     border-radius: 4px;
 `
 const WrapStartAdornment = styled(Box)`

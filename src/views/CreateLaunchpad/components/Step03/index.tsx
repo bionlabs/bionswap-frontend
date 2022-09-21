@@ -50,7 +50,7 @@ const vestingTokens = [
     }
 ]
 
-const Step03 = ({ data, setData, onNextStep, onShowError }: any) => {
+const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => {
     const handleChange = (prop: any) => (event: any) => {
         // setData({ ...data, [prop]: event.target.value })
         setData(setPresaleForm({ ...data, [prop]: event.target.value }))
@@ -454,8 +454,13 @@ const Step03 = ({ data, setData, onNextStep, onShowError }: any) => {
                         </WrapValue>
                     </WrapLine>
                 </FlexBox>
-                <FlexBox justifyContent='flex-end'>
-                    <Next onClick={() => onNextStep(3)}>
+                <FlexBox justifyContent='flex-end' gap='14px'>
+                    <Back onClick={() => handleBack(3)}>
+                        <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
+                            Back
+                        </Typography>
+                    </Back>
+                    <Next onClick={() => handleNext(3)}>
                         <Typography variant="body3Poppins" color="#000000" fontWeight="600">
                             Next
                         </Typography>
@@ -498,6 +503,16 @@ const Next = styled(Button)`
     justify-content: center;
     display: flex;
     background-color: ${(props) => props.theme.palette.primary.main};
+    border-radius: 4px;
+`
+const Back = styled(Button)`
+    max-width: 200px;
+    width: 100%;
+    height: 45px;
+    align-item: center;
+    justify-content: center;
+    display: flex;
+    background-color: rgba(7, 224, 224, 0.15);;
     border-radius: 4px;
 `
 const WrapStartAdornment = styled(Box)`

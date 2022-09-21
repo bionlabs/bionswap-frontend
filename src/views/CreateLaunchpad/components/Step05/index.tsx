@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-const Step05 = ({ data, setData, onNextStep, onShowError }: any) => {
+const Step05 = ({ data, setData, handleNext, handleBack, onShowError }: any) => {
 
     const handleChange = (prop: any) => (event: any) => {
         setData(setPresaleForm({ ...data, [prop]: event }))
@@ -39,8 +39,13 @@ const Step05 = ({ data, setData, onNextStep, onShowError }: any) => {
                         </WrapValue>
                     </WrapLine>
                 </FlexBox>
-                <FlexBox justifyContent='flex-end'>
-                    <Next onClick={() => onNextStep(4)}>
+                <FlexBox justifyContent='flex-end' gap='14px'>
+                    <Back onClick={() => handleBack(5)}>
+                        <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
+                            Back
+                        </Typography>
+                    </Back>
+                    <Next onClick={() => handleNext(5)}>
                         <Typography variant="body3Poppins" color="#000000" fontWeight="600">
                             Next
                         </Typography>
@@ -85,6 +90,16 @@ const Next = styled(Button)`
     justify-content: center;
     display: flex;
     background-color: ${(props) => props.theme.palette.primary.main};
+    border-radius: 4px;
+`
+const Back = styled(Button)`
+    max-width: 200px;
+    width: 100%;
+    height: 45px;
+    align-item: center;
+    justify-content: center;
+    display: flex;
+    background-color: rgba(7, 224, 224, 0.15);;
     border-radius: 4px;
 `
 

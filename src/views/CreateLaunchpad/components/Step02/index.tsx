@@ -34,7 +34,7 @@ const FeeOptions = [
     },
 ]
 
-const Step02 = ({ data, setData, onNextStep, onShowError }: any) => {
+const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => {
     const tokenContract = useToken(data.tokenContract);
     const [openModal, setOpenModal] = useState(false);
 
@@ -181,8 +181,13 @@ const Step02 = ({ data, setData, onNextStep, onShowError }: any) => {
                         </WrapValue>
                     </WrapLine>
                 </FlexBox>
-                <FlexBox justifyContent='flex-end'>
-                    <Next onClick={() => onNextStep(2)}>
+                <FlexBox justifyContent='flex-end' gap='14px'>
+                    <Back onClick={() => handleBack(2)}>
+                        <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
+                            Back
+                        </Typography>
+                    </Back>
+                    <Next onClick={() => handleNext(2)}>
                         <Typography variant="body3Poppins" color="#000000" fontWeight="600">
                             Next
                         </Typography>
@@ -226,6 +231,16 @@ const Next = styled(Button)`
     justify-content: center;
     display: flex;
     background-color: ${(props) => props.theme.palette.primary.main};
+    border-radius: 4px;
+`
+const Back = styled(Button)`
+    max-width: 200px;
+    width: 100%;
+    height: 45px;
+    align-item: center;
+    justify-content: center;
+    display: flex;
+    background-color: rgba(7, 224, 224, 0.15);;
     border-radius: 4px;
 `
 const ContractItem = styled(Box)`

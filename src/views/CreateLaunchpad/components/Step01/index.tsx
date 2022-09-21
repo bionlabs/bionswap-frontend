@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, styled, FormControl, OutlinedInput, Button } from "@mui/material";
 import { setPresaleForm } from "state/presale/action";
 
-const Step01 = ({ data, setData, onNextStep, onShowError, communities, setCommunities }: any) => {
+const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommunities }: any) => {
 
     const handleChange = (prop: any) => (event: any) => {
         setData(setPresaleForm({ ...data, [prop]: event.target.value }))
@@ -181,7 +181,7 @@ const Step01 = ({ data, setData, onNextStep, onShowError, communities, setCommun
                 </WrapLine>
             </FlexBox>
             <FlexBox justifyContent='flex-end'>
-                <Next onClick={() => onNextStep(1)}>
+                <Next onClick={() => handleNext(1)}>
                     <Typography variant="body3Poppins" color="#000000" fontWeight="600">
                         Next
                     </Typography>

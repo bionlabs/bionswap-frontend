@@ -3,8 +3,17 @@ import { Box, Typography, styled, FormControl, OutlinedInput, Button, Select, Me
 import { useToken } from "hooks/useToken";
 import { setPresaleForm } from "state/presale/action";
 
-const Step06 = ({ data, setData, onNextStep, onShowError }: any) => {
+const Description = ({ html }: any) => {
+    return (
+        <Box
+            dangerouslySetInnerHTML={{ __html: html }}
+        />
+    )
+}
+
+const Step06 = ({ data, setData, handleNext, onShowError }: any) => {
     const tokenContract = useToken(data.tokenContract);
+    const [onpenDescription, setOpenDescription] = useState(false)
 
     const tokenForSale = Number(data.maxGoal) / Number(data.tokenPrice) || 0;
     const tokenForLiquidity = Number(data.liquidityPercentage) * Number(data.maxGoal) / Number(data.pricePerToken) || 0;
@@ -125,62 +134,82 @@ const Step06 = ({ data, setData, onNextStep, onShowError }: any) => {
         },
     ]
 
+    const showDescription = () => {
+        setOpenDescription(!onpenDescription)
+    }
+
     return (
         <>
-            <FlexBox flexDirection='column' gap='46px' pt="40px" pb="40px">
-                <FlexBox flexDirection='column' alignItems='center'>
-                    <Typography variant="h3" color="text.primary" fontWeight="400">
-                        6. Preview and Comfirm Project
-                    </Typography>
-                    <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
-                        Get ready to launch your project
-                    </Typography>
-                </FlexBox>
-                <FlexBox flexDirection="column">
-                    {
-                        abc.map(item => (
-                            <WrapLine key={item.head}>
-                                <WrapDescription>
-                                    <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                                        {item.head}
-                                    </Typography>
-                                    <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                                        {item.subHead}
-                                    </Typography>
-                                </WrapDescription>
-                                <WrapValue>
-                                    <FlexBox flexDirection='column' gap='12px'>
-                                        {
-                                            item?.items?.map(i => (
-                                                <BoxItem key={i?.label}>
-                                                    <Typography variant="body4Poppins" color="#717D8A" fontWeight="400" >
-                                                        {i?.label}
-                                                    </Typography>
-                                                    <Typography variant="body4Poppins" color="text.primary" fontWeight="500" >
-                                                        {i?.value}
-                                                    </Typography>
-                                                </BoxItem>
-                                            ))
-                                        }
-                                        {
-                                            <Typography variant="body4Poppins" color="#717D8A" fontWeight="400" >
-                                                {item?.description}<a>See all</a>
+            {
+                onpenDescription
+                    ?
+                    <Box>
+                        <FlexBox onClick={showDescription} sx={{cursor: "pointer"}} gap="16px">
+                            <img src="/icons/keyboard_arrow_left.svg" alt="keyboard_arrow_left" />
+                            <Typography variant="h3" fontWeight="500" color="text.primary">
+                                Description
+                            </Typography>
+                        </FlexBox>
+                        <Description html={data.description} />
+                    </Box>
+                    :
+                    <FlexBox flexDirection='column' gap='46px' pt="40px" pb="40px">
+                        <FlexBox flexDirection='column' alignItems='center'>
+                            <Typography variant="h3" color="text.primary" fontWeight="400">
+                                6. Preview and Comfirm Project
+                            </Typography>
+                            <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
+                                Get ready to launch your project
+                            </Typography>
+                        </FlexBox>
+                        <FlexBox flexDirection="column">
+                            {
+                                abc.map(item => (
+                                    <WrapLine key={item.head}>
+                                        <WrapDescription>
+                                            <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                                                {item.head}
                                             </Typography>
-                                        }
-                                    </FlexBox>
-                                </WrapValue>
-                            </WrapLine>
-                        ))
-                    }
-                </FlexBox>
-                <FlexBox justifyContent='flex-end'>
-                    <Next onClick={() => onNextStep(4)}>
-                        <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-                            Submit
-                        </Typography>
-                    </Next>
-                </FlexBox>
-            </FlexBox>
+                                            <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+                                                {item.subHead}
+                                            </Typography>
+                                        </WrapDescription>
+                                        <WrapValue>
+                                            <FlexBox flexDirection='column' gap='12px'>
+                                                {
+                                                    item?.items?.map(i => (
+                                                        <BoxItem key={i?.label}>
+                                                            <Typography variant="body4Poppins" color="#717D8A" fontWeight="400" >
+                                                                {i?.label}
+                                                            </Typography>
+                                                            <Typography variant="body4Poppins" color="text.primary" fontWeight="500" >
+                                                                {i?.value}
+                                                            </Typography>
+                                                        </BoxItem>
+                                                    ))
+                                                }
+                                                {
+                                                    item?.description
+                                                    &&
+                                                    <Typography variant="body4Poppins" color="#717D8A" fontWeight="400" >
+                                                        {item?.description}<Button onClick={showDescription}><Typography variant="body4Poppins" color="text.primary" fontWeight="400">See all</Typography></Button>
+                                                    </Typography>
+                                                }
+                                            </FlexBox>
+                                        </WrapValue>
+                                    </WrapLine>
+                                ))
+                            }
+                        </FlexBox>
+                        <FlexBox justifyContent='flex-end'>
+                            <Next onClick={() => handleNext(4)}>
+                                <Typography variant="body3Poppins" color="#000000" fontWeight="600">
+                                    Submit
+                                </Typography>
+                            </Next>
+                        </FlexBox>
+                    </FlexBox>
+            }
         </>
     )
 }

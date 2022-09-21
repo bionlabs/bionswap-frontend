@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Tab, Tabs, Typography, styled } from "@mui/material";
+import { Box, Typography, styled, Stepper, Step } from "@mui/material";
 import { steps } from "./config";
 import { Container } from "@mui/system";
 import { useAppDispatch, useAppSelector } from "state";
@@ -11,62 +11,11 @@ import Step04 from "./components/Step04";
 import Step05 from "./components/Step05";
 import Step06 from "./components/Step06";
 
-interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box>
-                    {children}
-                </Box>
-            )}
-        </div>
-    );
-}
-
-const TabLabel = (props: any) => {
-    const { icon, index, label, isActive, isDone, ...other } = props;
-    return (
-        <FlexBox flexDirection='column' gap='13px' alignItems='center'>
-            <Typography variant="body4Poppins"
-                color={isDone ? 'gray.400' : 'gray.600'}
-                fontWeight='400'
-                fontStyle='initial'>
-                {index}. {label}
-            </Typography>
-            <WapIcon className={isDone ? 'done' : ''}>
-                <img src={icon} alt={label} />
-            </WapIcon>
-        </FlexBox>
-    )
-}
-
-function a11yProps(index: number) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
-}
-
 const CreateLaunchpad = () => {
     const Joi = require('joi');
-    const [value, setValue] = React.useState(0)
+    const [activeStep, setActiveStep] = useState(0);
     const data = useAppSelector(state => state.presale.dataConfig);
     const dispatch = useAppDispatch();
-
 
     const [errors, setErrors] = useState([])
 
@@ -76,56 +25,60 @@ const CreateLaunchpad = () => {
         discord: ''
     })
 
-    const schema = Joi.object({
+    const schemaStep01 = Joi.object({
         projectTitle: Joi.string().required(),
         projectLogo: Joi.string().required(),
         saleBanner: Joi.string().required(`{path} is required`),
-        tokenContract: Joi.string().required(),
-
         website: Joi.string().required(),
         telegram: Joi.string().required(),
         discord: Joi.string().required(),
-
+    })
+    const schemaStep02 = Joi.object({
+        tokenContract: Joi.string().required(),
+        currency: Joi.string().required(),
+    })
+    const schemaStep03 = Joi.object({
         tokenPrice: Joi.string().required(),
         minGoal: Joi.string().required(),
         maxGoal: Joi.string().required(),
         minSale: Joi.string().required(),
         maxSale: Joi.string().required(),
         preSaleDurations: Joi.string().required(),
-        endTime: Joi.when('preSaleDurations', {is: '1', then: Joi.string().required()}),
+        endTime: Joi.when('preSaleDurations', { is: '1', then: Joi.string().required() }),
         launchTime: Joi.string().required(),
         tokenDistributionTime: Joi.string().required(),
-
+    })
+    const schemaStep04 = Joi.object({
         listing: Joi.string().required(),
-        dex: Joi.when('listing', {is: '0', then: Joi.string().required()}),
+        dex: Joi.when('listing', { is: '0', then: Joi.string().required() }),
         pricePerToken: Joi.string().required(),
         liquidityPercentage: Joi.string().required(),
         lockupTime: Joi.string().required(),
     })
 
-    const onNextStep = async (step: number) => {
+    const handleNext = async (step: number) => {
         try {
             if (step === 1) {
-                const value = await schema.validateAsync({ 
+                const value = await schemaStep01.validateAsync({
                     projectTitle: data.projectTitle,
                     projectLogo: data.projectLogo,
                     saleBanner: data.saleBanner,
                     website: communities['website'],
                     telegram: communities['telegram'],
                     discord: communities['discord'],
-                }, 
-                {abortEarly: false});
+                }, { abortEarly: false });
 
                 dispatch(setPresaleForm({ ...data, ['community']: JSON.stringify(communities) }))
             }
             if (step === 2) {
-                const value = await schema.validateAsync({ 
+                const value = await schemaStep02.validateAsync({
                     tokenContract: data.tokenContract,
-                }, 
-                {abortEarly: false});
+                    currency: data.currency
+                },
+                    { abortEarly: false });
             }
             if (step === 3) {
-                const value = await schema.validateAsync({ 
+                const value = await schemaStep03.validateAsync({
                     tokenPrice: data.tokenPrice,
                     minGoal: data.minGoal,
                     maxGoal: data.maxGoal,
@@ -135,24 +88,29 @@ const CreateLaunchpad = () => {
                     preSaleDurations: data.preSaleDuration,
                     endTime: data.endTime,
                     tokenDistributionTime: data.tokenDistributionTime,
-                }, 
-                {abortEarly: false});
+                },
+                    { abortEarly: false });
             }
             if (step === 4) {
-                const value = await schema.validateAsync({ 
+                const value = await schemaStep04.validateAsync({
                     listing: data.listing,
                     dex: data.dex,
                     pricePerToken: data.pricePerToken,
                     liquidityPercentage: data.liquidityPercentage,
                     lockupTime: data.lockupTime
-                }, 
-                {abortEarly: false});
+                },
+                    { abortEarly: false });
             }
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
             setErrors([])
         }
-        catch (err:any) {
+        catch (err: any) {
             setErrors(err?.details || [])
         }
+    }
+
+    const handleBack = (step: number) => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
     }
 
     const onShowError = (key: string) => {
@@ -165,50 +123,63 @@ const CreateLaunchpad = () => {
         return message;
     }
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
-    };
-
-    // const onCheckStep = (index) => {
-
-    // }
-
     return (
         <Section>
             <Container maxWidth='lg'>
-            <Box sx={{ width: '100%' }}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={value} onChange={handleChange}>
-                        {
-                            steps.map(item => (
-                                <Tab key={item.title} label={
-                                    <TabLabel icon={item.icon} index={item.step} label={item.title} isDone={item.isDone} isActive={item.isDone} />
-                                }
-                                    // disabled={!(item.isDone)}
-                                    {...a11yProps(0)} />
-                            ))
-                        }
-                    </Tabs>
+                <Box sx={{ width: '100%' }}>
+                    <WrapStep sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <Stepper activeStep={activeStep}>
+                            {steps.map((item, index) => {
+                                return (
+                                    <StepCustom key={item.title} className={activeStep === index ? 'activeStep' : ''}>
+                                        <FlexBox flexDirection='column' gap='13px' alignItems='center'>
+                                            <Typography variant="body4Poppins"
+                                                textTransform="uppercase"
+                                                fontWeight={activeStep === index ? '500' : '400'}
+                                                color={activeStep === index ? 'primary.main' : 'gray.600'}
+                                                fontStyle='initial'>
+                                                {item.step}. {item.title}
+                                            </Typography>
+                                            <WapIcon className={activeStep === index ? 'done' : ''}>
+                                                <img src={item.icon} alt={item.icon} />
+                                            </WapIcon>
+                                        </FlexBox>
+                                    </StepCustom>
+                                );
+                            })}
+                        </Stepper>
+                    </WrapStep>
+                    {
+                        activeStep === 0
+                        &&
+                        <Step01 data={data} setData={dispatch} handleNext={handleNext} onShowError={onShowError} communities={communities} setCommunities={setCommunities} />
+                    }
+                    {
+                        activeStep === 1
+                        &&
+                        <Step02 data={data} setData={dispatch} handleNext={handleNext} handleBack={handleBack} onShowError={onShowError} />
+                    }
+                    {
+                        activeStep === 2
+                        &&
+                        <Step03 data={data} setData={dispatch} handleNext={handleNext} handleBack={handleBack} onShowError={onShowError} />
+                    }
+                    {
+                        activeStep === 3
+                        &&
+                        <Step04 data={data} setData={dispatch} handleNext={handleNext} handleBack={handleBack} onShowError={onShowError} />
+                    }
+                    {
+                        activeStep === 4
+                        &&
+                        <Step05 data={data} setData={dispatch} onNextStep={handleNext} handleBack={handleBack} onShowError={onShowError} />
+                    }
+                    {
+                        activeStep === 5
+                        &&
+                        <Step06 data={data} setData={dispatch} onNextStep={handleNext} handleBack={handleBack} onShowError={onShowError} />
+                    }
                 </Box>
-                <TabPanel value={value} index={0}>
-                    <Step01 data={data} setData={dispatch} onNextStep={onNextStep} onShowError={onShowError} communities={communities} setCommunities={setCommunities} />
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                    <Step02 data={data} setData={dispatch} onNextStep={onNextStep} onShowError={onShowError} />
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    <Step03 data={data} setData={dispatch} onNextStep={onNextStep} onShowError={onShowError} />
-                </TabPanel>
-                <TabPanel value={value} index={3}>
-                    <Step04 data={data} setData={dispatch} onNextStep={onNextStep} onShowError={onShowError} />
-                </TabPanel>
-                <TabPanel value={value} index={4}>
-                    <Step05 data={data} setData={dispatch} onNextStep={onNextStep} onShowError={onShowError} />
-                </TabPanel>
-                <TabPanel value={value} index={5}>
-                    <Step06 data={data} setData={dispatch} onNextStep={onNextStep} onShowError={onShowError} />
-                </TabPanel>
-            </Box>
             </Container>
         </Section>
     )
@@ -220,6 +191,7 @@ const FlexBox = styled(Box)`
 const Section = styled(Box)`
     background-color: ${(props) => props.theme.palette.background.default};
     min-height: 100vh;
+    padding-top: 100px;
 `
 const WapIcon = styled(Box)`
     width: 34px;
@@ -236,6 +208,39 @@ const WapIcon = styled(Box)`
 
     &.done {
         opacity: 1;
+    }
+`
+const WrapStep = styled(Box)`
+    padding-bottom: 17px;
+
+    .MuiStepConnector-root {
+        visibility: hidden;
+    }
+`
+const StepCustom = styled(Step)`
+    position: relative;
+
+    &.activeStep {
+        ::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            background-color: ${(props) => props.theme.palette.primary.main};
+            border-radius: 4px 4px 0px 0px;
+            height: 4px;
+            left: 0;
+            bottom: -17px;
+        }
+    }
+
+    &.Mui-completed {
+        span {
+            color: ${(props) => props.theme.palette.gray[400]};
+        }
+
+        .MuiBox-root {
+            opacity: 1;
+        }
     }
 `
 
