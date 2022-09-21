@@ -1,14 +1,20 @@
-import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, IconButton, OutlinedInput, styled, Typography } from "@mui/material"
+import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, IconButton, MenuItem, OutlinedInput, Select, styled, Typography } from "@mui/material"
 import { BaseModal } from "components"
 import { useCallback, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
+const tokenTypes = [
+    {
+        value: 0,
+        title: 'Standard Token'
+    }
+]
 
 const CreateTokenModal = ({ open, onDismiss }: any) => {
     const Joi = require('joi');
     const [errors, setErrors] = useState([])
     const [dataCreated, setDataCreated] = useState({
-        tokenType: '',
+        tokenType: 0,
         name: '',
         symbol: '',
         decimal: '',
@@ -21,7 +27,7 @@ const CreateTokenModal = ({ open, onDismiss }: any) => {
 
 
     const schema = Joi.object({
-        tokenType: Joi.string().required(),
+        tokenType: Joi.required(),
         name: Joi.string().required(),
         symbol: Joi.string().required(),
         decimal: Joi.string().required(),
@@ -81,11 +87,22 @@ const CreateTokenModal = ({ open, onDismiss }: any) => {
                     <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
                         Token Type <RequireSymbol component='span'>*</RequireSymbol>
                     </Typography>
-                    <InputCustom fullWidth
+                    {/* <InputCustom fullWidth
                         className={onShowError('tokenType') ? 'onError' : ''}
                         value={dataCreated.tokenType}
                         onChange={handleChange('tokenType')}
-                        placeholder="Standard Token" />
+                        placeholder="Standard Token" /> */}
+                    <Select
+                        value={dataCreated.tokenType}
+                        onChange={handleChange('tokenType')}
+                        displayEmpty
+                        inputProps={{ 'aria-label': 'Without label' }}>
+                        {
+                            tokenTypes?.map(item => (
+                                <MenuItem key={item.value} value={item.value}>{item.title}</MenuItem>
+                            ))
+                        }
+                    </Select>
                     <Typography variant="captionPoppins" color="red.500" fontWeight="400">
                         {onShowError('tokenType')}
                     </Typography>

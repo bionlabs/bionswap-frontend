@@ -1,5 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { setPresaleForm } from "./action";
+import { setPresaleForm, setStepLaunchpad } from "./action";
 
 export type PreSaleState = {
     dataConfig: {
@@ -30,6 +30,8 @@ export type PreSaleState = {
         lockupTime: string,
         description: string,
     };
+
+    step: number;
 };
 
 const initialState: PreSaleState = {
@@ -61,10 +63,15 @@ const initialState: PreSaleState = {
         lockupTime: '',
         description: '',
     },
+
+    step: 0,
 };
 
 export default createReducer<PreSaleState>(initialState, (builder) =>
     builder.addCase(setPresaleForm, (state, { payload: setPresaleForm }) => {
         state.dataConfig = setPresaleForm;
     })
+    .addCase(setStepLaunchpad, (state, { payload: setStepLaunchpad }) => {
+        state.step = setStepLaunchpad;
+    }),
 );

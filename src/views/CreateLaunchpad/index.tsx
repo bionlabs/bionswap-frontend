@@ -3,7 +3,7 @@ import { Box, Typography, styled, Stepper, Step } from "@mui/material";
 import { steps } from "./config";
 import { Container } from "@mui/system";
 import { useAppDispatch, useAppSelector } from "state";
-import { setPresaleForm } from "state/presale/action";
+import { setPresaleForm, setStepLaunchpad } from "state/presale/action";
 import Step01 from "./components/Step01";
 import Step02 from "./components/Step02";
 import Step03 from "./components/Step03";
@@ -13,16 +13,17 @@ import Step06 from "./components/Step06";
 
 const CreateLaunchpad = () => {
     const Joi = require('joi');
-    const [activeStep, setActiveStep] = useState(0);
-    const data = useAppSelector(state => state.presale.dataConfig);
+    const data = useAppSelector(state => state.presale.dataConfig)
+    const communityDetail = JSON.parse(data?.community)
+    const activeStep = useAppSelector(state => state.presale.step)
     const dispatch = useAppDispatch();
 
     const [errors, setErrors] = useState([])
 
     const [communities, setCommunities] = useState({
-        website: '',
-        telegram: '',
-        discord: ''
+        website: communityDetail['website'] || '',
+        telegram: communityDetail['telegram'] || '',
+        discord: communityDetail['discord'] || ''
     })
 
     const schemaStep01 = Joi.object({
@@ -44,13 +45,13 @@ const CreateLaunchpad = () => {
         minSale: Joi.string().required(),
         maxSale: Joi.string().required(),
         preSaleDurations: Joi.string().required(),
-        endTime: Joi.when('preSaleDurations', { is: '1', then: Joi.string().required() }),
-        launchTime: Joi.string().required(),
-        tokenDistributionTime: Joi.string().required(),
+        endTime: Joi.when('preSaleDurations', { is: '1', then: Joi.required() }),
+        launchTime: Joi.required(),
+        tokenDistributionTime: Joi.required(),
     })
     const schemaStep04 = Joi.object({
         listing: Joi.string().required(),
-        dex: Joi.when('listing', { is: '0', then: Joi.string().required() }),
+        dex: Joi.when('listing', { is: '0', then: Joi.required() }),
         pricePerToken: Joi.string().required(),
         liquidityPercentage: Joi.string().required(),
         lockupTime: Joi.string().required(),
@@ -101,7 +102,9 @@ const CreateLaunchpad = () => {
                 },
                     { abortEarly: false });
             }
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
+            // setActiveStep((prevActiveStep) => prevActiveStep + 1);
+            dispatch(setStepLaunchpad(activeStep + 1))
             setErrors([])
         }
         catch (err: any) {
@@ -110,7 +113,11 @@ const CreateLaunchpad = () => {
     }
 
     const handleBack = (step: number) => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+        dispatch(setStepLaunchpad(activeStep - 1))
+    }
+
+    const handleSubmit = () => {
+        console.log('on submit')
     }
 
     const onShowError = (key: string) => {
@@ -172,12 +179,12 @@ const CreateLaunchpad = () => {
                     {
                         activeStep === 4
                         &&
-                        <Step05 data={data} setData={dispatch} onNextStep={handleNext} handleBack={handleBack} onShowError={onShowError} />
+                        <Step05 data={data} setData={dispatch} handleNext={handleNext} handleBack={handleBack} onShowError={onShowError} />
                     }
                     {
                         activeStep === 5
                         &&
-                        <Step06 data={data} setData={dispatch} onNextStep={handleNext} handleBack={handleBack} onShowError={onShowError} />
+                        <Step06 data={data} setData={dispatch} handleNext={handleNext} handleBack={handleBack} onShowError={onShowError} handleSubmit={handleSubmit} />
                     }
                 </Box>
             </Container>

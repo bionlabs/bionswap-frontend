@@ -39,7 +39,6 @@ const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
     const [openModal, setOpenModal] = useState(false);
 
     const handleChange = (prop: any) => (event: any) => {
-        // setData({ ...data, [prop]: event.target.value })
         setData(setPresaleForm({ ...data, [prop]: event.target.value }))
     }
 

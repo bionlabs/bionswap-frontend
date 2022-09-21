@@ -11,7 +11,7 @@ const Description = ({ html }: any) => {
     )
 }
 
-const Step06 = ({ data, setData, handleNext, onShowError }: any) => {
+const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any) => {
     const tokenContract = useToken(data.tokenContract);
     const [onpenDescription, setOpenDescription] = useState(false)
 
@@ -93,11 +93,11 @@ const Step06 = ({ data, setData, handleNext, onShowError }: any) => {
                 },
                 {
                     label: 'Start time',
-                    value: `${data.launchTime}`
+                    value: `${new Date(data.launchTime).toUTCString()}`
                 },
                 {
                     label: 'End time',
-                    value: `${data.preSaleDuration === '0' ? new Date(data.preSaleDuration).getDate() + 60 : data.endTime}`
+                    value: `${new Date(data.endTime).toUTCString()}`
                 },
                 {
                     label: 'Liquidity lockup time',
@@ -120,15 +120,15 @@ const Step06 = ({ data, setData, handleNext, onShowError }: any) => {
             items: [
                 {
                     label: 'Website',
-                    value: `${data.community}`
+                    value: `${JSON.parse(data?.community)['website']}`
                 },
                 {
                     label: 'Telegram',
-                    value: `${data.community}`
+                    value: `${JSON.parse(data?.community)['telegram']}`
                 },
                 {
                     label: 'Discord',
-                    value: `${data.community}`
+                    value: `${JSON.parse(data?.community)['discord']}`
                 },
             ]
         },
@@ -144,7 +144,7 @@ const Step06 = ({ data, setData, handleNext, onShowError }: any) => {
                 onpenDescription
                     ?
                     <Box>
-                        <FlexBox onClick={showDescription} sx={{cursor: "pointer"}} gap="16px">
+                        <FlexBox onClick={showDescription} sx={{ cursor: "pointer" }} gap="16px">
                             <img src="/icons/keyboard_arrow_left.svg" alt="keyboard_arrow_left" />
                             <Typography variant="h3" fontWeight="500" color="text.primary">
                                 Description
@@ -201,8 +201,71 @@ const Step06 = ({ data, setData, handleNext, onShowError }: any) => {
                                 ))
                             }
                         </FlexBox>
-                        <FlexBox justifyContent='flex-end'>
-                            <Next onClick={() => handleNext(4)}>
+                        <FlexBox gap='24px'>
+                            <WrapTag>
+                                <FlexBox flexDirection='column'>
+                                    <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                                        Fee
+                                    </Typography>
+                                    <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                                        All the fees you have to pay for create launchpad
+                                    </Typography>
+                                </FlexBox>
+                                <FlexBox flexDirection='column' mt='32px' gap="8px">
+                                    <BoxItem>
+                                        <Typography variant="body4Poppins" color="#717D8A" fontWeight="400" >
+                                            Pool create fee
+                                        </Typography>
+                                        <Typography variant="body4Poppins" color="text.primary" fontWeight="500" >
+                                            0.5 BNB
+                                        </Typography>
+                                    </BoxItem>
+                                    <BoxItem>
+                                        <Typography variant="body4Poppins" color="#717D8A" fontWeight="400" >
+                                            Token for sale
+                                        </Typography>
+                                        <Typography variant="body4Poppins" color="text.primary" fontWeight="500" >
+                                            100 BNB
+                                        </Typography>
+                                    </BoxItem>
+                                </FlexBox>
+                            </WrapTag>
+                            <WrapTag>
+                                <FlexBox flexDirection='column'>
+                                    <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                                        Token for sale
+                                    </Typography>
+                                    <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                                        Number of tokens for sale and add liquidity
+                                    </Typography>
+                                </FlexBox>
+                                <FlexBox flexDirection='column' mt='32px' gap="8px">
+                                    <BoxItem>
+                                        <Typography variant="body4Poppins" color="#717D8A" fontWeight="400" >
+                                            Token for sale
+                                        </Typography>
+                                        <Typography variant="body4Poppins" color="text.primary" fontWeight="500" >
+                                            {tokenForSale} {tokenContract?.symbol}
+                                        </Typography>
+                                    </BoxItem>
+                                    <BoxItem>
+                                        <Typography variant="body4Poppins" color="#717D8A" fontWeight="400" >
+                                            Token for add liquidity 
+                                        </Typography>
+                                        <Typography variant="body4Poppins" color="text.primary" fontWeight="500" >
+                                            {tokenForLiquidity} {tokenContract?.symbol}
+                                        </Typography>
+                                    </BoxItem>
+                                </FlexBox>
+                            </WrapTag>
+                        </FlexBox>
+                        <FlexBox justifyContent='flex-end' gap='14px'>
+                            <Back onClick={() => handleBack(5)}>
+                                <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
+                                    Back
+                                </Typography>
+                            </Back>
+                            <Next onClick={() => handleSubmit()}>
                                 <Typography variant="body3Poppins" color="#000000" fontWeight="600">
                                     Submit
                                 </Typography>
@@ -248,71 +311,30 @@ const Next = styled(Button)`
     background-color: ${(props) => props.theme.palette.primary.main};
     border-radius: 4px;
 `
-const WrapStartAdornment = styled(Box)`
-    max-width: 67px;
+const Back = styled(Button)`
+    max-width: 200px;
     width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
+    height: 45px;
+    align-item: center;
     justify-content: center;
-    border-right: 1px solid;
-    border-color: ${(props) => props.theme.palette.gray[700]};
-`
-const WrapForm = styled(FormControl)`
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-`
-const InputCustom = styled(OutlinedInput)`
-    padding: 0;
-    border: 1px solid;
-    border-color: ${(props) => props.theme.palette.gray[700]};
+    background-color: rgba(7, 224, 224, 0.15);;
     border-radius: 4px;
-
-    fieldset {
-        display: none
-    }
-
-    input {
-        font-family: 'Poppins', sans-serif;
-        padding: 12px 16px;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 180%;
-        color: ${(props) => props.theme.palette.text.primary};
-
-        &::placeholder {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 400;
-            font-size: 14px;
-            line-height: 180%;
-            color: ${(props) => props.theme.palette.gray[700]};
-            opacity: 1;
-        }
-    }
-
-    &.Mui-focused {
-        border-color: #9A6AFF;
-        box-shadow: rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-    }
-
-    &.onError {
-        border-color: ${(props) => props.theme.palette.red[500]};
-        box-shadow: none;
-    }
-`
-const RequireSymbol = styled(Box)`
-    color: ${(props) => props.theme.palette.red[500]};
 `
 const BoxItem = styled(Box)`
     display: flex;
     justify-content: space-between;
     width: 100%;
+    padding-bottom: 12px;
+    border-bottom: 1px solid;
+    border-color: ${(props) => props.theme.palette.gray[800]};
 `
-const Line = styled(Box)`
-    background-color: ${(props) => props.theme.palette.gray[800]};
-    height: 1px;
-    widht: 100%;
+const WrapTag = styled(Box)`
+    border: 1px solid #373F47;
+    border-radius: 4px;
+    background: #0C1620;
+    padding: 20px;
+    width: 50%
 `
 
 export default Step06

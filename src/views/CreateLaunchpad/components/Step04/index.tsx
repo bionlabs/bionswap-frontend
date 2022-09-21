@@ -150,6 +150,7 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                     value={data.pricePerToken}
                                     onChange={handleChange('pricePerToken')}
                                     placeholder="Enter token price"
+                                    type="number"
                                     startAdornment={
                                         <WrapStartAdornment>
                                             <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
@@ -182,6 +183,7 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                     value={data.liquidityPercentage}
                                     onChange={handleChange('liquidityPercentage')}
                                     placeholder="Enter liquidity percentage"
+                                    type="number"
                                     startAdornment={
                                         <WrapStartAdornment>
                                             <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
@@ -217,6 +219,7 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                     value={data.lockupTime}
                                     onChange={handleChange('lockupTime')}
                                     placeholder="Enter lockup time"
+                                    type="number"
                                     startAdornment={
                                         <WrapStartAdornment>
                                             <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">

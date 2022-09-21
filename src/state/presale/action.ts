@@ -28,3 +28,5 @@ export const setPresaleForm = createAction<{
     lockupTime: string,
     description: string,
 }>("presale/setPresaleForm");
+
+export const setStepLaunchpad = createAction<number>("presale/setStepLaunchpad");

@@ -51,10 +51,28 @@ const vestingTokens = [
 ]
 
 const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => {
-    const handleChange = (prop: any) => (event: any) => {
-        // setData({ ...data, [prop]: event.target.value })
-        setData(setPresaleForm({ ...data, [prop]: event.target.value }))
+    const [launchTime, setLaunchtime] = useState(new Date(data.launchTime) || 0)
+    const [endLaunchTime, setEndLaunchTime] = useState(new Date(data.endTime) || 0)
+    const [tokenDistributionDate, setTokenDistributionDate] = useState(new Date(data.tokenDistributionTime) || 0)
 
+    useEffect(() => {
+        setData(setPresaleForm({ ...data, ['launchTime']: new Date(launchTime).getTime() }));
+    }, [launchTime])
+
+    useEffect(() => {
+        if (data.preSaleDuration === '0') {
+            setData(setPresaleForm({ ...data, ['endTime']: new Date(launchTime).getTime() + 86400000 }));
+        } else {
+            setData(setPresaleForm({ ...data, ['endTime']: new Date(endLaunchTime).getTime() }));
+        }
+    }, [endLaunchTime, data.preSaleDuration])
+
+    useEffect(() => {
+        setData(setPresaleForm({ ...data, ['tokenDistributionTime']: new Date(tokenDistributionDate).getTime() }));
+    }, [tokenDistributionDate])
+
+    const handleChange = (prop: any) => (event: any) => {
+        setData(setPresaleForm({ ...data, [prop]: event.target.value }))
     }
 
     return (
@@ -88,6 +106,7 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                     value={data.tokenPrice}
                                     onChange={handleChange('tokenPrice')}
                                     placeholder="Enter token price"
+                                    type="number"
                                     startAdornment={
                                         <WrapStartAdornment>
                                             <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
@@ -155,9 +174,10 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                     </Typography>
                                     <InputCustom fullWidth
                                         className={onShowError('minGoal') ? 'onError' : ''}
-                                        value={data.tokenPrice}
+                                        value={data.minGoal}
                                         onChange={handleChange('minGoal')}
                                         placeholder="Enter minimum goal"
+                                        type="number"
                                         startAdornment={
                                             <WrapStartAdornment>
                                                 <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
@@ -175,9 +195,10 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                     </Typography>
                                     <InputCustom fullWidth
                                         className={onShowError('maxGoal') ? 'onError' : ''}
-                                        value={data.tokenPrice}
+                                        value={data.maxGoal}
                                         onChange={handleChange('maxGoal')}
                                         placeholder="Enter maximum goal"
+                                        type="number"
                                         startAdornment={
                                             <WrapStartAdornment>
                                                 <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
@@ -216,9 +237,10 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                     </Typography>
                                     <InputCustom fullWidth
                                         className={onShowError('minSale') ? 'onError' : ''}
-                                        value={data.tokenPrice}
+                                        value={data.minSale}
                                         onChange={handleChange('minSale')}
                                         placeholder="Enter minimum buy"
+                                        type="number"
                                         startAdornment={
                                             <WrapStartAdornment>
                                                 <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
@@ -236,9 +258,10 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                     </Typography>
                                     <InputCustom fullWidth
                                         className={onShowError('maxSale') ? 'onError' : ''}
-                                        value={data.tokenPrice}
+                                        value={data.maxSale}
                                         onChange={handleChange('maxSale')}
                                         placeholder="Enter maximum buy"
+                                        type="number"
                                         startAdornment={
                                             <WrapStartAdornment>
                                                 <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
@@ -269,9 +292,9 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                         renderInput={(props) =>
                                             <TextField {...props} />
                                         }
-                                        value={data.launchTime}
-                                        onChange={(newValue) => {
-                                            setData(setPresaleForm({ ...data, ['launchTime']: newValue }));
+                                        value={launchTime}
+                                        onChange={(newValue: any) => {
+                                            setLaunchtime(newValue);
                                         }}
                                     />
                                 </LocalizationProvider>
@@ -324,9 +347,9 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                                 renderInput={(props) =>
                                                     <TextField {...props} />
                                                 }
-                                                value={data.endTime}
-                                                onChange={(newValue) => {
-                                                    setData(setPresaleForm({ ...data, ['endTime']: newValue }));
+                                                value={endLaunchTime}
+                                                onChange={(newValue:any) => {
+                                                    setEndLaunchTime(newValue)
                                                 }}
                                             />
                                         </LocalizationProvider>
@@ -396,9 +419,9 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                         renderInput={(props) =>
                                             <TextField {...props} />
                                         }
-                                        value={data.tokenDistributionTime}
-                                        onChange={(newValue) => {
-                                            setData(setPresaleForm({ ...data, ['tokenDistributionTime']: newValue }));
+                                        value={tokenDistributionDate}
+                                        onChange={(newValue: any) => {
+                                            setTokenDistributionDate(newValue)
                                         }}
                                     />
                                 </LocalizationProvider>
