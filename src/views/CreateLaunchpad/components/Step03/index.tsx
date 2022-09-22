@@ -307,7 +307,7 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                     <WrapLine>
                         <WrapDescription>
                             <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                                Pre-sale duration
+                                Pre-sale end time
                             </Typography>
                             <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
                                 Set a time limit for your pre-sale. You won’t be able to change this after you launch.
@@ -316,7 +316,7 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                         <WrapValue gap='10px !important'>
                             <WrapForm>
                                 <FormControl fullWidth>
-                                    <RadioGroup
+                                    {/* <RadioGroup
                                         value={data.preSaleDuration}
                                         onChange={handleChange('preSaleDuration')}
                                         name="radio-buttons-group"
@@ -338,25 +338,21 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                                     } />
                                             ))
                                         }
-                                    </RadioGroup>
-                                    {
-                                        data.preSaleDuration === '1'
-                                        &&
-                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <DateTimePicker
-                                                renderInput={(props) =>
-                                                    <TextField {...props} />
-                                                }
-                                                value={endLaunchTime}
-                                                onChange={(newValue: any) => {
-                                                    setEndLaunchTime(newValue)
-                                                }}
-                                            />
-                                        </LocalizationProvider>
-                                    }
-                                    <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                                    </RadioGroup> */}
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DateTimePicker
+                                            renderInput={(props) =>
+                                                <TextField {...props} />
+                                            }
+                                            value={endLaunchTime}
+                                            onChange={(newValue: any) => {
+                                                setEndLaunchTime(newValue)
+                                            }}
+                                        />
+                                    </LocalizationProvider>
+                                    {/* <Typography variant="captionPoppins" color="red.500" fontWeight="400">
                                         {onShowError('preSaleDuration')}
-                                    </Typography>
+                                    </Typography> */}
                                     <Typography variant="captionPoppins" color="red.500" fontWeight="400">
                                         {onShowError('endTime')}
                                     </Typography>
@@ -474,11 +470,11 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                                     {
                                                         item.value == 1 && data.vestingToken === '1' &&
                                                         <FlexBox flexDirection="column" gap='15px'
-                                                                sx={{
-                                                                    paddingTop: '24px',
-                                                                    marginTop: '24px',
-                                                                    borderTop: '1px solid #373F47'
-                                                                }}>
+                                                            sx={{
+                                                                paddingTop: '24px',
+                                                                marginTop: '24px',
+                                                                borderTop: '1px solid #373F47'
+                                                            }}>
                                                             <WrapForm fullWidth>
                                                                 <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
                                                                     Frist release <RequireSymbol component="span">*</RequireSymbol>
