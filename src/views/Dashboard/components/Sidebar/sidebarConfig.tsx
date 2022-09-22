@@ -32,6 +32,11 @@ const sidebarConfig = [
                 href: '/draft',
                 icon: ''
             },
+            {
+                label: 'Create',
+                href: '/launchpad/create',
+                icon: ''
+            },
         ]
     }
 ]

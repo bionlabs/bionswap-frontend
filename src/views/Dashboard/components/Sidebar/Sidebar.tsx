@@ -9,7 +9,8 @@ import {
   ListItemText,
   Collapse,
   ListItemIcon,
-  SvgIcon
+  SvgIcon,
+  Link
 } from '@mui/material'
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -18,7 +19,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Bottombar from '../Bottombar/Bottombar';
 
-const Sidebar = ({children}:any) => {
+const Sidebar = ({ children }: any) => {
   const isMobile = useMediaQuery('(max-width:767px)');
   const router = useRouter();
 
@@ -30,7 +31,7 @@ const Sidebar = ({children}:any) => {
 
   return (
     <Box display='flex' flexDirection={isMobile ? 'column' : 'row'}>
-      { !isMobile ?
+      {!isMobile ?
         <SidebarContainer>
           <StyledList>
             {
@@ -38,44 +39,44 @@ const Sidebar = ({children}:any) => {
                 <ListItem disablePadding key=''>
                   {
                     item.item ?
-                    <List sx={{width: '100%', padding: 0}}>
-                      <Item onClick={handleClick}>
+                      <List sx={{ width: '100%', padding: 0 }}>
+                        <Item onClick={handleClick}>
+                          <StyledListItemIcon>
+                            <SvgIcon component={item.icon} />
+                          </StyledListItemIcon>
+                          <ListItemText primary={item.label} />
+                          {open ? <ExpandLess /> : <ExpandMore />}
+                        </Item>
+                        <Collapse in={open} timeout="auto" unmountOnExit>
+                          <List component="div" disablePadding>
+                            {
+                              item.item.map(i =>
+                                <LinkCustom href={i.href} key={i.label} sx={{ pl: 7 }}
+                                  onClick={(e) => {
+                                    router.push(`${i.href}`)
+                                    e.preventDefault();
+                                  }}>
+                                  <ListItemText primary={i.label} />
+                                </LinkCustom>
+                              )
+                            }
+                          </List>
+                        </Collapse>
+                      </List>
+                      :
+                      <Item
+                        className={router.asPath == `/dashboard${item.href}` ? 'active' : ''}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          router.push(`/dashboard${item.href}`)
+                        }}
+                      >
                         <StyledListItemIcon>
                           <SvgIcon component={item.icon} />
                         </StyledListItemIcon>
                         <ListItemText primary={item.label} />
-                        {open ? <ExpandLess /> : <ExpandMore />}
                       </Item>
-                      <Collapse in={open} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                          {
-                            item.item.map(i =>
-                              <Item key='' sx={{ pl: 7 }}>
-                                {/* <ListItemIcon>
-                                  <StarBorder />
-                                </ListItemIcon> */}
-                                <ListItemText primary={i.label} />
-                              </Item>
-                            )
-                          }
-                        </List>
-                      </Collapse>
-                    </List>
-                    :
-                    <Item
-                      className={router.asPath == `/dashboard${item.href}` ? 'active' : ''}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        router.push(`/dashboard${item.href}`)
-                      }}
-                    >
-                      <StyledListItemIcon>
-                        <SvgIcon component={item.icon} />
-                      </StyledListItemIcon>
-                      <ListItemText primary={item.label} />
-                    </Item>
                   }
-                  
                 </ListItem>
                 // <Item
                 //   key=''
@@ -91,7 +92,7 @@ const Sidebar = ({children}:any) => {
           </StyledList>
         </SidebarContainer>
         :
-        <Bottombar data={sidebarConfig}/>
+        <Bottombar data={sidebarConfig} />
       }
       <Inner>
         {children}
@@ -118,6 +119,24 @@ const Item = styled(ListItemButton)`
   cursor: pointer;
   transition: .1s ease-in;
   gap: 15px;
+  :hover {
+    background: rgba(7, 224, 224, 0.15);
+    color: ${prop => prop.theme.palette.primary.main};
+  }
+  span {
+    color: inherit
+  }
+`
+const LinkCustom = styled(Link)`
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: .1s ease-in;
+  gap: 15px;
+  display: flex;
+  text-decoration: auto;
+  color: ${props => props.theme.palette.gray[600]};
+
   :hover {
     background: rgba(7, 224, 224, 0.15);
     color: ${prop => prop.theme.palette.primary.main};
