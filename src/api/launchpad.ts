@@ -32,3 +32,11 @@ export async function createPresale(payload: {
 
   return data.data;
 }
+
+export async function uploadLaunchpadImage(base64: string) {
+  const result = await apiClient.post<{ data: { url: string } }>('launchpad/upload-image', {
+    image: base64
+  });
+
+  return result.data.data;
+} 

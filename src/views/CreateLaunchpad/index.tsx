@@ -48,6 +48,10 @@ const CreateLaunchpad = () => {
         endTime: Joi.when('preSaleDurations', { is: '1', then: Joi.required() }),
         launchTime: Joi.required(),
         tokenDistributionTime: Joi.required(),
+        vestingToken: Joi.required(),
+        fristRelease: Joi.when('vestingToken', {is: '1', then: Joi.required()}),
+        vestingPeriodEachCycle: Joi.when('vestingToken', {is: '1', then: Joi.required()}),
+        tokenReleaseEachCycle: Joi.when('vestingToken', {is: '1', then: Joi.required()}),
     })
     const schemaStep04 = Joi.object({
         listing: Joi.string().required(),
@@ -89,6 +93,10 @@ const CreateLaunchpad = () => {
                     preSaleDurations: data.preSaleDuration,
                     endTime: data.endTime,
                     tokenDistributionTime: data.tokenDistributionTime,
+                    vestingToken: data.vestingToken,
+                    fristRelease: data.fristRelease,
+                    vestingPeriodEachCycle: data.vestingPeriodEachCycle,
+                    tokenReleaseEachCycle: data.tokenReleaseEachCycle
                 },
                     { abortEarly: false });
             }
@@ -102,10 +110,13 @@ const CreateLaunchpad = () => {
                 },
                     { abortEarly: false });
             }
-
-            // setActiveStep((prevActiveStep) => prevActiveStep + 1);
             dispatch(setStepLaunchpad(activeStep + 1))
             setErrors([])
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "smooth"
+            });
         }
         catch (err: any) {
             setErrors(err?.details || [])
@@ -114,6 +125,11 @@ const CreateLaunchpad = () => {
 
     const handleBack = (step: number) => {
         dispatch(setStepLaunchpad(activeStep - 1))
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth"
+        });
     }
 
     const handleSubmit = () => {

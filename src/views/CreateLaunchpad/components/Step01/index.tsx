@@ -1,8 +1,38 @@
-import React from "react";
-import { Box, Typography, styled, FormControl, OutlinedInput, Button } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Typography, styled, FormControl, OutlinedInput, Button, IconButton } from "@mui/material";
 import { setPresaleForm } from "state/presale/action";
+import ImageUploading from 'react-images-uploading';
+import { uploadLaunchpadImage } from "api/launchpad";
 
 const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommunities }: any) => {
+    const [projectLogo, setProjectLogo] = useState([{
+        data_url: data.projectLogo
+    }] || [])
+    const [saleBanner, setSaleBanner] = useState([{
+        data_url: data.saleBanner
+    }] || [])
+
+    const onChangeProjectLogo = async (imageList: any) => {
+        try {
+            const logoBase64 = imageList[0].data_url.split(',')[1]
+            const imageLogo = await uploadLaunchpadImage(logoBase64)
+            setProjectLogo(imageList);
+            setData(setPresaleForm({ ...data, ['projectLogo']: imageLogo.url}))
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const onChangeSaleBanner = async (imageList: any) => {
+        try {
+            const logoBase64 = imageList[0].data_url.split(',')[1]
+            const imageLogo = await uploadLaunchpadImage(logoBase64)
+            setSaleBanner(imageList)
+            setData(setPresaleForm({ ...data, ['saleBanner']: imageLogo.url }))
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const handleChange = (prop: any) => (event: any) => {
         setData(setPresaleForm({ ...data, [prop]: event.target.value }))
@@ -58,19 +88,40 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
                         </Typography>
                     </WrapDescription>
                     <WrapValue>
-                        <WrapForm fullWidth>
-                            <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                                URL image <RequireSymbol component='span'>*</RequireSymbol>
-                            </Typography>
-                            <InputCustom fullWidth
-                                className={onShowError('projectLogo') ? 'onError' : ''}
-                                placeholder="Enter url image"
-                                value={data.projectLogo}
-                                onChange={handleChange('projectLogo')} />
-                            <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                                {onShowError('projectLogo')}
-                            </Typography>
-                        </WrapForm>
+                        <ImageUploading
+                            value={projectLogo}
+                            onChange={onChangeProjectLogo}
+                            dataURLKey="data_url"
+                        >
+                            {({
+                                imageList,
+                                onImageUpload,
+                                onImageUpdate,
+                                dragProps
+                            }) => (
+                                <BoxImageUpload onClick={onImageUpload} {...dragProps}>
+                                    {
+                                        imageList.length === 0
+                                            ?
+                                            <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
+                                                <img src="/icons/AddFile.svg" alt="Add File" />
+                                                <Typography variant="captionPoppins" color="blue.100" fontWeight="400" mt="14px">
+                                                    Drop an image here or select a file
+                                                </Typography>
+                                                <Typography variant="body6Poppins" color="gray.600" fontWeight="400">
+                                                    It must be a JPG, PNG, GIF, TIFF, or BMP, no larger than 200 MB.
+                                                </Typography>
+                                            </FlexBox>
+                                            :
+                                            imageList?.map((image, index) => (
+                                                <div key={index} className="image-item">
+                                                    <img src={image['data_url']} alt="" width="100%" height="auto" />
+                                                </div>
+                                            ))
+                                    }
+                                </BoxImageUpload>
+                            )}
+                        </ImageUploading>
                     </WrapValue>
                 </WrapLine>
                 <WrapLine>
@@ -83,19 +134,40 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
                         </Typography>
                     </WrapDescription>
                     <WrapValue>
-                        <WrapForm fullWidth>
-                            <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                                URL image <RequireSymbol component='span'>*</RequireSymbol>
-                            </Typography>
-                            <InputCustom fullWidth
-                                className={onShowError('saleBanner') ? 'onError' : ''}
-                                placeholder="Enter url image"
-                                value={data.saleBanner}
-                                onChange={handleChange('saleBanner')} />
-                            <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                                {onShowError('saleBanner')}
-                            </Typography>
-                        </WrapForm>
+                    <ImageUploading
+                            value={saleBanner}
+                            onChange={onChangeSaleBanner}
+                            dataURLKey="data_url"
+                        >
+                            {({
+                                imageList,
+                                onImageUpload,
+                                onImageUpdate,
+                                dragProps
+                            }) => (
+                                <BoxImageUpload onClick={onImageUpload} {...dragProps}>
+                                    {
+                                        imageList.length === 0
+                                            ?
+                                            <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
+                                                <img src="/icons/AddFile.svg" alt="Add File" />
+                                                <Typography variant="captionPoppins" color="blue.100" fontWeight="400" mt="14px">
+                                                    Drop an image here or select a file
+                                                </Typography>
+                                                <Typography variant="body6Poppins" color="gray.600" fontWeight="400">
+                                                    It must be a JPG, PNG, GIF, TIFF, or BMP, no larger than 200 MB.
+                                                </Typography>
+                                            </FlexBox>
+                                            :
+                                            imageList?.map((image, index) => (
+                                                <div key={index} className="image-item">
+                                                    <img src={image['data_url']} alt="" width="100%" height="auto" />
+                                                </div>
+                                            ))
+                                    }
+                                </BoxImageUpload>
+                            )}
+                        </ImageUploading>
                     </WrapValue>
                 </WrapLine>
                 <WrapLine >
@@ -116,7 +188,7 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
                     <WrapValue>
                         <WrapForm fullWidth>
                             <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                                URL image
+                                Video URL
                             </Typography>
                             <InputCustom fullWidth
                                 placeholder="Enter url image"
@@ -272,6 +344,19 @@ const InputCustom = styled(OutlinedInput)`
 `
 const RequireSymbol = styled(Box)`
     color: ${(props) => props.theme.palette.red[500]};
+`
+const BoxImageUpload = styled(Box)`
+    width: 100%;
+    min-height: 191px;
+    background: rgba(12, 22, 32, 0.5);
+    border: 1px dashed;
+    border-color: ${(props) => props.theme.palette.gray[700]};
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 20px;
 `
 
 export default Step01

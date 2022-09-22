@@ -23,6 +23,9 @@ export type PreSaleState = {
         unsoldToken: number,
         tokenDistributionTime: string,
         vestingToken: string,
+        fristRelease: string,
+        vestingPeriodEachCycle: string,
+        tokenReleaseEachCycle: string,
         listing: number,
         dex: string,
         pricePerToken: string,
@@ -56,6 +59,9 @@ const initialState: PreSaleState = {
         unsoldToken: 0,
         tokenDistributionTime: '',
         vestingToken: '',
+        fristRelease: '',
+        vestingPeriodEachCycle: '',
+        tokenReleaseEachCycle: '',
         listing: 0,
         dex: '',
         pricePerToken: '',
@@ -71,7 +77,7 @@ export default createReducer<PreSaleState>(initialState, (builder) =>
     builder.addCase(setPresaleForm, (state, { payload: setPresaleForm }) => {
         state.dataConfig = setPresaleForm;
     })
-    .addCase(setStepLaunchpad, (state, { payload: setStepLaunchpad }) => {
-        state.step = setStepLaunchpad;
-    }),
+        .addCase(setStepLaunchpad, (state, { payload: setStepLaunchpad }) => {
+            state.step = setStepLaunchpad;
+        }),
 );

@@ -46,7 +46,7 @@ const vestingTokens = [
     },
     {
         value: 1,
-        label: 'End on a specific date & time'
+        label: 'Vesting many time'
     }
 ]
 
@@ -348,7 +348,7 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                                     <TextField {...props} />
                                                 }
                                                 value={endLaunchTime}
-                                                onChange={(newValue:any) => {
+                                                onChange={(newValue: any) => {
                                                     setEndLaunchTime(newValue)
                                                 }}
                                             />
@@ -453,9 +453,12 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                             vestingTokens?.map(item => (
                                                 <BoxRadioButtonItem key={item.label}>
                                                     <FormControlLabel value={item.value} label={
-                                                        <Typography variant="body4Poppins" color={data.vestingToken == item.value ? 'blue.100' : 'gray.700'} fontWeight="400">
-                                                            {item.label}
-                                                        </Typography>
+                                                        <>
+                                                            <Typography variant="body4Poppins" color={data.vestingToken == item.value ? 'blue.100' : 'gray.700'} fontWeight="400">
+                                                                {item.label}
+                                                            </Typography>
+                                                            <RequireSymbol component='span'> *</RequireSymbol>
+                                                        </>
                                                     }
                                                         control={
                                                             <Radio sx={{
@@ -468,6 +471,85 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                                     <Typography variant="captionPoppins" color="blue.100">
                                                         {item.description}
                                                     </Typography>
+                                                    {
+                                                        item.value == 1 && data.vestingToken === '1' &&
+                                                        <FlexBox flexDirection="column" gap='15px'
+                                                                sx={{
+                                                                    paddingTop: '24px',
+                                                                    marginTop: '24px',
+                                                                    borderTop: '1px solid #373F47'
+                                                                }}>
+                                                            <WrapForm fullWidth>
+                                                                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                                                                    Frist release <RequireSymbol component="span">*</RequireSymbol>
+                                                                </Typography>
+                                                                <InputCustom
+                                                                    fullWidth
+                                                                    className={onShowError('fristRelease') ? 'onError' : ''}
+                                                                    value={data.fristRelease}
+                                                                    onChange={handleChange('fristRelease')}
+                                                                    placeholder="Eg: 25"
+                                                                    type="number"
+                                                                    startAdornment={
+                                                                        <WrapStartAdornment>
+                                                                            <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
+                                                                                %
+                                                                            </Typography>
+                                                                        </WrapStartAdornment>
+                                                                    }
+                                                                />
+                                                                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                                                                    {onShowError('fristRelease')}
+                                                                </Typography>
+                                                            </WrapForm>
+                                                            <WrapForm fullWidth>
+                                                                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                                                                    Frist release <RequireSymbol component="span">*</RequireSymbol>
+                                                                </Typography>
+                                                                <InputCustom
+                                                                    fullWidth
+                                                                    className={onShowError('vestingPeriodEachCycle') ? 'onError' : ''}
+                                                                    value={data.vestingPeriodEachCycle}
+                                                                    onChange={handleChange('vestingPeriodEachCycle')}
+                                                                    placeholder="Eg: 30"
+                                                                    type="number"
+                                                                    startAdornment={
+                                                                        <WrapStartAdornment>
+                                                                            <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
+                                                                                Days
+                                                                            </Typography>
+                                                                        </WrapStartAdornment>
+                                                                    }
+                                                                />
+                                                                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                                                                    {onShowError('vestingPeriodEachCycle')}
+                                                                </Typography>
+                                                            </WrapForm>
+                                                            <WrapForm fullWidth>
+                                                                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                                                                    Token release each cycle <RequireSymbol component="span">*</RequireSymbol>
+                                                                </Typography>
+                                                                <InputCustom
+                                                                    fullWidth
+                                                                    className={onShowError('tokenReleaseEachCycle') ? 'onError' : ''}
+                                                                    value={data.tokenReleaseEachCycle}
+                                                                    onChange={handleChange('tokenReleaseEachCycle')}
+                                                                    placeholder="Eg: 25%"
+                                                                    type="number"
+                                                                    startAdornment={
+                                                                        <WrapStartAdornment>
+                                                                            <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
+                                                                                %
+                                                                            </Typography>
+                                                                        </WrapStartAdornment>
+                                                                    }
+                                                                />
+                                                                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                                                                    {onShowError('tokenReleaseEachCycle')}
+                                                                </Typography>
+                                                            </WrapForm>
+                                                        </FlexBox>
+                                                    }
                                                 </BoxRadioButtonItem>
                                             ))
                                         }
