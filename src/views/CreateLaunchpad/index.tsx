@@ -14,7 +14,7 @@ import Step06 from "./components/Step06";
 const CreateLaunchpad = () => {
     const Joi = require('joi');
     const data = useAppSelector(state => state.presale.dataConfig)
-    const communityDetail = JSON.parse(data?.community)
+    const communityDetail = JSON.parse(data?.community || '{}')
     const activeStep = useAppSelector(state => state.presale.step)
     const dispatch = useAppDispatch();
 

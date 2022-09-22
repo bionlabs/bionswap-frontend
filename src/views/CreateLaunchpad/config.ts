@@ -142,7 +142,7 @@ export const steps = [
     {
         step: 6,
         isDone: false,
-        title: 'preview project',
+        title: 'review project',
         icon: '/icons/launchpad/create/steps/PREVIEW-PROJECT.svg'
     }
 ]

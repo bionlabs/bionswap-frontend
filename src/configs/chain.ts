@@ -34,6 +34,35 @@ const bsc = {
   },
 };
 
+const bscTestnet = {
+  id: 97,
+  name: "BNB Chain Testnet",
+  network: "bsc-testnet",
+  // iconUrl:
+  //   "https://assets-cdn.trustwallet.com/blockchains/smartchain/info/logo.png",
+  testnet: true,
+  nativeCurrency: {
+    name: "BNB",
+    symbol: "BNB",
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: "https://data-seed-prebsc-1-s1.binance.org:8545/",
+    // default2: "https://bsc-dataseed1.defibit.io/",
+    // default3: "https://bsc-dataseed1.ninicoin.io/",
+  },
+  blockExplorers: {
+    etherscan: {
+      name: "BNB Chain Explorer",
+      url: "https://testnet.bscscan.com",
+    },
+    default: {
+      name: "BNB Chain Explorer",
+      url: "https://testnet.bscscan.com",
+    },
+  },
+};
+
 const okc = {
   id: 66,
   name: "OKC",
@@ -65,6 +94,7 @@ const supportedChains: { [name: string]: Chain } = {
     },
   },
   polygon: WagmiChain.polygon,
+  bscTestnet,
 };
 
 const { chains, provider, webSocketProvider } = configureChains(
@@ -94,6 +124,10 @@ export const chainIcons = {
   [supportedChains.polygon.id]: {
     iconBackground: "#9f71ec",
     iconUrl: "/images/chains/polygon.svg",
+  },
+  [supportedChains.bscTestnet.id]: {
+    iconBackground: "#0b0e11",
+    iconUrl: "/images/chains/bsc.svg",
   },
 };
 

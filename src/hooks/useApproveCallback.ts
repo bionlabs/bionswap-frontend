@@ -1,22 +1,22 @@
-import { MaxUint256 } from "@ethersproject/constants";
-import { TransactionResponse } from "@ethersproject/providers";
-import { Currency, CurrencyAmount, Percent, ROUTER_ADDRESS, Trade as V2Trade, TradeType } from "@bionswap/core-sdk";
-import { useAccount, useChain, useNetwork, useTokenAllowance, useTokenContract } from "hooks";
-import { useCallback, useMemo } from "react";
-import { useHasPendingApproval, useTransactionAdder } from "state/transactions/hooks";
-import { calculateGasMargin } from "utils/trade";
+import { MaxUint256 } from '@ethersproject/constants';
+import { TransactionResponse } from '@ethersproject/providers';
+import { Currency, CurrencyAmount, Percent, ROUTER_ADDRESS, Trade as V2Trade, TradeType } from '@bionswap/core-sdk';
+import { useAccount, useChain, useNetwork, useTokenAllowance, useTokenContract } from 'hooks';
+import { useCallback, useMemo } from 'react';
+import { useHasPendingApproval, useTransactionAdder } from 'state/transactions/hooks';
+import { calculateGasMargin } from 'utils/trade';
 
 export enum ApprovalState {
-  UNKNOWN = "UNKNOWN",
-  NOT_APPROVED = "NOT_APPROVED",
-  PENDING = "PENDING",
-  APPROVED = "APPROVED",
+  UNKNOWN = 'UNKNOWN',
+  NOT_APPROVED = 'NOT_APPROVED',
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
 }
 
 // returns a variable indicating the state of the approval and a function which approves if necessary or early returns
 export function useApproveCallback(
   amountToApprove?: CurrencyAmount<Currency>,
-  spender?: string
+  spender?: string,
 ): [ApprovalState, () => Promise<void>] {
   const { address: account } = useAccount();
   const token = amountToApprove?.currency?.isToken ? amountToApprove.currency : undefined;
@@ -74,7 +74,7 @@ export function useApproveCallback(
       })
       .then((response: TransactionResponse) => {
         addTransaction(response, {
-          summary: "Approve " + amountToApprove.currency.symbol,
+          summary: 'Approve ' + amountToApprove.currency.symbol,
           approval: { tokenAddress: token.address, spender: spender },
         });
       })
@@ -89,15 +89,15 @@ export function useApproveCallback(
 // wraps useApproveCallback in the context of a swap
 export function useApproveCallbackFromTrade(
   trade: V2Trade<Currency, Currency, TradeType> | undefined,
-  allowedSlippage: Percent
+  allowedSlippage: Percent,
 ) {
   const { chainId } = useChain();
   const amountToApprove = useMemo(
     () => (trade && trade.inputAmount.currency.isToken ? trade.maximumAmountIn(allowedSlippage) : undefined),
-    [trade, allowedSlippage]
+    [trade, allowedSlippage],
   );
   return useApproveCallback(
     amountToApprove,
-    chainId ? (trade instanceof V2Trade ? ROUTER_ADDRESS[chainId] : undefined) : undefined
+    chainId ? (trade instanceof V2Trade ? ROUTER_ADDRESS[chainId] : undefined) : undefined,
   );
 }
