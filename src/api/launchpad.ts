@@ -28,9 +28,9 @@ export async function createPresale(payload: {
   cycleDuration: number;
   cycleReleasePercent: number;
 }) {
-  const data = await apiClient.post<{ salt: string }>('launchpad/sale-info');
+  const data = await apiClient.post<{ data: { salt: string } }>('launchpad/sale-info');
 
-  return data.data;
+  return data.data.data;
 }
 
 export async function uploadLaunchpadImage(base64: string) {

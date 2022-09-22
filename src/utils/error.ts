@@ -1,10 +1,10 @@
-interface WitCatchResult {
-  result: any;
+interface WitCatchResult<T> {
+  result: T | undefined;
   error: any;
 }
 
-export const withCatch = async (promise: Promise<any>) => {
-  const withCathResult: WitCatchResult = {
+export const withCatch = async <T>(promise: Promise<any>) => {
+  const withCathResult: WitCatchResult<T> = {
     result: undefined,
     error: undefined,
   };

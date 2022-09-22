@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   Box,
   Typography,
@@ -16,27 +16,30 @@ import { useToken } from 'hooks/useToken';
 import CreateTokenModal from 'components/CreateTokenModal';
 import { setPresaleForm } from 'state/presale/action';
 import { useApproveCallback } from 'hooks/useApproveCallback';
+import { useChain } from 'hooks';
+import { ethers } from 'ethers';
+import { BUSD_ADDRESS, USDC_ADDRESS, USDT_ADDRESS } from '@bionswap/core-sdk';
 
-const currencies = [
+const currencyOpts = [
   {
-    value: 'busd',
+    value: 'BUSD',
     label: 'BUSD',
   },
   {
-    value: 'usdt',
+    value: 'USDT',
     label: 'USDT',
   },
   {
-    value: 'usdc',
+    value: 'USDC',
     label: 'USDC',
   },
   {
-    value: 'bnb',
+    value: 'BNB',
     label: 'BNB',
   },
 ];
 
-const FeeOptions = [
+const feeOpts = [
   {
     value: 0,
     label: '5% BNB raised only',
@@ -48,11 +51,65 @@ const FeeOptions = [
 ];
 
 const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => {
+  const { chainId } = useChain();
+
   const tokenContract = useToken(data.tokenContract);
   const [openModal, setOpenModal] = useState(false);
 
-  const handleChange = (prop: any) => (event: any) => {
-    setData(setPresaleForm({ ...data, [prop]: event.target.value }));
+  useEffect(() => {
+    switch (data.currency) {
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data.currency]);
+
+  const handleChangeInput = (prop: any) => (event: any) => {
+    setData(setPresaleForm({ [prop]: event.target.value }));
+  };
+
+  const handleSelectCurrency = useCallback(
+    (prop: any) => (event: any) => {
+      const selectedCurrencyOpt = event.target.value;
+
+      let payload;
+      switch (selectedCurrencyOpt) {
+        case 'BNB': {
+          payload = { quoteToken: ethers.constants.AddressZero, isQuoteETH: true };
+          break;
+        }
+        case 'BUSD': {
+          payload = { quoteToken: BUSD_ADDRESS[chainId], isQuoteETH: false };
+          break;
+        }
+        case 'USDT': {
+          payload = { quoteToken: USDT_ADDRESS[chainId], isQuoteETH: false };
+          break;
+        }
+        case 'USDC': {
+          payload = { quoteToken: USDC_ADDRESS[chainId], isQuoteETH: false };
+          break;
+        }
+      }
+      setData(setPresaleForm({ ...payload, [prop]: event.target.value }));
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [chainId],
+  );
+
+  const handleSelectFee = (prop: any) => (event: any) => {
+    const selectedFeeOpt = event.target.value;
+
+    let payload;
+    switch (selectedFeeOpt) {
+      case '0': {
+        payload = { baseFee: 500, tokenFee: 0 };
+        break;
+      }
+      case '1': {
+        payload = { baseFee: 200, tokenFee: 200 };
+        break;
+      }
+    }
+    setData(setPresaleForm({ ...payload, [prop]: event.target.value }));
   };
 
   const handleOpenModal = () => setOpenModal(true);
@@ -89,7 +146,7 @@ const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                   fullWidth
                   className={onShowError('tokenContract') ? 'onError' : ''}
                   value={data.tokenContract}
-                  onChange={handleChange('tokenContract')}
+                  onChange={handleChangeInput('tokenContract')}
                   placeholder="Enter contract token"
                 />
                 <Typography variant="captionPoppins" color="red.500" fontWeight="400">
@@ -142,11 +199,11 @@ const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                 </Typography>
                 <Select
                   value={data.currency}
-                  onChange={handleChange('currency')}
+                  onChange={handleSelectCurrency('currency')}
                   displayEmpty
                   inputProps={{ 'aria-label': 'Without label' }}
                 >
-                  {currencies?.map((item) => (
+                  {currencyOpts?.map((item) => (
                     <MenuItem key={item.value} value={item.value}>
                       {item.label}
                     </MenuItem>
@@ -171,8 +228,8 @@ const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
             </WrapDescription>
             <WrapValue>
               <FormControl fullWidth>
-                <RadioGroup value={data.saleFee} onChange={handleChange('saleFee')} name="radio-buttons-group">
-                  {FeeOptions?.map((item) => (
+                <RadioGroup value={data.saleFee} onChange={handleSelectFee('saleFee')} name="radio-buttons-group">
+                  {feeOpts?.map((item) => (
                     <FormControlLabel
                       key={item.value}
                       value={item.value}

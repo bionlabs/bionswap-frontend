@@ -85,12 +85,12 @@
             "type": "address"
           },
           {
-            "internalType": "contract IRouter",
+            "internalType": "address",
             "name": "router",
             "type": "address"
           },
           {
-            "internalType": "contract IERC20",
+            "internalType": "address",
             "name": "token",
             "type": "address"
           },
@@ -145,16 +145,6 @@
             "type": "uint256"
           },
           {
-            "internalType": "uint256[]",
-            "name": "vestingTimes",
-            "type": "uint256[]"
-          },
-          {
-            "internalType": "uint256[]",
-            "name": "vestingPercents",
-            "type": "uint256[]"
-          },
-          {
             "internalType": "bool",
             "name": "isAutoListing",
             "type": "bool"
@@ -167,6 +157,26 @@
           {
             "internalType": "uint256",
             "name": "tokenFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tgeDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tgeReleasePercent",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "cycleDuration",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "cycleReleasePercent",
             "type": "uint256"
           }
         ],
