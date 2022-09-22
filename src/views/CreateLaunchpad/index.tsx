@@ -54,7 +54,7 @@ const CreateLaunchpad = () => {
     })
     const schemaStep04 = Joi.object({
         listing: Joi.string().required(),
-        dex: Joi.when('listing', { is: '0', then: Joi.required() }),
+        dex: Joi.required(),
         pricePerToken: Joi.string().required(),
         liquidityPercentage: Joi.string().required(),
         lockupTime: Joi.string().required(),

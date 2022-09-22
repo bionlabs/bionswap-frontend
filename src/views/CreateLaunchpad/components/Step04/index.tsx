@@ -131,40 +131,38 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
               </FormControl>
             </WrapValue>
           </WrapLine>
-          {data.listing === '0' && (
-            <WrapLine>
-              <WrapDescription>
-                <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                  Which Dex will your token be listed on ?
+          <WrapLine>
+            <WrapDescription>
+              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                Which Dex will your token be listed on ?
+              </Typography>
+              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+                You need to add liquidity on a Dex to list that token
+              </Typography>
+            </WrapDescription>
+            <WrapValue>
+              <FormControl fullWidth>
+                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                  Dex <RequireSymbol component="span">*</RequireSymbol>
                 </Typography>
-                <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                  You need to add liquidity on a Dex to list that token
+                <Select
+                  value={data.dex}
+                  onChange={handleChange('dex')}
+                  displayEmpty
+                  inputProps={{ 'aria-label': 'Without label' }}
+                >
+                  {dexs?.map((item) => (
+                    <MenuItem key={item.value} value={item.value}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                  {onShowError('dex')}
                 </Typography>
-              </WrapDescription>
-              <WrapValue>
-                <FormControl fullWidth>
-                  <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                    Dex <RequireSymbol component="span">*</RequireSymbol>
-                  </Typography>
-                  <Select
-                    value={data.dex}
-                    onChange={handleChange('dex')}
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'Without label' }}
-                  >
-                    {dexs?.map((item) => (
-                      <MenuItem key={item.value} value={item.value}>
-                        {item.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                    {onShowError('dex')}
-                  </Typography>
-                </FormControl>
-              </WrapValue>
-            </WrapLine>
-          )}
+              </FormControl>
+            </WrapValue>
+          </WrapLine>
           <WrapLine>
             <WrapDescription>
               <Typography variant="body2Poppins" color="text.primary" fontWeight="400">

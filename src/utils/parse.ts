@@ -32,7 +32,6 @@ export function tryParseAmount<T extends Currency>(
   }
   try {
     const typedValueParsed = parseUnits(value, currency.decimals).toString();
-    console.log("🚀 ~ file: parse.ts ~ line 35 ~ typedValueParsed", typedValueParsed)
     if (typedValueParsed !== "0") {
       return CurrencyAmount.fromRawAmount(
         currency,
