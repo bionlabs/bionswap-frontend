@@ -17,10 +17,11 @@ import { useToken } from 'hooks/useToken';
 import { setPresaleForm } from 'state/presale/action';
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback';
 import { tryParseAmount } from 'utils/parse';
-import { Currency } from '@bionswap/core-sdk';
+import { Currency, ROUTER_ADDRESS } from '@bionswap/core-sdk';
 import { usePresaleFactoryContract } from 'hooks/useContract';
+import { useChain } from 'hooks';
 
-const listingOptions = [
+const listingOpts = [
   {
     value: 0,
     label: 'Manual listing',
@@ -28,7 +29,7 @@ const listingOptions = [
   },
   {
     value: 1,
-    label: 'Bionswap Auto listing',
+    label: 'Auto listing',
     description:
       'We will take a part of your raised fund to automatively add liquidity. This process will be done after you complete pre-sale.',
   },
@@ -42,6 +43,7 @@ const dexs = [
 ];
 
 const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => {
+  const { chainId } = useChain();
   const token = useToken(data.tokenContract);
   const presaleFactoryContract = usePresaleFactoryContract();
 
@@ -55,9 +57,31 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
   );
 
   const handleChange = (prop: any) => (event: any) => {
-    // setData({ ...data, [prop]: event.target.value })
-    setData(setPresaleForm({ ...data, [prop]: event.target.value }));
+    // setData({  [prop]: event.target.value })
+    setData(setPresaleForm({ [prop]: event.target.value }));
   };
+
+  useEffect(() => {
+    switch (data.listing) {
+      case '0': {
+        setData(setPresaleForm({ isAutoListing: true }));
+        break;
+      }
+      case '1': {
+        setData(setPresaleForm({ isAutoListing: false }));
+        break;
+      }
+    }
+  }, [data.listing, setData]);
+
+  useEffect(() => {
+    switch (data.dex) {
+      default: {
+        setData(setPresaleForm({ router: ROUTER_ADDRESS[chainId] }));
+        break;
+      }
+    }
+  }, [chainId, data.dex, setData]);
 
   return (
     <>
@@ -88,7 +112,7 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                   name="radio-buttons-group"
                   sx={{ gap: '25px' }}
                 >
-                  {listingOptions?.map((item) => (
+                  {listingOpts?.map((item) => (
                     <BoxRadioButtonItem key={item.label}>
                       <FormControlLabel
                         value={item.value}

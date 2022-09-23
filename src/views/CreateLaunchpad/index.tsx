@@ -48,7 +48,8 @@ const CreateLaunchpad = () => {
     launchTime: Joi.required(),
     tokenDistributionTime: Joi.required(),
     vestingToken: Joi.required(),
-    fristRelease: Joi.when('vestingToken', { is: '1', then: Joi.required() }),
+    tgeDate: Joi.when('vestingToken', { is: '1', then: Joi.required() }),
+    firstRelease: Joi.when('vestingToken', { is: '1', then: Joi.required() }),
     vestingPeriodEachCycle: Joi.when('vestingToken', { is: '1', then: Joi.required() }),
     tokenReleaseEachCycle: Joi.when('vestingToken', { is: '1', then: Joi.required() }),
   });
@@ -75,7 +76,7 @@ const CreateLaunchpad = () => {
           { abortEarly: false },
         );
 
-        dispatch(setPresaleForm({ ...data, ['community']: JSON.stringify(communities) }));
+        dispatch(setPresaleForm({ ['community']: JSON.stringify(communities) }));
       }
       if (step === 2) {
         const value = await schemaStep02.validateAsync(
@@ -98,7 +99,8 @@ const CreateLaunchpad = () => {
             endTime: data.endTime,
             tokenDistributionTime: data.tokenDistributionTime,
             vestingToken: data.vestingToken,
-            fristRelease: data.fristRelease,
+            tgeDate: data.tgeDate,
+            firstRelease: data.firstRelease,
             vestingPeriodEachCycle: data.vestingPeriodEachCycle,
             tokenReleaseEachCycle: data.tokenReleaseEachCycle,
           },
