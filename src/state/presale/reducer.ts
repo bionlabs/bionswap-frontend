@@ -37,7 +37,7 @@ export type PreSaleState = {
     isQuoteETH: boolean;
     baseFee: number;
     tokenFee: number;
-    tgeTime: number;
+    tgeDate: number;
     router: string;
   };
 
@@ -80,7 +80,7 @@ const initialState: PreSaleState = {
     isQuoteETH: false,
     baseFee: 0,
     tokenFee: 0,
-    tgeTime: 0,
+    tgeDate: 0,
     router: '',
   },
   step: 0,

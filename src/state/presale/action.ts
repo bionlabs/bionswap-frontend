@@ -35,7 +35,7 @@ export const setPresaleForm = createAction<
     isQuoteETH: boolean;
     baseFee: number;
     tokenFee: number;
-    tgeTime: number;
+    tgeDate: number;
     isAutoListing: boolean;
     router: string;
   }>

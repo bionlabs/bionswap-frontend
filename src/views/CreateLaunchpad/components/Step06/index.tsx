@@ -1,29 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Box, Typography, styled, Button } from '@mui/material';
 import { useToken } from 'hooks/useToken';
+import { withCatch } from 'utils/error';
+import { useChain } from 'hooks';
+import { createPresale } from 'api/launchpad';
+import { ethers } from 'ethers';
+import { usePresaleFactoryContract } from 'hooks/useContract';
 
 const Description = ({ html }: any) => {
   return <Box dangerouslySetInnerHTML={{ __html: html }} />;
-};
-
-const inputToFieldMap = {
-  projectTitle: 'title',
-  projectLogo: 'logo',
-  saleBanner: 'banner',
-  community: 'communities',
-  tokenContract: 'token',
-  currency: 'quoteToken',
-  saleFee: 'baseFee',
-  tokenPrice: 'price',
-  whitelist: 'isWhitelist',
-  minGoal: 'softCap',
-  maxGoal: 'hardCap',
-  minSale: 'minPurchase',
-  maxSale: 'maxPurchase',
-  launchTime: 'startTime',
-  endTime: 'endTime',
-  unsoldToken: 'whenUnsold',
-  description: 'description',
 };
 
 export const minimizeAddressSmartContract = (str: string) => {
@@ -32,6 +17,9 @@ export const minimizeAddressSmartContract = (str: string) => {
 };
 
 const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any) => {
+  const { chainId, account } = useChain();
+  const presaleFactoryContract = usePresaleFactoryContract();
+
   const tokenContract = useToken(data.tokenContract);
   const [onpenDescription, setOpenDescription] = useState(false);
 
@@ -160,10 +148,72 @@ const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any
     setOpenDescription(!onpenDescription);
   };
 
-  const handleCreateSale = () => {
-    // first get salt
-    // const {salt} = await withCatch(createPresale({})
-  };
+  const handleCreateSale = useCallback(
+    async (data: any) => {
+      // first get salt
+      if (!chainId || !account || !presaleFactoryContract) return;
+
+      const payloadInfo = {
+        chainId: chainId,
+        title: data.projectTitle,
+        logo: data.projectLogo,
+        banner: data.saleBanner,
+        videoURL: data.videoPromo,
+        socials: data.community,
+        description: data.description,
+      };
+
+      const payloadContract = {
+        owner: account,
+        feeTo: account,
+        router: data.router,
+        token: data.tokenContract,
+        quoteToken: data.quoteToken,
+        isQuoteETH: data.isQuoteETH,
+        isWhitelistEnabled: !!Number(data.whitelist),
+        isBurnUnsold: !!Number(data.unsoldToken),
+        price: ethers.utils.parseEther(data.tokenPrice).toString(),
+        listingPrice: ethers.utils.parseEther(data.pricePerToken).toString(),
+        minPurchase: ethers.utils.parseEther(data.minSale).toString(),
+        maxPurchase: ethers.utils.parseEther(data.maxSale).toString(),
+        startTime: Number(data.launchTime),
+        endTime: Number(data.endTime),
+        lpPercent: Number(data.liquidityPercentage) * 100,
+        softCap: ethers.utils.parseEther(data.minGoal).toString(),
+        hardCap: ethers.utils.parseEther(data.maxGoal).toString(),
+        isAutoListing: data.isAutoListing,
+        baseFee: data.baseFee,
+        tokenFee: data.tokenFee,
+        tgeDate: data.tgeDate,
+        tgeReleasePercent: Number(data.firstRelease) * 100,
+        cycleDuration: Number(data.vestingPeriodEachCycle),
+        cycleReleasePercent: Number(data.tokenReleaseEachCycle) * 100,
+      };
+
+      const { error, result } = await withCatch(
+        createPresale({
+          ...payloadInfo,
+          ...payloadContract,
+        }),
+      );
+
+      if (error) {
+        // TODO: toast
+        return;
+      }
+
+      await presaleFactoryContract
+        .create(payloadContract, (result as any).salt, { value: ethers.utils.parseEther('0.1') })
+        .catch((error: any) => {
+          console.log(error);
+        });
+
+      // then clear storage
+
+      // then redirect to launchpad
+    },
+    [account, chainId, presaleFactoryContract],
+  );
 
   return (
     <>
@@ -309,7 +359,7 @@ const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any
                 Back
               </Typography>
             </Back>
-            <Next onClick={() => handleSubmit()}>
+            <Next onClick={() => handleCreateSale(data)}>
               <Typography variant="body3Poppins" color="#000000" fontWeight="600">
                 Submit
               </Typography>

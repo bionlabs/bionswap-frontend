@@ -67,7 +67,7 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
   const [launchTime, setLaunchtime] = useState(new Date(data.launchTime) || 0);
   const [endLaunchTime, setEndLaunchTime] = useState(new Date(data.endTime) || 0);
   const [tokenDistributionDate, setTokenDistributionDate] = useState(new Date(data.tokenDistributionTime) || 0);
-  const [tgeTime, setTGETime] = useState(new Date(data.tgeTime) || 0);
+  const [tgeDate, settgeDate] = useState(new Date(data.tgeDate) || 0);
 
   useEffect(() => {
     setData(setPresaleForm({ ['launchTime']: new Date(launchTime).getTime() }));
@@ -86,8 +86,8 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
   }, [setData, tokenDistributionDate]);
 
   useEffect(() => {
-    setData(setPresaleForm({ ['tgeTime']: new Date(tgeTime).getTime() }));
-  }, [setData, tgeTime]);
+    setData(setPresaleForm({ ['tgeDate']: new Date(tgeDate).getTime() }));
+  }, [setData, tgeDate]);
 
   const handleChangeInput = (prop: any) => (event: any) => {
     setData(setPresaleForm({ [prop]: event.target.value }));
@@ -534,14 +534,14 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DateTimePicker
                                   renderInput={(props) => <TextField {...props} />}
-                                  value={tgeTime}
+                                  value={tgeDate}
                                   onChange={(newValue: any) => {
-                                    setTGETime(newValue);
+                                    settgeDate(newValue);
                                   }}
                                 />
                               </LocalizationProvider>
                               <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                                {onShowError('tgeTime')}
+                                {onShowError('tgeDate')}
                               </Typography>
                             </WrapForm>
                             <WrapForm fullWidth>

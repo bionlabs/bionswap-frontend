@@ -95,8 +95,23 @@
             "type": "address"
           },
           {
+            "internalType": "address",
+            "name": "quoteToken",
+            "type": "address"
+          },
+          {
             "internalType": "bool",
             "name": "isQuoteETH",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "isWhitelistEnabled",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "isBurnUnsold",
             "type": "bool"
           },
           {
