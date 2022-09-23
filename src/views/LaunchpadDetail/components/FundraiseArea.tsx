@@ -107,7 +107,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, slug, unit, tokenCo
                 Price per token
               </Typography>
               <Typography variant="h6Poppins" color="gray.200" fontWeight="400">
-                1 {tokenContract?.symbol} = {formatEther(data?.listingPrice || 0)} {unit}
+                1 {tokenContract?.symbol} = {formatEther(data?.price || 0)} {unit}
               </Typography>
             </FlexBox>
             <FlexBox
