@@ -40,3 +40,24 @@ export async function uploadLaunchpadImage(base64: string) {
 
   return result.data.data;
 } 
+
+export async function getSaleList(page: number, limit: number, chainId: string, owner: string, keyword: string, sortBy: any) {
+  const result = await apiClient.get('/launchpad/sale-list', {params: {
+    page: page,
+    limit: limit,
+    chainId: chainId,
+    owner: owner,
+    keyword: keyword,
+    sortBy: sortBy
+  }})
+
+  return result.data;
+}
+
+export async function getSaleDetail(saleAddress: string) {
+  const result = await apiClient.get('/launchpad/sale-detail', {params: {
+    saleAddress: saleAddress
+  }})
+
+  return result.data.data;
+}

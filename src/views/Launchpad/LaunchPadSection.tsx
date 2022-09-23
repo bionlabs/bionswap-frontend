@@ -14,117 +14,118 @@ import {
   FormControlLabel,
   Radio,
   Button,
-  Pagination
-} from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search'
-import React from 'react'
-import Slider from "react-slick"
-import Title from './components/Title/Title'
-import Card from 'components/Card'
-import { crowdfundingConfig } from 'views/LaunchpadDetail/config'
+  Pagination,
+} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import React, { useEffect, useState } from 'react';
+import Slider from 'react-slick';
+import Title from './components/Title/Title';
+import Card from 'components/Card';
+import { crowdfundingConfig } from 'views/LaunchpadDetail/config';
+import { getSaleList } from 'api/launchpad';
 
 const tags = [
   {
     label: 'Explore',
-    value: 0
+    value: 0,
   },
   {
     label: 'Game',
-    value: 1
+    value: 1,
   },
   {
     label: 'Metaverse',
-    value: 2
+    value: 2,
   },
   {
     label: 'Defi',
-    value: 3
+    value: 3,
   },
-]
+];
 
-const LaunchPadSection = () => {
-  const [age, setAge] = React.useState('');
+const LaunchPadSection = ({ chainId }: any) => {
+  const [age, setAge] = useState('');
+  const [params, setParams] = useState({
+    page: 1,
+    limit: 12,
+    chainId: chainId,
+    owner: '',
+    keyword: '',
+    sortBy: null,
+  });
+  const [launchData, setLaunchData]: any = useState(null);
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
+  const handleChange = (prop: any) => (event: any) => {
+    setParams({ ...params, [prop]: event.target.value });
   };
+
+  const getLaunchData = async () => {
+    try {
+      const launchData = await getSaleList(
+        params.page,
+        params.limit,
+        params.chainId,
+        params.owner,
+        params.keyword,
+        params.sortBy,
+      );
+      setLaunchData(launchData);
+      console.log('🚀 ~ file: LaunchPadSection.tsx ~ line 73 ~ getLaunchData ~ launchData', launchData);
+    } catch (error) {
+      console.log('error====>', error);
+    }
+  };
+
+  useEffect(() => {
+    getLaunchData();
+  }, [params]);
 
   const settings = {
     arrows: false,
     speed: 500,
-    // slidesToShow: 4,
     swipeToSlide: true,
     infinite: false,
-    // infinite: (crowdfundingConfig.length > 3),
     variableWidth: true,
-
-    // responsive: [
-    //   {
-    //     breakpoint: 1300,
-    //     settings: {
-    //       slidesToShow: 3,
-    //       infinite: (crowdfundingConfig.length > 2),
-    //     }
-    //   },
-    //   {
-    //     breakpoint: 900,
-    //     settings: {
-    //       slidesToShow: 2,
-    //       infinite: (crowdfundingConfig.length > 1),
-    //     }
-    //   },
-    //   {
-    //     breakpoint: 600,
-    //     settings: {
-    //       slidesToShow: 1,
-    //     }
-    //   }
-    // ]
   };
 
   return (
-    <Box sx={{
-      marginTop: { xs: '30px', md: '50px' },
-      marginBottom: { xs: '30px', md: '70px' }
-    }}>
-      <Container maxWidth='xl'>
+    <Box
+      sx={{
+        marginTop: { xs: '30px', md: '50px' },
+        marginBottom: { xs: '30px', md: '70px' },
+      }}
+    >
+      <Container maxWidth="xl">
         <Wrapper>
           <Section>
-            <Title title='Feature Project' />
+            <Title title="Feature Project" />
             <WrapSlideFeatureProject>
               <Slider {...settings}>
-                {
-                  crowdfundingConfig?.map((item, idex) => (
-                    <Items key=''>
-                      <Card data={item} />
-                    </Items>
-                  ))
-                }
-                {
-                  crowdfundingConfig?.map((item, idex) => (
-                    <Items key=''>
-                      <Card data={item} />
-                    </Items>
-                  ))
-                }
+                {/* {crowdfundingConfig?.map((item, idex) => (
+                  <Items key="">
+                    <Card data={item} />
+                  </Items>
+                ))} */}
+                {launchData?.data?.map((item) => (
+                  <Items key={item?.saleAddress}>
+                    <Card data={item} />
+                  </Items>
+                ))}
               </Slider>
             </WrapSlideFeatureProject>
           </Section>
           <Section>
-            <Title
-              title='Current Projects'
-              isCurrent
-              currentMessage='Many ideas waiting for you to reach'
-            />
+            <Title title="Current Projects" isCurrent currentMessage="Many ideas waiting for you to reach" />
             <TextField
               variant="standard"
-              placeholder='Search by project name, token contract address or token symbol'
+              onChange={handleChange('keyword')}
+              placeholder="Search by project name, token contract address or token symbol"
               sx={{
                 '.MuiInputBase-root': {
                   padding: '12px',
                 },
 
-                'input': {
+                input: {
                   fontWeight: '400',
                   fontSize: '16px',
                   lineHeight: '180%',
@@ -135,21 +136,22 @@ const LaunchPadSection = () => {
                     fontSize: '16px',
                     lineHeight: '180%',
                     color: '#717D8A',
-                  }
+                  },
                 },
 
                 '.MuiInput-root:before': {
-                  borderBottom: '2px solid #4F5B67'
-                }
+                  borderBottom: '2px solid #4F5B67',
+                },
               }}
               InputProps={{
-                endAdornment:
+                endAdornment: (
                   <InputAdornment position="end">
                     <SearchIcon sx={{ color: 'gray.500' }} />
-                  </InputAdornment>,
+                  </InputAdornment>
+                ),
               }}
             />
-            <Flex alignItems='center' justifyContent='space-between'>
+            <Flex alignItems="center" justifyContent="space-between">
               <FormControl>
                 <SelectCustom
                   value=""
@@ -174,7 +176,6 @@ const LaunchPadSection = () => {
                         },
                       },
                     },
-
                   }}
                 >
                   <MenuItem value="">None</MenuItem>
@@ -183,107 +184,92 @@ const LaunchPadSection = () => {
                   <MenuItem value={30}>Loved by Bionswap</MenuItem>
                 </SelectCustom>
               </FormControl>
-              <Box sx={{
-                display: { xs: 'none', md: 'block' }
-              }}>
+              {/* <Box
+                sx={{
+                  display: { xs: 'none', md: 'block' },
+                }}
+              >
                 <RadioGroup
                   row
                   aria-labelledby="demo-controlled-radio-buttons-group"
                   name="controlled-radio-buttons-group"
                   value={0}
-                // onChange={handleChange}
+                  // onChange={handleChange}
                 >
-                  {
-                    tags.map(item => (
-                      <FormControlLabelCustom key={item.value} value={item.value} control={<Radio />} label={item.label} />
-                    ))
-                  }
+                  {tags.map((item) => (
+                    <FormControlLabelCustom
+                      key={item.value}
+                      value={item.value}
+                      control={<Radio />}
+                      label={item.label}
+                    />
+                  ))}
                 </RadioGroup>
-              </Box>
+              </Box> */}
               <Box>
                 <Fillter>
-                  <Typography variant='body3Poppins' color='text.primary' fontWeight='400' >
+                  <Typography variant="body3Poppins" color="text.primary" fontWeight="400">
                     Fillter
                   </Typography>
-                  <img src='/icons/launchpad/filter_list.svg' alt='filter_list' />
+                  <img src="/icons/launchpad/filter_list.svg" alt="filter_list" />
                 </Fillter>
               </Box>
             </Flex>
-            <Flex flexWrap='wrap' sx={{
-              gap: { xs: '20px', lg: '40px' }
-            }}>
-              {
-                crowdfundingConfig?.map((item, idex) => (
-                  <WrapItem key={item.slug} >
-                    <Card data={item} />
-                  </WrapItem>
-                ))
-              }
-              {
-                crowdfundingConfig?.map((item, idex) => (
-                  <WrapItem key={item.slug} >
-                    <Card data={item} />
-                  </WrapItem>
-                ))
-              }
-              {
-                crowdfundingConfig?.map((item, idex) => (
-                  <WrapItem key={item.slug} >
-                    <Card data={item} />
-                  </WrapItem>
-                ))
-              }
-              {
-                crowdfundingConfig?.map((item, idex) => (
-                  <WrapItem key={item.slug} >
-                    <Card data={item} />
-                  </WrapItem>
-                ))
-              }
+            <Flex
+              flexWrap="wrap"
+              sx={{
+                gap: { xs: '20px', lg: '40px' },
+              }}
+            >
+              {launchData?.data?.map(item => (
+                <WrapItem key={item?.saleAddress}>
+                  <Card data={item} />
+                </WrapItem>
+              ))}
             </Flex>
           </Section>
-          <Flex alignItems='center' justifyContent='center'>
-            <Pagination count={10} color="primary" />
+          <Flex alignItems="center" justifyContent="center">
+            <Pagination count={launchData?.totalPages} color="primary" />
           </Flex>
         </Wrapper>
       </Container>
     </Box>
-  )
-}
+  );
+};
 
 const Wrapper = styled(Box)`
   min-height: 50vh;
   display: flex;
   flex-direction: column;
   gap: 62px;
-`
+`;
 const Flex = styled(Box)`
   display: flex;
-`
+`;
 const Section = styled(Box)`
   display: flex;
   flex-direction: column;
   gap: 30px;
-`
+`;
 const WrapItem = styled(Box)`
   width: calc(100% / 4 - 30px);
 
-  ${props => props.theme.breakpoints.down("xl")} {
+  ${(props) => props.theme.breakpoints.down('xl')} {
     width: calc(100% / 3 - 30px);
   }
 
-  ${props => props.theme.breakpoints.down("lg")} {
+  ${(props) => props.theme.breakpoints.down('lg')} {
     width: calc(100% / 3 - 14px);
   }
 
-  ${props => props.theme.breakpoints.down("md")} {
+  ${(props) => props.theme.breakpoints.down('md')} {
     width: calc(100% / 2 - 10px);
   }
 
-  ${props => props.theme.breakpoints.down("sm")} {
+  ${(props) => props.theme.breakpoints.down('sm')} {
     width: 100%;
   }
-`
+`;
 const WrapSlideFeatureProject = styled(Box)`
   margin-left: -15px;
   margin-right: -15px;
@@ -292,16 +278,16 @@ const WrapSlideFeatureProject = styled(Box)`
     margin: 0px;
     display: flex;
   }
-`
+`;
 const Items = styled(Box)`
   padding-left: 15px;
   padding-right: 15px;
   width: 423px !important;
 
-  ${props => props.theme.breakpoints.down("sm")} {
+  ${(props) => props.theme.breakpoints.down('sm')} {
     width: 100% !important;
   }
-`
+`;
 const FormControlLabelCustom = styled(FormControlLabel)`
   margin: 0;
 
@@ -311,32 +297,32 @@ const FormControlLabelCustom = styled(FormControlLabel)`
 
   .MuiTypography-root {
     padding: 6px 25px;
-    color: ${props => props.theme.palette.gray[600]};
+    color: ${(props) => props.theme.palette.gray[600]};
     background-color: transparent;
-    border-radius: 8px;   
+    border-radius: 8px;
   }
 
   .Mui-checked + .MuiTypography-root {
     background: rgba(7, 224, 224, 0.15);
     font-weight: 600;
-    color: #07E0E0;
+    color: #07e0e0;
   }
-`
+`;
 const Fillter = styled(Button)`
   width: 118px;
   height: 46px;
   border: 1px solid;
-  border-color: ${props => props.theme.palette.gray[600]};
+  border-color: ${(props) => props.theme.palette.gray[600]};
   border-radius: 4px;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-`
+`;
 const SelectCustom = styled(Select)`
   border: 1px solid;
-  border-color: ${props => props.theme.palette.gray[600]};
+  border-color: ${(props) => props.theme.palette.gray[600]};
   border-radius: 4px;
 
   .MuiSelect-select {
@@ -345,12 +331,12 @@ const SelectCustom = styled(Select)`
     font-weight: 400;
     font-size: 16px;
     line-height: 27px;
-    color: ${props => props.theme.palette.blue[100]};
+    color: ${(props) => props.theme.palette.blue[100]};
   }
 
   fieldset {
     display: none;
   }
-`
+`;
 
-export default LaunchPadSection
+export default LaunchPadSection;
