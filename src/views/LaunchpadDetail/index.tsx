@@ -32,10 +32,11 @@ const LaunchpadDetail = () => {
   const { slug } = router.query;
   const [data, setData] = useState<any>(null);
   const map = {
-    [USDT_ADDRESS[data?.chainId]]: 'USDT',
-    [BUSD_ADDRESS[data?.chainId]]: 'BUSD',
-    [USDC_ADDRESS[data?.chainId]]: 'USDC',
+    [USDT_ADDRESS[data?.chainId]?.toLowerCase()]: 'USDT',
+    [BUSD_ADDRESS[data?.chainId]?.toLowerCase()]: 'BUSD',
+    [USDC_ADDRESS[data?.chainId]?.toLowerCase()]: 'USDC',
   };
+  console.log("🚀 ~ file: index.tsx ~ line 39 ~ LaunchpadDetail ~ map", map)
   const unit = data?.isQuoteETH ? 'BNB' : map[data?.quoteToken]
   const tokenContract = useToken(data?.token);
 
@@ -61,8 +62,8 @@ const LaunchpadDetail = () => {
           avarta={data?.logo}
           name={data?.title}
           type={data?.saleType}
-          endTime={data?.endTime}
-          startTime={data?.startTime}
+          endTime={data?.endTime * 1000}
+          startTime={data?.startTime * 1000}
           unit={unit}
         />
         <FundraiseArea data={data} slug={slug} unit={unit} tokenContract={tokenContract} />
@@ -90,7 +91,7 @@ const LaunchpadDetail = () => {
         </Container>
       </WrapService>
       <WrapTabRecom>
-        <TabsArea isMobile={isMobile} data={crowdfundingConfig[0]} />
+        <TabsArea isMobile={isMobile} data={data} unit={unit} tokenContract={tokenContract} />
         {/* <RecomendProjects data={crowdfundingConfig} /> */}
       </WrapTabRecom>
     </Section>

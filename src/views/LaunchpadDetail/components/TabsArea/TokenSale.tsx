@@ -1,37 +1,39 @@
 import React from "react";
 import { Box, Tabs, Tab, Typography } from "@mui/material";
 import IDOProcess from "../IDOProcess";
+import { formatEther } from "ethers/lib/utils";
 
 interface TokenSaleProps {
     data: any,
-    isMobile: boolean
+    isMobile: boolean,
+    unit: string,
+    tokenContract: any,
 }
 
-const TokenSale: React.FC<TokenSaleProps> = ({ data, isMobile = false }) => {
+const TokenSale: React.FC<TokenSaleProps> = ({ data, isMobile = false, unit, tokenContract }) => {
+    const startTime = data?.startTime;
+    const endTime = data?.endTime;
+
     const fetchData = [
         {
             allocation: 'Sale Price',
-            tokenSale: '1FOX = 0.5BUSD'
-        },
-        {
-            allocation: 'Sale End Time',
-            tokenSale: '06/22/2022 - 10:00:00 AM'
+            tokenSale: `1 ${tokenContract?.symbol} = ${formatEther(data?.listingPrice || 0)} ${unit}`
         },
         {
             allocation: 'Sale Start Time',
-            tokenSale: '06/20/2022 - 10:00:00 AM'
+            tokenSale: `${new Date(startTime).toUTCString()}`
         },
         {
-            allocation: 'Token Distribution Time',
-            tokenSale: '06/25/2022 - 10:00:00 AM'
+            allocation: 'Sale End Time',
+            tokenSale: `${new Date(endTime).toUTCString()}`
         },
         {
             allocation: 'Token Address',
-            tokenSale: '0xdfd7b0dd7bf1012dfdf3307a964c36b972300ac8'
+            tokenSale: `${data?.token}`
         },
         {
             allocation: 'Contract Address',
-            tokenSale: '0x49D4008930ABb6AD1e25E2C19B78230157B756B7'
+            tokenSale: `${data?.saleAddress}`
         },
     ]
     return (

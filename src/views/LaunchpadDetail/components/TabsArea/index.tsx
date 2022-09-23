@@ -8,7 +8,9 @@ import AboutGame from "./AboutGame";
 
 interface TabsAreaProps {
     data: any,
-    isMobile: boolean
+    isMobile: boolean,
+    unit: string,
+    tokenContract: any
 }
 
 function TabPanel(props: any) {
@@ -38,7 +40,7 @@ function a11yProps(index: any) {
     };
 }
 
-const TabsArea: React.FC<TabsAreaProps> = ({ data, isMobile = false }) => {
+const TabsArea: React.FC<TabsAreaProps> = ({ data, isMobile = false, unit, tokenContract }) => {
     const [value, setValue] = React.useState(0);
     const tabHead = useRef<HTMLInputElement>(null);
     const [topPosition, setTopPosition] = useState(0)
@@ -74,12 +76,12 @@ const TabsArea: React.FC<TabsAreaProps> = ({ data, isMobile = false }) => {
             </TabHead>
             <TabPanelCustom value={value} index={0}>
                 <Container maxWidth='xl'>
-                    {/* <AboutGame data={data} /> */}
+                    <AboutGame html={data?.description} />
                 </Container>
             </TabPanelCustom>
             <TabPanelCustom value={value} index={1}>
                 <Container maxWidth='xl'>
-                    <TokenSale data={data} isMobile={isMobile} />
+                    <TokenSale data={data} isMobile={isMobile} unit={unit} tokenContract={tokenContract} />
                 </Container>
             </TabPanelCustom>
             <TabPanelCustom value={value} index={2}>

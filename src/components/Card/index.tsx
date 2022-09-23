@@ -13,11 +13,13 @@ interface ProjectItemProps {
 const Card: React.FC<ProjectItemProps> = ({ data }) => {
   const router = useRouter();
   const currentTime = +new Date();
+  const startTime = data?.startTime * 1000;
+  const endTime = data?.endTime * 1000;
 
   const map = {
-    [USDT_ADDRESS[data?.chainId]]: "USDT",
-    [BUSD_ADDRESS[data?.chainId]]: "BUSD",
-    [USDC_ADDRESS[data?.chainId]]: "USDC",
+    [USDT_ADDRESS[data?.chainId]?.toLowerCase()]: "USDT",
+    [BUSD_ADDRESS[data?.chainId]?.toLowerCase()]: "BUSD",
+    [USDC_ADDRESS[data?.chainId]?.toLowerCase()]: "USDC",
   }
   const unit = data?.isQuoteETH ? 'BNB' : map[data?.quoteToken]
 
@@ -42,10 +44,10 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
       <Status
         sx={{
           backgroundColor: 'gray.500',
-          ...(currentTime < data?.startTime && {
+          ...(currentTime < startTime && {
             backgroundColor: 'gray.800',
           }),
-          ...(currentTime < data?.endTime && {
+          ...(currentTime < endTime && {
             backgroundColor: '#08878E',
           }),
         }}
@@ -57,7 +59,7 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
             fontWeight: '500',
           }}
         >
-          {currentTime < data?.startTime ? 'Coming Soon' : currentTime < data?.endTime ? 'Sale Open' : 'Sale Closed'}
+          {currentTime < startTime ? 'Coming Soon' : currentTime < endTime ? 'Sale Open' : 'Sale Closed'}
         </Typography>
       </Status>
       <WrapTopArea>
@@ -65,7 +67,7 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
           <img src={data?.logo} alt={data?.title} width="57px" height="57px" />
         </WrapLogo>
         <TimeLineBg>
-          <Countdown endTime={data?.endTime} startTime={data?.startTime} />
+          <Countdown endTime={endTime} startTime={startTime} />
         </TimeLineBg>
       </WrapTopArea>
       <FlexBox
