@@ -6,31 +6,31 @@ import {
     Container,
     styled,
     Typography,
-    Stack
+    Stack,
+    Link
 } from '@mui/material'
 import { MobileProp } from 'configs/Type/Mobile/type'
 import Image from "next/image";
 import PrimaryButton from 'components/PrimaryButton';
-import Link from 'next/link';
 import { text } from 'stream/consumers';
 
 const config = [
     {
         label: 'Telegram',
         icon: '/images/socials/telegram.png',
-        link: '/',
+        link: 'https://t.me/bionswapchat',
         color: '#2A73C8'
     },
     {
         label: 'Twitter',
         icon: '/images/socials/twitter.png',
-        link: '/',
+        link: 'https://twitter.com/bionswap',
         color: '#006EB2'
     },
     {
         label: 'Discord',
         icon: '/images/socials/discord.png',
-        link: '/',
+        link: '#',
         color: '#6803B8'
     },
 ]
@@ -61,8 +61,11 @@ const CommunitySection = ({ isMobile, isTablet }: MobileProp) => {
                             }}>
                                 {
                                     config.map((item: any) => (
-                                        <Link key={item.label} href={item.link}>
-                                            <ButtonSocial component='a' sx={{
+                                        <Box key={item.label}>
+                                            <ButtonSocial
+                                                href={item.link}
+                                                target='_blank'
+                                                sx={{
                                                 borderColor: item.color,
                                                 backgroundColor: item.color,
                                                 color: '#ffffff',
@@ -80,7 +83,7 @@ const CommunitySection = ({ isMobile, isTablet }: MobileProp) => {
                                                     {item.label}
                                                 </Typography>
                                             </ButtonSocial>
-                                        </Link>
+                                        </Box>
                                     ))
                                 }
                             </FlexBox>
@@ -117,17 +120,17 @@ const WrapNetworkHead = styled(Box)`
     width: 100%;
     display: flex;
 `
-const ButtonSocial = styled(Box)`
-    max-width: 202px;
+const ButtonSocial = styled(Link)`
     height: 50px;
+    padding: 8px 30px;
     display: flex;
     align-items: center;
     gap: 15px;
-    border: 1px solid;
+    border: 1.5px solid;
     border-radius: 4px;
     justify-content: center;
-    cursor: pointer;
-    width: 100%;
+    transition: .15s ease-in;
+    text-decoration: none;
 `
 
 export default CommunitySection

@@ -1,5 +1,4 @@
-import styled from "@emotion/styled";
-import { Box, Button, Stack, useMediaQuery } from "@mui/material";
+import { Box, Button, Stack, useMediaQuery , styled } from "@mui/material";
 import { CHAIN_INFO_MAP } from "configs/chain";
 import { useAccount, useBalance, useChain, useNativeCurrencyBalances } from "hooks";
 import Image from "next/image";
@@ -43,7 +42,7 @@ const ConnectButton = (props: Props) => {
           onClick={() => setOpenChainsModal(true)}
           variant="contained"
           fullWidth={isMobile}
-          endIcon={<BsFillCaretDownFill color="#FBB03B" />}
+          endIcon={<BsFillCaretDownFill color='#FFB21E' />}
         >
           <Stack direction="row" gap={1} alignItems="center">
             <Image
@@ -126,8 +125,8 @@ const ChainButton = styled(Button)`
   font-weight: 500;
   background-color: #000;
   align-items: center;
-  border: 1.5px solid #6B4F03;
-  color: #FBB03B;
+  border: 1px solid ${prop => (prop.theme.palette as any).warning.main};
+  color: ${prop => prop.theme.palette.warning.main};
   transition: 0.15s ease-in;
   line-height: 1;
   svg {
@@ -135,9 +134,10 @@ const ChainButton = styled(Button)`
     height: 12px;
   }
   :hover {
-    color: #FBB03B;
-    border: 1.5px solid #6B4F03;
-    background-color: #000;
+    // color: ${prop => prop.theme.palette.primary.main};
+    // border: 1.5px solid ${prop => (prop.theme.palette as any).extra.background.primaryDarkGreen};
+    // background-color: #000;
+    opacity: .6;
   }
 `;
 

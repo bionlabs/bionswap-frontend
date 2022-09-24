@@ -11,6 +11,7 @@ import {
 import { MobileProp } from 'configs/Type/Mobile/type'
 import Image from "next/image";
 import PrimaryButton from 'components/PrimaryButton';
+import { useRouter } from 'next/router';
 
 const config = [
     {
@@ -32,6 +33,7 @@ const config = [
 ]
 
 const PartnersSection = ({ isMobile, isTablet }: MobileProp) => {
+    const router = useRouter()
     return (
         <Wrapper padding={isMobile ? '5rem 0' : '7rem 0 4rem'}>
             <Container maxWidth='lg'>
@@ -56,7 +58,13 @@ const PartnersSection = ({ isMobile, isTablet }: MobileProp) => {
                                 </Typography>
                             </WrapNetworkHead>
                             <Box maxWidth='218px' width='100%'>
-                                <PrimaryButton label="Create now" />
+                                <PrimaryButton
+                                    label="Create now"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        router.push('/launch')
+                                    }}
+                                />
                             </Box>
                         </FlexBox>
                     </FlexBox>

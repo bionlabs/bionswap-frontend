@@ -15,21 +15,21 @@ export const menuConfig = [
         href: '/launchpad',
         icon: <GiPayMoney/>
     },
-    {
-        label: 'Earn',
-        href: '/earn',
-        icon: <GiReceiveMoney/>
-    },
+    // {
+    //     label: 'Earn',
+    //     href: '/earn',
+    //     icon: <GiReceiveMoney/>
+    // },
     {
         label: 'Launch with BionSwap',
         href: '/launch',
         icon: <FaCoins/>
     },
-    {
-        label: 'Game Center',
-        href: '/gamecenter',
-        icon: <GiPayMoney/>
-    },
+    // {
+    //     label: 'Game Center',
+    //     href: '/gamecenter',
+    //     icon: <GiPayMoney/>
+    // },
     // {
     //     label: 'Stacks',
     //     href: '/stacks',

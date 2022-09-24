@@ -142,14 +142,18 @@ const Menu = ({ children }: any) => {
                                         </Box>
                                     )
                                 }
-                                <IconButton 
-                                    sx={{
-                                        color:'#fff',
-                                    }}
-                                    onClick={handleClick}
-                                >
-                                    <BsThreeDots/>
-                                </IconButton>
+                                {
+                                    menuConfig.length > 5 &&
+                                    <IconButton 
+                                        sx={{
+                                            color:'#fff',
+                                        }}
+                                        onClick={handleClick}
+                                    >
+                                        <BsThreeDots/>
+                                    </IconButton>
+                                }
+                                
                                 <MuiMenu
                                     anchorEl={anchorEl}
                                     open={open}
