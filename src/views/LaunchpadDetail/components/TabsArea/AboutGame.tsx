@@ -4,82 +4,12 @@ import { Box } from "@mui/material";
 import IDOProcess from "../IDOProcess";
 
 interface AboutGameProps {
-  data: any;
+  html: string;
 }
 
-const AboutGame: React.FC<AboutGameProps> = ({ data }) => {
+const AboutGame: React.FC<AboutGameProps> = ({ html }) => {
   return (
-    <Box display="flex" gap={3} sx={{ width: "100%" }}>
-      <Box display="flex">
-        <Box>
-          <WrapTag>
-            <HeadItem className="active">
-              Introduction
-              <img src="/images/next.png" />
-            </HeadItem>
-            <HeadItem>Team</HeadItem>
-          </WrapTag>
-        </Box>
-        <Box sx={{ flexGrow: 1, display: "flex" }}>
-          <Box>
-            <HeadTitle>Introduction</HeadTitle>
-            <Title>Wilder World is an immersive 5D Metaverse built on Ethereum, Unreal Engine 5 & ZERO.</Title>
-            <Content>
-              {`Star Fox is a multi-chain game running on BNB, Avalanche and Terra networks, inspired by Axie Infinity game's pet world and the gameplay of Clash of Clan and Boom Beach of Supercell.`}
-              <br />
-              <br />
-              The game sets foot in a fictional world and revolves around farming, property building, and battling against
-              other lands with the magical creatures named Mongen. The revolutionized design of Monsterra is a combination of
-              free-to-play and free-to-earn models which allows gaming enthusiasts to enjoy and have a high-profit stream
-              with no prior investment.
-            </Content>
-            <Box
-              component="img"
-              sx={{
-                marginTop: "24px",
-                marginBottom: "40px",
-                width: "100%",
-                height: "auto",
-              }}
-              src="/images/image36.png"
-              alt="image36"
-            />
-            <HeadTitle>TEAM</HeadTitle>
-            <Title>Wilder World is built on top of the $WILD token.</Title>
-            <Content>
-              Star Fox solves all existing problems in the P2E market by offering:
-              <br />
-              <br />
-              ✔️ Free-to-play-to-earn game mechanics
-              <br />
-              <br />
-              ✔️ Play for fun gameplay
-              <br />
-              <br />
-              ✔️ Balanced in-game economy
-              <br />
-              <br />
-              ✔️ No gas fee
-              <br />
-              <br />
-              ✔️ Unprecedented Breeding Mechanism
-              <br />
-              <br />
-              ✔️ Customizable Land Shaping Mechanism
-              <br />
-              <br />
-              ✔️ Diverse Land Themes
-              <br />
-              <br />
-              ✔️ Innovative Token and NFT Staking, Yielding Farming Mechanism
-              <br />
-              <br />
-              ✔️ Earning while off-line
-            </Content>
-          </Box>
-        </Box>
-      </Box>
-    </Box>
+    <Box dangerouslySetInnerHTML={{ __html: html }} />
   );
 };
 

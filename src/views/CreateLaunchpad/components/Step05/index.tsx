@@ -21,7 +21,7 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const Step05 = ({ data, setData, handleNext, handleBack, onShowError }: any) => {
   const handleChange = (prop: any) => (event: any) => {
-    setData(setPresaleForm({ ...data, [prop]: event }));
+    setData(setPresaleForm({ [prop]: event }));
   };
 
   return (

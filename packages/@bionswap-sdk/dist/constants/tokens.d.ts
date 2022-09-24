@@ -1,4 +1,4 @@
-import { ChainTokenMap, TokenMap } from "../types";
+import { ChainTokenMap, TokenMap } from '../types';
 export declare const USDC: TokenMap;
 export declare const BUSD: TokenMap;
 export declare const USDT: TokenMap;

@@ -1,4 +1,4 @@
-import { AddressMap } from "../types";
+import { AddressMap } from '../types';
 export declare const SUSHI_ADDRESS: AddressMap;
 export declare const USDC_ADDRESS: AddressMap;
 export declare const BUSD_ADDRESS: AddressMap;

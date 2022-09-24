@@ -1,327 +1,375 @@
-import React, { useState, useEffect } from "react";
-import { Box, Typography, styled, Button } from "@mui/material";
-import { useToken } from "hooks/useToken";
+import React, { useState, useEffect, useCallback } from 'react';
+import { Box, Typography, styled, Button } from '@mui/material';
+import { useToken } from 'hooks/useToken';
+import { withCatch } from 'utils/error';
+import { useChain } from 'hooks';
+import { createPresale } from 'api/launchpad';
+import { ethers } from 'ethers';
+import { usePresaleFactoryContract } from 'hooks/useContract';
 
 const Description = ({ html }: any) => {
-    return <Box dangerouslySetInnerHTML={{ __html: html }} />;
-};
-
-const inputToFieldMap = {
-    projectTitle: 'title',
-    projectLogo: 'logo',
-    saleBanner: 'banner',
-    community: 'communities',
-    tokenContract: 'token',
-    currency: 'quoteToken',
-    saleFee: 'baseFee',
-    tokenPrice: 'price',
-    whitelist: 'isWhitelist',
-    minGoal: 'softCap',
-    maxGoal: 'hardCap',
-    minSale: 'minPurchase',
-    maxSale: 'maxPurchase',
-    launchTime: 'startTime',
-    endTime: 'endTime',
-    unsoldToken: 'whenUnsold',
-    description: 'description',
+  return <Box dangerouslySetInnerHTML={{ __html: html }} />;
 };
 
 export const minimizeAddressSmartContract = (str: string) => {
-    if (!str) return;
-    return str.substring(0, 8) + "..." + str.substring(str.length - 4, str.length);
-}
+  if (!str) return;
+  return str.substring(0, 8) + '...' + str.substring(str.length - 4, str.length);
+};
 
 const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any) => {
-    const tokenContract = useToken(data.tokenContract);
-    const [onpenDescription, setOpenDescription] = useState(false);
+  const { chainId, account } = useChain();
+  const presaleFactoryContract = usePresaleFactoryContract();
 
-    const tokenForSale = Number(data.maxGoal) / Number(data.tokenPrice) || 0;
-    const tokenForLiquidity = (Number(data.liquidityPercentage) * Number(data.maxGoal)) / Number(data.pricePerToken) || 0;
+  const tokenContract = useToken(data.tokenContract);
+  const [onpenDescription, setOpenDescription] = useState(false);
 
-    const projectReview = [
+  const tokenForSale = Number(data.maxGoal) / Number(data.tokenPrice) || 0;
+  const tokenForLiquidity = (Number(data.liquidityPercentage) * Number(data.maxGoal)) / Number(data.pricePerToken) || 0;
+
+  const projectReview = [
+    {
+      head: 'Project information',
+      subHead: 'Important information that you want people focus',
+      items: [
         {
-            head: 'Project information',
-            subHead: 'Important information that you want people focus',
-            items: [
-                {
-                    label: 'Total token',
-                    value: `${tokenForSale + tokenForLiquidity} ${tokenContract?.name}`,
-                },
-                {
-                    label: 'Address',
-                    value: `${data.tokenContract}`,
-                },
-                {
-                    label: 'Token name',
-                    value: `${tokenContract?.name}`,
-                },
-                {
-                    label: 'Token symbol',
-                    value: `${tokenContract?.symbol}`,
-                },
-                {
-                    label: 'Token decimais',
-                    value: `${tokenContract?.decimals}`,
-                },
-                {
-                    label: 'Token price',
-                    value: `${data.tokenPrice || 0} ${data.currency}`,
-                },
-                {
-                    label: 'Listing price',
-                    value: `${data.pricePerToken || 0} ${data.currency}`,
-                },
-            ],
+          label: 'Total token',
+          value: `${tokenForSale + tokenForLiquidity} ${tokenContract?.name}`,
         },
         {
-            head: 'Sale Information',
-            subHead: 'The Launchpad information that you want to raise',
-            items: [
-                {
-                    label: 'Sale method',
-                    value: `Not Available`,
-                },
-                {
-                    label: 'Softcap',
-                    value: `${data.minGoal || 0} ${data.currency}`,
-                },
-                {
-                    label: 'Hardcap',
-                    value: `${data.maxGoal || 0} ${data.currency}`,
-                },
-                {
-                    label: 'Unsold tokens',
-                    value: `${data.unsoldToken === '0' ? 'Refund' : 'Burn'}`,
-                },
-                {
-                    label: 'Minimum buy',
-                    value: `${data.minSale || 0} ${data.currency}`,
-                },
-                {
-                    label: 'Maximum buy',
-                    value: `${data.maxSale || 0} ${data.currency}`,
-                },
-            ],
+          label: 'Address',
+          value: `${data.tokenContract}`,
         },
         {
-            head: 'Liquidity information',
-            subHead: 'Token Liquidity information that you want to raise',
-            items: [
-                {
-                    label: 'Liquidity',
-                    value: `${data.liquidityPercentage || 0}%`,
-                },
-                {
-                    label: 'Start time',
-                    value: `${new Date(data.launchTime).toUTCString()}`,
-                },
-                {
-                    label: 'End time',
-                    value: `${new Date(data.endTime).toUTCString()}`,
-                },
-                {
-                    label: 'Liquidity lockup time',
-                    value: `${data.lockupTime} days`,
-                },
-                {
-                    label: 'Using vesting',
-                    value: `${data.vestingToken === '0' ? 'No' : 'Yes'}`,
-                },
-            ],
+          label: 'Token name',
+          value: `${tokenContract?.name}`,
         },
         {
-            head: 'Description',
-            subHead:
-                "Describe what you're raising funds to do, why you care about it, how you plan to make it happen, and who you are.",
-            description:
-                'A wallet address is a string of letters and numbers from which cryptocurrencies or NFTs can be sent to and from. A wallet address is also known as a Public Key and can be shared with different contacts like an email address....',
+          label: 'Token symbol',
+          value: `${tokenContract?.symbol}`,
         },
         {
-            head: 'Community',
-            subHead: 'Where people can follow, discuss and find more information about your project',
-            items: [
-                {
-                    label: 'Website',
-                    value: `${JSON.parse(data?.community)['website']}`,
-                },
-                {
-                    label: 'Telegram',
-                    value: `${JSON.parse(data?.community)['telegram']}`,
-                },
-                {
-                    label: 'Discord',
-                    value: `${JSON.parse(data?.community)['discord']}`,
-                },
-            ],
+          label: 'Token decimais',
+          value: `${tokenContract?.decimals}`,
         },
-    ];
+        {
+          label: 'Token price',
+          value: `${data.tokenPrice || 0} ${data.currency}`,
+        },
+        {
+          label: 'Listing price',
+          value: `${data.pricePerToken || 0} ${data.currency}`,
+        },
+      ],
+    },
+    {
+      head: 'Sale Information',
+      subHead: 'The Launchpad information that you want to raise',
+      items: [
+        {
+          label: 'Sale method',
+          value: `${data.whitelist ? 'Whitelist' : 'Public'}`,
+        },
+        {
+          label: 'Softcap',
+          value: `${data.minGoal || 0} ${data.currency}`,
+        },
+        {
+          label: 'Hardcap',
+          value: `${data.maxGoal || 0} ${data.currency}`,
+        },
+        {
+          label: 'Unsold tokens',
+          value: `${data.unsoldToken === '0' ? 'Refund' : 'Burn'}`,
+        },
+        {
+          label: 'Minimum buy',
+          value: `${data.minSale || 0} ${data.currency}`,
+        },
+        {
+          label: 'Maximum buy',
+          value: `${data.maxSale || 0} ${data.currency}`,
+        },
+      ],
+    },
+    {
+      head: 'Liquidity information',
+      subHead: 'Token Liquidity information that you want to raise',
+      items: [
+        {
+          label: 'Liquidity',
+          value: `${data.liquidityPercentage || 0}%`,
+        },
+        {
+          label: 'Start time',
+          value: `${new Date(data.launchTime).toUTCString()}`,
+        },
+        {
+          label: 'End time',
+          value: `${new Date(data.endTime).toUTCString()}`,
+        },
+        {
+          label: 'Liquidity lockup time',
+          value: `${data.lockupTime} days`,
+        },
+        {
+          label: 'Using vesting',
+          value: `${data.vestingToken === '0' ? 'No' : 'Yes'}`,
+        },
+      ],
+    },
+    {
+      head: 'Description',
+      subHead:
+        "Describe what you're raising funds to do, why you care about it, how you plan to make it happen, and who you are.",
+      description:
+        'A wallet address is a string of letters and numbers from which cryptocurrencies or NFTs can be sent to and from. A wallet address is also known as a Public Key and can be shared with different contacts like an email address....',
+    },
+    {
+      head: 'Community',
+      subHead: 'Where people can follow, discuss and find more information about your project',
+      items: [
+        {
+          label: 'Website',
+          value: `${JSON.parse(data?.community)['website']}`,
+        },
+        {
+          label: 'Telegram',
+          value: `${JSON.parse(data?.community)['telegram']}`,
+        },
+        {
+          label: 'Discord',
+          value: `${JSON.parse(data?.community)['discord']}`,
+        },
+      ],
+    },
+  ];
 
-    const showDescription = () => {
-        setOpenDescription(!onpenDescription);
-    };
+  const showDescription = () => {
+    setOpenDescription(!onpenDescription);
+  };
 
-    const handleCreateSale = () => {
-        // first get salt
-        // const {salt} = await withCatch(createPresale({})
-    };
+  const handleCreateSale = useCallback(
+    async (data: any) => {
+      // first get salt
+      if (!chainId || !account || !presaleFactoryContract) return;
 
-    return (
-        <>
-            {
-                onpenDescription
-                    ?
-                    <Box>
-                        <FlexBox onClick={showDescription} sx={{ cursor: "pointer" }} gap="16px">
-                            <img src="/icons/keyboard_arrow_left.svg" alt="keyboard_arrow_left" />
-                            <Typography variant="h3" fontWeight="500" color="text.primary">
-                                Description
+      const payloadInfo = {
+        chainId: chainId,
+        title: data.projectTitle,
+        logo: data.projectLogo,
+        banner: data.saleBanner,
+        videoURL: data.videoPromo,
+        socials: data.community,
+        description: data.description,
+      };
+
+      const payloadContract = {
+        owner: account,
+        feeTo: account,
+        router: data.router,
+        token: data.tokenContract,
+        quoteToken: data.quoteToken,
+        isQuoteETH: data.isQuoteETH,
+        isWhitelistEnabled: !!Number(data.whitelist),
+        isBurnUnsold: !!Number(data.unsoldToken),
+        price: ethers.utils.parseEther(data.tokenPrice).toString(),
+        listingPrice: ethers.utils.parseEther(data.pricePerToken).toString(),
+        minPurchase: ethers.utils.parseEther(data.minSale).toString(),
+        maxPurchase: ethers.utils.parseEther(data.maxSale).toString(),
+        startTime: Number(data.launchTime) / 1000,
+        endTime: Number(data.endTime) / 1000,
+        lpPercent: Number(data.liquidityPercentage) * 100,
+        softCap: ethers.utils.parseEther(data.minGoal).toString(),
+        hardCap: ethers.utils.parseEther(data.maxGoal).toString(),
+        isAutoListing: data.isAutoListing,
+        baseFee: data.baseFee,
+        tokenFee: data.tokenFee,
+        tgeDate: data.tgeDate,
+        tgeReleasePercent: Number(data.firstRelease) * 100,
+        cycleDuration: Number(data.vestingPeriodEachCycle),
+        cycleReleasePercent: Number(data.tokenReleaseEachCycle) * 100,
+      };
+
+      const { error, result } = await withCatch(
+        createPresale({
+          ...payloadInfo,
+          ...payloadContract,
+        }),
+      );
+
+      if (error) {
+        // TODO: toast
+        return;
+      }
+
+      await presaleFactoryContract
+        .create(payloadContract, (result as any).salt, { value: ethers.utils.parseEther('0.1') })
+        .catch((error: any) => {
+          console.log(error);
+        });
+
+      // then clear storage
+
+      // then redirect to launchpad
+    },
+    [account, chainId, presaleFactoryContract],
+  );
+
+  return (
+    <>
+      {onpenDescription ? (
+        <Box>
+          <FlexBox onClick={showDescription} sx={{ cursor: 'pointer' }} gap="16px">
+            <img src="/icons/keyboard_arrow_left.svg" alt="keyboard_arrow_left" />
+            <Typography variant="h3" fontWeight="500" color="text.primary">
+              Description
+            </Typography>
+          </FlexBox>
+          <Description html={data.description} />
+        </Box>
+      ) : (
+        <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
+          <FlexBox flexDirection="column" alignItems="center">
+            <Typography variant="h3" color="text.primary" fontWeight="400">
+              6. Preview and Comfirm Project
+            </Typography>
+            <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
+              Get ready to launch your project
+            </Typography>
+          </FlexBox>
+          <FlexBox flexDirection="column">
+            {projectReview.map((item) => (
+              <WrapLine key={item.head}>
+                <WrapDescription>
+                  <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                    {item.head}
+                  </Typography>
+                  <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+                    {item.subHead}
+                  </Typography>
+                </WrapDescription>
+                <WrapValue>
+                  <FlexBox flexDirection="column" gap="12px">
+                    {item?.items?.map((i) => (
+                      <BoxItem key={i?.label}>
+                        <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                          {i?.label}
+                        </Typography>
+                        {i.label === 'Address' ? (
+                          <FlexBox alignItems="center" justifyContent="center" gap="8px">
+                            <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
+                              {minimizeAddressSmartContract(i?.value)}
                             </Typography>
-                        </FlexBox>
-                        <Description html={data.description} />
-                    </Box>
-                    :
-                    <FlexBox flexDirection='column' gap='46px' pt="40px" pb="40px">
-                        <FlexBox flexDirection='column' alignItems='center'>
-                            <Typography variant="h3" color="text.primary" fontWeight="400">
-                                6. Preview and Comfirm Project
+                            <img src="/icons/content_copy.svg" alt="content_copy" />
+                          </FlexBox>
+                        ) : item.head === 'Community' ? (
+                          <a href={i?.value} target="_blank" rel="noreferrer">
+                            <Typography
+                              variant="body4Poppins"
+                              color="text.primary"
+                              fontWeight="500"
+                              sx={{ textDecoration: 'underline' }}
+                            >
+                              {i?.value}
                             </Typography>
-                            <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
-                                Get ready to launch your project
-                            </Typography>
-                        </FlexBox>
-                        <FlexBox flexDirection="column">
-                            {
-                                projectReview.map(item => (
-                                    <WrapLine key={item.head}>
-                                        <WrapDescription>
-                                            <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                                                {item.head}
-                                            </Typography>
-                                            <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                                                {item.subHead}
-                                            </Typography>
-                                        </WrapDescription>
-                                        <WrapValue>
-                                            <FlexBox flexDirection='column' gap='12px'>
-                                                {
-                                                    item?.items?.map(i => (
-                                                        <BoxItem key={i?.label}>
-                                                            <Typography variant="body4Poppins" color="#717D8A" fontWeight="400" >
-                                                                {i?.label}
-                                                            </Typography>
-                                                            {
-                                                                i.label === 'Address'
-                                                                    ?
-                                                                    <FlexBox alignItems="center" justifyContent="center" gap="8px">
-                                                                        <Typography variant="body4Poppins" color="text.primary" fontWeight="500" >
-                                                                            {minimizeAddressSmartContract(i?.value)}
-                                                                        </Typography>
-                                                                        <img src="/icons/content_copy.svg" alt="content_copy" />
-                                                                    </FlexBox>
-                                                                    :
-                                                                    item.head === 'Community'
-                                                                        ?
-                                                                        <a href={i?.value} target="_blank" rel="noreferrer">
-                                                                            <Typography variant="body4Poppins" color="text.primary" fontWeight="500" sx={{ textDecoration: "underline" }}>
-                                                                                {i?.value}
-                                                                            </Typography>
-                                                                        </a>
-                                                                        :
-                                                                        <Typography variant="body4Poppins" color="text.primary" fontWeight="500" >
-                                                                            {i?.value}
-                                                                        </Typography>
-                                                            }
-                                                        </BoxItem>
-                                                    ))
-                                                }
-                                                {
-                                                    item?.description
-                                                    &&
-                                                    <Typography variant="body4Poppins" color="#717D8A" fontWeight="400" >
-                                                        {item?.description}<Button onClick={showDescription}><Typography variant="body4Poppins" color="text.primary" fontWeight="400">See all</Typography></Button>
-                                                    </Typography>
-                                                }
-                                            </FlexBox>
-                                        </WrapValue>
-                                    </WrapLine>
-                                ))
-                            }
-                        </FlexBox>
-                        <FlexBox gap='24px'>
-                            <WrapTag>
-                                <FlexBox flexDirection='column'>
-                                    <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                                        Fee
-                                    </Typography>
-                                    <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
-                                        All the fees you have to pay for create launchpad
-                                    </Typography>
-                                </FlexBox>
-                                <FlexBox flexDirection='column' mt='32px' gap="8px">
-                                    <BoxItem>
-                                        <Typography variant="body4Poppins" color="#717D8A" fontWeight="400" >
-                                            Pool create fee
-                                        </Typography>
-                                        <Typography variant="body4Poppins" color="text.primary" fontWeight="500" >
-                                            0.5 BNB
-                                        </Typography>
-                                    </BoxItem>
-                                    <BoxItem>
-                                        <Typography variant="body4Poppins" color="#717D8A" fontWeight="400" >
-                                            Token for sale
-                                        </Typography>
-                                        <Typography variant="body4Poppins" color="text.primary" fontWeight="500" >
-                                            100 BNB
-                                        </Typography>
-                                    </BoxItem>
-                                </FlexBox>
-                            </WrapTag>
-                            <WrapTag>
-                                <FlexBox flexDirection='column'>
-                                    <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                                        Token for sale
-                                    </Typography>
-                                    <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
-                                        Number of tokens for sale and add liquidity
-                                    </Typography>
-                                </FlexBox>
-                                <FlexBox flexDirection='column' mt='32px' gap="8px">
-                                    <BoxItem>
-                                        <Typography variant="body4Poppins" color="#717D8A" fontWeight="400" >
-                                            Token for sale
-                                        </Typography>
-                                        <Typography variant="body4Poppins" color="text.primary" fontWeight="500" >
-                                            {tokenForSale} {tokenContract?.symbol}
-                                        </Typography>
-                                    </BoxItem>
-                                    <BoxItem>
-                                        <Typography variant="body4Poppins" color="#717D8A" fontWeight="400" >
-                                            Token for add liquidity
-                                        </Typography>
-                                        <Typography variant="body4Poppins" color="text.primary" fontWeight="500" >
-                                            {tokenForLiquidity} {tokenContract?.symbol}
-                                        </Typography>
-                                    </BoxItem>
-                                </FlexBox>
-                            </WrapTag>
-                        </FlexBox>
-                        <FlexBox justifyContent='flex-end' gap='14px'>
-                            <Back onClick={() => handleBack(5)}>
-                                <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
-                                    Back
-                                </Typography>
-                            </Back>
-                            <Next onClick={() => handleSubmit()}>
-                                <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-                                    Submit
-                                </Typography>
-                            </Next>
-                        </FlexBox>
-                    </FlexBox>
-            }
-        </>
-    )
-}
+                          </a>
+                        ) : (
+                          <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
+                            {i?.value}
+                          </Typography>
+                        )}
+                      </BoxItem>
+                    ))}
+                    {item?.description && (
+                      <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                        {item?.description}
+                        <Button onClick={showDescription}>
+                          <Typography variant="body4Poppins" color="text.primary" fontWeight="400">
+                            See all
+                          </Typography>
+                        </Button>
+                      </Typography>
+                    )}
+                  </FlexBox>
+                </WrapValue>
+              </WrapLine>
+            ))}
+          </FlexBox>
+          <FlexBox gap="24px">
+            <WrapTag>
+              <FlexBox flexDirection="column">
+                <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                  Fee
+                </Typography>
+                <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                  All the fees you have to pay for create launchpad
+                </Typography>
+              </FlexBox>
+              <FlexBox flexDirection="column" mt="32px" gap="8px">
+                <BoxItem>
+                  <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                    Pool create fee
+                  </Typography>
+                  <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
+                    0.5 BNB
+                  </Typography>
+                </BoxItem>
+                <BoxItem>
+                  <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                    Token for sale
+                  </Typography>
+                  <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
+                    100 BNB
+                  </Typography>
+                </BoxItem>
+              </FlexBox>
+            </WrapTag>
+            <WrapTag>
+              <FlexBox flexDirection="column">
+                <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                  Token for sale
+                </Typography>
+                <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                  Number of tokens for sale and add liquidity
+                </Typography>
+              </FlexBox>
+              <FlexBox flexDirection="column" mt="32px" gap="8px">
+                <BoxItem>
+                  <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                    Token for sale
+                  </Typography>
+                  <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
+                    {tokenForSale} {tokenContract?.symbol}
+                  </Typography>
+                </BoxItem>
+                <BoxItem>
+                  <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                    Token for add liquidity
+                  </Typography>
+                  <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
+                    {tokenForLiquidity} {tokenContract?.symbol}
+                  </Typography>
+                </BoxItem>
+              </FlexBox>
+            </WrapTag>
+          </FlexBox>
+          <FlexBox justifyContent="flex-end" gap="14px">
+            <Back onClick={() => handleBack(5)}>
+              <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
+                Back
+              </Typography>
+            </Back>
+            <Next onClick={() => handleCreateSale(data)}>
+              <Typography variant="body3Poppins" color="#000000" fontWeight="600">
+                Submit
+              </Typography>
+            </Next>
+          </FlexBox>
+        </FlexBox>
+      )}
+    </>
+  );
+};
 
 const FlexBox = styled(Box)`
   display: flex;

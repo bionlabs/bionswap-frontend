@@ -18,6 +18,7 @@ import {
   ROUTER_ADDRESS,
   WNATIVE_ADDRESS,
 } from '@bionswap/core-sdk';
+import { PRESALE_FACTORY_ADDRESS } from 'constants/addresses';
 
 // returns null on errors
 export function useContract<T extends Contract = Contract>(
@@ -69,16 +70,12 @@ const MULTICALL_ADDRESS = {
   [ChainId.METIS]: '0x67dA5f2FfaDDfF067AB9d5F025F8810634d84287',
 };
 
-const PRESALE_FACTORY_ADDRESS = {
-  [ChainId.BSC_TESTNET]: '0xeb0f5771947f67D4D9394EF00232eB0DFF09D7d3',
-};
-
 export function usePresaleFactoryContract() {
-  return useContract(PRESALE_FACTORY_ADDRESS, PRESALE_FACTORY_ABI, false);
+  return useContract(PRESALE_FACTORY_ADDRESS, PRESALE_FACTORY_ABI, true);
 }
 
-export function usePresaleContract(address: string) {
-  return useContract(address, PRESALE_ABI, false);
+export function usePresaleContract(address: string | undefined) {
+  return useContract(address, PRESALE_ABI, true);
 }
 
 export function useMulticallContract(): Contract | null | undefined {
