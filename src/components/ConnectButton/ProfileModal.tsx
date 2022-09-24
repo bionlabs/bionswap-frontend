@@ -12,7 +12,7 @@ import {
   styled,
   Typography
 } from "@mui/material";
-import { useBalance } from "hooks";
+import { useBalance, useNativeCurrencyBalances } from "hooks";
 import Image from "next/image";
 import { HiX } from "react-icons/hi";
 import { useAccount, useDisconnect } from "wagmi";
@@ -33,6 +33,8 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
   const { data } = useBalance({
     addressOrName: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
   });
+
+  const balance = useNativeCurrencyBalances(address ? [address] : [])?.[address ?? ''];
 
   const router = useRouter()
 
@@ -99,7 +101,7 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
           <WrapCard >
             <Box>
               <Content>Your Balance</Content>
-              <Title>5.938200193 BNB</Title>
+              <Title>{balance ? `${balance.toFixed(3)} ${balance.currency.symbol}` : 'Loading...' }</Title>
             </Box>
             <Box marginTop="10px">
               <Content>sBION</Content>

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Box, Button, Stack, useMediaQuery } from "@mui/material";
 import { CHAIN_INFO_MAP } from "configs/chain";
-import { useAccount, useBalance, useChain } from "hooks";
+import { useAccount, useBalance, useChain, useNativeCurrencyBalances } from "hooks";
 import Image from "next/image";
 import { useState } from "react";
 import { BsFillCaretDownFill } from "react-icons/bs";
@@ -22,7 +22,7 @@ const ConnectButton = (props: Props) => {
 
   const { chainId } = useChain();
   const { address, connector: activeConnector } = useAccount();
-
+  const balance = useNativeCurrencyBalances(address ? [address] : [])?.[address ?? ''];
 
   const handleChainSwitched = () => {
     setOpenChainsModal(false);
@@ -71,7 +71,7 @@ const ConnectButton = (props: Props) => {
             fullWidth={isMobile}
           >
             <Box>
-              5 BNB
+              {balance ? `${balance.toFixed(3)} ${balance.currency.symbol}` : 'Loading...' }
             </Box>
             <Box sx={{
               display: 'flex',alignItems:'center', gap:'8px',
