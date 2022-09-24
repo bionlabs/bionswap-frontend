@@ -9,7 +9,8 @@ import {
   Modal,
   Skeleton,
   useMediaQuery,
-  styled
+  styled,
+  Typography
 } from "@mui/material";
 import { useBalance } from "hooks";
 import Image from "next/image";
@@ -77,7 +78,9 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
                 height={40}
               />
               <Box>
-                {shortenAddress(address ?? "")}
+                <Box>
+                  {shortenAddress(address ?? "")}
+                </Box>
                 <Box color="#787A9B" fontWeight="400" fontSize="14px">
                   {activeConnector ? activeConnector.name : <Skeleton />}
                 </Box>
@@ -99,12 +102,12 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
               <Title>5.938200193 BNB</Title>
             </Box>
             <Box marginTop="10px">
-              <Content>Bion Stacks</Content>
+              <Content>sBION</Content>
               <Title>0.00</Title>
             </Box>
-            <BgImage>
+            {/* <BgImage>
               <img src="/images/Fox_bg.png" alt="Fox_bg" width='110px' />
-            </BgImage>
+            </BgImage> */}
           </WrapCard>
         </Box>
         <MenuList
@@ -155,14 +158,14 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
 };
 const Wrapper = styled(Box)`
   background: ${(props:any) => (props.theme.palette as any).extra.other.nineth};
-  border: 1px solid ${(props) => (props.theme.palette as any).extra.other.tenth};
+  border: 2px solid ${(props) => (props.theme.palette as any).extra.other.tenth};
   display: flex;
   flex-direction: column;
   gap: 15px;
 `
 
 const WrapCard = styled(Box)`
-  background: rgba(255,255,255,.1);
+  background: ${(props) => (props.theme.palette as any).extra.other.tenth};
   border-radius: 10px;
   padding: 20px;
   position: relative;

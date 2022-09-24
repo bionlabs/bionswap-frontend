@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     styled,
     Box,
@@ -13,17 +13,31 @@ import { MobileProp } from 'configs/Type/Mobile/type';
 const Header = ({isMobile}:MobileProp) => {
   const { address } = useAccount();
 
+  const [hoverAvatar , setHoverAvatar] = useState(false)
+
+  console.log(hoverAvatar)
 
   return (
     <Box>
-        <Box display='flex' alignItems='center' gap='15px'>
-            <Box>
-                <Image src='/icons/dashboard/user.svg' alt='' width='100px' height='100px' />
-            </Box>
+        <Box display='flex' alignItems={isMobile ? 'start' : 'center'} gap='15px' flexDirection={isMobile ? 'column' : 'row'}>
+            <AvatarBox
+                onMouseEnter={() => setHoverAvatar(true)}
+                onMouseLeave={() => setHoverAvatar(false)}
+            >
+                <Image src='/icons/dashboard/user.svg' alt='' width='120px' height='120px' />
+                <Box sx={{
+                    position: 'absolute', top: '40%', left: '13%',
+                    display: hoverAvatar ? 'block' : 'none'
+                }}>
+                    <Typography variant='captionPoppins' sx={{color: 'primary.main'}}>
+                        Change avatar
+                    </Typography>
+                </Box>
+            </AvatarBox>
             <Box>
                 <Box display='flex' alignItems='center' gap='10px'>
                     <Typography variant='h6Samsung'>
-                        Anonymous-User
+                        {address ? 'Anonymous-User' : 'N/A'}
                     </Typography>
                     <Box>
                         <Tag sx={{backgroundColor: 'gray.700'}}>
@@ -40,7 +54,7 @@ const Header = ({isMobile}:MobileProp) => {
                         </Box>
                         <Box>
                             <Typography sx={{fontSize: '15px'}}>
-                                {shortenAddress(address ?? '')}
+                                {address ? shortenAddress(address) : 'N/A'}
                             </Typography>
                         </Box>
                     </Box>
@@ -51,12 +65,12 @@ const Header = ({isMobile}:MobileProp) => {
                             </Typography>
                         </Box>
                         <Box display='flex' alignItems='center' gap='10px'>
-                            <Typography sx={{fontSize: '15px' , color: 'primary.main'}}>
-                                Verified
+                            <Typography sx={{fontSize: '15px' }}>
+                                {address ? 'Regular User' : 'N/A'}
                             </Typography>
-                            <Box>
+                            {/* <Box>
                                 <VerifiedIcon sx={{width: '18px',height:'18px', color: 'primary.main'}} />
-                            </Box>
+                            </Box> */}
                         </Box>
                     </Box>
                     <Box>
@@ -67,11 +81,11 @@ const Header = ({isMobile}:MobileProp) => {
                         </Box>
                         <Box display='flex' alignItems='center' gap='10px'>
                             <Typography sx={{fontSize: '15px'}}>
-                                linked
+                                {address ? 'not linked' : 'N/A'}
                             </Typography>
                         </Box>
                     </Box>
-                    <Box>
+                    {/* <Box>
                         <Box>
                             <Typography variant='captionPoppins' sx={{color: 'gray.400'}}>
                             Last Connect
@@ -79,10 +93,10 @@ const Header = ({isMobile}:MobileProp) => {
                         </Box>
                         <Box display='flex' alignItems='center' gap='10px'>
                             <Typography sx={{fontSize: '15px'}}>
-                                2022-09-21 12:12:56(113.161.65.184)
+                                N/A
                             </Typography>
                         </Box>
-                    </Box>
+                    </Box> */}
                 </Flex>
             </Box>
         </Box>
@@ -103,6 +117,18 @@ const Tag = styled(Box)`
     justify-content: center;
     padding: 5px 8px;
     font-size: 12px;
+`
+const AvatarBox = styled(Box)`
+    * {
+        transition: .12s ease-in;
+    }
+    position: relative;
+    cursor: pointer;
+    :hover {
+        img {
+            opacity: .3
+        }
+    }
 `
 
 export default Header

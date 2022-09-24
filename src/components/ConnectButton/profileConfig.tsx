@@ -4,16 +4,6 @@ const profileMenu = [
         href: '/dashboard',
         icon: ''
     },
-    {
-        label: 'Referal',
-        href: '/Referal',
-        icon: ''
-    },
-    {
-        label: 'Setting',
-        href: '/setting',
-        icon: ''
-    },
 ]
 
 export default profileMenu

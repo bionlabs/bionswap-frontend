@@ -8,10 +8,14 @@ import {
 import { MobileProp } from 'configs/Type/Mobile/type'
 import Card from './components/Card'
 import BioncTokenIcon from 'assets/icons/BioncTokenIcon'
+import BionRaiseToken from 'assets/icons/BionRaiseToken'
+import Image from 'next/image'
 
 const BalanceSection = ({isMobile}:MobileProp) => {
   return (
-    <Flex alignItems='center' gap='24px'>
+    <Box display='grid' alignItems='center' gap='24px' sx={{
+        gridTemplateColumns: isMobile ? 'auto' : 'auto auto', justifyContent: 'start'
+    }}>
         <Card sx={{
             height: 'fit-content' , width: isMobile ? '100%' : '280px'
         }}>
@@ -29,7 +33,7 @@ const BalanceSection = ({isMobile}:MobileProp) => {
                     </Box>
                     <Box>
                         <Typography variant={isMobile ? 'body4Poppins' : 'h6Poppins'}>
-                            100.000 BIONC
+                            0.00 BIONC
                         </Typography>
                     </Box>
                 </Box>
@@ -52,13 +56,81 @@ const BalanceSection = ({isMobile}:MobileProp) => {
                     </Box>
                     <Box>
                         <Typography variant={isMobile ? 'body4Poppins' : 'h6Poppins'}>
-                            $100.00
+                            $0.00
                         </Typography>
                     </Box>
                 </Box>
             </Flex>
         </Card>
-    </Flex>
+        <Card sx={{
+            height: 'fit-content', width: isMobile ? '100%' : '280px'
+        }}>
+            <Box sx={{
+                display: 'flex', flexDirection: 'column', gap: '5px', alignItems: 'center'
+            }}>
+                <Box>
+                    <SvgIcon sx={{
+                        width: '80px', height: '80px'
+                    }}>
+                        <BionRaiseToken/>
+                    </SvgIcon>
+                </Box>
+                <Box>
+                    <Typography variant='caption6Poppins' sx={{color: 'primary.main'}}>
+                        Daily Earning
+                    </Typography>
+                </Box>
+                <Box sx={{marginBottom: '10px'}}>
+                    <img src='/icons/dashboard/divider.png' alt='' width='100%' />
+                </Box>
+                
+                <Box>
+                    <Typography variant='h4Poppins' sx={{fontWeight: '600', lineHeight: '1'}}>
+                        0.00 BIONC
+                    </Typography>
+                </Box>
+                <Box>
+                    <Typography sx={{color: 'primary.main', fontWeight: '600'}}>
+                        $0.00
+                    </Typography>
+                </Box>
+            </Box>
+        </Card>
+        <Card sx={{
+            height: 'fit-content', width: isMobile ? '100%' : '280px'
+        }}>
+            <Box sx={{
+                display: 'flex', flexDirection: 'column', gap: '5px', alignItems: 'center'
+            }}>
+                <Box>
+                    <SvgIcon sx={{
+                        width: '80px', height: '80px'
+                    }}>
+                        <BionRaiseToken/>
+                    </SvgIcon>
+                </Box>
+                <Box>
+                    <Typography variant='caption6Poppins' sx={{color: 'primary.main'}}>
+                        Total BIONC Claimed
+                    </Typography>
+                </Box>
+                <Box sx={{marginBottom: '10px'}}>
+                    <img src='/icons/dashboard/divider.png' alt='' width='100%' />
+                </Box>
+                
+                <Box>
+                    <Typography variant='h4Poppins' sx={{fontWeight: '600', lineHeight: '1'}}>
+                        0.00 BIONC
+                    </Typography>
+                </Box>
+                <Box>
+                    <Typography sx={{color: 'primary.main', fontWeight: '600'}}>
+                        $0.00
+                    </Typography>
+                </Box>
+            </Box>
+        </Card>
+    </Box>
   )
 }
 

@@ -7,8 +7,10 @@ import {
     Typography
 } from '@mui/material'
 import Card from './components/Card'
+import { useRouter } from 'next/router'
 
 const FundSection = ({isMobile}:MobileProp) => {
+  const router = useRouter()
   return (
     <Box>
         <Card sx={{
@@ -33,17 +35,21 @@ const FundSection = ({isMobile}:MobileProp) => {
                 <Box>
                     <Box>
                         <Typography variant='body3Poppins' sx={{color: 'primary.main'}}>
-                            Buy BIONC
+                            Buy Token
                         </Typography>
                     </Box>
                     <Box>
                         <Typography variant='captionPoppins' sx={{color: 'extra.text.primary'}}>
-                            Get BIONC with the best price.
+                            Get token with the best price.
                         </Typography>
                     </Box>
                 </Box>
                 <BuyButton
                     variant='contained'
+                    onClick={(e) => {
+                        e.preventDefault();
+                        router.push('/trade')
+                    }}
                 >
                     Buy
                 </BuyButton>
@@ -63,6 +69,7 @@ const FundSection = ({isMobile}:MobileProp) => {
                 </Box>
                 <StyledButton
                     variant='contained'
+                    disabled
                 >
                     Stake
                 </StyledButton>
@@ -82,6 +89,7 @@ const FundSection = ({isMobile}:MobileProp) => {
                 </Box>
                 <StyledButton
                     variant='contained'
+                    disabled
                 >
                     Buy
                 </StyledButton>

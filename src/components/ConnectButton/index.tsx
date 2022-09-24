@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Box, Button, Stack, useMediaQuery } from "@mui/material";
 import { CHAIN_INFO_MAP } from "configs/chain";
-import { useAccount, useChain } from "hooks";
+import { useAccount, useBalance, useChain } from "hooks";
 import Image from "next/image";
 import { useState } from "react";
 import { BsFillCaretDownFill } from "react-icons/bs";
@@ -22,6 +22,7 @@ const ConnectButton = (props: Props) => {
 
   const { chainId } = useChain();
   const { address, connector: activeConnector } = useAccount();
+
 
   const handleChainSwitched = () => {
     setOpenChainsModal(false);
@@ -69,14 +70,16 @@ const ConnectButton = (props: Props) => {
             variant="contained"
             fullWidth={isMobile}
           >
-            {/* <IoWallet color='#0b0b0b'/> */}
             <Box>
               5 BNB
             </Box>
             <Box sx={{
               display: 'flex',alignItems:'center', gap:'8px',
-              backgroundColor: '#014959', height: '35px', padding: '5px 12px',
-              borderRadius: '4px'
+              backgroundColor: 'extra.header.background', height: '35px', padding: '5px 12px',
+              borderRadius: '4px', transition: '.12s ease-in',
+              ':hover':{
+                backgroundColor: '#0e2632'
+              }
             }}>
               <Box>{shortenAddress(address ?? "")}</Box>
               <Image
@@ -121,9 +124,9 @@ const ChainButton = styled(Button)`
   text-transform: none;
   font-family: inherit;
   font-weight: 500;
-  background-color: #000B0D;
+  background-color: #000;
   align-items: center;
-  border: 1px solid #6B4F03;
+  border: 1.5px solid #6B4F03;
   color: #FBB03B;
   transition: 0.15s ease-in;
   line-height: 1;
@@ -133,8 +136,8 @@ const ChainButton = styled(Button)`
   }
   :hover {
     color: #FBB03B;
-    border: 1px solid #6B4F03;
-    background-color: #000B0D;
+    border: 1.5px solid #6B4F03;
+    background-color: #000;
   }
 `;
 
@@ -170,7 +173,7 @@ const ProfileButton = styled(Button)`
   font-family: inherit;
   font-weight: 500;
   align-items: center;
-  background-color: #000;
+  background-color: rgba(0,0,0, 1);
   color: #fff;
   transition: 0.15s ease-in;
   line-height: 1;
@@ -180,7 +183,7 @@ const ProfileButton = styled(Button)`
     height: 20px;
   }
   :hover {
-    background-color: #000;
+    background-color: rgba(0,0,0, 1);
     box-shadow: none;
   }
 `;

@@ -6,11 +6,11 @@ import Sidebar from "views/Dashboard/components/Sidebar/Sidebar"
 
 const DashboardPage = () => {
     const router = useRouter();
-    // useEffect(() => {
-    //     if (router.pathname == '/dashboard') {
-    //       router.push('/dashboard/overview')
-    //     }
-    //   }, [router])
+    useEffect(() => {
+        if (router.pathname == '/dashboard') {
+          router.push('/dashboard/overview')
+        }
+      }, [router])
 
     return (
         <Sidebar>

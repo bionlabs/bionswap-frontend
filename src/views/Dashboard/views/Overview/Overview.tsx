@@ -9,11 +9,14 @@ import {
 import Header from './components/Header'
 import FundSection from './FundSection'
 import BalanceSection from './BalanceSection'
+import { useAccount } from 'hooks'
 
 
 const Overview = () => {
   const isMobile = useMediaQuery('(max-width:767px)');
   const isDesktop = useMediaQuery('(max-width:1467px)')
+  
+  const { address } = useAccount();
 
   return (
     <Page>
@@ -24,7 +27,11 @@ const Overview = () => {
           alignItems: "start"
         }}>
           <FundSection isMobile={isMobile}/>
-          <BalanceSection isMobile={isMobile}/>
+          {
+            address &&
+            <BalanceSection isMobile={isMobile}/>
+          }
+          
         </Layout>
         
       </Wrapper>

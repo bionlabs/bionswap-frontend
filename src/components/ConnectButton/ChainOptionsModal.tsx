@@ -121,7 +121,7 @@ const ChainOptionsModal = ({ onClose, open = false, onChainSwitched }: Props) =>
 
 const Wrapper = styled(Box)`
   background: ${(props:any) => (props.theme.palette as any).extra.other.nineth};
-  border: 1px solid ${(props) => (props.theme.palette as any).extra.other.tenth};
+  border: 2px solid ${(props) => (props.theme.palette as any).extra.other.tenth};
 `
 
 const StatusBox = styled(Box)`
