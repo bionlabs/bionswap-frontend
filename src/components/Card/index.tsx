@@ -144,7 +144,7 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
               color: 'text.primary',
             }}
           >
-            {formatEther(data?.minPurchase)} {unit} - {formatEther(data?.maxPurchase)} {unit}
+            {formatEther(data?.minPurchase || 0)} {unit} - {formatEther(data?.maxPurchase || 0)} {unit}
           </Typography>
         </FlexBox>
         <Line />
