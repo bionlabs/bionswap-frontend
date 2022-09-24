@@ -1,8 +1,13 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Button, Checkbox, FormControl, IconButton, OutlinedInput, styled, Typography } from '@mui/material';
+import { Box, Button, FormControl, IconButton, OutlinedInput, styled, Typography } from '@mui/material';
 import { BaseModal } from 'components';
+import { formatEther } from 'ethers/lib/utils';
 import { useChain, useNativeCurrencyBalances, useToken, useTokenBalance } from 'hooks';
-import { useCallback, useState } from 'react';
+import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback';
+import { usePresaleContract } from 'hooks/useContract';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { withCatch } from 'utils/error';
+import { tryParseAmount } from 'utils/parse';
 
 const tokenTypes = [
   {
@@ -13,10 +18,74 @@ const tokenTypes = [
 
 const JoinIdoModal = ({ open, onDismiss, data, unit }: any) => {
   const { account } = useChain();
+  const presaleContract = usePresaleContract(data?.saleAddress);
+  const token = useToken(data?.token);
   const quoteToken = useToken(data?.quoteToken);
   const quoteTokenBalance = useTokenBalance(account, quoteToken || undefined);
-  const userEthBalance = useNativeCurrencyBalances(account ? [account] : [])?.[account ?? ''];
-  const [success, setSuccess] = useState(true);
+  const ethBalance = useNativeCurrencyBalances(account ? [account] : [])?.[account ?? ''];
+  const quoteBalance = data?.isQuoteETH ? ethBalance : quoteTokenBalance;
+
+  const [success, setSuccess] = useState(false);
+
+  const [purchaseInput, setPurchaseInput] = useState('0');
+  const [tokenOutputAmount, setTokenOutputAmount] = useState(0);
+  const price = useMemo(() => Number(formatEther(data?.price || 1)), [data?.price]);
+
+  const parsedPurchaseInputAmount = useMemo(
+    () => tryParseAmount(purchaseInput, quoteBalance?.currency || undefined),
+    [purchaseInput, quoteBalance?.currency],
+  );
+  const [approvalState, approveCallback] = useApproveCallback(parsedPurchaseInputAmount, data?.saleAddress);
+
+  useEffect(() => {
+    const input = Number(purchaseInput);
+    setTokenOutputAmount(input / price);
+  }, [price, purchaseInput]);
+
+  const handleChangeInput = (event: any) => {
+    setPurchaseInput(event.target.value);
+  };
+
+  const handleMaxInput = () => {
+    const maxAmountWithTolerance = Number(quoteBalance?.toFixed(6) || 0) * 0.9;
+    setPurchaseInput(maxAmountWithTolerance.toString());
+  };
+
+  const handlePurchase = async () => {
+    if (!presaleContract || !account || !parsedPurchaseInputAmount) return;
+
+    if (approvalState === ApprovalState.APPROVED) {
+      if (data?.isQuoteETH) {
+        const { error, result: tx } = await withCatch<any>(
+          presaleContract.purchaseInETH({
+            value: parsedPurchaseInputAmount.quotient.toString(),
+          }),
+        );
+
+        if (error) {
+          // TODO toast
+          return;
+        }
+
+        await tx.wait();
+        setSuccess(true);
+      } else {
+        const { error, result: tx } = await withCatch<any>(
+          presaleContract.purchase(parsedPurchaseInputAmount.quotient.toString()),
+        );
+
+        if (error) {
+          // TODO toast
+          return;
+        }
+
+        await tx.wait();
+        setSuccess(true);
+      }
+    } else if (approvalState === ApprovalState.NOT_APPROVED) {
+      approveCallback();
+    }
+  };
 
   return (
     <>
@@ -52,17 +121,19 @@ const JoinIdoModal = ({ open, onDismiss, data, unit }: any) => {
             </Typography>
             <WrapInput>
               <FlexBox alignItems="center" justifyContent="space-between">
-                <MaxButton>
+                <MaxButton onClick={handleMaxInput}>
                   <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
                     MAX
                   </Typography>
                 </MaxButton>
                 <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
-                  Balance: 0.065 {unit}
+                  Balance: {quoteBalance?.toFixed(2) || 0} {unit}
                 </Typography>
               </FlexBox>
               <FlexBox alignItems="center" justifyContent="space-between">
                 <OutlinedInput
+                  value={purchaseInput}
+                  onChange={handleChangeInput}
                   placeholder="0.00"
                   type="number"
                   sx={{
@@ -90,7 +161,7 @@ const JoinIdoModal = ({ open, onDismiss, data, unit }: any) => {
                 Price:
               </Typography>
               <Typography variant="body2Poppins" color="text.primary" fontWeight="500">
-                1 FOX = 2.345678 BUSD
+                1 {token?.symbol} = {price} {quoteToken?.symbol || 'BNB'}
               </Typography>
             </FlexBox>
             <FlexBox alignItems="center" justifyContent="space-between">
@@ -98,13 +169,13 @@ const JoinIdoModal = ({ open, onDismiss, data, unit }: any) => {
                 You will get:
               </Typography>
               <Typography variant="body2Poppins" color="text.primary" fontWeight="500">
-                678 FOX
+                {tokenOutputAmount} {token?.symbol}
               </Typography>
             </FlexBox>
             <Box>
-              <ConfirmButton>
+              <ConfirmButton onClick={handlePurchase}>
                 <Typography variant="body3Poppins" color="#000607" fontWeight="600">
-                  Confirm
+                  {approvalState === ApprovalState.NOT_APPROVED ? 'Approve' : 'Confirm'}
                 </Typography>
               </ConfirmButton>
             </Box>
@@ -112,7 +183,7 @@ const JoinIdoModal = ({ open, onDismiss, data, unit }: any) => {
         </BaseModal>
       ) : (
         <Box>
-            {/* <Box display={open ? 'block' : 'none'}>
+          {/* <Box display={open ? 'block' : 'none'}>
                 <img src='/images/Congratulations.png' alt='Congratulations' />
             </Box> */}
           <BaseModal
@@ -127,20 +198,20 @@ const JoinIdoModal = ({ open, onDismiss, data, unit }: any) => {
             }}
           >
             <IconButton onClick={onDismiss} sx={{ position: 'absolute', right: 8, top: 8 }}>
-            <CloseIcon />
-          </IconButton>
-            <FlexBox gap='31px' flexDirection='column' alignItems='center'>
+              <CloseIcon />
+            </IconButton>
+            <FlexBox gap="31px" flexDirection="column" alignItems="center">
               <Typography variant="body3Poppins" color="green.400" fontWeight="600" textTransform="uppercase">
-                YOU JOINED STAR FOX IDO TOKEN SALE
+                YOU JOINED {data?.title?.toUpperCase()} TOKEN SALE
               </Typography>
-            <FlexBox gap='20px' flexDirection='column' alignItems='center'>
-              <img src="/icons/check_circle.svg" alt="check_circle" />
-              <Typography variant="h0Poppins" color="text.primary" fontWeight="700">
-                Congratulations!
-              </Typography>
-            </FlexBox>
+              <FlexBox gap="20px" flexDirection="column" alignItems="center">
+                <img src="/icons/check_circle.svg" alt="check_circle" />
+                <Typography variant="h0Poppins" color="text.primary" fontWeight="700">
+                  Congratulations!
+                </Typography>
+              </FlexBox>
               <Typography variant="body2Poppins" color="gray.600" fontWeight="400">
-                You’ve joined Star Fox IDO successfully and reserved 350 $FOX
+                Purchased successfully and reserved {tokenOutputAmount} {token?.symbol}
               </Typography>
             </FlexBox>
           </BaseModal>

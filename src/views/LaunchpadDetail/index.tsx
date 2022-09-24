@@ -36,23 +36,21 @@ const LaunchpadDetail = () => {
     [BUSD_ADDRESS[data?.chainId]?.toLowerCase()]: 'BUSD',
     [USDC_ADDRESS[data?.chainId]?.toLowerCase()]: 'USDC',
   };
-  console.log("🚀 ~ file: index.tsx ~ line 39 ~ LaunchpadDetail ~ map", map)
-  const unit = data?.isQuoteETH ? 'BNB' : map[data?.quoteToken]
+  const unit = data?.isQuoteETH ? 'BNB' : map[data?.quoteToken];
   const tokenContract = useToken(data?.token);
 
-  const handleGetSaleDetail = async () => {
-    try {
-      const res = await getSaleDetail(slug);
-      console.log('🚀 ~ file: index.tsx ~ line 42 ~ handleGetSaleDetail ~ res', res);
-      setData(res);
-    } catch (error) {
-      console.log('error==>', error);
-    }
-  };
-
   useEffect(() => {
+    const handleGetSaleDetail = async () => {
+      try {
+        const res = await getSaleDetail(slug);
+        setData(res);
+      } catch (error) {
+        console.log('error==>', error);
+      }
+    };
+
     handleGetSaleDetail();
-  }, []);
+  }, [slug]);
 
   return (
     <Section component="section">

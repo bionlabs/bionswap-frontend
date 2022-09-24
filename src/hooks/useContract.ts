@@ -74,7 +74,7 @@ export function usePresaleFactoryContract() {
   return useContract(PRESALE_FACTORY_ADDRESS, PRESALE_FACTORY_ABI, true);
 }
 
-export function usePresaleContract(address: string) {
+export function usePresaleContract(address: string | undefined) {
   return useContract(address, PRESALE_ABI, true);
 }
 
