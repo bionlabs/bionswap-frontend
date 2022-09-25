@@ -8,8 +8,11 @@ import TabsArea from './components/TabsArea';
 import { useRouter } from 'next/router';
 import { getSaleDetail } from 'api/launchpad';
 import { useEffect, useState } from 'react';
-import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS } from '@bionswap/core-sdk';
+import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS, NATIVE } from '@bionswap/core-sdk';
 import { useToken } from 'hooks/useToken';
+import { isAddress } from 'utils/validate';
+import { usePresaleContract } from 'hooks/useContract';
+import { useChain } from 'hooks';
 
 const config = [
   {
@@ -31,25 +34,28 @@ const LaunchpadDetail = () => {
   const router = useRouter();
   const { slug } = router.query;
   const [data, setData] = useState<any>(null);
-  const map = {
-    [USDT_ADDRESS[data?.chainId]?.toLowerCase()]: 'USDT',
-    [BUSD_ADDRESS[data?.chainId]?.toLowerCase()]: 'BUSD',
-    [USDC_ADDRESS[data?.chainId]?.toLowerCase()]: 'USDC',
+
+  const { account, chainId } = useChain();
+  const presaleContract = usePresaleContract(data?.saleAddress);
+  const token = useToken(data?.token);
+  const quoteERCToken = useToken(data?.quoteToken);
+  const quoteNativeToken = NATIVE[chainId];
+  const quoteToken = data?.isQuoteETH ? quoteNativeToken : quoteERCToken;
+  const unit = quoteToken?.symbol;
+
+  const fetchSaleDetail = async (saleAddress?: string) => {
+    if (!isAddress(saleAddress)) return;
+
+    try {
+      const res = await getSaleDetail(saleAddress);
+      setData(res);
+    } catch (error) {
+      console.log('error==>', error);
+    }
   };
-  const unit = data?.isQuoteETH ? 'BNB' : map[data?.quoteToken];
-  const tokenContract = useToken(data?.token);
 
   useEffect(() => {
-    const handleGetSaleDetail = async () => {
-      try {
-        const res = await getSaleDetail(slug);
-        setData(res);
-      } catch (error) {
-        console.log('error==>', error);
-      }
-    };
-
-    handleGetSaleDetail();
+    fetchSaleDetail(slug);
   }, [slug]);
 
   return (
@@ -57,14 +63,14 @@ const LaunchpadDetail = () => {
       <Container maxWidth="xl">
         <Breadcrumb name={data?.title} />
         <HeadDetail
-          avarta={data?.logo}
+          avatar={data?.logo}
           name={data?.title}
           type={data?.saleType}
           endTime={data?.endTime * 1000}
           startTime={data?.startTime * 1000}
           unit={unit}
         />
-        <FundraiseArea data={data} slug={slug} unit={unit} tokenContract={tokenContract} />
+        <FundraiseArea data={data} presaleContract={presaleContract} token={token} quoteToken={quoteToken} />
       </Container>
       <WrapService>
         <Container maxWidth="xl">
@@ -89,7 +95,7 @@ const LaunchpadDetail = () => {
         </Container>
       </WrapService>
       <WrapTabRecom>
-        <TabsArea isMobile={isMobile} data={data} unit={unit} tokenContract={tokenContract} />
+        <TabsArea isMobile={isMobile} data={data} unit={unit} token={token} />
         {/* <RecomendProjects data={crowdfundingConfig} /> */}
       </WrapTabRecom>
     </Section>

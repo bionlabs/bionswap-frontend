@@ -18,6 +18,12 @@ interface VestingScheduleProps {
 }
 
 const VestingSchedule: React.FC<VestingScheduleProps> = ({ data }) => {
+  console.log('🚀 ~ file: VestingSchedule.tsx ~ line 21 ~ data', data);
+  const nCycles = Math.ceil(
+    data?.cycleReleasePercent ? (10000 - Number(data?.tgeReleasePercent || 0)) / Number(data?.cycleReleasePercent) : 0,
+  );
+
+  console.log('🚀 ~ file: VestingSchedule.tsx ~ line 22 ~ nCycles', nCycles);
   return (
     <Box display="flex" gap={3} sx={{ width: '100%' }}>
       <WrapBox>
@@ -43,7 +49,7 @@ const VestingSchedule: React.FC<VestingScheduleProps> = ({ data }) => {
                   TGE
                 </Typography>
                 <Typography variant="body3Poppins" color="text.primary" fontWeight="600">
-                  07/06/2022 - 04:30:00 PM
+                  {new Date(data?.tgeDate * 1000).toUTCString()}
                 </Typography>
               </FlexBox>
               <Line />
@@ -58,7 +64,7 @@ const VestingSchedule: React.FC<VestingScheduleProps> = ({ data }) => {
                   Initial claim percentage:
                 </Typography>
                 <Typography variant="body3Poppins" color="primary.main" fontWeight="500">
-                  50%
+                  {Number(data?.tgeReleasePercent || 0) / 100}%
                 </Typography>
               </FlexBox>
               <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
@@ -66,38 +72,47 @@ const VestingSchedule: React.FC<VestingScheduleProps> = ({ data }) => {
                 will be released linearly over time until it is fully released at 07/06/2022 at 04:30:00 PM
               </Typography>
             </ContentItem>
-            <ContentItem>
-              <FlexBox
-                width="100%"
-                justifyContent="space-between"
-                sx={{
-                  flexDirection: { xs: 'column', sm: 'row' },
-                }}
-              >
-                <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
-                  Phase 1
-                </Typography>
-                <Typography variant="body3Poppins" color="text.primary" fontWeight="600">
-                  07/06/2022 - 04:30:00 PM
-                </Typography>
-              </FlexBox>
-              <Line />
-              <FlexBox
-                width="100%"
-                justifyContent="space-between"
-                sx={{
-                  flexDirection: { xs: 'column', sm: 'row' },
-                }}
-              >
-                <Typography variant="body3Poppins" color="text.primary" fontWeight="400">
-                  Initial claim percentage:
-                </Typography>
-                <Typography variant="body3Poppins" color="primary.main" fontWeight="500">
-                  25%
-                </Typography>
-              </FlexBox>
-            </ContentItem>
-            <ContentItem>
+            {Array.from(Array(nCycles), (_, i) => i + 1).map((i) => (
+              <ContentItem key={i}>
+                <FlexBox
+                  width="100%"
+                  justifyContent="space-between"
+                  sx={{
+                    flexDirection: { xs: 'column', sm: 'row' },
+                  }}
+                >
+                  <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
+                    Phase {i}
+                  </Typography>
+                  <Typography variant="body3Poppins" color="text.primary" fontWeight="600">
+                    {new Date((Number(data?.tgeDate || 0) + Number(data?.cycleDuration || 0) * i) * 1000).toUTCString()}
+                  </Typography>
+                </FlexBox>
+                <Line />
+                <FlexBox
+                  width="100%"
+                  justifyContent="space-between"
+                  sx={{
+                    flexDirection: { xs: 'column', sm: 'row' },
+                  }}
+                >
+                  <Typography variant="body3Poppins" color="text.primary" fontWeight="400">
+                    Percentage:
+                  </Typography>
+                  <Typography variant="body3Poppins" color="primary.main" fontWeight="500">
+                    {i === nCycles
+                      ? (10000 -
+                          Number(data?.tgeReleasePercent || 0) -
+                          Number(data?.cycleReleasePercent || 0) * (i - 1)) /
+                        100
+                      : (data?.cycleReleasePercent || 0) / 100}{' '}
+                    %
+                  </Typography>
+                </FlexBox>
+              </ContentItem>
+            ))}
+
+            {/* <ContentItem>
               <FlexBox
                 width="100%"
                 justifyContent="space-between"
@@ -127,7 +142,7 @@ const VestingSchedule: React.FC<VestingScheduleProps> = ({ data }) => {
                   25%
                 </Typography>
               </FlexBox>
-            </ContentItem>
+            </ContentItem> */}
           </FlexBox>
         </FlexBox>
       </WrapBox>

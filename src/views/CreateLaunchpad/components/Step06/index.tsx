@@ -184,11 +184,26 @@ const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any
         isAutoListing: data.isAutoListing,
         baseFee: data.baseFee,
         tokenFee: data.tokenFee,
-        tgeDate: data.tgeDate,
+        tgeDate: data.tgeDate / 1000,
         tgeReleasePercent: Number(data.firstRelease) * 100,
-        cycleDuration: Number(data.vestingPeriodEachCycle),
+        cycleDuration: Number(data.vestingPeriodEachCycle) * 86400,
         cycleReleasePercent: Number(data.tokenReleaseEachCycle) * 100,
       };
+
+      // first estimate whether a successful transaction
+      const mockSalt = '0x0123';
+      const { error: errorEstimate } = await withCatch(
+        presaleFactoryContract.estimateGas
+          .create(payloadContract, mockSalt, { value: ethers.utils.parseEther('0.1') })
+          .catch((error: any) => {
+            console.log(error);
+          }),
+      );
+
+      if (errorEstimate) {
+        // TODO: toast
+        return;
+      }
 
       const { error, result } = await withCatch(
         createPresale({

@@ -3,22 +3,22 @@ import { Box, Link, Breadcrumbs, Typography } from '@mui/material';
 import styled from '@emotion/styled';
 
 interface HeadDetailProps {
-  avarta: string;
+  avatar: string;
   name: string;
   type: any;
   endTime: number;
   startTime: number;
-  unit: string;
+  unit?: string;
 }
 
-const HeadDetail: React.FC<HeadDetailProps> = ({ avarta, name, type, endTime, startTime, unit }) => {
+const HeadDetail: React.FC<HeadDetailProps> = ({ avatar, name, type, endTime, startTime, unit }) => {
   const currentTime = +new Date();
 
   return (
     <FlexBox alignItems="center" marginBottom="32px" flexWrap="wrap">
       <Box marginRight="24px">
         <Logo>
-          <Box component="img" src={avarta} alt={name} />
+          <Box component="img" src={avatar} alt={name} />
         </Logo>
       </Box>
       <FlexBox flex="1" flexDirection="column">
@@ -85,19 +85,19 @@ const Status = styled(Box)`
   padding: 3px 10px 5px;
 `;
 const Logo = styled(Box)`
-    width: 82px;
-    height: 82px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid #0C1620;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    img {
-        width: 100%;
-        height: auto;
-    }
-`
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #0c1620;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+`;
 
 export default HeadDetail;

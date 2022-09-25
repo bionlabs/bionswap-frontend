@@ -9,8 +9,8 @@ import AboutGame from "./AboutGame";
 interface TabsAreaProps {
     data: any,
     isMobile: boolean,
-    unit: string,
-    tokenContract: any
+    unit?: string,
+    token: any
 }
 
 function TabPanel(props: any) {
@@ -40,7 +40,7 @@ function a11yProps(index: any) {
     };
 }
 
-const TabsArea: React.FC<TabsAreaProps> = ({ data, isMobile = false, unit, tokenContract }) => {
+const TabsArea: React.FC<TabsAreaProps> = ({ data, isMobile = false, unit, token: tokenContract }) => {
     const [value, setValue] = React.useState(0);
     const tabHead = useRef<HTMLInputElement>(null);
     const [topPosition, setTopPosition] = useState(0)

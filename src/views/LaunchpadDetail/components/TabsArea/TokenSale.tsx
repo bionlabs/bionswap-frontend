@@ -6,7 +6,7 @@ import { formatEther } from "ethers/lib/utils";
 interface TokenSaleProps {
     data: any,
     isMobile: boolean,
-    unit: string,
+    unit?: string,
     tokenContract: any,
 }
 
