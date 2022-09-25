@@ -1,8 +1,9 @@
+import Sidebar from "components/Sidebar"
 import { AppProps } from "next/app"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import Dashboard from "views/Dashboard"
-import Sidebar from "views/Dashboard/components/Sidebar/Sidebar"
+import sidebarConfig from "views/Dashboard/sidebarConfig"
 
 const DashboardPage = () => {
     const router = useRouter();
@@ -13,7 +14,7 @@ const DashboardPage = () => {
       }, [router])
 
     return (
-        <Sidebar>
+        <Sidebar menuItems={sidebarConfig} rootHref='dashboard'>
             <Dashboard/>
         </Sidebar>
     

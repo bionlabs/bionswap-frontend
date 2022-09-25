@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import { useRouter } from 'next/router'
 
-const Bottombar = ({data}:any) => {
+const Bottombar = ({data, rootHref}:any) => {
   const router = useRouter()
   return (
     <Wrapper>
@@ -20,10 +20,10 @@ const Bottombar = ({data}:any) => {
           data.map((item:any) =>
             <ListItem disablePadding key='' sx={{width: 'fit-content'}}>
               <Item
-                className={router.asPath == `/dashboard${item.href}` ? 'active' : ''}
+                className={router.asPath == `/${rootHref}${item.href}` ? 'active' : ''}
                 onClick={(e) => {
                   e.preventDefault();
-                  router.push(`/dashboard${item.href}`)
+                  router.push(`/${rootHref}${item.href}`)
                 }}
               >
                 <StyledListItemIcon>

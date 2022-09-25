@@ -14,12 +14,11 @@ import {
 } from '@mui/material'
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import sidebarConfig from './sidebarConfig';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import Bottombar from '../Bottombar/Bottombar';
+import Bottombar from './Bottombar';
 
-const Sidebar = ({ children }: any) => {
+const Sidebar = ({ children, menuItems, rootHref }: any) => {
   const isMobile = useMediaQuery('(max-width:767px)');
   const router = useRouter();
 
@@ -35,7 +34,7 @@ const Sidebar = ({ children }: any) => {
         <SidebarContainer>
           <StyledList>
             {
-              sidebarConfig.map(item =>
+              menuItems.map((item: any) =>
                 <ListItem disablePadding key=''>
                   {
                     item.item ?
@@ -50,7 +49,7 @@ const Sidebar = ({ children }: any) => {
                         <Collapse in={open} timeout="auto" unmountOnExit>
                           <List component="div" disablePadding>
                             {
-                              item.item.map(i =>
+                              item.item.map((i: any) =>
                                 <LinkCustom href={i.href} key={i.label} sx={{ pl: 7 }}
                                   onClick={(e) => {
                                     router.push(`${i.href}`)
@@ -65,10 +64,10 @@ const Sidebar = ({ children }: any) => {
                       </List>
                       :
                       <Item
-                        className={router.asPath == `/dashboard${item.href}` ? 'active' : ''}
+                        className={router.asPath == `/${rootHref}${item.href}` ? 'active' : ''}
                         onClick={(e) => {
                           e.preventDefault();
-                          router.push(`/dashboard${item.href}`)
+                          router.push(`/${rootHref}${item.href}`)
                         }}
                       >
                         <StyledListItemIcon>
@@ -92,7 +91,7 @@ const Sidebar = ({ children }: any) => {
           </StyledList>
         </SidebarContainer>
         :
-        <Bottombar data={sidebarConfig} />
+        <Bottombar data={menuItems} rootHref={rootHref} />
       }
       <Inner>
         {children}

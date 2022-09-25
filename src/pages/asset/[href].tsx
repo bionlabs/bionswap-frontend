@@ -1,10 +1,10 @@
 import React from 'react'
 import Allocation from "views/Dashboard/views/Allocation/Allocation";
 import { useRouter } from 'next/router';
-import sidebarConfig from 'views/Dashboard/sidebarConfig';
+import sidebarConfig from "views/Asset/sidebarConfig"
 import Sidebar from 'components/Sidebar';
 
-const DashboardRef = () => {
+const AssetRef = () => {
   const router = useRouter();
   const { href } = router.query;
 
@@ -13,10 +13,10 @@ const DashboardRef = () => {
   }
 
   return (
-    <Sidebar menuItems={sidebarConfig} rootHref='dashboard'>
+    <Sidebar menuItems={sidebarConfig} rootHref='asset'>
         {getComponent()?.component}
     </Sidebar>
   )
 }
 
-export default DashboardRef
+export default AssetRef
