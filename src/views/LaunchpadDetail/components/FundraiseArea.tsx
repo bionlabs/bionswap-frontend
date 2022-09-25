@@ -10,9 +10,9 @@ import { useState } from 'react';
 
 interface FundraiseAreaProps {
   data: any;
-  slug: string;
-  unit: string;
-  tokenContract: any;
+  token: any;
+  quoteToken: any;
+  presaleContract: any;
 }
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -27,16 +27,13 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, slug, unit, tokenContract }) => {
-    const [openModal, setOpenModal] = useState(false);
-  const presaleContract = usePresaleContract(slug);
+const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, presaleContract }) => {
+  const [openModal, setOpenModal] = useState(false);
   const currentCap = formatEther(useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0);
   const startTime = data?.startTime * 1000;
   const endTime = data?.endTime * 1000;
   const linearProgress = (Number(currentCap) * 100) / Number(data?.hardCap);
-  console.log('data===>', data);
-  //   const participaters = useSingleCallResult(presaleContract, 'purchase')
-  //   console.log('🚀 ~ file: FundraiseArea.tsx ~ line 32 ~ currentCap', participaters);
+  const unit = quoteToken?.symbol;
 
   const handleOpenModal = () => setOpenModal(true);
 
@@ -107,10 +104,10 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, slug, unit, tokenCo
                 Price per token
               </Typography>
               <Typography variant="h6Poppins" color="gray.200" fontWeight="400">
-                1 {tokenContract?.symbol} = {formatEther(data?.price || 0)} {unit}
+                1 {token?.symbol} = {formatEther(data?.price || 0)} {unit}
               </Typography>
             </FlexBox>
-            <FlexBox
+            {/* <FlexBox
               justifyContent="space-between"
               sx={{
                 flexDirection: { xs: 'column', sm: 'row' },
@@ -122,7 +119,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, slug, unit, tokenCo
               <Typography variant="h6Poppins" color="gray.200" fontWeight="400">
                 320
               </Typography>
-            </FlexBox>
+            </FlexBox> */}
           </FlexBox>
           <Line />
           <FlexBox>

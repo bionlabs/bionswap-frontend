@@ -67,7 +67,7 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
   const [launchTime, setLaunchtime] = useState(new Date(data.launchTime) || 0);
   const [endLaunchTime, setEndLaunchTime] = useState(new Date(data.endTime) || 0);
   const [tokenDistributionDate, setTokenDistributionDate] = useState(new Date(data.tokenDistributionTime) || 0);
-  const [tgeDate, settgeDate] = useState(new Date(data.tgeDate) || 0);
+  const [tgeDate, setTGEDate] = useState(new Date(data.tgeDate) || 0);
 
   useEffect(() => {
     setData(setPresaleForm({ ['launchTime']: new Date(launchTime).getTime() }));
@@ -536,7 +536,7 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                   renderInput={(props) => <TextField {...props} />}
                                   value={tgeDate}
                                   onChange={(newValue: any) => {
-                                    settgeDate(newValue);
+                                    setTGEDate(newValue);
                                   }}
                                 />
                               </LocalizationProvider>
