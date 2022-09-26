@@ -66,3 +66,12 @@ export async function getSaleDetail(saleAddress: string) {
 
   return result.data.data;
 }
+
+export async function getJoinedSales(chainId: string, account: string) {
+  const result = await apiClient.get('/launchpad/joined-sales', {params: {
+    chainId: chainId,
+    account: account,
+  }})
+
+  return result.data.data;
+}

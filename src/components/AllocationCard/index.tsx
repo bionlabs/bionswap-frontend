@@ -1,95 +1,154 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, styled, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { formatEther } from 'ethers/lib/utils';
 import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS } from '@bionswap/core-sdk';
+import { useSingleCallResult, useToken } from 'hooks';
+import { usePresaleContract } from 'hooks/useContract';
+import { withCatch } from 'utils/error';
 
 interface ProjectItemProps {
   data: any;
+  account: string;
 }
 
-const AllocationCard: React.FC<ProjectItemProps> = ({ data }) => {
-  const router = useRouter();
+const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
+  const [claimLoading, setClaimLoading] = useState(false)
+  const [vestingNextTime, setVestingNextTime] = useState<any>([]);
   const currentTime = +new Date();
-  const startTime = data?.startTime * 1000;
-  const endTime = data?.endTime * 1000;
+  const presaleContract = usePresaleContract(data?.sale?.saleAddress || '');
+  console.log('🚀 ~ file: index.tsx ~ line 21 ~ presaleContract', presaleContract);
 
-  const map = {
-    [USDT_ADDRESS[data?.chainId]?.toLowerCase()]: 'USDT',
-    [BUSD_ADDRESS[data?.chainId]?.toLowerCase()]: 'BUSD',
-    [USDC_ADDRESS[data?.chainId]?.toLowerCase()]: 'USDC',
+  const tokenAmountClaimed = formatEther(
+    useSingleCallResult(presaleContract, 'purchaseDetails', [account])?.result?.[2] || 0,
+  );
+  const calcClaimableTokenAmount = formatEther(
+    useSingleCallResult(presaleContract, 'calcClaimableTokenAmount', [account])?.result?.[0] || 0,
+  );
+  const calcPurchasedTokenAmount = formatEther(
+    useSingleCallResult(presaleContract, 'calcPurchasedTokenAmount ', [account])?.result?.[0] || 0,
+  );
+  const vestingTime = data?.sale?.tgeDate * 1000;
+  const nCycles = Math.ceil(
+    data?.sale?.cycleReleasePercent
+      ? (10000 - Number(data?.sale?.tgeReleasePercent || 0)) / Number(data?.sale?.cycleReleasePercent)
+      : 0,
+  );
+
+  const token = useToken(data?.sale?.token);
+
+  const nextClaimTime = () => {
+    let time = ''
+    vestingNextTime.map((item: any, index: any) => {
+      if (currentTime < item) {
+        time = new Date(item).toUTCString();
+      }
+    })
+    return time;
+  }
+
+  const configData = [
+    {
+      label: 'Available Now',
+      value: `${calcClaimableTokenAmount} ${token?.symbol}`,
+    },
+    {
+      label: 'Claimed',
+      value: `${tokenAmountClaimed} ${token?.symbol}`,
+    },
+    {
+      label: 'Total',
+      value: `${calcPurchasedTokenAmount} ${token?.symbol}`,
+    },
+    {
+      label: currentTime < +new Date(vestingTime) ? 'Claim in' : 'Next Claim in',
+      value: currentTime < +new Date(vestingTime) ? new Date(vestingTime).toUTCString() : nextClaimTime(),
+    },
+  ];
+
+  const CalculateCycle = () => {
+    let indents = [];
+    for (var i = 0; i < nCycles; i++) {
+      indents.push(+new Date((Number(data?.sale?.tgeDate || 0) + Number(data?.sale?.cycleDuration || 0) * i) * 1000));
+    }
+    setVestingNextTime(indents);
   };
-  const unit = data?.isQuoteETH ? 'BNB' : map[data?.quoteToken];
+
+  useEffect(() => {
+    CalculateCycle()
+  }, [nCycles])
+
+  const handleClaim = async () => {
+    try {
+      setClaimLoading(true);
+      const { error, result: tx } = await withCatch<any>(
+        presaleContract?.claim(),
+      );
+      const receipt = await tx.wait()
+      setClaimLoading(false);
+    } catch (error: any) {
+      setClaimLoading(false);
+    }
+  }
 
   return (
     <WrapBox>
       <Avatar>
-        <img
-          src="https://bionswap.sgp1.digitaloceanspaces.com/dev/launchpad/2022-09-23/632dd57d18ac3c3efa6d8371.jpg"
-          alt="ABC"
-        />
+        <img src={data?.sale?.banner} alt={data?.sale?.title} />
       </Avatar>
       <WrapText>
         <FlexBox justifyContent="space-between" width="100%" alignItems="center">
           <FlexBox gap="10px" alignItems="center">
             <Logo>
-              <img
-                src="https://bionswap.sgp1.digitaloceanspaces.com/dev/launchpad/2022-09-23/632dd57018ac3c3efa6d836d.jpg"
-                alt="ABC"
-              />
+              <img src={data?.sale?.logo} alt={data?.sale?.title} />
             </Logo>
             <FlexBox flexDirection="column">
               <Typography variant="body3Poppins" color="text.primary" fontWeight="500">
-                Engines Of Fury
+                {data?.sale?.title}
               </Typography>
               <Typography variant="body4Poppins" color="#FBB03B" fontWeight="400">
-                $FURY
+                {token?.symbol}
               </Typography>
             </FlexBox>
           </FlexBox>
-          <Status sx={{ backgroundColor: '#08878E' }}>
+          <Status
+            sx={{
+              backgroundColor: '#FBB03B',
+              ...(currentTime >= vestingTime  && {
+                  color: '#747475',
+                }),
+              ...(currentTime >= vestingTime  &&
+                Number(calcClaimableTokenAmount) > 0 && {
+                  color: '#08878E',
+                }),
+            }}
+          >
             <Typography variant="captionPoppins" color="text.primary" fontWeight="500">
               Open
             </Typography>
           </Status>
         </FlexBox>
         <Line />
-        <FlexBox justifyContent="space-between" alignItems="center">
-          <Typography variant="body4Poppins" color="primary.main" fontWeight="400">
-            Available Now
-          </Typography>
-          <Typography variant="body3Poppins" color="text.primary" fontWeight="500">
-            0 FURY
-          </Typography>
-        </FlexBox>
-        <FlexBox justifyContent="space-between" alignItems="center">
-          <Typography variant="body4Poppins" color="primary.main" fontWeight="400">
-            Claimed
-          </Typography>
-          <Typography variant="body3Poppins" color="text.primary" fontWeight="500">
-            0 FURY
-          </Typography>
-        </FlexBox>
-        <FlexBox justifyContent="space-between" alignItems="center">
-          <Typography variant="body4Poppins" color="primary.main" fontWeight="400">
-            Total
-          </Typography>
-          <Typography variant="body3Poppins" color="text.primary" fontWeight="500">
-            0 FURY
-          </Typography>
-        </FlexBox>
-        <FlexBox justifyContent="space-between" alignItems="center">
-          <Typography variant="body4Poppins" color="primary.main" fontWeight="400">
-            Next Claim in
-          </Typography>
-          <Typography variant="body3Poppins" color="text.primary" fontWeight="500">
-            06/20/2022 - 10:00:00 AM
-          </Typography>
-        </FlexBox>
-        <CTA sx={{backgroundColor: 'primary.main'}}>
+        {configData.map((item) => (
+          <FlexBox key={item.label} justifyContent="space-between" alignItems="center">
+            <Typography variant="body4Poppins" color="primary.main" fontWeight="400">
+              {item.label}
+            </Typography>
+            <Typography variant="body3Poppins" color="text.primary" fontWeight="500">
+              {item.value}
+            </Typography>
+          </FlexBox>
+        ))}
+        <CTA onClick={handleClaim} sx={{ backgroundColor: 'primary.main' }}>
           <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-            Claim
+            {
+              claimLoading
+              ?
+              'Loading.....'
+              :
+              'Claim'
+            }
           </Typography>
         </CTA>
       </WrapText>
