@@ -19,7 +19,7 @@ import { useEffect, useState } from 'react';
 import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS, NATIVE } from '@bionswap/core-sdk';
 import { useToken } from 'hooks/useToken';
 import { isAddress } from 'utils/validate';
-import { usePresaleContract } from 'hooks/useContract';
+import { useBionLockContract, usePresaleContract } from 'hooks/useContract';
 import { useChain, useSingleCallResult } from 'hooks';
 import { useTotalSupply } from 'hooks/useTotalSupply';
 import { formatEther } from 'ethers/lib/utils';
@@ -39,11 +39,11 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 
 const saleTypes = [
   {
-    value: "PRE_SALE",
-    label: 'Pre Sale',
+    value: 0,
+    label: 'Public',
   },
   {
-    value: "WHITELIST",
+    value: 1,
     label: 'Whitelist',
   },
 ];
@@ -89,10 +89,17 @@ const MyProjectDetail = () => {
   const minBuy = formatEther(data?.minPurchase || 0);
   const maxBuy = formatEther(data?.maxPurchase || 0);
   const presaleContract = usePresaleContract(data?.saleAddress);
+  const bionLockContract = useBionLockContract();
+  const saleStatus = useSingleCallResult(presaleContract, 'status')?.result?.[0] || 0;
+  const isWhitelistEnabled = useSingleCallResult(presaleContract, 'isWhitelistEnabled')?.result?.[0] || false;
+  const purchaserList = useSingleCallResult(presaleContract, 'getAllPurchasers', [])?.result?.[0] || [];
+
+  const lockId = useSingleCallResult(presaleContract, 'lockId')?.result?.[0]?.toNumber() || 0;
+  const lockRecord = useSingleCallResult(bionLockContract, 'getLockById', [lockId])?.result?.[0];
 
   const currentCap = formatEther(useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0);
   const contributors = 0;
-  const totalSupply = useTotalSupply(token || undefined)?.toExact(0);
+  const totalSupply = useTotalSupply(token || undefined)?.toExact({});
   const tokensForPresale = Number(hardCap) / Number(price);
   const tokensForLP = (Number(hardCap) * (data?.lpPercent / 100)) / Number(listingPrice);
   const quoteERCToken = useToken(data?.quoteToken);
@@ -170,7 +177,7 @@ const MyProjectDetail = () => {
             },
             {
               label: 'Standard',
-              value: 'Bep20',
+              value: 'BEP20',
             },
           ],
         },
@@ -209,6 +216,39 @@ const MyProjectDetail = () => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+
+  const handleFinalize = async () => {
+    if (!presaleContract || !account) return;
+
+    if (data?.isQuoteETH) {
+      const tx = await presaleContract.finalizeInETH();
+      await tx.wait();
+    } else {
+      const tx = await presaleContract.finalize();
+      await tx.wait();
+    }
+  };
+
+  const handleCancel = async () => {
+    if (!presaleContract || !account) return;
+
+    const tx = await presaleContract.cancelSale();
+    await tx.wait();
+  };
+
+  const handleChangeSaleMode = async (isWhitelistEnabled: boolean) => {
+    if (!presaleContract || !account) return;
+
+    const tx = await presaleContract.setWhitelistEnabled(isWhitelistEnabled);
+    await tx.wait();
+  };
+
+  const handleUnlockLP = async () => {
+    if (!bionLockContract || !account) return;
+
+    const tx = await bionLockContract.unlock(lockId);
+    await tx.wait();
   };
 
   return (
@@ -341,14 +381,18 @@ const MyProjectDetail = () => {
                 Sale action
               </Typography>
               <FlexBox gap="15px" flexDirection="column">
-                <ButtonInLine sx={{ backgroundColor: 'primary.main' }}>
+                <ButtonInLine
+                  sx={{ backgroundColor: 'primary.main' }}
+                  onClick={handleFinalize}
+                  disabled={saleStatus !== 0}
+                >
                   <Typography variant="body3Poppins" color="#000000" fontWeight="600">
                     Complete and Release token
                   </Typography>
                 </ButtonInLine>
-                <ButtonInLine sx={{ backgroundColor: 'gray.200' }}>
+                <ButtonInLine sx={{ backgroundColor: 'gray.200' }} onClick={handleCancel} disabled={saleStatus !== 0}>
                   <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-                    Cancle
+                    Cancel
                   </Typography>
                 </ButtonInLine>
                 <ButtonOutLine>
@@ -360,13 +404,13 @@ const MyProjectDetail = () => {
             </SaleBox>
             <SaleBox gap="18px">
               <Typography variant="body2Poppins" color="gray.50" fontWeight="500">
-                Sale type
+                Sale Mode
               </Typography>
               <FormControl fullWidth>
-                <RadioGroup name="radio-buttons-group">
+                <RadioGroup name="radio-buttons-group" value={isWhitelistEnabled}>
                   {saleTypes?.map((item) => (
                     <FormControlLabel
-                    disabled
+                      disabled
                       key={item.value}
                       value={item.value}
                       label={
