@@ -3,18 +3,15 @@ import Allocation from "views/Dashboard/views/Allocation/Allocation";
 import { useRouter } from 'next/router';
 import sidebarConfig from "views/Asset/sidebarConfig"
 import Sidebar from 'components/Sidebar';
+import MyProjectDetail from 'views/MyProjectDetail';
 
 const AssetRef = () => {
   const router = useRouter();
   const { href } = router.query;
-
-  const getComponent = () => {
-    return sidebarConfig.find(item => item.href == '/' + href)
-  }
-
+  
   return (
     <Sidebar menuItems={sidebarConfig} rootHref='asset'>
-        {getComponent()?.component}
+        <MyProjectDetail />
     </Sidebar>
   )
 }
