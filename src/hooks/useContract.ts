@@ -6,6 +6,7 @@ import MULTICALL_ABI from 'constants/abis/interface-multicall.json';
 import PRESALE_FACTORY_ABI from 'constants/abis/presale-factory.json';
 import PRESALE_ABI from 'constants/abis/presale.json';
 import ROUTER_ABI from 'constants/abis/router.json';
+import BION_LOCK_ABI from 'constants/abis/bion-lock.json';
 import ENS_PUBLIC_RESOLVER_ABI from 'constants/abis/ens-public-resolver.json';
 import { Contract } from 'ethers';
 import { useAccount, useChain, useNetwork, useProvider, useSigner } from 'hooks';
@@ -18,7 +19,7 @@ import {
   ROUTER_ADDRESS,
   WNATIVE_ADDRESS,
 } from '@bionswap/core-sdk';
-import { PRESALE_FACTORY_ADDRESS } from 'constants/addresses';
+import { BION_LOCK_ADDRESS, PRESALE_FACTORY_ADDRESS } from 'constants/addresses';
 
 // returns null on errors
 export function useContract<T extends Contract = Contract>(
@@ -76,6 +77,10 @@ export function usePresaleFactoryContract() {
 
 export function usePresaleContract(address: string | undefined) {
   return useContract(address, PRESALE_ABI, true);
+}
+
+export function useBionLockContract() {
+  return useContract(BION_LOCK_ADDRESS, BION_LOCK_ABI, true);
 }
 
 export function useMulticallContract(): Contract | null | undefined {

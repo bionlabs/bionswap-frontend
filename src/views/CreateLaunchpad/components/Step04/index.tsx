@@ -64,11 +64,11 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
   useEffect(() => {
     switch (data.listing) {
       case '0': {
-        setData(setPresaleForm({ isAutoListing: true }));
+        setData(setPresaleForm({ isAutoListing: false }));
         break;
       }
       case '1': {
-        setData(setPresaleForm({ isAutoListing: false }));
+        setData(setPresaleForm({ isAutoListing: true }));
         break;
       }
     }
