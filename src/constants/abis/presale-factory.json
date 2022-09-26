@@ -15,6 +15,11 @@
         "internalType": "uint256",
         "name": "_fee",
         "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_bionLock",
+        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
@@ -69,6 +74,19 @@
     ],
     "name": "SaleCreated",
     "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "bionLock",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "inputs": [
@@ -193,6 +211,11 @@
             "internalType": "uint256",
             "name": "cycleReleasePercent",
             "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "lockLPDuration",
+            "type": "uint256"
           }
         ],
         "internalType": "struct SaleDetail",
@@ -305,6 +328,19 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_bionLock",
+        "type": "address"
+      }
+    ],
+    "name": "setBionLock",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {

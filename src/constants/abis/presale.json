@@ -185,6 +185,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "bionLock",
+    "outputs": [
+      {
+        "internalType": "contract IBionLock",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -343,6 +356,41 @@
   },
   {
     "inputs": [],
+    "name": "getAllPurchasers",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "purchaser",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokenAmountClaimed",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "isRefunded",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct PreSale.PurchaseDetail[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "getWhitelistedList",
     "outputs": [
       {
@@ -490,11 +538,21 @@
             "internalType": "uint256",
             "name": "cycleReleasePercent",
             "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "lockLPDuration",
+            "type": "uint256"
           }
         ],
         "internalType": "struct SaleDetail",
         "name": "_saleDetail",
         "type": "tuple"
+      },
+      {
+        "internalType": "address",
+        "name": "_bionLock",
+        "type": "address"
       }
     ],
     "name": "initialize",
@@ -557,6 +615,32 @@
   {
     "inputs": [],
     "name": "listingPrice",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "lockId",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "lockLPDuration",
     "outputs": [
       {
         "internalType": "uint256",

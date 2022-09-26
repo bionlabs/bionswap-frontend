@@ -188,10 +188,11 @@ const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any
         tgeReleasePercent: Number(data.firstRelease) * 100,
         cycleDuration: Number(data.vestingPeriodEachCycle) * 86400,
         cycleReleasePercent: Number(data.tokenReleaseEachCycle) * 100,
+        lockLPDuration: Number(data.lockupTime) * 86400,
       };
 
       // first estimate whether a successful transaction
-      const mockSalt = '0x0123';
+      const mockSalt = '0x3633326164653839616636643032303135316235356336360000000000000000';
       const { error: errorEstimate } = await withCatch(
         presaleFactoryContract.estimateGas
           .create(payloadContract, mockSalt, { value: ethers.utils.parseEther('0.1') })
