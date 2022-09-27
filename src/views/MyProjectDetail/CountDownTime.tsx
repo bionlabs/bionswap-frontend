@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography, styled } from '@mui/material';
 
 const CountDownTime = ({ endTime }: any) => {
-  const currentTime = +new Date();
-
   const calculateTimeLeft = () => {
     let difference;
     difference = +new Date(Number(endTime)) - +new Date();

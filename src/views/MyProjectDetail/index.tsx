@@ -24,6 +24,9 @@ import { useChain, useSingleCallResult } from 'hooks';
 import { useTotalSupply } from 'hooks/useTotalSupply';
 import { formatEther } from 'ethers/lib/utils';
 import CountDownTime from './CountDownTime';
+import CountDownUnlockLP from './CountDownUnlockLP';
+import { withCatch } from 'utils/error';
+import ListContributorModal from 'components/ListContributorModal';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
@@ -39,11 +42,11 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 
 const saleTypes = [
   {
-    value: 0,
+    value: true,
     label: 'Public',
   },
   {
-    value: 1,
+    value: false,
     label: 'Whitelist',
   },
 ];
@@ -78,6 +81,8 @@ function a11yProps(index: number) {
 }
 
 const MyProjectDetail = () => {
+  const [unlockLPLoading, setUnlockLPLoading] = useState(false);
+  const [openListModal, setOpenListModal] = useState(false);
   const { account, chainId } = useChain();
   const router = useRouter();
   const { slug } = router.query;
@@ -90,15 +95,19 @@ const MyProjectDetail = () => {
   const maxBuy = formatEther(data?.maxPurchase || 0);
   const presaleContract = usePresaleContract(data?.saleAddress);
   const bionLockContract = useBionLockContract();
+  console.log('🚀 ~ file: index.tsx ~ line 94 ~ MyProjectDetail ~ bionLockContract', bionLockContract);
   const saleStatus = useSingleCallResult(presaleContract, 'status')?.result?.[0] || 0;
   const isWhitelistEnabled = useSingleCallResult(presaleContract, 'isWhitelistEnabled')?.result?.[0] || false;
   const purchaserList = useSingleCallResult(presaleContract, 'getAllPurchasers', [])?.result?.[0] || [];
+  console.log("🚀 ~ file: index.tsx ~ line 100 ~ MyProjectDetail ~ purchaserList", purchaserList)
 
   const lockId = useSingleCallResult(presaleContract, 'lockId')?.result?.[0]?.toNumber() || 0;
   const lockRecord = useSingleCallResult(bionLockContract, 'getLockById', [lockId])?.result?.[0];
 
+  const withdrawableTokens = useSingleCallResult(bionLockContract, 'withdrawableTokens', [lockId])?.result?.[0];
+  console.log('🚀 ~ file: index.tsx ~ line 105 ~ MyProjectDetail ~ withdrawableTokens', withdrawableTokens);
+
   const currentCap = formatEther(useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0);
-  const contributors = 0;
   const totalSupply = useTotalSupply(token || undefined)?.toExact({});
   const tokensForPresale = Number(hardCap) / Number(price);
   const tokensForLP = (Number(hardCap) * (data?.lpPercent / 100)) / Number(listingPrice);
@@ -112,6 +121,10 @@ const MyProjectDetail = () => {
   const endTime = data?.endTime * 1000;
   const linearProgress = (Number(currentCap) * 100) / Number(hardCap);
   const [value, setValue] = useState(0);
+
+  const handleListModal = () => {
+    setOpenListModal(!openListModal)
+  }
 
   const fetchSaleDetail = async (saleAddress?: any) => {
     if (!isAddress(saleAddress)) return;
@@ -132,7 +145,7 @@ const MyProjectDetail = () => {
   const contributorData = [
     {
       label: 'Contributors',
-      value: `${contributors}`,
+      value: `${purchaserList.length}`,
     },
     {
       label: 'Raised',
@@ -232,7 +245,6 @@ const MyProjectDetail = () => {
 
   const handleCancel = async () => {
     if (!presaleContract || !account) return;
-
     const tx = await presaleContract.cancelSale();
     await tx.wait();
   };
@@ -245,10 +257,16 @@ const MyProjectDetail = () => {
   };
 
   const handleUnlockLP = async () => {
-    if (!bionLockContract || !account) return;
-
-    const tx = await bionLockContract.unlock(lockId);
-    await tx.wait();
+    try {
+      if (!bionLockContract || !account) return;
+      setUnlockLPLoading(true);
+      const { error, result: tx } = await withCatch<any>(bionLockContract?.unlock(lockId));
+      const receipt = await tx.wait();
+      setUnlockLPLoading(false);
+    } catch (error: any) {
+      setUnlockLPLoading(false);
+      console.log('error===>', error);
+    }
   };
 
   return (
@@ -284,7 +302,7 @@ const MyProjectDetail = () => {
           <Typography variant="body2Poppins" color="gray.400" fontWeight="400">
             The next level decentralized
           </Typography>
-          <FlexBox gap="16px" mt="24px">
+          {/* <FlexBox gap="16px" mt="24px">
             <ViewProject>
               <img src="/icons/symbols/remove_red_eye.svg" alt="remove_red_eye" />
               <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
@@ -297,7 +315,7 @@ const MyProjectDetail = () => {
                 Edit information
               </Typography>
             </EditInfo>
-          </FlexBox>
+          </FlexBox> */}
         </WrapContain>
       </HeadArea>
       <BodyArea pt="50px" pb="50px">
@@ -395,7 +413,7 @@ const MyProjectDetail = () => {
                     Cancel
                   </Typography>
                 </ButtonInLine>
-                <ButtonOutLine>
+                <ButtonOutLine onClick={handleListModal}>
                   <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
                     Contributors list
                   </Typography>
@@ -411,12 +429,12 @@ const MyProjectDetail = () => {
                   {saleTypes?.map((item) => (
                     <FormControlLabel
                       disabled
-                      key={item.value}
+                      key={item.label}
                       value={item.value}
                       label={
                         <Typography
                           variant="body3Poppins"
-                          color={data?.saleType == item.value ? 'blue.100' : 'gray.700'}
+                          color={isWhitelistEnabled == item.value ? 'blue.100' : 'gray.700'}
                           fontWeight="400"
                         >
                           {item.label}
@@ -442,64 +460,24 @@ const MyProjectDetail = () => {
                 Liquidity
               </Typography>
               <FlexBox gap="15px" flexDirection="column">
-                <UnlockBox>
-                  <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
-                    Unlock in
+                <CountDownUnlockLP endTime={lockRecord?.tge} />
+                {currentTime >= lockRecord?.tge && withdrawableTokens == 0 ? (
+                  <Typography variant="body3Poppins" color="primary.main" fontWeight="600" textAlign="center">
+                    Project has unlocked
                   </Typography>
-                  <FlexBox gap="8px">
-                    <FlexBox gap="2px">
-                      <Typography variant="captionPoppins" color="primary.main" fontWeight="500">
-                        04
-                      </Typography>
-                      <Typography variant="captionPoppins" color="primary.main" fontWeight="400">
-                        Days
-                      </Typography>
-                    </FlexBox>
-                    <Typography variant="captionPoppins" color="primary.main" fontWeight="400">
-                      :
+                ) : (
+                  <ButtonOutLine disabled={currentTime >= lockRecord?.tge || unlockLPLoading} onClick={handleUnlockLP}>
+                    <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
+                      {unlockLPLoading ? 'Loading.....' : 'Unlock LP'}
                     </Typography>
-                    <FlexBox gap="2px">
-                      <Typography variant="captionPoppins" color="primary.main" fontWeight="500">
-                        16
-                      </Typography>
-                      <Typography variant="captionPoppins" color="primary.main" fontWeight="400">
-                        Hours
-                      </Typography>
-                    </FlexBox>
-                    <Typography variant="captionPoppins" color="primary.main" fontWeight="400">
-                      :
-                    </Typography>
-                    <FlexBox gap="2px">
-                      <Typography variant="captionPoppins" color="primary.main" fontWeight="500">
-                        24
-                      </Typography>
-                      <Typography variant="captionPoppins" color="primary.main" fontWeight="400">
-                        Minutes
-                      </Typography>
-                    </FlexBox>
-                    <Typography variant="captionPoppins" color="primary.main" fontWeight="400">
-                      :
-                    </Typography>
-                    <FlexBox gap="2px">
-                      <Typography variant="captionPoppins" color="primary.main" fontWeight="500">
-                        50
-                      </Typography>
-                      <Typography variant="captionPoppins" color="primary.main" fontWeight="400">
-                        Seconds
-                      </Typography>
-                    </FlexBox>
-                  </FlexBox>
-                </UnlockBox>
-                <ButtonOutLine>
-                  <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
-                    Remove or add LP
-                  </Typography>
-                </ButtonOutLine>
+                  </ButtonOutLine>
+                )}
               </FlexBox>
             </SaleBox>
           </ActiveBox>
         </FlexBox>
       </BodyArea>
+      <ListContributorModal open={openListModal} onDismiss={handleListModal} data={purchaserList} unit={unit} />
     </Section>
   );
 };
@@ -605,6 +583,16 @@ const ButtonInLine = styled(Button)`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &.Mui-disabled {
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: none;
+    background-color: rgba(255, 255, 255, 0.12);
+
+    span {
+      color: rgba(255, 255, 255, 0.3);
+    }
+  }
 `;
 const ButtonOutLine = styled(Button)`
   border: 1px solid;
@@ -615,15 +603,16 @@ const ButtonOutLine = styled(Button)`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-const UnlockBox = styled(Box)`
-  background: rgba(7, 224, 224, 0.15);
-  border-radius: 4px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  align-items: center;
+
+  &.Mui-disabled {
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: none;
+    background-color: rgba(255, 255, 255, 0.12);
+
+    span {
+      color: rgba(255, 255, 255, 0.3);
+    }
+  }
 `;
 
 export default MyProjectDetail;

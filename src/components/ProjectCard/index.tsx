@@ -10,18 +10,21 @@ interface ProjectItemProps {
 }
 
 const ProjectCard: React.FC<ProjectItemProps> = ({ data }) => {
+  const router = useRouter();
 
   return (
-    <WrapBox>
+    <WrapBox onClick={() => {
+      router.push(`/dashboard/my-project/${data?.saleAddress}`);
+    }}>
       <Avatar>
         <img
-          src="https://bionswap.sgp1.digitaloceanspaces.com/dev/launchpad/2022-09-23/632dd57d18ac3c3efa6d8371.jpg"
-          alt="ABC"
+          src={data.banner}
+          alt={data.title}
         />
       </Avatar>
       <WrapText>
         <Typography variant='h5Samsung' color='text.primary' fontWeight='700'>
-            Star Fox
+            {data.title}
         </Typography>
         <Typography variant='body3Poppins' color='gray.400' fontWeight='400'>
           Star Fox is a turn-based idle combat and socializing NFT game running on BNB, Avalanche and Terra networks.
