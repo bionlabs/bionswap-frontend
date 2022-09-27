@@ -1,28 +1,23 @@
+import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
-  styled,
-  Typography,
-  TextField,
-  InputAdornment,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  SelectChangeEvent,
-  Container,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   Button,
+  Container,
+  FormControl,
+  FormControlLabel,
+  InputAdornment,
+  MenuItem,
   Pagination,
+  Select,
+  styled,
+  TextField,
+  Typography,
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import React, { useEffect, useState } from 'react';
+import { getSaleList } from 'api/launchpad';
+import Card from 'components/Card';
+import { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import Title from './components/Title/Title';
-import Card from 'components/Card';
-import { crowdfundingConfig } from 'views/LaunchpadDetail/config';
-import { getSaleList } from 'api/launchpad';
 
 const tags = [
   {
@@ -48,7 +43,6 @@ const LaunchPadSection = ({ chainId }: any) => {
   const [params, setParams] = useState({
     page: 1,
     limit: 12,
-    chainId: chainId,
     owner: '',
     keyword: '',
     sortBy: null,
@@ -59,26 +53,26 @@ const LaunchPadSection = ({ chainId }: any) => {
     setParams({ ...params, [prop]: event.target.value });
   };
 
-  const getLaunchData = async () => {
-    try {
-      const launchData = await getSaleList(
-        params.page,
-        params.limit,
-        params.chainId,
-        params.owner,
-        params.keyword,
-        params.sortBy,
-      );
-      setLaunchData(launchData);
-      console.log('🚀 ~ file: LaunchPadSection.tsx ~ line 73 ~ getLaunchData ~ launchData', launchData);
-    } catch (error) {
-      console.log('error====>', error);
-    }
-  };
-
   useEffect(() => {
-    getLaunchData();
-  }, [params]);
+    const getLaunchData = async (params: any) => {
+      try {
+        const launchData = await getSaleList(
+          params.page,
+          params.limit,
+          chainId,
+          params.owner,
+          params.keyword,
+          params.sortBy,
+        );
+        setLaunchData(launchData);
+        console.log('🚀 ~ file: LaunchPadSection.tsx ~ line 73 ~ getLaunchData ~ launchData', launchData);
+      } catch (error) {
+        console.log('error====>', error);
+      }
+    };
+
+    getLaunchData(params);
+  }, [chainId, params]);
 
   const settings = {
     arrows: false,
