@@ -22,8 +22,8 @@ const MyProject = () => {
       const launchData = await getSaleList(
         params.page,
         params.limit,
-        params.chainId,
-        params.owner,
+        params.chainId.toString(),
+        params.owner || '',
         params.keyword,
         params.sortBy,
       );

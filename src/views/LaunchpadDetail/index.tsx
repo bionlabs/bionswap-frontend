@@ -47,7 +47,7 @@ const LaunchpadDetail = () => {
     if (!isAddress(saleAddress)) return;
 
     try {
-      const res = await getSaleDetail(saleAddress);
+      const res = await getSaleDetail(saleAddress || '');
       setData(res);
     } catch (error) {
       console.log('error==>', error);
@@ -55,7 +55,7 @@ const LaunchpadDetail = () => {
   };
 
   useEffect(() => {
-    fetchSaleDetail(slug);
+    fetchSaleDetail(slug as string);
   }, [slug]);
 
   return (

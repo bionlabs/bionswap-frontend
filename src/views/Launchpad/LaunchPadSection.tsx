@@ -106,7 +106,7 @@ const LaunchPadSection = ({ chainId }: any) => {
                     <Card data={item} />
                   </Items>
                 ))} */}
-                {launchData?.data?.map((item) => (
+                {launchData?.data?.map((item: any) => (
                   <Items key={item?.saleAddress}>
                     <Card data={item} />
                   </Items>
@@ -221,7 +221,7 @@ const LaunchPadSection = ({ chainId }: any) => {
                 gap: { xs: '20px', lg: '40px' },
               }}
             >
-              {launchData?.data?.map(item => (
+              {launchData?.data?.map((item: any) => (
                 <WrapItem key={item?.saleAddress}>
                   <Card data={item} />
                 </WrapItem>
