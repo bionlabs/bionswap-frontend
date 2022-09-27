@@ -14,11 +14,10 @@ interface ProjectItemProps {
 }
 
 const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
-  const [claimLoading, setClaimLoading] = useState(false)
+  const [claimLoading, setClaimLoading] = useState(false);
   const [vestingNextTime, setVestingNextTime] = useState<any>([]);
   const currentTime = +new Date();
   const presaleContract = usePresaleContract(data?.sale?.saleAddress || '');
-  console.log('🚀 ~ file: index.tsx ~ line 21 ~ presaleContract', presaleContract);
 
   const tokenAmountClaimed = formatEther(
     useSingleCallResult(presaleContract, 'purchaseDetails', [account])?.result?.[2] || 0,
@@ -35,18 +34,21 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
       ? (10000 - Number(data?.sale?.tgeReleasePercent || 0)) / Number(data?.sale?.cycleReleasePercent)
       : 0,
   );
+  const currentCycle = Math.ceil(
+    (currentTime - vestingTime) / (data?.sale?.cycleDuration * 1000)
+  )
 
   const token = useToken(data?.sale?.token);
 
   const nextClaimTime = () => {
-    let time = ''
+    let time = '';
     vestingNextTime.map((item: any, index: any) => {
       if (currentTime < item) {
         time = new Date(item).toUTCString();
       }
-    })
+    });
     return time;
-  }
+  };
 
   const configData = [
     {
@@ -63,7 +65,7 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
     },
     {
       label: currentTime < +new Date(vestingTime) ? 'Claim in' : 'Next Claim in',
-      value: currentTime < +new Date(vestingTime) ? new Date(vestingTime).toUTCString() : nextClaimTime(),
+      value: currentTime < +new Date(vestingTime) ? new Date(vestingTime).toUTCString() : new Date(vestingNextTime[currentCycle - 1]).toUTCString(),
     },
   ];
 
@@ -76,21 +78,19 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
   };
 
   useEffect(() => {
-    CalculateCycle()
-  }, [nCycles])
+    CalculateCycle();
+  }, [nCycles]);
 
   const handleClaim = async () => {
     try {
       setClaimLoading(true);
-      const { error, result: tx } = await withCatch<any>(
-        presaleContract?.claim(),
-      );
-      const receipt = await tx.wait()
+      const { error, result: tx } = await withCatch<any>(presaleContract?.claim());
+      const receipt = await tx.wait();
       setClaimLoading(false);
     } catch (error: any) {
       setClaimLoading(false);
     }
-  }
+  };
 
   return (
     <WrapBox>
@@ -115,17 +115,17 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
           <Status
             sx={{
               backgroundColor: '#FBB03B',
-              ...(currentTime >= vestingTime  && {
-                  color: '#747475',
-                }),
-              ...(currentTime >= vestingTime  &&
-                Number(calcClaimableTokenAmount) > 0 && {
-                  color: '#08878E',
-                }),
+              ...(currentTime >= vestingTime && {
+                backgroundColor: '#08878E',
+              }),
+              ...(currentTime >= vestingNextTime[nCycles - 1] && {
+                backgroundColor: '#717D8A',
+              }),
             }}
           >
             <Typography variant="captionPoppins" color="text.primary" fontWeight="500">
-              Open
+              {/* {currentTime >= vestingTime ? 'Open' : currentTime >= vestingNextTime[nCycles - 1] ? 'Closed' : 'Waiting'} */}
+              {currentTime > vestingNextTime[nCycles - 1] ? 'Closed' : currentTime >= vestingTime ? 'Open' : 'Waiting'}
             </Typography>
           </Status>
         </FlexBox>
@@ -142,13 +142,7 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
         ))}
         <CTA onClick={handleClaim} sx={{ backgroundColor: 'primary.main' }}>
           <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-            {
-              claimLoading
-              ?
-              'Loading.....'
-              :
-              'Claim'
-            }
+            {claimLoading ? 'Loading.....' : 'Claim'}
           </Typography>
         </CTA>
       </WrapText>

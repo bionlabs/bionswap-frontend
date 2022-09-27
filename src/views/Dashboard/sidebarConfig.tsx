@@ -1,7 +1,7 @@
 import AllocationIcon from "assets/icons/AllocationIcon"
 import LaunchpadIcon from "assets/icons/LaunchpadIcon"
 import OverviewIcon from "assets/icons/OverviewIcon"
-import MyProject from "views/Asset/views/MyProject"
+import MyProject from "views/MyProject"
 import Allocation from "views/Dashboard/views/Allocation/Allocation"
 import Overview from "views/Dashboard/views/Overview/Overview"
 
