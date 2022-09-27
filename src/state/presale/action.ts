@@ -16,11 +16,11 @@ export const setPresaleForm = createAction<
     maxGoal: string;
     minSale: string;
     maxSale: string;
-    launchTime: string;
+    launchTime: number;
     preSaleDuration: number;
-    endTime: string;
+    endTime: number;
     unsoldToken: number;
-    tokenDistributionTime: string;
+    tokenDistributionTime: number;
     vestingToken: string;
     firstRelease: string;
     vestingPeriodEachCycle: string;
@@ -29,7 +29,7 @@ export const setPresaleForm = createAction<
     dex: string;
     pricePerToken: string;
     liquidityPercentage: string;
-    lockupTime: string;
+    lockupTime: number;
     description: string;
     quoteToken: string;
     isQuoteETH: boolean;

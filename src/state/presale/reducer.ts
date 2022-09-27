@@ -17,11 +17,11 @@ export type PreSaleState = {
     maxGoal: string;
     minSale: string;
     maxSale: string;
-    launchTime: string;
+    launchTime: number;
     preSaleDuration: number;
-    endTime: string;
+    endTime: number;
     unsoldToken: number;
-    tokenDistributionTime: string;
+    tokenDistributionTime: number;
     vestingToken: string;
     firstRelease: string;
     vestingPeriodEachCycle: string;
@@ -31,7 +31,7 @@ export type PreSaleState = {
     dex: string;
     pricePerToken: string;
     liquidityPercentage: string;
-    lockupTime: string;
+    lockupTime: number;
     description: string;
     quoteToken: string;
     isQuoteETH: boolean;
@@ -60,11 +60,11 @@ const initialState: PreSaleState = {
     maxGoal: '',
     minSale: '',
     maxSale: '',
-    launchTime: '',
+    launchTime: 0,
     preSaleDuration: 0,
-    endTime: '',
+    endTime: 0,
     unsoldToken: 0,
-    tokenDistributionTime: '',
+    tokenDistributionTime: 0,
     vestingToken: '',
     firstRelease: '',
     vestingPeriodEachCycle: '',
@@ -74,7 +74,7 @@ const initialState: PreSaleState = {
     dex: '',
     pricePerToken: '',
     liquidityPercentage: '',
-    lockupTime: '',
+    lockupTime: 0,
     description: '',
     quoteToken: '',
     isQuoteETH: false,

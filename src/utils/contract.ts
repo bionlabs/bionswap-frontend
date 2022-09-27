@@ -51,5 +51,5 @@ export function getContractFactory<T = Contract>(
   contractByteCode: BytesLike,
   signer: Signer | null | undefined,
 ) {
-  return <T>new ContractFactory(contractInterface, contractByteCode, <Signer | undefined>signer);
+  return <T> (<unknown>new ContractFactory(contractInterface, contractByteCode, <Signer | undefined>signer));
 }

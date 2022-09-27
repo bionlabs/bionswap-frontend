@@ -6,8 +6,8 @@ import {
     styled,
     Typography,
 } from '@mui/material'
-import { crowdfundingConfig } from 'views/Crowdfunding/config'
-import ProjectItem from 'views/Crowdfunding/components/ProjectItem'
+// import { crowdfundingConfig } from 'views/Crowdfunding/config'
+// import ProjectItem from 'views/Crowdfunding/components/ProjectItem'
 import Image from "next/image";
 import PrimaryButton from 'components/PrimaryButton'
 
@@ -30,7 +30,7 @@ const UpcommingProjectSection = () => {
                         Upcoming launching projects
                     </Typography>
                 </FlexBox>
-                <WrapItems>
+                {/* <WrapItems>
                     {
                         crowdfundingConfig?.map((item, idex) => (
                             <Items key=''>
@@ -38,7 +38,7 @@ const UpcommingProjectSection = () => {
                             </Items>
                         ))
                     }
-                </WrapItems>
+                </WrapItems> */}
                 {/* <Box mt='63px' maxWidth='218px' width='100%'>
                     <PrimaryButton label="Explore more ->" />
                 </Box> */}
