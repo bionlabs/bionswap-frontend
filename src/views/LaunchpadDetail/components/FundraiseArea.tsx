@@ -34,6 +34,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
   const endTime = data?.endTime * 1000;
   const linearProgress = (Number(currentCap) * 100) / Number(data?.hardCap);
   const unit = quoteToken?.symbol;
+  const currentTime = +new Date();
 
   const handleOpenModal = () => setOpenModal(true);
 
@@ -123,9 +124,16 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
           </FlexBox>
           <Line />
           <FlexBox>
-            <JoinButton onClick={handleOpenModal}>
+            <JoinButton disabled={currentTime < startTime || currentTime > endTime || currentCap === data?.hardCap}
+                        onClick={handleOpenModal}
+                        sx={{
+                          backgroundColor: 'success.main',
+                          ...((currentTime < startTime || currentTime > endTime || currentCap === data?.hardCap) && {
+                            backgroundColor: 'gray.200',
+                          })
+                        }}>
               <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-                Join IDO Now!
+                {currentTime < startTime || currentTime > endTime || currentCap === data?.hardCap ? 'Not Available' : 'Join IDO Now!'}
               </Typography>
             </JoinButton>
           </FlexBox>
@@ -159,7 +167,6 @@ const Line = styled(Box)`
   background-color: ${(props) => props.theme.palette.gray[800]};
 `;
 const JoinButton = styled(Button)`
-  background: #2bb673;
   border-radius: 4px;
   width: 100%;
   text-align: center;

@@ -34,21 +34,9 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
       ? (10000 - Number(data?.sale?.tgeReleasePercent || 0)) / Number(data?.sale?.cycleReleasePercent)
       : 0,
   );
-  const currentCycle = Math.ceil(
-    (currentTime - vestingTime) / (data?.sale?.cycleDuration * 1000)
-  )
+  const currentCycle = Math.ceil((currentTime - vestingTime) / (data?.sale?.cycleDuration * 1000));
 
   const token = useToken(data?.sale?.token);
-
-  const nextClaimTime = () => {
-    let time = '';
-    vestingNextTime.map((item: any, index: any) => {
-      if (currentTime < item) {
-        time = new Date(item).toUTCString();
-      }
-    });
-    return time;
-  };
 
   const configData = [
     {
@@ -65,7 +53,10 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
     },
     {
       label: currentTime < +new Date(vestingTime) ? 'Claim in' : 'Next Claim in',
-      value: currentTime < +new Date(vestingTime) ? new Date(vestingTime).toUTCString() : new Date(vestingNextTime[currentCycle - 1]).toUTCString(),
+      value:
+        currentTime < +new Date(vestingTime)
+          ? new Date(vestingTime).toUTCString()
+          : new Date(vestingNextTime[currentCycle]).toUTCString(),
     },
   ];
 
@@ -124,7 +115,6 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
             }}
           >
             <Typography variant="captionPoppins" color="text.primary" fontWeight="500">
-              {/* {currentTime >= vestingTime ? 'Open' : currentTime >= vestingNextTime[nCycles - 1] ? 'Closed' : 'Waiting'} */}
               {currentTime > vestingNextTime[nCycles - 1] ? 'Closed' : currentTime >= vestingTime ? 'Open' : 'Waiting'}
             </Typography>
           </Status>
@@ -140,11 +130,25 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
             </Typography>
           </FlexBox>
         ))}
-        <CTA onClick={handleClaim} sx={{ backgroundColor: 'primary.main' }}>
-          <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-            {claimLoading ? 'Loading.....' : 'Claim'}
-          </Typography>
-        </CTA>
+        {currentTime < vestingTime ? (
+          <CTA disabled sx={{ backgroundColor: 'rgba(255, 255, 255, 0.12)' }}>
+            <Typography variant="body3Poppins" color="gray.400" fontWeight="600">
+              Not Available
+            </Typography>
+          </CTA>
+        ) : currentTime > vestingTime && Number(calcClaimableTokenAmount) != 0 ? (
+          <CTA onClick={handleClaim} sx={{ backgroundColor: 'primary.main' }}>
+            <Typography variant="body3Poppins" color="#000000" fontWeight="600">
+              {claimLoading ? 'Loading.....' : 'Claim'}
+            </Typography>
+          </CTA>
+        ) : (
+          <CTA disabled sx={{ backgroundColor: 'rgba(255, 255, 255, 0.12)' }}>
+            <Typography variant="body3Poppins" color="gray.400" fontWeight="600">
+              Waiting for next claim
+            </Typography>
+          </CTA>
+        )}
       </WrapText>
     </WrapBox>
   );
