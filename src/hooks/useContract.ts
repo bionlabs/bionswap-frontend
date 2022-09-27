@@ -8,10 +8,11 @@ import PRESALE_ABI from 'constants/abis/presale.json';
 import ROUTER_ABI from 'constants/abis/router.json';
 import BION_LOCK_ABI from 'constants/abis/bion-lock.json';
 import ENS_PUBLIC_RESOLVER_ABI from 'constants/abis/ens-public-resolver.json';
-import { Contract } from 'ethers';
+import STANDARD_TOKEN_ABI from 'constants/abis/standard-token.json';
+import { Contract, ContractFactory } from 'ethers';
 import { useAccount, useChain, useNetwork, useProvider, useSigner } from 'hooks';
 import { useMemo } from 'react';
-import { getContract } from 'utils/contract';
+import { getContract, getContractFactory } from 'utils/contract';
 import {
   ChainId,
   ENS_REGISTRAR_ADDRESS,
@@ -43,6 +44,20 @@ export function useContract<T extends Contract = Contract>(
     }
   }, [addressOrAddressMap, ABI, provider, chainId, withSignerIfPossible, account, signer]) as T;
 }
+
+export function useContractFactory<T extends ContractFactory = ContractFactory>(ABI: any, byteCode: string): T | null {
+  const { signer } = useChain();
+  return useMemo(() => {
+    if (!ABI) return null;
+    try {
+      return getContractFactory(ABI, byteCode, signer);
+    } catch (error) {
+      console.error('Failed to get contract factory', error);
+      return null;
+    }
+  }, [ABI, byteCode, signer]);
+}
+
 const MULTICALL_ADDRESS = {
   [ChainId.ETHEREUM]: '0x1F98415757620B543A52E61c46B32eB19261F984',
   [ChainId.ROPSTEN]: '0x1F98415757620B543A52E61c46B32eB19261F984',
@@ -70,6 +85,10 @@ const MULTICALL_ADDRESS = {
   [ChainId.KAVA]: '0x67dA5f2FfaDDfF067AB9d5F025F8810634d84287',
   [ChainId.METIS]: '0x67dA5f2FfaDDfF067AB9d5F025F8810634d84287',
 };
+
+export function useStandardTokenContractFactory() {
+  return useContractFactory(STANDARD_TOKEN_ABI.abi, STANDARD_TOKEN_ABI.bytecode);
+}
 
 export function usePresaleFactoryContract() {
   return useContract(PRESALE_FACTORY_ADDRESS, PRESALE_FACTORY_ABI, true);

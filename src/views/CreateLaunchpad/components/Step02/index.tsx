@@ -1,24 +1,23 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { BUSD_ADDRESS, USDC_ADDRESS, USDT_ADDRESS } from '@bionswap/core-sdk';
 import {
   Box,
-  Typography,
-  styled,
-  FormControl,
-  OutlinedInput,
   Button,
-  Select,
-  MenuItem,
-  RadioGroup,
+  FormControl,
   FormControlLabel,
+  MenuItem,
+  OutlinedInput,
   Radio,
+  RadioGroup,
+  Select,
+  styled,
+  Typography,
 } from '@mui/material';
-import { useToken } from 'hooks/useToken';
 import CreateTokenModal from 'components/CreateTokenModal';
-import { setPresaleForm } from 'state/presale/action';
-import { useApproveCallback } from 'hooks/useApproveCallback';
-import { useChain } from 'hooks';
 import { ethers } from 'ethers';
-import { BUSD_ADDRESS, USDC_ADDRESS, USDT_ADDRESS } from '@bionswap/core-sdk';
+import { useChain } from 'hooks';
+import { useToken } from 'hooks/useToken';
+import { useCallback, useEffect, useState } from 'react';
+import { setPresaleForm } from 'state/presale/action';
 
 const currencyOpts = [
   {
@@ -272,7 +271,11 @@ const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
           </Next>
         </FlexBox>
       </FlexBox>
-      <CreateTokenModal open={openModal} onDismiss={handleCloseModal} />
+      <CreateTokenModal
+        open={openModal}
+        onDismiss={handleCloseModal}
+        onTokenCreated={(tokenAddress: string) => setData(setPresaleForm({ ['tokenContract']: tokenAddress }))}
+      />
     </>
   );
 };
