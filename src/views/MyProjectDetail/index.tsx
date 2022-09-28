@@ -42,11 +42,11 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 
 const saleTypes = [
   {
-    value: true,
+    value: false,
     label: 'Public',
   },
   {
-    value: false,
+    value: true,
     label: 'Whitelist',
   },
 ];
@@ -89,23 +89,23 @@ const MyProjectDetail = () => {
   const [data, setData] = useState<any>(null);
   const token = useToken(data?.token);
   const hardCap = formatEther(data?.hardCap || 0);
+  const lockLPDuration = Math.floor(data?.lockLPDuration / (3600 * 24));
   const price = formatEther(data?.price || 0);
   const listingPrice = formatEther(data?.listingPrice || 0);
   const minBuy = formatEther(data?.minPurchase || 0);
   const maxBuy = formatEther(data?.maxPurchase || 0);
   const presaleContract = usePresaleContract(data?.saleAddress);
   const bionLockContract = useBionLockContract();
-  console.log('🚀 ~ file: index.tsx ~ line 94 ~ MyProjectDetail ~ bionLockContract', bionLockContract);
   const saleStatus = useSingleCallResult(presaleContract, 'status')?.result?.[0] || 0;
   const isWhitelistEnabled = useSingleCallResult(presaleContract, 'isWhitelistEnabled')?.result?.[0] || false;
   const purchaserList = useSingleCallResult(presaleContract, 'getAllPurchasers', [])?.result?.[0] || [];
-  console.log("🚀 ~ file: index.tsx ~ line 100 ~ MyProjectDetail ~ purchaserList", purchaserList)
 
   const lockId = useSingleCallResult(presaleContract, 'lockId')?.result?.[0]?.toNumber() || 0;
   const lockRecord = useSingleCallResult(bionLockContract, 'getLockById', [lockId])?.result?.[0];
+  console.log("🚀 ~ file: index.tsx ~ line 105 ~ MyProjectDetail ~ lockRecord", Number(lockRecord.tgeDate))
+  const tgeDate = Number(lockRecord.tgeDate) * 1000
 
   const withdrawableTokens = useSingleCallResult(bionLockContract, 'withdrawableTokens', [lockId])?.result?.[0];
-  console.log('🚀 ~ file: index.tsx ~ line 105 ~ MyProjectDetail ~ withdrawableTokens', withdrawableTokens);
 
   const currentCap = formatEther(useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0);
   const totalSupply = useTotalSupply(token || undefined)?.toExact({});
@@ -123,15 +123,15 @@ const MyProjectDetail = () => {
   const [value, setValue] = useState(0);
 
   const handleListModal = () => {
-    setOpenListModal(!openListModal)
-  }
+    setOpenListModal(!openListModal);
+  };
 
   const fetchSaleDetail = async (saleAddress?: any) => {
     if (!isAddress(saleAddress)) return;
 
     try {
       const res = await getSaleDetail(saleAddress);
-      console.log('res==>', res);
+      console.log('🚀 ~ file: index.tsx ~ line 131 ~ fetchSaleDetail ~ res', res);
       setData(res);
     } catch (error) {
       console.log('error==>', error);
@@ -268,6 +268,11 @@ const MyProjectDetail = () => {
       console.log('error===>', error);
     }
   };
+
+  const handleSelectWhitelist = () => {
+    console.log("🚀 ~ file: index.tsx ~ line 273 ~ handleSelectWhitelist ~ whitelist", !isWhitelistEnabled)
+    handleChangeSaleMode(!isWhitelistEnabled);
+  }
 
   return (
     <Section>
@@ -425,16 +430,15 @@ const MyProjectDetail = () => {
                 Sale Mode
               </Typography>
               <FormControl fullWidth>
-                <RadioGroup name="radio-buttons-group" value={isWhitelistEnabled}>
+                <RadioGroup name="radio-buttons-group" value={isWhitelistEnabled} onChange={handleSelectWhitelist}>
                   {saleTypes?.map((item) => (
                     <FormControlLabel
-                      disabled
                       key={item.label}
                       value={item.value}
                       label={
                         <Typography
                           variant="body3Poppins"
-                          color={isWhitelistEnabled == item.value ? 'blue.100' : 'gray.700'}
+                          color={isWhitelistEnabled === item.value ? 'blue.100' : 'gray.700'}
                           fontWeight="400"
                         >
                           {item.label}
@@ -459,20 +463,32 @@ const MyProjectDetail = () => {
               <Typography variant="body2Poppins" color="gray.50" fontWeight="500">
                 Liquidity
               </Typography>
-              <FlexBox gap="15px" flexDirection="column">
-                <CountDownUnlockLP endTime={lockRecord?.tge} />
-                {currentTime >= lockRecord?.tge && withdrawableTokens == 0 ? (
-                  <Typography variant="body3Poppins" color="primary.main" fontWeight="600" textAlign="center">
-                    Project has unlocked
-                  </Typography>
-                ) : (
-                  <ButtonOutLine disabled={currentTime >= lockRecord?.tge || unlockLPLoading} onClick={handleUnlockLP}>
-                    <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
-                      {unlockLPLoading ? 'Loading.....' : 'Unlock LP'}
+              {tgeDate ? (
+                <FlexBox gap="15px" flexDirection="column">
+                  <CountDownUnlockLP endTime={tgeDate} />
+                  {currentTime >= tgeDate && withdrawableTokens == 0 ? (
+                    <Typography variant="body3Poppins" color="primary.main" fontWeight="600" textAlign="center">
+                      Project has unlocked
                     </Typography>
-                  </ButtonOutLine>
-                )}
-              </FlexBox>
+                  ) : (
+                    <ButtonOutLine
+                      disabled={currentTime <= tgeDate || unlockLPLoading}
+                      onClick={handleUnlockLP}
+                    >
+                      <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
+                        {unlockLPLoading ? 'Loading.....' : 'Unlock LP'}
+                      </Typography>
+                    </ButtonOutLine>
+                  )}
+                </FlexBox>
+              ) : (
+                <Box>
+                  <Typography>
+                    Your liquidity will be locked {lockLPDuration} {lockLPDuration > 1 ? 'days' : 'day'} after sale
+                    finalize
+                  </Typography>
+                </Box>
+              )}
             </SaleBox>
           </ActiveBox>
         </FlexBox>

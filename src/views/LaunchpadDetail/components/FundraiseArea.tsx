@@ -3,11 +3,11 @@ import { Box, linearProgressClasses, LinearProgress, Button, styled, Typography 
 import PrimaryButton from 'components/PrimaryButton';
 import CountDownTime from './CountDownTime';
 import { usePresaleContract } from 'hooks/useContract';
-import { formatEther } from 'ethers/lib/utils';
+import { formatEther, formatUnits } from 'ethers/lib/utils';
 import { useSingleCallResult } from 'hooks/useCall';
 import JoinIdoModal from 'components/JoinIdoModal';
 import { useState } from 'react';
-import { useChain } from 'hooks';
+import { useChain, useToken } from 'hooks';
 
 interface FundraiseAreaProps {
   data: any;
@@ -33,10 +33,9 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
   const { account } = useChain();
   const currentCap = formatEther(useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0);
   const yourPurchased = formatEther(useSingleCallResult(presaleContract, 'purchaseDetails', [account])?.result?.[1] || 0)
-  console.log("🚀 ~ file: FundraiseArea.tsx ~ line 36 ~ yourPurchased", yourPurchased)
   const startTime = data?.startTime * 1000;
   const endTime = data?.endTime * 1000;
-  const linearProgress = (Number(currentCap) * 100) / Number(data?.hardCap);
+  const linearProgress = (Number(currentCap) * 100) / Number(formatEther(data?.hardCap || 0));
   const unit = quoteToken?.symbol;
   const currentTime = +new Date();
 
@@ -82,7 +81,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
               {currentCap} {unit}
             </Typography>
             <Typography variant="body2Poppins" color="primary.main" fontWeight="400">
-              Pledged of {formatEther(data?.hardCap || 0)} {unit} goal
+              Pledged of {formatUnits(data?.hardCap || 0, quoteToken.decimals)} {unit} goal
             </Typography>
           </FlexBox>
           <FlexBox flexDirection="column" gap="15px">
@@ -96,7 +95,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
                 Allocation
               </Typography>
               <Typography variant="h6Poppins" color="gray.200" fontWeight="400">
-                {formatEther(data?.minPurchase || 0)} {unit} - {formatEther(data?.maxPurchase || 0)} {unit}
+                {formatUnits(data?.minPurchase || 0, quoteToken.decimals)} {unit} - {formatUnits(data?.maxPurchase || 0, quoteToken.decimals)} {unit}
               </Typography>
             </FlexBox>
             <FlexBox
@@ -109,7 +108,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
                 Price per token
               </Typography>
               <Typography variant="h6Poppins" color="gray.200" fontWeight="400">
-                1 {token?.symbol} = {formatEther(data?.price || 0)} {unit}
+                1 {token?.symbol} = {formatUnits(data?.price || 0, quoteToken.decimals)} {unit}
               </Typography>
             </FlexBox>
             {/* <FlexBox

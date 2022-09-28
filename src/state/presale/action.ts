@@ -41,4 +41,6 @@ export const setPresaleForm = createAction<
   }>
 >('presale/setPresaleForm');
 
+export const clearPresaleForm = createAction('presale/clearPresaleForm');
+
 export const setStepLaunchpad = createAction<number>('presale/setStepLaunchpad');

@@ -6,6 +6,8 @@ import { useChain } from 'hooks';
 import { createPresale } from 'api/launchpad';
 import { ethers } from 'ethers';
 import { usePresaleFactoryContract } from 'hooks/useContract';
+import { useRouter } from 'next/router';
+import { clearPresaleForm, setPresaleForm } from 'state/presale/action';
 
 const Description = ({ html }: any) => {
   return <Box dangerouslySetInnerHTML={{ __html: html }} />;
@@ -16,7 +18,8 @@ export const minimizeAddressSmartContract = (str: string) => {
   return str.substring(0, 8) + '...' + str.substring(str.length - 4, str.length);
 };
 
-const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any) => {
+const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) => {
+  const router = useRouter()
   const { chainId, account } = useChain();
   const presaleFactoryContract = usePresaleFactoryContract();
   const [loadignSubmit, setLoadingSubmit] = useState(false);
@@ -26,6 +29,9 @@ const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any
 
   const tokenForSale = Number(data.maxGoal) / Number(data.tokenPrice) || 0;
   const tokenForLiquidity = (Number(data.liquidityPercentage) * Number(data.maxGoal)) / Number(data.pricePerToken) || 0;
+
+  const quoteToken = useToken(data.quoteToken)
+  console.log("🚀 ~ file: index.tsx ~ line 34 ~ Step06 ~ data.currency.quoteToken", quoteToken?.decimals)
 
   const projectReview = [
     {
@@ -49,7 +55,7 @@ const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any
           value: `${tokenContract?.symbol}`,
         },
         {
-          label: 'Token decimais',
+          label: 'Token decimals',
           value: `${tokenContract?.decimals}`,
         },
         {
@@ -151,7 +157,6 @@ const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any
 
   const handleCreateSale = useCallback(
     async (data: any) => {
-      console.log('data===>', data);
       setLoadingSubmit(true);
       // first get salt
       if (!chainId || !account || !presaleFactoryContract) return;
@@ -175,15 +180,15 @@ const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any
         isQuoteETH: data.isQuoteETH,
         isWhitelistEnabled: !!Number(data.whitelist),
         isBurnUnsold: !!Number(data.unsoldToken),
-        price: ethers.utils.parseEther(data.tokenPrice).toString(),
-        listingPrice: ethers.utils.parseEther(data.pricePerToken).toString(),
-        minPurchase: ethers.utils.parseEther(data.minSale).toString(),
-        maxPurchase: ethers.utils.parseEther(data.maxSale).toString(),
+        price: ethers.utils.parseUnits(data.tokenPrice, quoteToken?.decimals).toString(),
+        listingPrice: ethers.utils.parseUnits(data.pricePerToken, quoteToken?.decimals).toString(),
+        minPurchase: ethers.utils.parseUnits(data.minSale, quoteToken?.decimals).toString(),
+        maxPurchase: ethers.utils.parseUnits(data.maxSale, quoteToken?.decimals).toString(),
         startTime: Number(data.launchTime) / 1000,
         endTime: Number(data.endTime) / 1000,
         lpPercent: Number(data.liquidityPercentage) * 100,
-        softCap: ethers.utils.parseEther(data.minGoal).toString(),
-        hardCap: ethers.utils.parseEther(data.maxGoal).toString(),
+        softCap: ethers.utils.parseUnits(data.minGoal, quoteToken?.decimals).toString(),
+        hardCap: ethers.utils.parseUnits(data.maxGoal, quoteToken?.decimals).toString(),
         isAutoListing: data.isAutoListing,
         baseFee: data.baseFee,
         tokenFee: data.tokenFee,
@@ -222,17 +227,28 @@ const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any
         return;
       }
 
-      await presaleFactoryContract
+      const { errorRes, resultRes } = await presaleFactoryContract
         .create(payloadContract, (result as any).salt, { value: ethers.utils.parseEther('0.1') })
         .catch((error: any) => {
           console.log(error);
         });
 
+      if (errorRes) {
+        // TODO: toast
+        setLoadingSubmit(false);
+        return;
+      }
+
+      const receipt = await resultRes?.wait();
+      
+      console.log("🚀 ~ file: index.tsx ~ line 237 ~ receipt", receipt)
+
       setLoadingSubmit(false);
 
-      // then clear storage
+      router.push('/dashboard/my-project');
 
-      // then redirect to launchpad
+      setData(clearPresaleForm());
+      
     },
     [account, chainId, presaleFactoryContract],
   );
@@ -381,10 +397,7 @@ const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any
                 Back
               </Typography>
             </Back>
-            <Next onClick={() => handleCreateSale(data)} disabled={loadignSubmit}
-                  sx={{
-                    
-                  }}>
+            <Next onClick={() => handleCreateSale(data)} disabled={loadignSubmit} sx={{}}>
               <Typography variant="body3Poppins" color="#000000" fontWeight="600">
                 {loadignSubmit ? 'Loading…' : 'Submit'}
               </Typography>

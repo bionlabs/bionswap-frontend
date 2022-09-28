@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setPresaleForm, setStepLaunchpad } from './action';
+import { clearPresaleForm, setPresaleForm, setStepLaunchpad } from './action';
 
 export type PreSaleState = {
   dataConfig: {
@@ -93,5 +93,9 @@ export default createReducer<PreSaleState>(initialState, (builder) =>
     })
     .addCase(setStepLaunchpad, (state, { payload: setStepLaunchpad }) => {
       state.step = setStepLaunchpad;
+    })
+    .addCase(clearPresaleForm, (state) => {
+      state.step = 0;
+      state.dataConfig = initialState.dataConfig;
     }),
 );

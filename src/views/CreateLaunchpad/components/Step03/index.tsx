@@ -91,6 +91,10 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
 
   const handleChangeInput = (prop: any) => (event: any) => {
     setData(setPresaleForm({ [prop]: event.target.value }));
+
+    if (prop === 'vestingToken') {
+      event.target.value === '0' ? setData(setPresaleForm({ ['firstRelease']: '100' })) : setData(setPresaleForm({ ['firstRelease']: '' }))
+    }
   };
 
   return (
