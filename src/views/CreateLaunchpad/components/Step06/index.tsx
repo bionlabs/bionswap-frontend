@@ -19,6 +19,7 @@ export const minimizeAddressSmartContract = (str: string) => {
 const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any) => {
   const { chainId, account } = useChain();
   const presaleFactoryContract = usePresaleFactoryContract();
+  const [loadignSubmit, setLoadingSubmit] = useState(false);
 
   const tokenContract = useToken(data.tokenContract);
   const [onpenDescription, setOpenDescription] = useState(false);
@@ -150,6 +151,8 @@ const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any
 
   const handleCreateSale = useCallback(
     async (data: any) => {
+      console.log('data===>', data);
+      setLoadingSubmit(true);
       // first get salt
       if (!chainId || !account || !presaleFactoryContract) return;
 
@@ -215,6 +218,7 @@ const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any
 
       if (error) {
         // TODO: toast
+        setLoadingSubmit(false);
         return;
       }
 
@@ -223,6 +227,8 @@ const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any
         .catch((error: any) => {
           console.log(error);
         });
+
+      setLoadingSubmit(false);
 
       // then clear storage
 
@@ -375,9 +381,12 @@ const Step06 = ({ data, handleBack, handleNext, onShowError, handleSubmit }: any
                 Back
               </Typography>
             </Back>
-            <Next onClick={() => handleCreateSale(data)}>
+            <Next onClick={() => handleCreateSale(data)} disabled={loadignSubmit}
+                  sx={{
+                    
+                  }}>
               <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-                Submit
+                {loadignSubmit ? 'Loading…' : 'Submit'}
               </Typography>
             </Next>
           </FlexBox>
@@ -420,6 +429,12 @@ const Next = styled(Button)`
   display: flex;
   background-color: ${(props) => props.theme.palette.primary.main};
   border-radius: 4px;
+
+  &.Mui-disabled {
+    color: rgba(255, 255, 255, 0.3);
+    box-shadow: none;
+    background-color: rgba(255, 255, 255, 0.12);
+  }
 `;
 const Back = styled(Button)`
   max-width: 200px;

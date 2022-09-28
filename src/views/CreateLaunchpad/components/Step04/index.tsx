@@ -46,6 +46,7 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
   const { chainId } = useChain();
   const token = useToken(data.tokenContract);
   const presaleFactoryContract = usePresaleFactoryContract();
+  const [pending, setPending] = useState(false);
 
   const tokenForSale = Number(data.maxGoal) / Number(data.tokenPrice) || 0;
   const tokenForLiquidity = (Number(data.liquidityPercentage) * Number(data.maxGoal)) / Number(data.pricePerToken) || 0;
@@ -55,6 +56,17 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
     parsedTotalTokenRequired,
     presaleFactoryContract?.address,
   );
+
+  const handleApprove = async () => {
+    try {
+      setPending(true);
+      const approve = await approveCallback();
+      console.log("🚀 ~ file: index.tsx ~ line 64 ~ handleApprove ~ approve", approve)
+      setPending(false);
+    } catch (error) {
+      setPending(false);
+    }
+  };
 
   const handleChange = (prop: any) => (event: any) => {
     // setData({  [prop]: event.target.value })
@@ -335,12 +347,18 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
             </Typography>
           </Back>
           <Next
-            onClick={approvalState === ApprovalState.APPROVED ? () => handleNext(4) : () => approveCallback()}
-            disabled={approvalState === ApprovalState.PENDING}
+            onClick={approvalState === ApprovalState.APPROVED ? () => handleNext(4) : () => handleApprove()}
+            disabled={pending}
           >
-            <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-              {approvalState === ApprovalState.APPROVED ? 'Next' : 'Approve'}
-            </Typography>
+            {pending ? (
+              <Typography variant="body3Poppins" color="text.primary" fontWeight="600">
+                Loading....
+              </Typography>
+            ) : (
+              <Typography variant="body3Poppins" color="#000000" fontWeight="600">
+                {approvalState === ApprovalState.APPROVED ? 'Next' : 'Approve'}
+              </Typography>
+            )}
           </Next>
         </FlexBox>
       </FlexBox>
@@ -381,6 +399,12 @@ const Next = styled(Button)`
   display: flex;
   background-color: ${(props) => props.theme.palette.primary.main};
   border-radius: 4px;
+
+  &.Mui-disabled {
+    color: rgba(255, 255, 255, 0.3);
+    box-shadow: none;
+    background-color: rgba(255, 255, 255, 0.12);
+  }
 `;
 const Back = styled(Button)`
   max-width: 200px;

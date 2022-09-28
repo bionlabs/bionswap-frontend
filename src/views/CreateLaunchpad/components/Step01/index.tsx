@@ -22,6 +22,7 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
 
   const onChangeProjectLogo = async (imageList: any) => {
     try {
+      console.log('imageList==>', imageList);
       const logoBase64 = imageList[0].data_url.split(',')[1];
       const imageLogo = await uploadLaunchpadImage(logoBase64);
       setProjectLogo(imageList);
@@ -102,7 +103,7 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
             <ImageUploading value={projectLogo} onChange={onChangeProjectLogo} dataURLKey="data_url">
               {({ imageList, onImageUpload, onImageUpdate, dragProps }) => (
                 <BoxImageUpload onClick={onImageUpload} {...dragProps}>
-                  {imageList.length === 0 ? (
+                  {imageList[0]?.data_url === '' ? (
                     <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
                       <img src="/icons/AddFile.svg" alt="Add File" />
                       <Typography variant="captionPoppins" color="blue.100" fontWeight="400" mt="14px">
@@ -137,7 +138,7 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
             <ImageUploading value={saleBanner} onChange={onChangeSaleBanner} dataURLKey="data_url">
               {({ imageList, onImageUpload, onImageUpdate, dragProps }) => (
                 <BoxImageUpload onClick={onImageUpload} {...dragProps}>
-                  {imageList.length === 0 ? (
+                  {imageList[0]?.data_url === '' ? (
                     <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
                       <img src="/icons/AddFile.svg" alt="Add File" />
                       <Typography variant="captionPoppins" color="blue.100" fontWeight="400" mt="14px">

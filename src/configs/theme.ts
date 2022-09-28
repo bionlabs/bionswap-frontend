@@ -441,6 +441,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
             fontStyle: "normal",
             '&:hover': {
               opacity: '1',
+              backgroundColor: basePalette.primary as SimplePaletteColorOptions
             }
           },
         },

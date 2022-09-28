@@ -517,7 +517,7 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                         <Typography variant="captionPoppins" color="blue.100">
                           {item.description}
                         </Typography>
-                        {item.value == 1 && data.vestingToken === '1' && (
+                        {item.value == data.vestingToken && (
                           <FlexBox
                             flexDirection="column"
                             gap="15px"
@@ -544,90 +544,109 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                                 {onShowError('tgeDate')}
                               </Typography>
                             </WrapForm>
-                            <WrapForm fullWidth>
-                              <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                                First release percent <RequireSymbol component="span">*</RequireSymbol>
-                              </Typography>
-                              <InputCustom
-                                fullWidth
-                                className={onShowError('firstRelease') ? 'onError' : ''}
-                                value={data.firstRelease}
-                                onChange={handleChangeInput('firstRelease')}
-                                placeholder="Eg: 25"
-                                type="number"
-                                startAdornment={
-                                  <WrapStartAdornment>
-                                    <Typography
-                                      variant="body4Poppins"
-                                      color="#2AC89F"
-                                      fontWeight="400"
-                                      textTransform="uppercase"
-                                    >
-                                      %
-                                    </Typography>
-                                  </WrapStartAdornment>
-                                }
-                              />
-                              <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                                {onShowError('firstRelease')}
-                              </Typography>
-                            </WrapForm>
-                            <WrapForm fullWidth>
-                              <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                                Vesting period each cycle <RequireSymbol component="span">*</RequireSymbol>
-                              </Typography>
-                              <InputCustom
-                                fullWidth
-                                className={onShowError('vestingPeriodEachCycle') ? 'onError' : ''}
-                                value={data.vestingPeriodEachCycle}
-                                onChange={handleChangeInput('vestingPeriodEachCycle')}
-                                placeholder="Eg: 30"
-                                type="number"
-                                startAdornment={
-                                  <WrapStartAdornment>
-                                    <Typography
-                                      variant="body4Poppins"
-                                      color="#2AC89F"
-                                      fontWeight="400"
-                                      textTransform="uppercase"
-                                    >
-                                      Days
-                                    </Typography>
-                                  </WrapStartAdornment>
-                                }
-                              />
-                              <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                                {onShowError('vestingPeriodEachCycle')}
-                              </Typography>
-                            </WrapForm>
-                            <WrapForm fullWidth>
-                              <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                                Token release each cycle <RequireSymbol component="span">*</RequireSymbol>
-                              </Typography>
-                              <InputCustom
-                                fullWidth
-                                className={onShowError('tokenReleaseEachCycle') ? 'onError' : ''}
-                                value={data.tokenReleaseEachCycle}
-                                onChange={handleChangeInput('tokenReleaseEachCycle')}
-                                placeholder="Eg: 25%"
-                                type="number"
-                                startAdornment={
-                                  <WrapStartAdornment>
-                                    <Typography
-                                      variant="body4Poppins"
-                                      color="#2AC89F"
-                                      fontWeight="400"
-                                      textTransform="uppercase"
-                                    >
-                                      %
-                                    </Typography>
-                                  </WrapStartAdornment>
-                                }
-                              />
-                              <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                                {onShowError('tokenReleaseEachCycle')}
-                              </Typography>
-                            </WrapForm>
+                            {item.value == 1 && data.vestingToken === '1' && (
+                              <>
+                                <WrapForm fullWidth>
+                                  <Typography
+                                    component="label"
+                                    variant="body4Poppins"
+                                    color="blue.100"
+                                    fontWeight="500"
+                                  >
+                                    First release percent <RequireSymbol component="span">*</RequireSymbol>
+                                  </Typography>
+                                  <InputCustom
+                                    fullWidth
+                                    className={onShowError('firstRelease') ? 'onError' : ''}
+                                    value={data.firstRelease}
+                                    onChange={handleChangeInput('firstRelease')}
+                                    placeholder="Eg: 25"
+                                    type="number"
+                                    startAdornment={
+                                      <WrapStartAdornment>
+                                        <Typography
+                                          variant="body4Poppins"
+                                          color="#2AC89F"
+                                          fontWeight="400"
+                                          textTransform="uppercase"
+                                        >
+                                          %
+                                        </Typography>
+                                      </WrapStartAdornment>
+                                    }
+                                  />
+                                  <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                                    {onShowError('firstRelease')}
+                                  </Typography>
+                                </WrapForm>
+                                <WrapForm fullWidth>
+                                  <Typography
+                                    component="label"
+                                    variant="body4Poppins"
+                                    color="blue.100"
+                                    fontWeight="500"
+                                  >
+                                    Vesting period each cycle <RequireSymbol component="span">*</RequireSymbol>
+                                  </Typography>
+                                  <InputCustom
+                                    fullWidth
+                                    className={onShowError('vestingPeriodEachCycle') ? 'onError' : ''}
+                                    value={data.vestingPeriodEachCycle}
+                                    onChange={handleChangeInput('vestingPeriodEachCycle')}
+                                    placeholder="Eg: 30"
+                                    type="number"
+                                    startAdornment={
+                                      <WrapStartAdornment>
+                                        <Typography
+                                          variant="body4Poppins"
+                                          color="#2AC89F"
+                                          fontWeight="400"
+                                          textTransform="uppercase"
+                                        >
+                                          Days
+                                        </Typography>
+                                      </WrapStartAdornment>
+                                    }
+                                  />
+                                  <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                                    {onShowError('vestingPeriodEachCycle')}
+                                  </Typography>
+                                </WrapForm>
+                                <WrapForm fullWidth>
+                                  <Typography
+                                    component="label"
+                                    variant="body4Poppins"
+                                    color="blue.100"
+                                    fontWeight="500"
+                                  >
+                                    Token release each cycle <RequireSymbol component="span">*</RequireSymbol>
+                                  </Typography>
+                                  <InputCustom
+                                    fullWidth
+                                    className={onShowError('tokenReleaseEachCycle') ? 'onError' : ''}
+                                    value={data.tokenReleaseEachCycle}
+                                    onChange={handleChangeInput('tokenReleaseEachCycle')}
+                                    placeholder="Eg: 25%"
+                                    type="number"
+                                    startAdornment={
+                                      <WrapStartAdornment>
+                                        <Typography
+                                          variant="body4Poppins"
+                                          color="#2AC89F"
+                                          fontWeight="400"
+                                          textTransform="uppercase"
+                                        >
+                                          %
+                                        </Typography>
+                                      </WrapStartAdornment>
+                                    }
+                                  />
+                                  <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                                    {onShowError('tokenReleaseEachCycle')}
+                                  </Typography>
+                                </WrapForm>
+                              </>
+                            )}
                           </FlexBox>
                         )}
                       </BoxRadioButtonItem>

@@ -54,7 +54,7 @@ const CreateLaunchpad = () => {
     tokenReleaseEachCycle: Joi.when('vestingToken', { is: '1', then: Joi.required() }),
   });
   const schemaStep04 = Joi.object({
-    listing: Joi.string().required(),
+    listing: Joi.required(),
     dex: Joi.required(),
     pricePerToken: Joi.string().required(),
     liquidityPercentage: Joi.string().required(),

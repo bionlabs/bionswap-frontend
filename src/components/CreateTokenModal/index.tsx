@@ -74,6 +74,7 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
 
   const onCreateToken = async () => {
     try {
+      setIsCreating(true)
       const value = await schema.validateAsync(
         {
           tokenType: dataCreated.tokenType,
@@ -87,9 +88,9 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
       setErrors([]);
 
       await handleCreateStandardToken();
+      setIsCreating(false)
     } catch (err: any) {
-      console.log('🚀 ~ file: index.tsx ~ line 83 ~ onCreateToken ~ err', err);
-
+      setIsCreating(false)
       setErrors(err?.details || []);
     }
   };
@@ -229,7 +230,7 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
             }
           />
         </FormGroup>
-        <CreateToken onClick={onCreateToken}>
+        <CreateToken onClick={onCreateToken} disabled={isCreating}>
           <Typography variant="body3Poppins" color="#000000" fontWeight="600">
             {isCreating ? 'Creating Token...' : 'Create Token'}
           </Typography>
@@ -302,6 +303,12 @@ const CreateToken = styled(Button)`
   display: flex;
   background-color: ${(props) => props.theme.palette.primary.main};
   border-radius: 4px;
+
+  &.Mui-disabled {
+    color: rgba(255, 255, 255, 0.3);
+    box-shadow: none;
+    background-color: rgba(255, 255, 255, 0.12);
+  }
 `;
 
 export default CreateTokenModal;
