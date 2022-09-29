@@ -29,14 +29,13 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, presaleContract }) => {
-  console.log("🚀 ~ file: FundraiseArea.tsx ~ line 32 ~ data", data)
   const [openModal, setOpenModal] = useState(false);
   const { account } = useChain();
-  const currentCap = formatEther(useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0);
-  const yourPurchased = formatEther(useSingleCallResult(presaleContract, 'purchaseDetails', [account])?.result?.[1] || 0)
+  const currentCap = formatUnits(useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0, quoteToken?.decimals);
+  const yourPurchased = formatUnits(useSingleCallResult(presaleContract, 'purchaseDetails', [account])?.result?.[1] || 0, quoteToken?.decimals)
   const startTime = data?.startTime * 1000;
   const endTime = data?.endTime * 1000;
-  const linearProgress = (Number(currentCap) * 100) / Number(formatEther(data?.hardCap || 0));
+  const linearProgress = (Number(currentCap) * 100) / Number(formatUnits(data?.hardCap || 0, quoteToken?.decimals));
   const unit = quoteToken?.symbol;
   const currentTime = +new Date();
 
