@@ -29,6 +29,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, presaleContract }) => {
+  console.log("🚀 ~ file: FundraiseArea.tsx ~ line 32 ~ data", data)
   const [openModal, setOpenModal] = useState(false);
   const { account } = useChain();
   const currentCap = formatEther(useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0);
@@ -81,7 +82,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
               {currentCap} {unit}
             </Typography>
             <Typography variant="body2Poppins" color="primary.main" fontWeight="400">
-              Pledged of {formatUnits(data?.hardCap || 0, quoteToken.decimals)} {unit} goal
+              Pledged of {formatUnits(data?.hardCap || 0, quoteToken?.decimals)} {unit} goal
             </Typography>
           </FlexBox>
           <FlexBox flexDirection="column" gap="15px">
@@ -95,7 +96,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
                 Allocation
               </Typography>
               <Typography variant="h6Poppins" color="gray.200" fontWeight="400">
-                {formatUnits(data?.minPurchase || 0, quoteToken.decimals)} {unit} - {formatUnits(data?.maxPurchase || 0, quoteToken.decimals)} {unit}
+                {formatUnits(data?.minPurchase || 0, quoteToken?.decimals)} {unit} - {formatUnits(data?.maxPurchase || 0, quoteToken?.decimals)} {unit}
               </Typography>
             </FlexBox>
             <FlexBox
@@ -108,7 +109,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
                 Price per token
               </Typography>
               <Typography variant="h6Poppins" color="gray.200" fontWeight="400">
-                1 {token?.symbol} = {formatUnits(data?.price || 0, quoteToken.decimals)} {unit}
+                1 {token?.symbol} = {formatUnits(data?.price || 0, quoteToken?.decimals)} {unit}
               </Typography>
             </FlexBox>
             {/* <FlexBox

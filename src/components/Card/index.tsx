@@ -3,8 +3,9 @@ import React from 'react';
 import { Box, styled, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import Countdown from './Countdown';
-import { formatEther } from 'ethers/lib/utils'
+import { formatEther, formatUnits } from 'ethers/lib/utils'
 import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS } from '@bionswap/core-sdk';
+import { useToken } from 'hooks';
 
 interface ProjectItemProps {
   data: any;
@@ -15,6 +16,7 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
   const currentTime = +new Date();
   const startTime = data?.startTime * 1000;
   const endTime = data?.endTime * 1000;
+  const quoteToken = useToken(data?.quoteToken)
 
   const map = {
     [USDT_ADDRESS[data?.chainId]?.toLowerCase()]: "USDT",
@@ -124,7 +126,7 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
               color: 'text.primary',
             }}
           >
-            {formatEther(data?.hardCap || 0)} {unit}
+            {formatUnits(data?.hardCap || 0, quoteToken?.decimals || 0)} {unit}
           </Typography>
         </FlexBox>
         <FlexBox justifyContent="space-between">
@@ -144,7 +146,7 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
               color: 'text.primary',
             }}
           >
-            {formatEther(data?.minPurchase || 0)} {unit} - {formatEther(data?.maxPurchase || 0)} {unit}
+            {formatUnits(data?.minPurchase || 0, quoteToken?.decimals)} {unit} - {formatUnits(data?.maxPurchase || 0, quoteToken?.decimals)} {unit}
           </Typography>
         </FlexBox>
         <Line />

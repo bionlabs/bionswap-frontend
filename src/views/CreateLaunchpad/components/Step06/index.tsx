@@ -227,30 +227,28 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
         return;
       }
 
-      const { errorRes, resultRes } = await presaleFactoryContract
+      await presaleFactoryContract
         .create(payloadContract, (result as any).salt, { value: ethers.utils.parseEther('0.1') })
         .catch((error: any) => {
           console.log(error);
         });
 
-      if (errorRes) {
-        // TODO: toast
-        setLoadingSubmit(false);
-        return;
-      }
+      // if (errorRes) {
+      //   // TODO: toast
+      //   setLoadingSubmit(false);
+      //   return;
+      // }
 
-      const receipt = await resultRes?.wait();
-      
-      console.log("🚀 ~ file: index.tsx ~ line 237 ~ receipt", receipt)
+      // const receipt = await resultRes?.wait();
 
       setLoadingSubmit(false);
 
-      router.push('/dashboard/my-project');
+      // router.push('/dashboard/my-project');
 
-      setData(clearPresaleForm());
+      // setData(clearPresaleForm());
       
     },
-    [account, chainId, presaleFactoryContract],
+    [account, chainId, presaleFactoryContract, quoteToken],
   );
 
   return (
@@ -397,7 +395,7 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
                 Back
               </Typography>
             </Back>
-            <Next onClick={() => handleCreateSale(data)} disabled={loadignSubmit} sx={{}}>
+            <Next onClick={() => handleCreateSale(data)} disabled={loadignSubmit || !quoteToken} sx={{}}>
               <Typography variant="body3Poppins" color="#000000" fontWeight="600">
                 {loadignSubmit ? 'Loading…' : 'Submit'}
               </Typography>

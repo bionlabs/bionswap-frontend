@@ -1,7 +1,7 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, Button, FormControl, IconButton, OutlinedInput, styled, Typography } from '@mui/material';
 import { BaseModal } from 'components';
-import { formatEther } from 'ethers/lib/utils';
+import { formatEther, formatUnits } from 'ethers/lib/utils';
 import { useChain, useNativeCurrencyBalances, useToken, useTokenBalance } from 'hooks';
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback';
 import { usePresaleContract } from 'hooks/useContract';
@@ -29,7 +29,7 @@ const JoinIdoModal = ({ open, onDismiss, data, unit }: any) => {
 
   const [purchaseInput, setPurchaseInput] = useState('0');
   const [tokenOutputAmount, setTokenOutputAmount] = useState(0);
-  const price = useMemo(() => Number(formatEther(data?.price || 1)), [data?.price]);
+  const price = useMemo(() => Number(formatUnits(data?.price || 1, quoteToken?.decimals)), [data?.price, quoteToken]);
 
   const parsedPurchaseInputAmount = useMemo(
     () => tryParseAmount(purchaseInput, quoteBalance?.currency || undefined),
@@ -53,7 +53,7 @@ const JoinIdoModal = ({ open, onDismiss, data, unit }: any) => {
 
   const handlePurchase = async () => {
     if (!presaleContract || !account || !parsedPurchaseInputAmount) return;
-
+    
     if (approvalState === ApprovalState.APPROVED) {
       if (data?.isQuoteETH) {
         const { error, result: tx } = await withCatch<any>(
