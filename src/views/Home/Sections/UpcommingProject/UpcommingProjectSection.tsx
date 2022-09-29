@@ -30,7 +30,7 @@ const UpcommingProjectSection = () => {
             const launchData = await getSaleList(
               params.page,
               params.limit,
-              chainId,
+              chainId.toString(),
               params.owner,
               params.keyword,
               params.sortBy,
