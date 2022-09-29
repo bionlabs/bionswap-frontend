@@ -243,9 +243,9 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
 
       setLoadingSubmit(false);
 
-      // router.push('/dashboard/my-project');
+      router.push('/dashboard/my-project');
 
-      // setData(clearPresaleForm());
+      setData(clearPresaleForm());
       
     },
     [account, chainId, presaleFactoryContract, quoteToken],
