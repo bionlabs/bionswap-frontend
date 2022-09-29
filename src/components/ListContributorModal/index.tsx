@@ -2,14 +2,15 @@ import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, IconBu
 import { BaseModal } from "components"
 import { useCallback, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import { formatEther } from "ethers/lib/utils";
+import { formatEther, formatUnits } from "ethers/lib/utils";
+import { useToken } from "hooks";
 
 export const minimizeAddressSmartContract = (str: string) => {
     if (!str) return;
     return str.substring(0, 8) + '...' + str.substring(str.length - 4, str.length);
   };
 
-const ListContributorModal = ({ open, onDismiss, data, unit }: any) => {
+const ListContributorModal = ({ open, onDismiss, data, unit, quoteERCToken }: any) => {
 
     return (
         <BaseModal open={open} sx={{
@@ -30,7 +31,7 @@ const ListContributorModal = ({ open, onDismiss, data, unit }: any) => {
                                 {minimizeAddressSmartContract(item[0])}
                             </Typography>
                             <Typography>
-                                {formatEther(item[1])} {unit}
+                                {formatUnits(item[1], quoteERCToken?.decimals)} {unit}
                             </Typography>
                         </FlexBox>
                     ))

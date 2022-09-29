@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Box, Button, styled, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { formatEther, formatUnits } from 'ethers/lib/utils';
@@ -14,24 +14,29 @@ interface ProjectItemProps {
 }
 
 const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
+  console.log('data===>', data);
   const [claimLoading, setClaimLoading] = useState(false);
   const [vestingNextTime, setVestingNextTime] = useState<any>([]);
+  console.log('🚀 ~ file: index.tsx ~ line 19 ~ vestingNextTime', vestingNextTime);
   const currentTime = +new Date();
   const presaleContract = usePresaleContract(data?.sale?.saleAddress || '');
-  const quoteToken = useToken(data?.quoteToken)
+  const quoteToken = useToken(data?.quoteToken);
 
   const tokenAmountClaimed = formatUnits(
     useSingleCallResult(presaleContract, 'purchaseDetails', [account])?.result?.[2] || 0,
-    quoteToken?.decimals
+    quoteToken?.decimals,
   );
   const calcClaimableTokenAmount = formatUnits(
     useSingleCallResult(presaleContract, 'calcClaimableTokenAmount', [account])?.result?.[0] || 0,
-    quoteToken?.decimals
+    quoteToken?.decimals,
   );
+  // const calcClaimableTokenAmount =
+  //   useSingleCallResult(presaleContract, 'calcClaimableTokenAmount', [account])?.result;
   const calcPurchasedTokenAmount = formatUnits(
     useSingleCallResult(presaleContract, 'calcPurchasedTokenAmount ', [account])?.result?.[0] || 0,
-    quoteToken?.decimals
+    quoteToken?.decimals,
   );
+
   const vestingTime = data?.sale?.tgeDate * 1000;
   const nCycles = Math.ceil(
     data?.sale?.cycleReleasePercent
@@ -56,25 +61,28 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
       value: `${calcPurchasedTokenAmount} ${token?.symbol}`,
     },
     {
-      label: currentTime < +new Date(vestingTime) ? 'Claim in' : 'Next Claim in',
+      label:
+        currentTime < +new Date(vestingTime) || Number(data?.sale?.tgeReleasePercent || 0) / 100 == 100
+          ? 'Claim in'
+          : 'Next Claim in',
       value:
-        currentTime < +new Date(vestingTime)
+        currentTime < +new Date(vestingTime) || Number(data?.sale?.tgeReleasePercent || 0) / 100 == 100
           ? new Date(vestingTime).toUTCString()
           : new Date(vestingNextTime[currentCycle]).toUTCString(),
     },
   ];
 
-  const CalculateCycle = () => {
-    let indents = [];
-    for (var i = 0; i < nCycles; i++) {
-      indents.push(+new Date((Number(data?.sale?.tgeDate || 0) + Number(data?.sale?.cycleDuration || 0) * i) * 1000));
-    }
-    setVestingNextTime(indents);
-  };
-
   useEffect(() => {
+    const CalculateCycle = () => {
+      let indents = [];
+      for (var i = 0; i < nCycles; i++) {
+        indents.push(+new Date(Number(data?.sale?.tgeDate || 0) + Number(data?.sale?.cycleDuration || 0) * i));
+      }
+      setVestingNextTime(indents);
+    };
+
     CalculateCycle();
-  }, [nCycles]);
+  }, [nCycles, vestingTime]);
 
   const handleClaim = async () => {
     try {
@@ -125,6 +133,8 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
         </FlexBox>
         <Line />
         {configData.map((item) => (
+            (item.label !== 'Claim in' && item.label !== 'Next Claim in' || tokenAmountClaimed !== calcPurchasedTokenAmount)
+          &&
           <FlexBox key={item.label} justifyContent="space-between" alignItems="center">
             <Typography variant="body4Poppins" color="primary.main" fontWeight="400">
               {item.label}
@@ -134,24 +144,28 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
             </Typography>
           </FlexBox>
         ))}
-        {currentTime < vestingTime ? (
-          <CTA disabled sx={{ backgroundColor: 'rgba(255, 255, 255, 0.12)' }}>
-            <Typography variant="body3Poppins" color="gray.400" fontWeight="600">
-              Not Available
-            </Typography>
-          </CTA>
-        ) : currentTime > vestingTime && Number(calcClaimableTokenAmount) != 0 ? (
-          <CTA onClick={handleClaim} sx={{ backgroundColor: 'primary.main' }}>
-            <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-              {claimLoading ? 'Loading.....' : 'Claim'}
-            </Typography>
-          </CTA>
-        ) : (
-          <CTA disabled sx={{ backgroundColor: 'rgba(255, 255, 255, 0.12)' }}>
-            <Typography variant="body3Poppins" color="gray.400" fontWeight="600">
-              Waiting for next claim
-            </Typography>
-          </CTA>
+        {tokenAmountClaimed !== calcPurchasedTokenAmount && (
+          <>
+            {currentTime < vestingTime ? (
+              <CTA disabled sx={{ backgroundColor: 'rgba(255, 255, 255, 0.12)' }}>
+                <Typography variant="body3Poppins" color="gray.400" fontWeight="600">
+                  Not Available
+                </Typography>
+              </CTA>
+            ) : currentTime > vestingTime && Number(calcClaimableTokenAmount || 0) !== 0 ? (
+              <CTA onClick={handleClaim} sx={{ backgroundColor: 'primary.main' }} disabled={claimLoading}>
+                <Typography variant="body3Poppins" color="#000000" fontWeight="600">
+                  {claimLoading ? 'Loading.....' : 'Claim'}
+                </Typography>
+              </CTA>
+            ) : (
+              <CTA disabled sx={{ backgroundColor: 'rgba(255, 255, 255, 0.12)' }}>
+                <Typography variant="body3Poppins" color="gray.400" fontWeight="600">
+                  Waiting for next claim
+                </Typography>
+              </CTA>
+            )}
+          </>
         )}
       </WrapText>
     </WrapBox>

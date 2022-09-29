@@ -1,7 +1,7 @@
 import { AddressMap, ChainId } from '@bionswap/core-sdk';
 
 export const PRESALE_FACTORY_ADDRESS: AddressMap = {
-  [ChainId.BSC_TESTNET]: '0x86F128F3D4E6855E211521d4A73873f8142a2f38',
+  [ChainId.BSC_TESTNET]: '0xA6D9061810a1277AE123E0ceD34980Bc29B0ACF3',
 };
 
 export const BION_LOCK_ADDRESS: AddressMap = {

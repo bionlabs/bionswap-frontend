@@ -409,13 +409,13 @@ const MyProjectDetail = () => {
                 <ButtonInLine
                   sx={{ backgroundColor: 'primary.main' }}
                   onClick={handleFinalize}
-                  disabled={saleStatus !== 0}
+                  disabled={saleStatus !== 0 || currentTime < endTime}
                 >
                   <Typography variant="body3Poppins" color="#000000" fontWeight="600">
                     Complete and Release token
                   </Typography>
                 </ButtonInLine>
-                <ButtonInLine sx={{ backgroundColor: 'gray.200' }} onClick={handleCancel} disabled={saleStatus !== 0}>
+                <ButtonInLine sx={{ backgroundColor: 'gray.200' }} onClick={handleCancel} disabled={saleStatus !== 0 || currentTime < endTime}>
                   <Typography variant="body3Poppins" color="#000000" fontWeight="600">
                     Cancel
                   </Typography>
@@ -494,7 +494,7 @@ const MyProjectDetail = () => {
           </ActiveBox>
         </FlexBox>
       </BodyArea>
-      <ListContributorModal open={openListModal} onDismiss={handleListModal} data={purchaserList} unit={unit} />
+      <ListContributorModal open={openListModal} onDismiss={handleListModal} data={purchaserList} unit={unit} quoteERCToken={quoteERCToken} />
     </Section>
   );
 };

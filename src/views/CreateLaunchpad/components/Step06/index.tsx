@@ -19,6 +19,7 @@ export const minimizeAddressSmartContract = (str: string) => {
 };
 
 const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) => {
+  console.log("🚀 ~ file: index.tsx ~ line 22 ~ Step06 ~ data", data)
   const router = useRouter()
   const { chainId, account } = useChain();
   const presaleFactoryContract = usePresaleFactoryContract();
@@ -30,8 +31,8 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
   const tokenForSale = Number(data.maxGoal) / Number(data.tokenPrice) || 0;
   const tokenForLiquidity = (Number(data.liquidityPercentage) * Number(data.maxGoal)) / Number(data.pricePerToken) || 0;
 
-  const quoteToken = useToken(data.quoteToken)
-  console.log("🚀 ~ file: index.tsx ~ line 34 ~ Step06 ~ data.currency.quoteToken", quoteToken?.decimals)
+  const quoteToken = useToken(data?.quoteToken)
+  console.log("🚀 ~ file: index.tsx ~ line 34 ~ Step06 ~ data.currency.quoteToken", quoteToken)
 
   const projectReview = [
     {
@@ -195,8 +196,10 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
         tgeDate: data.tgeDate / 1000,
         tgeReleasePercent: Number(data.firstRelease) * 100,
         cycleDuration: Number(data.vestingPeriodEachCycle) * 86400,
+        // cycleDuration: Number(data.vestingPeriodEachCycle) * 500,
         cycleReleasePercent: Number(data.tokenReleaseEachCycle) * 100,
         lockLPDuration: Number(data.lockupTime) * 86400,
+        // lockLPDuration: Number(data.lockupTime) * 500,
       };
 
       // first estimate whether a successful transaction
