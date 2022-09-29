@@ -68,8 +68,8 @@ const VestingSchedule: React.FC<VestingScheduleProps> = ({ data }) => {
                 </Typography>
               </FlexBox>
               <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
-                You can claim 50% of your purchased BVT immediately on 07/06/2022 at 04:30:00 PM. The remaining token
-                will be released linearly over time until it is fully released at 07/06/2022 at 04:30:00 PM
+                You can claim {Number(data?.tgeReleasePercent || 0) / 100}% of your purchased BVT immediately on {new Date(data?.tgeDate * 1000).toUTCString()}. The remaining token
+                will be released linearly over time until it is fully released at {new Date((Number(data?.tgeDate || 0) + Number(data?.cycleDuration || 0) * nCycles) * 1000).toUTCString()}
               </Typography>
             </ContentItem>
             {Array.from(Array(nCycles), (_, i) => i + 1).map((i) => (

@@ -1,7 +1,8 @@
 import React from "react";
 import { Box, Tabs, Tab, Typography } from "@mui/material";
 import IDOProcess from "../IDOProcess";
-import { formatEther } from "ethers/lib/utils";
+import { formatEther, formatUnits } from "ethers/lib/utils";
+import { useToken } from "hooks";
 
 interface TokenSaleProps {
     data: any,
@@ -11,13 +12,14 @@ interface TokenSaleProps {
 }
 
 const TokenSale: React.FC<TokenSaleProps> = ({ data, isMobile = false, unit, tokenContract }) => {
-    const startTime = data?.startTime;
-    const endTime = data?.endTime;
+    const quoteToken = useToken(data?.quoteToken)
+    const startTime = data?.startTime * 1000;
+    const endTime = data?.endTime * 1000;
 
     const fetchData = [
         {
             allocation: 'Sale Price',
-            tokenSale: `1 ${tokenContract?.symbol} = ${formatEther(data?.listingPrice || 0)} ${unit}`
+            tokenSale: `1 ${tokenContract?.symbol} = ${formatUnits(data?.listingPrice || 0, quoteToken?.decimals)} ${unit}`
         },
         {
             allocation: 'Sale Start Time',
