@@ -103,11 +103,14 @@ const MyProjectDetail = () => {
 
   const lockId = useSingleCallResult(presaleContract, 'lockId')?.result?.[0]?.toNumber() || 0;
   const lockRecord = useSingleCallResult(bionLockContract, 'getLockById', [lockId])?.result?.[0];
-  const tgeDate = Number(lockRecord?.tgeDate) * 1000
+  const tgeDate = Number(lockRecord?.tgeDate) * 1000;
 
   const withdrawableTokens = useSingleCallResult(bionLockContract, 'withdrawableTokens', [lockId])?.result?.[0];
 
-  const currentCap = formatUnits(useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0, quoteERCToken?.decimals);
+  const currentCap = formatUnits(
+    useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0,
+    quoteERCToken?.decimals,
+  );
   const totalSupply = useTotalSupply(token || undefined)?.toExact({});
   const tokensForPresale = Number(hardCap) / Number(price);
   const tokensForLP = (Number(hardCap) * (data?.lpPercent / 100)) / Number(listingPrice);
@@ -269,9 +272,9 @@ const MyProjectDetail = () => {
   };
 
   const handleSelectWhitelist = () => {
-    console.log("🚀 ~ file: index.tsx ~ line 273 ~ handleSelectWhitelist ~ whitelist", !isWhitelistEnabled)
+    console.log('🚀 ~ file: index.tsx ~ line 273 ~ handleSelectWhitelist ~ whitelist', !isWhitelistEnabled);
     handleChangeSaleMode(!isWhitelistEnabled);
-  }
+  };
 
   return (
     <Section>
@@ -458,37 +461,36 @@ const MyProjectDetail = () => {
                 </RadioGroup>
               </FormControl>
             </SaleBox>
-            <SaleBox gap="18px">
-              <Typography variant="body2Poppins" color="gray.50" fontWeight="500">
-                Liquidity
-              </Typography>
-              {tgeDate ? (
-                <FlexBox gap="15px" flexDirection="column">
-                  <CountDownUnlockLP endTime={tgeDate} />
-                  {currentTime >= tgeDate && withdrawableTokens == 0 ? (
-                    <Typography variant="body3Poppins" color="primary.main" fontWeight="600" textAlign="center">
-                      Project has unlocked
-                    </Typography>
-                  ) : (
-                    <ButtonOutLine
-                      disabled={currentTime <= tgeDate || unlockLPLoading}
-                      onClick={handleUnlockLP}
-                    >
-                      <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
-                        {unlockLPLoading ? 'Loading.....' : 'Unlock LP'}
+            {data?.isAutoListing && (
+              <SaleBox gap="18px">
+                <Typography variant="body2Poppins" color="gray.50" fontWeight="500">
+                  Liquidity
+                </Typography>
+                {tgeDate ? (
+                  <FlexBox gap="15px" flexDirection="column">
+                    <CountDownUnlockLP endTime={tgeDate} />
+                    {currentTime >= tgeDate && withdrawableTokens == 0 ? (
+                      <Typography variant="body3Poppins" color="primary.main" fontWeight="600" textAlign="center">
+                        Project has unlocked
                       </Typography>
-                    </ButtonOutLine>
-                  )}
-                </FlexBox>
-              ) : (
-                <Box>
-                  <Typography>
-                    Your liquidity will be locked {lockLPDuration} {lockLPDuration > 1 ? 'days' : 'day'} after sale
-                    finalize
-                  </Typography>
-                </Box>
-              )}
-            </SaleBox>
+                    ) : (
+                      <ButtonOutLine disabled={currentTime <= tgeDate || unlockLPLoading} onClick={handleUnlockLP}>
+                        <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
+                          {unlockLPLoading ? 'Loading.....' : 'Unlock LP'}
+                        </Typography>
+                      </ButtonOutLine>
+                    )}
+                  </FlexBox>
+                ) : (
+                  <Box>
+                    <Typography>
+                      Your liquidity will be locked {lockLPDuration} {lockLPDuration > 1 ? 'days' : 'day'} after sale
+                      finalize
+                    </Typography>
+                  </Box>
+                )}
+              </SaleBox>
+            )}
           </ActiveBox>
         </FlexBox>
       </BodyArea>
