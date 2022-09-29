@@ -22,7 +22,7 @@ import { isAddress } from 'utils/validate';
 import { useBionLockContract, usePresaleContract } from 'hooks/useContract';
 import { useChain, useSingleCallResult } from 'hooks';
 import { useTotalSupply } from 'hooks/useTotalSupply';
-import { formatEther } from 'ethers/lib/utils';
+import { formatEther, formatUnits } from 'ethers/lib/utils';
 import CountDownTime from './CountDownTime';
 import CountDownUnlockLP from './CountDownUnlockLP';
 import { withCatch } from 'utils/error';
@@ -83,17 +83,18 @@ function a11yProps(index: number) {
 const MyProjectDetail = () => {
   const [unlockLPLoading, setUnlockLPLoading] = useState(false);
   const [openListModal, setOpenListModal] = useState(false);
+  const [data, setData] = useState<any>(null);
+  const quoteERCToken = useToken(data?.quoteToken);
   const { account, chainId } = useChain();
   const router = useRouter();
   const { slug } = router.query;
-  const [data, setData] = useState<any>(null);
   const token = useToken(data?.token);
-  const hardCap = formatEther(data?.hardCap || 0);
+  const hardCap = formatUnits(data?.hardCap || 0, quoteERCToken?.decimals);
   const lockLPDuration = Math.floor(data?.lockLPDuration / (3600 * 24));
-  const price = formatEther(data?.price || 0);
-  const listingPrice = formatEther(data?.listingPrice || 0);
-  const minBuy = formatEther(data?.minPurchase || 0);
-  const maxBuy = formatEther(data?.maxPurchase || 0);
+  const price = formatUnits(data?.price || 0, quoteERCToken?.decimals);
+  const listingPrice = formatUnits(data?.listingPrice || 0, quoteERCToken?.decimals);
+  const minBuy = formatUnits(data?.minPurchase || 0, quoteERCToken?.decimals);
+  const maxBuy = formatUnits(data?.maxPurchase || 0, quoteERCToken?.decimals);
   const presaleContract = usePresaleContract(data?.saleAddress);
   const bionLockContract = useBionLockContract();
   const saleStatus = useSingleCallResult(presaleContract, 'status')?.result?.[0] || 0;
@@ -102,16 +103,14 @@ const MyProjectDetail = () => {
 
   const lockId = useSingleCallResult(presaleContract, 'lockId')?.result?.[0]?.toNumber() || 0;
   const lockRecord = useSingleCallResult(bionLockContract, 'getLockById', [lockId])?.result?.[0];
-  console.log("🚀 ~ file: index.tsx ~ line 105 ~ MyProjectDetail ~ lockRecord", Number(lockRecord.tgeDate))
-  const tgeDate = Number(lockRecord.tgeDate) * 1000
+  const tgeDate = Number(lockRecord?.tgeDate) * 1000
 
   const withdrawableTokens = useSingleCallResult(bionLockContract, 'withdrawableTokens', [lockId])?.result?.[0];
 
-  const currentCap = formatEther(useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0);
+  const currentCap = formatUnits(useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0, quoteERCToken?.decimals);
   const totalSupply = useTotalSupply(token || undefined)?.toExact({});
   const tokensForPresale = Number(hardCap) / Number(price);
   const tokensForLP = (Number(hardCap) * (data?.lpPercent / 100)) / Number(listingPrice);
-  const quoteERCToken = useToken(data?.quoteToken);
   const quoteNativeToken = NATIVE[chainId];
   const quoteToken = data?.isQuoteETH ? quoteNativeToken : quoteERCToken;
   const unit = quoteToken?.symbol;

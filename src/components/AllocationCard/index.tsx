@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, styled, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import { formatEther } from 'ethers/lib/utils';
+import { formatEther, formatUnits } from 'ethers/lib/utils';
 import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS } from '@bionswap/core-sdk';
 import { useSingleCallResult, useToken } from 'hooks';
 import { usePresaleContract } from 'hooks/useContract';
@@ -18,15 +18,19 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
   const [vestingNextTime, setVestingNextTime] = useState<any>([]);
   const currentTime = +new Date();
   const presaleContract = usePresaleContract(data?.sale?.saleAddress || '');
+  const quoteToken = useToken(data?.quoteToken)
 
-  const tokenAmountClaimed = formatEther(
+  const tokenAmountClaimed = formatUnits(
     useSingleCallResult(presaleContract, 'purchaseDetails', [account])?.result?.[2] || 0,
+    quoteToken?.decimals
   );
-  const calcClaimableTokenAmount = formatEther(
+  const calcClaimableTokenAmount = formatUnits(
     useSingleCallResult(presaleContract, 'calcClaimableTokenAmount', [account])?.result?.[0] || 0,
+    quoteToken?.decimals
   );
-  const calcPurchasedTokenAmount = formatEther(
+  const calcPurchasedTokenAmount = formatUnits(
     useSingleCallResult(presaleContract, 'calcPurchasedTokenAmount ', [account])?.result?.[0] || 0,
+    quoteToken?.decimals
   );
   const vestingTime = data?.sale?.tgeDate * 1000;
   const nCycles = Math.ceil(

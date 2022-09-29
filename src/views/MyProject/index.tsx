@@ -43,7 +43,7 @@ const MyProject = () => {
         <Box mb="50px">
           <Typography variant="h3Samsung">My projects</Typography>
         </Box>
-        <FlexBox gap='30px'>
+        <FlexBox gap='30px' flexWrap='wrap'>
           {launchData?.data?.map((item: any) => (
             <Item key={item.title}>
               <ProjectCard data={item} />
