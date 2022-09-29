@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Box,
     Container,
@@ -10,8 +10,39 @@ import Image from "next/image";
 import PrimaryButton from 'components/PrimaryButton'
 import Card from 'components/Card';
 import { crowdfundingConfig } from 'views/LaunchpadDetail/config';
+import { getSaleList } from 'api/launchpad';
+import { useChain } from 'hooks';
 
 const UpcommingProjectSection = () => {
+    const { chainId } = useChain();
+    const [launchData, setLaunchData]: any = useState(null);
+    const [params, setParams] = useState({
+        page: 1,
+        limit: 3,
+        owner: '',
+        keyword: '',
+        sortBy: null,
+      });
+
+      useEffect(() => {
+        const getLaunchData = async (params: any) => {
+          try {
+            const launchData = await getSaleList(
+              params.page,
+              params.limit,
+              chainId,
+              params.owner,
+              params.keyword,
+              params.sortBy,
+            );
+            setLaunchData(launchData);
+          } catch (error) {
+            console.log('error====>', error);
+          }
+        };
+    
+        getLaunchData(params);
+      }, [chainId, params]);
     return (
         <Wrapper>
             <Container maxWidth='lg' sx={{
@@ -32,7 +63,7 @@ const UpcommingProjectSection = () => {
                 </FlexBox>
                 <WrapItems>
                     {
-                        crowdfundingConfig?.map((item, idex) => (
+                        launchData?.data?.map((item: any) => (
                             <Items key=''>
                                 <Card data={item} />
                             </Items>
