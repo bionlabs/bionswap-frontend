@@ -7,3 +7,7 @@ export const PRESALE_FACTORY_ADDRESS: AddressMap = {
 export const BION_LOCK_ADDRESS: AddressMap = {
   [ChainId.BSC_TESTNET]: '0x23C1d22A6e6f61d9cc8160dEf00F6518561fE0da',
 };
+
+export const BION_AVATAR_ADDRESS: AddressMap = {
+  [ChainId.BSC_TESTNET]: '0x3795B42885E172bDD7fF0fc9fC58B20A1C81c8F6',
+};

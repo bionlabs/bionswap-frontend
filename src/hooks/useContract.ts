@@ -1,4 +1,7 @@
-import WETH9_ABI from 'constants/abis/weth.json';
+import { ChainId, ENS_REGISTRAR_ADDRESS, ROUTER_ADDRESS, WNATIVE_ADDRESS } from '@bionswap/core-sdk';
+import BION_AVATAR_ABI from 'constants/abis/bion-avatar.json';
+import BION_LOCK_ABI from 'constants/abis/bion-lock.json';
+import ENS_PUBLIC_RESOLVER_ABI from 'constants/abis/ens-public-resolver.json';
 import ENS_ABI from 'constants/abis/ens-registrar.json';
 import ERC20_ABI from 'constants/abis/erc20.json';
 import ERC20_BYTES32_ABI from 'constants/abis/erc20_bytes32.json';
@@ -6,21 +9,13 @@ import MULTICALL_ABI from 'constants/abis/interface-multicall.json';
 import PRESALE_FACTORY_ABI from 'constants/abis/presale-factory.json';
 import PRESALE_ABI from 'constants/abis/presale.json';
 import ROUTER_ABI from 'constants/abis/router.json';
-import BION_LOCK_ABI from 'constants/abis/bion-lock.json';
-import ENS_PUBLIC_RESOLVER_ABI from 'constants/abis/ens-public-resolver.json';
 import STANDARD_TOKEN_ABI from 'constants/abis/standard-token.json';
+import WETH9_ABI from 'constants/abis/weth.json';
+import { BION_AVATAR_ADDRESS, BION_LOCK_ADDRESS, PRESALE_FACTORY_ADDRESS } from 'constants/addresses';
 import { Contract, ContractFactory } from 'ethers';
-import { useAccount, useChain, useNetwork, useProvider, useSigner } from 'hooks';
+import { useChain } from 'hooks';
 import { useMemo } from 'react';
 import { getContract, getContractFactory } from 'utils/contract';
-import {
-  ChainId,
-  ENS_REGISTRAR_ADDRESS,
-  MULTICALL2_ADDRESS,
-  ROUTER_ADDRESS,
-  WNATIVE_ADDRESS,
-} from '@bionswap/core-sdk';
-import { BION_LOCK_ADDRESS, PRESALE_FACTORY_ADDRESS } from 'constants/addresses';
 
 // returns null on errors
 export function useContract<T extends Contract = Contract>(
@@ -86,6 +81,10 @@ const MULTICALL_ADDRESS = {
   [ChainId.METIS]: '0x67dA5f2FfaDDfF067AB9d5F025F8810634d84287',
 };
 
+export function useBionAvatarContract() {
+  return useContract(BION_AVATAR_ADDRESS, BION_AVATAR_ABI, true);
+}
+
 export function useStandardTokenContractFactory() {
   return useContractFactory(STANDARD_TOKEN_ABI.abi, STANDARD_TOKEN_ABI.bytecode);
 }
@@ -104,6 +103,10 @@ export function useBionLockContract() {
 
 export function useMulticallContract(): Contract | null | undefined {
   return useContract(MULTICALL_ADDRESS, MULTICALL_ABI, false);
+}
+
+export function useEnumerableNFTContract(nftAddress?: string, withSignerIfPossible?: boolean) {
+  return useContract(nftAddress, BION_AVATAR_ABI, withSignerIfPossible);
 }
 
 export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
