@@ -5,4 +5,6 @@ export const SIGN_MESSAGE =
 
 export const requireSignMessage = createAction('auth/requireSignMessage');
 
-export const setAccessToken = createAction<string>('auth/setAccessToken');
+export const setAccessToken = createAction<string | undefined>('auth/setAccessToken');
+
+export const logOut = createAction('auth/logOut');

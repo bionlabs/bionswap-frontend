@@ -10,16 +10,18 @@ import {
   Skeleton,
   useMediaQuery,
   styled,
-  Typography
-} from "@mui/material";
-import { useBalance, useNativeCurrencyBalances } from "hooks";
-import Image from "next/image";
-import { HiX } from "react-icons/hi";
-import { useAccount, useDisconnect } from "wagmi";
-import { getConnectorIcon } from "utils/connectors";
-import { shortenAddress } from "utils/format";
-import profileMenu from "./profileConfig";
-import { useRouter } from "next/router";
+  Typography,
+} from '@mui/material';
+import { useBalance, useNativeCurrencyBalances } from 'hooks';
+import Image from 'next/image';
+import { HiX } from 'react-icons/hi';
+import { useAccount, useDisconnect } from 'wagmi';
+import { getConnectorIcon } from 'utils/connectors';
+import { shortenAddress } from 'utils/format';
+import profileMenu from './profileConfig';
+import { useRouter } from 'next/router';
+import { useAppDispatch } from 'state';
+import { logOut } from 'state/auth/actions';
 
 type Props = {
   onClose?: () => void;
@@ -27,16 +29,21 @@ type Props = {
 };
 
 const ProfileModal = ({ onClose, open = false }: Props) => {
+  const dispatch = useAppDispatch();
   const { address, connector: activeConnector } = useAccount();
-  const isMobile = useMediaQuery("(max-width:1155px)");
-  const { disconnect } = useDisconnect();
+  const isMobile = useMediaQuery('(max-width:1155px)');
+  const { disconnect } = useDisconnect({
+    onSuccess: () => {
+      dispatch(logOut());
+    },
+  });
   const { data } = useBalance({
-    addressOrName: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+    addressOrName: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
   });
 
   const balance = useNativeCurrencyBalances(address ? [address] : [])?.[address ?? ''];
 
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <Modal
@@ -50,58 +57,45 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
     >
       <Wrapper
         sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          color: "#fff",
-          minWidth: isMobile ? '90%' : "423px",
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          color: '#fff',
+          minWidth: isMobile ? '90%' : '423px',
           // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-          borderRadius: "8px",
+          borderRadius: '8px',
           p: 4,
         }}
       >
         <Box display="flex" flexDirection="column" gap="5px">
           <Box display="flex" justifyContent="space-between" alignItems="start">
-            <Box
-              display="flex"
-              alignItems="center"
-              gap="10px"
-              fontSize="18px"
-              fontWeight="700"
-            >
+            <Box display="flex" alignItems="center" gap="10px" fontSize="18px" fontWeight="700">
               <Image
-                src={
-                  activeConnector ? getConnectorIcon(activeConnector.id) : "/"
-                }
+                src={activeConnector ? getConnectorIcon(activeConnector.id) : '/'}
                 layout="fixed"
                 alt=""
                 width={40}
                 height={40}
               />
               <Box>
-                <Box>
-                  {shortenAddress(address ?? "")}
-                </Box>
+                <Box>{shortenAddress(address ?? '')}</Box>
                 <Box color="#787A9B" fontWeight="400" fontSize="14px">
                   {activeConnector ? activeConnector.name : <Skeleton />}
                 </Box>
               </Box>
             </Box>
-            <IconButton
-              onClick={onClose}
-              sx={{ color: "#fff", padding: "0" }}
-            >
+            <IconButton onClick={onClose} sx={{ color: '#fff', padding: '0' }}>
               <HiX />
             </IconButton>
           </Box>
         </Box>
-        <Divider sx={{ borderBottom: "1px solid #787A9B" }} />
+        <Divider sx={{ borderBottom: '1px solid #787A9B' }} />
         <Box>
-          <WrapCard >
+          <WrapCard>
             <Box>
               <Content>Your Balance</Content>
-              <Title>{balance ? `${balance.toFixed(3)} ${balance.currency.symbol}` : 'Loading...' }</Title>
+              <Title>{balance ? `${balance.toFixed(3)} ${balance.currency.symbol}` : 'Loading...'}</Title>
             </Box>
             <Box marginTop="10px">
               <Content>sBION</Content>
@@ -118,35 +112,33 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
           }}
           onClick={onClose}
         >
-          {
-            profileMenu.map(item =>
-              <MenuItem
-                key=''
-                sx={{
-                  p: 2,
-                  width: "100%",
-                  // borderBottom: "1px solid #787A9B",
-                  borderRadius: '4px',
-                  ":last-child": {
-                    borderBottom: "none",
-                  },
-                }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  router.push(item.href);
-                }}
-              >
-                {item.label}
-              </MenuItem>
-            )
-          }
+          {profileMenu.map((item) => (
+            <MenuItem
+              key=""
+              sx={{
+                p: 2,
+                width: '100%',
+                // borderBottom: "1px solid #787A9B",
+                borderRadius: '4px',
+                ':last-child': {
+                  borderBottom: 'none',
+                },
+              }}
+              onClick={(e) => {
+                e.preventDefault();
+                router.push(item.href);
+              }}
+            >
+              {item.label}
+            </MenuItem>
+          ))}
           <MenuItem
             sx={{
               p: 2,
-              width: "100%",
+              width: '100%',
               // borderBottom: "1px solid #787A9B",
-              ":last-child": {
-                borderBottom: "none",
+              ':last-child': {
+                borderBottom: 'none',
               },
             }}
             onClick={() => disconnect()}
@@ -159,12 +151,12 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
   );
 };
 const Wrapper = styled(Box)`
-  background: ${(props:any) => (props.theme.palette as any).extra.other.nineth};
+  background: ${(props: any) => (props.theme.palette as any).extra.other.nineth};
   border: 2px solid ${(props) => (props.theme.palette as any).extra.other.tenth};
   display: flex;
   flex-direction: column;
   gap: 15px;
-`
+`;
 
 const WrapCard = styled(Box)`
   background: ${(props) => (props.theme.palette as any).extra.other.tenth};
@@ -177,7 +169,7 @@ const Title = styled(Box)`
   font-weight: 700;
   font-size: 20px;
   line-height: 160%;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   color: #fff;
 `;
 const Content = styled(Box)`

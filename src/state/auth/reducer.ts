@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { authRequest } from 'api';
-import { requireSignMessage, setAccessToken } from './actions';
+import { logOut, requireSignMessage, setAccessToken } from './actions';
 
 export type AuthState = {
   triggerSignMessage: boolean;
@@ -19,5 +19,8 @@ export default createReducer<AuthState>(initialState, (builder) =>
     .addCase(setAccessToken, (state, { payload: token }) => {
       state.accessToken = token;
       authRequest.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    })
+    .addCase(logOut, (state) => {
+      state.accessToken = undefined;
     }),
 );
