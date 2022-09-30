@@ -10,8 +10,12 @@ import Step03 from './components/Step03';
 import Step04 from './components/Step04';
 import Step05 from './components/Step05';
 import Step06 from './components/Step06';
+import NotSupportSection from 'components/NotSupportSection';
+import { ChainId } from '@bionswap/core-sdk';
+import { useChain } from 'hooks';
 
 const CreateLaunchpad = () => {
+  const { chainId } = useChain();
   const Joi = require('joi');
   const data = useAppSelector((state) => state.presale.dataConfig);
   const communityDetail = JSON.parse(data?.community || '{}');
@@ -156,90 +160,94 @@ const CreateLaunchpad = () => {
 
   return (
     <Section>
-      <Container maxWidth="lg">
-        <Box sx={{ width: '100%' }}>
-          <WrapStep sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Stepper activeStep={activeStep}>
-              {steps.map((item, index) => {
-                return (
-                  <StepCustom key={item.title} className={activeStep === index ? 'activeStep' : ''}>
-                    <FlexBox flexDirection="column" gap="13px" alignItems="center">
-                      <Typography
-                        variant="body4Poppins"
-                        textTransform="uppercase"
-                        fontWeight={activeStep === index ? '500' : '400'}
-                        color={activeStep === index ? 'primary.main' : 'gray.600'}
-                        fontStyle="initial"
-                      >
-                        {item.step}. {item.title}
-                      </Typography>
-                      <WapIcon className={activeStep === index ? 'done' : ''}>
-                        <img src={item.icon} alt={item.icon} />
-                      </WapIcon>
-                    </FlexBox>
-                  </StepCustom>
-                );
-              })}
-            </Stepper>
-          </WrapStep>
-          {activeStep === 0 && (
-            <Step01
-              data={data}
-              setData={dispatch}
-              handleNext={handleNext}
-              onShowError={onShowError}
-              communities={communities}
-              setCommunities={setCommunities}
-            />
-          )}
-          {activeStep === 1 && (
-            <Step02
-              data={data}
-              setData={dispatch}
-              handleNext={handleNext}
-              handleBack={handleBack}
-              onShowError={onShowError}
-            />
-          )}
-          {activeStep === 2 && (
-            <Step03
-              data={data}
-              setData={dispatch}
-              handleNext={handleNext}
-              handleBack={handleBack}
-              onShowError={onShowError}
-            />
-          )}
-          {activeStep === 3 && (
-            <Step04
-              data={data}
-              setData={dispatch}
-              handleNext={handleNext}
-              handleBack={handleBack}
-              onShowError={onShowError}
-            />
-          )}
-          {activeStep === 4 && (
-            <Step05
-              data={data}
-              setData={dispatch}
-              handleNext={handleNext}
-              handleBack={handleBack}
-              onShowError={onShowError}
-            />
-          )}
-          {activeStep === 5 && (
-            <Step06
-              data={data}
-              setData={dispatch}
-              handleNext={handleNext}
-              handleBack={handleBack}
-              onShowError={onShowError}
-              handleSubmit={handleSubmit}
-            />
-          )}
-        </Box>
-      </Container>
+      {ChainId.BSC_TESTNET === chainId ? (
+        <Container maxWidth="lg">
+          <Box sx={{ width: '100%' }}>
+            <WrapStep sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Stepper activeStep={activeStep}>
+                {steps.map((item, index) => {
+                  return (
+                    <StepCustom key={item.title} className={activeStep === index ? 'activeStep' : ''}>
+                      <FlexBox flexDirection="column" gap="13px" alignItems="center">
+                        <Typography
+                          variant="body4Poppins"
+                          textTransform="uppercase"
+                          fontWeight={activeStep === index ? '500' : '400'}
+                          color={activeStep === index ? 'primary.main' : 'gray.600'}
+                          fontStyle="initial"
+                        >
+                          {item.step}. {item.title}
+                        </Typography>
+                        <WapIcon className={activeStep === index ? 'done' : ''}>
+                          <img src={item.icon} alt={item.icon} />
+                        </WapIcon>
+                      </FlexBox>
+                    </StepCustom>
+                  );
+                })}
+              </Stepper>
+            </WrapStep>
+            {activeStep === 0 && (
+              <Step01
+                data={data}
+                setData={dispatch}
+                handleNext={handleNext}
+                onShowError={onShowError}
+                communities={communities}
+                setCommunities={setCommunities}
+              />
+            )}
+            {activeStep === 1 && (
+              <Step02
+                data={data}
+                setData={dispatch}
+                handleNext={handleNext}
+                handleBack={handleBack}
+                onShowError={onShowError}
+              />
+            )}
+            {activeStep === 2 && (
+              <Step03
+                data={data}
+                setData={dispatch}
+                handleNext={handleNext}
+                handleBack={handleBack}
+                onShowError={onShowError}
+              />
+            )}
+            {activeStep === 3 && (
+              <Step04
+                data={data}
+                setData={dispatch}
+                handleNext={handleNext}
+                handleBack={handleBack}
+                onShowError={onShowError}
+              />
+            )}
+            {activeStep === 4 && (
+              <Step05
+                data={data}
+                setData={dispatch}
+                handleNext={handleNext}
+                handleBack={handleBack}
+                onShowError={onShowError}
+              />
+            )}
+            {activeStep === 5 && (
+              <Step06
+                data={data}
+                setData={dispatch}
+                handleNext={handleNext}
+                handleBack={handleBack}
+                onShowError={onShowError}
+                handleSubmit={handleSubmit}
+              />
+            )}
+          </Box>
+        </Container>
+      ) : (
+        <NotSupportSection />
+      )}
     </Section>
   );
 };

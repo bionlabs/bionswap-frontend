@@ -4,6 +4,8 @@ import Page from 'components/Page';
 import AllocationCard from 'components/AllocationCard';
 import { useChain } from 'hooks';
 import { getJoinedSales } from 'api/launchpad';
+import NotSupportSection from 'components/NotSupportSection';
+import { ChainId } from '@bionswap/core-sdk';
 
 const Allocation = () => {
   const { account, chainId } = useChain();
@@ -27,13 +29,17 @@ const Allocation = () => {
     <Page>
       <Wrapper>
         <Typography variant="h3Samsung">Active Allocation</Typography>
-        <Box>
-          {data?.map((item: any) => (
-            <Item key={item.saleAddress}>
-              <AllocationCard data={item} account={account || ''} />
-            </Item>
-          ))}
-        </Box>
+        {ChainId.BSC_TESTNET === chainId ? (
+          <Box>
+            {data?.map((item: any) => (
+              <Item key={item.saleAddress}>
+                <AllocationCard data={item} account={account || ''} />
+              </Item>
+            ))}
+          </Box>
+        ) : (
+          <NotSupportSection />
+        )}
       </Wrapper>
     </Page>
   );
