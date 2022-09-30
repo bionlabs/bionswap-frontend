@@ -12,15 +12,21 @@ import Step05 from './components/Step05';
 import Step06 from './components/Step06';
 import NotSupportSection from 'components/NotSupportSection';
 import { ChainId } from '@bionswap/core-sdk';
-import { useChain } from 'hooks';
+import { useChain, useToken } from 'hooks';
+import ConnectWalletSection from './components/ConnectWalletSection';
+import Joi, { CustomHelpers, CustomValidator } from 'joi';
+// const Joi = require('joi');
 
 const CreateLaunchpad = () => {
-  const { chainId } = useChain();
-  const Joi = require('joi');
+  const { chainId, account } = useChain();
+
   const data = useAppSelector((state) => state.presale.dataConfig);
+  const tokenContract = useToken(data.tokenContract);
+  console.log('🚀 ~ file: index.tsx ~ line 23 ~ CreateLaunchpad ~ tokenContract', tokenContract);
   const communityDetail = JSON.parse(data?.community || '{}');
   const activeStep = useAppSelector((state) => state.presale.step);
   const dispatch = useAppDispatch();
+  // const currency = data.abc()
 
   const [errors, setErrors] = useState([]);
 
@@ -30,20 +36,30 @@ const CreateLaunchpad = () => {
     discord: communityDetail['discord'] || '',
   });
 
+  const method: CustomValidator = (value: any, helpers: CustomHelpers) => {
+    console.log('value===>', value);
+    //   if (value === undefined) {
+    //     throw new Error('Invalid token address');
+    // }
+
+    console.log('abc===>', helpers)
+  };
+
   const schemaStep01 = Joi.object({
     projectTitle: Joi.string().required(),
     projectLogo: Joi.string().required(),
-    saleBanner: Joi.string().required(`{path} is required`),
+    saleBanner: Joi.string().required(),
     website: Joi.string().required(),
     telegram: Joi.string().required(),
-    discord: Joi.string().required(),
+    discord: Joi.string().required().custom(method, "123"),
+
   });
   const schemaStep02 = Joi.object({
-    tokenContract: Joi.string().required(),
+    tokenContract: Joi.string().required().custom(method, 'abc'),
     currency: Joi.string().required(),
   });
   const schemaStep03 = Joi.object({
-    tokenPrice: Joi.string().required(),
+    tokenPrice: Joi.required(),
     minGoal: Joi.string().required(),
     maxGoal: Joi.string().required(),
     minSale: Joi.string().required(),
@@ -68,6 +84,7 @@ const CreateLaunchpad = () => {
   const handleNext = async (step: number) => {
     try {
       if (step === 1) {
+        console.log('data valideate==>', data);
         const value = await schemaStep01.validateAsync(
           {
             projectTitle: data.projectTitle,
@@ -160,7 +177,11 @@ const CreateLaunchpad = () => {
 
   return (
     <Section>
-      {ChainId.BSC_TESTNET === chainId ? (
+      {ChainId.BSC_TESTNET !== chainId ? (
+        <NotSupportSection />
+      ) : !account ? (
+        <ConnectWalletSection />
+      ) : (
         <Container maxWidth="lg">
           <Box sx={{ width: '100%' }}>
             <WrapStep sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -245,8 +266,6 @@ const CreateLaunchpad = () => {
             )}
           </Box>
         </Container>
-      ) : (
-        <NotSupportSection />
       )}
     </Section>
   );

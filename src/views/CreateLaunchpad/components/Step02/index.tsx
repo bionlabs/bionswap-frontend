@@ -152,34 +152,36 @@ const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                   {onShowError('tokenContract')}
                 </Typography>
               </WrapForm>
-              <FlexBox flexDirection="column" gap="9px">
-                <ContractItem>
-                  <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
-                    Name
-                  </Typography>
-                  <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
-                    {tokenContract?.name}
-                  </Typography>
-                </ContractItem>
-                <Line />
-                <ContractItem>
-                  <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
-                    Symbol
-                  </Typography>
-                  <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
-                    {tokenContract?.symbol}
-                  </Typography>
-                </ContractItem>
-                <Line />
-                <ContractItem>
-                  <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
-                    Decimal
-                  </Typography>
-                  <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
-                    {tokenContract?.decimals}
-                  </Typography>
-                </ContractItem>
-              </FlexBox>
+              {tokenContract && (
+                <FlexBox flexDirection="column" gap="9px">
+                  <ContractItem>
+                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                      Name
+                    </Typography>
+                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                      {tokenContract?.name}
+                    </Typography>
+                  </ContractItem>
+                  <Line />
+                  <ContractItem>
+                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                      Symbol
+                    </Typography>
+                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                      {tokenContract?.symbol}
+                    </Typography>
+                  </ContractItem>
+                  <Line />
+                  <ContractItem>
+                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                      Decimal
+                    </Typography>
+                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                      {tokenContract?.decimals}
+                    </Typography>
+                  </ContractItem>
+                </FlexBox>
+              )}
             </WrapValue>
           </WrapLine>
           <WrapLine>

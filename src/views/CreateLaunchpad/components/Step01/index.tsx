@@ -22,7 +22,6 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
 
   const onChangeProjectLogo = async (imageList: any) => {
     try {
-      console.log('imageList==>', imageList);
       const logoBase64 = imageList[0].data_url.split(',')[1];
       const imageLogo = await uploadLaunchpadImage(logoBase64);
       setProjectLogo(imageList);
@@ -123,6 +122,9 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
                 </BoxImageUpload>
               )}
             </ImageUploading>
+            <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+              {onShowError('projectLogo')}
+            </Typography>
           </WrapValue>
         </WrapLine>
         <WrapLine>
