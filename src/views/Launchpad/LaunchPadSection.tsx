@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { getSaleList } from 'api/launchpad';
 import Card from 'components/Card';
+import { useRefetchIncreasedInterval } from 'hooks';
 import { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import Title from './components/Title/Title';
@@ -53,26 +54,52 @@ const LaunchPadSection = ({ chainId }: any) => {
     setParams({ ...params, [prop]: event.target.value });
   };
 
-  useEffect(() => {
-    const getLaunchData = async (params: any) => {
-      try {
-        const launchData = await getSaleList(
-          params.page,
-          params.limit,
-          chainId,
-          params.owner,
-          params.keyword,
-          params.sortBy,
-        );
-        setLaunchData(launchData);
-        console.log('🚀 ~ file: LaunchPadSection.tsx ~ line 73 ~ getLaunchData ~ launchData', launchData);
-      } catch (error) {
-        console.log('error====>', error);
-      }
-    };
+  useRefetchIncreasedInterval(
+    async () => {
+      const getLaunchData = async (params: any) => {
+        try {
+          const launchData = await getSaleList(
+            params.page,
+            params.limit,
+            chainId,
+            params.owner,
+            params.keyword,
+            params.sortBy,
+          );
+          setLaunchData(launchData);
+          console.log('🚀 ~ file: LaunchPadSection.tsx ~ line 73 ~ getLaunchData ~ launchData', launchData);
+        } catch (error) {
+          console.log('error====>', error);
+        }
+      };
 
-    getLaunchData(params);
-  }, [chainId, params]);
+      getLaunchData(params);
+    },
+    1000,
+    500,
+    [chainId, params],
+  );
+
+  // useEffect(() => {
+  //   const getLaunchData = async (params: any) => {
+  //     try {
+  //       const launchData = await getSaleList(
+  //         params.page,
+  //         params.limit,
+  //         chainId,
+  //         params.owner,
+  //         params.keyword,
+  //         params.sortBy,
+  //       );
+  //       setLaunchData(launchData);
+  //       console.log('🚀 ~ file: LaunchPadSection.tsx ~ line 73 ~ getLaunchData ~ launchData', launchData);
+  //     } catch (error) {
+  //       console.log('error====>', error);
+  //     }
+  //   };
+
+  //   getLaunchData(params);
+  // }, [chainId, params]);
 
   const settings = {
     arrows: false,
