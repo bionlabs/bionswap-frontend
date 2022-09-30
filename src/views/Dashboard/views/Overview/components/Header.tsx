@@ -9,13 +9,19 @@ import { useAccount } from 'wagmi'
 import { shortenAddress } from "utils/format";
 import Image from 'next/image';
 import { MobileProp } from 'configs/Type/Mobile/type';
+import AvatarModal from 'components/AvatarModal';
+import { avatarConfig } from '../config';
 
 const Header = ({isMobile}:MobileProp) => {
   const { address } = useAccount();
-
+  const [openModal, setOpenModal] = useState(false)
   const [hoverAvatar , setHoverAvatar] = useState(false)
 
   console.log(hoverAvatar)
+
+  const handleToggleModal = () => {
+    setOpenModal(!openModal);
+  }
 
   return (
     <Box>
@@ -23,6 +29,7 @@ const Header = ({isMobile}:MobileProp) => {
             <AvatarBox
                 onMouseEnter={() => setHoverAvatar(true)}
                 onMouseLeave={() => setHoverAvatar(false)}
+                onClick={handleToggleModal}
             >
                 <Image src='/icons/dashboard/user.svg' alt='' width='120px' height='120px' />
                 <Box sx={{
@@ -100,6 +107,7 @@ const Header = ({isMobile}:MobileProp) => {
                 </Flex>
             </Box>
         </Box>
+        <AvatarModal open={openModal} onDismiss={handleToggleModal} avatars={avatarConfig} />
     </Box>
   )
 }

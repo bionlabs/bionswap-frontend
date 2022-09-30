@@ -7,6 +7,7 @@ import LaunchPadSection from './LaunchPadSection';
 
 const Launchpad = () => {
   const { chainId } = useChain();
+  console.log("🚀 ~ file: index.tsx ~ line 10 ~ Launchpad ~ chainId", chainId)
 
   return (
     <Page>
