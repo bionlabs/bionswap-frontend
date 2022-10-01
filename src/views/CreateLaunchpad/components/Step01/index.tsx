@@ -101,7 +101,7 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
           <WrapValue>
             <ImageUploading value={projectLogo} onChange={onChangeProjectLogo} dataURLKey="data_url">
               {({ imageList, onImageUpload, onImageUpdate, dragProps }) => (
-                <BoxImageUpload onClick={onImageUpload} {...dragProps}>
+                <BoxImageUpload onClick={onImageUpload} {...dragProps} className={onShowError('projectLogo') ? 'onError' : ''}>
                   {imageList[0]?.data_url === '' ? (
                     <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
                       <img src="/icons/AddFile.svg" alt="Add File" />
@@ -139,7 +139,7 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
           <WrapValue>
             <ImageUploading value={saleBanner} onChange={onChangeSaleBanner} dataURLKey="data_url">
               {({ imageList, onImageUpload, onImageUpdate, dragProps }) => (
-                <BoxImageUpload onClick={onImageUpload} {...dragProps}>
+                <BoxImageUpload onClick={onImageUpload} {...dragProps} className={onShowError('saleBanner') ? 'onError' : ''}>
                   {imageList[0]?.data_url === '' ? (
                     <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
                       <img src="/icons/AddFile.svg" alt="Add File" />
@@ -160,6 +160,9 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
                 </BoxImageUpload>
               )}
             </ImageUploading>
+            <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+              {onShowError('saleBanner')}
+            </Typography>
           </WrapValue>
         </WrapLine>
         <WrapLine>
@@ -362,6 +365,11 @@ const BoxImageUpload = styled(Box)`
   justify-content: center;
   cursor: pointer;
   padding: 20px;
+
+  &.onError {
+    border-color: ${(props) => props.theme.palette.red[500]};
+    box-shadow: none;
+  }
 `;
 
 export default Step01;

@@ -38,19 +38,19 @@ const currencyOpts = [
   },
 ];
 
-const feeOpts = [
-  {
-    value: 0,
-    label: '5% BNB raised only',
-  },
-  {
-    value: 1,
-    label: '2%  BNB raised + 2% token sold',
-  },
-];
-
 const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => {
   const { chainId } = useChain();
+
+  const feeOpts = [
+    {
+      value: 0,
+      label: `5% ${data.currency} raised only`,
+    },
+    {
+      value: 1,
+      label: `2%  ${data.currency} raised + 2% token sold`,
+    },
+  ];
 
   const tokenContract = useToken(data.tokenContract);
   const [openModal, setOpenModal] = useState(false);
@@ -210,6 +210,9 @@ const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                     </MenuItem>
                   ))}
                 </Select>
+                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                  {onShowError('currency')}
+                </Typography>
               </FormControl>
             </WrapValue>
           </WrapLine>

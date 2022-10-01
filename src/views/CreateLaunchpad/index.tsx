@@ -26,7 +26,7 @@ const CreateLaunchpad = () => {
   const communityDetail = JSON.parse(data?.community || '{}');
   const activeStep = useAppSelector((state) => state.presale.step);
   const dispatch = useAppDispatch();
-  // const currency = data.abc()
+  const currentTime = +new Date();
 
   const [errors, setErrors] = useState([]);
 
@@ -37,41 +37,86 @@ const CreateLaunchpad = () => {
   });
 
   const method: CustomValidator = (value: any, helpers: CustomHelpers) => {
-    console.log('value===>', value);
-    //   if (value === undefined) {
-    //     throw new Error('Invalid token address');
+    // console.log('value===>', value);
+    // console.log('abc===>', helpers);
+    // if (value.toLowerCase() !== tokenContract?.address.toLowerCase()) {
+    //   throw new Error('Invalid token address');
     // }
 
-    console.log('abc===>', helpers)
+    helpers?.state?.path?.map((item: any, index: any) => {
+      if (item == 'minGoal'){
+        if (Number(value) >= Number(data?.maxGoal)) {
+          throw new Error('Minimum goal must be less than maximum goal');
+        }
+        if(Number(value) < Number(data?.maxGoal) / 2) {
+          throw new Error('Minimum goal must be greater than or equal 50% of Maximum goal');
+        }
+      }
+
+      if (item == 'minSale') {
+        if (Number(value) >= Number(data?.maxSale)) {
+          throw new Error('Minimum buy must be less than maximum buy');
+        }
+      }
+
+      if (item == 'launchTime') {
+        if (value >= data.endTime) {
+          throw new Error('Launch time must be less than pre-sale end time');
+        }
+        if (value < currentTime) {
+          throw new Error('Launch time must be greater than current time');
+        }
+      }
+
+      if (item == 'endTime') {
+        if (value <= data.launchTime) {
+          throw new Error('Pre-sale end time must be greater than launch time');
+        }
+        if (value < currentTime) {
+          throw new Error('Launch time must be greater than current time');
+        }
+      }
+
+      if (item == 'tokenDistributionTime') {
+        if (value < currentTime) {
+          throw new Error('Token distribution time must be greater than current time');
+        }
+      }
+
+      if (item == 'tgeDate') {
+        if (value < currentTime) {
+          throw new Error('TGE Date must be greater than current time');
+        }
+      }
+    })
   };
 
   const schemaStep01 = Joi.object({
-    projectTitle: Joi.string().required(),
-    projectLogo: Joi.string().required(),
-    saleBanner: Joi.string().required(),
-    website: Joi.string().required(),
-    telegram: Joi.string().required(),
-    discord: Joi.string().required().custom(method, "123"),
-
+    projectTitle: Joi.string().required().label('Project title'),
+    projectLogo: Joi.string().required().label('Project logo'),
+    saleBanner: Joi.string().required().label('Sale banner'),
+    website: Joi.string().required().label('Website'),
+    telegram: Joi.string().required().label('Telegram'),
+    discord: Joi.string().required().label('Discord'),
   });
   const schemaStep02 = Joi.object({
-    tokenContract: Joi.string().required().custom(method, 'abc'),
-    currency: Joi.string().required(),
+    tokenContract: Joi.string().required().custom(method).label('Token contract'),
+    currency: Joi.string().required().label('Currency'),
   });
   const schemaStep03 = Joi.object({
-    tokenPrice: Joi.required(),
-    minGoal: Joi.string().required(),
-    maxGoal: Joi.string().required(),
-    minSale: Joi.string().required(),
-    maxSale: Joi.string().required(),
-    endTime: Joi.required(),
-    launchTime: Joi.required(),
-    tokenDistributionTime: Joi.required(),
-    vestingToken: Joi.required(),
-    tgeDate: Joi.when('vestingToken', { is: '1', then: Joi.required() }),
-    firstRelease: Joi.when('vestingToken', { is: '1', then: Joi.required() }),
-    vestingPeriodEachCycle: Joi.when('vestingToken', { is: '1', then: Joi.required() }),
-    tokenReleaseEachCycle: Joi.when('vestingToken', { is: '1', then: Joi.required() }),
+    tokenPrice: Joi.string().required().label('Token price'),
+    minGoal: Joi.string().required().custom(method).label('Minimum goal'),
+    maxGoal: Joi.string().required().custom(method).label('Maximum goal'),
+    minSale: Joi.string().required().custom(method).label('Minimum buy'),
+    maxSale: Joi.string().required().custom(method).label('Maximum buy'),
+    endTime: Joi.required().custom(method).label('Pre-sale end time'),
+    launchTime: Joi.required().custom(method).label('Launch time'),
+    tokenDistributionTime: Joi.required().custom(method).label('Token distribution time'),
+    vestingToken: Joi.required().label('Vesting token'),
+    tgeDate: Joi.required().custom(method).label('TGE date'),
+    firstRelease: Joi.when('vestingToken', { is: '1', then: Joi.required().label('First release')}),
+    vestingPeriodEachCycle: Joi.when('vestingToken', { is: '1', then: Joi.required().label('Vesting period each cycle') }),
+    tokenReleaseEachCycle: Joi.when('vestingToken', { is: '1', then: Joi.required().label('Token release each cycle') }),
   });
   const schemaStep04 = Joi.object({
     listing: Joi.required(),
@@ -82,9 +127,9 @@ const CreateLaunchpad = () => {
   });
 
   const handleNext = async (step: number) => {
+    console.log('data valideate==>', data);
     try {
       if (step === 1) {
-        console.log('data valideate==>', data);
         const value = await schemaStep01.validateAsync(
           {
             projectTitle: data.projectTitle,
@@ -114,8 +159,8 @@ const CreateLaunchpad = () => {
             tokenPrice: data.tokenPrice,
             minGoal: data.minGoal,
             maxGoal: data.maxGoal,
-            minSale: data.minGoal,
-            maxSale: data.maxGoal,
+            minSale: data.minSale,
+            maxSale: data.maxSale,
             launchTime: data.launchTime,
             endTime: data.endTime,
             tokenDistributionTime: data.tokenDistributionTime,
