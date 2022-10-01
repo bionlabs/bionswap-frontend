@@ -1,4 +1,4 @@
-import { apiClient } from 'api';
+import { authRequest, request } from 'api';
 
 export async function createPresale(payload: {
   chainId: number;
@@ -33,13 +33,13 @@ export async function createPresale(payload: {
   cycleDuration: number;
   cycleReleasePercent: number;
 }) {
-  const data = await apiClient.post<{ data: { salt: string } }>('launchpad/sale-info', payload);
+  const data = await authRequest.post<{ data: { salt: string } }>('launchpad/sale-info', payload);
 
   return data.data.data;
 }
 
 export async function uploadLaunchpadImage(base64: string) {
-  const result = await apiClient.post<{ data: { url: string } }>('launchpad/upload-image', {
+  const result = await authRequest.post<{ data: { url: string } }>('launchpad/upload-image', {
     image: base64,
   });
 
@@ -47,7 +47,7 @@ export async function uploadLaunchpadImage(base64: string) {
 } 
 
 export async function getSaleList(page: number, limit: number, chainId: string, owner: string, keyword: string, sortBy: any) {
-  const result = await apiClient.get('/launchpad/sale-list', {params: {
+  const result = await request.get('/launchpad/sale-list', {params: {
     page: page,
     limit: limit,
     chainId: chainId,
@@ -60,7 +60,7 @@ export async function getSaleList(page: number, limit: number, chainId: string, 
 }
 
 export async function getSaleDetail(saleAddress: string) {
-  const result = await apiClient.get('/launchpad/sale-detail', {params: {
+  const result = await request.get('/launchpad/sale-detail', {params: {
     saleAddress: saleAddress
   }})
 
@@ -68,7 +68,7 @@ export async function getSaleDetail(saleAddress: string) {
 }
 
 export async function getJoinedSales(chainId: string, account: string) {
-  const result = await apiClient.get('/launchpad/joined-sales', {params: {
+  const result = await request.get('/launchpad/joined-sales', {params: {
     chainId: chainId,
     account: account,
   }})

@@ -16,6 +16,7 @@ import {BsThreeDots} from 'react-icons/bs'
 import { menuConfig } from 'configs/menu/config'
 import { useRouter } from 'next/router'
 import { ConnectButton } from 'components'
+import Link from 'next/link'
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right'
 
@@ -105,8 +106,10 @@ const Menu = ({ children }: any) => {
             <MenuContainer>
                 <StyledContained>
                     <FlexBox alignItems='center' gap='42px'>
-                        <Box component="a" href='/'>
-                            <img src='/logo.svg' alt='BionDex' width='auto' />
+                        <Box sx={{ cursor: 'pointer' }}>
+                            <Link href='/'>
+                                <img src='/logo.svg' alt='BionDex' width='auto' />
+                            </Link>
                         </Box>
                         {
                             !isMobile &&
