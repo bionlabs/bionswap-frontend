@@ -43,7 +43,9 @@ const CreateLaunchpad = () => {
     //   throw new Error('Invalid token address');
     // }
 
-    helpers?.state?.path?.map((item: any, index: any) => {
+    const res: any = helpers?.state?.path;
+
+    res?.map((item: any, index: any) => {
       if (item == 'minGoal'){
         if (Number(value) >= Number(data?.maxGoal)) {
           throw new Error('Minimum goal must be less than maximum goal');
