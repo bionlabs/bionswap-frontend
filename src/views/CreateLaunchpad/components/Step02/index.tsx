@@ -38,19 +38,19 @@ const currencyOpts = [
   },
 ];
 
-const feeOpts = [
-  {
-    value: 0,
-    label: '5% BNB raised only',
-  },
-  {
-    value: 1,
-    label: '2%  BNB raised + 2% token sold',
-  },
-];
-
 const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => {
   const { chainId } = useChain();
+
+  const feeOpts = [
+    {
+      value: 0,
+      label: `5% ${data.currency} raised only`,
+    },
+    {
+      value: 1,
+      label: `2%  ${data.currency} raised + 2% token sold`,
+    },
+  ];
 
   const tokenContract = useToken(data.tokenContract);
   const [openModal, setOpenModal] = useState(false);
@@ -152,34 +152,36 @@ const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                   {onShowError('tokenContract')}
                 </Typography>
               </WrapForm>
-              <FlexBox flexDirection="column" gap="9px">
-                <ContractItem>
-                  <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
-                    Name
-                  </Typography>
-                  <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
-                    {tokenContract?.name}
-                  </Typography>
-                </ContractItem>
-                <Line />
-                <ContractItem>
-                  <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
-                    Symbol
-                  </Typography>
-                  <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
-                    {tokenContract?.symbol}
-                  </Typography>
-                </ContractItem>
-                <Line />
-                <ContractItem>
-                  <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
-                    Decimal
-                  </Typography>
-                  <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
-                    {tokenContract?.decimals}
-                  </Typography>
-                </ContractItem>
-              </FlexBox>
+              {tokenContract && (
+                <FlexBox flexDirection="column" gap="9px">
+                  <ContractItem>
+                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                      Name
+                    </Typography>
+                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                      {tokenContract?.name}
+                    </Typography>
+                  </ContractItem>
+                  <Line />
+                  <ContractItem>
+                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                      Symbol
+                    </Typography>
+                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                      {tokenContract?.symbol}
+                    </Typography>
+                  </ContractItem>
+                  <Line />
+                  <ContractItem>
+                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                      Decimal
+                    </Typography>
+                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                      {tokenContract?.decimals}
+                    </Typography>
+                  </ContractItem>
+                </FlexBox>
+              )}
             </WrapValue>
           </WrapLine>
           <WrapLine>
@@ -208,6 +210,9 @@ const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                     </MenuItem>
                   ))}
                 </Select>
+                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                  {onShowError('currency')}
+                </Typography>
               </FormControl>
             </WrapValue>
           </WrapLine>

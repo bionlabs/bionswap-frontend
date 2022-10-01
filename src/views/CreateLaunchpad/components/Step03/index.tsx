@@ -66,7 +66,7 @@ const vestingTokens = [
 const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => {
   const [launchTime, setLaunchtime] = useState(new Date(data.launchTime) || 0);
   const [endLaunchTime, setEndLaunchTime] = useState(new Date(data.endTime) || 0);
-  const [tokenDistributionDate, setTokenDistributionDate] = useState(new Date(data.tokenDistributionTime) || 0);
+  const [tokenDistributionTime, settokenDistributionTime] = useState(new Date(data.tokenDistributionTime) || 0);
   const [tgeDate, setTGEDate] = useState(new Date(data.tgeDate) || 0);
 
   useEffect(() => {
@@ -82,8 +82,8 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
   }, [endLaunchTime, data.preSaleDuration, setData, launchTime]);
 
   useEffect(() => {
-    setData(setPresaleForm({ ['tokenDistributionTime']: new Date(tokenDistributionDate).getTime() }));
-  }, [setData, tokenDistributionDate]);
+    setData(setPresaleForm({ ['tokenDistributionTime']: new Date(tokenDistributionTime).getTime() }));
+  }, [setData, tokenDistributionTime]);
 
   useEffect(() => {
     setData(setPresaleForm({ ['tgeDate']: new Date(tgeDate).getTime() }));
@@ -460,9 +460,9 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
                     renderInput={(props) => <TextField {...props} />}
-                    value={tokenDistributionDate}
+                    value={tokenDistributionTime}
                     onChange={(newValue: any) => {
-                      setTokenDistributionDate(newValue);
+                      settokenDistributionTime(newValue);
                     }}
                   />
                 </LocalizationProvider>

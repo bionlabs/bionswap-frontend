@@ -1,5 +1,5 @@
-import { crowdfundingConfig } from './config';
 import { Box, Container, Typography, useMediaQuery, styled } from '@mui/material';
+import { ChainId } from '@bionswap/core-sdk';
 import Breadcrumb from './components/Breadcrumb';
 import HeadDetail from './components/HeadDetail';
 import FundraiseArea from './components/FundraiseArea';
@@ -8,11 +8,12 @@ import TabsArea from './components/TabsArea';
 import { useRouter } from 'next/router';
 import { getSaleDetail } from 'api/launchpad';
 import { useEffect, useState } from 'react';
-import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS, NATIVE } from '@bionswap/core-sdk';
+import { NATIVE } from '@bionswap/core-sdk';
 import { useToken } from 'hooks/useToken';
 import { isAddress } from 'utils/validate';
 import { usePresaleContract } from 'hooks/useContract';
 import { useChain } from 'hooks';
+import NotSupportSection from 'components/NotSupportSection';
 
 const config = [
   {
@@ -60,44 +61,50 @@ const LaunchpadDetail = () => {
 
   return (
     <Section component="section">
-      <Container maxWidth="xl">
-        <Breadcrumb name={data?.title} />
-        <HeadDetail
-          avatar={data?.logo}
-          name={data?.title}
-          type={data?.saleType}
-          endTime={data?.endTime * 1000}
-          startTime={data?.startTime * 1000}
-          unit={unit}
-        />
-        <FundraiseArea data={data} presaleContract={presaleContract} token={token} quoteToken={quoteToken} />
-      </Container>
-      <WrapService>
-        <Container maxWidth="xl">
-          <FlexBox
-            justifyContent="space-between"
-            sx={{
-              flexDirection: { xs: 'column', md: 'row' },
-              gap: { xs: '40px', md: '30px' },
-            }}
-          >
-            {config.map((item) => (
-              <FlexBox key={item.content} gap="25px" alignItems="center">
-                <img src={item.icon} alt="" />
-                <Box maxWidth="290px" width="100%">
-                  <Typography variant="body3Poppins" color="text.primary" fontWeight="400">
-                    {item.content}
-                  </Typography>
-                </Box>
+      {ChainId.BSC_TESTNET === chainId ? (
+        <>
+          <Container maxWidth="xl">
+            <Breadcrumb name={data?.title} />
+            <HeadDetail
+              avatar={data?.logo}
+              name={data?.title}
+              type={data?.saleType}
+              endTime={data?.endTime * 1000}
+              startTime={data?.startTime * 1000}
+              unit={unit}
+            />
+            <FundraiseArea data={data} presaleContract={presaleContract} token={token} quoteToken={quoteToken} />
+          </Container>
+          <WrapService>
+            <Container maxWidth="xl">
+              <FlexBox
+                justifyContent="space-between"
+                sx={{
+                  flexDirection: { xs: 'column', md: 'row' },
+                  gap: { xs: '40px', md: '30px' },
+                }}
+              >
+                {config.map((item) => (
+                  <FlexBox key={item.content} gap="25px" alignItems="center">
+                    <img src={item.icon} alt="" />
+                    <Box maxWidth="290px" width="100%">
+                      <Typography variant="body3Poppins" color="text.primary" fontWeight="400">
+                        {item.content}
+                      </Typography>
+                    </Box>
+                  </FlexBox>
+                ))}
               </FlexBox>
-            ))}
-          </FlexBox>
-        </Container>
-      </WrapService>
-      <WrapTabRecom>
-        <TabsArea isMobile={isMobile} data={data} unit={unit} token={token} />
-        {/* <RecomendProjects data={crowdfundingConfig} /> */}
-      </WrapTabRecom>
+            </Container>
+          </WrapService>
+          <WrapTabRecom>
+            <TabsArea isMobile={isMobile} data={data} unit={unit} token={token} />
+            {/* <RecomendProjects data={crowdfundingConfig} /> */}
+          </WrapTabRecom>
+        </>
+      ) : (
+        <NotSupportSection />
+      )}
     </Section>
   );
 };

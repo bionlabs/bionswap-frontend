@@ -10,13 +10,23 @@ import Step03 from './components/Step03';
 import Step04 from './components/Step04';
 import Step05 from './components/Step05';
 import Step06 from './components/Step06';
+import NotSupportSection from 'components/NotSupportSection';
+import { ChainId } from '@bionswap/core-sdk';
+import { useChain, useToken } from 'hooks';
+import ConnectWalletSection from './components/ConnectWalletSection';
+import Joi, { CustomHelpers, CustomValidator } from 'joi';
+// const Joi = require('joi');
 
 const CreateLaunchpad = () => {
-  const Joi = require('joi');
+  const { chainId, account } = useChain();
+
   const data = useAppSelector((state) => state.presale.dataConfig);
+  const tokenContract = useToken(data.tokenContract);
+  console.log('🚀 ~ file: index.tsx ~ line 23 ~ CreateLaunchpad ~ tokenContract', tokenContract);
   const communityDetail = JSON.parse(data?.community || '{}');
   const activeStep = useAppSelector((state) => state.presale.step);
   const dispatch = useAppDispatch();
+  const currentTime = +new Date();
 
   const [errors, setErrors] = useState([]);
 
@@ -26,32 +36,89 @@ const CreateLaunchpad = () => {
     discord: communityDetail['discord'] || '',
   });
 
+  const method: CustomValidator = (value: any, helpers: CustomHelpers) => {
+    // console.log('value===>', value);
+    // console.log('abc===>', helpers);
+    // if (value.toLowerCase() !== tokenContract?.address.toLowerCase()) {
+    //   throw new Error('Invalid token address');
+    // }
+
+    const res: any = helpers?.state?.path;
+
+    res?.map((item: any, index: any) => {
+      if (item == 'minGoal'){
+        if (Number(value) >= Number(data?.maxGoal)) {
+          throw new Error('Minimum goal must be less than maximum goal');
+        }
+        if(Number(value) < Number(data?.maxGoal) / 2) {
+          throw new Error('Minimum goal must be greater than or equal 50% of Maximum goal');
+        }
+      }
+
+      if (item == 'minSale') {
+        if (Number(value) >= Number(data?.maxSale)) {
+          throw new Error('Minimum buy must be less than maximum buy');
+        }
+      }
+
+      if (item == 'launchTime') {
+        if (value >= data.endTime) {
+          throw new Error('Launch time must be less than pre-sale end time');
+        }
+        if (value < currentTime) {
+          throw new Error('Launch time must be greater than current time');
+        }
+      }
+
+      if (item == 'endTime') {
+        if (value <= data.launchTime) {
+          throw new Error('Pre-sale end time must be greater than launch time');
+        }
+        if (value < currentTime) {
+          throw new Error('Launch time must be greater than current time');
+        }
+      }
+
+      if (item == 'tokenDistributionTime') {
+        if (value < currentTime) {
+          throw new Error('Token distribution time must be greater than current time');
+        }
+      }
+
+      if (item == 'tgeDate') {
+        if (value < currentTime) {
+          throw new Error('TGE Date must be greater than current time');
+        }
+      }
+    })
+  };
+
   const schemaStep01 = Joi.object({
-    projectTitle: Joi.string().required(),
-    projectLogo: Joi.string().required(),
-    saleBanner: Joi.string().required(`{path} is required`),
-    website: Joi.string().required(),
-    telegram: Joi.string().required(),
-    discord: Joi.string().required(),
+    projectTitle: Joi.string().required().label('Project title'),
+    projectLogo: Joi.string().required().label('Project logo'),
+    saleBanner: Joi.string().required().label('Sale banner'),
+    website: Joi.string().required().label('Website'),
+    telegram: Joi.string().required().label('Telegram'),
+    discord: Joi.string().required().label('Discord'),
   });
   const schemaStep02 = Joi.object({
-    tokenContract: Joi.string().required(),
-    currency: Joi.string().required(),
+    tokenContract: Joi.string().required().custom(method).label('Token contract'),
+    currency: Joi.string().required().label('Currency'),
   });
   const schemaStep03 = Joi.object({
-    tokenPrice: Joi.string().required(),
-    minGoal: Joi.string().required(),
-    maxGoal: Joi.string().required(),
-    minSale: Joi.string().required(),
-    maxSale: Joi.string().required(),
-    endTime: Joi.required(),
-    launchTime: Joi.required(),
-    tokenDistributionTime: Joi.required(),
-    vestingToken: Joi.required(),
-    tgeDate: Joi.when('vestingToken', { is: '1', then: Joi.required() }),
-    firstRelease: Joi.when('vestingToken', { is: '1', then: Joi.required() }),
-    vestingPeriodEachCycle: Joi.when('vestingToken', { is: '1', then: Joi.required() }),
-    tokenReleaseEachCycle: Joi.when('vestingToken', { is: '1', then: Joi.required() }),
+    tokenPrice: Joi.string().required().label('Token price'),
+    minGoal: Joi.string().required().custom(method).label('Minimum goal'),
+    maxGoal: Joi.string().required().custom(method).label('Maximum goal'),
+    minSale: Joi.string().required().custom(method).label('Minimum buy'),
+    maxSale: Joi.string().required().custom(method).label('Maximum buy'),
+    endTime: Joi.required().custom(method).label('Pre-sale end time'),
+    launchTime: Joi.required().custom(method).label('Launch time'),
+    tokenDistributionTime: Joi.required().custom(method).label('Token distribution time'),
+    vestingToken: Joi.required().label('Vesting token'),
+    tgeDate: Joi.required().custom(method).label('TGE date'),
+    firstRelease: Joi.when('vestingToken', { is: '1', then: Joi.required().label('First release')}),
+    vestingPeriodEachCycle: Joi.when('vestingToken', { is: '1', then: Joi.required().label('Vesting period each cycle') }),
+    tokenReleaseEachCycle: Joi.when('vestingToken', { is: '1', then: Joi.required().label('Token release each cycle') }),
   });
   const schemaStep04 = Joi.object({
     listing: Joi.required(),
@@ -62,6 +129,7 @@ const CreateLaunchpad = () => {
   });
 
   const handleNext = async (step: number) => {
+    console.log('data valideate==>', data);
     try {
       if (step === 1) {
         const value = await schemaStep01.validateAsync(
@@ -93,8 +161,8 @@ const CreateLaunchpad = () => {
             tokenPrice: data.tokenPrice,
             minGoal: data.minGoal,
             maxGoal: data.maxGoal,
-            minSale: data.minGoal,
-            maxSale: data.maxGoal,
+            minSale: data.minSale,
+            maxSale: data.maxSale,
             launchTime: data.launchTime,
             endTime: data.endTime,
             tokenDistributionTime: data.tokenDistributionTime,
@@ -156,90 +224,96 @@ const CreateLaunchpad = () => {
 
   return (
     <Section>
-      <Container maxWidth="lg">
-        <Box sx={{ width: '100%' }}>
-          <WrapStep sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Stepper activeStep={activeStep}>
-              {steps.map((item, index) => {
-                return (
-                  <StepCustom key={item.title} className={activeStep === index ? 'activeStep' : ''}>
-                    <FlexBox flexDirection="column" gap="13px" alignItems="center">
-                      <Typography
-                        variant="body4Poppins"
-                        textTransform="uppercase"
-                        fontWeight={activeStep === index ? '500' : '400'}
-                        color={activeStep === index ? 'primary.main' : 'gray.600'}
-                        fontStyle="initial"
-                      >
-                        {item.step}. {item.title}
-                      </Typography>
-                      <WapIcon className={activeStep === index ? 'done' : ''}>
-                        <img src={item.icon} alt={item.icon} />
-                      </WapIcon>
-                    </FlexBox>
-                  </StepCustom>
-                );
-              })}
-            </Stepper>
-          </WrapStep>
-          {activeStep === 0 && (
-            <Step01
-              data={data}
-              setData={dispatch}
-              handleNext={handleNext}
-              onShowError={onShowError}
-              communities={communities}
-              setCommunities={setCommunities}
-            />
-          )}
-          {activeStep === 1 && (
-            <Step02
-              data={data}
-              setData={dispatch}
-              handleNext={handleNext}
-              handleBack={handleBack}
-              onShowError={onShowError}
-            />
-          )}
-          {activeStep === 2 && (
-            <Step03
-              data={data}
-              setData={dispatch}
-              handleNext={handleNext}
-              handleBack={handleBack}
-              onShowError={onShowError}
-            />
-          )}
-          {activeStep === 3 && (
-            <Step04
-              data={data}
-              setData={dispatch}
-              handleNext={handleNext}
-              handleBack={handleBack}
-              onShowError={onShowError}
-            />
-          )}
-          {activeStep === 4 && (
-            <Step05
-              data={data}
-              setData={dispatch}
-              handleNext={handleNext}
-              handleBack={handleBack}
-              onShowError={onShowError}
-            />
-          )}
-          {activeStep === 5 && (
-            <Step06
-              data={data}
-              setData={dispatch}
-              handleNext={handleNext}
-              handleBack={handleBack}
-              onShowError={onShowError}
-              handleSubmit={handleSubmit}
-            />
-          )}
-        </Box>
-      </Container>
+      {ChainId.BSC_TESTNET !== chainId ? (
+        <NotSupportSection />
+      ) : !account ? (
+        <ConnectWalletSection />
+      ) : (
+        <Container maxWidth="lg">
+          <Box sx={{ width: '100%' }}>
+            <WrapStep sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Stepper activeStep={activeStep}>
+                {steps.map((item, index) => {
+                  return (
+                    <StepCustom key={item.title} className={activeStep === index ? 'activeStep' : ''}>
+                      <FlexBox flexDirection="column" gap="13px" alignItems="center">
+                        <Typography
+                          variant="body4Poppins"
+                          textTransform="uppercase"
+                          fontWeight={activeStep === index ? '500' : '400'}
+                          color={activeStep === index ? 'primary.main' : 'gray.600'}
+                          fontStyle="initial"
+                        >
+                          {item.step}. {item.title}
+                        </Typography>
+                        <WapIcon className={activeStep === index ? 'done' : ''}>
+                          <img src={item.icon} alt={item.icon} />
+                        </WapIcon>
+                      </FlexBox>
+                    </StepCustom>
+                  );
+                })}
+              </Stepper>
+            </WrapStep>
+            {activeStep === 0 && (
+              <Step01
+                data={data}
+                setData={dispatch}
+                handleNext={handleNext}
+                onShowError={onShowError}
+                communities={communities}
+                setCommunities={setCommunities}
+              />
+            )}
+            {activeStep === 1 && (
+              <Step02
+                data={data}
+                setData={dispatch}
+                handleNext={handleNext}
+                handleBack={handleBack}
+                onShowError={onShowError}
+              />
+            )}
+            {activeStep === 2 && (
+              <Step03
+                data={data}
+                setData={dispatch}
+                handleNext={handleNext}
+                handleBack={handleBack}
+                onShowError={onShowError}
+              />
+            )}
+            {activeStep === 3 && (
+              <Step04
+                data={data}
+                setData={dispatch}
+                handleNext={handleNext}
+                handleBack={handleBack}
+                onShowError={onShowError}
+              />
+            )}
+            {activeStep === 4 && (
+              <Step05
+                data={data}
+                setData={dispatch}
+                handleNext={handleNext}
+                handleBack={handleBack}
+                onShowError={onShowError}
+              />
+            )}
+            {activeStep === 5 && (
+              <Step06
+                data={data}
+                setData={dispatch}
+                handleNext={handleNext}
+                handleBack={handleBack}
+                onShowError={onShowError}
+                handleSubmit={handleSubmit}
+              />
+            )}
+          </Box>
+        </Container>
+      )}
     </Section>
   );
 };

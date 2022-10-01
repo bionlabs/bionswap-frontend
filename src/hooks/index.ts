@@ -80,3 +80,4 @@ export { useSortedTokensByQuery } from './useSortedTokensByQuery';
 export { useChain } from './useChain';
 export { useSwitchNetwork } from './useSwitchNetwork';
 export { useBlockNumber } from './useBlockNumber';
+export { useRefetchIncreasedInterval } from './useIncreasedInterval';
