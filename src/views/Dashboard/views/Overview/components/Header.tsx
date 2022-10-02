@@ -1,27 +1,56 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled, Box, Typography } from '@mui/material';
-import VerifiedIcon from '@mui/icons-material/Verified';
 import { useAccount } from 'wagmi';
 import { shortenAddress } from 'utils/format';
 import Image from 'next/image';
 import { MobileProp } from 'configs/Type/Mobile/type';
 import AvatarModal from 'components/AvatarModal';
-import { avatarConfig } from '../config';
+import { getMyList } from 'api/avatar';
+import { getUserInfo, updateAvatar } from 'api/user';
 
 const Header = ({ isMobile }: MobileProp) => {
   const { address } = useAccount();
   const [openModal, setOpenModal] = useState(false);
   const [hoverAvatar, setHoverAvatar] = useState(false);
-  const [avatar, setAvatar] = useState('');
+  const [userInfo, setUserInfo] = useState<any>(null);
+  const [avatars, setAvatars] = useState([]);
+
+  useEffect(() => {
+    const getAvatars = async () => {
+      try {
+        const res = await getMyList(address || '');
+        setAvatars(res);
+      } catch (error) {
+        console.log('error====>', error);
+      }
+    }
+
+    getAvatars()
+  }, [address])
+
+  const getUserInformation = async () => {
+    try {
+      const rest = await getUserInfo();
+      setUserInfo(rest);
+    } catch (error) {
+      console.log('error====>', error);
+    }
+  }
+  
+  getUserInformation()
 
   const handleToggleModal = () => {
     setOpenModal(!openModal);
   };
 
-  const handleChooseAvatar = (param: string) => {
-    setAvatar(param);
-    setOpenModal(false);
-  };
+  const handleUpdateAvatar = async (param: string) => {
+    try {
+      const res = await updateAvatar(param);
+      setOpenModal(false);
+    } catch (error) {
+      console.log('error====>', error);
+    }
+  }
 
   return (
     <Box>
@@ -36,7 +65,7 @@ const Header = ({ isMobile }: MobileProp) => {
           onMouseLeave={() => setHoverAvatar(false)}
           onClick={handleToggleModal}
         >
-          <Image src={avatar ? avatar : '/icons/dashboard/user.svg'} alt="" width="120px" height="120px" />
+          <img src={userInfo?.avatar?.imageURL ? userInfo?.avatar?.imageURL : '/icons/dashboard/user.svg'} alt="" width="120px" height="120px" />
           <Box
             sx={{
               position: 'absolute',
@@ -109,8 +138,8 @@ const Header = ({ isMobile }: MobileProp) => {
       <AvatarModal
         open={openModal}
         onDismiss={handleToggleModal}
-        avatars={avatarConfig}
-        handleChooseAvatar={handleChooseAvatar}
+        avatars={avatars}
+        handleChooseAvatar={handleUpdateAvatar}
       />
     </Box>
   );
@@ -143,7 +172,7 @@ const AvatarBox = styled(Box)`
   }
 
   img {
-    border-radius: 50%;
+    object-fit: cover;
   }
 `;
 

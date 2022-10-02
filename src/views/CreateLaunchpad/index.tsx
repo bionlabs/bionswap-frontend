@@ -37,20 +37,20 @@ const CreateLaunchpad = () => {
   });
 
   const method: CustomValidator = (value: any, helpers: CustomHelpers) => {
-    // console.log('value===>', value);
-    // console.log('abc===>', helpers);
-    // if (value.toLowerCase() !== tokenContract?.address.toLowerCase()) {
-    //   throw new Error('Invalid token address');
-    // }
-
     const res: any = helpers?.state?.path;
 
     res?.map((item: any, index: any) => {
-      if (item == 'minGoal'){
+      if (item == 'tokenContract') {
+        if (value.toLowerCase() !== tokenContract?.address.toLowerCase()) {
+          throw new Error('Invalid token address');
+        }
+      }
+
+      if (item == 'minGoal') {
         if (Number(value) >= Number(data?.maxGoal)) {
           throw new Error('Minimum goal must be less than maximum goal');
         }
-        if(Number(value) < Number(data?.maxGoal) / 2) {
+        if (Number(value) < Number(data?.maxGoal) / 2) {
           throw new Error('Minimum goal must be greater than or equal 50% of Maximum goal');
         }
       }
@@ -90,7 +90,17 @@ const CreateLaunchpad = () => {
           throw new Error('TGE Date must be greater than current time');
         }
       }
-    })
+
+      if (item == 'firstRelease') {
+        if (Number(value) > 90) {
+          throw new Error('First release must be 90 characters or less');
+        }
+      }
+
+      if (item == 'tokenReleaseEachCycle') {
+        throw new Error('First release must be 90 characters or less');
+      }
+    });
   };
 
   const schemaStep01 = Joi.object({
@@ -116,9 +126,15 @@ const CreateLaunchpad = () => {
     tokenDistributionTime: Joi.required().custom(method).label('Token distribution time'),
     vestingToken: Joi.required().label('Vesting token'),
     tgeDate: Joi.required().custom(method).label('TGE date'),
-    firstRelease: Joi.when('vestingToken', { is: '1', then: Joi.required().label('First release')}),
-    vestingPeriodEachCycle: Joi.when('vestingToken', { is: '1', then: Joi.required().label('Vesting period each cycle') }),
-    tokenReleaseEachCycle: Joi.when('vestingToken', { is: '1', then: Joi.required().label('Token release each cycle') }),
+    firstRelease: Joi.when('vestingToken', { is: '1', then: Joi.required().custom(method).label('First release') }),
+    vestingPeriodEachCycle: Joi.when('vestingToken', {
+      is: '1',
+      then: Joi.required().label('Vesting period each cycle'),
+    }),
+    tokenReleaseEachCycle: Joi.when('vestingToken', {
+      is: '1',
+      then: Joi.required().label('Token release each cycle'),
+    }),
   });
   const schemaStep04 = Joi.object({
     listing: Joi.required(),
