@@ -1,7 +1,7 @@
 const profileMenu = [
     {
-        label: 'Dashboard',
-        href: '/dashboard',
+        label: 'overview',
+        href: '/overview',
         icon: ''
     },
 ]

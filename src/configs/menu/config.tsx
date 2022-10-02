@@ -4,6 +4,8 @@ import {IoDocumentText} from 'react-icons/io5'
 import {FaCoins} from 'react-icons/fa'
 import {HiChartBar} from 'react-icons/hi'
 
+export const MENU_HEIGHT = 78;
+
 export const menuConfig = [
     {
         label: 'Swap',
