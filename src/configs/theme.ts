@@ -222,7 +222,7 @@ export const darkPalette: ExtendedPaletteOptions = {
   primary: {
     main: "#07E0E0",
     // light: "#ffc107",
-    dark: "#000A0D",
+    dark: "#000000",
   },
   secondary: {
     main: "#6803B8",
@@ -293,7 +293,8 @@ export const darkPalette: ExtendedPaletteOptions = {
       fifteenth: '#9A6AFF',
       fifteenthOpacity: 'rgba(154, 106, 255, 0.15)',
       sixteenth: '#2BA52E',
-      seventeenth: '#08878E'
+      seventeenth: '#08878E',
+      connectWalletBackgroundColor: 'rgba(61, 255, 255, 0.1)',
     }
   },
 };
@@ -484,8 +485,8 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
             "& input[type=number]": {
               MozAppearance: "textfield",
             },
-            // "& legend": { display: "none" },
-            // "& fieldset": { top: 0 },
+            "& legend": { display: "none" },
+            "& fieldset": { top: 0 },
           },
         },
       },

@@ -11,9 +11,9 @@ import {
     MenuProps,
     MenuItem
 } from '@mui/material'
-import {HiMenu , HiX} from 'react-icons/hi'
+import {HiMenu , HiX , HiMenuAlt3} from 'react-icons/hi'
 import {BsThreeDots} from 'react-icons/bs'
-import { menuConfig } from 'configs/menu/config'
+import { menuConfig, MENU_HEIGHT } from 'configs/menu/config'
 import { useRouter } from 'next/router'
 import { ConnectButton } from 'components'
 import Link from 'next/link'
@@ -52,13 +52,13 @@ const Menu = ({ children }: any) => {
     }
 
     const list = (anchor: Anchor) => (
-        <Box sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : '300px', minHeight:'100vh', backgroundColor: '#081319', borderLeft: '1px solid #424242'}}>
+        <Box sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : '300px', minHeight:'100vh', backgroundColor: '#081319', borderLeft: '1px solid #424242', paddingTop: `${MENU_HEIGHT}px`}}>
           <FlexBox flexDirection='column' width='100%'>
-            <FlexBox justifyContent='end' p='16px'>
+            {/* <FlexBox justifyContent='end' p='16px'>
                 <IconButton onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
                     <HiX/>
                 </IconButton>
-            </FlexBox>
+            </FlexBox> */}
             <Box p='16px'>
                 <ConnectButton/>
             </Box>
@@ -106,7 +106,7 @@ const Menu = ({ children }: any) => {
             <MenuContainer>
                 <StyledContained>
                     <FlexBox alignItems='center' gap='42px'>
-                        <Box sx={{ cursor: 'pointer' }}>
+                        <Box sx={{cursor: 'pointer'}}>
                             <Link href='/'>
                                 <img src='/logo.svg' alt='BionDex' width='auto' />
                             </Link>
@@ -217,12 +217,12 @@ const Menu = ({ children }: any) => {
                         
                         {
                             isMobile && 
-                            <IconButton onClick={toggleDrawer('right', true)} 
+                            <IconButton onClick={state.right ? toggleDrawer('right', false) : toggleDrawer('right', true)} 
                                 sx={{
                                     color:'#fff',
                                 }}
                             >
-                                <HiMenu/>
+                                {!state.right ? <HiMenu/> : <HiMenuAlt3/>}
                             </IconButton>
                         }
                     </FlexBox>
@@ -244,7 +244,7 @@ const Menu = ({ children }: any) => {
 
 const MenuContainer = styled(Box)`
     position: relative;
-    z-index: 1100;
+    z-index: ${(prop) => prop.theme.zIndex.drawer + 1};
     width: 100%;
     background-color: ${props => (props.theme.palette as any).extra.header.background};
     border-bottom: 1px solid ${props => (props.theme.palette as any).extra.border.color};
@@ -253,7 +253,7 @@ const StyledContained = styled(Box)`
     padding: 0 16px;
     display: flex;
     width: 100%;
-    min-height: 78px;
+    height: ${MENU_HEIGHT}px;
     align-items: center;
     justify-content: space-between;
 `

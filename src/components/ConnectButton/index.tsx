@@ -1,4 +1,4 @@
-import { Box, Button, Stack, useMediaQuery , styled } from "@mui/material";
+import { Box, Button, Stack, useMediaQuery , styled, Drawer } from "@mui/material";
 import { CHAIN_INFO_MAP } from "configs/chain";
 import { useAccount, useBalance, useChain, useNativeCurrencyBalances } from "hooks";
 import Image from "next/image";
@@ -10,6 +10,7 @@ import { shortenAddress } from "utils/format";
 import ChainOptionsModal from "./ChainOptionsModal";
 import ConnectorOptionsModal from "./ConnectorOptionsModal";
 import ProfileModal from "./ProfileModal";
+import SidebarProfileMenu from './SidebarProfileMenu'
 
 type Props = {};
 
@@ -23,6 +24,21 @@ const ConnectButton = (props: Props) => {
   const { address, connector: activeConnector } = useAccount();
   const balance = useNativeCurrencyBalances(address ? [address] : [])?.[address ?? ''];
 
+  const [profileSlide, setProfileSlide] = useState(false);
+
+  const toggleDrawer = (open: boolean) =>
+    (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
+      ) {
+        return;
+      }
+
+      setProfileSlide(open);
+    };
+
   const handleChainSwitched = () => {
     setOpenChainsModal(false);
   };
@@ -34,6 +50,7 @@ const ConnectButton = (props: Props) => {
   const handleConnectorConnected = () => {
     setOpenConnectorsModal(false);
   };
+
 
   return (
     <>
@@ -65,7 +82,8 @@ const ConnectButton = (props: Props) => {
           </ConnectWalletButton>
         ) : (
           <ProfileButton
-            onClick={() => setOpenProfileModal(true)}
+            // onClick={() => setOpenProfileModal(true)}
+            onClick={toggleDrawer(true)}
             variant="contained"
             fullWidth={isMobile}
           >
@@ -74,22 +92,24 @@ const ConnectButton = (props: Props) => {
             </Box>
             <Box sx={{
               display: 'flex',alignItems:'center', gap:'8px',
-              backgroundColor: 'extra.header.background', height: '35px', padding: '5px 12px',
+              backgroundColor: 'darkGreen.900', height: '35px', padding: '5px 12px',
               borderRadius: '4px', transition: '.12s ease-in',
               ':hover':{
-                backgroundColor: '#0e2632'
+                backgroundColor: 'darkGreen.700'
               }
             }}>
               <Box>{shortenAddress(address ?? "")}</Box>
-              <Image
-                src={activeConnector ? getConnectorIcon(activeConnector.id) : "/"}
-                layout="fixed"
-                alt=""
-                width={20}
-                height={20}
-              />
-            </Box>
-            
+              {
+                activeConnector &&
+                <Image
+                  src={getConnectorIcon(activeConnector.id)}
+                  layout="fixed"
+                  alt=""
+                  width={20}
+                  height={20}
+                />
+              }
+            </Box>            
           </ProfileButton>
         )}
       </Stack>
@@ -106,10 +126,21 @@ const ConnectButton = (props: Props) => {
         open={openConnectorsModal}
         onConnectorConnected={handleConnectorConnected}
       />
-      <ProfileModal
+      {/* <ProfileModal
         onClose={() => setOpenProfileModal(false)}
         open={openProfileModal}
-      />
+      /> */}
+      <Drawer
+        anchor='right'
+        open={profileSlide}
+        onClose={toggleDrawer(false)}
+      >
+        <SidebarProfileMenu
+          toggleDrawer={toggleDrawer}
+          address={address}
+          balance={balance}
+        />
+      </Drawer>
     </>
   );
 };
@@ -151,7 +182,7 @@ const ConnectWalletButton = styled(Button)`
   font-weight: 500;
   align-items: center;
   min-height: 41px;
-  background-color: rgba(61, 255, 255, 0.1);
+  background-color: ${prop => (prop.theme.palette as any).extra.other.connectWalletBackgroundColor};
   color: #07E0E0;
   transition: 0.15s ease-in;
   line-height: 1;
@@ -173,7 +204,7 @@ const ProfileButton = styled(Button)`
   font-family: inherit;
   font-weight: 500;
   align-items: center;
-  background-color: rgba(0,0,0, 1);
+  background-color: ${prop => (prop.theme.palette as any).primary.dark};
   color: #fff;
   transition: 0.15s ease-in;
   line-height: 1;
@@ -183,7 +214,7 @@ const ProfileButton = styled(Button)`
     height: 20px;
   }
   :hover {
-    background-color: rgba(0,0,0, 1);
+    background-color: rgba(0,0,0, .8);
     box-shadow: none;
   }
 `;
