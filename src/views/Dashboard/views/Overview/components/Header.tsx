@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { styled, Box, Typography } from '@mui/material';
+import { styled, Box, Typography, Button } from '@mui/material';
 import { useAccount } from 'wagmi';
 import { shortenAddress } from 'utils/format';
 import Image from 'next/image';
@@ -7,13 +7,25 @@ import { MobileProp } from 'configs/Type/Mobile/type';
 import AvatarModal from 'components/AvatarModal';
 import { getMyList } from 'api/avatar';
 import { getUserInfo, updateAvatar } from 'api/user';
+import { useBionAvatarContract } from 'hooks/useContract';
+import { useChain, useSingleCallResult } from 'hooks';
+import NTFConfitmModal from 'components/NTFConfitmModal';
+import { useAppSelector } from 'state';
 
 const Header = ({ isMobile }: MobileProp) => {
   const { address } = useAccount();
+  const { account } = useChain();
   const [openModal, setOpenModal] = useState(false);
+  const [openModalConfirm, setOpenModalConfirm] = useState(false);
   const [hoverAvatar, setHoverAvatar] = useState(false);
   const [userInfo, setUserInfo] = useState<any>(null);
   const [avatars, setAvatars] = useState([]);
+  const bionAvatarContract = useBionAvatarContract();
+  const claimed = useSingleCallResult(bionAvatarContract, 'claimeds', [account])?.result?.[0] || false;
+  const isWhitelisted = useSingleCallResult(bionAvatarContract, 'isWhitelisted', [account])?.result?.[0] || false;
+  const [tokenId, setTokenId] = useState('');
+  const [loadingClaim, setLoadingClaim] = useState(false)
+  const accessToken = useAppSelector((state) => state.auth.accessToken);
 
   useEffect(() => {
     const getAvatars = async () => {
@@ -23,24 +35,35 @@ const Header = ({ isMobile }: MobileProp) => {
       } catch (error) {
         console.log('error====>', error);
       }
-    }
+    };
 
-    getAvatars()
-  }, [address])
+    getAvatars();
+  }, [address, claimed, accessToken]);
 
-  const getUserInformation = async () => {
-    try {
-      const rest = await getUserInfo();
-      setUserInfo(rest);
-    } catch (error) {
-      console.log('error====>', error);
-    }
-  }
+  useEffect(() => {
+    const getUserInformation = async () => {
+      try {
+        if (!accessToken) return;
+        
+        const rest = await getUserInfo();
+        setUserInfo(rest);
+      } catch (error) {
+        console.log('error====>', error);
+      }
+    };
   
-  getUserInformation()
+    getUserInformation();
+
+  }, [address, accessToken, account, openModal])
+
+  
 
   const handleToggleModal = () => {
     setOpenModal(!openModal);
+  };
+
+  const handleToggleConfirmModal = () => {
+    setOpenModalConfirm(!openModalConfirm);
   };
 
   const handleUpdateAvatar = async (param: string) => {
@@ -50,10 +73,43 @@ const Header = ({ isMobile }: MobileProp) => {
     } catch (error) {
       console.log('error====>', error);
     }
-  }
+  };
+
+  const handleClaimNFT = async () => {
+    try {
+      if (!bionAvatarContract || !account) return;
+      setLoadingClaim(true);
+      const tx = await bionAvatarContract.mint();
+      const receipt = await tx.wait();
+      const event = receipt.events?.find((e: any) => {
+        return e.event === 'Transfer';
+      });
+      const tokenId = event?.args?.[2]?.toNumber();
+      setTokenId(tokenId);
+      setLoadingClaim(false);
+      handleToggleConfirmModal();
+    } catch (error) {
+      setLoadingClaim(false);
+      console.log('error====>', error);
+    }
+  };
 
   return (
-    <Box>
+    <Box display="flex" flexDirection="column" gap="30px">
+      {!claimed && isWhitelisted && (
+        <WrapBanner>
+          <Flex flexDirection="column" gap="15px">
+            <Typography variant="h5Samsung" fontWeight="700" color="text.primary">
+              Congratulations! You have got an NFT Gameboy
+            </Typography>
+            <Claim onClick={handleClaimNFT} disabled={loadingClaim}>
+              <Typography variant="body3Poppins" fontWeight="600" color="#000000">
+                {loadingClaim ? 'Loading....' : 'Claim now'}
+              </Typography>
+            </Claim>
+          </Flex>
+        </WrapBanner>
+      )}
       <Box
         display="flex"
         alignItems={isMobile ? 'start' : 'center'}
@@ -65,7 +121,12 @@ const Header = ({ isMobile }: MobileProp) => {
           onMouseLeave={() => setHoverAvatar(false)}
           onClick={handleToggleModal}
         >
-          <img src={userInfo?.avatar?.imageURL ? userInfo?.avatar?.imageURL : '/icons/dashboard/user.svg'} alt="" width="120px" height="120px" />
+          <img
+            src={userInfo?.avatar?.imageURL ? `/images/bitendoGameboy/${userInfo?.avatar?.typeId}.svg` : '/images/bitendoGameboy/Default.svg'}
+            alt=""
+            width="120px"
+            height="120px"
+          />
           <Box
             sx={{
               position: 'absolute',
@@ -141,6 +202,7 @@ const Header = ({ isMobile }: MobileProp) => {
         avatars={avatars}
         handleChooseAvatar={handleUpdateAvatar}
       />
+      <NTFConfitmModal open={openModalConfirm} onDismiss={handleToggleConfirmModal} tokenId={tokenId} />
     </Box>
   );
 };
@@ -174,6 +236,32 @@ const AvatarBox = styled(Box)`
   img {
     object-fit: cover;
   }
+`;
+const Claim = styled(Button)`
+  border-radius: 4px;
+  width: 186px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${(props) => props.theme.palette.primary.main};
+
+  &.Mui-disabled {
+    color: rgba(255, 255, 255, 0.3);
+    box-shadow: none;
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+`;
+const WrapBanner = styled(Box)`
+  width: 100%;
+  height: 181px;
+  border-radius: 12px;
+  background-image: url('/images/bannerNFT.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default Header;

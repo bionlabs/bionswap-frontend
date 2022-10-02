@@ -10,3 +10,9 @@ export async function getMyList(walletAddress: string) {
   return result.data.data;
 }
 
+export async function getMetaData(tokenId: string) {
+    const result = await request.get(`/avatar/metadata/${tokenId}`);
+  
+    return result.data;
+  }
+

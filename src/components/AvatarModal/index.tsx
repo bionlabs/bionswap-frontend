@@ -23,7 +23,7 @@ const AvatarModal = ({ open, onDismiss, avatars, handleChooseAvatar }: any) => {
       <FlexBox gap="30px" flexWrap="wrap">
         {avatars?.map((item: any) => (
           <Avarta key={item.tokenId} onClick={() => handleChooseAvatar(item._id)}>
-            <img src={item.imageURL} alt={item.tokenId} />
+            <img src={`/images/bitendoGameboy/${item.typeId}.svg`} alt={item.tokenId} />
           </Avarta>
         ))}
       </FlexBox>

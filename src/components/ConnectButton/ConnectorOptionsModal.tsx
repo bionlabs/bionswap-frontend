@@ -1,10 +1,10 @@
-import { Backdrop, Box, IconButton, MenuItem, MenuList, Modal, Stack , styled , Typography } from "@mui/material";
-import { useChain, useConnect } from "hooks";
-import Image from "next/image";
-import { useState } from "react";
-import { HiX } from "react-icons/hi";
-import { getConnectorIcon } from "utils/connectors";
-import { Connector } from "wagmi";
+import { Backdrop, Box, IconButton, MenuItem, MenuList, Modal, Stack, styled, Typography } from '@mui/material';
+import { useChain, useConnect } from 'hooks';
+import Image from 'next/image';
+import { useState } from 'react';
+import { HiX } from 'react-icons/hi';
+import { getConnectorIcon } from 'utils/connectors';
+import { Connector } from 'wagmi';
 
 type Props = {
   onConnectorSelected?: (connector: Connector) => void;
@@ -40,22 +40,22 @@ function ConnectorOptionsModal({ onConnectorSelected, onConnectorConnected, onCl
     >
       <Wrapper
         sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "fit-content",
-          color: "#fff",
-          minWidth: "353px",
-          maxWidth: "453px",
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 'fit-content',
+          color: '#fff',
+          minWidth: '353px',
+          maxWidth: '453px',
           // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-          borderRadius: "8px",
+          borderRadius: '8px',
           p: 4,
         }}
       >
         <Box display="flex" flexDirection="column" gap="10px">
           <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant='h5Samsung' sx={{color: 'primary.main'}}>
+            <Typography variant="h5Samsung" sx={{ color: 'primary.main' }}>
               Connect a wallet
             </Typography>
             <IconButton onClick={onClose}>
@@ -69,20 +69,20 @@ function ConnectorOptionsModal({ onConnectorSelected, onConnectorConnected, onCl
         <Box mt="24px">
           <MenuList
             sx={{
-              border: "1px solid #787A9B",
-              borderRadius: "8px",
+              border: '1px solid #787A9B',
+              borderRadius: '8px',
               padding: 0,
             }}
           >
             {connectors.map((connector) => {
-              return (
+              return connector.ready ? (
                 <MenuItem
                   sx={{
                     p: 2,
-                    width: "100%",
-                    borderBottom: "1px solid #787A9B",
-                    ":last-child": {
-                      borderBottom: "none",
+                    width: '100%',
+                    borderBottom: '1px solid #787A9B',
+                    ':last-child': {
+                      borderBottom: 'none',
                     },
                   }}
                   key={connector.id}
@@ -96,11 +96,46 @@ function ConnectorOptionsModal({ onConnectorSelected, onConnectorConnected, onCl
                   <Stack direction="row" gap={2} alignItems="center">
                     <Image src={getConnectorIcon(connector.id)} layout="fixed" alt="" width={24} height={24} />
 
-                    <Box display='flex' alignItems='center' gap='10px' fontSize="16px">
+                    <Box display="flex" alignItems="center" gap="10px" fontSize="16px">
                       {connector.name}
-                      {!connector.ready && " (unsupported)"}
-                      <Typography variant='body1' sx={{color: 'primary.main'}}>
-                        {isConnectLoading && connector.id === pendingConnector?.id && "connecting..."}
+                      {!connector.ready && ' (unsupported)'}
+                      <Typography variant="body1" sx={{ color: 'primary.main' }}>
+                        {isConnectLoading && connector.id === pendingConnector?.id && 'connecting...'}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </MenuItem>
+              ) : (
+                <MenuItem
+                  sx={{
+                    p: 2,
+                    width: '100%',
+                    borderBottom: '1px solid #787A9B',
+                    ':last-child': {
+                      borderBottom: 'none',
+                    },
+                  }}
+                  key={connector.id}
+                >
+                  <Stack direction="row" gap={2} alignItems="center">
+                    <Image src={getConnectorIcon(connector.id)} layout="fixed" alt="" width={24} height={24} />
+
+                    <Box display="flex" alignItems="center" gap="10px" fontSize="16px">
+                      {connector.name}
+                      {!connector.ready && (
+                        <Box
+                          component="a"
+                          sx={{ textDecoration: 'underline', color: '#07E0E0' }}
+                          href="https://chrome.google.com/webstore/detail/okx-wallet/mcohilncbfahbmgdjkbpemcciiolgcge"
+                          rel="noreferrer"
+                          target="_blank"
+                        >
+                          {' '}
+                          (Get wallet)
+                        </Box>
+                      )}
+                      <Typography variant="body1" sx={{ color: 'primary.main' }}>
+                        {isConnectLoading && connector.id === pendingConnector?.id && 'connecting...'}
                       </Typography>
                     </Box>
                   </Stack>
@@ -115,8 +150,8 @@ function ConnectorOptionsModal({ onConnectorSelected, onConnectorConnected, onCl
 }
 
 const Wrapper = styled(Box)`
-  background: ${(props:any) => (props.theme.palette as any).extra.other.nineth};
+  background: ${(props: any) => (props.theme.palette as any).extra.other.nineth};
   border: 2px solid ${(props) => (props.theme.palette as any).extra.other.tenth};
-`
+`;
 
 export default ConnectorOptionsModal;
