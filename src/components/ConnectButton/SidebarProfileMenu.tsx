@@ -13,7 +13,7 @@ import {BsFillCaretDownFill} from 'react-icons/bs'
 import {IoPower} from 'react-icons/io5'
 import Image from 'next/image'
 import { shortenAddress } from 'utils/format'
-import { useDisconnect } from 'hooks'
+import { useChain, useDisconnect } from 'hooks'
 import { useAppDispatch } from 'state'
 import { logOut } from 'state/auth/actions'
 import sidebarConfig from 'views/Dashboard/sidebarConfig'
@@ -29,6 +29,14 @@ const SidebarProfileMenu = ({toggleDrawer , address , balance}:any) => {
           dispatch(logOut());
         },
       });
+    const {chainId} = useChain()
+
+    const Wrapper = styled(Box)`
+        width: 350px;
+        padding-top: ${chainId !== 97 ? MENU_HEIGHT + 58 : MENU_HEIGHT}px;
+        background-color: ${prop => (prop.theme.palette as any).extra.header.background};
+        height: 100vh;
+    `
 
   return (
     <Wrapper>
@@ -136,12 +144,7 @@ const SidebarProfileMenu = ({toggleDrawer , address , balance}:any) => {
   )
 }
 
-const Wrapper = styled(Box)`
-    width: 350px;
-    padding-top: ${MENU_HEIGHT}px;
-    background-color: ${prop => (prop.theme.palette as any).extra.header.background};
-    height: 100vh;
-`
+
 const Flex = styled(Box)`
     display: flex;
 `

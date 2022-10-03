@@ -58,7 +58,7 @@ const ConnectButton = (props: Props) => {
         <ChainButton
           onClick={() => setOpenChainsModal(true)}
           variant="contained"
-          fullWidth={isMobile}
+          // fullWidth={isMobile}
           endIcon={<BsFillCaretDownFill color='#fff' />}
         >
           <Stack direction="row" gap={1} alignItems="center">
@@ -85,7 +85,7 @@ const ConnectButton = (props: Props) => {
             // onClick={() => setOpenProfileModal(true)}
             onClick={toggleDrawer(!profileSlide)}
             variant="contained"
-            fullWidth={isMobile}
+            // fullWidth={isMobile}
           >
             <Box p='5px 5px 5px 15px'>
               {balance ? `${balance.toFixed(3)} ${balance.currency.symbol}` : 'Loading...' }
