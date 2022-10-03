@@ -6,10 +6,11 @@ import { useChain } from 'hooks';
 import { getJoinedSales } from 'api/launchpad';
 import NotSupportSection from 'components/NotSupportSection';
 import { ChainId } from '@bionswap/core-sdk';
+import SkeletonCard from 'components/SkeletonCard';
 
 const Allocation = () => {
   const { account, chainId } = useChain();
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<[]>([]);
 
   useEffect(() => {
     const getDataCliam = async () => {
@@ -28,14 +29,20 @@ const Allocation = () => {
   return (
     <Page>
       <Wrapper>
-        <Typography variant="h3Samsung">Active Allocation</Typography>
+        <Box mb="50px">
+          <Typography variant="h3Samsung">Active Allocation</Typography>
+        </Box>
         {ChainId.BSC_TESTNET === chainId ? (
-          <FlexBox flexWrap='wrap' gap='30px'>
-            {data?.map((item: any) => (
-              <Item key={item.saleAddress}>
-                <AllocationCard data={item} account={account || ''} />
-              </Item>
-            ))}
+          <FlexBox flexWrap="wrap" gap="30px">
+            {data && data.length && account ? (
+              data?.map((item: any) => (
+                <Item key={item.saleAddress}>
+                  <AllocationCard data={item} account={account || ''} />
+                </Item>
+              ))
+            ) : (
+              <SkeletonCard />
+            )}
           </FlexBox>
         ) : (
           <NotSupportSection />
@@ -47,14 +54,14 @@ const Allocation = () => {
 
 const FlexBox = styled(Box)`
   display: flex;
-`
+`;
 const Wrapper = styled(Box)`
   width: 100%;
   padding: 30px 40px;
 `;
 const Item = styled(Box)`
   max-width: 433px;
-  width: 100%
+  width: 100%;
 `;
 
 export default Allocation;

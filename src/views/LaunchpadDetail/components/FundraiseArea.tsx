@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Box, linearProgressClasses, LinearProgress, Button, styled, Typography } from '@mui/material';
 import PrimaryButton from 'components/PrimaryButton';
 import CountDownTime from './CountDownTime';
@@ -6,7 +5,7 @@ import { usePresaleContract } from 'hooks/useContract';
 import { formatEther, formatUnits } from 'ethers/lib/utils';
 import { useSingleCallResult } from 'hooks/useCall';
 import JoinIdoModal from 'components/JoinIdoModal';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useChain, useToken } from 'hooks';
 
 interface FundraiseAreaProps {
@@ -31,17 +30,30 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, presaleContract }) => {
   const [openModal, setOpenModal] = useState(false);
   const { account } = useChain();
-  const currentCap = formatUnits(useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0, quoteToken?.decimals);
-  const yourPurchased = formatUnits(useSingleCallResult(presaleContract, 'purchaseDetails', [account])?.result?.[1] || 0, quoteToken?.decimals)
+  const [decimals, setDecimals] = useState(18)
+  const currentCap = formatUnits(useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0, decimals);
+  const yourPurchased = formatUnits(useSingleCallResult(presaleContract, 'purchaseDetails', [account])?.result?.[1] || 0, decimals)
   const startTime = data?.startTime * 1000;
   const endTime = data?.endTime * 1000;
-  const linearProgress = (Number(currentCap) * 100) / Number(formatUnits(data?.hardCap || 0, quoteToken?.decimals));
+  const linearProgress = (Number(currentCap) * 100) / Number(formatUnits(data?.hardCap || 0, decimals));
   const unit = quoteToken?.symbol;
   const currentTime = +new Date();
 
   const handleOpenModal = () => setOpenModal(true);
 
   const handleCloseModal = () => setOpenModal(false);
+
+  useEffect(() => {
+    const handleCheckDecimal = () => {
+      if (data?.isQuoteETH) {
+        setDecimals(18);
+      } else {
+        setDecimals(quoteToken?.decimals || 9);
+      }
+    };
+
+    handleCheckDecimal();
+  }, [quoteToken, data]);
 
   return (
     <>
@@ -81,7 +93,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
               {currentCap} {unit}
             </Typography>
             <Typography variant="body2Poppins" color="primary.main" fontWeight="400">
-              Pledged of {formatUnits(data?.hardCap || 0, quoteToken?.decimals)} {unit} goal
+              Pledged of {formatUnits(data?.hardCap || 0, decimals)} {unit} goal
             </Typography>
           </FlexBox>
           <FlexBox flexDirection="column" gap="15px">
@@ -95,7 +107,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
                 Allocation
               </Typography>
               <Typography variant="h6Poppins" color="gray.200" fontWeight="400">
-                {formatUnits(data?.minPurchase || 0, quoteToken?.decimals)} {unit} - {formatUnits(data?.maxPurchase || 0, quoteToken?.decimals)} {unit}
+                {formatUnits(data?.minPurchase || 0, decimals)} {unit} - {formatUnits(data?.maxPurchase || 0, decimals)} {unit}
               </Typography>
             </FlexBox>
             <FlexBox
@@ -108,7 +120,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
                 Price per token
               </Typography>
               <Typography variant="h6Poppins" color="gray.200" fontWeight="400">
-                1 {token?.symbol} = {formatUnits(data?.price || 0, quoteToken?.decimals)} {unit}
+                1 {token?.symbol} = {formatUnits(data?.price || 0, decimals)} {unit}
               </Typography>
             </FlexBox>
             {/* <FlexBox

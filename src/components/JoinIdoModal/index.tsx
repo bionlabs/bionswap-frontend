@@ -24,12 +24,25 @@ const JoinIdoModal = ({ open, onDismiss, data, unit }: any) => {
   const quoteTokenBalance = useTokenBalance(account, quoteToken || undefined);
   const ethBalance = useNativeCurrencyBalances(account ? [account] : [])?.[account ?? ''];
   const quoteBalance = data?.isQuoteETH ? ethBalance : quoteTokenBalance;
+  const [decimals, setDecimals] = useState(18);
 
   const [success, setSuccess] = useState(false);
 
+  useEffect(() => {
+    const handleCheckDecimal = () => {
+      if (data?.isQuoteETH) {
+        setDecimals(18);
+      } else {
+        setDecimals(quoteToken?.decimals || 9);
+      }
+    };
+
+    handleCheckDecimal();
+  }, [quoteToken, data]);
+
   const [purchaseInput, setPurchaseInput] = useState('0');
   const [tokenOutputAmount, setTokenOutputAmount] = useState(0);
-  const price = useMemo(() => Number(formatUnits(data?.price || 1, quoteToken?.decimals)), [data?.price, quoteToken]);
+  const price = useMemo(() => Number(formatUnits(data?.price || 1, decimals)), [data?.price, quoteToken]);
 
   const parsedPurchaseInputAmount = useMemo(
     () => tryParseAmount(purchaseInput, quoteBalance?.currency || undefined),
