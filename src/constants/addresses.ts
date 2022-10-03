@@ -9,5 +9,7 @@ export const BION_LOCK_ADDRESS: AddressMap = {
 };
 
 export const BION_AVATAR_ADDRESS: AddressMap = {
+  [ChainId.BSC]: '0x6dE0D02652ec184e340Dd785d68b5c428761713F',
   [ChainId.BSC_TESTNET]: '0xB41bD4D1eBe0D5a5238aC75d8Ce094261Ce92fcc',
+  [ChainId.OKEX]: '0xdd53Ae309CFe3aD23aFD54f045a09FCfFfF3849B',
 };
