@@ -45,7 +45,7 @@ const MissionSection = () => {
                 <FlexBox flexDirection='column' gap='127px'>
                     <FlexBox flexDirection='column' gap='12px'>
                         <Typography variant='h2'>
-                            What’s possible with Bionswap?
+                            What&apos;s possible with BionSwap?
                         </Typography>
                         <Typography variant='h3'>
                             Bionswap is a decentralized exchange native to BNB Chain and other chains

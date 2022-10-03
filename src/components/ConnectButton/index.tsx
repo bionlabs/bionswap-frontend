@@ -83,7 +83,7 @@ const ConnectButton = (props: Props) => {
         ) : (
           <ProfileButton
             // onClick={() => setOpenProfileModal(true)}
-            onClick={toggleDrawer(true)}
+            onClick={toggleDrawer(!profileSlide)}
             variant="contained"
             fullWidth={isMobile}
           >

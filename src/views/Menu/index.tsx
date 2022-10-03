@@ -52,7 +52,7 @@ const Menu = ({ children }: any) => {
     }
 
     const list = (anchor: Anchor) => (
-        <Box sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : '300px', minHeight:'100vh', backgroundColor: '#081319', borderLeft: '1px solid #424242', paddingTop: `${MENU_HEIGHT}px`}}>
+        <Box sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : '350px', minHeight:'100vh', backgroundColor: '#081319', borderLeft: '1px solid #424242', paddingTop: `${MENU_HEIGHT}px`}}>
           <FlexBox flexDirection='column' width='100%'>
             {/* <FlexBox justifyContent='end' p='16px'>
                 <IconButton onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
@@ -217,7 +217,7 @@ const Menu = ({ children }: any) => {
                         
                         {
                             isMobile && 
-                            <IconButton onClick={state.right ? toggleDrawer('right', false) : toggleDrawer('right', true)} 
+                            <IconButton onClick={toggleDrawer('right', !state.right)} 
                                 sx={{
                                     color:'#fff',
                                 }}

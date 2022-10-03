@@ -133,7 +133,7 @@ const SidebarProfileMenu = ({toggleDrawer , address , balance}:any) => {
 }
 
 const Wrapper = styled(Box)`
-    width: 300px;
+    width: 350px;
     padding-top: ${MENU_HEIGHT}px;
     background-color: ${prop => (prop.theme.palette as any).extra.header.background};
     height: 100vh;

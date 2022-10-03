@@ -11,6 +11,7 @@ import {
 import { MobileProp } from 'configs/Type/Mobile/type'
 import Image from "next/image";
 import PrimaryButton from 'components/PrimaryButton';
+import { useRouter } from 'next/router';
 
 const config = [
     {
@@ -32,6 +33,7 @@ const config = [
 ]
 
 const NetworkSection = ({ isMobile, isTablet }: MobileProp) => {
+    const router = useRouter();
     return (
         <Wrapper>
             <Container maxWidth='lg'>
@@ -71,6 +73,10 @@ const NetworkSection = ({ isMobile, isTablet }: MobileProp) => {
                         </WrapNetworkHead>
                         <ExploreButton
                             variant='contained'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                router.push('/launchpad');
+                            }}
                         >
                             Explore now !
                         </ExploreButton>
