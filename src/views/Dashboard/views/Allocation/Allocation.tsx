@@ -11,32 +11,32 @@ const Allocation = () => {
   const { account, chainId } = useChain();
   const [data, setData] = useState<any>(null);
 
-  const getDataCliam = async () => {
-    try {
-      const res = await getJoinedSales(chainId.toString(), account || '');
-      setData(res);
-      console.log('🚀 ~ file: Allocation.tsx ~ line 15 ~ getDataCliam ~ res', res);
-    } catch (error) {
-      console.log('error===>', error);
-    }
-  };
-
   useEffect(() => {
+    const getDataCliam = async () => {
+      try {
+        const res = await getJoinedSales(chainId.toString(), account || '');
+        setData(res);
+        console.log('🚀 ~ file: Allocation.tsx ~ line 15 ~ getDataCliam ~ res', res);
+      } catch (error) {
+        console.log('error===>', error);
+      }
+    };
+
     getDataCliam();
-  }, []);
+  }, [chainId, account]);
 
   return (
     <Page>
       <Wrapper>
         <Typography variant="h3Samsung">Active Allocation</Typography>
         {ChainId.BSC_TESTNET === chainId ? (
-          <Box>
+          <FlexBox flexWrap='wrap' gap='30px'>
             {data?.map((item: any) => (
               <Item key={item.saleAddress}>
                 <AllocationCard data={item} account={account || ''} />
               </Item>
             ))}
-          </Box>
+          </FlexBox>
         ) : (
           <NotSupportSection />
         )}
@@ -45,12 +45,16 @@ const Allocation = () => {
   );
 };
 
+const FlexBox = styled(Box)`
+  display: flex;
+`
 const Wrapper = styled(Box)`
   width: 100%;
   padding: 30px 40px;
 `;
 const Item = styled(Box)`
   max-width: 433px;
+  width: 100%
 `;
 
 export default Allocation;

@@ -228,7 +228,7 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
             </WrapForm>
             <WrapForm fullWidth>
               <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                Telegram <RequireSymbol component="span">*</RequireSymbol>
+                Telegram
               </Typography>
               <InputCustom
                 fullWidth
@@ -243,7 +243,7 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
             </WrapForm>
             <WrapForm fullWidth>
               <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                Discord <RequireSymbol component="span">*</RequireSymbol>
+                Discord
               </Typography>
               <InputCustom
                 fullWidth

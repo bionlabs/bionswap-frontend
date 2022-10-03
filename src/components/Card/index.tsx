@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, styled, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import Countdown from './Countdown';
-import { formatEther, formatUnits } from 'ethers/lib/utils'
+import { formatEther, formatUnits } from 'ethers/lib/utils';
 import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS } from '@bionswap/core-sdk';
 import { useToken } from 'hooks';
 
@@ -16,14 +16,28 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
   const currentTime = +new Date();
   const startTime = data?.startTime * 1000;
   const endTime = data?.endTime * 1000;
-  const quoteToken = useToken(data?.quoteToken)
+  const quoteToken = useToken(data?.quoteToken);
+  // const decimals = data?.isQuoteETH ? 18 : quoteToken?.decimals;
+  const [decimals, setDecimals] = useState(18);
 
   const map = {
-    [USDT_ADDRESS[data?.chainId]?.toLowerCase()]: "USDT",
-    [BUSD_ADDRESS[data?.chainId]?.toLowerCase()]: "BUSD",
-    [USDC_ADDRESS[data?.chainId]?.toLowerCase()]: "USDC",
-  }
-  const unit = data?.isQuoteETH ? 'BNB' : map[data?.quoteToken]
+    [USDT_ADDRESS[data?.chainId]?.toLowerCase()]: 'USDT',
+    [BUSD_ADDRESS[data?.chainId]?.toLowerCase()]: 'BUSD',
+    [USDC_ADDRESS[data?.chainId]?.toLowerCase()]: 'USDC',
+  };
+  const unit = data?.isQuoteETH ? 'BNB' : map[data?.quoteToken];
+
+  useEffect(() => {
+    const handleCheckDecimal = () => {
+      if (data?.isQuoteETH) {
+        setDecimals(18);
+      } else {
+        setDecimals(quoteToken?.decimals || 9);
+      }
+    };
+
+    handleCheckDecimal();
+  }, [quoteToken, data]);
 
   return (
     <WrapBox
@@ -126,7 +140,7 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
               color: 'text.primary',
             }}
           >
-            {formatUnits(data?.hardCap || 0, quoteToken?.decimals || 0)} {unit}
+            {formatUnits(data?.hardCap || 0, decimals || 0)} {unit}
           </Typography>
         </FlexBox>
         <FlexBox justifyContent="space-between">
@@ -146,7 +160,8 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
               color: 'text.primary',
             }}
           >
-            {formatUnits(data?.minPurchase || 0, quoteToken?.decimals)} {unit} - {formatUnits(data?.maxPurchase || 0, quoteToken?.decimals)} {unit}
+            {formatUnits(data?.minPurchase || 0, decimals)} {unit} - {formatUnits(data?.maxPurchase || 0, decimals)}{' '}
+            {unit}
           </Typography>
         </FlexBox>
         <Line />

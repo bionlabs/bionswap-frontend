@@ -108,8 +108,8 @@ const CreateLaunchpad = () => {
     projectLogo: Joi.string().required().label('Project logo'),
     saleBanner: Joi.string().required().label('Sale banner'),
     website: Joi.string().required().label('Website'),
-    telegram: Joi.string().required().label('Telegram'),
-    discord: Joi.string().required().label('Discord'),
+    // telegram: Joi.string().required().label('Telegram'),
+    // discord: Joi.string().required().label('Discord'),
   });
   const schemaStep02 = Joi.object({
     tokenContract: Joi.string().required().custom(method).label('Token contract'),
@@ -154,8 +154,8 @@ const CreateLaunchpad = () => {
             projectLogo: data.projectLogo,
             saleBanner: data.saleBanner,
             website: communities['website'],
-            telegram: communities['telegram'],
-            discord: communities['discord'],
+            // telegram: communities['telegram'],
+            // discord: communities['discord'],
           },
           { abortEarly: false },
         );

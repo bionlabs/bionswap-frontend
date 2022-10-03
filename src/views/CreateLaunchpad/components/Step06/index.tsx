@@ -31,7 +31,9 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
   const tokenForSale = Number(data.maxGoal) / Number(data.tokenPrice) || 0;
   const tokenForLiquidity = (Number(data.liquidityPercentage) * Number(data.maxGoal)) / Number(data.pricePerToken) || 0;
 
-  const quoteToken = useToken(data?.quoteToken)
+  const quoteToken = useToken(data?.quoteToken);
+  const [isReady, setIsReady] = useState(false);
+  const [decimals, setDecimals] = useState(18);
   console.log("🚀 ~ file: index.tsx ~ line 34 ~ Step06 ~ data.currency.quoteToken", quoteToken)
 
   const projectReview = [
@@ -156,6 +158,24 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
     setOpenDescription(!onpenDescription);
   };
 
+  useEffect(() => {
+    const handleCheckIsReady = () => {
+      if (data.currency !== 'BNB' && quoteToken) {
+        setIsReady(true);
+        setDecimals(quoteToken?.decimals);
+      }
+      else if (data.currency === 'BNB') {
+        setIsReady(true);
+        setDecimals(18);
+      }
+      else {
+        setIsReady(false);
+      }
+    }
+
+    handleCheckIsReady()
+  }, [quoteToken, data?.currency])
+
   const handleCreateSale = useCallback(
     async (data: any) => {
       setLoadingSubmit(true);
@@ -181,15 +201,15 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
         isQuoteETH: data.isQuoteETH,
         isWhitelistEnabled: !!Number(data.whitelist),
         isBurnUnsold: !!Number(data.unsoldToken),
-        price: ethers.utils.parseUnits(data.tokenPrice, quoteToken?.decimals).toString(),
-        listingPrice: ethers.utils.parseUnits(data.pricePerToken, quoteToken?.decimals).toString(),
-        minPurchase: ethers.utils.parseUnits(data.minSale, quoteToken?.decimals).toString(),
-        maxPurchase: ethers.utils.parseUnits(data.maxSale, quoteToken?.decimals).toString(),
+        price: ethers.utils.parseUnits(data.tokenPrice, decimals).toString(),
+        listingPrice: ethers.utils.parseUnits(data.pricePerToken, decimals).toString(),
+        minPurchase: ethers.utils.parseUnits(data.minSale, decimals).toString(),
+        maxPurchase: ethers.utils.parseUnits(data.maxSale, decimals).toString(),
         startTime: Number(data.launchTime) / 1000,
         endTime: Number(data.endTime) / 1000,
         lpPercent: Number(data.liquidityPercentage) * 100,
-        softCap: ethers.utils.parseUnits(data.minGoal, quoteToken?.decimals).toString(),
-        hardCap: ethers.utils.parseUnits(data.maxGoal, quoteToken?.decimals).toString(),
+        softCap: ethers.utils.parseUnits(data.minGoal, decimals).toString(),
+        hardCap: ethers.utils.parseUnits(data.maxGoal, decimals).toString(),
         isAutoListing: data.isAutoListing,
         baseFee: data.baseFee,
         tokenFee: data.tokenFee,
@@ -398,7 +418,7 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
                 Back
               </Typography>
             </Back>
-            <Next onClick={() => handleCreateSale(data)} disabled={loadignSubmit || !quoteToken} sx={{}}>
+            <Next onClick={() => handleCreateSale(data)} disabled={loadignSubmit || !isReady} sx={{}}>
               <Typography variant="body3Poppins" color="#000000" fontWeight="600">
                 {loadignSubmit ? 'Loading…' : 'Submit'}
               </Typography>

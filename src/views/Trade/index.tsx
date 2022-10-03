@@ -488,7 +488,7 @@ const Swap = ({ }: SwapProps) => {
             </FlexBox>
             <Box mt="30px">
               <WrapSwapBox>
-                <Autocomplete
+                {/* <Autocomplete
                   disablePortal
                   options={top100Films}
                   sx={{
@@ -535,7 +535,7 @@ const Swap = ({ }: SwapProps) => {
                   renderInput={(params) => (
                     <TextField {...params} variant="standard" placeholder="Enter token name / address..." />
                   )}
-                />
+                /> */}
                 <Box>
                   <CurrencyInputPanel
                     value={formattedAmounts[Field.INPUT]}
