@@ -59,7 +59,7 @@ const ConnectButton = (props: Props) => {
           onClick={() => setOpenChainsModal(true)}
           variant="contained"
           fullWidth={isMobile}
-          endIcon={<BsFillCaretDownFill color='#FFB21E' />}
+          endIcon={<BsFillCaretDownFill color='#fff' />}
         >
           <Stack direction="row" gap={1} alignItems="center">
             <Image
@@ -87,18 +87,15 @@ const ConnectButton = (props: Props) => {
             variant="contained"
             fullWidth={isMobile}
           >
-            <Box>
+            <Box p='5px 5px 5px 15px'>
               {balance ? `${balance.toFixed(3)} ${balance.currency.symbol}` : 'Loading...' }
             </Box>
             <Box sx={{
               display: 'flex',alignItems:'center', gap:'8px',
-              backgroundColor: 'darkGreen.900', height: '35px', padding: '5px 12px',
+              backgroundColor: 'gray.800', height: 'inherit', padding: '5px 12px',
               borderRadius: '4px', transition: '.12s ease-in',
-              ':hover':{
-                backgroundColor: 'darkGreen.700'
-              }
             }}>
-              <Box>{shortenAddress(address ?? "")}</Box>
+              <Box >{shortenAddress(address ?? "")}</Box>
               {
                 activeConnector &&
                 <Image
@@ -154,10 +151,11 @@ const ChainButton = styled(Button)`
   text-transform: none;
   font-family: inherit;
   font-weight: 500;
-  background-color: #000;
+  background-color: ${prop => prop.theme.palette.primary.dark};
   align-items: center;
-  border: 1px solid ${prop => (prop.theme.palette as any).warning.main};
-  color: ${prop => prop.theme.palette.warning.main};
+  // border: 1px solid ${prop => (prop.theme.palette as any).warning.main};
+  border: 1px solid ${prop => (prop.theme.palette as any).gray[800]};
+  color: ${prop => prop.theme.palette.text.primary};
   transition: 0.15s ease-in;
   line-height: 1;
   svg {
@@ -167,8 +165,7 @@ const ChainButton = styled(Button)`
   :hover {
     // color: ${prop => prop.theme.palette.primary.main};
     // border: 1.5px solid ${prop => (prop.theme.palette as any).extra.background.primaryDarkGreen};
-    // background-color: #000;
-    opacity: .6;
+    background-color: ${prop => (prop.theme.palette as any).gray[800]};
   }
 `;
 
@@ -198,7 +195,9 @@ const ConnectWalletButton = styled(Button)`
 const ProfileButton = styled(Button)`
   border-radius: 4px;
   min-width: fit-content;
-  padding: 5px 5px 5px 12px;
+  // padding: 5px 5px 5px 12px;
+  height: 42px;
+  padding: 0;
   box-shadow: none;
   text-transform: none;
   font-family: inherit;
@@ -209,12 +208,13 @@ const ProfileButton = styled(Button)`
   transition: 0.15s ease-in;
   line-height: 1;
   gap: 8px;
+  border: 1px solid ${prop => (prop.theme.palette as any).gray[800]};
   svg {
     width: 20px;
     height: 20px;
   }
   :hover {
-    background-color: rgba(0,0,0, .8);
+    background-color: ${prop => (prop.theme.palette as any).gray[800]};
     box-shadow: none;
   }
 `;
