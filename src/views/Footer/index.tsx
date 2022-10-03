@@ -22,7 +22,7 @@ const Footer = ({ children }: any) => {
                     flexDirection: isMobile ? 'column' : 'row'
                 }}>
                     <MenuItems>
-                        <img src='logo.svg' alt='' width='200px' />
+                        <img src='alpha.svg' alt='' width='200px' />
                         <Typography variant='subtitle2Poppins'
                             sx={{
                                 color: 'extra.text.secondary',

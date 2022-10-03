@@ -108,7 +108,7 @@ const Menu = ({ children }: any) => {
                     <FlexBox alignItems='center' gap='42px'>
                         <Box sx={{cursor: 'pointer'}}>
                             <Link href='/'>
-                                <img src='/logo.svg' alt='BionDex' width='auto' />
+                                <img src='/alpha.svg' alt='BionDex' width='auto' />
                             </Link>
                         </Box>
                         {
