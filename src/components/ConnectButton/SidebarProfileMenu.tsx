@@ -79,6 +79,10 @@ const SidebarProfileMenu = ({toggleDrawer , address , balance}:any) => {
                 <div className='outside'>
                     <BuyCryptoButton
                         variant='contained'
+                        onClick={(e) => {
+                            e.preventDefault();
+                            router.push('/trade')
+                        }}
                     >
                         Buy crypto
                         <BsFillCaretDownFill/>
@@ -113,21 +117,21 @@ const SidebarProfileMenu = ({toggleDrawer , address , balance}:any) => {
                     )
                 }
             </Flex>
-        </Flex>
-        <Box
-            onClick={toggleDrawer(false)}
-            onKeyDown={toggleDrawer(false)}
-        >
-            <DisconnectButton
-                variant='text'
-                onClick={() => {
-                    disconnect();
-                }}
+            <Box
+                onClick={toggleDrawer(false)}
+                onKeyDown={toggleDrawer(false)}
             >
-                <IoPower/>
-                Disconnect
-            </DisconnectButton>
-        </Box>
+                <DisconnectButton
+                    variant='text'
+                    onClick={() => {
+                        disconnect();
+                    }}
+                >
+                    <IoPower/>
+                    Disconnect
+                </DisconnectButton>
+            </Box>
+        </Flex>
     </Wrapper>
   )
 }
@@ -137,9 +141,6 @@ const Wrapper = styled(Box)`
     padding-top: ${MENU_HEIGHT}px;
     background-color: ${prop => (prop.theme.palette as any).extra.header.background};
     height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 `
 const Flex = styled(Box)`
     display: flex;

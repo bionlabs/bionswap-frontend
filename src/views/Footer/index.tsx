@@ -4,6 +4,7 @@ import {
     Box,
     Container,
     styled,
+    SvgIcon,
     Typography,
     useMediaQuery,
 } from '@mui/material'
@@ -21,16 +22,18 @@ const Footer = ({ children }: any) => {
                     flexDirection: isMobile ? 'column' : 'row'
                 }}>
                     <MenuItems>
-                        <img src='logo_dark.svg' alt='' width='200px' />
+                        <img src='logo.svg' alt='' width='200px' />
                         <Typography variant='subtitle2Poppins'
                             sx={{
-                                color: 'extra.other.eight',
+                                color: 'extra.text.secondary',
                                 fontWeight: '400',
-                                maxWidth: '191px'
+                                maxWidth: '300px'
                             }}>
-                            Discover NFTs by category, track the latest drops, and follow the collections you love. Enjoy it!
+                            BionSwap is a platform that allows Project Owners to self-launch their projects and a Multichain Decentralize Exchange.
                         </Typography>
-                        <Box gap={2} display="flex" alignItems="center" >
+                        <Box gap={2} display="flex" alignItems="center" sx={{
+                            color: 'extra.text.secondary'
+                        }}>
                             {
                                 socialsConfig.map((item, index) => (
                                     <Box
@@ -41,8 +44,14 @@ const Footer = ({ children }: any) => {
                                             e.preventDefault();
                                             router.push(item.href);
                                         }}
+                                        sx={{
+                                            '&:hover':{
+                                                color: 'primary.main',
+                                                transform: 'translateY(-5px)'
+                                            }
+                                        }}
                                     >
-                                        <Box component='img' src={item.icon} alt={item.label} />
+                                        {item.icon}
                                     </Box>
                                 ))
                             }
@@ -51,7 +60,7 @@ const Footer = ({ children }: any) => {
                     {
                         footerMenuConfig.map(footer =>
                             <MenuItems key={footer.title}>
-                                <Typography variant='h6Poppins' color='extra.other.sixth' fontWeight='600'>
+                                <Typography variant='h6Poppins' color='text.primary' fontWeight='600'>
                                     {footer.title}
                                 </Typography>
                                 {
@@ -65,8 +74,12 @@ const Footer = ({ children }: any) => {
                                                 router.push(item.href);
                                             }}
                                             sx={{
-                                                color: 'extra.other.seventh',
+                                                color: 'extra.text.secondary',
                                                 fontWeight: '400',
+                                                '&:hover':{
+                                                    color: 'primary.main',
+                                                    transform: 'translateX(5px)'
+                                                }
                                             }}
                                         >
                                             {item.label}
@@ -84,7 +97,7 @@ const Footer = ({ children }: any) => {
 
 const Wrapper = styled(Box)`
     width: 100%;
-    background-color: ${(props) => props.theme.palette.background.paper};
+    background-color: ${(props) => props.theme.palette.background.default};
     display: flex;
     padding-top: 80px;
     padding-bottom: 80px;
@@ -100,6 +113,9 @@ const MenuItems = styled(Box)`
     flex-direction: column;
     gap: 16px;
     align-items: flex-start;
+    * {
+        transition: .1s ease-in;
+    }
 `
 
 export default Footer
