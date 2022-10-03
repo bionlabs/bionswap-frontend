@@ -228,7 +228,7 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
             </WrapForm>
             <WrapForm fullWidth>
               <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                Telegram <RequireSymbol component="span">*</RequireSymbol>
+                Telegram
               </Typography>
               <InputCustom
                 fullWidth
@@ -237,13 +237,13 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
                 value={communities.telegram}
                 onChange={handleChangeCommunities('telegram')}
               />
-              <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+              {/* <Typography variant="captionPoppins" color="red.500" fontWeight="400">
                 {onShowError('telegram')}
-              </Typography>
+              </Typography> */}
             </WrapForm>
             <WrapForm fullWidth>
               <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                Discord <RequireSymbol component="span">*</RequireSymbol>
+                Discord
               </Typography>
               <InputCustom
                 fullWidth
@@ -252,9 +252,9 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
                 value={communities.discord}
                 onChange={handleChangeCommunities('discord')}
               />
-              <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+              {/* <Typography variant="captionPoppins" color="red.500" fontWeight="400">
                 {onShowError('discord')}
-              </Typography>
+              </Typography> */}
             </WrapForm>
           </WrapValue>
         </WrapLine>
