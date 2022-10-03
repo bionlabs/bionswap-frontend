@@ -11,27 +11,29 @@ import {
 import { MobileProp } from 'configs/Type/Mobile/type'
 import Image from "next/image";
 import PrimaryButton from 'components/PrimaryButton';
+import { useRouter } from 'next/router';
 
 const config = [
     {
-        label: 'All-Time Volume',
-        value: '$78.07B'
+        label: 'Total Projects',
+        value: '0'
     },
     {
         label: 'Total Transactions',
-        value: '14.64M'
+        value: '0'
     },
     {
         label: 'Users',
-        value: '1,530,450'
+        value: '1330'
     },
     {
-        label: 'All-Time Volumers',
-        value: '$78.07B'
+        label: 'Fund Raised',
+        value: '$40K'
     },
 ]
 
 const NetworkSection = ({ isMobile, isTablet }: MobileProp) => {
+    const router = useRouter();
     return (
         <Wrapper>
             <Container maxWidth='lg'>
@@ -71,6 +73,10 @@ const NetworkSection = ({ isMobile, isTablet }: MobileProp) => {
                         </WrapNetworkHead>
                         <ExploreButton
                             variant='contained'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                router.push('/launchpad');
+                            }}
                         >
                             Explore now !
                         </ExploreButton>

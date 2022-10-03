@@ -46,7 +46,14 @@ const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
                 />
               </Box>
               <Box maxWidth="218px" width="100%">
-                <PrimaryButton variant="outlined" label="Learn more" />
+                <PrimaryButton 
+                  variant="outlined" 
+                  label="Learn more"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.open('https://docs.bionswap.com');
+                  }}
+                />
               </Box>
             </FlexBox>
           </WrapContentArea>

@@ -25,7 +25,7 @@ const NotSupportSection = () => {
           <br />
           Please switch to these supported chain.
         </Typography>
-        <Box>
+        <Box mt='15px'>
           {Object.entries(CHAIN_INFO_MAP).map(([, chain]) =>
             chain.id === ChainId.BSC_TESTNET ? (
               <MenuItem

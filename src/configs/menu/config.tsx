@@ -1,7 +1,7 @@
 import {MdSwapHorizontalCircle} from 'react-icons/md'
 import {GiPayMoney , GiReceiveMoney} from 'react-icons/gi'
 import {IoDocumentText} from 'react-icons/io5'
-import {FaCoins} from 'react-icons/fa'
+import {FaCoins , FaTwitter , FaDiscord , FaGithub} from 'react-icons/fa'
 import {HiChartBar} from 'react-icons/hi'
 
 export const MENU_HEIGHT = 78;
@@ -23,7 +23,7 @@ export const menuConfig = [
     //     icon: <GiReceiveMoney/>
     // },
     {
-        label: 'Launch with BionSwap',
+        label: 'Start a Launch',
         href: '/launch',
         icon: <FaCoins/>
     },
@@ -56,17 +56,17 @@ export const footerMenuConfig = [
         items: [
             {
                 label: 'Swap',
-                href: '/swap',
+                href: '/trade',
                 icon: ''
             },
             {
-                label: 'Stacks',
-                href: '/stacks',
+                label: 'Launchpad',
+                href: '/launchpad',
                 icon: ''
             },
             {
-                label: 'Dashboard',
-                href: '/dashboard',
+                label: 'Start a Launch',
+                href: '/launch',
                 icon: ''
             },
         ]
@@ -76,17 +76,17 @@ export const footerMenuConfig = [
         items: [
             {
                 label: 'How to participate',
-                href: '/how-to-participate',
+                href: '',
                 icon: ''
             },
             {
                 label: 'FAQ',
-                href: '/faq',
+                href: '',
                 icon: ''
             },
             {
                 label: 'Support',
-                href: '/support',
+                href: '',
                 icon: ''
             },
             {
@@ -97,15 +97,15 @@ export const footerMenuConfig = [
         ]
     },
     {
-        title: 'For partner',
+        title: 'More Infomation',
         items: [
             {
-                label: 'Apply for ido',
-                href: '/apply-for-ido',
+                label: 'Docs',
+                href: 'https://docs.bionswap.com',
                 icon: ''
             },
             {
-                label: 'About us',
+                label: 'Debug Campaign',
                 href: '/about-us',
                 icon: ''
             },
@@ -121,17 +121,17 @@ export const footerMenuConfig = [
 export const socialsConfig = [
     {
         label: 'Twitter',
-        href: '/',
-        icon: '/icons/socials/Twitter_black.svg'
+        href: 'https://twitter.com/BionSwap',
+        icon: <FaTwitter/>
     },
     {
         label: 'Discord',
         href: '/',
-        icon: '/icons/socials/Discord_black.svg'
+        icon: <FaDiscord/>
     },
     {
         label: 'Github',
-        href: '/',
-        icon: '/icons/socials/Github_black.svg'
+        href: 'https://github.com/bionswap/bionswap-frontend',
+        icon: <FaGithub/>
     },
 ]

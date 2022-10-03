@@ -18,10 +18,10 @@ const Launch = () => {
   return (
     <Page>
         <HeroSection isMobile={isMobile} isTablet={isTablet} />
-        <LaunchSection isMobile={isMobile} isTablet={isTablet}/>
+        {/* <LaunchSection isMobile={isMobile} isTablet={isTablet}/>
         <CommunitySection isMobile={isMobile} isTablet={isTablet}/>
         <PartnersSection isMobile={isMobile} isTablet={isTablet}/>
-        <Roadmap isMobile={isMobile} isTablet={isTablet}/>
+        <Roadmap isMobile={isMobile} isTablet={isTablet}/> */}
     </Page>
   )
 }
