@@ -93,7 +93,9 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
     setData(setPresaleForm({ [prop]: event.target.value }));
 
     if (prop === 'vestingToken') {
-      event.target.value === '0' ? setData(setPresaleForm({ ['firstRelease']: '100' })) : setData(setPresaleForm({ ['firstRelease']: '' }))
+      event.target.value === '0'
+        ? setData(setPresaleForm({ ['firstRelease']: '100' }))
+        : setData(setPresaleForm({ ['firstRelease']: '' }));
     }
   };
 
@@ -496,16 +498,13 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                         <FormControlLabel
                           value={item.value}
                           label={
-                            <>
-                              <Typography
-                                variant="body4Poppins"
-                                color={data.vestingToken == item.value ? 'blue.100' : 'gray.700'}
-                                fontWeight="400"
-                              >
-                                {item.label}
-                              </Typography>
-                              <RequireSymbol component="span"> *</RequireSymbol>
-                            </>
+                            <Typography
+                              variant="body4Poppins"
+                              color={data.vestingToken == item.value ? 'blue.100' : 'gray.700'}
+                              fontWeight="400"
+                            >
+                              {item.label}
+                            </Typography>
                           }
                           control={
                             <Radio

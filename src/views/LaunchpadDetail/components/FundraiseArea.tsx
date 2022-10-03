@@ -36,7 +36,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
   const startTime = data?.startTime * 1000;
   const endTime = data?.endTime * 1000;
   const linearProgress = (Number(currentCap) * 100) / Number(formatUnits(data?.hardCap || 0, decimals));
-  const unit = quoteToken?.symbol;
+  const unit = data?.isQuoteETH ? 'BNB' : quoteToken?.symbol;
   const currentTime = +new Date();
 
   const handleOpenModal = () => setOpenModal(true);

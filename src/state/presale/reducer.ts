@@ -65,7 +65,7 @@ const initialState: PreSaleState = {
     endTime: +new Date(),
     unsoldToken: 0,
     tokenDistributionTime: +new Date(),
-    vestingToken: '',
+    vestingToken: '0',
     firstRelease: '',
     vestingPeriodEachCycle: '',
     tokenReleaseEachCycle: '',

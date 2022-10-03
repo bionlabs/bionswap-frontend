@@ -56,12 +56,12 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
     parsedTotalTokenRequired,
     presaleFactoryContract?.address,
   );
+  console.log("🚀 ~ file: index.tsx ~ line 59 ~ Step04 ~ approvalState", approvalState)
 
   const handleApprove = async () => {
     try {
       setPending(true);
       const approve = await approveCallback();
-      console.log("🚀 ~ file: index.tsx ~ line 64 ~ handleApprove ~ approve", approve)
       setPending(false);
     } catch (error) {
       setPending(false);
@@ -137,7 +137,6 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                             >
                               {item.label}
                             </Typography>
-                            <RequireSymbol component="span">*</RequireSymbol>
                           </>
                         }
                         control={

@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { getSaleList } from 'api/launchpad';
 import Card from 'components/Card';
+import NoDataView from 'components/NoDataView';
 import SkeletonCard from 'components/SkeletonCard';
 import { useRefetchIncreasedInterval } from 'hooks';
 import { useEffect, useState } from 'react';
@@ -102,13 +103,19 @@ const LaunchPadSection = ({ chainId }: any) => {
             <Title title="Feature Project" />
             <WrapSlideFeatureProject>
               {launchData ? (
-                <Slider {...settings}>
-                  {launchData?.data?.map((item: any) => (
-                    <Items key={item?.saleAddress}>
-                      <Card data={item} />
-                    </Items>
-                  ))}
-                </Slider>
+                launchData.data ? (
+                  <Slider {...settings}>
+                    {launchData?.data?.map((item: any) => (
+                      <Items key={item?.saleAddress}>
+                        <Card data={item} />
+                      </Items>
+                    ))}
+                  </Slider>
+                ) : (
+                  <Box pl="15px" pr="15px" height='40vh'>
+                    <NoDataView />
+                  </Box>
+                )
               ) : (
                 <Flex alignItems="flex-start" pl="15px" pr="15px">
                   <SkeletonCard />
@@ -223,17 +230,20 @@ const LaunchPadSection = ({ chainId }: any) => {
                 gap: { xs: '20px', lg: '40px' },
               }}
             >
-              {
-                launchData
-                ?
+              {launchData ? (
+                launchData.data ?
                 launchData?.data?.map((item: any) => (
                   <WrapItem key={item?.saleAddress}>
                     <Card data={item} />
                   </WrapItem>
                 ))
                 :
+                <Box width='100%' height='40vh'>
+                    <NoDataView />
+                  </Box>
+              ) : (
                 <SkeletonCard />
-              }
+              )}
             </Flex>
           </Section>
           <Flex alignItems="center" justifyContent="center">
