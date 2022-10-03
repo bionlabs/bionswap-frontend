@@ -15,6 +15,8 @@ import {
 } from '@mui/material';
 import { getSaleList } from 'api/launchpad';
 import Card from 'components/Card';
+import NoDataView from 'components/NoDataView';
+import SkeletonCard from 'components/SkeletonCard';
 import { useRefetchIncreasedInterval } from 'hooks';
 import { useEffect, useState } from 'react';
 import Slider from 'react-slick';
@@ -80,27 +82,6 @@ const LaunchPadSection = ({ chainId }: any) => {
     [chainId, params],
   );
 
-  // useEffect(() => {
-  //   const getLaunchData = async (params: any) => {
-  //     try {
-  //       const launchData = await getSaleList(
-  //         params.page,
-  //         params.limit,
-  //         chainId,
-  //         params.owner,
-  //         params.keyword,
-  //         params.sortBy,
-  //       );
-  //       setLaunchData(launchData);
-  //       console.log('🚀 ~ file: LaunchPadSection.tsx ~ line 73 ~ getLaunchData ~ launchData', launchData);
-  //     } catch (error) {
-  //       console.log('error====>', error);
-  //     }
-  //   };
-
-  //   getLaunchData(params);
-  // }, [chainId, params]);
-
   const settings = {
     arrows: false,
     speed: 500,
@@ -121,18 +102,25 @@ const LaunchPadSection = ({ chainId }: any) => {
           <Section>
             <Title title="Feature Project" />
             <WrapSlideFeatureProject>
-              <Slider {...settings}>
-                {/* {crowdfundingConfig?.map((item, idex) => (
-                  <Items key="">
-                    <Card data={item} />
-                  </Items>
-                ))} */}
-                {launchData?.data?.map((item: any) => (
-                  <Items key={item?.saleAddress}>
-                    <Card data={item} />
-                  </Items>
-                ))}
-              </Slider>
+              {launchData ? (
+                launchData.data ? (
+                  <Slider {...settings}>
+                    {launchData?.data?.map((item: any) => (
+                      <Items key={item?.saleAddress}>
+                        <Card data={item} />
+                      </Items>
+                    ))}
+                  </Slider>
+                ) : (
+                  <Box pl="15px" pr="15px" height='40vh'>
+                    <NoDataView />
+                  </Box>
+                )
+              ) : (
+                <Flex alignItems="flex-start" pl="15px" pr="15px">
+                  <SkeletonCard />
+                </Flex>
+              )}
             </WrapSlideFeatureProject>
           </Section>
           <Section>
@@ -242,11 +230,20 @@ const LaunchPadSection = ({ chainId }: any) => {
                 gap: { xs: '20px', lg: '40px' },
               }}
             >
-              {launchData?.data?.map((item: any) => (
-                <WrapItem key={item?.saleAddress}>
-                  <Card data={item} />
-                </WrapItem>
-              ))}
+              {launchData ? (
+                launchData.data ?
+                launchData?.data?.map((item: any) => (
+                  <WrapItem key={item?.saleAddress}>
+                    <Card data={item} />
+                  </WrapItem>
+                ))
+                :
+                <Box width='100%' height='40vh'>
+                    <NoDataView />
+                  </Box>
+              ) : (
+                <SkeletonCard />
+              )}
             </Flex>
           </Section>
           <Flex alignItems="center" justifyContent="center">

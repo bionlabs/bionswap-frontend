@@ -6,6 +6,7 @@ import { getSaleList } from 'api/launchpad';
 import { useChain } from 'hooks';
 import { ChainId } from '@bionswap/core-sdk';
 import NotSupportSection from 'components/NotSupportSection';
+import SkeletonCard from 'components/SkeletonCard';
 
 const MyProject = () => {
   const { account, chainId } = useChain();
@@ -47,11 +48,15 @@ const MyProject = () => {
         </Box>
         {ChainId.BSC_TESTNET === chainId ? (
           <FlexBox gap="30px" flexWrap="wrap">
-            {launchData?.data?.map((item: any) => (
-              <Item key={item.title}>
-                <ProjectCard data={item} />
-              </Item>
-            ))}
+            {launchData && launchData.data ? (
+              launchData?.data?.map((item: any) => (
+                <Item key={item.title}>
+                  <ProjectCard data={item} />
+                </Item>
+              ))
+            ) : (
+              <SkeletonCard />
+            )}
           </FlexBox>
         ) : (
           <NotSupportSection />

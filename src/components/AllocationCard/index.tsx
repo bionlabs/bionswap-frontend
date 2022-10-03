@@ -21,20 +21,33 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
   const currentTime = +new Date();
   const presaleContract = usePresaleContract(data?.sale?.saleAddress || '');
   const quoteToken = useToken(data?.quoteToken);
+  const [decimals, setDecimals] = useState(18);
+
+  useEffect(() => {
+    const handleCheckDecimal = () => {
+      if (data?.isQuoteETH) {
+        setDecimals(18);
+      } else {
+        setDecimals(quoteToken?.decimals || 9);
+      }
+    };
+
+    handleCheckDecimal();
+  }, [quoteToken, data]);
 
   const tokenAmountClaimed = formatUnits(
     useSingleCallResult(presaleContract, 'purchaseDetails', [account])?.result?.[2] || 0,
-    quoteToken?.decimals,
+    decimals,
   );
   const calcClaimableTokenAmount = formatUnits(
     useSingleCallResult(presaleContract, 'calcClaimableTokenAmount', [account])?.result?.[0] || 0,
-    quoteToken?.decimals,
+    decimals,
   );
   // const calcClaimableTokenAmount =
   //   useSingleCallResult(presaleContract, 'calcClaimableTokenAmount', [account])?.result;
   const calcPurchasedTokenAmount = formatUnits(
     useSingleCallResult(presaleContract, 'calcPurchasedTokenAmount ', [account])?.result?.[0] || 0,
-    quoteToken?.decimals,
+    decimals,
   );
 
   const vestingTime = data?.sale?.tgeDate * 1000;

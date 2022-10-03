@@ -89,12 +89,13 @@ const MyProjectDetail = () => {
   const router = useRouter();
   const { slug } = router.query;
   const token = useToken(data?.token);
-  const hardCap = formatUnits(data?.hardCap || 0, quoteERCToken?.decimals);
+  const [decimals, setDecimals] = useState(18);
+  const hardCap = formatUnits(data?.hardCap || 0, decimals);
   const lockLPDuration = Math.floor(data?.lockLPDuration / (3600 * 24));
-  const price = formatUnits(data?.price || 0, quoteERCToken?.decimals);
-  const listingPrice = formatUnits(data?.listingPrice || 0, quoteERCToken?.decimals);
-  const minBuy = formatUnits(data?.minPurchase || 0, quoteERCToken?.decimals);
-  const maxBuy = formatUnits(data?.maxPurchase || 0, quoteERCToken?.decimals);
+  const price = formatUnits(data?.price || 0, decimals);
+  const listingPrice = formatUnits(data?.listingPrice || 0, decimals);
+  const minBuy = formatUnits(data?.minPurchase || 0, decimals);
+  const maxBuy = formatUnits(data?.maxPurchase || 0, decimals);
   const presaleContract = usePresaleContract(data?.saleAddress);
   const bionLockContract = useBionLockContract();
   const saleStatus = useSingleCallResult(presaleContract, 'status')?.result?.[0] || 0;
@@ -109,7 +110,7 @@ const MyProjectDetail = () => {
 
   const currentCap = formatUnits(
     useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0,
-    quoteERCToken?.decimals,
+    decimals,
   );
   const totalSupply = useTotalSupply(token || undefined)?.toExact({});
   const tokensForPresale = Number(hardCap) / Number(price);
@@ -127,6 +128,18 @@ const MyProjectDetail = () => {
   const handleListModal = () => {
     setOpenListModal(!openListModal);
   };
+
+  useEffect(() => {
+    const handleCheckDecimal = () => {
+      if (data?.isQuoteETH) {
+        setDecimals(18);
+      } else {
+        setDecimals(quoteERCToken?.decimals || 9);
+      }
+    };
+
+    handleCheckDecimal();
+  }, [quoteERCToken, data]);
 
   const fetchSaleDetail = async (saleAddress?: any) => {
     if (!isAddress(saleAddress)) return;

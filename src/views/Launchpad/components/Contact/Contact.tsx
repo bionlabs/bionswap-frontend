@@ -90,9 +90,7 @@ const StyledInput = styled(TextField)`
         background-color: #000;
         padding-right: 0;
         fieldset {
-            border: 1px solid #fff;
-            top: 0;
-            
+            display: none;
         }
         input {
             padding: 17px 20px;
