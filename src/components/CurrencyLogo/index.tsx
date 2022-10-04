@@ -61,12 +61,12 @@ export const getCurrencyLogoUrls = (currency: Currency): string[] => {
 };
 
 const AvalancheLogo = 'https://raw.githubusercontent.com/sushiswap/logos/main/token/avax.jpg';
-const BinanceCoinLogo = 'https://raw.githubusercontent.com/sushiswap/logos/main/token/bnb.jpg';
-const EthereumLogo = 'https://raw.githubusercontent.com/sushiswap/logos/main/token/eth.jpg';
+const BinanceCoinLogo = 'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png';
+const EthereumLogo = 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png';
 const FantomLogo = 'https://raw.githubusercontent.com/sushiswap/logos/main/token/ftm.jpg';
 const HarmonyLogo = 'https://raw.githubusercontent.com/sushiswap/logos/main/token/one.jpg';
 const HecoLogo = 'https://raw.githubusercontent.com/sushiswap/logos/main/token/heco.jpg';
-const MaticLogo = 'https://raw.githubusercontent.com/sushiswap/logos/main/token/polygon.jpg';
+const MaticLogo = 'https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png';
 const MoonbeamLogo = 'https://raw.githubusercontent.com/sushiswap/icons/master/network/moonbeam.jpg';
 const OKExLogo = 'https://s2.coinmarketcap.com/static/img/coins/64x64/11132.png';
 const xDaiLogo = 'https://raw.githubusercontent.com/sushiswap/logos/main/token/xdai.jpg';
