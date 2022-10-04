@@ -12,9 +12,10 @@ const AvatarModal = ({ open, onDismiss, avatars, handleChooseAvatar }: any) => {
       open={open}
       sx={{
         padding: '24px',
-        maxWidth: '556px',
+        maxWidth: '756px',
         width: '100%',
         overflowY: 'auto',
+        minHeight: '500px'
       }}
     >
       <IconButton onClick={onDismiss} sx={{ position: 'absolute', right: 8, top: 8 }}>

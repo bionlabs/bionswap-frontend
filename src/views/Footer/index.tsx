@@ -101,6 +101,7 @@ const Wrapper = styled(Box)`
     display: flex;
     padding-top: 80px;
     padding-bottom: 80px;
+    border-top: 1px solid ${props => (props.theme.palette as any).extra.border.color};
 `
 const WrapMenuItem = styled(Box)`
     display: flex;
