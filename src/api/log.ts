@@ -1,4 +1,5 @@
 import { request } from 'api';
+import jwt from 'jsonwebtoken';
 
 export async function swapLog(payload: {
   chainId: number;
@@ -9,7 +10,11 @@ export async function swapLog(payload: {
   inputAmount?: string;
   outputAmount?: string;
 }) {
-  const result = await request.post('/swap-log', payload);
+  const sig = jwt.sign(payload, process.env.NEXT_PUBLIC_LOG_KEY!);
+
+  const result = await request.post('/swap-log', {
+    sig,
+  });
 
   return result;
 }
