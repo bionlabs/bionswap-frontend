@@ -17,6 +17,8 @@ import { useCallback, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { useStandardTokenContractFactory } from 'hooks/useContract';
 import { parseEther } from 'ethers/lib/utils';
+import { AddressMap, ChainId } from '@bionswap/core-sdk';
+import { useChain } from 'hooks';
 
 const tokenTypes = [
   {
@@ -25,11 +27,22 @@ const tokenTypes = [
   },
 ];
 
+const chainTokenFees: AddressMap = {
+  [ChainId.ETHEREUM]: '0.1',
+  [ChainId.BSC]: '0.1',
+  [ChainId.BSC_TESTNET]: '0',
+  [ChainId.OKEX]: '0.1',
+  [ChainId.OKEX_TESTNET]: '0',
+  [ChainId.MATIC]: '0.1',
+  [ChainId.MATIC_TESTNET]: '0',
+};
+
 const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
   const Joi = require('joi');
   const standardTokenContractFactory = useStandardTokenContractFactory();
   const [errors, setErrors] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
+  const { chainId } = useChain();
   const [dataCreated, setDataCreated] = useState({
     tokenType: 0,
     name: '',
@@ -48,8 +61,8 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
       decimal,
       parseEther(totalSupply),
       process.env.NEXT_PUBLIC_TOKEN_FEE_TO,
-      parseEther(process.env.NEXT_PUBLIC_TOKEN_FEE!),
-      { value: parseEther(process.env.NEXT_PUBLIC_TOKEN_FEE!) },
+      parseEther(chainTokenFees[chainId]),
+      { value: parseEther(chainTokenFees[chainId]!) },
     );
 
     setIsCreating(true);
@@ -74,7 +87,7 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
 
   const onCreateToken = async () => {
     try {
-      setIsCreating(true)
+      setIsCreating(true);
       const value = await schema.validateAsync(
         {
           tokenType: dataCreated.tokenType,
@@ -88,9 +101,9 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
       setErrors([]);
 
       await handleCreateStandardToken();
-      setIsCreating(false)
+      setIsCreating(false);
     } catch (err: any) {
-      setIsCreating(false)
+      setIsCreating(false);
       setErrors(err?.details || []);
     }
   };

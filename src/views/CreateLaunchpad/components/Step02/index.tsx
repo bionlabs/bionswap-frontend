@@ -280,6 +280,7 @@ const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
         open={openModal}
         onDismiss={handleCloseModal}
         onTokenCreated={(tokenAddress: string) => setData(setPresaleForm({ ['tokenContract']: tokenAddress }))}
+        chainId={chainId}
       />
     </>
   );
