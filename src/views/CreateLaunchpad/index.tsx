@@ -145,10 +145,43 @@ const CreateLaunchpad = () => {
   });
 
   const handleNext = async (step: number) => {
-    console.log('data valideate==>', data);
     try {
+      const validate = await handleValidate(step);
+      if (!validate) return;
+
+      dispatch(setStepLaunchpad(activeStep + 1));
+      setErrors([]);
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
+    } catch (err: any) {}
+  };
+
+  const handleBack = (step: number) => {
+    dispatch(setStepLaunchpad(activeStep - 1));
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  const abc = async (step: number) => {
+    // console.log('data ABC =====>', data);
+    const validate = await handleValidate(step);
+    if (!validate) return;
+    setErrors([]);
+  };
+
+  const handleValidate = async (step: number) => {
+    try {
+      const abcde = data;
+      console.log("🚀 ~ file: index.tsx ~ line 181 ~ handleValidate ~ abcde", abcde)
+      let value;
       if (step === 1) {
-        const value = await schemaStep01.validateAsync(
+        value = await schemaStep01.validateAsync(
           {
             projectTitle: data.projectTitle,
             projectLogo: data.projectLogo,
@@ -163,7 +196,7 @@ const CreateLaunchpad = () => {
         dispatch(setPresaleForm({ ['community']: JSON.stringify(communities) }));
       }
       if (step === 2) {
-        const value = await schemaStep02.validateAsync(
+        value = await schemaStep02.validateAsync(
           {
             tokenContract: data.tokenContract,
             currency: data.currency,
@@ -172,7 +205,7 @@ const CreateLaunchpad = () => {
         );
       }
       if (step === 3) {
-        const value = await schemaStep03.validateAsync(
+        value = await schemaStep03.validateAsync(
           {
             tokenPrice: data.tokenPrice,
             minGoal: data.minGoal,
@@ -192,7 +225,7 @@ const CreateLaunchpad = () => {
         );
       }
       if (step === 4) {
-        const value = await schemaStep04.validateAsync(
+        value = await schemaStep04.validateAsync(
           {
             listing: data.listing,
             dex: data.dex,
@@ -203,29 +236,10 @@ const CreateLaunchpad = () => {
           { abortEarly: false },
         );
       }
-      dispatch(setStepLaunchpad(activeStep + 1));
-      setErrors([]);
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth',
-      });
-    } catch (err: any) {
-      setErrors(err?.details || []);
+      return value;
+    } catch (error: any) {
+      setErrors(error?.details || []);
     }
-  };
-
-  const handleBack = (step: number) => {
-    dispatch(setStepLaunchpad(activeStep - 1));
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth',
-    });
-  };
-
-  const handleSubmit = () => {
-    console.log('on submit');
   };
 
   const onShowError = (key: string) => {
@@ -276,9 +290,7 @@ const CreateLaunchpad = () => {
                 data={data}
                 setData={dispatch}
                 handleNext={handleNext}
-                onShowError={onShowError}
-                communities={communities}
-                setCommunities={setCommunities}
+                communityDetail={communityDetail}
               />
             )}
             {activeStep === 1 && (
@@ -324,7 +336,6 @@ const CreateLaunchpad = () => {
                 handleNext={handleNext}
                 handleBack={handleBack}
                 onShowError={onShowError}
-                handleSubmit={handleSubmit}
               />
             )}
           </Box>
