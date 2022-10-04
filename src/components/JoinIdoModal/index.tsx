@@ -140,7 +140,7 @@ const JoinIdoModal = ({ open, onDismiss, data, unit }: any) => {
                   </Typography>
                 </MaxButton>
                 <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
-                  Balance: {quoteBalance?.toFixed(2) || 0} {unit}
+                  Balance: {quoteBalance?.toFixed(4) || 0} {unit}
                 </Typography>
               </FlexBox>
               <FlexBox alignItems="center" justifyContent="space-between">
