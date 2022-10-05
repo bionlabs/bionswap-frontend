@@ -249,11 +249,11 @@ const Menu = ({ children }: any) => {
                     {list('right')}
                 </Drawer>
                 {
-                    ((chainId !== 97) && isConnected) &&
+                    ((chainId !== 97) && isConnected && (router.asPath == '/launch' || router.asPath == '/launchpad')) &&
                     <WarningBanner>
                         <img src='/icons/warning.svg' alt='' width='16px' />
                         <Typography variant='captionPoppins' sx={{color: 'inherit'}}>
-                            Bionswap AlphaTest is not yet supported on this chain for now. Please switch to BNB Testnet.
+                            This feature is not yet supported on this chain for now. Please switch to BNB Testnet
                         </Typography>
                         <SwitchChainButton
                             variant='contained'
