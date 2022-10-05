@@ -72,7 +72,7 @@ const TabsArea: React.FC<TabsAreaProps> = ({ data, isMobile = false, unit, token
       <TabHead ref={tabHead}>
         <Container maxWidth="xl">
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <TabCustom label="About Fox" {...a11yProps(0)} />
+            <TabCustom label="Information" {...a11yProps(0)} />
             <TabCustom label="Token Sale" {...a11yProps(1)} />
             <TabCustom label="Vesting Schedule" {...a11yProps(2)} />
           </Tabs>

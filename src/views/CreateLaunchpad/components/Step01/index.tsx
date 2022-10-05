@@ -61,6 +61,7 @@ const Step01 = ({ data, setData, handleNext, communityDetail }: any) => {
         },
         { abortEarly: false },
       );
+      setErrors([]);
       return value;
     } catch (error: any) {
       console.log(error);
