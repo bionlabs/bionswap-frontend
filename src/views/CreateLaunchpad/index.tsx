@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, styled, Stepper, Step } from '@mui/material';
+import { Box, Typography, styled, Stepper, Step, Stack, Button } from '@mui/material';
 import { steps } from './config';
 import { Container } from '@mui/system';
 import { useAppDispatch, useAppSelector } from 'state';
@@ -15,6 +15,7 @@ import { ChainId } from '@bionswap/core-sdk';
 import { useChain, useToken } from 'hooks';
 import ConnectWalletSection from './components/ConnectWalletSection';
 import Joi, { CustomHelpers, CustomValidator } from 'joi';
+import { Visibility } from '@mui/icons-material';
 // const Joi = require('joi');
 
 const CreateLaunchpad = () => {
@@ -22,7 +23,6 @@ const CreateLaunchpad = () => {
 
   const data = useAppSelector((state) => state.presale.dataConfig);
   const tokenContract = useToken(data.tokenContract);
-  console.log('🚀 ~ file: index.tsx ~ line 23 ~ CreateLaunchpad ~ tokenContract', tokenContract);
   const communityDetail = JSON.parse(data?.community || '{}');
   const activeStep = useAppSelector((state) => state.presale.step);
   const dispatch = useAppDispatch();
@@ -178,7 +178,7 @@ const CreateLaunchpad = () => {
   const handleValidate = async (step: number) => {
     try {
       const abcde = data;
-      console.log("🚀 ~ file: index.tsx ~ line 181 ~ handleValidate ~ abcde", abcde)
+      console.log('🚀 ~ file: index.tsx ~ line 181 ~ handleValidate ~ abcde', abcde);
       let value;
       if (step === 1) {
         value = await schemaStep01.validateAsync(
@@ -259,87 +259,107 @@ const CreateLaunchpad = () => {
       ) : !account ? (
         <ConnectWalletSection />
       ) : (
-        <Container maxWidth="lg">
-          <Box sx={{ width: '100%' }}>
-            <WrapStep sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <Stepper activeStep={activeStep}>
-                {steps.map((item, index) => {
-                  return (
-                    <StepCustom key={item.title} className={activeStep === index ? 'activeStep' : ''}>
-                      <FlexBox flexDirection="column" gap="13px" alignItems="center">
-                        <Typography
-                          variant="body4Poppins"
-                          textTransform="uppercase"
-                          fontWeight={activeStep === index ? '500' : '400'}
-                          color={activeStep === index ? 'primary.main' : 'gray.600'}
-                          fontStyle="initial"
-                        >
-                          {item.step}. {item.title}
-                        </Typography>
-                        <WapIcon className={activeStep === index ? 'done' : ''}>
-                          <img src={item.icon} alt={item.icon} />
-                        </WapIcon>
-                      </FlexBox>
-                    </StepCustom>
-                  );
-                })}
-              </Stepper>
-            </WrapStep>
-            {activeStep === 0 && (
-              <Step01
-                data={data}
-                setData={dispatch}
-                handleNext={handleNext}
-                communityDetail={communityDetail}
-              />
-            )}
-            {activeStep === 1 && (
-              <Step02
-                data={data}
-                setData={dispatch}
-                handleNext={handleNext}
-                handleBack={handleBack}
-                onShowError={onShowError}
-              />
-            )}
-            {activeStep === 2 && (
-              <Step03
-                data={data}
-                setData={dispatch}
-                handleNext={handleNext}
-                handleBack={handleBack}
-                onShowError={onShowError}
-              />
-            )}
-            {activeStep === 3 && (
-              <Step04
-                data={data}
-                setData={dispatch}
-                handleNext={handleNext}
-                handleBack={handleBack}
-                onShowError={onShowError}
-              />
-            )}
-            {activeStep === 4 && (
-              <Step05
-                data={data}
-                setData={dispatch}
-                handleNext={handleNext}
-                handleBack={handleBack}
-                onShowError={onShowError}
-              />
-            )}
-            {activeStep === 5 && (
-              <Step06
-                data={data}
-                setData={dispatch}
-                handleNext={handleNext}
-                handleBack={handleBack}
-                onShowError={onShowError}
-              />
-            )}
-          </Box>
-        </Container>
+        <>
+          <Stack>
+            <Stack flexDirection="row" gap="4px">
+              <Typography variant="body3Poppins" fontWeight="400" color="primary.main">
+                Create a launch /
+              </Typography>
+              <Typography variant="body3Poppins" fontWeight="400" color="gray.400">
+                {data.projectTitle}
+              </Typography>
+            </Stack>
+            <Stack flexDirection="row">
+              <Preview>
+              <Visibility />
+              <Typography variant="body3Poppins" color="#000000" fontWeight="600">
+              Preview
+                </Typography>
+              </Preview>
+              <Next onClick={() => handleNext(1)}>
+                <Typography variant="body3Poppins" color="#000000" fontWeight="600">
+                  Next
+                </Typography>
+              </Next>
+            </Stack>
+          </Stack>
+          <Container maxWidth="lg">
+            <Box sx={{ width: '100%' }}>
+              <WrapStep sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Stepper activeStep={activeStep}>
+                  {steps.map((item, index) => {
+                    return (
+                      <StepCustom key={item.title} className={activeStep === index ? 'activeStep' : ''}>
+                        <FlexBox flexDirection="column" gap="13px" alignItems="center">
+                          <Typography
+                            variant="body4Poppins"
+                            textTransform="uppercase"
+                            fontWeight={activeStep === index ? '500' : '400'}
+                            color={activeStep === index ? 'primary.main' : 'gray.600'}
+                            fontStyle="initial"
+                          >
+                            {item.step}. {item.title}
+                          </Typography>
+                          <WapIcon className={activeStep === index ? 'done' : ''}>
+                            <img src={item.icon} alt={item.icon} />
+                          </WapIcon>
+                        </FlexBox>
+                      </StepCustom>
+                    );
+                  })}
+                </Stepper>
+              </WrapStep>
+              {activeStep === 0 && (
+                <Step01 data={data} setData={dispatch} handleNext={handleNext} communityDetail={communityDetail} />
+              )}
+              {activeStep === 1 && (
+                <Step02
+                  data={data}
+                  setData={dispatch}
+                  handleNext={handleNext}
+                  handleBack={handleBack}
+                  onShowError={onShowError}
+                />
+              )}
+              {activeStep === 2 && (
+                <Step03
+                  data={data}
+                  setData={dispatch}
+                  handleNext={handleNext}
+                  handleBack={handleBack}
+                  onShowError={onShowError}
+                />
+              )}
+              {activeStep === 3 && (
+                <Step04
+                  data={data}
+                  setData={dispatch}
+                  handleNext={handleNext}
+                  handleBack={handleBack}
+                  onShowError={onShowError}
+                />
+              )}
+              {activeStep === 4 && (
+                <Step05
+                  data={data}
+                  setData={dispatch}
+                  handleNext={handleNext}
+                  handleBack={handleBack}
+                  onShowError={onShowError}
+                />
+              )}
+              {activeStep === 5 && (
+                <Step06
+                  data={data}
+                  setData={dispatch}
+                  handleNext={handleNext}
+                  handleBack={handleBack}
+                  onShowError={onShowError}
+                />
+              )}
+            </Box>
+          </Container>
+        </>
       )}
     </Section>
   );
@@ -403,5 +423,23 @@ const StepCustom = styled(Step)`
     }
   }
 `;
+const Next = styled(Button)`
+  width: 140px;
+  height: 35px;
+  align-item: center;
+  justify-content: center;
+  display: flex;
+  background-color: ${(props) => props.theme.palette.primary.main};
+  border-radius: 4px;
+`;
+const Preview = styled(Button)`
+width: 140px;
+height: 35px;
+align-item: center;
+justify-content: center;
+display: flex;
+background-color: rgba(7, 224, 224, 0.15);;
+border-radius: 4px;
+`
 
 export default CreateLaunchpad;
