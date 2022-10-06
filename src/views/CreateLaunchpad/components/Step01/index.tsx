@@ -30,41 +30,26 @@ const Step01 = ({ data, setData, handleNext, communityDetail }: any) => {
 
   const validate = async (parram: string) => {
     try {
-      let schemaStep01: any = null;
+      const schemaStep01 = Joi.object({
+        projectTitle: Joi.string().max(50).required().label('Project title'),
+        projectLogo: Joi.string().required().label('Project logo'),
+        saleBanner: Joi.string().required().label('Sale banner'),
+        website: Joi.string().required().label('Website'),
+      });
 
-      switch (parram) {
-        case 'projectTitle':
-          schemaStep01 = Joi.object({
-            projectTitle: Joi.string().required().label('Project title'),
-          });
-          break;
-        case 'projectLogo':
-          schemaStep01 = Joi.object({
-            projectLogo: Joi.string().required().label('Project logo'),
-          });
-          break;
-        case 'saleBanner':
-          schemaStep01 = Joi.object({
-            saleBanner: Joi.string().required().label('Sale banner'),
-          });
-          break;
-        case 'website':
-          schemaStep01 = Joi.object({
-            saleBanner: Joi.string().required().label('Website'),
-          });
-          break;
-      }
-
-      const value = await schemaStep01?.validateAsync(
+      const value = await schemaStep01.validateAsync(
         {
-          [parram]: data[parram],
+          projectTitle: data.projectTitle,
+          projectLogo: data.projectLogo,
+          saleBanner: data.saleBanner,
+          website: communities['website'],
         },
         { abortEarly: false },
       );
       setErrors([]);
       return value;
     } catch (error: any) {
-      console.log(error);
+      console.log(error?.details);
       setErrors(error?.details || []);
     }
   };
@@ -82,15 +67,20 @@ const Step01 = ({ data, setData, handleNext, communityDetail }: any) => {
   useEffect(() => {
     const handleValidate = async () => {
       try {
-        const validation = await validate(feildEditing);
-        if (!validation) return;
+        validate(feildEditing);
       } catch (error: any) {
         console.log('error==>', error);
       }
     };
 
-    handleValidate();
+    if (feildEditing) {
+      handleValidate();
+    }
   }, [data, communities]);
+
+  useEffect(() => {
+    setData(setPresaleForm({ ['community']: JSON.stringify(communities) }));
+  }, [communities]);
 
   const onChangeProjectLogo = async (imageList: any) => {
     try {
@@ -98,6 +88,7 @@ const Step01 = ({ data, setData, handleNext, communityDetail }: any) => {
       const imageLogo = await uploadLaunchpadImage(logoBase64);
       setProjectLogo(imageList);
       setData(setPresaleForm({ ['projectLogo']: imageLogo.url }));
+      setFeildEditing('projectLogo');
     } catch (error) {
       console.log(error);
     }
@@ -109,6 +100,7 @@ const Step01 = ({ data, setData, handleNext, communityDetail }: any) => {
       const imageLogo = await uploadLaunchpadImage(logoBase64);
       setSaleBanner(imageList);
       setData(setPresaleForm({ ['saleBanner']: imageLogo.url }));
+      setFeildEditing('saleBanner');
     } catch (error) {
       console.log(error);
     }

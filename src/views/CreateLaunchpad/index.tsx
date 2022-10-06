@@ -12,10 +12,12 @@ import Step05 from './components/Step05';
 import Step06 from './components/Step06';
 import NotSupportSection from 'components/NotSupportSection';
 import { ChainId } from '@bionswap/core-sdk';
-import { useChain, useToken } from 'hooks';
+import { useChain, useCurrencyBalance, useToken } from 'hooks';
 import ConnectWalletSection from './components/ConnectWalletSection';
 import Joi, { CustomHelpers, CustomValidator } from 'joi';
 import { Visibility } from '@mui/icons-material';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // const Joi = require('joi');
 
 const CreateLaunchpad = () => {
@@ -27,6 +29,7 @@ const CreateLaunchpad = () => {
   const activeStep = useAppSelector((state) => state.presale.step);
   const dispatch = useAppDispatch();
   const currentTime = +new Date();
+  const balance = useCurrencyBalance(account ?? undefined, tokenContract || undefined)?.toFixed(2);
 
   const [errors, setErrors] = useState([]);
 
@@ -146,11 +149,25 @@ const CreateLaunchpad = () => {
 
   const handleNext = async (step: number) => {
     try {
-      const validate = await handleValidate(step);
-      if (!validate) return;
+      // const  = await handleValidate(step);
+      // if (!validavalidatete) return;
+
+      if (step === 4) {
+        const tokenFee = data?.saleFee == 1 ? 2 : 0;
+        const tokenForSale = Number(data?.maxGoal) / Number(data?.tokenPrice) || 0;
+        const tokenForLiquidity =
+          (Number(data?.liquidityPercentage) * Number(data?.maxGoal)) / Number(data?.pricePerToken) || 0;
+        const tokenForFee = (Number(data?.maxGoal) * Number(tokenFee)) / 100 / Number(data?.pricePerToken);
+        const tokenInTotal = tokenForSale + tokenForLiquidity + tokenForFee;
+
+        if (Number(balance) < tokenInTotal) {
+          toast(`Your ${tokenContract?.symbol} balance is not enough to launch!`);
+          return false;
+        }
+      }
 
       dispatch(setStepLaunchpad(activeStep + 1));
-      setErrors([]);
+      // setErrors([]);
       window.scrollTo({
         top: 0,
         left: 0,
@@ -254,13 +271,24 @@ const CreateLaunchpad = () => {
 
   return (
     <Section>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       {ChainId.BSC_TESTNET !== chainId ? (
         <NotSupportSection />
       ) : !account ? (
         <ConnectWalletSection />
       ) : (
         <>
-          <Stack>
+          <WrapHead>
             <Stack flexDirection="row" gap="4px">
               <Typography variant="body3Poppins" fontWeight="400" color="primary.main">
                 Create a launch /
@@ -269,22 +297,23 @@ const CreateLaunchpad = () => {
                 {data.projectTitle}
               </Typography>
             </Stack>
-            <Stack flexDirection="row">
-              <Preview>
-              <Visibility />
-              <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-              Preview
-                </Typography>
-              </Preview>
-              <Next onClick={() => handleNext(1)}>
+            <Stack flexDirection="row" gap="12px">
+              {activeStep > 0 && (
+                <Preview onClick={() => handleBack(activeStep + 1)}>
+                  <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
+                    Back
+                  </Typography>
+                </Preview>
+              )}
+              <Next onClick={() => handleNext(activeStep + 1)}>
                 <Typography variant="body3Poppins" color="#000000" fontWeight="600">
                   Next
                 </Typography>
               </Next>
             </Stack>
-          </Stack>
+          </WrapHead>
           <Container maxWidth="lg">
-            <Box sx={{ width: '100%' }}>
+            <Box sx={{ width: '100%' }} mt="40px">
               <WrapStep sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Stepper activeStep={activeStep}>
                   {steps.map((item, index) => {
@@ -371,7 +400,6 @@ const FlexBox = styled(Box)`
 const Section = styled(Box)`
   background-color: ${(props) => props.theme.palette.background.default};
   min-height: 100vh;
-  padding-top: 100px;
 `;
 const WapIcon = styled(Box)`
   width: 34px;
@@ -396,6 +424,17 @@ const WrapStep = styled(Box)`
   .MuiStepConnector-root {
     visibility: hidden;
   }
+`;
+const WrapHead = styled(Box)`
+  justify-content: space-between;
+  border-bottom: 1px solid #424242;
+  padding: 32px;
+  width: 100%;
+  display: flex;
+  position: sticky;
+  top: 0;
+  background-color: ${(props) => props.theme.palette.background.default};
+  z-index: 10;
 `;
 const StepCustom = styled(Step)`
   position: relative;
@@ -433,13 +472,14 @@ const Next = styled(Button)`
   border-radius: 4px;
 `;
 const Preview = styled(Button)`
-width: 140px;
-height: 35px;
-align-item: center;
-justify-content: center;
-display: flex;
-background-color: rgba(7, 224, 224, 0.15);;
-border-radius: 4px;
-`
+  width: 140px;
+  height: 35px;
+  align-item: center;
+  justify-content: center;
+  display: flex;
+  background-color: rgba(7, 224, 224, 0.15);
+  border-radius: 4px;
+  gap: 10px;
+`;
 
 export default CreateLaunchpad;

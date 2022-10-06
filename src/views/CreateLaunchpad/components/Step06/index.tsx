@@ -8,6 +8,7 @@ import { ethers } from 'ethers';
 import { usePresaleFactoryContract } from 'hooks/useContract';
 import { useRouter } from 'next/router';
 import { clearPresaleForm, setPresaleForm } from 'state/presale/action';
+import { LoadingButton } from '@mui/lab';
 
 const Description = ({ html }: any) => {
   return <Box dangerouslySetInnerHTML={{ __html: html }} />;
@@ -250,7 +251,7 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
         return;
       }
 
-      await presaleFactoryContract
+      const resultRes = await presaleFactoryContract
         .create(payloadContract, (result as any).salt, { value: ethers.utils.parseEther('0.1') })
         .catch((error: any) => {
           console.log(error);
@@ -262,13 +263,13 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
       //   return;
       // }
 
-      // const receipt = await resultRes?.wait();
+      const receipt = await resultRes?.wait();
 
       setLoadingSubmit(false);
 
-      router.push('/dashboard/my-project');
+      // router.push('/dashboard/my-project');
 
-      setData(clearPresaleForm());
+      // setData(clearPresaleForm());
       
     },
     [account, chainId, presaleFactoryContract, quoteToken],
@@ -454,7 +455,7 @@ const WrapValue = styled(Box)`
   flex-direction: column;
   gap: 24px;
 `;
-const Next = styled(Button)`
+const Next = styled(LoadingButton)`
   max-width: 200px;
   width: 100%;
   height: 45px;
