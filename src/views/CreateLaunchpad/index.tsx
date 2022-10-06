@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, styled, Stepper, Step } from '@mui/material';
+import { Box, Typography, styled, Stepper, Step, Stack, Button } from '@mui/material';
 import { steps } from './config';
 import { Container } from '@mui/system';
 import { useAppDispatch, useAppSelector } from 'state';
@@ -12,9 +12,12 @@ import Step05 from './components/Step05';
 import Step06 from './components/Step06';
 import NotSupportSection from 'components/NotSupportSection';
 import { ChainId } from '@bionswap/core-sdk';
-import { useChain, useToken } from 'hooks';
+import { useChain, useCurrencyBalance, useToken } from 'hooks';
 import ConnectWalletSection from './components/ConnectWalletSection';
 import Joi, { CustomHelpers, CustomValidator } from 'joi';
+import { Visibility } from '@mui/icons-material';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // const Joi = require('joi');
 
 const CreateLaunchpad = () => {
@@ -22,11 +25,11 @@ const CreateLaunchpad = () => {
 
   const data = useAppSelector((state) => state.presale.dataConfig);
   const tokenContract = useToken(data.tokenContract);
-  console.log('🚀 ~ file: index.tsx ~ line 23 ~ CreateLaunchpad ~ tokenContract', tokenContract);
   const communityDetail = JSON.parse(data?.community || '{}');
   const activeStep = useAppSelector((state) => state.presale.step);
   const dispatch = useAppDispatch();
   const currentTime = +new Date();
+  const balance = useCurrencyBalance(account ?? undefined, tokenContract || undefined)?.toFixed(2);
 
   const [errors, setErrors] = useState([]);
 
@@ -145,10 +148,57 @@ const CreateLaunchpad = () => {
   });
 
   const handleNext = async (step: number) => {
-    console.log('data valideate==>', data);
     try {
+      // const  = await handleValidate(step);
+      // if (!validavalidatete) return;
+
+      if (step === 4) {
+        const tokenFee = data?.saleFee == 1 ? 2 : 0;
+        const tokenForSale = Number(data?.maxGoal) / Number(data?.tokenPrice) || 0;
+        const tokenForLiquidity =
+          (Number(data?.liquidityPercentage) * Number(data?.maxGoal)) / Number(data?.pricePerToken) || 0;
+        const tokenForFee = (Number(data?.maxGoal) * Number(tokenFee)) / 100 / Number(data?.pricePerToken);
+        const tokenInTotal = tokenForSale + tokenForLiquidity + tokenForFee;
+
+        if (Number(balance) < tokenInTotal) {
+          toast(`Your ${tokenContract?.symbol} balance is not enough to launch!`);
+          return false;
+        }
+      }
+
+      dispatch(setStepLaunchpad(activeStep + 1));
+      // setErrors([]);
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
+    } catch (err: any) {}
+  };
+
+  const handleBack = (step: number) => {
+    dispatch(setStepLaunchpad(activeStep - 1));
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  const abc = async (step: number) => {
+    // console.log('data ABC =====>', data);
+    const validate = await handleValidate(step);
+    if (!validate) return;
+    setErrors([]);
+  };
+
+  const handleValidate = async (step: number) => {
+    try {
+      const abcde = data;
+      console.log('🚀 ~ file: index.tsx ~ line 181 ~ handleValidate ~ abcde', abcde);
+      let value;
       if (step === 1) {
-        const value = await schemaStep01.validateAsync(
+        value = await schemaStep01.validateAsync(
           {
             projectTitle: data.projectTitle,
             projectLogo: data.projectLogo,
@@ -163,7 +213,7 @@ const CreateLaunchpad = () => {
         dispatch(setPresaleForm({ ['community']: JSON.stringify(communities) }));
       }
       if (step === 2) {
-        const value = await schemaStep02.validateAsync(
+        value = await schemaStep02.validateAsync(
           {
             tokenContract: data.tokenContract,
             currency: data.currency,
@@ -172,7 +222,7 @@ const CreateLaunchpad = () => {
         );
       }
       if (step === 3) {
-        const value = await schemaStep03.validateAsync(
+        value = await schemaStep03.validateAsync(
           {
             tokenPrice: data.tokenPrice,
             minGoal: data.minGoal,
@@ -192,7 +242,7 @@ const CreateLaunchpad = () => {
         );
       }
       if (step === 4) {
-        const value = await schemaStep04.validateAsync(
+        value = await schemaStep04.validateAsync(
           {
             listing: data.listing,
             dex: data.dex,
@@ -203,29 +253,10 @@ const CreateLaunchpad = () => {
           { abortEarly: false },
         );
       }
-      dispatch(setStepLaunchpad(activeStep + 1));
-      setErrors([]);
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth',
-      });
-    } catch (err: any) {
-      setErrors(err?.details || []);
+      return value;
+    } catch (error: any) {
+      setErrors(error?.details || []);
     }
-  };
-
-  const handleBack = (step: number) => {
-    dispatch(setStepLaunchpad(activeStep - 1));
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth',
-    });
-  };
-
-  const handleSubmit = () => {
-    console.log('on submit');
   };
 
   const onShowError = (key: string) => {
@@ -240,95 +271,124 @@ const CreateLaunchpad = () => {
 
   return (
     <Section>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       {ChainId.BSC_TESTNET !== chainId ? (
         <NotSupportSection />
       ) : !account ? (
         <ConnectWalletSection />
       ) : (
-        <Container maxWidth="lg">
-          <Box sx={{ width: '100%' }}>
-            <WrapStep sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <Stepper activeStep={activeStep}>
-                {steps.map((item, index) => {
-                  return (
-                    <StepCustom key={item.title} className={activeStep === index ? 'activeStep' : ''}>
-                      <FlexBox flexDirection="column" gap="13px" alignItems="center">
-                        <Typography
-                          variant="body4Poppins"
-                          textTransform="uppercase"
-                          fontWeight={activeStep === index ? '500' : '400'}
-                          color={activeStep === index ? 'primary.main' : 'gray.600'}
-                          fontStyle="initial"
-                        >
-                          {item.step}. {item.title}
-                        </Typography>
-                        <WapIcon className={activeStep === index ? 'done' : ''}>
-                          <img src={item.icon} alt={item.icon} />
-                        </WapIcon>
-                      </FlexBox>
-                    </StepCustom>
-                  );
-                })}
-              </Stepper>
-            </WrapStep>
-            {activeStep === 0 && (
-              <Step01
-                data={data}
-                setData={dispatch}
-                handleNext={handleNext}
-                onShowError={onShowError}
-                communities={communities}
-                setCommunities={setCommunities}
-              />
-            )}
-            {activeStep === 1 && (
-              <Step02
-                data={data}
-                setData={dispatch}
-                handleNext={handleNext}
-                handleBack={handleBack}
-                onShowError={onShowError}
-              />
-            )}
-            {activeStep === 2 && (
-              <Step03
-                data={data}
-                setData={dispatch}
-                handleNext={handleNext}
-                handleBack={handleBack}
-                onShowError={onShowError}
-              />
-            )}
-            {activeStep === 3 && (
-              <Step04
-                data={data}
-                setData={dispatch}
-                handleNext={handleNext}
-                handleBack={handleBack}
-                onShowError={onShowError}
-              />
-            )}
-            {activeStep === 4 && (
-              <Step05
-                data={data}
-                setData={dispatch}
-                handleNext={handleNext}
-                handleBack={handleBack}
-                onShowError={onShowError}
-              />
-            )}
-            {activeStep === 5 && (
-              <Step06
-                data={data}
-                setData={dispatch}
-                handleNext={handleNext}
-                handleBack={handleBack}
-                onShowError={onShowError}
-                handleSubmit={handleSubmit}
-              />
-            )}
-          </Box>
-        </Container>
+        <>
+          <WrapHead>
+            <Stack flexDirection="row" gap="4px">
+              <Typography variant="body3Poppins" fontWeight="400" color="primary.main">
+                Create a launch /
+              </Typography>
+              <Typography variant="body3Poppins" fontWeight="400" color="gray.400">
+                {data.projectTitle}
+              </Typography>
+            </Stack>
+            <Stack flexDirection="row" gap="12px">
+              {activeStep > 0 && (
+                <Preview onClick={() => handleBack(activeStep + 1)}>
+                  <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
+                    Back
+                  </Typography>
+                </Preview>
+              )}
+              <Next onClick={() => handleNext(activeStep + 1)}>
+                <Typography variant="body3Poppins" color="#000000" fontWeight="600">
+                  Next
+                </Typography>
+              </Next>
+            </Stack>
+          </WrapHead>
+          <Container maxWidth="lg">
+            <Box sx={{ width: '100%' }} mt="40px">
+              <WrapStep sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Stepper activeStep={activeStep}>
+                  {steps.map((item, index) => {
+                    return (
+                      <StepCustom key={item.title} className={activeStep === index ? 'activeStep' : ''}>
+                        <FlexBox flexDirection="column" gap="13px" alignItems="center">
+                          <Typography
+                            variant="body4Poppins"
+                            textTransform="uppercase"
+                            fontWeight={activeStep === index ? '500' : '400'}
+                            color={activeStep === index ? 'primary.main' : 'gray.600'}
+                            fontStyle="initial"
+                          >
+                            {item.step}. {item.title}
+                          </Typography>
+                          <WapIcon className={activeStep === index ? 'done' : ''}>
+                            <img src={item.icon} alt={item.icon} />
+                          </WapIcon>
+                        </FlexBox>
+                      </StepCustom>
+                    );
+                  })}
+                </Stepper>
+              </WrapStep>
+              {activeStep === 0 && (
+                <Step01 data={data} setData={dispatch} handleNext={handleNext} communityDetail={communityDetail} />
+              )}
+              {activeStep === 1 && (
+                <Step02
+                  data={data}
+                  setData={dispatch}
+                  handleNext={handleNext}
+                  handleBack={handleBack}
+                  onShowError={onShowError}
+                />
+              )}
+              {activeStep === 2 && (
+                <Step03
+                  data={data}
+                  setData={dispatch}
+                  handleNext={handleNext}
+                  handleBack={handleBack}
+                  onShowError={onShowError}
+                />
+              )}
+              {activeStep === 3 && (
+                <Step04
+                  data={data}
+                  setData={dispatch}
+                  handleNext={handleNext}
+                  handleBack={handleBack}
+                  onShowError={onShowError}
+                />
+              )}
+              {activeStep === 4 && (
+                <Step05
+                  data={data}
+                  setData={dispatch}
+                  handleNext={handleNext}
+                  handleBack={handleBack}
+                  onShowError={onShowError}
+                />
+              )}
+              {activeStep === 5 && (
+                <Step06
+                  data={data}
+                  setData={dispatch}
+                  handleNext={handleNext}
+                  handleBack={handleBack}
+                  onShowError={onShowError}
+                />
+              )}
+            </Box>
+          </Container>
+        </>
       )}
     </Section>
   );
@@ -340,7 +400,6 @@ const FlexBox = styled(Box)`
 const Section = styled(Box)`
   background-color: ${(props) => props.theme.palette.background.default};
   min-height: 100vh;
-  padding-top: 100px;
 `;
 const WapIcon = styled(Box)`
   width: 34px;
@@ -365,6 +424,17 @@ const WrapStep = styled(Box)`
   .MuiStepConnector-root {
     visibility: hidden;
   }
+`;
+const WrapHead = styled(Box)`
+  justify-content: space-between;
+  border-bottom: 1px solid #424242;
+  padding: 32px;
+  width: 100%;
+  display: flex;
+  position: sticky;
+  top: 0;
+  background-color: ${(props) => props.theme.palette.background.default};
+  z-index: 10;
 `;
 const StepCustom = styled(Step)`
   position: relative;
@@ -391,6 +461,25 @@ const StepCustom = styled(Step)`
       opacity: 1;
     }
   }
+`;
+const Next = styled(Button)`
+  width: 140px;
+  height: 35px;
+  align-item: center;
+  justify-content: center;
+  display: flex;
+  background-color: ${(props) => props.theme.palette.primary.main};
+  border-radius: 4px;
+`;
+const Preview = styled(Button)`
+  width: 140px;
+  height: 35px;
+  align-item: center;
+  justify-content: center;
+  display: flex;
+  background-color: rgba(7, 224, 224, 0.15);
+  border-radius: 4px;
+  gap: 10px;
 `;
 
 export default CreateLaunchpad;

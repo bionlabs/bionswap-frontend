@@ -18,6 +18,7 @@ import { useChain } from 'hooks';
 import { useToken } from 'hooks/useToken';
 import { useCallback, useEffect, useState } from 'react';
 import { setPresaleForm } from 'state/presale/action';
+import Joi, { CustomHelpers, CustomValidator } from 'joi';
 
 const currencyOpts = [
   {
@@ -38,7 +39,7 @@ const currencyOpts = [
   },
 ];
 
-const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => {
+const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
   const { chainId } = useChain();
 
   const feeOpts = [
@@ -54,15 +55,72 @@ const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
 
   const tokenContract = useToken(data.tokenContract);
   const [openModal, setOpenModal] = useState(false);
+  const [errors, setErrors] = useState([]);
+  const [feildEditing, setFeildEditing] = useState('');
 
   useEffect(() => {
-    switch (data.currency) {
+    const handleValidate = async () => {
+      try {
+        validate(feildEditing);
+      } catch (error: any) {
+        console.log('error==>', error);
+      }
+    };
+
+    if (feildEditing) {
+      handleValidate();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data.currency]);
+  }, [data]);
+
+  const onShowError = (key: string) => {
+    let message = '';
+    errors?.map((item: any, index) => {
+      if (item?.context?.key == key) {
+        message = item?.message;
+      }
+    });
+    return message;
+  };
+
+  const method: CustomValidator = (value: any, helpers: CustomHelpers) => {
+    const res: any = helpers?.state?.path;
+
+    res?.map((item: any, index: any) => {
+      if (item == 'tokenContract') {
+        if (value.toLowerCase() !== tokenContract?.address.toLowerCase()) {
+          throw new Error('Invalid token address');
+        }
+      }
+    });
+  };
+
+  const validate = async (parram: string) => {
+    try {
+      const schemaStep02 = Joi.object({
+        tokenContract: Joi.string().required().custom(method).label('Token contract'),
+        currency: Joi.string().required().label('Currency'),
+        saleFee: Joi.required().label('Sale fee option'),
+      });
+
+      const value = await schemaStep02.validateAsync(
+        {
+          tokenContract: data.tokenContract,
+          currency: data.currency,
+          saleFee: data.saleFee,
+        },
+        { abortEarly: false },
+      );
+      setErrors([]);
+      return value;
+    } catch (error: any) {
+      console.log(error?.details);
+      setErrors(error?.details || []);
+    }
+  };
 
   const handleChangeInput = (prop: any) => (event: any) => {
     setData(setPresaleForm({ [prop]: event.target.value }));
+    setFeildEditing(prop);
   };
 
   const handleSelectCurrency = useCallback(
@@ -260,6 +318,9 @@ const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                   ))}
                 </RadioGroup>
               </FormControl>
+              <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                {onShowError('saleFee')}
+              </Typography>
             </WrapValue>
           </WrapLine>
         </FlexBox>
@@ -280,6 +341,7 @@ const Step02 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
         open={openModal}
         onDismiss={handleCloseModal}
         onTokenCreated={(tokenAddress: string) => setData(setPresaleForm({ ['tokenContract']: tokenAddress }))}
+        chainId={chainId}
       />
     </>
   );

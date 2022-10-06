@@ -7,7 +7,7 @@ const Trade = dynamic(() => import("../../views/Trade"), {
 
 type Props = {};
 
-const TradePage = (props: Props) => {
+const SwapPage = (props: Props) => {
   return (
     <>
       <Trade />
@@ -15,4 +15,4 @@ const TradePage = (props: Props) => {
   );
 };
 
-export default TradePage;
+export default SwapPage;

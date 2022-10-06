@@ -1,38 +1,41 @@
-import { Currency, JSBI, Percent, Token, Trade as V2Trade, TradeType } from "@bionswap/core-sdk";
-import { Autocomplete, Box, Button, Container, Paper, Stack, styled, TextField, Typography } from "@mui/material";
-import { CurrencyInputPanel, TransactionSettings } from "components";
+import { ChainId, Currency, JSBI, Percent, Token, Trade as V2Trade, TradeType } from '@bionswap/core-sdk';
+import { Autocomplete, Box, Button, Container, Paper, Stack, styled, TextField, Typography } from '@mui/material';
+import { CurrencyInputPanel, TransactionSettings } from 'components';
+import NoDataView from 'components/NoDataView';
 import {
   useAccount,
   useAllTokens,
+  useChain,
   useCurrency,
   useEnsAddress,
   useIsSwapUnsupported,
   useSwapCallback,
   useUSDCValue,
   useWrapCallback,
-} from "hooks";
-import { ApprovalState, useApproveCallbackFromTrade } from "hooks/useApproveCallback";
-import { WrapType } from "hooks/useWrapCallback";
-import Image from "next/image";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Field } from "state/swap/actions";
-import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from "state/swap/hooks";
-import { useExpertModeManager } from "state/user/hooks";
-import { maxAmountSpend } from "utils/currencies";
-import { confirmPriceImpactWithoutFee, warningSeverity } from "utils/prices";
-import { computeFiatValuePriceImpact } from "utils/trade";
-import ConfirmSwapModal from "./components/ConfirmSwapModal";
-import PairStats from "./components/PairStats";
-import SwapDetail from "./components/SwapDetail";
-import TradePrice from "./components/TradePrice";
-import TradingViewChart from "./components/TradingViewChart";
+} from 'hooks';
+import { ApprovalState, useApproveCallbackFromTrade } from 'hooks/useApproveCallback';
+import { WrapType } from 'hooks/useWrapCallback';
+import Image from 'next/image';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Field } from 'state/swap/actions';
+import { useDefaultsFromURLSearch, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from 'state/swap/hooks';
+import { useExpertModeManager } from 'state/user/hooks';
+import { maxAmountSpend } from 'utils/currencies';
+import { confirmPriceImpactWithoutFee, warningSeverity } from 'utils/prices';
+import { computeFiatValuePriceImpact } from 'utils/trade';
+import ConfirmSwapModal from './components/ConfirmSwapModal';
+import PairStats from './components/PairStats';
+import SwapDetail from './components/SwapDetail';
+import TradePrice from './components/TradePrice';
+import TradingViewChart from './components/TradingViewChart';
 
 type SwapProps = {};
 
-const Swap = ({ }: SwapProps) => {
+const Swap = ({}: SwapProps) => {
   const loadedUrlParams = useDefaultsFromURLSearch();
   const { address: account } = useAccount();
   const defaultTokens = useAllTokens();
+  const { chainId } = useChain();
 
   const [isExpertMode] = useExpertModeManager();
   const { independentField, typedValue, recipient } = useSwapState();
@@ -54,7 +57,7 @@ const Swap = ({ }: SwapProps) => {
   const [dismissTokenWarning, setDismissTokenWarning] = useState<boolean>(false);
   const urlLoadedTokens: Token[] = useMemo(
     () => [loadedInputCurrency, loadedOutputCurrency]?.filter((c): c is Token => c?.isToken ?? false) ?? [],
-    [loadedInputCurrency, loadedOutputCurrency]
+    [loadedInputCurrency, loadedOutputCurrency],
   );
   const handleConfirmTokenWarning = useCallback(() => {
     setDismissTokenWarning(true);
@@ -81,14 +84,14 @@ const Swap = ({ }: SwapProps) => {
     () =>
       showWrap
         ? {
-          [Field.INPUT]: parsedAmount,
-          [Field.OUTPUT]: parsedAmount,
-        }
+            [Field.INPUT]: parsedAmount,
+            [Field.OUTPUT]: parsedAmount,
+          }
         : {
-          [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
-          [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-        },
-    [independentField, parsedAmount, showWrap, trade]
+            [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
+            [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
+          },
+    [independentField, parsedAmount, showWrap, trade],
   );
 
   const fiatValueInput = useUSDCValue(parsedAmounts[Field.INPUT]);
@@ -105,26 +108,26 @@ const Swap = ({ }: SwapProps) => {
     (value: string) => {
       onUserInput(Field.INPUT, value);
     },
-    [onUserInput]
+    [onUserInput],
   );
 
   const handleSelectAmountPercentInput = useCallback(
     (percent: number) => {
       if (percent === 100) {
-        onUserInput(Field.INPUT, maxAmountSpend(inputCurrencyBalance)?.toSignificant(6) || "0");
+        onUserInput(Field.INPUT, maxAmountSpend(inputCurrencyBalance)?.toSignificant(6) || '0');
       } else {
         const value = inputCurrencyBalance?.multiply(new Percent(percent, 100));
-        onUserInput(Field.INPUT, value?.toSignificant(6) || "0");
+        onUserInput(Field.INPUT, value?.toSignificant(6) || '0');
       }
     },
-    [inputCurrencyBalance, onUserInput]
+    [inputCurrencyBalance, onUserInput],
   );
 
   const handleTypeOutput = useCallback(
     (value: string) => {
       onUserInput(Field.OUTPUT, value);
     },
-    [onUserInput]
+    [onUserInput],
   );
 
   // modal and loading
@@ -146,13 +149,13 @@ const Swap = ({ }: SwapProps) => {
     [independentField]: typedValue,
     [dependentField]: showWrap
       ? /* @ts-ignore TYPE NEEDS FIXING */
-      parsedAmounts[independentField]?.toExact() ?? ""
-      : parsedAmounts[dependentField]?.toSignificant(6) ?? "",
+        parsedAmounts[independentField]?.toExact() ?? ''
+      : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
   };
 
   const userHasSpecifiedInputOutput = Boolean(
     /* @ts-ignore TYPE NEEDS FIXING */
-    currencies[Field.INPUT] && currencies[Field.OUTPUT] && parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0))
+    currencies[Field.INPUT] && currencies[Field.OUTPUT] && parsedAmounts[independentField]?.greaterThan(JSBI.BigInt(0)),
   );
 
   const routeNotFound = !trade?.route;
@@ -268,7 +271,7 @@ const Swap = ({ }: SwapProps) => {
         ? executionPriceImpact.greaterThan(priceImpact)
           ? executionPriceImpact
           : priceImpact
-        : executionPriceImpact ?? priceImpact
+        : executionPriceImpact ?? priceImpact,
     );
   }, [priceImpact, trade]);
 
@@ -294,7 +297,7 @@ const Swap = ({ }: SwapProps) => {
     });
     // if there was a tx hash, we want to clear the input
     if (txHash) {
-      onUserInput(Field.INPUT, "");
+      onUserInput(Field.INPUT, '');
     }
   }, [attemptingTxn, onUserInput, swapErrorMessage, tradeToConfirm, txHash]);
 
@@ -313,14 +316,14 @@ const Swap = ({ }: SwapProps) => {
       setApprovalSubmitted(false); // reset 2 step UI for approvals
       onCurrencySelection(Field.INPUT, inputCurrency);
     },
-    [onCurrencySelection]
+    [onCurrencySelection],
   );
 
   const handleOutputSelect = useCallback(
     (outputCurrency: Currency) => {
       onCurrencySelection(Field.OUTPUT, outputCurrency);
     },
-    [onCurrencySelection]
+    [onCurrencySelection],
   );
 
   const swapIsUnsupported = useIsSwapUnsupported(currencies?.INPUT, currencies?.OUTPUT);
@@ -331,16 +334,16 @@ const Swap = ({ }: SwapProps) => {
       case 1:
       case 2:
       default:
-        return "text-low-emphesis";
+        return 'text-low-emphesis';
       case 3:
-        return "text-yellow";
+        return 'text-yellow';
       case 4:
-        return "text-red";
+        return 'text-red';
     }
   }, [priceImpactSeverity]);
 
   const SwapButton = useMemo(() => {
-    let text = "";
+    let text = '';
     let onClick;
     let disabled = false;
 
@@ -420,17 +423,17 @@ const Swap = ({ }: SwapProps) => {
         onClick={onClick}
         fullWidth
         sx={{
-          backgroundColor: "extra.swapButton.background",
-          color: "extra.swapButton.color",
-          marginTop: "15px",
-          fontWeight: "500",
-          fontSize: "14px",
-          lineHeight: "175%",
-          padding: "10px",
-          borderRadius: "4px",
+          backgroundColor: 'extra.swapButton.background',
+          color: 'extra.swapButton.color',
+          marginTop: '15px',
+          fontWeight: '500',
+          fontSize: '14px',
+          lineHeight: '175%',
+          padding: '10px',
+          borderRadius: '4px',
         }}
       >
-        <Typography fontWeight={600} fontSize={14} sx={{ color: "extra.button.text" }}>
+        <Typography fontWeight={600} fontSize={14} sx={{ color: 'extra.button.text' }}>
           {text}
         </Typography>
       </Button>
@@ -461,32 +464,49 @@ const Swap = ({ }: SwapProps) => {
       <Container maxWidth="xl">
         <Box
           sx={{
-            display: "flex",
-            gap: { xs: "30px", md: "16px" },
-            flexDirection: { xs: "column", md: "row" },
-            justifyContent: "space-between",
+            display: 'flex',
+            gap: { xs: '30px', md: '16px' },
+            flexDirection: { xs: 'column', md: 'row' },
+            justifyContent: 'space-between',
           }}
         >
           <Stack justifyContent="flex-start" alignItems="flex-start" flexGrow={1}>
-            {/* <PairStats /> */}
-            {!showWrap && <TradingViewChart pairSymbol={`${currencies.INPUT?.symbol}:${currencies.OUTPUT?.symbol}`} />}
+            {ChainId.BSC_TESTNET === chainId ? (
+              <>
+                {/* <PairStats /> */}
+                {!showWrap && (
+                  <TradingViewChart pairSymbol={`${currencies.INPUT?.symbol}:${currencies.OUTPUT?.symbol}`} />
+                )}
+              </>
+            ) : (
+              <Box sx={{
+                width: '100%',
+                height: '100%',
+                paddingTop: '95px',
+              }}>
+                <NoDataView />
+              </Box>
+            )}
           </Stack>
           <Box
             sx={{
               maxWidth: '460px',
-              width: { xs: "100%", md: "30%" },
+              width: { xs: '100%', md: '30%' },
             }}
           >
             <FlexBox justifyContent="space-between" mt="25px">
-              <Typography variant="h6Samsung" sx={{
-                fontWeight: '700',
-                color: 'primary.main',
-              }}>
+              <Typography
+                variant="h6Samsung"
+                sx={{
+                  fontWeight: '700',
+                  color: 'primary.main',
+                }}
+              >
                 Swap Token
               </Typography>
               <TransactionSettings />
             </FlexBox>
-            <Box mt="30px">
+            <Box mt="30px" height='calc(100% - 95px)'>
               <WrapSwapBox>
                 {/* <Autocomplete
                   disablePortal
@@ -545,18 +565,21 @@ const Swap = ({ }: SwapProps) => {
                     otherCurrency={currencies[Field.OUTPUT]}
                     isMax={true}
                   />
-                  <Stack direction="row" sx={{
+                  <Stack
+                    direction="row"
+                    sx={{
                       marginTop: '-15px',
                       marginBottom: '-15px',
-                  }}>
+                    }}
+                  >
                     <Button
                       sx={{
-                        borderRadius: "50%",
+                        borderRadius: '50%',
                         width: 35,
                         height: 35,
                         padding: 0,
                         minWidth: 0,
-                        border: '4px solid #0C1620'
+                        border: '4px solid #0C1620',
                       }}
                       onClick={onSwitchTokens}
                     >
@@ -577,9 +600,9 @@ const Swap = ({ }: SwapProps) => {
                 </Box>
                 <Box
                   sx={{
-                    border: "1px solid",
+                    border: '1px solid',
                     borderColor: 'grey.800',
-                    borderRadius: "8px",
+                    borderRadius: '8px',
                     mt: '15px',
                   }}
                 >
@@ -613,22 +636,23 @@ const Section = styled(Box)`
   background-color: ${(props) => props.theme.palette.background.default};
 `;
 const FlexBox = styled(Box)`
-  display: flex
-`
+  display: flex;
+`;
 const top100Films = [
-  { label: "USDT", token: '0xdac17f958d2ee523a2206206994597c13d831ec7' },
-  { label: "BUSD", token: '0x4Fabb145d64652a948d72533023f6E7A623C7C53' },
-  { label: "Shiba Inu", token: '0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce' },
-  { label: "Polkadot", token: '0x7083609fce4d1d8dc0c979aab8c869ea2c873402' },
-  { label: "Dogecoin", token: '0xba2ae424d960c26247dd6c32edc70b295c744c43' },
+  { label: 'USDT', token: '0xdac17f958d2ee523a2206206994597c13d831ec7' },
+  { label: 'BUSD', token: '0x4Fabb145d64652a948d72533023f6E7A623C7C53' },
+  { label: 'Shiba Inu', token: '0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce' },
+  { label: 'Polkadot', token: '0x7083609fce4d1d8dc0c979aab8c869ea2c873402' },
+  { label: 'Dogecoin', token: '0xba2ae424d960c26247dd6c32edc70b295c744c43' },
 ];
 const WrapSwapBox = styled(Box)`
   background-color: ${(props) => props.theme.palette.gray[900]};
   border-radius: 8px;
   padding: 15px;
+  height: 100%;
 `;
 const PaperItem = styled(Box)`
   background-color: ${(props) => props.theme.palette.gray[900]};
-`
+`;
 
 export default Swap;

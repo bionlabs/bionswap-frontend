@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { Box, Typography, styled, FormControl, OutlinedInput, Button, IconButton } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, styled, FormControl, OutlinedInput, Button } from '@mui/material';
 import { setPresaleForm } from 'state/presale/action';
 import ImageUploading from 'react-images-uploading';
 import { uploadLaunchpadImage } from 'api/launchpad';
+import Joi, { CustomHelpers, CustomValidator } from 'joi';
 
-const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommunities }: any) => {
+const Step01 = ({ data, setData, handleNext, communityDetail }: any) => {
   const [projectLogo, setProjectLogo] = useState(
     [
       {
@@ -19,6 +20,67 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
       },
     ] || [],
   );
+  const [feildEditing, setFeildEditing] = useState('');
+  const [errors, setErrors] = useState([]);
+  const [communities, setCommunities] = useState({
+    website: communityDetail['website'] || '',
+    telegram: communityDetail['telegram'] || '',
+    discord: communityDetail['discord'] || '',
+  });
+
+  const validate = async (parram: string) => {
+    try {
+      const schemaStep01 = Joi.object({
+        projectTitle: Joi.string().max(50).required().label('Project title'),
+        projectLogo: Joi.string().required().label('Project logo'),
+        saleBanner: Joi.string().required().label('Sale banner'),
+        website: Joi.string().required().label('Website'),
+      });
+
+      const value = await schemaStep01.validateAsync(
+        {
+          projectTitle: data.projectTitle,
+          projectLogo: data.projectLogo,
+          saleBanner: data.saleBanner,
+          website: communities['website'],
+        },
+        { abortEarly: false },
+      );
+      setErrors([]);
+      return value;
+    } catch (error: any) {
+      console.log(error?.details);
+      setErrors(error?.details || []);
+    }
+  };
+
+  const onShowError = (key: string) => {
+    let message = '';
+    errors?.map((item: any, index) => {
+      if (item?.context?.key == key) {
+        message = item?.message;
+      }
+    });
+    return message;
+  };
+
+  useEffect(() => {
+    const handleValidate = async () => {
+      try {
+        validate(feildEditing);
+      } catch (error: any) {
+        console.log('error==>', error);
+      }
+    };
+
+    if (feildEditing) {
+      handleValidate();
+    }
+  }, [data, communities]);
+
+  useEffect(() => {
+    setData(setPresaleForm({ ['community']: JSON.stringify(communities) }));
+  }, [communities]);
 
   const onChangeProjectLogo = async (imageList: any) => {
     try {
@@ -26,6 +88,7 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
       const imageLogo = await uploadLaunchpadImage(logoBase64);
       setProjectLogo(imageList);
       setData(setPresaleForm({ ['projectLogo']: imageLogo.url }));
+      setFeildEditing('projectLogo');
     } catch (error) {
       console.log(error);
     }
@@ -37,6 +100,7 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
       const imageLogo = await uploadLaunchpadImage(logoBase64);
       setSaleBanner(imageList);
       setData(setPresaleForm({ ['saleBanner']: imageLogo.url }));
+      setFeildEditing('saleBanner');
     } catch (error) {
       console.log(error);
     }
@@ -44,10 +108,12 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
 
   const handleChange = (prop: any) => (event: any) => {
     setData(setPresaleForm({ [prop]: event.target.value }));
+    setFeildEditing(prop);
   };
 
   const handleChangeCommunities = (prop: any) => (event: any) => {
     setCommunities({ ...communities, [prop]: event.target.value });
+    setFeildEditing(prop);
   };
 
   return (
@@ -101,7 +167,11 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
           <WrapValue>
             <ImageUploading value={projectLogo} onChange={onChangeProjectLogo} dataURLKey="data_url">
               {({ imageList, onImageUpload, onImageUpdate, dragProps }) => (
-                <BoxImageUpload onClick={onImageUpload} {...dragProps} className={onShowError('projectLogo') ? 'onError' : ''}>
+                <BoxImageUpload
+                  onClick={onImageUpload}
+                  {...dragProps}
+                  className={onShowError('projectLogo') ? 'onError' : ''}
+                >
                   {imageList[0]?.data_url === '' ? (
                     <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
                       <img src="/icons/AddFile.svg" alt="Add File" />
@@ -139,7 +209,11 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
           <WrapValue>
             <ImageUploading value={saleBanner} onChange={onChangeSaleBanner} dataURLKey="data_url">
               {({ imageList, onImageUpload, onImageUpdate, dragProps }) => (
-                <BoxImageUpload onClick={onImageUpload} {...dragProps} className={onShowError('saleBanner') ? 'onError' : ''}>
+                <BoxImageUpload
+                  onClick={onImageUpload}
+                  {...dragProps}
+                  className={onShowError('saleBanner') ? 'onError' : ''}
+                >
                   {imageList[0]?.data_url === '' ? (
                     <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
                       <img src="/icons/AddFile.svg" alt="Add File" />
