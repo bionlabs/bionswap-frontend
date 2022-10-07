@@ -36,7 +36,7 @@ const bsc = {
 
 const bscTestnet = {
   id: 97,
-  name: "BNB Chain Testnet",
+  name: "BNB Testnet",
   network: "bsc-testnet",
   // iconUrl:
   //   "https://assets-cdn.trustwallet.com/blockchains/smartchain/info/logo.png",

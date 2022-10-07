@@ -511,7 +511,8 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
           root: {
             "&.MuiPopover-paper": {
               backgroundImage: "none",
-              backgroundColor: "#08878E",
+              backgroundColor: "#0C1620",
+              border: '1px solid #242D35'
             },
           },
         },

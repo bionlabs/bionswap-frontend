@@ -4,6 +4,7 @@ import OverviewIcon from "assets/icons/OverviewIcon"
 import MyProject from "views/MyProject"
 import Allocation from "views/Dashboard/views/Allocation/Allocation"
 import Overview from "views/Dashboard/views/Overview/Overview"
+import MyProjectsIcon from "assets/icons/MyProjectsIcon"
 
 const sidebarConfig = [
     {
@@ -19,20 +20,15 @@ const sidebarConfig = [
         component: <Allocation/>
     },
     {
-        label: 'My Project',
-        href: '/my-project',
-        icon: AllocationIcon,
-        component: <MyProject/>
-    },
-    {
         label: 'Launchpad',
-        href: '',
+        href: '/my-project',
         icon: LaunchpadIcon,
         item: [
             {
-                label: 'Explore',
-                href: '/my-launchpad',
-                icon: ''
+                label: 'My Project',
+                href: '/my-project',
+                icon: MyProjectsIcon,
+                component: <MyProject/>
             },
             {
                 label: 'Draft',

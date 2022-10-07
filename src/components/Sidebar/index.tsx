@@ -50,13 +50,19 @@ const Sidebar = ({ children, menuItems, rootHref }: any) => {
                           <List component="div" disablePadding>
                             {
                               item.item.map((i: any) =>
-                                <LinkCustom href={i.href} key={i.label} sx={{ pl: 7 }}
+                                <Item 
+                                  key={i.label}
+                                  sx={{ pl: 6 }}
+                                  className={router.asPath == `/${rootHref}${i.href}` ? 'active' : ''}
                                   onClick={(e) => {
-                                    router.push(`${i.href}`)
+                                    router.push(`/${rootHref}${i.href}`)
                                     e.preventDefault();
                                   }}>
+                                  <StyledListItemIcon>
+                                    <SvgIcon component={i.icon} />
+                                  </StyledListItemIcon>
                                   <ListItemText primary={i.label} />
-                                </LinkCustom>
+                                </Item>
                               )
                             }
                           </List>
@@ -134,6 +140,7 @@ const LinkCustom = styled(Link)`
   gap: 15px;
   display: flex;
   text-decoration: auto;
+  align-items: center;
   color: ${props => props.theme.palette.gray[600]};
 
   :hover {
@@ -157,7 +164,7 @@ const StyledList = styled(List)`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 40px 24px;
+  padding: 40px 20px;
   .active {
     background: rgba(7, 224, 224, 0.15);
     color: ${prop => prop.theme.palette.primary.main};
