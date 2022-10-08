@@ -37,11 +37,38 @@ const ChainSelect = () => {
             }}
         >
             {Object.entries(CHAIN_INFO_MAP).map(([, chain]) => (
+                (chain.id !== 97) &&
                 <MenuItem
                     sx={{
                         p: '8.5px 24px',
                         boxShadow: 'none',
                         width: '166px',
+                        '&.MuiButtonBase-root.MuiMenuItem-root.Mui-selected' : {
+                            boxShadow: 'none',
+                        }
+                    }}
+                    key={chain.id}
+                    value={chain.id}
+                    onClick={() => {
+                    switchNetwork?.(chain?.id);
+                    }}
+                >
+                    <Box display="flex" gap="10px" alignItems="center">
+                        <Image src={getChainIcon(chain.id)?.iconUrl} layout="fixed" alt="" width={24} height={24} />
+                        <Box fontSize="0.875rem" fontWeight={500}>
+                            {chain.name}
+                        </Box>
+                    </Box>
+                </MenuItem>
+            ))}
+            {Object.entries(CHAIN_INFO_MAP).map(([, chain]) => (
+                (chain.id === 97) &&
+                <MenuItem
+                    sx={{
+                        p: '8.5px 24px',
+                        boxShadow: 'none',
+                        width: '166px',
+                        borderTop: '1px solid #242D35',
                         '&.MuiButtonBase-root.MuiMenuItem-root.Mui-selected' : {
                             boxShadow: 'none',
                         }
