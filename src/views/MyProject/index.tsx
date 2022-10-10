@@ -44,7 +44,7 @@ const MyProject = () => {
     <Page>
       <Wrapper>
         <Box mb="50px">
-          <Typography variant="h3Samsung">My projects</Typography>
+          <Typography variant="h3Samsung">My Projects</Typography>
         </Box>
         {ChainId.BSC_TESTNET === chainId ? (
           <FlexBox gap="30px" flexWrap="wrap">

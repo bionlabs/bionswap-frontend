@@ -33,7 +33,7 @@ const SidebarProfileMenu = ({toggleDrawer , address , balance}:any) => {
 
     const Wrapper = styled(Box)`
         width: 350px;
-        padding-top: ${chainId !== 97 ? MENU_HEIGHT + 58 : MENU_HEIGHT}px;
+        padding-top: ${(chainId !== 97 && (router.pathname == '/launchpad' || router.pathname == '/launch')) ? MENU_HEIGHT + 58 : MENU_HEIGHT}px;
         background-color: ${prop => (prop.theme.palette as any).extra.header.background};
         height: 100vh;
     `
