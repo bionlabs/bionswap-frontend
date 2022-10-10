@@ -23,7 +23,7 @@ const Bottombar = ({data, rootHref}:any) => {
                 className={router.asPath == `/${rootHref}${item.href}` ? 'active' : ''}
                 onClick={(e) => {
                   e.preventDefault();
-                  router.push(`/${rootHref}${item.href}`)
+                  router.push(`/${item.href}`)
                 }}
               >
                 <StyledListItemIcon>

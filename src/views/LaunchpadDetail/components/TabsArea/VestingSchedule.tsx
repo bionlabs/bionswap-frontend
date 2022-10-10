@@ -18,12 +18,10 @@ interface VestingScheduleProps {
 }
 
 const VestingSchedule: React.FC<VestingScheduleProps> = ({ data }) => {
-  console.log('🚀 ~ file: VestingSchedule.tsx ~ line 21 ~ data', data);
   const nCycles = Math.ceil(
     data?.cycleReleasePercent ? (10000 - Number(data?.tgeReleasePercent || 0)) / Number(data?.cycleReleasePercent) : 0,
   );
 
-  console.log('🚀 ~ file: VestingSchedule.tsx ~ line 22 ~ nCycles', nCycles);
   return (
     <Box display="flex" gap={3} sx={{ width: '100%' }}>
       <WrapBox>

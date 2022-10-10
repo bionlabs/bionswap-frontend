@@ -9,30 +9,30 @@ import MyProjectsIcon from "assets/icons/MyProjectsIcon"
 const sidebarConfig = [
     {
         label: 'Overview',
-        href: '/overview',
+        href: '/dashboard/overview',
         icon: OverviewIcon,
         component: <Overview/>
     },
     {
         label: 'Allocation',
-        href: '/allocation',
+        href: '/dashboard/allocation',
         icon: AllocationIcon,
         component: <Allocation/>
     },
     {
         label: 'Launchpad',
-        href: '/my-project',
+        href: '/dashboard/my-project',
         icon: LaunchpadIcon,
         item: [
             {
                 label: 'My Project',
-                href: '/my-project',
+                href: '/dashboard/my-project',
                 icon: MyProjectsIcon,
                 component: <MyProject/>
             },
             {
                 label: 'Draft',
-                href: '/draft',
+                href: '/dashboard/draft',
                 icon: ''
             },
             {

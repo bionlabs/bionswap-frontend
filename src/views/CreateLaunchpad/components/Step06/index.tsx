@@ -21,7 +21,6 @@ export const minimizeAddressSmartContract = (str: string) => {
 };
 
 const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) => {
-  console.log('🚀 ~ file: index.tsx ~ line 22 ~ Step06 ~ data', data);
   const router = useRouter();
   const { chainId, account } = useChain();
   const presaleFactoryContract = usePresaleFactoryContract();
@@ -36,7 +35,6 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
   const quoteToken = useToken(data?.quoteToken);
   const [isReady, setIsReady] = useState(false);
   const [decimals, setDecimals] = useState(18);
-  console.log('🚀 ~ file: index.tsx ~ line 34 ~ Step06 ~ data.currency.quoteToken', quoteToken);
 
   const projectReview = [
     {

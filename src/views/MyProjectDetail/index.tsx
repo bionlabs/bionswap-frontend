@@ -146,7 +146,6 @@ const MyProjectDetail = () => {
 
     try {
       const res = await getSaleDetail(saleAddress);
-      console.log('🚀 ~ file: index.tsx ~ line 131 ~ fetchSaleDetail ~ res', res);
       setData(res);
     } catch (error) {
       console.log('error==>', error);
@@ -285,7 +284,6 @@ const MyProjectDetail = () => {
   };
 
   const handleSelectWhitelist = () => {
-    console.log('🚀 ~ file: index.tsx ~ line 273 ~ handleSelectWhitelist ~ whitelist', !isWhitelistEnabled);
     handleChangeSaleMode(!isWhitelistEnabled);
   };
 

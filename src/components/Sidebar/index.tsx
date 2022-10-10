@@ -21,7 +21,6 @@ import Bottombar from './Bottombar';
 const Sidebar = ({ children, menuItems, rootHref }: any) => {
   const isMobile = useMediaQuery('(max-width:767px)');
   const router = useRouter();
-
   const [open, setOpen] = useState(true);
 
   const handleClick = () => {
@@ -53,9 +52,9 @@ const Sidebar = ({ children, menuItems, rootHref }: any) => {
                                 <Item 
                                   key={i.label}
                                   sx={{ pl: 6 }}
-                                  className={router.asPath == `/${rootHref}${i.href}` ? 'active' : ''}
+                                  className={router.asPath == `${i.href}` ? 'active' : ''}
                                   onClick={(e) => {
-                                    router.push(`/${rootHref}${i.href}`)
+                                    router.push(`${i.href}`)
                                     e.preventDefault();
                                   }}>
                                   <StyledListItemIcon>
@@ -70,10 +69,10 @@ const Sidebar = ({ children, menuItems, rootHref }: any) => {
                       </List>
                       :
                       <Item
-                        className={router.asPath == `/${rootHref}${item.href}` ? 'active' : ''}
+                        className={router.asPath == `${item.href}` ? 'active' : ''}
                         onClick={(e) => {
                           e.preventDefault();
-                          router.push(`/${rootHref}${item.href}`)
+                          router.push(`${item.href}`)
                         }}
                       >
                         <StyledListItemIcon>
@@ -83,15 +82,6 @@ const Sidebar = ({ children, menuItems, rootHref }: any) => {
                       </Item>
                   }
                 </ListItem>
-                // <Item
-                //   key=''
-                //   onClick={(e) => {
-                //     e.preventDefault();
-                //     router.push(`/dashboard${item.href}`)
-                //   }}
-                // >
-                //   {item.label}
-                // </Item>
               )
             }
           </StyledList>

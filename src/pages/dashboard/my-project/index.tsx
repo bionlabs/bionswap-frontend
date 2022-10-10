@@ -8,7 +8,7 @@ import sidebarConfig from 'views/Dashboard/sidebarConfig';
 const AssetRef = () => {
 
   return (
-    <Sidebar menuItems={sidebarConfig} rootHref='dashboard'>
+    <Sidebar menuItems={sidebarConfig}>
         <MyProject />
     </Sidebar>
   )
