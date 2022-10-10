@@ -1,65 +1,65 @@
-import { Box, Button, OutlinedInput, Stack, TextField, Typography } from "@mui/material";
-import { Switch } from "components";
-import { TokenList } from "@uniswap/token-lists";
-import ListLogo from "components/ListLogo";
-import { UNSUPPORTED_LIST_URLS } from "configs/token-lists";
-import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { useAllLists, useFetchListCallback, useActiveListUrls, useIsListActive } from "state/lists/hooks";
-import { uriToHttp } from "utils/convert";
-import { parseENSAddress } from "utils/ens";
-import { listVersionLabel } from "utils/lists";
-import { ManageCurrencyListModalView, useManageCurrencyListModalContext } from ".";
-import TaskAltIcon from "@mui/icons-material/TaskAlt";
-import { AppState, useAppDispatch, useAppSelector } from "state";
-import { acceptListUpdate, disableList, enableList, removeList } from "state/lists/actions";
+import { Box, Button, OutlinedInput, Stack, TextField, Typography } from '@mui/material';
+import { Switch } from 'components';
+import { TokenList } from '@uniswap/token-lists';
+import ListLogo from 'components/ListLogo';
+import { UNSUPPORTED_LIST_URLS } from 'configs/token-lists';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { useAllLists, useFetchListCallback, useActiveListUrls, useIsListActive } from 'state/lists/hooks';
+import { uriToHttp } from 'utils/convert';
+import { parseENSAddress } from 'utils/ens';
+import { listVersionLabel } from 'utils/lists';
+import { ManageCurrencyListModalView, useManageCurrencyListModalContext } from '.';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import { AppState, useAppDispatch, useAppSelector } from 'state';
+import { acceptListUpdate, disableList, enableList, removeList } from 'state/lists/actions';
 
 type Props = {};
 
 const ListRow = memo(({ listUrl }: { listUrl: string }) => {
-  const listsByUrl = useAppSelector<AppState["lists"]["byUrl"]>((state) => state.lists.byUrl);
+  const listsByUrl = useAppSelector<AppState['lists']['byUrl']>((state) => state.lists.byUrl);
   const dispatch = useAppDispatch();
   const { current: list, pendingUpdate: pending } = listsByUrl[listUrl];
   const isActive = useIsListActive(listUrl);
 
   const handleAcceptListUpdate = useCallback(() => {
     if (!pending) return;
-    // gtag("event", "Update List from List Select", {
-    //   event_category: "Lists",
-    //   event_label: listUrl,
-    // });
+    gtag('event', 'Update List from List Select', {
+      event_category: 'Lists',
+      event_label: listUrl,
+    });
     dispatch(acceptListUpdate(listUrl));
   }, [dispatch, listUrl, pending]);
 
   const handleRemoveList = useCallback(() => {
-    // gtag("event", "Start Remove List", {
-    //   event_category: "Lists",
-    //   event_label: listUrl,
-    // });
+    gtag('event', 'Start Remove List', {
+      event_category: 'Lists',
+      event_label: listUrl,
+    });
 
     if (window.prompt(`Please confirm you would like to remove this list by typing REMOVE`) === `REMOVE`) {
-      // gtag("event", "Confirm Remove List", {
-      //   event_category: "Lists",
-      //   event_label: listUrl,
-      // });
+      gtag('event', 'Confirm Remove List', {
+        event_category: 'Lists',
+        event_label: listUrl,
+      });
 
       dispatch(removeList(listUrl));
     }
   }, [dispatch, listUrl]);
 
   const handleEnableList = useCallback(() => {
-    // gtag("event", "Enable List", {
-    //   event_category: "Lists",
-    //   event_label: listUrl,
-    // });
+    gtag("event", "Enable List", {
+      event_category: "Lists",
+      event_label: listUrl,
+    });
 
     dispatch(enableList(listUrl));
   }, [dispatch, listUrl]);
 
   const handleDisableList = useCallback(() => {
-    // gtag("event", "Disable List", {
-    //   event_category: "Lists",
-    //   event_label: listUrl,
-    // });
+    gtag("event", "Disable List", {
+      event_category: "Lists",
+      event_label: listUrl,
+    });
 
     dispatch(disableList(listUrl));
   }, [dispatch, listUrl]);
@@ -67,12 +67,18 @@ const ListRow = memo(({ listUrl }: { listUrl: string }) => {
   if (!list) return null;
 
   return (
-    <Stack direction="row" width="100%" justifyContent="start" gap="10px" sx={{
-      background: 'rgba(160, 236, 138, 0.15)',
-      border: '1px solid #44C13C',
-      borderRadius: '8px',
-      padding: '15px',
-    }}>
+    <Stack
+      direction="row"
+      width="100%"
+      justifyContent="start"
+      gap="10px"
+      sx={{
+        background: 'rgba(160, 236, 138, 0.15)',
+        border: '1px solid #44C13C',
+        borderRadius: '8px',
+        padding: '15px',
+      }}
+    >
       {list.logoURI && <ListLogo size="40px" logoURI={list.logoURI} alt={`${list.name} list logo`} />}
       <Stack alignItems="start">
         <Typography variant="body4Poppins" fontWeight="500" color="text.primary">
@@ -92,7 +98,7 @@ const ListRow = memo(({ listUrl }: { listUrl: string }) => {
 
 const ManageLists = (props: Props) => {
   const { setView, setImportList, setListUrl } = useManageCurrencyListModalContext();
-  const [listUrlInput, setListUrlInput] = useState<string>("");
+  const [listUrlInput, setListUrlInput] = useState<string>('');
   const lists = useAllLists();
   const activeListUrls = useActiveListUrls();
   const [activeCopy, setActiveCopy] = useState<string[] | undefined>();
@@ -137,8 +143,8 @@ const ManageLists = (props: Props) => {
           return l1.name.toLowerCase() < l2.name.toLowerCase()
             ? -1
             : l1.name.toLowerCase() === l2.name.toLowerCase()
-              ? 0
-              : 1;
+            ? 0
+            : 1;
         }
         if (l1) return -1;
         if (l2) return 1;
@@ -150,18 +156,18 @@ const ManageLists = (props: Props) => {
     async function fetchTempList() {
       fetchList(listUrlInput, false)
         .then((list) => setTempList(list))
-        .catch(() => setAddError("Error importing list"));
+        .catch(() => setAddError('Error importing list'));
     }
     // if valid url, fetch details for card
     if (validUrl) {
       fetchTempList();
     } else {
       setTempList(undefined);
-      listUrlInput !== "" && setAddError("Enter valid list location");
+      listUrlInput !== '' && setAddError('Enter valid list location');
     }
 
     // reset error
-    if (listUrlInput === "") {
+    if (listUrlInput === '') {
       setAddError(undefined);
     }
   }, [fetchList, listUrlInput, validUrl]);
@@ -179,30 +185,36 @@ const ManageLists = (props: Props) => {
 
   return (
     <Stack width="100%" gap={2}>
-      <Box padding='0 15px 15px' width='100%'>
-        <OutlinedInput fullWidth placeholder="Enter token name / address..." onChange={handleInput} sx={{
-          background: 'primary.dark',
-          border: '1px solid',
-          borderColor: 'gray.600',
-          borderRadius: '8px',
+      <Box padding="0 15px 15px" width="100%">
+        <OutlinedInput
+          fullWidth
+          placeholder="Enter token name / address..."
+          onChange={handleInput}
+          sx={{
+            background: 'primary.dark',
+            border: '1px solid',
+            borderColor: 'gray.600',
+            borderRadius: '8px',
 
-          '&.Mui-focused': {
-            borderColor: '#9A6AFF',
-            boxShadow: 'rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset',
-          },
+            '&.Mui-focused': {
+              borderColor: '#9A6AFF',
+              boxShadow:
+                'rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset',
+            },
 
-          'fieldset': {
-            display: 'none',
-          },
+            fieldset: {
+              display: 'none',
+            },
 
-          'input': {
-            fontWeight: '400',
-            fontSize: '16px',
-            lineHeight: '180%',
-            color: 'text.primary',
-            padding: '13px 15px',
-          }
-        }} />
+            input: {
+              fontWeight: '400',
+              fontSize: '16px',
+              lineHeight: '180%',
+              color: 'text.primary',
+              padding: '13px 15px',
+            },
+          }}
+        />
         {addError ? (
           <Typography color="error" title={addError}>
             {addError}
@@ -214,14 +226,15 @@ const ManageLists = (props: Props) => {
           <ListLogo size="40px" logoURI={tempList.logoURI} alt={`${tempList.name} list logo`} />
           <Stack alignItems="start">
             <Typography>
-              {tempList?.name} {tempList && <Typography component="span">{listVersionLabel(tempList.version)}</Typography>}
+              {tempList?.name}{' '}
+              {tempList && <Typography component="span">{listVersionLabel(tempList.version)}</Typography>}
             </Typography>
             <Typography color="text.secondary">{tempList?.tokens.length} tokens</Typography>
           </Stack>
           <Stack sx={{ flex: 1 }}>
             {isImported ? (
               <Stack direction="row" gap={1}>
-                <TaskAltIcon sx={{ color: "text.disabled" }} />
+                <TaskAltIcon sx={{ color: 'text.disabled' }} />
                 <Typography color="text.disabled">Loaded</Typography>
               </Stack>
             ) : (
@@ -230,14 +243,18 @@ const ManageLists = (props: Props) => {
           </Stack>
         </Stack>
       )}
-      <Stack gap="20px" width="100%" sx={{
-        borderTop: '1px solid',
-        borderTopColor: 'gray.800',
-        padding: '15px',
-        maxHeight: '370px',
-        overflowY: "auto",
-        justifyContent: "flex-start"
-      }}>
+      <Stack
+        gap="20px"
+        width="100%"
+        sx={{
+          borderTop: '1px solid',
+          borderTopColor: 'gray.800',
+          padding: '15px',
+          maxHeight: '370px',
+          overflowY: 'auto',
+          justifyContent: 'flex-start',
+        }}
+      >
         {sortedLists.map((listUrl) => (
           <ListRow key={listUrl} listUrl={listUrl} />
         ))}

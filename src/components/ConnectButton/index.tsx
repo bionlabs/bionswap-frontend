@@ -1,21 +1,22 @@
-import { Box, Button, Stack, useMediaQuery , styled, Drawer } from "@mui/material";
-import { CHAIN_INFO_MAP } from "configs/chain";
-import { useAccount, useBalance, useChain, useNativeCurrencyBalances } from "hooks";
-import Image from "next/image";
-import { useState } from "react";
-import { BsFillCaretDownFill } from "react-icons/bs";
-import { getChainIcon } from "utils/chains";
-import { getConnectorIcon } from "utils/connectors";
-import { shortenAddress } from "utils/format";
-import ChainOptionsModal from "./ChainOptionsModal";
-import ConnectorOptionsModal from "./ConnectorOptionsModal";
-import ProfileModal from "./ProfileModal";
-import SidebarProfileMenu from './SidebarProfileMenu'
+import { Box, Button, Stack, useMediaQuery, styled, Drawer } from '@mui/material';
+import { CHAIN_INFO_MAP } from 'configs/chain';
+import { useAccount, useBalance, useChain, useNativeCurrencyBalances } from 'hooks';
+import Image from 'next/image';
+import { useState } from 'react';
+import { BsFillCaretDownFill } from 'react-icons/bs';
+import { getChainIcon } from 'utils/chains';
+import { getConnectorIcon } from 'utils/connectors';
+import { shortenAddress } from 'utils/format';
+import { Chain, Connector } from 'wagmi';
+import ChainOptionsModal from './ChainOptionsModal';
+import ConnectorOptionsModal from './ConnectorOptionsModal';
+import ProfileModal from './ProfileModal';
+import SidebarProfileMenu from './SidebarProfileMenu';
 
 type Props = {};
 
 const ConnectButton = (props: Props) => {
-  const isMobile = useMediaQuery("(max-width:1224px)");
+  const isMobile = useMediaQuery('(max-width:1224px)');
   const [openConnectorsModal, setOpenConnectorsModal] = useState(false);
   const [openChainsModal, setOpenChainsModal] = useState(false);
   const [openProfileModal, setOpenProfileModal] = useState(false);
@@ -26,44 +27,49 @@ const ConnectButton = (props: Props) => {
 
   const [profileSlide, setProfileSlide] = useState(false);
 
-  const toggleDrawer = (open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event.type === 'keydown' &&
-        ((event as React.KeyboardEvent).key === 'Tab' ||
-          (event as React.KeyboardEvent).key === 'Shift')
-      ) {
-        return;
-      }
+  const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+    if (
+      event.type === 'keydown' &&
+      ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
+    ) {
+      return;
+    }
 
-      setProfileSlide(open);
-    };
+    setProfileSlide(open);
+  };
 
-  const handleChainSwitched = () => {
+  const handleChainSwitched = (chain: Chain) => {
     setOpenChainsModal(false);
+    gtag('event', 'Switch', {
+      event_category: 'Chain',
+      event_label: chain.name,
+    });
   };
 
   const handleChainSelected = () => {
     setOpenChainsModal(false);
   };
 
-  const handleConnectorConnected = () => {
+  const handleConnectorConnected = (connector: Connector) => {
     setOpenConnectorsModal(false);
+    gtag('event', 'Connector Connected', {
+      event_category: 'Connector',
+      event_label: connector.name,
+    });
   };
-
 
   return (
     <>
-      <Stack direction={isMobile ? "column" : "row"} gap={2}>
+      <Stack direction={isMobile ? 'column' : 'row'} gap={2}>
         <ChainButton
           onClick={() => setOpenChainsModal(true)}
           variant="contained"
           // fullWidth={isMobile}
-          endIcon={<BsFillCaretDownFill color='#fff' />}
+          endIcon={<BsFillCaretDownFill color="#fff" />}
         >
           <Stack direction="row" gap={1} alignItems="center">
             <Image
-              src={getChainIcon(chainId)?.iconUrl ? getChainIcon(chainId)?.iconUrl : "/"}
+              src={getChainIcon(chainId)?.iconUrl ? getChainIcon(chainId)?.iconUrl : '/'}
               layout="fixed"
               alt=""
               width={24}
@@ -73,11 +79,7 @@ const ConnectButton = (props: Props) => {
           </Stack>
         </ChainButton>
         {!address ? (
-          <ConnectWalletButton
-            onClick={() => setOpenConnectorsModal(true)}
-            variant="contained"
-            fullWidth={isMobile}
-          >
+          <ConnectWalletButton onClick={() => setOpenConnectorsModal(true)} variant="contained" fullWidth={isMobile}>
             <Box>Connect Wallet</Box>
           </ConnectWalletButton>
         ) : (
@@ -87,26 +89,26 @@ const ConnectButton = (props: Props) => {
             variant="contained"
             // fullWidth={isMobile}
           >
-            <Box p='5px 5px 5px 15px'>
-              {balance ? `${balance.toFixed(3)} ${balance.currency.symbol}` : 'Loading...' }
+            <Box p="5px 5px 5px 15px">
+              {balance ? `${balance.toFixed(3)} ${balance.currency.symbol}` : 'Loading...'}
             </Box>
-            <Box sx={{
-              display: 'flex',alignItems:'center', gap:'8px',
-              backgroundColor: 'gray.800', height: 'inherit', padding: '5px 12px',
-              borderRadius: '4px', transition: '.12s ease-in',
-            }}>
-              <Box >{shortenAddress(address ?? "")}</Box>
-              {
-                activeConnector &&
-                <Image
-                  src={getConnectorIcon(activeConnector.id)}
-                  layout="fixed"
-                  alt=""
-                  width={20}
-                  height={20}
-                />
-              }
-            </Box>            
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                backgroundColor: 'gray.800',
+                height: 'inherit',
+                padding: '5px 12px',
+                borderRadius: '4px',
+                transition: '.12s ease-in',
+              }}
+            >
+              <Box>{shortenAddress(address ?? '')}</Box>
+              {activeConnector && (
+                <Image src={getConnectorIcon(activeConnector.id)} layout="fixed" alt="" width={20} height={20} />
+              )}
+            </Box>
           </ProfileButton>
         )}
       </Stack>
@@ -127,16 +129,8 @@ const ConnectButton = (props: Props) => {
         onClose={() => setOpenProfileModal(false)}
         open={openProfileModal}
       /> */}
-      <Drawer
-        anchor='right'
-        open={profileSlide}
-        onClose={toggleDrawer(false)}
-      >
-        <SidebarProfileMenu
-          toggleDrawer={toggleDrawer}
-          address={address}
-          balance={balance}
-        />
+      <Drawer anchor="right" open={profileSlide} onClose={toggleDrawer(false)}>
+        <SidebarProfileMenu toggleDrawer={toggleDrawer} address={address} balance={balance} />
       </Drawer>
     </>
   );
@@ -151,11 +145,11 @@ const ChainButton = styled(Button)`
   text-transform: none;
   font-family: inherit;
   font-weight: 500;
-  background-color: ${prop => prop.theme.palette.primary.dark};
+  background-color: ${(prop) => prop.theme.palette.primary.dark};
   align-items: center;
-  // border: 1px solid ${prop => (prop.theme.palette as any).warning.main};
-  border: 1px solid ${prop => (prop.theme.palette as any).gray[800]};
-  color: ${prop => prop.theme.palette.text.primary};
+  // border: 1px solid ${(prop) => (prop.theme.palette as any).warning.main};
+  border: 1px solid ${(prop) => (prop.theme.palette as any).gray[800]};
+  color: ${(prop) => prop.theme.palette.text.primary};
   transition: 0.15s ease-in;
   line-height: 1;
   svg {
@@ -163,9 +157,9 @@ const ChainButton = styled(Button)`
     height: 12px;
   }
   :hover {
-    // color: ${prop => prop.theme.palette.primary.main};
-    // border: 1.5px solid ${prop => (prop.theme.palette as any).extra.background.primaryDarkGreen};
-    background-color: ${prop => (prop.theme.palette as any).gray[800]};
+    // color: ${(prop) => prop.theme.palette.primary.main};
+    // border: 1.5px solid ${(prop) => (prop.theme.palette as any).extra.background.primaryDarkGreen};
+    background-color: ${(prop) => (prop.theme.palette as any).gray[800]};
   }
 `;
 
@@ -179,8 +173,8 @@ const ConnectWalletButton = styled(Button)`
   font-weight: 500;
   align-items: center;
   min-height: 41px;
-  background-color: ${prop => (prop.theme.palette as any).extra.other.connectWalletBackgroundColor};
-  color: #07E0E0;
+  background-color: ${(prop) => (prop.theme.palette as any).extra.other.connectWalletBackgroundColor};
+  color: #07e0e0;
   transition: 0.15s ease-in;
   line-height: 1;
   svg {
@@ -203,18 +197,18 @@ const ProfileButton = styled(Button)`
   font-family: inherit;
   font-weight: 500;
   align-items: center;
-  background-color: ${prop => (prop.theme.palette as any).primary.dark};
+  background-color: ${(prop) => (prop.theme.palette as any).primary.dark};
   color: #fff;
   transition: 0.15s ease-in;
   line-height: 1;
   gap: 8px;
-  border: 1px solid ${prop => (prop.theme.palette as any).gray[800]};
+  border: 1px solid ${(prop) => (prop.theme.palette as any).gray[800]};
   svg {
     width: 20px;
     height: 20px;
   }
   :hover {
-    background-color: ${prop => (prop.theme.palette as any).gray[800]};
+    background-color: ${(prop) => (prop.theme.palette as any).gray[800]};
     box-shadow: none;
   }
 `;

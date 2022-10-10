@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
-import Document, { Head, Html, Main, NextScript } from "next/document";
-import Script from "next/script";
+import Document, { Head, Html, Main, NextScript } from 'next/document';
+import Script from 'next/script';
 
 class MyDocument extends Document {
   render() {
