@@ -1,16 +1,13 @@
-import { Box, Button, Stack, useMediaQuery, styled, Drawer } from '@mui/material';
-import { CHAIN_INFO_MAP } from 'configs/chain';
-import { useAccount, useBalance, useChain, useNativeCurrencyBalances } from 'hooks';
+import { Box, Button, Drawer, Stack, styled, useMediaQuery } from '@mui/material';
+import { useAccount, useChain, useNativeCurrencyBalances } from 'hooks';
 import Image from 'next/image';
 import { useState } from 'react';
-import { BsFillCaretDownFill } from 'react-icons/bs';
-import { getChainIcon } from 'utils/chains';
 import { getConnectorIcon } from 'utils/connectors';
 import { shortenAddress } from 'utils/format';
 import { Chain, Connector } from 'wagmi';
 import ChainOptionsModal from './ChainOptionsModal';
+import ChainSelect from './ChainSelect';
 import ConnectorOptionsModal from './ConnectorOptionsModal';
-import ProfileModal from './ProfileModal';
 import SidebarProfileMenu from './SidebarProfileMenu';
 
 type Props = {};
@@ -61,7 +58,7 @@ const ConnectButton = (props: Props) => {
   return (
     <>
       <Stack direction={isMobile ? 'column' : 'row'} gap={2}>
-        <ChainButton
+        {/* <ChainButton
           onClick={() => setOpenChainsModal(true)}
           variant="contained"
           // fullWidth={isMobile}
@@ -77,7 +74,8 @@ const ConnectButton = (props: Props) => {
             />
             <Box>{CHAIN_INFO_MAP[chainId]?.name}</Box>
           </Stack>
-        </ChainButton>
+        </ChainButton> */}
+        <ChainSelect />
         {!address ? (
           <ConnectWalletButton onClick={() => setOpenConnectorsModal(true)} variant="contained" fullWidth={isMobile}>
             <Box>Connect Wallet</Box>

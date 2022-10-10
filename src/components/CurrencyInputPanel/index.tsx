@@ -63,7 +63,7 @@ const CurrencyInputPanel = ({
             color: 'blue.100',
             fontWeight: '400',
           }}>
-            Balance: {`${currencyBalance?.toFixed(2) || 0}`}
+            Balance: {`${currencyBalance?.toFixed(4) || 0}`}
           </Typography>
         </Stack>
         <TextField

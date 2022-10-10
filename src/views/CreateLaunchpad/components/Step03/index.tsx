@@ -6,8 +6,6 @@ import {
   FormControl,
   OutlinedInput,
   Button,
-  Select,
-  MenuItem,
   RadioGroup,
   FormControlLabel,
   Radio,
@@ -17,6 +15,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { setPresaleForm } from 'state/presale/action';
+import Joi, { CustomHelpers, CustomValidator } from 'joi';
+import HeaderSection from '../HeaderSection';
 
 const whitelistOpts = [
   {
@@ -63,14 +63,168 @@ const vestingTokens = [
   },
 ];
 
-const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => {
+const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
   const [launchTime, setLaunchtime] = useState(new Date(data.launchTime) || 0);
   const [endLaunchTime, setEndLaunchTime] = useState(new Date(data.endTime) || 0);
   const [tokenDistributionTime, settokenDistributionTime] = useState(new Date(data.tokenDistributionTime) || 0);
   const [tgeDate, setTGEDate] = useState(new Date(data.tgeDate) || 0);
+  const currentTime = +new Date();
+  const [errors, setErrors] = useState([]);
+  const [feildEditing, setFeildEditing] = useState('');
+
+  const method: CustomValidator = (value: any, helpers: CustomHelpers) => {
+    const res: any = helpers?.state?.path;
+
+    res?.map((item: any, index: any) => {
+      if (item == 'minGoal') {
+        if (Number(value) >= Number(data?.maxGoal)) {
+          throw new Error('Minimum goal must be less than maximum goal');
+        }
+        if (Number(value) < Number(data?.maxGoal) / 2) {
+          throw new Error('Minimum goal must be greater than or equal 50% of Maximum goal');
+        }
+      }
+
+      if (item == 'minSale') {
+        if (Number(value) >= Number(data?.maxSale)) {
+          throw new Error('Minimum buy must be less than maximum buy');
+        }
+      }
+
+      if (item == 'maxSale') {
+        if (Number(value) > Number(data?.maxGoal)) {
+          throw new Error('Maximum buy must be less than or equal to maximum buy');
+        }
+      }
+
+      if (item == 'launchTime') {
+        if (value >= data.endTime) {
+          throw new Error('Launch time must be less than pre-sale end time');
+        }
+        if (value < currentTime) {
+          throw new Error('Launch time must be greater than current time');
+        }
+      }
+
+      if (item == 'endTime') {
+        if (value <= data.launchTime) {
+          throw new Error('Pre-sale end time must be greater than launch time');
+        }
+        if (value < currentTime) {
+          throw new Error('Launch time must be greater than current time');
+        }
+      }
+
+      if (item == 'tokenDistributionTime') {
+        if (value < currentTime) {
+          throw new Error('Token distribution time must be greater than current time');
+        }
+      }
+
+      if (item == 'tgeDate') {
+        if (value < currentTime) {
+          throw new Error('TGE Date must be greater than current time');
+        }
+
+        if (value <= data.endTime) {
+          throw new Error('TGE Date must be greater than pre-sale end time');
+        }
+      }
+
+      if (item == 'tokenReleaseEachCycle') {
+        if (Number(value) + Number(data.firstRelease) > 100) {
+          throw new Error(
+            'Total "First release percent" and "Token release each cycle" must be less than or equal to 100%',
+          );
+        }
+      }
+    });
+  };
+
+  const onShowError = (key: string) => {
+    let message = '';
+    errors?.map((item: any, index) => {
+      if (item?.context?.key == key) {
+        message = item?.message;
+      }
+    });
+    return message;
+  };
+
+  useEffect(() => {
+    const handleValidate = async () => {
+      try {
+        validate();
+      } catch (error: any) {
+        console.log('error==>', error);
+      }
+    };
+
+    if (feildEditing) {
+      handleValidate();
+    }
+  }, [data]);
+
+  const validate = async () => {
+    try {
+      const schemaStep03 = Joi.object({
+        tokenPrice: Joi.number().min(0.000001).required().label('Token price'),
+        whitelist: Joi.number().integer().min(0).max(1).required().label('Whitelist'),
+        minGoal: Joi.number().min(0.000001).required().custom(method).label('Minimum goal'),
+        maxGoal: Joi.number().min(0.000001).required().custom(method).label('Maximum goal'),
+        minSale: Joi.number().min(0.000001).required().custom(method).label('Minimum buy'),
+        maxSale: Joi.number().min(0.000001).required().custom(method).label('Maximum buy'),
+        launchTime: Joi.required().custom(method).label('Launch time'),
+        endTime: Joi.required().custom(method).label('Pre-sale end time'),
+        unsoldToken: Joi.number().integer().min(0).max(1).required().label('Unsold token'),
+        tokenDistributionTime: Joi.required().custom(method).label('Token distribution date'),
+        vestingToken: Joi.required().label('Vesting token'),
+        tgeDate: Joi.required().custom(method).label('First release date'),
+        firstRelease: Joi.when('vestingToken', {
+          is: '1',
+          then: Joi.number().integer().min(1).max(99).label('First release percent'),
+        }),
+        vestingPeriodEachCycle: Joi.when('vestingToken', {
+          is: '1',
+          then: Joi.number().integer().min(1).label('Vesting period each cycle'),
+        }),
+        tokenReleaseEachCycle: Joi.when('vestingToken', {
+          is: '1',
+          then: Joi.number().integer().min(1).max(99).custom(method).label('Token release each cycle'),
+        }),
+      });
+
+      const value = await schemaStep03.validateAsync(
+        {
+          tokenPrice: data.tokenPrice,
+          whitelist: data.whitelist,
+          minGoal: data.minGoal,
+          maxGoal: data.maxGoal,
+          minSale: data.minSale,
+          maxSale: data.maxSale,
+          launchTime: data.launchTime,
+          endTime: data.endTime,
+          unsoldToken: data.unsoldToken,
+          tokenDistributionTime: data.tokenDistributionTime,
+          vestingToken: data.vestingToken,
+          tgeDate: data.tgeDate,
+          firstRelease: data.firstRelease,
+          vestingPeriodEachCycle: data.vestingPeriodEachCycle,
+          tokenReleaseEachCycle: data.tokenReleaseEachCycle,
+        },
+        { abortEarly: false },
+      );
+      setErrors([]);
+      return true;
+    } catch (error: any) {
+      setErrors(error?.details || []);
+      return false;
+    }
+  };
 
   useEffect(() => {
     setData(setPresaleForm({ ['launchTime']: new Date(launchTime).getTime() }));
+    setFeildEditing('launchTime');
   }, [launchTime, setData]);
 
   useEffect(() => {
@@ -79,14 +233,17 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
     } else {
       setData(setPresaleForm({ ['endTime']: new Date(endLaunchTime).getTime() }));
     }
+    setFeildEditing('endTime');
   }, [endLaunchTime, data.preSaleDuration, setData, launchTime]);
 
   useEffect(() => {
     setData(setPresaleForm({ ['tokenDistributionTime']: new Date(tokenDistributionTime).getTime() }));
+    setFeildEditing('tokenDistributionTime');
   }, [setData, tokenDistributionTime]);
 
   useEffect(() => {
     setData(setPresaleForm({ ['tgeDate']: new Date(tgeDate).getTime() }));
+    setFeildEditing('tgeDate');
   }, [setData, tgeDate]);
 
   const handleChangeInput = (prop: any) => (event: any) => {
@@ -97,10 +254,20 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
         ? setData(setPresaleForm({ ['firstRelease']: '100' }))
         : setData(setPresaleForm({ ['firstRelease']: '' }));
     }
+    setFeildEditing(prop);
+  };
+
+  const nextStep = async () => {
+    const validateVariable = await validate();
+    if (!validateVariable) {
+      return false;
+    }
+    handleNext();
   };
 
   return (
     <>
+      <HeaderSection data={data} activeStep={2} handleBack={handleBack} handleNext={nextStep} />
       <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
         <FlexBox flexDirection="column" alignItems="center">
           <Typography variant="h3" color="text.primary" fontWeight="400">
@@ -186,6 +353,9 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                   ))}
                 </RadioGroup>
               </FormControl>
+              <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                {onShowError('whitelist')}
+              </Typography>
             </WrapValue>
           </WrapLine>
           <WrapLine>
@@ -331,7 +501,7 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
               </Typography>
             </WrapDescription>
             <WrapValue gap="10px !important">
-              <WrapForm>
+              <WrapForm className={onShowError('launchTime') ? 'onError datepicker' : 'datepicker'}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
                     renderInput={(props) => <TextField {...props} />}
@@ -357,47 +527,19 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
               </Typography>
             </WrapDescription>
             <WrapValue gap="10px !important">
-              <WrapForm>
-                <FormControl fullWidth>
-                  {/* <RadioGroup
-                                        value={data.preSaleDuration}
-                                        onChange={handleChange('preSaleDuration')}
-                                        name="radio-buttons-group"
-                                    >
-                                        {
-                                            preSaleDurations?.map(item => (
-                                                <FormControlLabel key={item.label} value={item.value} label={
-                                                    <Typography variant="body4Poppins" color={data.preSaleDuration == item.value ? 'blue.100' : 'gray.700'} fontWeight="400">
-                                                        {item.label}
-                                                    </Typography>
-                                                }
-                                                    control={
-                                                        <Radio sx={{
-                                                            color: 'gray.700',
-                                                            '&.Mui-checked': {
-                                                                color: 'blue.500',
-                                                            },
-                                                        }} />
-                                                    } />
-                                            ))
-                                        }
-                                    </RadioGroup> */}
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateTimePicker
-                      renderInput={(props) => <TextField {...props} />}
-                      value={endLaunchTime}
-                      onChange={(newValue: any) => {
-                        setEndLaunchTime(newValue);
-                      }}
-                    />
-                  </LocalizationProvider>
-                  {/* <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                                        {onShowError('preSaleDuration')}
-                                    </Typography> */}
-                  <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                    {onShowError('endTime')}
-                  </Typography>
-                </FormControl>
+              <WrapForm className={onShowError('endTime') ? 'onError datepicker' : 'datepicker'}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DateTimePicker
+                    renderInput={(props) => <TextField {...props} />}
+                    value={endLaunchTime}
+                    onChange={(newValue: any) => {
+                      setEndLaunchTime(newValue);
+                    }}
+                  />
+                </LocalizationProvider>
+                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                  {onShowError('endTime')}
+                </Typography>
               </WrapForm>
             </WrapValue>
           </WrapLine>
@@ -445,6 +587,9 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                     ))}
                   </RadioGroup>
                 </FormControl>
+                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                  {onShowError('unsoldToken')}
+                </Typography>
               </WrapForm>
             </WrapValue>
           </WrapLine>
@@ -458,7 +603,7 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
               </Typography>
             </WrapDescription>
             <WrapValue gap="10px !important">
-              <WrapForm>
+              <WrapForm className={onShowError('tokenDistributionTime') ? 'onError datepicker' : 'datepicker'}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
                     renderInput={(props) => <TextField {...props} />}
@@ -530,7 +675,7 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                               borderTop: '1px solid #373F47',
                             }}
                           >
-                            <WrapForm fullWidth>
+                            <WrapForm className={onShowError('tgeDate') ? 'onError datepicker' : 'datepicker'}>
                               <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
                                 First release date <RequireSymbol component="span">*</RequireSymbol>
                               </Typography>
@@ -661,12 +806,12 @@ const Step03 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
           </WrapLine>
         </FlexBox>
         <FlexBox justifyContent="flex-end" gap="14px">
-          <Back onClick={() => handleBack(3)}>
+          <Back onClick={handleBack}>
             <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
               Back
             </Typography>
           </Back>
-          <Next onClick={() => handleNext(3)}>
+          <Next onClick={nextStep}>
             <Typography variant="body3Poppins" color="#000000" fontWeight="600">
               Next
             </Typography>
@@ -735,6 +880,49 @@ const WrapForm = styled(FormControl)`
   display: flex;
   flex-direction: column;
   gap: 6px;
+
+  &.datepicker {
+    fieldset {
+      display: none;
+    }
+
+    .MuiOutlinedInput-root {
+      border: 1px solid;
+      border-color: ${(props) => props.theme.palette.gray[700]};
+      border-radius: 4px;
+
+      &.Mui-focused {
+        border-color: #9a6aff;
+        box-shadow: rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px,
+          rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+      }
+
+      input {
+        font-family: 'Poppins', sans-serif;
+        padding: 12px 16px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 180%;
+        color: ${(props) => props.theme.palette.text.primary};
+
+        &::placeholder {
+          font-family: 'Poppins', sans-serif;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 180%;
+          color: ${(props) => props.theme.palette.gray[700]};
+          opacity: 1;
+        }
+      }
+    }
+
+    &.onError {
+      .MuiOutlinedInput-root {
+        border-color: ${(props) => props.theme.palette.red[500]};
+        box-shadow: none;
+      }
+    }
+  }
 `;
 const InputCustom = styled(OutlinedInput)`
   padding: 0;

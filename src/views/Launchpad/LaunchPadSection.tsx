@@ -69,7 +69,6 @@ const LaunchPadSection = ({ chainId }: any) => {
             params.sortBy,
           );
           setLaunchData(launchData);
-          console.log('🚀 ~ file: LaunchPadSection.tsx ~ line 73 ~ getLaunchData ~ launchData', launchData);
         } catch (error) {
           console.log('error====>', error);
         }

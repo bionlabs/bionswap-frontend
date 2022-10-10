@@ -9,7 +9,7 @@ export const MENU_HEIGHT = 78;
 export const menuConfig = [
     {
         label: 'Swap',
-        href: '/trade',
+        href: '/swap',
         icon: <MdSwapHorizontalCircle/>
     },
     {

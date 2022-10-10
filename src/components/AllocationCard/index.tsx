@@ -14,10 +14,8 @@ interface ProjectItemProps {
 }
 
 const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
-  console.log('data===>', data);
   const [claimLoading, setClaimLoading] = useState(false);
   const [vestingNextTime, setVestingNextTime] = useState<any>([]);
-  console.log('🚀 ~ file: index.tsx ~ line 19 ~ vestingNextTime', vestingNextTime);
   const currentTime = +new Date();
   const presaleContract = usePresaleContract(data?.sale?.saleAddress || '');
   const quoteToken = useToken(data?.quoteToken);

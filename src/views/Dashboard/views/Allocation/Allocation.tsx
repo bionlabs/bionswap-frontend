@@ -17,7 +17,6 @@ const Allocation = () => {
       try {
         const res = await getJoinedSales(chainId.toString(), account || '');
         setData(res);
-        console.log('🚀 ~ file: Allocation.tsx ~ line 15 ~ getDataCliam ~ res', res);
       } catch (error) {
         console.log('error===>', error);
       }

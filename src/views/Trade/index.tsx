@@ -1,9 +1,11 @@
-import { Currency, JSBI, Percent, Token, Trade as V2Trade, TradeType } from '@bionswap/core-sdk';
-import { Autocomplete, Box, Button, Container, Paper, Stack, styled, TextField, Typography } from '@mui/material';
+import { ChainId, Currency, JSBI, Percent, Token, Trade as V2Trade, TradeType } from '@bionswap/core-sdk';
+import { Box, Button, Container, Stack, styled, Typography } from '@mui/material';
 import { CurrencyInputPanel, TransactionSettings } from 'components';
+import NoDataView from 'components/NoDataView';
 import {
   useAccount,
   useAllTokens,
+  useChain,
   useCurrency,
   useEnsAddress,
   useIsSwapUnsupported,
@@ -22,7 +24,6 @@ import { maxAmountSpend } from 'utils/currencies';
 import { confirmPriceImpactWithoutFee, warningSeverity } from 'utils/prices';
 import { computeFiatValuePriceImpact } from 'utils/trade';
 import ConfirmSwapModal from './components/ConfirmSwapModal';
-import PairStats from './components/PairStats';
 import SwapDetail from './components/SwapDetail';
 import TradePrice from './components/TradePrice';
 import TradingViewChart from './components/TradingViewChart';
@@ -33,6 +34,7 @@ const Swap = ({}: SwapProps) => {
   const loadedUrlParams = useDefaultsFromURLSearch();
   const { address: account } = useAccount();
   const defaultTokens = useAllTokens();
+  const { chainId } = useChain();
 
   const [isExpertMode] = useExpertModeManager();
   const { independentField, typedValue, recipient } = useSwapState();
@@ -252,7 +254,17 @@ const Swap = ({}: SwapProps) => {
           txHash: undefined,
         });
       });
-  }, [swapCallback, priceImpact, tradeToConfirm, showConfirm]);
+  }, [
+    swapCallback,
+    priceImpact,
+    tradeToConfirm,
+    showConfirm,
+    recipient,
+    recipientAddress,
+    account,
+    trade?.inputAmount?.currency?.symbol,
+    trade?.outputAmount?.currency?.symbol,
+  ]);
 
   // warnings on slippage
   // const priceImpactSeverity = warningSeverity(priceImpactWithoutFee);
@@ -463,8 +475,24 @@ const Swap = ({}: SwapProps) => {
           }}
         >
           <Stack justifyContent="flex-start" alignItems="flex-start" flexGrow={1}>
-            {/* <PairStats /> */}
-            {!showWrap && <TradingViewChart pairSymbol={`${currencies.INPUT?.symbol}:${currencies.OUTPUT?.symbol}`} />}
+            {ChainId.BSC_TESTNET === chainId ? (
+              <>
+                {/* <PairStats /> */}
+                {!showWrap && (
+                  <TradingViewChart pairSymbol={`${currencies.INPUT?.symbol}:${currencies.OUTPUT?.symbol}`} />
+                )}
+              </>
+            ) : (
+              <Box
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                  paddingTop: '95px',
+                }}
+              >
+                <NoDataView />
+              </Box>
+            )}
           </Stack>
           <Box
             sx={{
@@ -484,7 +512,7 @@ const Swap = ({}: SwapProps) => {
               </Typography>
               <TransactionSettings />
             </FlexBox>
-            <Box mt="30px">
+            <Box mt="30px" height="calc(100% - 95px)">
               <WrapSwapBox>
                 {/* <Autocomplete
                   disablePortal
@@ -627,6 +655,7 @@ const WrapSwapBox = styled(Box)`
   background-color: ${(props) => props.theme.palette.gray[900]};
   border-radius: 8px;
   padding: 15px;
+  height: 100%;
 `;
 const PaperItem = styled(Box)`
   background-color: ${(props) => props.theme.palette.gray[900]};

@@ -11,7 +11,6 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
-  TextField,
 } from '@mui/material';
 import { useToken } from 'hooks/useToken';
 import { setPresaleForm } from 'state/presale/action';
@@ -19,7 +18,13 @@ import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback';
 import { tryParseAmount } from 'utils/parse';
 import { Currency, ROUTER_ADDRESS } from '@bionswap/core-sdk';
 import { usePresaleFactoryContract } from 'hooks/useContract';
-import { useChain } from 'hooks';
+import { useChain, useCurrencyBalance } from 'hooks';
+import Joi, { CustomHelpers, CustomValidator } from 'joi';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useTotalSupply } from 'hooks/useTotalSupply';
+import HeaderSection from '../HeaderSection';
 
 const listingOpts = [
   {
@@ -42,25 +47,88 @@ const dexs = [
   },
 ];
 
-const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => {
-  const { chainId } = useChain();
+const Step04 = ({ data, setData, handleNext, handleBack }: any) => {
+  const { chainId, account } = useChain();
   const token = useToken(data.tokenContract);
+  const tokenTotalSupply = useTotalSupply(token || undefined)?.toFixed(2);
   const presaleFactoryContract = usePresaleFactoryContract();
   const [pending, setPending] = useState(false);
 
+  const tokenFee = data.saleFee === '1' ? 2 : 0;
   const tokenForSale = Number(data.maxGoal) / Number(data.tokenPrice) || 0;
   const tokenForLiquidity = (Number(data.liquidityPercentage) * Number(data.maxGoal)) / Number(data.pricePerToken) || 0;
+  const tokenForFee = (Number(data.maxGoal) * Number(tokenFee)) / 100 / Number(data.pricePerToken);
+  const tokenInTotal = tokenForSale + tokenForLiquidity + tokenForFee;
 
   const parsedTotalTokenRequired = tryParseAmount((tokenForSale + tokenForLiquidity).toString(), token as Currency);
   const [approvalState, approveCallback] = useApproveCallback(
     parsedTotalTokenRequired,
     presaleFactoryContract?.address,
   );
-  console.log("🚀 ~ file: index.tsx ~ line 59 ~ Step04 ~ approvalState", approvalState)
+  const [errors, setErrors] = useState([]);
+  const [feildEditing, setFeildEditing] = useState('');
+  const balance = useCurrencyBalance(account ?? undefined, token || undefined)?.toFixed(2);
+
+  const onShowError = (key: string) => {
+    let message = '';
+    errors?.map((item: any, index) => {
+      if (item?.context?.key == key) {
+        message = item?.message;
+      }
+    });
+    return message;
+  };
+
+  useEffect(() => {
+    const handleValidate = async () => {
+      try {
+        validate();
+      } catch (error: any) {
+        console.log('error==>', error);
+      }
+    };
+
+    if (feildEditing) {
+      handleValidate();
+    }
+  }, [data]);
+
+  const validate = async () => {
+    try {
+      const schemaStep04 = Joi.object({
+        listing: Joi.number().integer().min(0).max(1).required().label('Listings options'),
+        dex: Joi.required().label('Dex'),
+        pricePerToken: Joi.number().min(0.000001).required().label('Price per token'),
+        liquidityPercentage: Joi.number().min(50).max(100).required().label('Liquidity percentage'),
+        lockupTime: Joi.number().min(1).required().label('Lockup time'),
+      });
+
+      const value = await schemaStep04.validateAsync(
+        {
+          listing: data.listing,
+          dex: data.dex,
+          pricePerToken: data.pricePerToken,
+          liquidityPercentage: data.liquidityPercentage,
+          lockupTime: data.lockupTime,
+        },
+        { abortEarly: false },
+      );
+      setErrors([]);
+      return true;
+    } catch (error: any) {
+      setErrors(error?.details || []);
+      return false;
+    }
+  };
 
   const handleApprove = async () => {
     try {
       setPending(true);
+      const balanceValidation = handleCheckBalanceToken();
+      if (!balanceValidation) {
+        setPending(false);
+        return false;
+      }
       const approve = await approveCallback();
       setPending(false);
     } catch (error) {
@@ -68,9 +136,19 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
     }
   };
 
+  const handleCheckBalanceToken = () => {
+    if (Number(balance) < tokenInTotal) {
+      toast(
+        `Not enough balance in your wallet. Need ${tokenTotalSupply} ${token?.symbol} to create launchpad. (Your balance: ${balance} ${token?.symbol})`,
+      );
+      return false;
+    }
+    return true;
+  };
+
   const handleChange = (prop: any) => (event: any) => {
-    // setData({  [prop]: event.target.value })
     setData(setPresaleForm({ [prop]: event.target.value }));
+    setFeildEditing(prop);
   };
 
   useEffect(() => {
@@ -84,6 +162,7 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
         break;
       }
     }
+    setFeildEditing('isAutoListing');
   }, [data.listing, setData]);
 
   useEffect(() => {
@@ -93,10 +172,20 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
         break;
       }
     }
+    setFeildEditing('dex');
   }, [chainId, data.dex, setData]);
+
+  const nextStep = async () => {
+    const validateVariable = await validate();
+    if (!validateVariable) {
+      return false;
+    }
+    handleNext();
+  };
 
   return (
     <>
+      <HeaderSection data={data} activeStep={3} handleBack={handleBack} handleNext={nextStep} approvalState={approvalState} handleApprove={handleApprove} pendingStep4={pending}  />
       <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
         <FlexBox flexDirection="column" alignItems="center">
           <Typography variant="h3" color="text.primary" fontWeight="400">
@@ -180,7 +269,7 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                 <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
                   Dex <RequireSymbol component="span">*</RequireSymbol>
                 </Typography>
-                <Select
+                <SelectCustom
                   value={data.dex}
                   onChange={handleChange('dex')}
                   displayEmpty
@@ -191,7 +280,7 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                       {item.label}
                     </MenuItem>
                   ))}
-                </Select>
+                </SelectCustom>
                 <Typography variant="captionPoppins" color="red.500" fontWeight="400">
                   {onShowError('dex')}
                 </Typography>
@@ -332,7 +421,7 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
                 <Typography variant="captionPoppins" color="#717D8A" fontWeight="400">
                   In total:{' '}
                   <Typography variant="captionPoppins" color="primary.main">
-                    {tokenForSale + tokenForLiquidity} {token?.symbol}
+                    {tokenInTotal} {token?.symbol}
                   </Typography>
                 </Typography>
               </FlexBox>
@@ -340,22 +429,18 @@ const Step04 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
           </WrapLine>
         </FlexBox>
         <FlexBox justifyContent="flex-end" gap="14px">
-          <Back onClick={() => handleBack(4)}>
+          <Back onClick={handleBack}>
             <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
               Back
             </Typography>
           </Back>
           <Next
-            onClick={approvalState === ApprovalState.APPROVED ? () => handleNext(4) : () => handleApprove()}
-            disabled={pending}
+            loading={pending && approvalState === ApprovalState.NOT_APPROVED}
+            onClick={approvalState === ApprovalState.APPROVED ? nextStep : handleApprove}
           >
-            {pending ? (
-              <Typography variant="body3Poppins" color="text.primary" fontWeight="600">
-                Loading....
-              </Typography>
-            ) : (
+            {!(pending && approvalState === ApprovalState.NOT_APPROVED) && (
               <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-                {approvalState === ApprovalState.APPROVED ? 'Next' : 'Approve'}
+                {approvalState === ApprovalState.APPROVED ? 'Next' : 'Enable'}
               </Typography>
             )}
           </Next>
@@ -389,7 +474,7 @@ const WrapValue = styled(Box)`
   flex-direction: column;
   gap: 24px;
 `;
-const Next = styled(Button)`
+const Next = styled(LoadingButton)`
   max-width: 200px;
   width: 100%;
   height: 45px;
@@ -483,6 +568,23 @@ const Line = styled(Box)`
   background-color: ${(props) => props.theme.palette.gray[800]};
   height: 1px;
   widht: 100%;
+`;
+const SelectCustom = styled(Select)`
+  .MuiSelect-select {
+    border: 1px solid;
+    border-color: ${(props) => props.theme.palette.gray[700]};
+    border-radius: 4px;
+    font-family: 'Poppins', sans-serif;
+    padding: 12px 16px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 180%;
+    color: ${(props) => props.theme.palette.text.primary};
+  }
+
+  fieldset {
+    display: none;
+  }
 `;
 
 export default Step04;

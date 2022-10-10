@@ -9,7 +9,7 @@ const DashboardRef = () => {
   const { href } = router.query;
 
   const getComponent = () => {
-    return sidebarConfig.find(item => item.href == '/' + href)
+    return sidebarConfig.find(item => item.href == '/dashboard/' + href)
   }
 
   return (

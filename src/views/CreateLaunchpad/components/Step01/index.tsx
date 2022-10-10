@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { Box, Typography, styled, FormControl, OutlinedInput, Button, IconButton } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, styled, FormControl, OutlinedInput, Button } from '@mui/material';
 import { setPresaleForm } from 'state/presale/action';
 import ImageUploading from 'react-images-uploading';
 import { uploadLaunchpadImage } from 'api/launchpad';
+import Joi, { CustomHelpers, CustomValidator } from 'joi';
+import HeaderSection from '../HeaderSection';
 
-const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommunities }: any) => {
+const Step01 = ({ data, setData, handleNext, communityDetail, handleBack }: any) => {
   const [projectLogo, setProjectLogo] = useState(
     [
       {
@@ -19,6 +21,67 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
       },
     ] || [],
   );
+  const [errors, setErrors] = useState([]);
+  const [feildEditing, setFeildEditing] = useState('');
+  const [communities, setCommunities] = useState({
+    website: communityDetail['website'] || '',
+    telegram: communityDetail['telegram'] || '',
+    discord: communityDetail['discord'] || '',
+  });
+
+  const validate = async () => {
+    try {
+      const schemaStep01 = Joi.object({
+        projectTitle: Joi.string().max(50).required().label('Project title'),
+        projectLogo: Joi.string().required().label('Project logo'),
+        saleBanner: Joi.string().required().label('Sale banner'),
+        website: Joi.string().required().label('Website'),
+      });
+
+      const value = await schemaStep01.validateAsync(
+        {
+          projectTitle: data.projectTitle,
+          projectLogo: data.projectLogo,
+          saleBanner: data.saleBanner,
+          website: communities['website'],
+        },
+        { abortEarly: false },
+      );
+      setErrors([]);
+      return true;
+    } catch (error: any) {
+      setErrors(error?.details || []);
+      return false;
+    }
+  };
+
+  const onShowError = (key: string) => {
+    let message = '';
+    errors?.map((item: any, index) => {
+      if (item?.context?.key == key) {
+        message = item?.message;
+      }
+    });
+    return message;
+  };
+
+  useEffect(() => {
+    const handleValidate = async () => {
+      try {
+        validate();
+      } catch (error: any) {
+        console.log('error==>', error);
+      }
+    };
+
+    if (feildEditing) {
+      handleValidate();
+    }
+  }, [data, communities]);
+
+  useEffect(() => {
+    setData(setPresaleForm({ ['community']: JSON.stringify(communities) }));
+  }, [communities]);
 
   const onChangeProjectLogo = async (imageList: any) => {
     try {
@@ -26,6 +89,7 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
       const imageLogo = await uploadLaunchpadImage(logoBase64);
       setProjectLogo(imageList);
       setData(setPresaleForm({ ['projectLogo']: imageLogo.url }));
+      setFeildEditing('projectLogo');
     } catch (error) {
       console.log(error);
     }
@@ -37,6 +101,7 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
       const imageLogo = await uploadLaunchpadImage(logoBase64);
       setSaleBanner(imageList);
       setData(setPresaleForm({ ['saleBanner']: imageLogo.url }));
+      setFeildEditing('saleBanner');
     } catch (error) {
       console.log(error);
     }
@@ -44,229 +109,251 @@ const Step01 = ({ data, setData, handleNext, onShowError, communities, setCommun
 
   const handleChange = (prop: any) => (event: any) => {
     setData(setPresaleForm({ [prop]: event.target.value }));
+    setFeildEditing(prop);
   };
 
   const handleChangeCommunities = (prop: any) => (event: any) => {
     setCommunities({ ...communities, [prop]: event.target.value });
+    setFeildEditing(prop);
+  };
+
+  const nextStep = async () => {
+    const validateVariable = await validate();
+
+    if (!validateVariable) {
+      return false;
+    }
+    handleNext();
   };
 
   return (
-    <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
-      <FlexBox flexDirection="column" alignItems="center">
-        <Typography variant="h3" color="text.primary" fontWeight="400">
-          1. Start with the basics
-        </Typography>
-        <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
-          Make it easy for people to learn about your project.
-        </Typography>
-      </FlexBox>
-      <FlexBox flexDirection="column">
-        <WrapLine>
-          <WrapDescription>
-            <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-              Project title
-            </Typography>
-            <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-              Write a clear, brief title to help people quickly understand your project. Both will appear on your
-              project and pre-launch pages.
-            </Typography>
-          </WrapDescription>
-          <WrapValue>
-            <WrapForm fullWidth>
-              <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                Title <RequireSymbol component="span">*</RequireSymbol>
+    <>
+      <HeaderSection data={data} activeStep={0} handleBack={handleBack} handleNext={nextStep} />
+      <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
+        <FlexBox flexDirection="column" alignItems="center">
+          <Typography variant="h3" color="text.primary" fontWeight="400">
+            1. Start with the basics
+          </Typography>
+          <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
+            Make it easy for people to learn about your project.
+          </Typography>
+        </FlexBox>
+        <FlexBox flexDirection="column">
+          <WrapLine>
+            <WrapDescription>
+              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                Project title
               </Typography>
-              <InputCustom
-                placeholder="Enter project title"
-                className={onShowError('projectTitle') ? 'onError' : ''}
-                value={data.projectTitle}
-                onChange={handleChange('projectTitle')}
-                fullWidth
-              />
+              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+                Write a clear, brief title to help people quickly understand your project. Both will appear on your
+                project and pre-launch pages.
+              </Typography>
+            </WrapDescription>
+            <WrapValue>
+              <WrapForm fullWidth>
+                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                  Title <RequireSymbol component="span">*</RequireSymbol>
+                </Typography>
+                <InputCustom
+                  placeholder="Enter project title"
+                  className={onShowError('projectTitle') ? 'onError' : ''}
+                  value={data.projectTitle}
+                  onChange={handleChange('projectTitle')}
+                  fullWidth
+                />
+                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                  {onShowError('projectTitle')}
+                </Typography>
+              </WrapForm>
+            </WrapValue>
+          </WrapLine>
+          <WrapLine>
+            <WrapDescription>
+              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                Project logo
+              </Typography>
+              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+                Make it easy for people to learn about your project.
+              </Typography>
+            </WrapDescription>
+            <WrapValue>
+              <ImageUploading value={projectLogo} onChange={onChangeProjectLogo} dataURLKey="data_url">
+                {({ imageList, onImageUpload, onImageUpdate, dragProps }) => (
+                  <BoxImageUpload
+                    onClick={onImageUpload}
+                    {...dragProps}
+                    className={onShowError('projectLogo') ? 'onError' : ''}
+                  >
+                    {imageList[0]?.data_url === '' ? (
+                      <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
+                        <img src="/icons/AddFile.svg" alt="Add File" />
+                        <Typography variant="captionPoppins" color="blue.100" fontWeight="400" mt="14px">
+                          Drop an image here or select a file
+                        </Typography>
+                        <Typography variant="body6Poppins" color="gray.600" fontWeight="400">
+                          It must be a JPG, PNG, GIF, TIFF, or BMP, no larger than 200 MB.
+                        </Typography>
+                      </FlexBox>
+                    ) : (
+                      imageList?.map((image, index) => (
+                        <div key={index} className="image-item">
+                          <img src={image['data_url']} alt="" width="100%" height="auto" />
+                        </div>
+                      ))
+                    )}
+                  </BoxImageUpload>
+                )}
+              </ImageUploading>
               <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                {onShowError('projectTitle')}
+                {onShowError('projectLogo')}
               </Typography>
-            </WrapForm>
-          </WrapValue>
-        </WrapLine>
-        <WrapLine>
-          <WrapDescription>
-            <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-              Project logo
-            </Typography>
-            <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-              Make it easy for people to learn about your project.
-            </Typography>
-          </WrapDescription>
-          <WrapValue>
-            <ImageUploading value={projectLogo} onChange={onChangeProjectLogo} dataURLKey="data_url">
-              {({ imageList, onImageUpload, onImageUpdate, dragProps }) => (
-                <BoxImageUpload onClick={onImageUpload} {...dragProps} className={onShowError('projectLogo') ? 'onError' : ''}>
-                  {imageList[0]?.data_url === '' ? (
-                    <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
-                      <img src="/icons/AddFile.svg" alt="Add File" />
-                      <Typography variant="captionPoppins" color="blue.100" fontWeight="400" mt="14px">
-                        Drop an image here or select a file
-                      </Typography>
-                      <Typography variant="body6Poppins" color="gray.600" fontWeight="400">
-                        It must be a JPG, PNG, GIF, TIFF, or BMP, no larger than 200 MB.
-                      </Typography>
-                    </FlexBox>
-                  ) : (
-                    imageList?.map((image, index) => (
-                      <div key={index} className="image-item">
-                        <img src={image['data_url']} alt="" width="100%" height="auto" />
-                      </div>
-                    ))
-                  )}
-                </BoxImageUpload>
-              )}
-            </ImageUploading>
-            <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-              {onShowError('projectLogo')}
-            </Typography>
-          </WrapValue>
-        </WrapLine>
-        <WrapLine>
-          <WrapDescription>
-            <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-              Sale banner
-            </Typography>
-            <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-              Make it easy for people to learn about your project.
-            </Typography>
-          </WrapDescription>
-          <WrapValue>
-            <ImageUploading value={saleBanner} onChange={onChangeSaleBanner} dataURLKey="data_url">
-              {({ imageList, onImageUpload, onImageUpdate, dragProps }) => (
-                <BoxImageUpload onClick={onImageUpload} {...dragProps} className={onShowError('saleBanner') ? 'onError' : ''}>
-                  {imageList[0]?.data_url === '' ? (
-                    <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
-                      <img src="/icons/AddFile.svg" alt="Add File" />
-                      <Typography variant="captionPoppins" color="blue.100" fontWeight="400" mt="14px">
-                        Drop an image here or select a file
-                      </Typography>
-                      <Typography variant="body6Poppins" color="gray.600" fontWeight="400">
-                        It must be a JPG, PNG, GIF, TIFF, or BMP, no larger than 200 MB.
-                      </Typography>
-                    </FlexBox>
-                  ) : (
-                    imageList?.map((image, index) => (
-                      <div key={index} className="image-item">
-                        <img src={image['data_url']} alt="" width="100%" height="auto" />
-                      </div>
-                    ))
-                  )}
-                </BoxImageUpload>
-              )}
-            </ImageUploading>
-            <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-              {onShowError('saleBanner')}
-            </Typography>
-          </WrapValue>
-        </WrapLine>
-        <WrapLine>
-          <WrapDescription>
-            <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-              Video promo (optional)
-            </Typography>
-            <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-              Add a video that describes your project.
-              <br />
-              <br />
-              Tell people what you’re raising funds to do, how you plan to make it happen, who you are, and why you care
-              about this project.
-              <br />
-              <br />
-              After you’ve uploaded your video, use our editor to add captions and subtitles so your project is more
-              accessible to everyone.
-            </Typography>
-          </WrapDescription>
-          <WrapValue>
-            <WrapForm fullWidth>
-              <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                Video URL
+            </WrapValue>
+          </WrapLine>
+          <WrapLine>
+            <WrapDescription>
+              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                Sale banner
               </Typography>
-              <InputCustom
-                fullWidth
-                placeholder="Enter url image"
-                value={data.videoPromo}
-                onChange={handleChange('videoPromo')}
-              />
-            </WrapForm>
-          </WrapValue>
-        </WrapLine>
-        <WrapLine
-          sx={{
-            borderBottom: '1px solid',
-            borderColor: 'gray.600',
-          }}
-        >
-          <WrapDescription>
-            <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-              Community
-            </Typography>
-            <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-              Make it easy for people to learn about your project.
-            </Typography>
-          </WrapDescription>
-          <WrapValue>
-            <WrapForm fullWidth>
-              <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                Website <RequireSymbol component="span">*</RequireSymbol>
+              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+                Make it easy for people to learn about your project.
               </Typography>
-              <InputCustom
-                fullWidth
-                className={onShowError('website') ? 'onError' : ''}
-                placeholder="Enter your website"
-                value={communities.website}
-                onChange={handleChangeCommunities('website')}
-              />
+            </WrapDescription>
+            <WrapValue>
+              <ImageUploading value={saleBanner} onChange={onChangeSaleBanner} dataURLKey="data_url">
+                {({ imageList, onImageUpload, onImageUpdate, dragProps }) => (
+                  <BoxImageUpload
+                    onClick={onImageUpload}
+                    {...dragProps}
+                    className={onShowError('saleBanner') ? 'onError' : ''}
+                  >
+                    {imageList[0]?.data_url === '' ? (
+                      <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
+                        <img src="/icons/AddFile.svg" alt="Add File" />
+                        <Typography variant="captionPoppins" color="blue.100" fontWeight="400" mt="14px">
+                          Drop an image here or select a file
+                        </Typography>
+                        <Typography variant="body6Poppins" color="gray.600" fontWeight="400">
+                          It must be a JPG, PNG, GIF, TIFF, or BMP, no larger than 200 MB.
+                        </Typography>
+                      </FlexBox>
+                    ) : (
+                      imageList?.map((image, index) => (
+                        <div key={index} className="image-item">
+                          <img src={image['data_url']} alt="" width="100%" height="auto" />
+                        </div>
+                      ))
+                    )}
+                  </BoxImageUpload>
+                )}
+              </ImageUploading>
               <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                {onShowError('website')}
+                {onShowError('saleBanner')}
               </Typography>
-            </WrapForm>
-            <WrapForm fullWidth>
-              <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                Telegram
+            </WrapValue>
+          </WrapLine>
+          <WrapLine>
+            <WrapDescription>
+              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                Video promo (optional)
               </Typography>
-              <InputCustom
-                fullWidth
-                className={onShowError('telegram') ? 'onError' : ''}
-                placeholder="Enter your telegram"
-                value={communities.telegram}
-                onChange={handleChangeCommunities('telegram')}
-              />
-              {/* <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+                Add a video that describes your project.
+                <br />
+                <br />
+                Tell people what you’re raising funds to do, how you plan to make it happen, who you are, and why you
+                care about this project.
+                <br />
+                <br />
+                After you’ve uploaded your video, use our editor to add captions and subtitles so your project is more
+                accessible to everyone.
+              </Typography>
+            </WrapDescription>
+            <WrapValue>
+              <WrapForm fullWidth>
+                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                  Video URL
+                </Typography>
+                <InputCustom
+                  fullWidth
+                  placeholder="Enter url image"
+                  value={data.videoPromo}
+                  onChange={handleChange('videoPromo')}
+                />
+              </WrapForm>
+            </WrapValue>
+          </WrapLine>
+          <WrapLine
+            sx={{
+              borderBottom: '1px solid',
+              borderColor: 'gray.600',
+            }}
+          >
+            <WrapDescription>
+              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                Community
+              </Typography>
+              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+                Make it easy for people to learn about your project.
+              </Typography>
+            </WrapDescription>
+            <WrapValue>
+              <WrapForm fullWidth>
+                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                  Website <RequireSymbol component="span">*</RequireSymbol>
+                </Typography>
+                <InputCustom
+                  fullWidth
+                  className={onShowError('website') ? 'onError' : ''}
+                  placeholder="Enter your website"
+                  value={communities.website}
+                  onChange={handleChangeCommunities('website')}
+                />
+                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+                  {onShowError('website')}
+                </Typography>
+              </WrapForm>
+              <WrapForm fullWidth>
+                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                  Telegram
+                </Typography>
+                <InputCustom
+                  fullWidth
+                  className={onShowError('telegram') ? 'onError' : ''}
+                  placeholder="Enter your telegram"
+                  value={communities.telegram}
+                  onChange={handleChangeCommunities('telegram')}
+                />
+                {/* <Typography variant="captionPoppins" color="red.500" fontWeight="400">
                 {onShowError('telegram')}
               </Typography> */}
-            </WrapForm>
-            <WrapForm fullWidth>
-              <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
-                Discord
-              </Typography>
-              <InputCustom
-                fullWidth
-                className={onShowError('discord') ? 'onError' : ''}
-                placeholder="Enter your discord"
-                value={communities.discord}
-                onChange={handleChangeCommunities('discord')}
-              />
-              {/* <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+              </WrapForm>
+              <WrapForm fullWidth>
+                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                  Discord
+                </Typography>
+                <InputCustom
+                  fullWidth
+                  className={onShowError('discord') ? 'onError' : ''}
+                  placeholder="Enter your discord"
+                  value={communities.discord}
+                  onChange={handleChangeCommunities('discord')}
+                />
+                {/* <Typography variant="captionPoppins" color="red.500" fontWeight="400">
                 {onShowError('discord')}
               </Typography> */}
-            </WrapForm>
-          </WrapValue>
-        </WrapLine>
+              </WrapForm>
+            </WrapValue>
+          </WrapLine>
+        </FlexBox>
+        <FlexBox justifyContent="flex-end">
+          <Next onClick={nextStep}>
+            <Typography variant="body3Poppins" color="#000000" fontWeight="600">
+              Next
+            </Typography>
+          </Next>
+        </FlexBox>
       </FlexBox>
-      <FlexBox justifyContent="flex-end">
-        <Next onClick={() => handleNext(1)}>
-          <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-            Next
-          </Typography>
-        </Next>
-      </FlexBox>
-    </FlexBox>
+    </>
   );
 };
 
