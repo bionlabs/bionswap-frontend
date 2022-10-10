@@ -97,7 +97,7 @@ const Header = ({ isMobile }: MobileProp) => {
 
   return (
     <Box display="flex" flexDirection="column" gap="30px">
-      {!claimed && isWhitelisted && (
+      {/* {!claimed && isWhitelisted && (
         <WrapBanner>
           <Flex flexDirection="column" gap="15px">
             <Typography variant="h5Samsung" fontWeight="700" color="text.primary">
@@ -113,7 +113,7 @@ const Header = ({ isMobile }: MobileProp) => {
             </Claim>
           </Flex>
         </WrapBanner>
-      )}
+      )} */}
       <Box
         display="flex"
         alignItems={isMobile ? 'start' : 'center'}
