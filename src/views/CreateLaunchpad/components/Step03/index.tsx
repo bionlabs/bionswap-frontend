@@ -16,6 +16,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { setPresaleForm } from 'state/presale/action';
 import Joi, { CustomHelpers, CustomValidator } from 'joi';
+import HeaderSection from '../HeaderSection';
 
 const whitelistOpts = [
   {
@@ -124,11 +125,17 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
         if (value < currentTime) {
           throw new Error('TGE Date must be greater than current time');
         }
+
+        if (value <= data.endTime) {
+          throw new Error('TGE Date must be greater than pre-sale end time');
+        }
       }
 
       if (item == 'tokenReleaseEachCycle') {
         if (Number(value) + Number(data.firstRelease) > 100) {
-          throw new Error('Total "First release percent" and "Token release each cycle" must be less than or equal to 100%');
+          throw new Error(
+            'Total "First release percent" and "Token release each cycle" must be less than or equal to 100%',
+          );
         }
       }
     });
@@ -147,7 +154,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
   useEffect(() => {
     const handleValidate = async () => {
       try {
-        validate(feildEditing);
+        validate();
       } catch (error: any) {
         console.log('error==>', error);
       }
@@ -158,7 +165,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
     }
   }, [data]);
 
-  const validate = async (parram: string) => {
+  const validate = async () => {
     try {
       const schemaStep03 = Joi.object({
         tokenPrice: Joi.number().min(0.000001).required().label('Token price'),
@@ -208,10 +215,10 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
         { abortEarly: false },
       );
       setErrors([]);
-      return value;
+      return true;
     } catch (error: any) {
-      console.log(error?.details);
       setErrors(error?.details || []);
+      return false;
     }
   };
 
@@ -250,8 +257,17 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
     setFeildEditing(prop);
   };
 
+  const nextStep = async () => {
+    const validateVariable = await validate();
+    if (!validateVariable) {
+      return false;
+    }
+    handleNext();
+  };
+
   return (
     <>
+      <HeaderSection data={data} activeStep={2} handleBack={handleBack} handleNext={nextStep} />
       <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
         <FlexBox flexDirection="column" alignItems="center">
           <Typography variant="h3" color="text.primary" fontWeight="400">
@@ -572,8 +588,8 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                   </RadioGroup>
                 </FormControl>
                 <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                {onShowError('unsoldToken')}
-              </Typography>
+                  {onShowError('unsoldToken')}
+                </Typography>
               </WrapForm>
             </WrapValue>
           </WrapLine>
@@ -790,12 +806,12 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
           </WrapLine>
         </FlexBox>
         <FlexBox justifyContent="flex-end" gap="14px">
-          <Back onClick={() => handleBack(3)}>
+          <Back onClick={handleBack}>
             <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
               Back
             </Typography>
           </Back>
-          <Next onClick={() => handleNext(3)}>
+          <Next onClick={nextStep}>
             <Typography variant="body3Poppins" color="#000000" fontWeight="600">
               Next
             </Typography>

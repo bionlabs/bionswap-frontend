@@ -7,8 +7,9 @@ import { createPresale } from 'api/launchpad';
 import { ethers } from 'ethers';
 import { usePresaleFactoryContract } from 'hooks/useContract';
 import { useRouter } from 'next/router';
-import { clearPresaleForm, setPresaleForm } from 'state/presale/action';
 import { LoadingButton } from '@mui/lab';
+import HeaderSection from '../HeaderSection';
+import { clearPresaleForm } from 'state/presale/action';
 
 const Description = ({ html }: any) => {
   return <Box dangerouslySetInnerHTML={{ __html: html }} />;
@@ -20,8 +21,8 @@ export const minimizeAddressSmartContract = (str: string) => {
 };
 
 const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) => {
-  console.log("🚀 ~ file: index.tsx ~ line 22 ~ Step06 ~ data", data)
-  const router = useRouter()
+  console.log('🚀 ~ file: index.tsx ~ line 22 ~ Step06 ~ data', data);
+  const router = useRouter();
   const { chainId, account } = useChain();
   const presaleFactoryContract = usePresaleFactoryContract();
   const [loadignSubmit, setLoadingSubmit] = useState(false);
@@ -35,7 +36,7 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
   const quoteToken = useToken(data?.quoteToken);
   const [isReady, setIsReady] = useState(false);
   const [decimals, setDecimals] = useState(18);
-  console.log("🚀 ~ file: index.tsx ~ line 34 ~ Step06 ~ data.currency.quoteToken", quoteToken)
+  console.log('🚀 ~ file: index.tsx ~ line 34 ~ Step06 ~ data.currency.quoteToken', quoteToken);
 
   const projectReview = [
     {
@@ -164,18 +165,16 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
       if (data.currency !== 'BNB' && quoteToken) {
         setIsReady(true);
         setDecimals(quoteToken?.decimals);
-      }
-      else if (data.currency === 'BNB') {
+      } else if (data.currency === 'BNB') {
         setIsReady(true);
         setDecimals(18);
-      }
-      else {
+      } else {
         setIsReady(false);
       }
-    }
+    };
 
-    handleCheckIsReady()
-  }, [quoteToken, data?.currency])
+    handleCheckIsReady();
+  }, [quoteToken, data?.currency]);
 
   const handleCreateSale = useCallback(
     async (data: any) => {
@@ -267,18 +266,25 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
 
       setLoadingSubmit(false);
 
-      // router.push('/dashboard/my-project');
+      router.push('/dashboard/my-project');
 
-      // setData(clearPresaleForm());
-      
+      setData(clearPresaleForm());
     },
     [account, chainId, presaleFactoryContract, quoteToken],
   );
 
   return (
     <>
+      <HeaderSection
+        data={data}
+        activeStep={5}
+        handleBack={handleBack}
+        handleCreateSale={handleCreateSale}
+        loadignSubmit={loadignSubmit}
+        isReady={isReady}
+      />
       {onpenDescription ? (
-        <Box>
+        <Box> 
           <FlexBox onClick={showDescription} sx={{ cursor: 'pointer' }} gap="16px">
             <img src="/icons/keyboard_arrow_left.svg" alt="keyboard_arrow_left" />
             <Typography variant="h3" fontWeight="500" color="text.primary">
@@ -374,14 +380,35 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
                     0.5 BNB
                   </Typography>
                 </BoxItem>
-                <BoxItem>
-                  <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
-                    Token for sale
-                  </Typography>
-                  <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
-                    100 BNB
-                  </Typography>
-                </BoxItem>
+                {data?.saleFee === '0' ? (
+                  <BoxItem>
+                    <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                      5% {data?.currency} raised only
+                    </Typography>
+                    <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
+                      TBA
+                    </Typography>
+                  </BoxItem>
+                ) : (
+                  <>
+                    <BoxItem>
+                      <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                        2% {data?.currency} rasied
+                      </Typography>
+                      <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
+                        TBA
+                      </Typography>
+                    </BoxItem>
+                    <BoxItem>
+                      <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                        2% {tokenContract?.symbol} sold
+                      </Typography>
+                      <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
+                        10.000 {tokenContract?.symbol}
+                      </Typography>
+                    </BoxItem>
+                  </>
+                )}
               </FlexBox>
             </WrapTag>
             <WrapTag>
@@ -396,25 +423,33 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
               <FlexBox flexDirection="column" mt="32px" gap="8px">
                 <BoxItem>
                   <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
-                    Token for sale
+                    {tokenContract?.symbol} for sale
                   </Typography>
                   <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
-                    {tokenForSale} {tokenContract?.symbol}
+                    {tokenForSale}
                   </Typography>
                 </BoxItem>
                 <BoxItem>
                   <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
-                    Token for add liquidity
+                    {tokenContract?.symbol} for add liquidity
                   </Typography>
                   <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
-                    {tokenForLiquidity} {tokenContract?.symbol}
+                    {tokenForLiquidity}
+                  </Typography>
+                </BoxItem>
+                <BoxItem>
+                  <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                    {data?.currency} for add liquidity
+                  </Typography>
+                  <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
+                    70% of total raisied
                   </Typography>
                 </BoxItem>
               </FlexBox>
             </WrapTag>
           </FlexBox>
           <FlexBox justifyContent="flex-end" gap="14px">
-            <Back onClick={() => handleBack(5)}>
+            <Back onClick={handleBack}>
               <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
                 Back
               </Typography>

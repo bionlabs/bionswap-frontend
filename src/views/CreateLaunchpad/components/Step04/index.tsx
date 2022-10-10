@@ -11,7 +11,6 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
-  TextField,
 } from '@mui/material';
 import { useToken } from 'hooks/useToken';
 import { setPresaleForm } from 'state/presale/action';
@@ -24,6 +23,8 @@ import Joi, { CustomHelpers, CustomValidator } from 'joi';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useTotalSupply } from 'hooks/useTotalSupply';
+import HeaderSection from '../HeaderSection';
 
 const listingOpts = [
   {
@@ -49,6 +50,7 @@ const dexs = [
 const Step04 = ({ data, setData, handleNext, handleBack }: any) => {
   const { chainId, account } = useChain();
   const token = useToken(data.tokenContract);
+  const tokenTotalSupply = useTotalSupply(token || undefined)?.toFixed(2);
   const presaleFactoryContract = usePresaleFactoryContract();
   const [pending, setPending] = useState(false);
 
@@ -80,7 +82,7 @@ const Step04 = ({ data, setData, handleNext, handleBack }: any) => {
   useEffect(() => {
     const handleValidate = async () => {
       try {
-        validate(feildEditing);
+        validate();
       } catch (error: any) {
         console.log('error==>', error);
       }
@@ -91,7 +93,7 @@ const Step04 = ({ data, setData, handleNext, handleBack }: any) => {
     }
   }, [data]);
 
-  const validate = async (parram: string) => {
+  const validate = async () => {
     try {
       const schemaStep04 = Joi.object({
         listing: Joi.number().integer().min(0).max(1).required().label('Listings options'),
@@ -112,17 +114,17 @@ const Step04 = ({ data, setData, handleNext, handleBack }: any) => {
         { abortEarly: false },
       );
       setErrors([]);
-      return value;
+      return true;
     } catch (error: any) {
-      console.log(error?.details);
       setErrors(error?.details || []);
+      return false;
     }
   };
 
   const handleApprove = async () => {
     try {
       setPending(true);
-      const balanceValidation = handleCheckBalanceToken()
+      const balanceValidation = handleCheckBalanceToken();
       if (!balanceValidation) {
         setPending(false);
         return false;
@@ -136,7 +138,9 @@ const Step04 = ({ data, setData, handleNext, handleBack }: any) => {
 
   const handleCheckBalanceToken = () => {
     if (Number(balance) < tokenInTotal) {
-      toast(`Your ${token?.symbol} balance is not enough to launch!`)
+      toast(
+        `Not enough balance in your wallet. Need ${tokenTotalSupply} ${token?.symbol} to create launchpad. (Your balance: ${balance} ${token?.symbol})`,
+      );
       return false;
     }
     return true;
@@ -171,8 +175,17 @@ const Step04 = ({ data, setData, handleNext, handleBack }: any) => {
     setFeildEditing('dex');
   }, [chainId, data.dex, setData]);
 
+  const nextStep = async () => {
+    const validateVariable = await validate();
+    if (!validateVariable) {
+      return false;
+    }
+    handleNext();
+  };
+
   return (
     <>
+      <HeaderSection data={data} activeStep={3} handleBack={handleBack} handleNext={nextStep} approvalState={approvalState} handleApprove={handleApprove} pendingStep4={pending}  />
       <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
         <FlexBox flexDirection="column" alignItems="center">
           <Typography variant="h3" color="text.primary" fontWeight="400">
@@ -416,18 +429,18 @@ const Step04 = ({ data, setData, handleNext, handleBack }: any) => {
           </WrapLine>
         </FlexBox>
         <FlexBox justifyContent="flex-end" gap="14px">
-          <Back onClick={() => handleBack(4)}>
+          <Back onClick={handleBack}>
             <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
               Back
             </Typography>
           </Back>
           <Next
             loading={pending && approvalState === ApprovalState.NOT_APPROVED}
-            onClick={approvalState === ApprovalState.APPROVED ? () => handleNext(4) : () => handleApprove()}
+            onClick={approvalState === ApprovalState.APPROVED ? nextStep : handleApprove}
           >
             {!(pending && approvalState === ApprovalState.NOT_APPROVED) && (
               <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-                {approvalState === ApprovalState.APPROVED ? 'Next' : 'Approve'}
+                {approvalState === ApprovalState.APPROVED ? 'Next' : 'Enable'}
               </Typography>
             )}
           </Next>

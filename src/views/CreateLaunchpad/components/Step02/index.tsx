@@ -19,6 +19,7 @@ import { useToken } from 'hooks/useToken';
 import { useCallback, useEffect, useState } from 'react';
 import { setPresaleForm } from 'state/presale/action';
 import Joi, { CustomHelpers, CustomValidator } from 'joi';
+import HeaderSection from '../HeaderSection';
 
 const currencyOpts = [
   {
@@ -61,7 +62,7 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
   useEffect(() => {
     const handleValidate = async () => {
       try {
-        validate(feildEditing);
+        validate();
       } catch (error: any) {
         console.log('error==>', error);
       }
@@ -94,7 +95,7 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
     });
   };
 
-  const validate = async (parram: string) => {
+  const validate = async () => {
     try {
       const schemaStep02 = Joi.object({
         tokenContract: Joi.string().required().custom(method).label('Token contract'),
@@ -111,10 +112,10 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
         { abortEarly: false },
       );
       setErrors([]);
-      return value;
+      return true;
     } catch (error: any) {
-      console.log(error?.details);
       setErrors(error?.details || []);
+      return false;
     }
   };
 
@@ -147,9 +148,10 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
         }
       }
       setData(setPresaleForm({ ...payload, [prop]: event.target.value }));
+      setFeildEditing('currency');
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [chainId],
+    [chainId, data, data.currency, handleNext],
   );
 
   const handleSelectFee = (prop: any) => (event: any) => {
@@ -167,14 +169,24 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
       }
     }
     setData(setPresaleForm({ ...payload, [prop]: event.target.value }));
+    setFeildEditing('saleFee');
   };
 
   const handleOpenModal = () => setOpenModal(true);
 
   const handleCloseModal = () => setOpenModal(false);
 
+  const nextStep = async () => {
+    const validateVariable = await validate();
+    if (!validateVariable) {
+      return false;
+    }
+    handleNext();
+  };
+
   return (
     <>
+      <HeaderSection data={data} activeStep={1} handleBack={handleBack} handleNext={nextStep} />
       <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
         <FlexBox flexDirection="column" alignItems="center">
           <Typography variant="h3" color="text.primary" fontWeight="400">
@@ -325,12 +337,12 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
           </WrapLine>
         </FlexBox>
         <FlexBox justifyContent="flex-end" gap="14px">
-          <Back onClick={() => handleBack(2)}>
+          <Back onClick={handleBack}>
             <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
               Back
             </Typography>
           </Back>
-          <Next onClick={() => handleNext(2)}>
+          <Next onClick={nextStep}>
             <Typography variant="body3Poppins" color="#000000" fontWeight="600">
               Next
             </Typography>
