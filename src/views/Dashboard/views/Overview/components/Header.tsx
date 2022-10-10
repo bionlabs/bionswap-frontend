@@ -24,7 +24,6 @@ const Header = ({ isMobile }: MobileProp) => {
   const claimed = useSingleCallResult(bionAvatarContract, 'claimeds', [account])?.result?.[0] || false;
   const isWhitelisted = useSingleCallResult(bionAvatarContract, 'isWhitelisted', [account])?.result?.[0] || false;
   const tokenIdCounter = Number(useSingleCallResult(bionAvatarContract, 'tokenIdCounter')?.result?.[0] || 0)
-  console.log("🚀 ~ file: Header.tsx ~ line 27 ~ Header ~ tokenIdCounter", tokenIdCounter)
   const [tokenId, setTokenId] = useState('');
   const [loadingClaim, setLoadingClaim] = useState(false)
   const accessToken = useAppSelector((state) => state.auth.accessToken);
