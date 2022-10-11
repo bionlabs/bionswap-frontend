@@ -18,7 +18,7 @@ import Card from 'components/Card';
 import NoDataView from 'components/NoDataView';
 import SkeletonCard from 'components/SkeletonCard';
 import { useRefetchIncreasedInterval } from 'hooks';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import Title from './components/Title/Title';
 
@@ -57,7 +57,7 @@ const LaunchPadSection = ({ chainId }: any) => {
     setParams({ ...params, [prop]: event.target.value });
   };
 
-  const getLaunchData = async (params: any) => {
+  const getLaunchData = useCallback(async (params: any) => {
     try {
       const launchData = await getSaleList(
         params.page,
@@ -72,11 +72,10 @@ const LaunchPadSection = ({ chainId }: any) => {
       setLoading(false);
       console.log('error====>', error);
     }
-  };
+  }, [chainId]);
 
   useRefetchIncreasedInterval(
     async () => {
-      console.log("🚀 ~ file: LaunchPadSection.tsx ~ line 111111 ~ handleChangePagidation ~ params", params)
       getLaunchData(params);
     },
     1000,
@@ -86,7 +85,7 @@ const LaunchPadSection = ({ chainId }: any) => {
 
   useEffect(() => {
     getLaunchData(params);
-  }, [params, chainId])
+  }, [params, chainId, getLaunchData])
 
   const handleChangePagidation = (event: React.ChangeEvent<unknown>, value: number) => {
     setLoading(true)

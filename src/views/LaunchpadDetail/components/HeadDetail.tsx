@@ -36,20 +36,14 @@ const HeadDetail: React.FC<HeadDetailProps> = ({ avatar, name, type, endTime, st
             <FlexBox gap="8px" alignItems="center">
               <Box
                 component="img"
-                src="/icons/coins/0x8301f2213c0eed49a7e28ae4c3e91722919b8b47.svg"
-                alt="BNB"
+                src={`/icons/coins/${unit}.svg`}
+                alt={unit}
                 width="24px"
               />
               <Typography variant="body3Poppins" fontWeight="600" color="gray.200">
                 {unit}
               </Typography>
             </FlexBox>
-            {/* <FlexBox gap='8px' alignItems='center'>
-                            <Box component='img' src='/images/coins/BNB_coin.png' alt='BNB_coin' width='24px' />
-                            <Typography variant='body3Poppins' fontWeight='600' color='gray.200'>
-                                {unit}
-                            </Typography>
-                        </FlexBox> */}
           </FlexBox>
         </FlexBox>
         <Typography variant="body2Poppins" color="#9B9B9B" fontWeight="400">
@@ -59,12 +53,12 @@ const HeadDetail: React.FC<HeadDetailProps> = ({ avatar, name, type, endTime, st
       <Box display="flex" alignItems="center">
         <Status
           sx={{
-            backgroundColor: 'gray.500',
-            ...(currentTime < startTime && {
-              backgroundColor: 'gray.800',
-            }),
-            ...(currentTime < endTime && {
+            backgroundColor: 'gray.800',
+            ...(currentTime > startTime && {
               backgroundColor: '#08878E',
+            }),
+            ...(currentTime > endTime && {
+              backgroundColor: 'gray.500',
             }),
           }}
         >

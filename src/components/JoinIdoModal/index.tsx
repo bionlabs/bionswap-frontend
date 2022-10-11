@@ -1,30 +1,33 @@
+import { USDT, USDT_ADDRESS } from '@bionswap/core-sdk';
 import CloseIcon from '@mui/icons-material/Close';
+import { LoadingButton } from '@mui/lab';
 import { Box, Button, FormControl, IconButton, OutlinedInput, styled, Typography } from '@mui/material';
 import { BaseModal } from 'components';
-import { formatEther, formatUnits } from 'ethers/lib/utils';
-import { useChain, useNativeCurrencyBalances, useToken, useTokenBalance } from 'hooks';
+import { formatUnits } from 'ethers/lib/utils';
+import { useChain, useCurrencyBalance, useNativeCurrencyBalances, useToken, useTokenBalance } from 'hooks';
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback';
 import { usePresaleContract } from 'hooks/useContract';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { withCatch } from 'utils/error';
 import { tryParseAmount } from 'utils/parse';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const tokenTypes = [
-  {
-    value: 0,
-    title: 'Standard Token',
-  },
-];
-
-const JoinIdoModal = ({ open, onDismiss, data, unit }: any) => {
-  const { account } = useChain();
+const JoinIdoModal = ({ open, onDismiss, data, unit, currentCap }: any) => {
+  const [isloading, setIsLoading] = useState(false);
+  const { account, chainId } = useChain();
   const presaleContract = usePresaleContract(data?.saleAddress);
   const token = useToken(data?.token);
   const quoteToken = useToken(data?.quoteToken);
+  // const quoteToken = useToken(USDT_ADDRESS[chainId]);
   const quoteTokenBalance = useTokenBalance(account, quoteToken || undefined);
   const ethBalance = useNativeCurrencyBalances(account ? [account] : [])?.[account ?? ''];
   const quoteBalance = data?.isQuoteETH ? ethBalance : quoteTokenBalance;
+  // const quoteBalance = quoteTokenBalance;
   const [decimals, setDecimals] = useState(18);
+  const maxPurchase = Number(formatUnits(data?.maxPurchase || 0, decimals));
+  const hardCap = Number(formatUnits(data?.hardCap || 0, decimals));
+  const gasFee = 0.005;
 
   const [success, setSuccess] = useState(false);
 
@@ -59,15 +62,36 @@ const JoinIdoModal = ({ open, onDismiss, data, unit }: any) => {
     setPurchaseInput(event.target.value);
   };
 
+  useEffect(() => {
+    if (approvalState === ApprovalState.APPROVED) {
+      setIsLoading(false);
+    }
+  }, [approvalState]);
+
   const handleMaxInput = () => {
-    const maxAmountWithTolerance = Number(quoteBalance?.toFixed(6) || 0) * 0.9;
-    setPurchaseInput(maxAmountWithTolerance.toString());
+    // const maxAmountWithTolerance = Number(quoteBalance?.toFixed(6) || 0) * 0.9;
+    // setPurchaseInput(maxAmountWithTolerance.toString());
+    let maxBalance: number = 0;
+    if (data?.isQuoteETH) {
+      maxBalance = Number(quoteBalance?.toFixed()) - gasFee;
+    } else {
+      maxBalance = Number(quoteBalance?.toFixed());
+    }
+    const difference = hardCap - currentCap;
+
+    if (maxBalance >= difference && difference <= maxPurchase) {
+      setPurchaseInput(difference.toString());
+    } else if (maxBalance > maxPurchase) {
+      setPurchaseInput(maxPurchase.toString());
+    } else {
+      setPurchaseInput(maxBalance.toString());
+    }
   };
 
   const handlePurchase = async () => {
     if (!presaleContract || !account || !parsedPurchaseInputAmount) return;
-    
     if (approvalState === ApprovalState.APPROVED) {
+      setIsLoading(true);
       if (data?.isQuoteETH) {
         const { error, result: tx } = await withCatch<any>(
           presaleContract.purchaseInETH({
@@ -76,6 +100,7 @@ const JoinIdoModal = ({ open, onDismiss, data, unit }: any) => {
         );
 
         if (error) {
+          setIsLoading(false);
           // TODO toast
           return;
         }
@@ -88,15 +113,23 @@ const JoinIdoModal = ({ open, onDismiss, data, unit }: any) => {
         );
 
         if (error) {
+          setIsLoading(false);
           // TODO toast
           return;
         }
 
         await tx.wait();
         setSuccess(true);
+        setIsLoading(false);
       }
     } else if (approvalState === ApprovalState.NOT_APPROVED) {
-      approveCallback();
+      setIsLoading(true);
+      await approveCallback().catch((err) => {
+        toast.info(
+          `${err?.message}`,
+        );
+        setIsLoading(false);
+      });
     }
   };
 
@@ -165,7 +198,7 @@ const JoinIdoModal = ({ open, onDismiss, data, unit }: any) => {
                   <Typography variant="h6Poppins" color="text.primary" fontWeight="500">
                     {unit}
                   </Typography>
-                  <img src="/icons/coins/0x8301f2213c0eed49a7e28ae4c3e91722919b8b47.svg" alt="" />
+                  <img src={`/icons/coins/${unit}.svg`} alt={unit} />
                 </CurrentcyBox>
               </FlexBox>
             </WrapInput>
@@ -186,10 +219,16 @@ const JoinIdoModal = ({ open, onDismiss, data, unit }: any) => {
               </Typography>
             </FlexBox>
             <Box>
-              <ConfirmButton onClick={handlePurchase}>
-                <Typography variant="body3Poppins" color="#000607" fontWeight="600">
-                  {approvalState === ApprovalState.NOT_APPROVED ? 'Approve' : 'Confirm'}
-                </Typography>
+              <ConfirmButton
+                loading={isloading}
+                onClick={handlePurchase}
+                disabled={purchaseInput === '' || purchaseInput === '0'}
+              >
+                {!isloading && (
+                  <Typography variant="body3Poppins" color="#000607" fontWeight="600">
+                    {approvalState === ApprovalState.NOT_APPROVED ? 'Approve' : 'Confirm'}
+                  </Typography>
+                )}
               </ConfirmButton>
             </Box>
           </FlexBox>
@@ -275,7 +314,7 @@ const CurrentcyBox = styled(Box)`
   padding: 5px 10px;
 
   img {
-    width: 33px;
+    width: 22px;
     height: auto;
   }
 `;
@@ -283,11 +322,19 @@ const MaxButton = styled(Button)`
   padding: 0;
   min-width: auto;
 `;
-const ConfirmButton = styled(Button)`
+const ConfirmButton = styled(LoadingButton)`
   background: #07e0e0;
   border-radius: 8px;
   width: 100%;
   height: 57px;
+
+  &.Mui-disabled {
+    background: #eaecee;
+  }
+
+  .MuiLoadingButton-loadingIndicator {
+    color: #a8b0b9;
+  }
 `;
 
 export default JoinIdoModal;

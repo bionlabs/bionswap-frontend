@@ -59,12 +59,12 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
       </Box>
       <Status
         sx={{
-          backgroundColor: 'gray.500',
-          ...(currentTime < startTime && {
-            backgroundColor: 'gray.800',
-          }),
-          ...(currentTime < endTime && {
+          backgroundColor: 'gray.800',
+          ...(currentTime > startTime && {
             backgroundColor: '#08878E',
+          }),
+          ...(currentTime > endTime && {
+            backgroundColor: 'gray.500',
           }),
         }}
       >
@@ -116,8 +116,8 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
           </FlexBox>
           <Box>
             <img
-              src="/icons/coins/0x8301f2213c0eed49a7e28ae4c3e91722919b8b47.svg"
-              alt="0x8301f2213c0eed49a7e28ae4c3e91722919b8b47.svg"
+              src={`/icons/coins/${unit}.svg`}
+              alt={unit}
               width="38px"
               height="38px"
             />
