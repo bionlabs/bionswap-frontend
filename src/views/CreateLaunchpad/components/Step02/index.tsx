@@ -57,7 +57,7 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
   const tokenContract = useToken(data.tokenContract);
   const [openModal, setOpenModal] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [feildEditing, setFeildEditing] = useState('');
+  const [fieldEditting, setFieldEditting] = useState('');
 
   useEffect(() => {
     const handleValidate = async () => {
@@ -68,10 +68,10 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
       }
     };
 
-    if (feildEditing) {
+    if (fieldEditting) {
       handleValidate();
     }
-  }, [data]);
+  }, [data, fieldEditting]);
 
   const onShowError = (key: string) => {
     let message = '';
@@ -121,44 +121,35 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
 
   const handleChangeInput = (prop: any) => (event: any) => {
     setData(setPresaleForm({ [prop]: event.target.value }));
-    setFeildEditing(prop);
+    setFieldEditting(prop);
   };
 
-  const handleSelectCurrency = useCallback(
-    (prop: any) => (event: any) => {
-      const selectedCurrencyOpt = event.target.value;
-
-      let payload;
-      switch (selectedCurrencyOpt) {
-        case 'BNB': {
-          payload = { quoteToken: ethers.constants.AddressZero, isQuoteETH: true };
-          break;
-        }
-        case 'BUSD': {
-          payload = { quoteToken: BUSD_ADDRESS[chainId], isQuoteETH: false };
-          break;
-        }
-        case 'USDT': {
-          payload = { quoteToken: USDT_ADDRESS[chainId], isQuoteETH: false };
-          break;
-        }
-        case 'USDC': {
-          payload = { quoteToken: USDC_ADDRESS[chainId], isQuoteETH: false };
-          break;
-        }
-      }
-      setData(setPresaleForm({ ...payload, [prop]: event.target.value }));
-      setFeildEditing('currency');
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [chainId, data, data.currency, handleNext],
-  );
-
-  const handleSelectFee = (prop: any) => (event: any) => {
-    const selectedFeeOpt = event.target.value;
-
+  useEffect(() => {
     let payload;
-    switch (selectedFeeOpt) {
+    switch (data.currency) {
+      case 'BNB': {
+        payload = { quoteToken: ethers.constants.AddressZero, isQuoteETH: true };
+        break;
+      }
+      case 'BUSD': {
+        payload = { quoteToken: BUSD_ADDRESS[chainId], isQuoteETH: false };
+        break;
+      }
+      case 'USDT': {
+        payload = { quoteToken: USDT_ADDRESS[chainId], isQuoteETH: false };
+        break;
+      }
+      case 'USDC': {
+        payload = { quoteToken: USDC_ADDRESS[chainId], isQuoteETH: false };
+        break;
+      }
+    }
+    setData(setPresaleForm({ ...payload }));
+  }, [chainId, data.currency, setData]);
+
+  useEffect(() => {
+    let payload;
+    switch (data.saleFee) {
       case '0': {
         payload = { baseFee: 500, tokenFee: 0 };
         break;
@@ -168,9 +159,8 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
         break;
       }
     }
-    setData(setPresaleForm({ ...payload, [prop]: event.target.value }));
-    setFeildEditing('saleFee');
-  };
+    setData(setPresaleForm({ ...payload }));
+  }, [data.saleFee, setData]);
 
   const handleOpenModal = () => setOpenModal(true);
 
@@ -270,7 +260,9 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
                 </Typography>
                 <Select
                   value={data.currency}
-                  onChange={handleSelectCurrency('currency')}
+                  onChange={(event) => {
+                    setData(setPresaleForm({ currency: event.target.value }));
+                  }}
                   displayEmpty
                   inputProps={{ 'aria-label': 'Without label' }}
                 >
@@ -302,7 +294,13 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
             </WrapDescription>
             <WrapValue>
               <FormControl fullWidth>
-                <RadioGroup value={data.saleFee} onChange={handleSelectFee('saleFee')} name="radio-buttons-group">
+                <RadioGroup
+                  value={data.saleFee}
+                  onChange={(event) => {
+                    setData(setPresaleForm({ saleFee: Number(event.target.value) }));
+                  }}
+                  name="radio-buttons-group"
+                >
                   {feeOpts?.map((item) => (
                     <FormControlLabel
                       key={item.value}

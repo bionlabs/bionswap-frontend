@@ -2,12 +2,17 @@ import { Box, IconButton, styled, Typography } from '@mui/material';
 import { BaseModal } from 'components';
 import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from '@mui/lab';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const AvatarModal = ({ open, onDismiss, avatars, handleChooseAvatar }: any) => {
-  const [avatar, setAvatar] = useState(null)
+  const [avatar, setAvatar] = useState<any>(null)
+
+  useEffect(() => {
+    setAvatar(null)
+  }, [open])
 
   const onChooseAvatar = (item: any) => {
+    console.log('item===>', item);
     setAvatar(item)
   }
   
@@ -31,16 +36,16 @@ const AvatarModal = ({ open, onDismiss, avatars, handleChooseAvatar }: any) => {
           Change avatar
         </Typography>
         <FlexBox gap="20px" flexWrap="wrap">
-          <Avarta>
+          <Avarta className={avatar === '' ? 'active' : ''} onClick={() => onChooseAvatar('')}>
             <img src={`/images/bitendoGameboy/Default.svg`} alt="Default" />
           </Avarta>
           {avatars?.map((item: any, index: number) => (
-            <Avarta key={item.tokenId} onClick={() => onChooseAvatar(item)}>
+            <Avarta className={avatar?._id === item?._id ? 'active' : ''} key={item.tokenId} onClick={() => onChooseAvatar(item)}>
               <img src={`/images/bitendoGameboy/${item.typeId}.svg`} alt={item.tokenId} />
             </Avarta>
           ))}
         </FlexBox>
-        <ConfirmButton>
+        <ConfirmButton onClick={() => handleChooseAvatar(avatar?._id)}>
           <Typography variant="body3Poppins" color="#000000" fontWeight="600">
             Comfirm
           </Typography>
