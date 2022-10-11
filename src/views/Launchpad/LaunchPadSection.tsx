@@ -42,13 +42,14 @@ const tags = [
 ];
 
 const LaunchPadSection = ({ chainId }: any) => {
-  const [age, setAge] = useState('');
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [params, setParams] = useState({
     page: 1,
     limit: 12,
     owner: '',
     keyword: '',
-    sortBy: null,
+    sortBy: '-createdAt',
   });
   const [launchData, setLaunchData]: any = useState(null);
 
@@ -56,30 +57,45 @@ const LaunchPadSection = ({ chainId }: any) => {
     setParams({ ...params, [prop]: event.target.value });
   };
 
+  const getLaunchData = async (params: any) => {
+    try {
+      const launchData = await getSaleList(
+        params.page,
+        params.limit,
+        chainId,
+        params.owner,
+        params.keyword,
+        params.sortBy,
+      );
+      setLaunchData(launchData);
+    } catch (error) {
+      setLoading(false);
+      console.log('error====>', error);
+    }
+  };
+
   useRefetchIncreasedInterval(
     async () => {
-      const getLaunchData = async (params: any) => {
-        try {
-          const launchData = await getSaleList(
-            params.page,
-            params.limit,
-            chainId,
-            params.owner,
-            params.keyword,
-            params.sortBy,
-          );
-          setLaunchData(launchData);
-        } catch (error) {
-          console.log('error====>', error);
-        }
-      };
-
+      console.log("🚀 ~ file: LaunchPadSection.tsx ~ line 111111 ~ handleChangePagidation ~ params", params)
       getLaunchData(params);
     },
     1000,
     500,
     [chainId, params],
   );
+
+  useEffect(() => {
+    getLaunchData(params);
+  }, [params, chainId])
+
+  const handleChangePagidation = (event: React.ChangeEvent<unknown>, value: number) => {
+    setLoading(true)
+    setParams({...params, page: value})
+    setPage(value);
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+  };
 
   const settings = {
     arrows: false,
@@ -102,7 +118,7 @@ const LaunchPadSection = ({ chainId }: any) => {
             <Title title="Feature Project" />
             <WrapSlideFeatureProject>
               {launchData ? (
-                launchData.data ? (
+                launchData?.data ? (
                   <Slider {...settings}>
                     {launchData?.data?.map((item: any) => (
                       <Items key={item?.saleAddress}>
@@ -229,7 +245,7 @@ const LaunchPadSection = ({ chainId }: any) => {
                 gap: { xs: '20px', lg: '40px' },
               }}
             >
-              {launchData ? (
+              {launchData && !loading ? (
                 launchData.data ?
                 launchData?.data?.map((item: any) => (
                   <WrapItem key={item?.saleAddress}>
@@ -246,7 +262,7 @@ const LaunchPadSection = ({ chainId }: any) => {
             </Flex>
           </Section>
           <Flex alignItems="center" justifyContent="center">
-            <Pagination count={launchData?.totalPages} color="primary" />
+            <Pagination count={launchData?.totalPages} page={page} onChange={handleChangePagidation} color="primary" />
           </Flex>
         </Wrapper>
       </Container>
