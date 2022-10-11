@@ -20,21 +20,26 @@ export const minimizeAddressSmartContract = (str: string) => {
   return str.substring(0, 8) + '...' + str.substring(str.length - 4, str.length);
 };
 
-const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) => {
+const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: any) => {
   const router = useRouter();
   const { chainId, account } = useChain();
   const presaleFactoryContract = usePresaleFactoryContract();
-  const [loadignSubmit, setLoadingSubmit] = useState(false);
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
 
   const tokenContract = useToken(data.tokenContract);
   const [onpenDescription, setOpenDescription] = useState(false);
 
-  const tokenForSale = Number(data.maxGoal) / Number(data.tokenPrice) || 0;
-  const tokenForLiquidity = (Number(data.liquidityPercentage) * Number(data.maxGoal)) / Number(data.pricePerToken) || 0;
-
   const quoteToken = useToken(data?.quoteToken);
   const [isReady, setIsReady] = useState(false);
   const [decimals, setDecimals] = useState(18);
+
+  const tokenFeePercent = data.saleFee === '1' ? 2 : 0;
+  const tokenForSale = Number(data.maxGoal) / Number(data.tokenPrice) || 0;
+  const tokenForLiquidity =
+    data.listing === '0'
+      ? 0
+      : (Number(data.liquidityPercentage) * Number(data.maxGoal)) / Number(data.listingPrice) || 0;
+  const tokenForFee = (Number(data.maxGoal) * Number(tokenFeePercent)) / 100 / Number(data.tokenPrice);
 
   const projectReview = [
     {
@@ -67,7 +72,7 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
         },
         {
           label: 'Listing price',
-          value: `${data.pricePerToken || 0} ${data.currency}`,
+          value: `${data.listingPrice || 0} ${data.currency}`,
         },
       ],
     },
@@ -159,20 +164,12 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
   };
 
   useEffect(() => {
-    const handleCheckIsReady = () => {
-      if (data.currency !== 'BNB' && quoteToken) {
-        setIsReady(true);
-        setDecimals(quoteToken?.decimals);
-      } else if (data.currency === 'BNB') {
-        setIsReady(true);
-        setDecimals(18);
-      } else {
-        setIsReady(false);
-      }
-    };
-
-    handleCheckIsReady();
-  }, [quoteToken, data?.currency]);
+    if (data.isQuoteETH) {
+      setIsReady(true);
+    } else if (quoteToken?.address) {
+      setIsReady(true);
+    }
+  }, [data.isQuoteETH, quoteToken?.address]);
 
   const handleCreateSale = useCallback(
     async (data: any) => {
@@ -200,7 +197,7 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
         isWhitelistEnabled: !!Number(data.whitelist),
         isBurnUnsold: !!Number(data.unsoldToken),
         price: ethers.utils.parseUnits(data.tokenPrice, decimals).toString(),
-        listingPrice: ethers.utils.parseUnits(data.pricePerToken, decimals).toString(),
+        listingPrice: ethers.utils.parseUnits(data.listingPrice, decimals).toString(),
         minPurchase: ethers.utils.parseUnits(data.minSale, decimals).toString(),
         maxPurchase: ethers.utils.parseUnits(data.maxSale, decimals).toString(),
         startTime: Number(data.launchTime) / 1000,
@@ -220,14 +217,11 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
         // lockLPDuration: Number(data.lockupTime) * 500,
       };
 
+      console.log('🚀 ~ file: index.tsx ~ line 219 ~ payloadContract', payloadContract);
       // first estimate whether a successful transaction
-      const mockSalt = '0x3633326164653839616636643032303135316235356336360000000000000000';
+      const mockSalt = '0x3633343032313632356262346530633633373034373434330000000000000000';
       const { error: errorEstimate } = await withCatch(
-        presaleFactoryContract.estimateGas
-          .create(payloadContract, mockSalt, { value: ethers.utils.parseEther('0.1') })
-          .catch((error: any) => {
-            console.log(error);
-          }),
+        presaleFactoryContract.estimateGas.create(payloadContract, mockSalt, { value: ethers.utils.parseEther('0.5') }),
       );
 
       if (errorEstimate) {
@@ -248,19 +242,19 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
         return;
       }
 
-      const resultRes = await presaleFactoryContract
-        .create(payloadContract, (result as any).salt, { value: ethers.utils.parseEther('0.1') })
-        .catch((error: any) => {
-          console.log(error);
-        });
+      const { error: errorCreateSale, result: tx } = await withCatch(
+        presaleFactoryContract.create(payloadContract, (result as any).salt, {
+          value: ethers.utils.parseEther('0.1'),
+        }),
+      );
 
-      // if (errorRes) {
-      //   // TODO: toast
-      //   setLoadingSubmit(false);
-      //   return;
-      // }
+      if (errorCreateSale) {
+        // TODO: toast
+        setLoadingSubmit(false);
+        return;
+      }
 
-      const receipt = await resultRes?.wait();
+      const receipt = await (tx as any)?.wait();
 
       setLoadingSubmit(false);
 
@@ -268,7 +262,7 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
 
       setData(clearPresaleForm());
     },
-    [account, chainId, presaleFactoryContract, quoteToken],
+    [account, chainId, decimals, presaleFactoryContract, router, setData],
   );
 
   return (
@@ -276,13 +270,13 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
       <HeaderSection
         data={data}
         activeStep={5}
-        handleBack={handleBack}
+        onBackStep={onBackStep}
         handleCreateSale={handleCreateSale}
-        loadignSubmit={loadignSubmit}
+        loadignSubmit={loadingSubmit}
         isReady={isReady}
       />
       {onpenDescription ? (
-        <Box> 
+        <Box>
           <FlexBox onClick={showDescription} sx={{ cursor: 'pointer' }} gap="16px">
             <img src="/icons/keyboard_arrow_left.svg" alt="keyboard_arrow_left" />
             <Typography variant="h3" fontWeight="500" color="text.primary">
@@ -384,7 +378,7 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
                       5% {data?.currency} raised only
                     </Typography>
                     <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
-                      TBA
+                      -- {data?.currency}
                     </Typography>
                   </BoxItem>
                 ) : (
@@ -394,7 +388,7 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
                         2% {data?.currency} rasied
                       </Typography>
                       <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
-                        TBA
+                        -- {data?.currency}
                       </Typography>
                     </BoxItem>
                     <BoxItem>
@@ -402,7 +396,7 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
                         2% {tokenContract?.symbol} sold
                       </Typography>
                       <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
-                        10.000 {tokenContract?.symbol}
+                        {tokenForFee} {tokenContract?.symbol}
                       </Typography>
                     </BoxItem>
                   </>
@@ -427,34 +421,39 @@ const Step06 = ({ data, handleBack, setData, onShowError, handleSubmit }: any) =
                     {tokenForSale}
                   </Typography>
                 </BoxItem>
-                <BoxItem>
-                  <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
-                    {tokenContract?.symbol} for add liquidity
-                  </Typography>
-                  <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
-                    {tokenForLiquidity}
-                  </Typography>
-                </BoxItem>
-                <BoxItem>
-                  <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
-                    {data?.currency} for add liquidity
-                  </Typography>
-                  <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
-                    70% of total raisied
-                  </Typography>
-                </BoxItem>
+                {data.listing === '1' && (
+                  <>
+                    <BoxItem>
+                      <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                        {tokenContract?.symbol} for add liquidity
+                      </Typography>
+                      <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
+                        {tokenForLiquidity}
+                      </Typography>
+                    </BoxItem>
+
+                    <BoxItem>
+                      <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                        {data?.currency} for add liquidity
+                      </Typography>
+                      <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
+                        {data.liquidityPercentage}% of total raisied
+                      </Typography>
+                    </BoxItem>
+                  </>
+                )}
               </FlexBox>
             </WrapTag>
           </FlexBox>
           <FlexBox justifyContent="flex-end" gap="14px">
-            <Back onClick={handleBack}>
+            <Back onClick={onBackStep}>
               <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
                 Back
               </Typography>
             </Back>
-            <Next onClick={() => handleCreateSale(data)} disabled={loadignSubmit || !isReady} sx={{}}>
+            <Next onClick={() => handleCreateSale(data)} disabled={loadingSubmit || !isReady} sx={{}}>
               <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-                {loadignSubmit ? 'Loading…' : 'Submit'}
+                {loadingSubmit ? 'Loading…' : 'Submit'}
               </Typography>
             </Next>
           </FlexBox>

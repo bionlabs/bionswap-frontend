@@ -108,7 +108,7 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
     }
   };
 
-  const onShowError = (key: string) => {
+  const parseErrorMessage = (key: string) => {
     let message = '';
     errors?.map((item: any, index) => {
       if (item?.context?.key == key) {
@@ -148,7 +148,7 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
             Token Type <RequireSymbol component="span">*</RequireSymbol>
           </Typography>
           {/* <InputCustom fullWidth
-                        className={onShowError('tokenType') ? 'onError' : ''}
+                        className={parseErrorMessage('tokenType') ? 'onError' : ''}
                         value={dataCreated.tokenType}
                         onChange={handleChange('tokenType')}
                         placeholder="Standard Token" /> */}
@@ -165,7 +165,7 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
             ))}
           </Select>
           <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-            {onShowError('tokenType')}
+            {parseErrorMessage('tokenType')}
           </Typography>
           <Typography variant="captionPoppins" color="primary.main" fontWeight="400">
             0.2 BNB
@@ -177,13 +177,13 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
           </Typography>
           <InputCustom
             fullWidth
-            className={onShowError('name') ? 'onError' : ''}
+            className={parseErrorMessage('name') ? 'onError' : ''}
             value={dataCreated.name}
             onChange={handleChange('name')}
             placeholder="Enter token name"
           />
           <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-            {onShowError('name')}
+            {parseErrorMessage('name')}
           </Typography>
         </WrapForm>
         <WrapForm fullWidth>
@@ -192,13 +192,13 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
           </Typography>
           <InputCustom
             fullWidth
-            className={onShowError('symbol') ? 'onError' : ''}
+            className={parseErrorMessage('symbol') ? 'onError' : ''}
             value={dataCreated.symbol}
             onChange={handleChange('symbol')}
             placeholder="Enter token symbol"
           />
           <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-            {onShowError('symbol')}
+            {parseErrorMessage('symbol')}
           </Typography>
         </WrapForm>
         <WrapForm fullWidth>
@@ -208,13 +208,13 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
           <InputCustom
             type="number"
             fullWidth
-            className={onShowError('decimal') ? 'onError' : ''}
+            className={parseErrorMessage('decimal') ? 'onError' : ''}
             value={dataCreated.decimal}
             onChange={handleChange('decimal')}
             placeholder="Enter decimal"
           />
           <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-            {onShowError('decimal')}
+            {parseErrorMessage('decimal')}
           </Typography>
         </WrapForm>
         <WrapForm fullWidth>
@@ -224,13 +224,13 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
           <InputCustom
             type="number"
             fullWidth
-            className={onShowError('totalSupply') ? 'onError' : ''}
+            className={parseErrorMessage('totalSupply') ? 'onError' : ''}
             value={dataCreated.totalSupply}
             onChange={handleChange('totalSupply')}
             placeholder="Enter token supply"
           />
           <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-            {onShowError('totalSupply')}
+            {parseErrorMessage('totalSupply')}
           </Typography>
         </WrapForm>
         <FormGroup>

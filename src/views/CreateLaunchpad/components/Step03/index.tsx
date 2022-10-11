@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   Box,
   Typography,
@@ -20,11 +20,11 @@ import HeaderSection from '../HeaderSection';
 
 const whitelistOpts = [
   {
-    value: 1,
+    value: '1',
     label: 'Enable',
   },
   {
-    value: 0,
+    value: '0',
     label: 'Disable',
   },
 ];
@@ -42,35 +42,35 @@ const whitelistOpts = [
 
 const unsoldTokens = [
   {
-    value: 0,
+    value: '0',
     label: 'Refund',
   },
   {
-    value: 1,
+    value: '1',
     label: 'Burn',
   },
 ];
 
 const vestingTokens = [
   {
-    value: 0,
+    value: '0',
     label: '100% contribute',
     description: 'All of token sold will be released in the first release',
   },
   {
-    value: 1,
+    value: '1',
     label: 'Vesting many time',
   },
 ];
 
-const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
+const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
   const [launchTime, setLaunchtime] = useState(new Date(data.launchTime) || 0);
   const [endLaunchTime, setEndLaunchTime] = useState(new Date(data.endTime) || 0);
   const [tokenDistributionTime, settokenDistributionTime] = useState(new Date(data.tokenDistributionTime) || 0);
   const [tgeDate, setTGEDate] = useState(new Date(data.tgeDate) || 0);
   const currentTime = +new Date();
   const [errors, setErrors] = useState([]);
-  const [feildEditing, setFeildEditing] = useState('');
+  const isTyped = useRef(false);
 
   const method: CustomValidator = (value: any, helpers: CustomHelpers) => {
     const res: any = helpers?.state?.path;
@@ -141,7 +141,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
     });
   };
 
-  const onShowError = (key: string) => {
+  const parseErrorMessage = (key: string) => {
     let message = '';
     errors?.map((item: any, index) => {
       if (item?.context?.key == key) {
@@ -152,17 +152,10 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
   };
 
   useEffect(() => {
-    const handleValidate = async () => {
-      try {
-        validate();
-      } catch (error: any) {
-        console.log('error==>', error);
-      }
-    };
-
-    if (feildEditing) {
-      handleValidate();
+    if (isTyped.current) {
+      validate();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const validate = async () => {
@@ -224,7 +217,6 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
 
   useEffect(() => {
     setData(setPresaleForm({ ['launchTime']: new Date(launchTime).getTime() }));
-    setFeildEditing('launchTime');
   }, [launchTime, setData]);
 
   useEffect(() => {
@@ -233,41 +225,41 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
     } else {
       setData(setPresaleForm({ ['endTime']: new Date(endLaunchTime).getTime() }));
     }
-    setFeildEditing('endTime');
   }, [endLaunchTime, data.preSaleDuration, setData, launchTime]);
 
   useEffect(() => {
     setData(setPresaleForm({ ['tokenDistributionTime']: new Date(tokenDistributionTime).getTime() }));
-    setFeildEditing('tokenDistributionTime');
   }, [setData, tokenDistributionTime]);
 
   useEffect(() => {
     setData(setPresaleForm({ ['tgeDate']: new Date(tgeDate).getTime() }));
-    setFeildEditing('tgeDate');
   }, [setData, tgeDate]);
+
+  useEffect(() => {
+    if (data.vestingToken === '0') {
+      setData(setPresaleForm({ ['firstRelease']: '100' }));
+    }
+  }, [data.vestingToken, setData]);
 
   const handleChangeInput = (prop: any) => (event: any) => {
     setData(setPresaleForm({ [prop]: event.target.value }));
 
-    if (prop === 'vestingToken') {
-      event.target.value === '0'
-        ? setData(setPresaleForm({ ['firstRelease']: '100' }))
-        : setData(setPresaleForm({ ['firstRelease']: '' }));
+    if (!isTyped.current) {
+      isTyped.current = true;
     }
-    setFeildEditing(prop);
   };
 
-  const nextStep = async () => {
-    const validateVariable = await validate();
-    if (!validateVariable) {
-      return false;
+  const handleNextStep = async () => {
+    const isValid = await validate();
+
+    if (isValid) {
+      onNextStep();
     }
-    handleNext();
   };
 
   return (
     <>
-      <HeaderSection data={data} activeStep={2} handleBack={handleBack} handleNext={nextStep} />
+      <HeaderSection data={data} activeStep={2} onBackStep={onBackStep} onNextStep={handleNextStep} />
       <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
         <FlexBox flexDirection="column" alignItems="center">
           <Typography variant="h3" color="text.primary" fontWeight="400">
@@ -294,7 +286,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                 </Typography>
                 <InputCustom
                   fullWidth
-                  className={onShowError('tokenPrice') ? 'onError' : ''}
+                  className={parseErrorMessage('tokenPrice') ? 'onError' : ''}
                   value={data.tokenPrice}
                   onChange={handleChangeInput('tokenPrice')}
                   placeholder="Enter token price"
@@ -308,7 +300,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                   }
                 />
                 <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                  {onShowError('tokenPrice')}
+                  {parseErrorMessage('tokenPrice')}
                 </Typography>
               </WrapForm>
             </WrapValue>
@@ -354,7 +346,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                 </RadioGroup>
               </FormControl>
               <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                {onShowError('whitelist')}
+                {parseErrorMessage('whitelist')}
               </Typography>
             </WrapValue>
           </WrapLine>
@@ -375,7 +367,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                   </Typography>
                   <InputCustom
                     fullWidth
-                    className={onShowError('minGoal') ? 'onError' : ''}
+                    className={parseErrorMessage('minGoal') ? 'onError' : ''}
                     value={data.minGoal}
                     onChange={handleChangeInput('minGoal')}
                     placeholder="Enter minimum goal"
@@ -389,7 +381,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                     }
                   />
                   <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                    {onShowError('minGoal')}
+                    {parseErrorMessage('minGoal')}
                   </Typography>
                 </WrapForm>
                 <WrapForm fullWidth sx={{ maxWidth: '300px', width: '100%' }}>
@@ -398,7 +390,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                   </Typography>
                   <InputCustom
                     fullWidth
-                    className={onShowError('maxGoal') ? 'onError' : ''}
+                    className={parseErrorMessage('maxGoal') ? 'onError' : ''}
                     value={data.maxGoal}
                     onChange={handleChangeInput('maxGoal')}
                     placeholder="Enter maximum goal"
@@ -412,7 +404,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                     }
                   />
                   <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                    {onShowError('maxGoal')}
+                    {parseErrorMessage('maxGoal')}
                   </Typography>
                 </WrapForm>
               </FlexBox>
@@ -447,7 +439,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                   </Typography>
                   <InputCustom
                     fullWidth
-                    className={onShowError('minSale') ? 'onError' : ''}
+                    className={parseErrorMessage('minSale') ? 'onError' : ''}
                     value={data.minSale}
                     onChange={handleChangeInput('minSale')}
                     placeholder="Enter minimum buy"
@@ -461,7 +453,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                     }
                   />
                   <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                    {onShowError('minSale')}
+                    {parseErrorMessage('minSale')}
                   </Typography>
                 </WrapForm>
                 <WrapForm fullWidth sx={{ maxWidth: '300px', width: '100%' }}>
@@ -470,7 +462,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                   </Typography>
                   <InputCustom
                     fullWidth
-                    className={onShowError('maxSale') ? 'onError' : ''}
+                    className={parseErrorMessage('maxSale') ? 'onError' : ''}
                     value={data.maxSale}
                     onChange={handleChangeInput('maxSale')}
                     placeholder="Enter maximum buy"
@@ -484,7 +476,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                     }
                   />
                   <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                    {onShowError('maxSale')}
+                    {parseErrorMessage('maxSale')}
                   </Typography>
                 </WrapForm>
               </FlexBox>
@@ -501,18 +493,21 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
               </Typography>
             </WrapDescription>
             <WrapValue gap="10px !important">
-              <WrapForm className={onShowError('launchTime') ? 'onError datepicker' : 'datepicker'}>
+              <WrapForm className={parseErrorMessage('launchTime') ? 'onError datepicker' : 'datepicker'}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
                     renderInput={(props) => <TextField {...props} />}
                     value={launchTime}
                     onChange={(newValue: any) => {
                       setLaunchtime(newValue);
+                      if (!isTyped.current) {
+                        isTyped.current = true;
+                      }
                     }}
                   />
                 </LocalizationProvider>
                 <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                  {onShowError('launchTime')}
+                  {parseErrorMessage('launchTime')}
                 </Typography>
               </WrapForm>
             </WrapValue>
@@ -527,18 +522,21 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
               </Typography>
             </WrapDescription>
             <WrapValue gap="10px !important">
-              <WrapForm className={onShowError('endTime') ? 'onError datepicker' : 'datepicker'}>
+              <WrapForm className={parseErrorMessage('endTime') ? 'onError datepicker' : 'datepicker'}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
                     renderInput={(props) => <TextField {...props} />}
                     value={endLaunchTime}
                     onChange={(newValue: any) => {
                       setEndLaunchTime(newValue);
+                      if (!isTyped.current) {
+                        isTyped.current = true;
+                      }
                     }}
                   />
                 </LocalizationProvider>
                 <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                  {onShowError('endTime')}
+                  {parseErrorMessage('endTime')}
                 </Typography>
               </WrapForm>
             </WrapValue>
@@ -588,7 +586,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                   </RadioGroup>
                 </FormControl>
                 <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                  {onShowError('unsoldToken')}
+                  {parseErrorMessage('unsoldToken')}
                 </Typography>
               </WrapForm>
             </WrapValue>
@@ -603,18 +601,21 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
               </Typography>
             </WrapDescription>
             <WrapValue gap="10px !important">
-              <WrapForm className={onShowError('tokenDistributionTime') ? 'onError datepicker' : 'datepicker'}>
+              <WrapForm className={parseErrorMessage('tokenDistributionTime') ? 'onError datepicker' : 'datepicker'}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
                     renderInput={(props) => <TextField {...props} />}
                     value={tokenDistributionTime}
                     onChange={(newValue: any) => {
                       settokenDistributionTime(newValue);
+                      if (!isTyped.current) {
+                        isTyped.current = true;
+                      }
                     }}
                   />
                 </LocalizationProvider>
                 <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                  {onShowError('tokenDistributionTime')}
+                  {parseErrorMessage('tokenDistributionTime')}
                 </Typography>
               </WrapForm>
             </WrapValue>
@@ -675,7 +676,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                               borderTop: '1px solid #373F47',
                             }}
                           >
-                            <WrapForm className={onShowError('tgeDate') ? 'onError datepicker' : 'datepicker'}>
+                            <WrapForm className={parseErrorMessage('tgeDate') ? 'onError datepicker' : 'datepicker'}>
                               <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
                                 First release date <RequireSymbol component="span">*</RequireSymbol>
                               </Typography>
@@ -685,14 +686,17 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                                   value={tgeDate}
                                   onChange={(newValue: any) => {
                                     setTGEDate(newValue);
+                                    if (!isTyped.current) {
+                                      isTyped.current = true;
+                                    }
                                   }}
                                 />
                               </LocalizationProvider>
                               <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                                {onShowError('tgeDate')}
+                                {parseErrorMessage('tgeDate')}
                               </Typography>
                             </WrapForm>
-                            {item.value == 1 && data.vestingToken === '1' && (
+                            {item.value == '1' && data.vestingToken === '1' && (
                               <>
                                 <WrapForm fullWidth>
                                   <Typography
@@ -705,7 +709,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                                   </Typography>
                                   <InputCustom
                                     fullWidth
-                                    className={onShowError('firstRelease') ? 'onError' : ''}
+                                    className={parseErrorMessage('firstRelease') ? 'onError' : ''}
                                     value={data.firstRelease}
                                     onChange={handleChangeInput('firstRelease')}
                                     placeholder="Eg: 25"
@@ -724,7 +728,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                                     }
                                   />
                                   <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                                    {onShowError('firstRelease')}
+                                    {parseErrorMessage('firstRelease')}
                                   </Typography>
                                 </WrapForm>
                                 <WrapForm fullWidth>
@@ -738,7 +742,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                                   </Typography>
                                   <InputCustom
                                     fullWidth
-                                    className={onShowError('vestingPeriodEachCycle') ? 'onError' : ''}
+                                    className={parseErrorMessage('vestingPeriodEachCycle') ? 'onError' : ''}
                                     value={data.vestingPeriodEachCycle}
                                     onChange={handleChangeInput('vestingPeriodEachCycle')}
                                     placeholder="Eg: 30"
@@ -757,7 +761,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                                     }
                                   />
                                   <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                                    {onShowError('vestingPeriodEachCycle')}
+                                    {parseErrorMessage('vestingPeriodEachCycle')}
                                   </Typography>
                                 </WrapForm>
                                 <WrapForm fullWidth>
@@ -771,7 +775,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                                   </Typography>
                                   <InputCustom
                                     fullWidth
-                                    className={onShowError('tokenReleaseEachCycle') ? 'onError' : ''}
+                                    className={parseErrorMessage('tokenReleaseEachCycle') ? 'onError' : ''}
                                     value={data.tokenReleaseEachCycle}
                                     onChange={handleChangeInput('tokenReleaseEachCycle')}
                                     placeholder="Eg: 25%"
@@ -790,7 +794,7 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
                                     }
                                   />
                                   <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                                    {onShowError('tokenReleaseEachCycle')}
+                                    {parseErrorMessage('tokenReleaseEachCycle')}
                                   </Typography>
                                 </WrapForm>
                               </>
@@ -806,12 +810,12 @@ const Step03 = ({ data, setData, handleNext, handleBack }: any) => {
           </WrapLine>
         </FlexBox>
         <FlexBox justifyContent="flex-end" gap="14px">
-          <Back onClick={handleBack}>
+          <Back onClick={onBackStep}>
             <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
               Back
             </Typography>
           </Back>
-          <Next onClick={nextStep}>
+          <Next onClick={handleNextStep}>
             <Typography variant="body3Poppins" color="#000000" fontWeight="600">
               Next
             </Typography>

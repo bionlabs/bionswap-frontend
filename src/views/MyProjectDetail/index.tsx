@@ -213,7 +213,7 @@ const MyProjectDetail = () => {
           items: [
             {
               label: 'Price per token',
-              value: `${listingPrice} ${unit}`,
+              value: `${price} ${unit}`,
             },
             {
               label: 'Minimum buy',

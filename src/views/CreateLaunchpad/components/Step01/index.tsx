@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Box, Typography, styled, FormControl, OutlinedInput, Button } from '@mui/material';
 import { setPresaleForm } from 'state/presale/action';
 import ImageUploading from 'react-images-uploading';
@@ -6,7 +6,7 @@ import { uploadLaunchpadImage } from 'api/launchpad';
 import Joi, { CustomHelpers, CustomValidator } from 'joi';
 import HeaderSection from '../HeaderSection';
 
-const Step01 = ({ data, setData, handleNext, communityDetail, handleBack }: any) => {
+const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
   const [projectLogo, setProjectLogo] = useState(
     [
       {
@@ -22,12 +22,13 @@ const Step01 = ({ data, setData, handleNext, communityDetail, handleBack }: any)
     ] || [],
   );
   const [errors, setErrors] = useState([]);
-  const [feildEditing, setFeildEditing] = useState('');
+  const parsedCommunities = useMemo(() => JSON.parse(data?.community || '{}'), [data?.community]);
   const [communities, setCommunities] = useState({
-    website: communityDetail['website'] || '',
-    telegram: communityDetail['telegram'] || '',
-    discord: communityDetail['discord'] || '',
+    website: parsedCommunities['website'] || '',
+    telegram: parsedCommunities['telegram'] || '',
+    discord: parsedCommunities['discord'] || '',
   });
+  const isTyped = useRef(false);
 
   const validate = async () => {
     try {
@@ -55,7 +56,7 @@ const Step01 = ({ data, setData, handleNext, communityDetail, handleBack }: any)
     }
   };
 
-  const onShowError = (key: string) => {
+  const parseErrorMessage = (key: string) => {
     let message = '';
     errors?.map((item: any, index) => {
       if (item?.context?.key == key) {
@@ -66,42 +67,33 @@ const Step01 = ({ data, setData, handleNext, communityDetail, handleBack }: any)
   };
 
   useEffect(() => {
-    const handleValidate = async () => {
-      try {
-        validate();
-      } catch (error: any) {
-        console.log('error==>', error);
-      }
-    };
-
-    if (feildEditing) {
-      handleValidate();
+    if (isTyped.current) {
+      validate();
     }
-  }, [data, communities]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   useEffect(() => {
     setData(setPresaleForm({ ['community']: JSON.stringify(communities) }));
-  }, [communities]);
+  }, [communities, setData]);
 
-  const onChangeProjectLogo = async (imageList: any) => {
+  const handleChangeProjectLogo = async (imageList: any) => {
     try {
       const logoBase64 = imageList[0].data_url.split(',')[1];
       const imageLogo = await uploadLaunchpadImage(logoBase64);
       setProjectLogo(imageList);
       setData(setPresaleForm({ ['projectLogo']: imageLogo.url }));
-      setFeildEditing('projectLogo');
     } catch (error) {
       console.log(error);
     }
   };
 
-  const onChangeSaleBanner = async (imageList: any) => {
+  const handleChangeSaleBanner = async (imageList: any) => {
     try {
       const logoBase64 = imageList[0].data_url.split(',')[1];
       const imageLogo = await uploadLaunchpadImage(logoBase64);
       setSaleBanner(imageList);
       setData(setPresaleForm({ ['saleBanner']: imageLogo.url }));
-      setFeildEditing('saleBanner');
     } catch (error) {
       console.log(error);
     }
@@ -109,26 +101,29 @@ const Step01 = ({ data, setData, handleNext, communityDetail, handleBack }: any)
 
   const handleChange = (prop: any) => (event: any) => {
     setData(setPresaleForm({ [prop]: event.target.value }));
-    setFeildEditing(prop);
+    if (!isTyped.current) {
+      isTyped.current = true;
+    }
   };
 
   const handleChangeCommunities = (prop: any) => (event: any) => {
     setCommunities({ ...communities, [prop]: event.target.value });
-    setFeildEditing(prop);
+    if (!isTyped.current) {
+      isTyped.current = true;
+    }
   };
 
-  const nextStep = async () => {
-    const validateVariable = await validate();
+  const handleNextStep = async () => {
+    const isValid = await validate();
 
-    if (!validateVariable) {
-      return false;
+    if (isValid) {
+      onNextStep();
     }
-    handleNext();
   };
 
   return (
     <>
-      <HeaderSection data={data} activeStep={0} handleBack={handleBack} handleNext={nextStep} />
+      <HeaderSection data={data} activeStep={0} onBackStep={onBackStep} onNextStep={handleNextStep} />
       <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
         <FlexBox flexDirection="column" alignItems="center">
           <Typography variant="h3" color="text.primary" fontWeight="400">
@@ -156,13 +151,13 @@ const Step01 = ({ data, setData, handleNext, communityDetail, handleBack }: any)
                 </Typography>
                 <InputCustom
                   placeholder="Enter project title"
-                  className={onShowError('projectTitle') ? 'onError' : ''}
+                  className={parseErrorMessage('projectTitle') ? 'onError' : ''}
                   value={data.projectTitle}
                   onChange={handleChange('projectTitle')}
                   fullWidth
                 />
                 <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                  {onShowError('projectTitle')}
+                  {parseErrorMessage('projectTitle')}
                 </Typography>
               </WrapForm>
             </WrapValue>
@@ -177,12 +172,12 @@ const Step01 = ({ data, setData, handleNext, communityDetail, handleBack }: any)
               </Typography>
             </WrapDescription>
             <WrapValue>
-              <ImageUploading value={projectLogo} onChange={onChangeProjectLogo} dataURLKey="data_url">
+              <ImageUploading value={projectLogo} onChange={handleChangeProjectLogo} dataURLKey="data_url">
                 {({ imageList, onImageUpload, onImageUpdate, dragProps }) => (
                   <BoxImageUpload
                     onClick={onImageUpload}
                     {...dragProps}
-                    className={onShowError('projectLogo') ? 'onError' : ''}
+                    className={parseErrorMessage('projectLogo') ? 'onError' : ''}
                   >
                     {imageList[0]?.data_url === '' ? (
                       <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
@@ -205,7 +200,7 @@ const Step01 = ({ data, setData, handleNext, communityDetail, handleBack }: any)
                 )}
               </ImageUploading>
               <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                {onShowError('projectLogo')}
+                {parseErrorMessage('projectLogo')}
               </Typography>
             </WrapValue>
           </WrapLine>
@@ -219,12 +214,12 @@ const Step01 = ({ data, setData, handleNext, communityDetail, handleBack }: any)
               </Typography>
             </WrapDescription>
             <WrapValue>
-              <ImageUploading value={saleBanner} onChange={onChangeSaleBanner} dataURLKey="data_url">
+              <ImageUploading value={saleBanner} onChange={handleChangeSaleBanner} dataURLKey="data_url">
                 {({ imageList, onImageUpload, onImageUpdate, dragProps }) => (
                   <BoxImageUpload
                     onClick={onImageUpload}
                     {...dragProps}
-                    className={onShowError('saleBanner') ? 'onError' : ''}
+                    className={parseErrorMessage('saleBanner') ? 'onError' : ''}
                   >
                     {imageList[0]?.data_url === '' ? (
                       <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
@@ -247,7 +242,7 @@ const Step01 = ({ data, setData, handleNext, communityDetail, handleBack }: any)
                 )}
               </ImageUploading>
               <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                {onShowError('saleBanner')}
+                {parseErrorMessage('saleBanner')}
               </Typography>
             </WrapValue>
           </WrapLine>
@@ -303,13 +298,13 @@ const Step01 = ({ data, setData, handleNext, communityDetail, handleBack }: any)
                 </Typography>
                 <InputCustom
                   fullWidth
-                  className={onShowError('website') ? 'onError' : ''}
+                  className={parseErrorMessage('website') ? 'onError' : ''}
                   placeholder="Enter your website"
                   value={communities.website}
                   onChange={handleChangeCommunities('website')}
                 />
                 <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                  {onShowError('website')}
+                  {parseErrorMessage('website')}
                 </Typography>
               </WrapForm>
               <WrapForm fullWidth>
@@ -318,13 +313,13 @@ const Step01 = ({ data, setData, handleNext, communityDetail, handleBack }: any)
                 </Typography>
                 <InputCustom
                   fullWidth
-                  className={onShowError('telegram') ? 'onError' : ''}
+                  className={parseErrorMessage('telegram') ? 'onError' : ''}
                   placeholder="Enter your telegram"
                   value={communities.telegram}
                   onChange={handleChangeCommunities('telegram')}
                 />
                 {/* <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                {onShowError('telegram')}
+                {parseErrorMessage('telegram')}
               </Typography> */}
               </WrapForm>
               <WrapForm fullWidth>
@@ -333,20 +328,20 @@ const Step01 = ({ data, setData, handleNext, communityDetail, handleBack }: any)
                 </Typography>
                 <InputCustom
                   fullWidth
-                  className={onShowError('discord') ? 'onError' : ''}
+                  className={parseErrorMessage('discord') ? 'onError' : ''}
                   placeholder="Enter your discord"
                   value={communities.discord}
                   onChange={handleChangeCommunities('discord')}
                 />
                 {/* <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                {onShowError('discord')}
+                {parseErrorMessage('discord')}
               </Typography> */}
               </WrapForm>
             </WrapValue>
           </WrapLine>
         </FlexBox>
         <FlexBox justifyContent="flex-end">
-          <Next onClick={nextStep}>
+          <Next onClick={handleNextStep}>
             <Typography variant="body3Poppins" color="#000000" fontWeight="600">
               Next
             </Typography>

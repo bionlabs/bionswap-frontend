@@ -20,14 +20,14 @@ import HeaderSection from '../HeaderSection';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-const Step05 = ({ data, setData, handleNext, handleBack, onShowError }: any) => {
+const Step05 = ({ data, setData, onNextStep, onBackStep }: any) => {
   const handleChange = (prop: any) => (event: any) => {
     setData(setPresaleForm({ [prop]: event }));
   };
 
   return (
     <>
-    <HeaderSection data={data} activeStep={4} handleBack={handleBack} handleNext={handleNext} />
+      <HeaderSection data={data} activeStep={4} onBackStep={onBackStep} onNextStep={onNextStep} />
       <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
         <FlexBox flexDirection="column" alignItems="center">
           <Typography variant="h3" color="text.primary" fontWeight="400">
@@ -56,12 +56,12 @@ const Step05 = ({ data, setData, handleNext, handleBack, onShowError }: any) => 
           </WrapLine>
         </FlexBox>
         <FlexBox justifyContent="flex-end" gap="14px">
-          <Back onClick={handleBack}>
+          <Back onClick={onBackStep}>
             <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
               Back
             </Typography>
           </Back>
-          <Next onClick={handleNext}>
+          <Next onClick={onNextStep}>
             <Typography variant="body3Poppins" color="#000000" fontWeight="600">
               Next
             </Typography>
