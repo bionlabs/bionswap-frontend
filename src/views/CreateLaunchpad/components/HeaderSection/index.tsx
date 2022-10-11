@@ -6,8 +6,8 @@ import LoadingButton from '@mui/lab/LoadingButton';
 const HeaderSection = ({
   data,
   activeStep,
-  handleBack,
-  handleNext,
+  onBackStep,
+  onNextStep,
   approvalState = null,
   pendingStep4 = false,
   handleApprove = null,
@@ -42,7 +42,7 @@ const HeaderSection = ({
       </Stack>
       <Stack flexDirection="row" gap="12px">
         {activeStep > 0 && (
-          <Preview onClick={() => handleBack()}>
+          <Preview onClick={() => onBackStep()}>
             <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
               Back
             </Typography>
@@ -55,7 +55,7 @@ const HeaderSection = ({
             </Typography>
           </Next>
         ) : approvalState === ApprovalState.APPROVED || activeStep !== 3 ? (
-          <Next onClick={() => handleNext()}>
+          <Next onClick={() => onNextStep()}>
             <Typography variant="body3Poppins" color="#000000" fontWeight="600">
               Next
             </Typography>

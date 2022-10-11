@@ -21,7 +21,6 @@ const CreateLaunchpad = () => {
   const { chainId, account } = useChain();
 
   const data = useAppSelector((state) => state.presale.dataConfig);
-  const communityDetail = JSON.parse(data?.community || '{}');
   const activeStep = useAppSelector((state) => state.presale.step);
   const dispatch = useAppDispatch();
 
@@ -92,25 +91,24 @@ const CreateLaunchpad = () => {
                 <Step01
                   data={data}
                   setData={dispatch}
-                  handleNext={handleNext}
-                  communityDetail={communityDetail}
-                  handleBack={handleBack}
+                  onNextStep={handleNext}
+                  onBackStep={handleBack}
                 />
               )}
               {activeStep === 1 && (
-                <Step02 data={data} setData={dispatch} handleNext={handleNext} handleBack={handleBack} />
+                <Step02 data={data} setData={dispatch} onNextStep={handleNext} onBackStep={handleBack} />
               )}
               {activeStep === 2 && (
-                <Step03 data={data} setData={dispatch} handleNext={handleNext} handleBack={handleBack} />
+                <Step03 data={data} setData={dispatch} onNextStep={handleNext} onBackStep={handleBack} />
               )}
               {activeStep === 3 && (
-                <Step04 data={data} setData={dispatch} handleNext={handleNext} handleBack={handleBack} />
+                <Step04 data={data} setData={dispatch} onNextStep={handleNext} onBackStep={handleBack} />
               )}
               {activeStep === 4 && (
-                <Step05 data={data} setData={dispatch} handleNext={handleNext} handleBack={handleBack} />
+                <Step05 data={data} setData={dispatch} onNextStep={handleNext} onBackStep={handleBack} />
               )}
               {activeStep === 5 && (
-                <Step06 data={data} setData={dispatch} handleNext={handleNext} handleBack={handleBack} />
+                <Step06 data={data} setData={dispatch} onNextStep={handleNext} onBackStep={handleBack} />
               )}
             </Box>
           </Container>

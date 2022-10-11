@@ -1,4 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
+import { ethers } from 'ethers';
 import { clearPresaleForm, setPresaleForm, setStepLaunchpad } from './action';
 
 export type PreSaleState = {
@@ -10,9 +11,9 @@ export type PreSaleState = {
     community: string;
     tokenContract: string;
     currency: string;
-    saleFee: number;
+    saleFee: string;
     tokenPrice: string;
-    whitelist: number;
+    whitelist: string;
     minGoal: string;
     maxGoal: string;
     minSale: string;
@@ -20,16 +21,16 @@ export type PreSaleState = {
     launchTime: number;
     preSaleDuration: number;
     endTime: number;
-    unsoldToken: number;
+    unsoldToken: string;
     tokenDistributionTime: number;
     vestingToken: string;
     firstRelease: string;
     vestingPeriodEachCycle: string;
     tokenReleaseEachCycle: string;
-    listing: number;
+    listing: string;
     isAutoListing: boolean;
     dex: string;
-    pricePerToken: string;
+    listingPrice: string;
     liquidityPercentage: string;
     lockupTime: number;
     description: string;
@@ -44,7 +45,7 @@ export type PreSaleState = {
   step: number;
 };
 
-const initialState: PreSaleState = {
+export const initialState: PreSaleState = {
   dataConfig: {
     projectTitle: '',
     projectLogo: '',
@@ -53,35 +54,35 @@ const initialState: PreSaleState = {
     community: '',
     tokenContract: '',
     currency: 'BUSD',
-    saleFee: 0,
-    tokenPrice: '',
-    whitelist: 0,
-    minGoal: '',
-    maxGoal: '',
-    minSale: '',
-    maxSale: '',
+    saleFee: '0',
+    tokenPrice: '0',
+    whitelist: '0',
+    minGoal: '0',
+    maxGoal: '0',
+    minSale: '0',
+    maxSale: '0',
     launchTime: +new Date(),
     preSaleDuration: 0,
     endTime: +new Date(),
-    unsoldToken: 0,
+    unsoldToken: '0',
     tokenDistributionTime: +new Date(),
     vestingToken: '0',
-    firstRelease: '',
-    vestingPeriodEachCycle: '',
-    tokenReleaseEachCycle: '',
-    listing: 0,
+    firstRelease: '0',
+    vestingPeriodEachCycle: '0',
+    tokenReleaseEachCycle: '0',
+    listing: '0',
     isAutoListing: false,
-    dex: '',
-    pricePerToken: '',
-    liquidityPercentage: '',
+    dex: '0',
+    listingPrice: '1',
+    liquidityPercentage: '0',
     lockupTime: 0,
     description: '',
-    quoteToken: '',
+    quoteToken: ethers.constants.AddressZero,
     isQuoteETH: false,
     baseFee: 0,
     tokenFee: 0,
     tgeDate: +new Date(),
-    router: '',
+    router: ethers.constants.AddressZero,
   },
   step: 0,
 };

@@ -16,7 +16,7 @@ import CreateTokenModal from 'components/CreateTokenModal';
 import { ethers } from 'ethers';
 import { useChain } from 'hooks';
 import { useToken } from 'hooks/useToken';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { setPresaleForm } from 'state/presale/action';
 import Joi, { CustomHelpers, CustomValidator } from 'joi';
 import HeaderSection from '../HeaderSection';
@@ -40,7 +40,7 @@ const currencyOpts = [
   },
 ];
 
-const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
+const Step02 = ({ data, setData, onNextStep, onBackStep }: any) => {
   const { chainId } = useChain();
 
   const feeOpts = [
@@ -57,23 +57,9 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
   const tokenContract = useToken(data.tokenContract);
   const [openModal, setOpenModal] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [feildEditing, setFeildEditing] = useState('');
+  const isTyped = useRef(false);
 
-  useEffect(() => {
-    const handleValidate = async () => {
-      try {
-        validate();
-      } catch (error: any) {
-        console.log('error==>', error);
-      }
-    };
-
-    if (feildEditing) {
-      handleValidate();
-    }
-  }, [data]);
-
-  const onShowError = (key: string) => {
+  const parseErrorMessage = (key: string) => {
     let message = '';
     errors?.map((item: any, index) => {
       if (item?.context?.key == key) {
@@ -103,6 +89,8 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
         saleFee: Joi.required().label('Sale fee option'),
       });
 
+      console.log('🚀 ~ file: index.tsx ~ line 107 ~ validate ~ data.tokenContract', data.tokenContract);
+
       const value = await schemaStep02.validateAsync(
         {
           tokenContract: data.tokenContract,
@@ -121,44 +109,48 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
 
   const handleChangeInput = (prop: any) => (event: any) => {
     setData(setPresaleForm({ [prop]: event.target.value }));
-    setFeildEditing(prop);
+    if (!isTyped.current) {
+      isTyped.current = true;
+    }
   };
 
-  const handleSelectCurrency = useCallback(
-    (prop: any) => (event: any) => {
-      const selectedCurrencyOpt = event.target.value;
+  useEffect(() => {
+    setErrors([]);
+  }, [tokenContract?.address]);
 
-      let payload;
-      switch (selectedCurrencyOpt) {
-        case 'BNB': {
-          payload = { quoteToken: ethers.constants.AddressZero, isQuoteETH: true };
-          break;
-        }
-        case 'BUSD': {
-          payload = { quoteToken: BUSD_ADDRESS[chainId], isQuoteETH: false };
-          break;
-        }
-        case 'USDT': {
-          payload = { quoteToken: USDT_ADDRESS[chainId], isQuoteETH: false };
-          break;
-        }
-        case 'USDC': {
-          payload = { quoteToken: USDC_ADDRESS[chainId], isQuoteETH: false };
-          break;
-        }
-      }
-      setData(setPresaleForm({ ...payload, [prop]: event.target.value }));
-      setFeildEditing('currency');
-    },
+  useEffect(() => {
+    if (isTyped.current) {
+      validate();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [chainId, data, data.currency, handleNext],
-  );
+  }, [data]);
 
-  const handleSelectFee = (prop: any) => (event: any) => {
-    const selectedFeeOpt = event.target.value;
-
+  useEffect(() => {
     let payload;
-    switch (selectedFeeOpt) {
+    switch (data.currency) {
+      case 'BNB': {
+        payload = { quoteToken: ethers.constants.AddressZero, isQuoteETH: true };
+        break;
+      }
+      case 'BUSD': {
+        payload = { quoteToken: BUSD_ADDRESS[chainId], isQuoteETH: false };
+        break;
+      }
+      case 'USDT': {
+        payload = { quoteToken: USDT_ADDRESS[chainId], isQuoteETH: false };
+        break;
+      }
+      case 'USDC': {
+        payload = { quoteToken: USDC_ADDRESS[chainId], isQuoteETH: false };
+        break;
+      }
+    }
+    setData(setPresaleForm({ ...payload }));
+  }, [chainId, data.currency, setData]);
+
+  useEffect(() => {
+    let payload;
+    switch (data.saleFee) {
       case '0': {
         payload = { baseFee: 500, tokenFee: 0 };
         break;
@@ -168,25 +160,24 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
         break;
       }
     }
-    setData(setPresaleForm({ ...payload, [prop]: event.target.value }));
-    setFeildEditing('saleFee');
-  };
+    setData(setPresaleForm({ ...payload }));
+  }, [data.saleFee, setData]);
 
   const handleOpenModal = () => setOpenModal(true);
 
   const handleCloseModal = () => setOpenModal(false);
 
-  const nextStep = async () => {
-    const validateVariable = await validate();
-    if (!validateVariable) {
-      return false;
+  const handleNextStep = async () => {
+    const isValid = await validate();
+
+    if (isValid) {
+      onNextStep();
     }
-    handleNext();
   };
 
   return (
     <>
-      <HeaderSection data={data} activeStep={1} handleBack={handleBack} handleNext={nextStep} />
+      <HeaderSection data={data} activeStep={1} onBackStep={onBackStep} onNextStep={handleNextStep} />
       <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
         <FlexBox flexDirection="column" alignItems="center">
           <Typography variant="h3" color="text.primary" fontWeight="400">
@@ -213,13 +204,13 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
                 </Typography>
                 <InputCustom
                   fullWidth
-                  className={onShowError('tokenContract') ? 'onError' : ''}
+                  className={parseErrorMessage('tokenContract') ? 'onError' : ''}
                   value={data.tokenContract}
                   onChange={handleChangeInput('tokenContract')}
                   placeholder="Enter contract token"
                 />
                 <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                  {onShowError('tokenContract')}
+                  {parseErrorMessage('tokenContract')}
                 </Typography>
               </WrapForm>
               {tokenContract && (
@@ -270,7 +261,9 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
                 </Typography>
                 <Select
                   value={data.currency}
-                  onChange={handleSelectCurrency('currency')}
+                  onChange={(event) => {
+                    setData(setPresaleForm({ currency: event.target.value }));
+                  }}
                   displayEmpty
                   inputProps={{ 'aria-label': 'Without label' }}
                 >
@@ -281,7 +274,7 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
                   ))}
                 </Select>
                 <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                  {onShowError('currency')}
+                  {parseErrorMessage('currency')}
                 </Typography>
               </FormControl>
             </WrapValue>
@@ -302,7 +295,13 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
             </WrapDescription>
             <WrapValue>
               <FormControl fullWidth>
-                <RadioGroup value={data.saleFee} onChange={handleSelectFee('saleFee')} name="radio-buttons-group">
+                <RadioGroup
+                  value={data.saleFee}
+                  onChange={(event) => {
+                    setData(setPresaleForm({ saleFee: event.target.value }));
+                  }}
+                  name="radio-buttons-group"
+                >
                   {feeOpts?.map((item) => (
                     <FormControlLabel
                       key={item.value}
@@ -331,18 +330,18 @@ const Step02 = ({ data, setData, handleNext, handleBack }: any) => {
                 </RadioGroup>
               </FormControl>
               <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                {onShowError('saleFee')}
+                {parseErrorMessage('saleFee')}
               </Typography>
             </WrapValue>
           </WrapLine>
         </FlexBox>
         <FlexBox justifyContent="flex-end" gap="14px">
-          <Back onClick={handleBack}>
+          <Back onClick={onBackStep}>
             <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
               Back
             </Typography>
           </Back>
-          <Next onClick={nextStep}>
+          <Next onClick={handleNextStep}>
             <Typography variant="body3Poppins" color="#000000" fontWeight="600">
               Next
             </Typography>

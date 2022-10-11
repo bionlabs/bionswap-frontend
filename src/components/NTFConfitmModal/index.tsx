@@ -45,7 +45,7 @@ const NTFConfitmModal = ({ open, onDismiss, tokenId }: any) => {
         <img src={`/images/bitendoGameboy/${dataClaim?.typeId}.svg`} alt="" />
         <Confirm onClick={onDismiss}>
           <Typography variant="body3Poppins" fontWeight="600" color="#000000">
-            Comfirm
+            Confirm
           </Typography>
         </Confirm>
       </Avarta>

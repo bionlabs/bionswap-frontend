@@ -157,7 +157,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
           </Box>
         </WrapInforBox>
       </FlexBox>
-      <JoinIdoModal data={data} open={openModal} onDismiss={handleCloseModal} unit={unit} />
+      <JoinIdoModal data={data} open={openModal} onDismiss={handleCloseModal} unit={unit} currentCap={currentCap} />
     </>
   );
 };
