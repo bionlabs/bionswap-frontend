@@ -12,6 +12,7 @@ import { withCatch } from 'utils/error';
 import { tryParseAmount } from 'utils/parse';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { toastError } from 'hooks/useToast';
 
 const JoinIdoModal = ({ open, onDismiss, data, unit, currentCap }: any) => {
   const [isloading, setIsLoading] = useState(false);
@@ -101,7 +102,7 @@ const JoinIdoModal = ({ open, onDismiss, data, unit, currentCap }: any) => {
 
         if (error) {
           setIsLoading(false);
-          // TODO toast
+          toastError(err?.message);
           return;
         }
 
@@ -114,7 +115,7 @@ const JoinIdoModal = ({ open, onDismiss, data, unit, currentCap }: any) => {
 
         if (error) {
           setIsLoading(false);
-          // TODO toast
+          toastError(err?.message);
           return;
         }
 
@@ -125,9 +126,7 @@ const JoinIdoModal = ({ open, onDismiss, data, unit, currentCap }: any) => {
     } else if (approvalState === ApprovalState.NOT_APPROVED) {
       setIsLoading(true);
       await approveCallback().catch((err) => {
-        toast.info(
-          `${err?.message}`,
-        );
+        toastError(err?.message);
         setIsLoading(false);
       });
     }

@@ -1,5 +1,6 @@
 import { ThemeProvider } from '@mui/material';
 import { AuthProvider, BlockNumberProvider } from 'components';
+import Toast from 'components/Toast';
 import { getTheme } from 'configs/theme';
 import { useDarkMode } from 'hooks';
 import type { AppProps } from 'next/app';
@@ -89,6 +90,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <Menu>
                     <MulticallUpdater />
                     <ListsUpdater />
+                    <Toast />
                     <Component {...pageProps} />
                     <Footer />
                   </Menu>
