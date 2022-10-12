@@ -48,7 +48,7 @@ const FundSection = ({isMobile}:MobileProp) => {
                     variant='contained'
                     onClick={(e) => {
                         e.preventDefault();
-                        router.push('/trade')
+                        router.push('/swap')
                     }}
                 >
                     Buy

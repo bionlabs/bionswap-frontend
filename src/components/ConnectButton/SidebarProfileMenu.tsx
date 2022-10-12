@@ -82,7 +82,7 @@ const SidebarProfileMenu = ({ toggleDrawer, address, balance }: any) => {
               variant="contained"
               onClick={(e) => {
                 e.preventDefault();
-                router.push('/trade');
+                router.push('/swap');
               }}
             >
               Buy crypto
