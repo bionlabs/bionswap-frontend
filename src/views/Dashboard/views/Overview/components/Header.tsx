@@ -113,7 +113,7 @@ const Header = ({ isMobile }: MobileProp) => {
             <Typography variant="body3Samsung" fontWeight="500" color="primary.main">
               Please claim before the rewards are exhausted: {310 - tokenIdCounter} remaining NFTs
             </Typography>
-            <Claim onClick={handleClaimNFT} disabled={loadingClaim}>
+            <Claim onClick={handleClaimNFT} disabled={loadingClaim || tokenIdCounter === 310}>
               <Typography variant="body3Poppins" fontWeight="600" color="#000000">
                 {loadingClaim ? 'Loading....' : 'Claim now'}
               </Typography>
