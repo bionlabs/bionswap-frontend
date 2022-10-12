@@ -1,3 +1,5 @@
+import { NATIVE } from '@bionswap/core-sdk';
+import CloseIcon from '@mui/icons-material/Close';
 import {
   Box,
   Button,
@@ -13,12 +15,11 @@ import {
   Typography,
 } from '@mui/material';
 import { BaseModal } from 'components';
-import { useCallback, useState } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
-import { useStandardTokenContractFactory } from 'hooks/useContract';
+import { TOKEN_CREATION_FEE } from 'configs/fees';
 import { parseEther } from 'ethers/lib/utils';
-import { AddressMap, ChainId } from '@bionswap/core-sdk';
 import { useChain } from 'hooks';
+import { useStandardTokenContractFactory } from 'hooks/useContract';
+import { useCallback, useState } from 'react';
 
 const tokenTypes = [
   {
@@ -26,16 +27,6 @@ const tokenTypes = [
     title: 'Standard Token',
   },
 ];
-
-const chainTokenFees: AddressMap = {
-  [ChainId.ETHEREUM]: '0.1',
-  [ChainId.BSC]: '0.1',
-  [ChainId.BSC_TESTNET]: '0',
-  [ChainId.OKEX]: '0.1',
-  [ChainId.OKEX_TESTNET]: '0',
-  [ChainId.MATIC]: '0.1',
-  [ChainId.MATIC_TESTNET]: '0',
-};
 
 const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
   const Joi = require('joi');
@@ -61,8 +52,8 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
       decimal,
       parseEther(totalSupply),
       process.env.NEXT_PUBLIC_TOKEN_FEE_TO,
-      parseEther(chainTokenFees[chainId]),
-      { value: parseEther(chainTokenFees[chainId]!) },
+      parseEther(TOKEN_CREATION_FEE[chainId]),
+      { value: parseEther(TOKEN_CREATION_FEE[chainId]!) },
     );
 
     setIsCreating(true);
@@ -168,7 +159,7 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
             {parseErrorMessage('tokenType')}
           </Typography>
           <Typography variant="captionPoppins" color="primary.main" fontWeight="400">
-            0.2 BNB
+            Fee: {TOKEN_CREATION_FEE[chainId]} {NATIVE[chainId].symbol}
           </Typography>
         </WrapForm>
         <WrapForm fullWidth>
