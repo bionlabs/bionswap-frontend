@@ -363,7 +363,7 @@ const SelectCustom = styled(Select)`
     font-weight: 400;
     font-size: 16px;
     line-height: 27px;
-    color: ${(props) => props.theme.palette.blue[100]};
+    color: ${(props) => props.theme.palette.gray[300]};
   }
 
   fieldset {

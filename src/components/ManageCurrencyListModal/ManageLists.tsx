@@ -84,7 +84,7 @@ const ListRow = memo(({ listUrl }: { listUrl: string }) => {
         <Typography variant="body4Poppins" fontWeight="500" color="text.primary">
           {list.name} <Typography component="span">{listVersionLabel(list.version)}</Typography>
         </Typography>
-        <Typography variant="body4Poppins" fontWeight="400" color="blue.100">
+        <Typography variant="body4Poppins" fontWeight="400" color="gray.300">
           {list.tokens.length} tokens
         </Typography>
       </Stack>

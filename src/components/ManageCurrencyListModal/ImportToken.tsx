@@ -38,7 +38,7 @@ const ImportToken = ({ tokens, onBack }: Props) => {
         <Stack padding='15px'>
           <WrapWarningNotice mb='15px'>
             <img src='/images/warning.png' alt="warning" />
-            <Typography variant="captionPoppins" color='blue.100' textAlign='center' fontWeight='400'>
+            <Typography variant="captionPoppins" color='gray.300' textAlign='center' fontWeight='400'>
               This token does not appear on the active token list(s). Make sure this is the token that you want to trade.
             </Typography>
           </WrapWarningNotice>

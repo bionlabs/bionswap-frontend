@@ -199,7 +199,7 @@ const Step02 = ({ data, setData, onNextStep, onBackStep }: any) => {
             </WrapDescription>
             <WrapValue>
               <WrapForm fullWidth>
-                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
                   Contract <RequireSymbol component="span">*</RequireSymbol>
                 </Typography>
                 <InputCustom
@@ -256,7 +256,7 @@ const Step02 = ({ data, setData, onNextStep, onBackStep }: any) => {
             </WrapDescription>
             <WrapValue>
               <FormControl fullWidth>
-                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
                   Currency <RequireSymbol component="span">*</RequireSymbol>
                 </Typography>
                 <Select
@@ -309,7 +309,7 @@ const Step02 = ({ data, setData, onNextStep, onBackStep }: any) => {
                       label={
                         <Typography
                           variant="body4Poppins"
-                          color={data.saleFee == item.value ? 'blue.100' : 'gray.700'}
+                          color={data.saleFee == item.value ? 'gray.300' : 'gray.700'}
                           fontWeight="400"
                         >
                           {item.label}

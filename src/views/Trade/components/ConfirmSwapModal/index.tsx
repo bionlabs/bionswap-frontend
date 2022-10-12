@@ -137,7 +137,7 @@ const ConfirmSwapModal = ({
             </Stack>
           )}
           {trade && (
-            <Typography variant="captionPoppins" textAlign={"center"} mt='20px' mb='20px' color="blue.100">
+            <Typography variant="captionPoppins" textAlign={"center"} mt='20px' mb='20px' color="gray.300">
               {`Output is estimated. You will receive at least ${trade.minimumAmountOut(allowedSlippage).toSignificant(6)} ${
                 trade.outputAmount.currency.symbol
               } or the transaction will revert.`}

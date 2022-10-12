@@ -146,7 +146,7 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
             </WrapDescription>
             <WrapValue>
               <WrapForm fullWidth>
-                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
                   Title <RequireSymbol component="span">*</RequireSymbol>
                 </Typography>
                 <InputCustom
@@ -182,7 +182,7 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
                     {imageList[0]?.data_url === '' ? (
                       <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
                         <img src="/icons/AddFile.svg" alt="Add File" />
-                        <Typography variant="captionPoppins" color="blue.100" fontWeight="400" mt="14px">
+                        <Typography variant="captionPoppins" color="gray.300" fontWeight="400" mt="14px">
                           Drop an image here or select a file
                         </Typography>
                         <Typography variant="body6Poppins" color="gray.600" fontWeight="400">
@@ -224,7 +224,7 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
                     {imageList[0]?.data_url === '' ? (
                       <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
                         <img src="/icons/AddFile.svg" alt="Add File" />
-                        <Typography variant="captionPoppins" color="blue.100" fontWeight="400" mt="14px">
+                        <Typography variant="captionPoppins" color="gray.300" fontWeight="400" mt="14px">
                           Drop an image here or select a file
                         </Typography>
                         <Typography variant="body6Poppins" color="gray.600" fontWeight="400">
@@ -265,7 +265,7 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
             </WrapDescription>
             <WrapValue>
               <WrapForm fullWidth>
-                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
                   Video URL
                 </Typography>
                 <InputCustom
@@ -293,7 +293,7 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
             </WrapDescription>
             <WrapValue>
               <WrapForm fullWidth>
-                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
                   Website <RequireSymbol component="span">*</RequireSymbol>
                 </Typography>
                 <InputCustom
@@ -308,7 +308,7 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
                 </Typography>
               </WrapForm>
               <WrapForm fullWidth>
-                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
                   Telegram
                 </Typography>
                 <InputCustom
@@ -323,7 +323,7 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
               </Typography> */}
               </WrapForm>
               <WrapForm fullWidth>
-                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
                   Discord
                 </Typography>
                 <InputCustom

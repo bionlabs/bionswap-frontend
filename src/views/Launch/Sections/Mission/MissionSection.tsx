@@ -15,7 +15,7 @@ const config = [
         action: 'Swap now',
         url: '',
         bgColor: 'background.default',
-        bgIcon: 'extra.other.second',
+        bgIcon: '#272727',
         fontColor: 'text.primary'
     },
     {
@@ -24,7 +24,7 @@ const config = [
         action: 'Create now',
         url: '',
         bgColor: 'background.paper',
-        bgIcon: 'extra.other.third',
+        bgIcon: '#D9D9D9',
         fontColor: 'text.secondary'
     },
     {
@@ -32,8 +32,8 @@ const config = [
         label: 'Participate on all of our event such as ido, lucky events',
         action: 'Join now',
         url: '',
-        bgColor: 'extra.swapButton.background',
-        bgIcon: 'extra.other.fourth',
+        bgColor: 'primary.main',
+        bgIcon: '#82FFFF',
         fontColor: 'text.secondary'
     },
 ]
@@ -59,7 +59,7 @@ const MissionSection = () => {
                     <FlexBox justifyContent='flex-end' sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
                         <ItemConfig sx={{ backgroundColor: 'background.default' }}>
                             <FlexBox flexDirection='column' gap='19px' alignItems='baseline'>
-                                <WrapIcon sx={{ backgroundColor: 'extra.other.second' }}>
+                                <WrapIcon sx={{ backgroundColor: '#272727' }}>
                                     <Image src='/images/home/arrange-circle.png' alt='Swap token with low gas fee and  fast. transaction' width='29px' height='29px' />
                                 </WrapIcon>
                                 <Typography variant='bodyPoppins' fontWeight='600'>
@@ -75,7 +75,7 @@ const MissionSection = () => {
                         </ItemConfig>
                         <ItemConfig sx={{ backgroundColor: 'background.paper' }}>
                             <FlexBox flexDirection='column' gap='19px' alignItems='baseline'>
-                                <WrapIcon sx={{ backgroundColor: 'extra.other.third' }}>
+                                <WrapIcon sx={{ backgroundColor: '#D9D9D9' }}>
                                     <Image src='/images/home/additem.png' alt='additem' width='29px' height='29px' />
                                 </WrapIcon>
                                 <Box>
@@ -103,9 +103,9 @@ const MissionSection = () => {
                                 </Typography>
                             </FlexBox>
                         </ItemConfig>
-                        <ItemConfig sx={{ backgroundColor: 'extra.swapButton.background' }}>
+                        <ItemConfig sx={{ backgroundColor: 'primary.main' }}>
                             <FlexBox flexDirection='column' gap='19px' alignItems='baseline'>
-                                <WrapIcon sx={{ backgroundColor: 'extra.other.fourth' }}>
+                                <WrapIcon sx={{ backgroundColor: '#82FFFF' }}>
                                     <Image src='/images/home/award.png' alt='award' width='29px' height='29px' />
                                 </WrapIcon>
                                 <Box>

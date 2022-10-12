@@ -33,7 +33,7 @@ const SwapDetail = ({ recipient, trade, minimumAmountOut }: Props) => {
       <Stack direction="row" justifyContent={"space-between"} width='100%'>
         <Typography variant="body3Poppins" sx={{
           fontWeight: '500',
-          color: 'extra.other.fifteenth'
+          color: '#9A6AFF'
         }}>
           {`Slippage tolerance`}
         </Typography>

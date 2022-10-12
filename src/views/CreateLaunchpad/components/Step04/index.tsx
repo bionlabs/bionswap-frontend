@@ -233,7 +233,7 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
                           <>
                             <Typography
                               variant="body4Poppins"
-                              color={data.listing == item.value ? 'blue.100' : 'gray.700'}
+                              color={data.listing == item.value ? 'gray.300' : 'gray.700'}
                               fontWeight="400"
                             >
                               {item.label}
@@ -253,7 +253,7 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
                       />
                       <Typography
                         variant="captionPoppins"
-                        color={data.listing == item.value ? 'blue.100' : 'gray.700'}
+                        color={data.listing == item.value ? 'gray.300' : 'gray.700'}
                         fontWeight="400"
                       >
                         {item.description}
@@ -280,7 +280,7 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
                 </WrapDescription>
                 <WrapValue>
                   <FormControl fullWidth>
-                    <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                    <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
                       Dex <RequireSymbol component="span">*</RequireSymbol>
                     </Typography>
                     <SelectCustom
@@ -312,7 +312,7 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
                 </WrapDescription>
                 <WrapValue>
                   <WrapForm fullWidth>
-                    <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                    <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
                       Listing price <RequireSymbol component="span">*</RequireSymbol>
                     </Typography>
                     <InputCustom
@@ -347,7 +347,7 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
                 </WrapDescription>
                 <WrapValue gap="10px !important">
                   <WrapForm fullWidth>
-                    <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                    <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
                       Liquidity percentage <RequireSymbol component="span">*</RequireSymbol>
                     </Typography>
                     <InputCustom
@@ -385,7 +385,7 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
                 </WrapDescription>
                 <WrapValue gap="10px !important">
                   <WrapForm fullWidth>
-                    <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                    <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
                       Lockup time <RequireSymbol component="span">*</RequireSymbol>
                     </Typography>
                     <InputCustom
@@ -418,24 +418,24 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
             <WrapDescription></WrapDescription>
             <WrapValue>
               <FlexBox flexDirection="column" gap="10px">
-                <Typography variant="body4Poppins" color="blue.100" fontWeight="400">
+                <Typography variant="body4Poppins" color="gray.300" fontWeight="400">
                   {token?.symbol} Token needed to launch
                 </Typography>
                 <Typography variant="captionPoppins" color="#717D8A" fontWeight="400">
                   Token for sale:{' '}
-                  <Typography variant="captionPoppins" color="blue.100">
+                  <Typography variant="captionPoppins" color="gray.300">
                     {tokenForSale}
                   </Typography>
                 </Typography>
                 <Typography variant="captionPoppins" color="#717D8A" fontWeight="400">
                   Token for Auto liquidity:{' '}
-                  <Typography variant="captionPoppins" color="blue.100">
+                  <Typography variant="captionPoppins" color="gray.300">
                     {tokenForLiquidity}
                   </Typography>
                 </Typography>
                 <Typography variant="captionPoppins" color="#717D8A" fontWeight="400">
                   Token for fee:{' '}
-                  <Typography variant="captionPoppins" color="blue.100">
+                  <Typography variant="captionPoppins" color="gray.300">
                     {tokenForFee}
                   </Typography>
                 </Typography>

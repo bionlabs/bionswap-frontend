@@ -392,7 +392,7 @@ const MyProjectDetail = () => {
                 <TabPanelCustom key={item.title + index} value={value} index={index}>
                   {item.tabs.map((i, j) => (
                     <>
-                      <Typography variant="body3Poppins" color="blue.100" fontWeight="500">
+                      <Typography variant="body3Poppins" color="gray.300" fontWeight="500">
                         {i.label}
                       </Typography>
                       {i.items.map((a, b) => (
@@ -451,7 +451,7 @@ const MyProjectDetail = () => {
                       label={
                         <Typography
                           variant="body3Poppins"
-                          color={isWhitelistEnabled === item.value ? 'blue.100' : 'gray.700'}
+                          color={isWhitelistEnabled === item.value ? 'gray.300' : 'gray.700'}
                           fontWeight="400"
                         >
                           {item.label}

@@ -73,7 +73,7 @@ const CommunitySection = ({ isMobile, isTablet }: MobileProp) => {
         <Wrapper padding={isTablet ? '8rem 16px' : '8rem'}>
             <FlexBox gap='42px' alignItems='center' justifyContent='space-between' width='100%' flexDirection={isMobile ? 'column' : 'row'}>
                 <Box maxWidth='591px'>
-                    <Typography variant='h2' sx={{color: 'extra.other.fifteenth'}}>
+                    <Typography variant='h2' sx={{color: '#9A6AFF'}}>
                         Our Strong Community
                     </Typography>
                     <Typography variant='h6'>
@@ -93,7 +93,7 @@ const CommunitySection = ({ isMobile, isTablet }: MobileProp) => {
                                     <Typography variant='h4'>
                                         +{item.number}
                                     </Typography>
-                                    <Typography sx={{color: 'extra.text.secondary'}}>
+                                    <Typography sx={{color: 'gray.400'}}>
                                         {item.label} members
                                     </Typography>
                                 </Box>

@@ -156,7 +156,7 @@ const ChainButton = styled(Button)`
   }
   :hover {
     // color: ${(prop) => prop.theme.palette.primary.main};
-    // border: 1.5px solid ${(prop) => (prop.theme.palette as any).extra.background.primaryDarkGreen};
+    // border: 1.5px solid #066C6C;
     background-color: ${(prop) => (prop.theme.palette as any).gray[800]};
   }
 `;
@@ -171,7 +171,7 @@ const ConnectWalletButton = styled(Button)`
   font-weight: 500;
   align-items: center;
   min-height: 41px;
-  background-color: ${(prop) => (prop.theme.palette as any).extra.other.connectWalletBackgroundColor};
+  background-color: rgba(61, 255, 255, 0.1);
   color: #07e0e0;
   transition: 0.15s ease-in;
   line-height: 1;

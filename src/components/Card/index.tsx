@@ -99,7 +99,7 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
               variant="captionPoppins"
               sx={{
                 fontWeight: '400',
-                color: 'extra.other.twelfth',
+                color: '#717D8A',
               }}
             >
               {data?.saleType}
@@ -168,14 +168,14 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
         <FlexBox gap="12px">
           <Tag
             sx={{
-              backgroundColor: 'extra.other.fourteenthOpacity',
+              backgroundColor: 'rgba(160, 236, 138, 0.15)',
             }}
           >
             <Typography
               variant="captionPoppins"
               sx={{
                 fontWeight: '400',
-                color: 'extra.other.fourteenth',
+                color: 'green.300',
               }}
             >
               Verified
@@ -183,14 +183,14 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
           </Tag>
           <Tag
             sx={{
-              backgroundColor: 'extra.other.fifteenthOpacity',
+              backgroundColor: 'rgba(154, 106, 255, 0.15)',
             }}
           >
             <Typography
               variant="captionPoppins"
               sx={{
                 fontWeight: '400',
-                color: 'extra.other.fifteenth',
+                color: '#9A6AFF',
               }}
             >
               Loved by Bionswap
@@ -206,13 +206,13 @@ const FlexBox = styled(Box)`
 `;
 const WrapBox = styled(Box)`
   border-radius: 8px;
-  background: ${(props) => (props.theme.palette as any).extra.other.nineth};
+  background: ${(props) => props.theme.palette.gray[900]};
   width: 100%;
   overflow: hidden;
   position: relative;
   cursor: pointer;
   transition: 0.15s ease-in;
-  border: 1px solid ${(props) => (props.theme.palette as any).extra.other.tenth};
+  border: 1px solid #014959;
 
   :hover {
     transform: scale3d(0.99, 0.99, 1);
@@ -220,7 +220,7 @@ const WrapBox = styled(Box)`
   }
 `;
 const WrapLogo = styled(Box)`
-  border: 2.75px solid ${(props) => (props.theme.palette as any).extra.other.nineth};
+  border: 2.75px solid ${(props) => props.theme.palette.gray[900]};
   background: linear-gradient(180deg, #008a61 0%, #033039 100%);
   border-radius: 8px;
   transform: matrix(-1, 0, 0, 1, 0, 0);
@@ -237,7 +237,7 @@ const WrapTopArea = styled(Box)`
   margin-top: -38px;
 `;
 const TimeLineBg = styled(Box)`
-  background: ${(props) => (props.theme.palette as any).extra.other.eleventh};
+  background: #0B2029;
   width: 100%;
   padding: 4px 5px 6px;
   margin-top: -50px;
@@ -257,7 +257,7 @@ const Line = styled(Box)`
   width: 95%;
   height: 1px;
   margin: auto;
-  background-color: ${(props) => (props.theme.palette as any).extra.other.thirteenth}; ;
+  background-color: ${(props) => props.theme.palette.gray[800]}; ;
 `;
 const Tag = styled(Box)`
   border-radius: 4px;

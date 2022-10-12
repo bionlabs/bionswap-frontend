@@ -281,7 +281,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
             </WrapDescription>
             <WrapValue>
               <WrapForm fullWidth>
-                <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
                   Token price <RequireSymbol component="span">*</RequireSymbol>
                 </Typography>
                 <InputCustom
@@ -325,7 +325,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                       label={
                         <Typography
                           variant="body4Poppins"
-                          color={data.whitelist == item.value ? 'blue.100' : 'gray.700'}
+                          color={data.whitelist == item.value ? 'gray.300' : 'gray.700'}
                           fontWeight="400"
                         >
                           {item.label}
@@ -362,7 +362,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
             <WrapValue gap="10px !important">
               <FlexBox justifyContent="space-between">
                 <WrapForm fullWidth sx={{ maxWidth: '300px', width: '100%' }}>
-                  <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                  <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
                     Minimum goal <RequireSymbol component="span">*</RequireSymbol>
                   </Typography>
                   <InputCustom
@@ -385,7 +385,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                   </Typography>
                 </WrapForm>
                 <WrapForm fullWidth sx={{ maxWidth: '300px', width: '100%' }}>
-                  <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                  <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
                     Maximum goal <RequireSymbol component="span">*</RequireSymbol>
                   </Typography>
                   <InputCustom
@@ -434,7 +434,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
             <WrapValue gap="10px !important">
               <FlexBox justifyContent="space-between">
                 <WrapForm fullWidth sx={{ maxWidth: '300px', width: '100%' }}>
-                  <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                  <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
                     Minimum buy <RequireSymbol component="span">*</RequireSymbol>
                   </Typography>
                   <InputCustom
@@ -457,7 +457,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                   </Typography>
                 </WrapForm>
                 <WrapForm fullWidth sx={{ maxWidth: '300px', width: '100%' }}>
-                  <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                  <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
                     Maximum buy <RequireSymbol component="span">*</RequireSymbol>
                   </Typography>
                   <InputCustom
@@ -565,7 +565,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                         label={
                           <Typography
                             variant="body4Poppins"
-                            color={data.unsoldToken == item.value ? 'blue.100' : 'gray.700'}
+                            color={data.unsoldToken == item.value ? 'gray.300' : 'gray.700'}
                             fontWeight="400"
                           >
                             {item.label}
@@ -646,7 +646,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                           label={
                             <Typography
                               variant="body4Poppins"
-                              color={data.vestingToken == item.value ? 'blue.100' : 'gray.700'}
+                              color={data.vestingToken == item.value ? 'gray.300' : 'gray.700'}
                               fontWeight="400"
                             >
                               {item.label}
@@ -663,7 +663,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                             />
                           }
                         />
-                        <Typography variant="captionPoppins" color="blue.100">
+                        <Typography variant="captionPoppins" color="gray.300">
                           {item.description}
                         </Typography>
                         {item.value == data.vestingToken && (
@@ -677,7 +677,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                             }}
                           >
                             <WrapForm className={parseErrorMessage('tgeDate') ? 'onError datepicker' : 'datepicker'}>
-                              <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+                              <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
                                 First release date <RequireSymbol component="span">*</RequireSymbol>
                               </Typography>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -702,7 +702,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                                   <Typography
                                     component="label"
                                     variant="body4Poppins"
-                                    color="blue.100"
+                                    color="gray.300"
                                     fontWeight="500"
                                   >
                                     First release percent <RequireSymbol component="span">*</RequireSymbol>
@@ -735,7 +735,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                                   <Typography
                                     component="label"
                                     variant="body4Poppins"
-                                    color="blue.100"
+                                    color="gray.300"
                                     fontWeight="500"
                                   >
                                     Vesting period each cycle <RequireSymbol component="span">*</RequireSymbol>
@@ -768,7 +768,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                                   <Typography
                                     component="label"
                                     variant="body4Poppins"
-                                    color="blue.100"
+                                    color="gray.300"
                                     fontWeight="500"
                                   >
                                     Token release each cycle <RequireSymbol component="span">*</RequireSymbol>

@@ -12,7 +12,7 @@ import { ourProjectsConfig, serviceConfig } from './config'
 const OurProjectsSection = ({ isMobile }: MobileProp) => {
     const Wrapper = styled(Box)`
         width: 100%;
-        background-color: ${(props) => (props.theme.palette as any).extra.other.fifth};
+        background-color: #000918;
         padding-top: ${isMobile ? '50px' : '0'};
         padding-bottom: ${isMobile ? '80px' : '90px'};
         display: flex;
@@ -55,7 +55,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                                         ?
                                         <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
                                             <Box component='img' src={item.logo} alt={item.name} />
-                                            <Typography variant='body3Poppins' color='blue.100' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
+                                            <Typography variant='body3Poppins' color='gray.300' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
                                                 {item.name}
                                             </Typography>
                                             <Typography variant='body4Poppins' color='#9A6AFF' fontWeight='400' fontFamily='Inter' whiteSpace='nowrap'>
@@ -76,7 +76,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                                         ?
                                         <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
                                             <Box component='img' src={item.logo} alt={item.name} />
-                                            <Typography variant='body3Poppins' color='blue.100' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
+                                            <Typography variant='body3Poppins' color='gray.300' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
                                                 {item.name}
                                             </Typography>
                                             <Typography variant='body4Poppins' color='#9A6AFF' fontWeight='400' fontFamily='Inter' whiteSpace='nowrap'>
@@ -99,7 +99,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                                         ?
                                         <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
                                             <Box component='img' src={item.logo} alt={item.name} />
-                                            <Typography variant='body3Poppins' color='blue.100' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
+                                            <Typography variant='body3Poppins' color='gray.300' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
                                                 {item.name}
                                             </Typography>
                                             <Typography variant='body4Poppins' color='#9A6AFF' fontWeight='400' fontFamily='Inter' whiteSpace='nowrap'>
@@ -120,7 +120,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                                         ?
                                         <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
                                             <Box component='img' src={item.logo} alt={item.name} />
-                                            <Typography variant='body3Poppins' color='blue.100' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
+                                            <Typography variant='body3Poppins' color='gray.300' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
                                                 {item.name}
                                             </Typography>
                                             <Typography variant='body4Poppins' color='#9A6AFF' fontWeight='400' fontFamily='Inter' whiteSpace='nowrap'>
@@ -143,7 +143,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                                         ?
                                         <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
                                             <Box component='img' src={item.logo} alt={item.name} />
-                                            <Typography variant='body3Poppins' color='blue.100' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
+                                            <Typography variant='body3Poppins' color='gray.300' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
                                                 {item.name}
                                             </Typography>
                                             <Typography variant='body4Poppins' color='#9A6AFF' fontWeight='400' fontFamily='Inter' whiteSpace='nowrap'>
@@ -164,7 +164,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                                         ?
                                         <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
                                             <Box component='img' src={item.logo} alt={item.name} />
-                                            <Typography variant='body3Poppins' color='blue.100' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
+                                            <Typography variant='body3Poppins' color='gray.300' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
                                                 {item.name}
                                             </Typography>
                                             <Typography variant='body4Poppins' color='#9A6AFF' fontWeight='400' fontFamily='Inter' whiteSpace='nowrap'>

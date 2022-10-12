@@ -114,36 +114,13 @@ export const lightPalette: ExtendedPaletteOptions = {
   warning: {
     main: "rgba(255, 178, 55, 0.2)",
   },
-  extra: {
-    button: {
-      background: "#25273D",
-      text: "white",
-    },
-    background : {
-      gray: "#EDEDED",
-      darkGreen: '#001015',
-    },
-    swapButton: {
-      background: "#07E0E0",
-      color: "#000607",
-    },
-    header: {
-      background: "#ffffff",
-      color: "#787A9B",
-      colorActive: "#0b0b0b",
-    },
-    input: {
-      background: "#FFFFFF",
-      color: "#000000",
-    },
-  },
 };
 
 export const darkPalette: ExtendedPaletteOptions = {
   mode: "dark",
   blue: {
     '50': "#F7F7FB",
-    '100': "#D6DADE",
+    '100': "#D8D8FE",
     '200': "#B3B3FD",
     '300': "#8484F8",
     '400': "#6E6EF7",
@@ -238,67 +215,6 @@ export const darkPalette: ExtendedPaletteOptions = {
     primary: "#FFFFFF",
     secondary: "#1b1b1b",
     disabled: "rgba(255, 255, 255, 0.5)",
-  },
-  extra: {
-    text: {
-      primary: "#D6DADE",
-      secondary: "#A8B0B9",
-      subtitle: "#575757",
-      highlight: "#6803B8",
-    },
-    background : {
-      gray: "#EDEDED",
-      darkGreen: '#001015',
-      primaryDarkGreen: '#066C6C',
-    },
-    button: {
-      background: "white",
-      text: "black",
-    },
-    swapButton: {
-      background: "#07E0E0",
-      color: "#000607",
-    },
-    swapPanel: {
-      background: '#0C1620'
-    },
-    header: {
-      background: "#081319",
-      color: "#A8B0B9",
-      colorActive: "#07E0E0",
-    },
-    input: {
-      background: "#001519",
-      color: "#F8F9F9",
-    },
-    border: {
-      color: "#424242",
-    },
-    divider: {
-      background: "#595959",
-    },
-    other: {
-      first: '#011216',
-      second: '#272727',
-      third: '#D9D9D9',
-      fourth: '#82FFFF',
-      fifth: '#000918',
-      sixth: '#121116',
-      seventh: '#31313B',
-      eight: '#535353',
-      nineth: '#0C1620',
-      tenth: '#014959',
-      eleventh: '#0B2029',
-      twelfth: '#717D8A',
-      thirteenth: '#242D35',
-      fourteenth: '#A0EC8A',
-      fourteenthOpacity: 'rgba(160, 236, 138, 0.15)',
-      fifteenth: '#9A6AFF',
-      fifteenthOpacity: 'rgba(154, 106, 255, 0.15)',
-      sixteenth: '#2BA52E',
-      seventeenth: '#08878E',
-      connectWalletBackgroundColor: 'rgba(61, 255, 255, 0.1)',
-    }
   },
 };
 

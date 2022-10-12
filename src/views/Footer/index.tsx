@@ -25,14 +25,14 @@ const Footer = ({ children }: any) => {
                         <img src='alpha.svg' alt='' width='200px' />
                         <Typography variant='subtitle2Poppins'
                             sx={{
-                                color: 'extra.text.secondary',
+                                color: 'gray.400',
                                 fontWeight: '400',
                                 maxWidth: '300px'
                             }}>
                             BionSwap is a platform that allows Project Owners to self-launch their projects and a Multichain Decentralize Exchange.
                         </Typography>
                         <Box gap={2} display="flex" alignItems="center" sx={{
-                            color: 'extra.text.secondary'
+                            color: 'gray.400'
                         }}>
                             {
                                 socialsConfig.map((item, index) => (
@@ -74,7 +74,7 @@ const Footer = ({ children }: any) => {
                                                 router.push(item.href);
                                             }}
                                             sx={{
-                                                color: 'extra.text.secondary',
+                                                color: 'gray.400',
                                                 fontWeight: '400',
                                                 '&:hover':{
                                                     color: 'primary.main',
@@ -101,7 +101,7 @@ const Wrapper = styled(Box)`
     display: flex;
     padding-top: 80px;
     padding-bottom: 80px;
-    border-top: 1px solid ${props => (props.theme.palette as any).extra.border.color};
+    border-top: 1px solid #424242;
 `
 const WrapMenuItem = styled(Box)`
     display: flex;

@@ -54,13 +54,13 @@ const CurrencyInputPanel = ({
       <Stack>
         <Stack direction="row" justifyContent="space-between" width={"100%"} mb="7px">
           <Typography variant="body3Poppins" sx={{
-            color: 'blue.100',
+            color: 'gray.300',
             fontWeight: '400',
           }}>
             {`~$${usdValue?.toFixed(2) || 0}`}
           </Typography>
           <Typography variant="body3Poppins" sx={{
-            color: 'blue.100',
+            color: 'gray.300',
             fontWeight: '400',
           }}>
             Balance: {`${currencyBalance?.toFixed(4) || 0}`}

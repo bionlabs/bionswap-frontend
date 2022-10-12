@@ -427,8 +427,8 @@ const Swap = ({}: SwapProps) => {
         onClick={onClick}
         fullWidth
         sx={{
-          backgroundColor: 'extra.swapButton.background',
-          color: 'extra.swapButton.color',
+          backgroundColor: 'primary.main',
+          color: '#000607',
           marginTop: '15px',
           fontWeight: '500',
           fontSize: '14px',
@@ -437,7 +437,7 @@ const Swap = ({}: SwapProps) => {
           borderRadius: '4px',
         }}
       >
-        <Typography fontWeight={600} fontSize={14} sx={{ color: 'extra.button.text' }}>
+        <Typography fontWeight={600} fontSize={14} sx={{ color: 'primary.dark' }}>
           {text}
         </Typography>
       </Button>

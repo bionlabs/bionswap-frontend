@@ -80,7 +80,7 @@ const FlexBox = styled(Box)`
   display: flex;
 `
 const InfoCard = styled(Box)`
-  background: ${(props) => (props.theme.palette as any).extra.other.thirteenth};
+  background: ${(props) => props.theme.palette.gray[800]};
   color: #fff;
   border-radius: 12px;
   padding: 28px 36px;

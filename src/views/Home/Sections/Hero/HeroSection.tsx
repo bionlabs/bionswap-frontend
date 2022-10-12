@@ -20,7 +20,7 @@ const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
           <WrapContentArea>
             <FlexBox gap="20px">
               <Image src="/icons/home/code_symbol.svg" alt="code_symbol" width={37} height={25} />
-              <Typography variant="subtitle1" sx={{ color: "extra.text.secondary" }}>
+              <Typography variant="subtitle1" sx={{ color: "gray.400" }}>
                 the next-gen decentralize
               </Typography>
             </FlexBox>
@@ -30,7 +30,7 @@ const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
               </Typography>
             </WrapHeroHead>
             <WrapHeroContent>
-              <Typography variant="h6" sx={{ color: "extra.text.primary" }}>
+              <Typography variant="h6" sx={{ color: "gray.300" }}>
               BionSwap is a platform that allows Project Owners to self-launch their projects and  a Multichain Decentralize Exchange where users can trade tokens in the most optimal way
               </Typography>
             </WrapHeroContent>

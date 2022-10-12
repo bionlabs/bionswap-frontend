@@ -84,7 +84,7 @@ const Menu = ({ children }: any) => {
                             component="a"
                             href={item.href}
                             sx={{
-                                color: "extra.header.color",
+                                color: "gray.400",
                                 display: 'flex',
                                 alignItems: 'center',
                                 gap: '10px',
@@ -95,7 +95,7 @@ const Menu = ({ children }: any) => {
                                     height: '24px'
                                 },
                                 '&.active': {
-                                    color: "extra.header.colorActive",
+                                    color: "primary.main",
                                 }
                             }}
                             className={router.pathname == item.href ? "active" : ""}
@@ -135,7 +135,7 @@ const Menu = ({ children }: any) => {
                                             component="a"
                                             href={item.href}
                                             sx={{
-                                                color: "extra.header.color",
+                                                color: "gray.400",
                                                 fontSize: '16px',
                                                 transition: '.15s ease-in',
                                                 padding: '8px 20px',
@@ -145,7 +145,7 @@ const Menu = ({ children }: any) => {
                                                     backgroundColor: 'gray.800',
                                                 },
                                                 '&.active': {
-                                                    color: "extra.header.colorActive",
+                                                    color: "primary.main",
                                                 }
                                             }}
                                             onClick={(e:any) => {
@@ -190,16 +190,16 @@ const Menu = ({ children }: any) => {
                                                 component="a"
                                                 href={item.href}
                                                 sx={{
-                                                    color: "extra.header.color",
+                                                    color: "gray.400",
                                                     fontWeight: '500',
                                                     fontSize: '16px',
                                                     padding: '10px 20px',
                                                     transition: '.15s ease-in',
                                                     ':hover': {
-                                                        color: 'extra.header.colorActive',
+                                                        color: 'primary.main',
                                                     },
                                                     '&.active': {
-                                                        color: "extra.header.colorActive",
+                                                        color: "primary.main",
                                                     }
                                                 }}
                                                 onClick={(e:any) => {
@@ -285,8 +285,8 @@ const StyledContained = styled(Box)`
     height: ${MENU_HEIGHT}px;
     align-items: center;
     justify-content: space-between;
-    background-color: ${props => (props.theme.palette as any).extra.header.background};
-    border-bottom: 1px solid ${props => (props.theme.palette as any).extra.border.color};
+    background-color: #081319;
+    border-bottom: 1px solid #424242;
 `
 const FlexBox = styled(Box)`
     display: flex;

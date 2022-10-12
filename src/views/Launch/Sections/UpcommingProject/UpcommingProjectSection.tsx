@@ -22,7 +22,7 @@ const UpcommingProjectSection = () => {
                 <FlexBox mb='60px' alignItems='center' flexDirection='column'>
                     <FlexBox gap='20px'>
                         <Image src="/icons/home/launchpad_icon.svg" alt="launchpad_icon" width={37} height={25} />
-                        <Typography variant='subtitle1' sx={{ color: 'extra.text.primary' }}>
+                        <Typography variant='subtitle1' sx={{ color: 'gray.300' }}>
                             launchpad
                         </Typography>
                     </FlexBox>
@@ -56,7 +56,7 @@ const Wrapper = styled(Box)`
         display: flex;
         flex-direction: column;
         gap: 60px;
-        background-color: ${(props) => (props.theme.palette as any).extra.other.fifth};
+        background-color: #000918;
 `
 const WrapItems = styled(Box)`
         display: flex;

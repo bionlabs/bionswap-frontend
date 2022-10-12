@@ -60,13 +60,13 @@ const NetworkSection = ({ isMobile, isTablet }: MobileProp) => {
                     <FlexBox flexDirection='column' gap='24px'>
                         <FlexBox gap='20px'>
                             <Image src="/icons/home/network_symbol.svg" alt="network_symbol" width={37} height={25} />
-                            <Typography variant='subtitle1' sx={{ color: 'extra.text.subtitle' }}>
+                            <Typography variant='subtitle1' sx={{ color: '#575757' }}>
                                 network
                             </Typography>
                         </FlexBox>
                         <WrapNetworkHead>
                             <Typography variant='h2' sx={{ color: 'text.secondary', fontSize: isMobile ? '48px' : null }}>
-                                All activities on multi-chain <Box sx={{ color: 'extra.text.highlight' }}>Multi-powers!</Box>
+                                All activities on multi-chain <Box sx={{ color: 'secondary.main' }}>Multi-powers!</Box>
                             </Typography>
                         </WrapNetworkHead>
                         <ExploreButton
@@ -113,7 +113,7 @@ const Wrapper = styled(Box)`
 const Line = styled(Box)`
     width: 1px;
     height: 89px;
-    background-color: ${(props) => (props.theme.palette as any).extra.divider.background};
+    background-color: #595959;
 `
 const ConfigItem = styled(Box)`
     display: flex;

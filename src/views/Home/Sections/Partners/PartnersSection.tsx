@@ -47,7 +47,7 @@ const PartnersSection = ({ isMobile, isTablet }: MobileProp) => {
                         <FlexBox flexDirection='column' gap='24px' justifyContent='center'>
                             <FlexBox gap='20px'>
                                 <Image src="/icons/home/partner.svg" alt="partner" width={37} height={25} />
-                                <Typography variant='subtitle1' sx={{ color: 'extra.text.primary' }}>
+                                <Typography variant='subtitle1' sx={{ color: 'gray.300' }}>
                                     For partners
                                 </Typography>
                             </FlexBox>

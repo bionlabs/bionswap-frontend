@@ -193,7 +193,7 @@ const WrapBox = styled(Box)`
   position: relative;
   cursor: pointer;
   transition: 0.15s ease-in;
-  border: 1px solid ${(props) => (props.theme.palette as any).extra.other.tenth};
+  border: 1px solid #014959;
   width: 100%;
 
   :hover {
@@ -218,7 +218,7 @@ const WrapText = styled(Box)`
   gap: 16px;
 `;
 const Logo = styled(Box)`
-  border: 2px solid ${(props) => (props.theme.palette as any).extra.other.nineth};
+  border: 2px solid ${(props) => props.theme.palette.gray[900]};
   background: #0b0b0c;
   border-radius: 8px;
   transform: matrix(-1, 0, 0, 1, 0, 0);
@@ -240,7 +240,7 @@ const Line = styled(Box)`
   width: 100%;
   height: 1px;
   margin: auto;
-  background-color: ${(props) => (props.theme.palette as any).extra.other.thirteenth}; ;
+  background-color: ${(props) => props.theme.palette.gray[800]};
 `;
 const Status = styled(Box)`
   border-radius: 4px;

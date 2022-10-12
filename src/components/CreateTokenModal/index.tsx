@@ -144,7 +144,7 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
           (*) is required field.
         </Typography>
         <WrapForm fullWidth>
-          <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+          <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
             Token Type <RequireSymbol component="span">*</RequireSymbol>
           </Typography>
           {/* <InputCustom fullWidth
@@ -172,7 +172,7 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
           </Typography>
         </WrapForm>
         <WrapForm fullWidth>
-          <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+          <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
             Name <RequireSymbol component="span">*</RequireSymbol>
           </Typography>
           <InputCustom
@@ -187,7 +187,7 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
           </Typography>
         </WrapForm>
         <WrapForm fullWidth>
-          <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+          <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
             Symbol <RequireSymbol component="span">*</RequireSymbol>
           </Typography>
           <InputCustom
@@ -202,7 +202,7 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
           </Typography>
         </WrapForm>
         <WrapForm fullWidth>
-          <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+          <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
             Decimals <RequireSymbol component="span">*</RequireSymbol>
           </Typography>
           <InputCustom
@@ -218,7 +218,7 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
           </Typography>
         </WrapForm>
         <WrapForm fullWidth>
-          <Typography component="label" variant="body4Poppins" color="blue.100" fontWeight="500">
+          <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
             Total supply <RequireSymbol component="span">*</RequireSymbol>
           </Typography>
           <InputCustom

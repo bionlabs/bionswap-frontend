@@ -49,7 +49,7 @@ const WrapBox = styled(Box)`
   position: relative;
   cursor: pointer;
   transition: 0.15s ease-in;
-  border: 1px solid ${(props) => (props.theme.palette as any).extra.other.tenth};
+  border: 1px solid #014959;
   width: 100%;
 
   :hover {

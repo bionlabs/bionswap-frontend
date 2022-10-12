@@ -25,7 +25,7 @@ const FundSection = ({isMobile}:MobileProp) => {
                         </Typography>
                     </Box>
                     <Box>
-                        <Typography variant='caption6Poppins' sx={{color: 'extra.text.secondary'}}>
+                        <Typography variant='caption6Poppins' sx={{color: 'gray.400'}}>
                             Get BIONC for multiple profits. Find a method that suits you the most.
                         </Typography>
                     </Box>
@@ -39,7 +39,7 @@ const FundSection = ({isMobile}:MobileProp) => {
                         </Typography>
                     </Box>
                     <Box>
-                        <Typography variant='captionPoppins' sx={{color: 'extra.text.primary'}}>
+                        <Typography variant='captionPoppins' sx={{color: 'gray.300'}}>
                             Get token with the best price.
                         </Typography>
                     </Box>
@@ -62,7 +62,7 @@ const FundSection = ({isMobile}:MobileProp) => {
                         </Typography>
                     </Box>
                     <Box>
-                        <Typography variant='captionPoppins' sx={{color: 'extra.text.primary'}}>
+                        <Typography variant='captionPoppins' sx={{color: 'gray.300'}}>
                             Audit DAO Governance Credit provide you more power.
                         </Typography>
                     </Box>
@@ -82,7 +82,7 @@ const FundSection = ({isMobile}:MobileProp) => {
                         </Typography>
                     </Box>
                     <Box>
-                        <Typography variant='captionPoppins' sx={{color: 'extra.text.primary'}}>
+                        <Typography variant='captionPoppins' sx={{color: 'gray.300'}}>
                             Buy ticket and get super multiply profit.
                         </Typography>
                     </Box>
@@ -118,9 +118,9 @@ const StyledButton = styled(Button)`
     font-weight: 400;
     width: 100px;
     color: ${prop => prop.theme.palette.text.primary};
-    background-color: ${prop => (prop.theme.palette as any).extra.text.subtitle};
+    background-color: #575757;
     :hover {
-        background-color: ${prop => (prop.theme.palette as any).extra.text.subtitle};
+        background-color: #575757;
         opacity: .8;
     }
 `

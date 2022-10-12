@@ -151,15 +151,15 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
   );
 };
 const Wrapper = styled(Box)`
-  background: ${(props: any) => (props.theme.palette as any).extra.other.nineth};
-  border: 2px solid ${(props) => (props.theme.palette as any).extra.other.tenth};
+  background: ${(props: any) => props.theme.palette.gray[900]};
+  border: 2px solid #014959;
   display: flex;
   flex-direction: column;
   gap: 15px;
 `;
 
 const WrapCard = styled(Box)`
-  background: ${(props) => (props.theme.palette as any).extra.other.tenth};
+  background: #014959;
   border-radius: 10px;
   padding: 20px;
   position: relative;

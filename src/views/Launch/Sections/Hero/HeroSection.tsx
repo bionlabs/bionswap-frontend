@@ -14,14 +14,14 @@ const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
       <FlexBox flexDirection='column' gap='21px' maxWidth='658px' textAlign='center' alignItems='center'>
         <FlexBox gap="20px" justifyContent='center'>
           <Image src="/icons/home/code_symbol.svg" alt="code_symbol" width={37} height={25} />
-          <Typography variant="subtitle1" sx={{ color: "extra.text.secondary" }}>
+          <Typography variant="subtitle1" sx={{ color: "gray.400" }}>
             The next-gen decentralize
           </Typography>
         </FlexBox>
         <Typography variant={isMobile ? 'h2' :"h1"}>
           Launch your project with <span style={{color: '#07E0E0', fontSize:'inherit', fontWeight:'inherit'}}>BionSwap</span>
         </Typography>
-        <Typography variant={isMobile ? 'body1' : 'h6'} sx={{ color: "extra.text.secondary" }}>
+        <Typography variant={isMobile ? 'body1' : 'h6'} sx={{ color: "gray.400" }}>
           Leverage our extensive experience, and proven industry awareness across our partner network.
         </Typography>
         <Box maxWidth='200px'>

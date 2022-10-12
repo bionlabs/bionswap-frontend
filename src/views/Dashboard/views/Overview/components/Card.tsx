@@ -7,7 +7,7 @@ import {
 const Card = styled(Box)`
     border-radius: 8px;
     background: ${prop => prop.theme.palette.gray[900]};
-    border: 1px solid ${(props) => (props.theme.palette as any).extra.other.tenth};
+    border: 1px solid #014959;
     width: fit-content;
     padding: 16px 24px;
 `

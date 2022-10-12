@@ -64,11 +64,11 @@ const Contact = () => {
 }
 
 const Wrapper = styled(Box)`
-    background: ${props => (props.theme.palette as any).extra.background.darkGreen};
+    background: #001015;
     padding: 90px 0;
 `
 const ContactBox = styled(Box)`
-    background: ${props => (props.theme.palette as any).extra.background.primaryDarkGreen};
+    background: #066C6C;
     border-radius: 8px;
     display: flex;
     align-items: center;
