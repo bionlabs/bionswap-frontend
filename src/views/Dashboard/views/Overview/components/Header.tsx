@@ -23,10 +23,20 @@ const Header = ({ isMobile }: MobileProp) => {
   const bionAvatarContract = useBionAvatarContract();
   const claimed = useSingleCallResult(bionAvatarContract, 'claimeds', [account])?.result?.[0] || false;
   const isWhitelisted = useSingleCallResult(bionAvatarContract, 'isWhitelisted', [account])?.result?.[0] || false;
-  const tokenIdCounter = Number(useSingleCallResult(bionAvatarContract, 'tokenIdCounter')?.result?.[0] || 0)
+  const tokenIdCounter = Number(useSingleCallResult(bionAvatarContract, 'tokenIdCounter')?.result?.[0] || 0);
   const [tokenId, setTokenId] = useState('');
-  const [loadingClaim, setLoadingClaim] = useState(false)
+  const [loadingClaim, setLoadingClaim] = useState(false);
   const accessToken = useAppSelector((state) => state.auth.accessToken);
+
+  const WHITELIST_START_TIME = 1665583200; // 21:00
+  const [currentTime, setCurrentTime] = useState(Date.now() / 1000);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(Date.now() / 1000);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const getAvatars = async () => {
@@ -45,19 +55,16 @@ const Header = ({ isMobile }: MobileProp) => {
     const getUserInformation = async () => {
       try {
         if (!accessToken) return;
-        
+
         const rest = await getUserInfo();
         setUserInfo(rest);
       } catch (error) {
         console.log('error====>', error);
       }
     };
-  
+
     getUserInformation();
-
-  }, [address, accessToken, account, openModal])
-
-  
+  }, [address, accessToken, account, openModal]);
 
   const handleToggleModal = () => {
     setOpenModal(!openModal);
@@ -97,14 +104,14 @@ const Header = ({ isMobile }: MobileProp) => {
 
   return (
     <Box display="flex" flexDirection="column" gap="30px">
-      {/* {!claimed && isWhitelisted && (
+      {currentTime >= WHITELIST_START_TIME && !claimed && isWhitelisted && (
         <WrapBanner>
           <Flex flexDirection="column" gap="15px">
             <Typography variant="h5Samsung" fontWeight="700" color="text.primary">
-            Congratulations! You have been whitelisted
+              Congratulations! You have been whitelisted
             </Typography>
             <Typography variant="body3Samsung" fontWeight="500" color="primary.main">
-            Please claim before the rewards are exhausted: {310 - tokenIdCounter} remaining NFTs
+              Please claim before the rewards are exhausted: {310 - tokenIdCounter} remaining NFTs
             </Typography>
             <Claim onClick={handleClaimNFT} disabled={loadingClaim}>
               <Typography variant="body3Poppins" fontWeight="600" color="#000000">
@@ -113,7 +120,7 @@ const Header = ({ isMobile }: MobileProp) => {
             </Claim>
           </Flex>
         </WrapBanner>
-      )} */}
+      )}
       <Box
         display="flex"
         alignItems={isMobile ? 'start' : 'center'}
@@ -126,7 +133,11 @@ const Header = ({ isMobile }: MobileProp) => {
           onClick={handleToggleModal}
         >
           <img
-            src={userInfo?.avatar?.imageURL ? `/images/bitendoGameboy/${userInfo?.avatar?.typeId}.svg` : '/images/bitendoGameboy/Default.svg'}
+            src={
+              userInfo?.avatar?.imageURL
+                ? `/images/bitendoGameboy/${userInfo?.avatar?.typeId}.svg`
+                : '/images/bitendoGameboy/Default.svg'
+            }
             alt=""
             width="120px"
             height="120px"
