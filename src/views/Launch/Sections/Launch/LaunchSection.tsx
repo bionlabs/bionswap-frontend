@@ -2,15 +2,11 @@
 import React from 'react'
 import {
     Box,
-    Button,
-    Container,
     Typography,
     styled
 } from '@mui/material'
-import Image from "next/image";
 import { MobileProp } from 'configs/Type/Mobile/type'
 import { useRouter } from "next/router";
-import PrimaryButton from 'components/PrimaryButton';
 
 const LaunchSection = ({ isMobile , isTablet }: MobileProp) => {
     const router = useRouter();

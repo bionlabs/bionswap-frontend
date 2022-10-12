@@ -435,6 +435,10 @@ const Swap = ({}: SwapProps) => {
           lineHeight: '175%',
           padding: '10px',
           borderRadius: '4px',
+
+          '&:hover': {
+            backgroundColor: 'primary.main',
+          }
         }}
       >
         <Typography fontWeight={600} fontSize={14} sx={{ color: 'primary.dark' }}>

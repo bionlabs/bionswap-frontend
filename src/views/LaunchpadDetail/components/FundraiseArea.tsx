@@ -1,12 +1,10 @@
 import { Box, linearProgressClasses, LinearProgress, Button, styled, Typography } from '@mui/material';
-import PrimaryButton from 'components/PrimaryButton';
 import CountDownTime from './CountDownTime';
-import { usePresaleContract } from 'hooks/useContract';
-import { formatEther, formatUnits } from 'ethers/lib/utils';
+import { formatUnits } from 'ethers/lib/utils';
 import { useSingleCallResult } from 'hooks/useCall';
 import JoinIdoModal from 'components/JoinIdoModal';
 import React, { useEffect, useState } from 'react';
-import { useChain, useToken } from 'hooks';
+import { useChain } from 'hooks';
 
 interface FundraiseAreaProps {
   data: any;

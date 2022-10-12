@@ -80,7 +80,7 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
       </Status>
       <WrapTopArea>
         <WrapLogo>
-          <img src={data?.logo} alt={data?.title} width="57px" height="57px" />
+          <img src={data?.logo} alt={data?.title} />
         </WrapLogo>
         <TimeLineBg>
           <Countdown endTime={endTime} startTime={startTime} />
@@ -221,9 +221,9 @@ const WrapBox = styled(Box)`
 `;
 const WrapLogo = styled(Box)`
   border: 2.75px solid ${(props) => props.theme.palette.gray[900]};
-  background: linear-gradient(180deg, #008a61 0%, #033039 100%);
+  background-color: ${(props) => props.theme.palette.background.default};
   border-radius: 8px;
-  transform: matrix(-1, 0, 0, 1, 0, 0);
+  position: relative;
   max-width: 88px;
   width: 100%;
   height: 100%;
@@ -232,6 +232,13 @@ const WrapLogo = styled(Box)`
   align-items: center;
   justify-content: center;
   margin-left: 15px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+  }
 `;
 const WrapTopArea = styled(Box)`
   margin-top: -38px;

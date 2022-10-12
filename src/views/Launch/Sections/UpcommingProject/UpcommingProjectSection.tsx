@@ -9,7 +9,6 @@ import {
 // import { crowdfundingConfig } from 'views/Crowdfunding/config'
 // import ProjectItem from 'views/Crowdfunding/components/ProjectItem'
 import Image from "next/image";
-import PrimaryButton from 'components/PrimaryButton'
 
 const UpcommingProjectSection = () => {
     return (
@@ -30,18 +29,6 @@ const UpcommingProjectSection = () => {
                         Upcoming launching projects
                     </Typography>
                 </FlexBox>
-                {/* <WrapItems>
-                    {
-                        crowdfundingConfig?.map((item, idex) => (
-                            <Items key=''>
-                                <ProjectItem data={item} />
-                            </Items>
-                        ))
-                    }
-                </WrapItems> */}
-                {/* <Box mt='63px' maxWidth='218px' width='100%'>
-                    <PrimaryButton label="Explore more ->" />
-                </Box> */}
             </Container>
         </Wrapper>
     )

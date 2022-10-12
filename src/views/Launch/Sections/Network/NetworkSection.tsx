@@ -6,11 +6,9 @@ import {
     Container,
     styled,
     Typography,
-    Stack
 } from '@mui/material'
 import { MobileProp } from 'configs/Type/Mobile/type'
 import Image from "next/image";
-import PrimaryButton from 'components/PrimaryButton';
 
 const config = [
     {

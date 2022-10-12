@@ -364,8 +364,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
             boxShadow: "none",
             fontStyle: "normal",
             '&:hover': {
-              opacity: '1',
-              backgroundColor: basePalette.primary as SimplePaletteColorOptions
+              opacity: '0.9',
             }
           },
         },

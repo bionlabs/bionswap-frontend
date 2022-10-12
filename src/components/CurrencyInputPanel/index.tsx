@@ -104,6 +104,10 @@ const CurrencyInputPanel = ({
                   backgroundColor: "gray.700",
                   borderRadius: '9px',
                   padding: "0 9px",
+
+                  '&:hover': {
+                    backgroundColor: "gray.700",
+                  }
                 }}
                 endIcon={
                   <ArrowDropDownIcon

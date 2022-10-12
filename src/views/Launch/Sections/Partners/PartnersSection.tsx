@@ -2,15 +2,10 @@
 import React from 'react'
 import {
     Box,
-    Button,
-    Container,
     styled,
-    Typography,
-    Stack
+    Typography
 } from '@mui/material'
 import { MobileProp } from 'configs/Type/Mobile/type'
-import Image from "next/image";
-import PrimaryButton from 'components/PrimaryButton';
 
 const config = [
     {

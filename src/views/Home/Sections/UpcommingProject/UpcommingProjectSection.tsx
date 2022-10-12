@@ -7,9 +7,7 @@ import {
     Typography,
 } from '@mui/material'
 import Image from "next/image";
-import PrimaryButton from 'components/PrimaryButton'
 import Card from 'components/Card';
-import { crowdfundingConfig } from 'views/LaunchpadDetail/config';
 import { getSaleList } from 'api/launchpad';
 import { useChain } from 'hooks';
 
@@ -70,9 +68,6 @@ const UpcommingProjectSection = () => {
                         ))
                     }
                 </WrapItems>
-                {/* <Box mt='63px' maxWidth='218px' width='100%'>
-                    <PrimaryButton label="Explore more ->" />
-                </Box> */}
             </Container>
         </Wrapper>
     )
