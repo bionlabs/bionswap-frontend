@@ -219,7 +219,7 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
 
       console.log('🚀 ~ file: index.tsx ~ line 219 ~ payloadContract', payloadContract);
       // first estimate whether a successful transaction
-      const mockSalt = '0x3633343032313632356262346530633633373034373434330000000000000000';
+      const mockSalt = '0x3633336261643334633339393335343462663266303961300000000000000000';
       const { error: errorEstimate } = await withCatch(
         presaleFactoryContract.estimateGas.create(payloadContract, mockSalt, { value: ethers.utils.parseEther('0.5') }),
       );
