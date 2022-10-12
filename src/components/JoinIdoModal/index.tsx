@@ -10,8 +10,6 @@ import { usePresaleContract } from 'hooks/useContract';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { withCatch } from 'utils/error';
 import { tryParseAmount } from 'utils/parse';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { toastError } from 'hooks/useToast';
 
 const JoinIdoModal = ({ open, onDismiss, data, unit, currentCap }: any) => {
@@ -102,7 +100,7 @@ const JoinIdoModal = ({ open, onDismiss, data, unit, currentCap }: any) => {
 
         if (error) {
           setIsLoading(false);
-          toastError(err?.message);
+          toastError(error?.message);
           return;
         }
 
@@ -115,7 +113,7 @@ const JoinIdoModal = ({ open, onDismiss, data, unit, currentCap }: any) => {
 
         if (error) {
           setIsLoading(false);
-          toastError(err?.message);
+          toastError(error?.message);
           return;
         }
 

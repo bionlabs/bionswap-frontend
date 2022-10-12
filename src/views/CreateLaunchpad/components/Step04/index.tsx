@@ -16,11 +16,10 @@ import {
 import { useChain, useCurrencyBalance } from 'hooks';
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback';
 import { usePresaleFactoryContract } from 'hooks/useContract';
+import { toastWarn } from 'hooks/useToast';
 import { useToken } from 'hooks/useToken';
 import Joi from 'joi';
 import { useEffect, useRef, useState } from 'react';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { setPresaleForm } from 'state/presale/action';
 import { tryParseAmount } from 'utils/parse';
 import HeaderSection from '../HeaderSection';
@@ -145,9 +144,7 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
 
   const handleCheckBalanceToken = () => {
     if (Number(balance) < tokenInTotal) {
-      toast(
-        `Not enough balance in your wallet. Need ${tokenInTotal} ${token?.symbol} to create launchpad. (Your balance: ${balance} ${token?.symbol})`,
-      );
+      toastWarn(`Not enough balance in your wallet. Need ${tokenInTotal} ${token?.symbol} to create launchpad. (Your balance: ${balance} ${token?.symbol})`)
       return false;
     }
     return true;
