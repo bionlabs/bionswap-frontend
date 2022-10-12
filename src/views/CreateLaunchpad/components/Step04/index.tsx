@@ -13,6 +13,7 @@ import {
   styled,
   Typography,
 } from '@mui/material';
+import { ethers } from 'ethers';
 import { useChain, useCurrencyBalance } from 'hooks';
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback';
 import { usePresaleFactoryContract } from 'hooks/useContract';
@@ -22,6 +23,7 @@ import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { setPresaleForm } from 'state/presale/action';
+import { PreSaleState } from 'state/presale/reducer';
 import { tryParseAmount } from 'utils/parse';
 import HeaderSection from '../HeaderSection';
 
@@ -79,16 +81,6 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
     });
     return message;
   };
-
-  useEffect(() => {
-    if (data.listing === '0') {
-      // default add liq data
-      // const payload = {
-      //   listingPrice: '0',
-      //   liquidityPercentage: '0',
-      // };
-    }
-  }, [data.listing]);
 
   const validate = async () => {
     try {
@@ -163,7 +155,15 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
   useEffect(() => {
     switch (data.listing) {
       case '0': {
-        setData(setPresaleForm({ isAutoListing: false }));
+        setData(
+          setPresaleForm({
+            isAutoListing: false,
+            router: ethers.constants.AddressZero,
+            listingPrice: '1',
+            liquidityPercentage: '0',
+            lockupTime: 0,
+          }),
+        );
         break;
       }
       case '1': {

@@ -217,7 +217,6 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
         // lockLPDuration: Number(data.lockupTime) * 500,
       };
 
-      console.log('🚀 ~ file: index.tsx ~ line 219 ~ payloadContract', payloadContract);
       // first estimate whether a successful transaction
       const mockSalt = '0x3633336261643334633339393335343462663266303961300000000000000000';
       const { error: errorEstimate } = await withCatch(
