@@ -26,11 +26,16 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, presaleContract }) => {
+  console.log('🚀 ~ file: FundraiseArea.tsx ~ line 29 ~ data', presaleContract);
   const [openModal, setOpenModal] = useState(false);
   const { account } = useChain();
-  const [decimals, setDecimals] = useState(18)
+  const [decimals, setDecimals] = useState(18);
   const currentCap = formatUnits(useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0, decimals);
-  const yourPurchased = formatUnits(useSingleCallResult(presaleContract, 'purchaseDetails', [account])?.result?.[1] || 0, decimals)
+  const yourPurchased = formatUnits(
+    useSingleCallResult(presaleContract, 'purchaseDetails', [account])?.result?.[1] || 0,
+    decimals,
+  );
+  const whitelisteds = useSingleCallResult(presaleContract, 'whitelisteds', [account])?.result?.[0] || false;
   const startTime = data?.startTime * 1000;
   const endTime = data?.endTime * 1000;
   const linearProgress = (Number(currentCap) * 100) / Number(formatUnits(data?.hardCap || 0, decimals));
@@ -105,7 +110,8 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
                 Allocation
               </Typography>
               <Typography variant="h6Poppins" color="gray.200" fontWeight="400">
-                {formatUnits(data?.minPurchase || 0, decimals)} {unit} - {formatUnits(data?.maxPurchase || 0, decimals)} {unit}
+                {formatUnits(data?.minPurchase || 0, decimals)} {unit} - {formatUnits(data?.maxPurchase || 0, decimals)}{' '}
+                {unit}
               </Typography>
             </FlexBox>
             <FlexBox
@@ -137,16 +143,35 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
           </FlexBox>
           <Line />
           <FlexBox>
-            <JoinButton disabled={currentTime < startTime || currentTime > endTime || currentCap === data?.hardCap || Number(yourPurchased) !== 0}
-                        onClick={handleOpenModal}
-                        sx={{
-                          backgroundColor: 'success.main',
-                          ...((currentTime < startTime || currentTime > endTime || currentCap === data?.hardCap || Number(yourPurchased) !== 0) && {
-                            backgroundColor: 'gray.200',
-                          })
-                        }}>
+            <JoinButton
+              disabled={
+                currentTime < startTime ||
+                currentTime > endTime ||
+                currentCap === data?.hardCap ||
+                Number(yourPurchased) !== 0 ||
+                !whitelisteds
+              }
+              onClick={handleOpenModal}
+              sx={{
+                backgroundColor: 'success.main',
+                ...((currentTime < startTime ||
+                  currentTime > endTime ||
+                  currentCap === data?.hardCap ||
+                  Number(yourPurchased) !== 0 ||
+                  !whitelisteds) && {
+                  backgroundColor: 'gray.200',
+                }),
+              }}
+            >
               <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-                {currentTime < startTime || currentTime > endTime || currentCap === data?.hardCap || Number(yourPurchased) !== 0 ? 'Not Available' : 'Join IDO Now!'}
+                {currentTime < startTime ||
+                currentTime > endTime ||
+                currentCap === data?.hardCap ||
+                Number(yourPurchased) !== 0
+                  ? 'Not Available'
+                  : whitelisteds
+                  ? 'Join IDO Now!'
+                  : 'You are not whitelisted'}
               </Typography>
             </JoinButton>
           </FlexBox>

@@ -47,7 +47,7 @@ const TokenSale: React.FC<TokenSaleProps> = ({ data, isMobile = false, unit, tok
       tokenSale: `${data?.token}`,
     },
     {
-      allocation: 'Contract Address',
+      allocation: 'Sale Address',
       tokenSale: `${data?.saleAddress}`,
     },
   ];
