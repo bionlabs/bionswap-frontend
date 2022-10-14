@@ -12,6 +12,7 @@ interface TokenSaleProps {
 }
 
 const TokenSale: React.FC<TokenSaleProps> = ({ data, isMobile = false, unit, tokenContract }) => {
+  console.log("🚀 ~ file: TokenSale.tsx ~ line 15 ~ data", data)
   const quoteToken = useToken(data?.quoteToken);
   const startTime = data?.startTime * 1000;
   const endTime = data?.endTime * 1000;
@@ -33,6 +34,14 @@ const TokenSale: React.FC<TokenSaleProps> = ({ data, isMobile = false, unit, tok
     {
       allocation: 'Sale Price',
       tokenSale: `1 ${tokenContract?.symbol} = ${formatUnits(data?.listingPrice || 0, decimals)} ${unit}`,
+    },
+    {
+      allocation: 'Sale Allocation',
+      tokenSale: `${formatUnits(data?.minPurchase || 0, decimals)} ${unit} - ${formatUnits(data?.maxPurchase || 0, decimals)} ${unit}`,
+    },
+    {
+      allocation: 'Sale Goal',
+      tokenSale: `${formatUnits(data?.minGoal || 0, decimals)} ${unit} - ${formatUnits(data?.maxGoal || 0, decimals)} ${unit}`,
     },
     {
       allocation: 'Sale Start Time',

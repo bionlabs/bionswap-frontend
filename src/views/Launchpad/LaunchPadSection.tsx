@@ -17,29 +17,10 @@ import { getSaleList } from 'api/launchpad';
 import Card from 'components/Card';
 import NoDataView from 'components/NoDataView';
 import SkeletonCard from 'components/SkeletonCard';
-import { useRefetchIncreasedInterval } from 'hooks';
+import { useDebounce, useRefetchIncreasedInterval } from 'hooks';
 import { useCallback, useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import Title from './components/Title/Title';
-
-const tags = [
-  {
-    label: 'Explore',
-    value: 0,
-  },
-  {
-    label: 'Game',
-    value: 1,
-  },
-  {
-    label: 'Metaverse',
-    value: 2,
-  },
-  {
-    label: 'Defi',
-    value: 3,
-  },
-];
 
 const LaunchPadSection = ({ chainId }: any) => {
   const [page, setPage] = useState(1);
@@ -51,10 +32,23 @@ const LaunchPadSection = ({ chainId }: any) => {
     sortBy: '-createdAt',
   });
   const [launchData, setLaunchData]: any = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleChange = (prop: any) => (event: any) => {
     setParams({ ...params, [prop]: event.target.value });
   };
+
+  const searchKeyword = (event: any) => {
+    setSearchQuery(event.target.value)
+  }
+
+  const [, cancelSearch] = useDebounce(
+    () => {
+      setParams({ ...params, ['keyword']: searchQuery });
+    },
+    500,
+    [searchQuery],
+  );
 
   const getLaunchData = useCallback(
     async (params: any) => {
@@ -110,7 +104,7 @@ const LaunchPadSection = ({ chainId }: any) => {
     >
       <Container maxWidth="xl">
         <Wrapper>
-          <Section>
+          {/* <Section>
             <Title title="Feature Project" />
             <WrapSlideFeatureProject>
               {launchData ? (
@@ -133,12 +127,12 @@ const LaunchPadSection = ({ chainId }: any) => {
                 </Flex>
               )}
             </WrapSlideFeatureProject>
-          </Section>
+          </Section> */}
           <Section>
             <Title title="Current Projects" isCurrent currentMessage="Many ideas waiting for you to reach" />
             <TextField
               variant="standard"
-              onChange={handleChange('keyword')}
+              onChange={searchKeyword}
               placeholder="Search by project name, token contract address or token symbol"
               sx={{
                 '.MuiInputBase-root': {

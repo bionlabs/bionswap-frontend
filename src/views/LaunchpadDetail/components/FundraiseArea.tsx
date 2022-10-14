@@ -27,7 +27,6 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, presaleContract }) => {
-  console.log('🚀 ~ file: FundraiseArea.tsx ~ line 30 ~ token', token);
   const [openModal, setOpenModal] = useState(false);
   const { account } = useChain();
   const [decimals, setDecimals] = useState(18);
