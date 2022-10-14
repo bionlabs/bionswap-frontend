@@ -89,7 +89,6 @@ const Step02 = ({ data, setData, onNextStep, onBackStep }: any) => {
         saleFee: Joi.required().label('Sale fee option'),
       });
 
-      console.log('🚀 ~ file: index.tsx ~ line 107 ~ validate ~ data.tokenContract', data.tokenContract);
 
       const value = await schemaStep02.validateAsync(
         {

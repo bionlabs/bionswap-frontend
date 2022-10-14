@@ -72,6 +72,7 @@ const LaunchpadDetail = () => {
               endTime={data?.endTime * 1000}
               startTime={data?.startTime * 1000}
               unit={unit}
+              isWhitelistEnabled={data?.isWhitelistEnabled}
             />
             <FundraiseArea data={data} presaleContract={presaleContract} token={token} quoteToken={quoteToken} />
           </Container>

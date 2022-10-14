@@ -56,7 +56,7 @@ export const footerMenuConfig = [
         items: [
             {
                 label: 'Swap',
-                href: '/trade',
+                href: '/swap',
                 icon: ''
             },
             {

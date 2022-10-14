@@ -5,7 +5,7 @@ import { NEVER_RELOAD } from 'state/multicall';
 import { parseStringOrBytes32 } from 'utils/parse';
 import { isAddress } from 'utils/validate';
 
-export function useToken(tokenAddress?: string | null): Token | undefined | null {
+export function useToken(tokenAddress?: string | null, reload?: boolean): Token | undefined | null {
   const { chainId } = useChain();
 
   const tokens = useAllTokens();
@@ -16,22 +16,22 @@ export function useToken(tokenAddress?: string | null): Token | undefined | null
 
   const tokenContractBytes32 = useBytes32TokenContract(address ? address : undefined, false);
   const token: Token | undefined = address ? tokens[address] : undefined;
-
-  const tokenName = useSingleCallResult(token ? undefined : tokenContract, 'name', undefined, NEVER_RELOAD);
+  
+  const tokenName = useSingleCallResult(token ? undefined : tokenContract, 'name', undefined, !reload ? NEVER_RELOAD : undefined);
   const tokenNameBytes32 = useSingleCallResult(
     token ? undefined : tokenContractBytes32,
     'name',
     undefined,
-    NEVER_RELOAD,
+    !reload ? NEVER_RELOAD : undefined,
   );
-  const symbol = useSingleCallResult(token ? undefined : tokenContract, 'symbol', undefined, NEVER_RELOAD);
+  const symbol = useSingleCallResult(token ? undefined : tokenContract, 'symbol', undefined, !reload ? NEVER_RELOAD : undefined);
   const symbolBytes32 = useSingleCallResult(
     token ? undefined : tokenContractBytes32,
     'symbol',
     undefined,
-    NEVER_RELOAD,
+    !reload ? NEVER_RELOAD : undefined,
   );
-  const decimals = useSingleCallResult(token ? undefined : tokenContract, 'decimals', undefined, NEVER_RELOAD);
+  const decimals = useSingleCallResult(token ? undefined : tokenContract, 'decimals', undefined, !reload ? NEVER_RELOAD : undefined);
 
   return useMemo(() => {
     if (token) return token;

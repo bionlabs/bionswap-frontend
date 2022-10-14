@@ -1,17 +1,31 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
-import { Box, styled, Typography } from '@mui/material';
+import { Box, styled, Typography, linearProgressClasses, LinearProgress } from '@mui/material';
 import { useRouter } from 'next/router';
 import Countdown from './Countdown';
 import { formatEther, formatUnits } from 'ethers/lib/utils';
 import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS } from '@bionswap/core-sdk';
-import { useToken } from 'hooks';
+import { useSingleCallResult, useToken } from 'hooks';
+import { usePresaleContract } from 'hooks/useContract';
 
 interface ProjectItemProps {
   data: any;
 }
 
+const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  height: 8,
+  borderRadius: 5,
+  [`&.${linearProgressClasses.colorPrimary}`]: {
+    backgroundColor: '#000A0D',
+  },
+  [`& .${linearProgressClasses.bar}`]: {
+    borderRadius: 5,
+    backgroundColor: '#22EB8A',
+  },
+}));
+
 const Card: React.FC<ProjectItemProps> = ({ data }) => {
+  const presaleContract = usePresaleContract(data?.saleAddress);
   const router = useRouter();
   const currentTime = +new Date();
   const startTime = data?.startTime * 1000;
@@ -19,6 +33,8 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
   const quoteToken = useToken(data?.quoteToken);
   // const decimals = data?.isQuoteETH ? 18 : quoteToken?.decimals;
   const [decimals, setDecimals] = useState(18);
+  const currentCap = formatUnits(useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0, decimals);
+  const linearProgress = (Number(currentCap) * 100) / Number(formatUnits(data?.hardCap || 0, decimals));
 
   const map = {
     [USDT_ADDRESS[data?.chainId]?.toLowerCase()]: 'USDT',
@@ -123,6 +139,7 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
             />
           </Box>
         </FlexBox>
+        <BorderLinearProgress variant="determinate" value={linearProgress} />
         <FlexBox justifyContent="space-between">
           <Typography
             variant="caption6Poppins"

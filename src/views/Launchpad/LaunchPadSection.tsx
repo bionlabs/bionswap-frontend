@@ -43,7 +43,6 @@ const tags = [
 
 const LaunchPadSection = ({ chainId }: any) => {
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
   const [params, setParams] = useState({
     page: 1,
     limit: 12,
@@ -57,43 +56,41 @@ const LaunchPadSection = ({ chainId }: any) => {
     setParams({ ...params, [prop]: event.target.value });
   };
 
-  const getLaunchData = useCallback(async (params: any) => {
-    try {
-      const launchData = await getSaleList(
-        params.page,
-        params.limit,
-        chainId,
-        params.owner,
-        params.keyword,
-        params.sortBy,
-      );
-      setLaunchData(launchData);
-    } catch (error) {
-      setLoading(false);
-      console.log('error====>', error);
-    }
-  }, [chainId]);
+  const getLaunchData = useCallback(
+    async (params: any) => {
+      try {
+        const launchData = await getSaleList(
+          params.page,
+          params.limit,
+          chainId,
+          params.owner,
+          params.keyword,
+          params.sortBy,
+        );
+        setLaunchData(launchData);
+      } catch (error) {
+        console.log('error====>', error);
+      }
+    },
+    [chainId],
+  );
 
   useRefetchIncreasedInterval(
     async () => {
-      getLaunchData(params);
+      await getLaunchData(params);
     },
+    0,
     1000,
-    500,
     [chainId, params],
   );
 
   useEffect(() => {
     getLaunchData(params);
-  }, [params, chainId, getLaunchData])
+  }, [params, chainId, getLaunchData]);
 
   const handleChangePagidation = (event: React.ChangeEvent<unknown>, value: number) => {
-    setLoading(true)
-    setParams({...params, page: value})
+    setParams({ ...params, page: value });
     setPage(value);
-    setTimeout(() => {
-      setLoading(false);
-    }, 5000);
   };
 
   const settings = {
@@ -126,7 +123,7 @@ const LaunchPadSection = ({ chainId }: any) => {
                     ))}
                   </Slider>
                 ) : (
-                  <Box pl="15px" pr="15px" height='40vh'>
+                  <Box pl="15px" pr="15px" height="40vh">
                     <NoDataView />
                   </Box>
                 )
@@ -244,17 +241,18 @@ const LaunchPadSection = ({ chainId }: any) => {
                 gap: { xs: '20px', lg: '40px' },
               }}
             >
-              {launchData && !loading ? (
-                launchData.data ?
-                launchData?.data?.map((item: any) => (
-                  <WrapItem key={item?.saleAddress}>
-                    <Card data={item} />
-                  </WrapItem>
-                ))
-                :
-                <Box width='100%' height='40vh'>
+              {launchData ? (
+                launchData.data ? (
+                  launchData?.data?.map((item: any) => (
+                    <WrapItem key={item?.saleAddress}>
+                      <Card data={item} />
+                    </WrapItem>
+                  ))
+                ) : (
+                  <Box width="100%" height="40vh">
                     <NoDataView />
                   </Box>
+                )
               ) : (
                 <SkeletonCard />
               )}

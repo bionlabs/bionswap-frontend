@@ -27,7 +27,7 @@ const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
         <Box maxWidth="200px">
           <PrimaryButton
             label="Start a project"
-            href="/trade"
+            href='/swap'
             onClick={(e) => {
               e.preventDefault();
               router.push('/launchpad/create');

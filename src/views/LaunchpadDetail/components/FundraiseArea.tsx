@@ -5,6 +5,7 @@ import { useSingleCallResult } from 'hooks/useCall';
 import JoinIdoModal from 'components/JoinIdoModal';
 import React, { useEffect, useState } from 'react';
 import { useChain } from 'hooks';
+import Link from 'next/link';
 
 interface FundraiseAreaProps {
   data: any;
@@ -17,16 +18,16 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
   borderRadius: 5,
   [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor: '#F1F1F1',
+    backgroundColor: '#000A0D',
   },
   [`& .${linearProgressClasses.bar}`]: {
     borderRadius: 5,
-    backgroundColor: '#1C7744',
+    backgroundColor: '#22EB8A',
   },
 }));
 
 const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, presaleContract }) => {
-  console.log('🚀 ~ file: FundraiseArea.tsx ~ line 29 ~ data', presaleContract);
+  console.log('🚀 ~ file: FundraiseArea.tsx ~ line 30 ~ token', token);
   const [openModal, setOpenModal] = useState(false);
   const { account } = useChain();
   const [decimals, setDecimals] = useState(18);
@@ -124,7 +125,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
                 Price per token
               </Typography>
               <Typography variant="h6Poppins" color="gray.200" fontWeight="400">
-                1 {token?.symbol} = {formatUnits(data?.price || 0, decimals)} {unit}
+                {formatUnits(data?.price || 0, decimals)} {unit}
               </Typography>
             </FlexBox>
             {/* <FlexBox
@@ -143,37 +144,46 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
           </FlexBox>
           <Line />
           <FlexBox>
-            <JoinButton
-              disabled={
-                currentTime < startTime ||
-                currentTime > endTime ||
-                currentCap === data?.hardCap ||
-                Number(yourPurchased) !== 0 ||
-                !whitelisteds
-              }
-              onClick={handleOpenModal}
-              sx={{
-                backgroundColor: 'success.main',
-                ...((currentTime < startTime ||
-                  currentTime > endTime ||
-                  currentCap === data?.hardCap ||
-                  Number(yourPurchased) !== 0 ||
-                  !whitelisteds) && {
-                  backgroundColor: 'gray.200',
-                }),
-              }}
-            >
-              <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-                {currentTime < startTime ||
-                currentTime > endTime ||
-                currentCap === data?.hardCap ||
-                Number(yourPurchased) !== 0
-                  ? 'Not Available'
-                  : whitelisteds
-                  ? 'Join IDO Now!'
-                  : 'You are not whitelisted'}
-              </Typography>
-            </JoinButton>
+            {startTime > currentTime ? (
+              <JoinButton disabled sx={{ backgroundColor: 'gray.200' }}>
+                <Typography variant="body3Poppins" color="gray.400" fontWeight="600">
+                  Not Available
+                </Typography>
+              </JoinButton>
+            ) : Number(yourPurchased) !== 0 ? (
+              <Link href={'/dashboard/allocation'}>
+                <JoinButton sx={{ backgroundColor: 'primary.main', '&:hover': { backgroundColor: 'primary.main' } }}>
+                  <Typography variant="body3Poppins" color="#000000" fontWeight="600">
+                    View your allocation
+                  </Typography>
+                  <img src="/images/arrow_forward.png" alt="arrow_forward" width="20px" />
+                </JoinButton>
+              </Link>
+            ) : currentTime > endTime ? (
+              <Link href={`/swap?inputCurrency=ETH&outputCurrency=${token?.address}`}>
+                <JoinButton sx={{ backgroundColor: 'primary.main', '&:hover': { backgroundColor: 'primary.main' } }}>
+                  <Typography variant="body3Poppins" color="#000000" fontWeight="600">
+                    View {token?.symbol} on Bionswap
+                  </Typography>
+                  <img src="/images/arrow_forward.png" alt="arrow_forward" width="20px" />
+                </JoinButton>
+              </Link>
+            ) : whitelisteds && data?.isWhitelistEnabled ? (
+              <JoinButton disabled sx={{ backgroundColor: 'gray.200' }}>
+                <Typography variant="body3Poppins" color="gray.400" fontWeight="600">
+                  You are not whitelisted
+                </Typography>
+              </JoinButton>
+            ) : (
+              <JoinButton
+                onClick={handleOpenModal}
+                sx={{ backgroundColor: 'success.main', '&:hover': { backgroundColor: 'success.main' } }}
+              >
+                <Typography variant="body3Poppins" color="#000000" fontWeight="600">
+                  Join IDO Now!
+                </Typography>
+              </JoinButton>
+            )}
           </FlexBox>
           <Box>
             <CountDownTime endTime={endTime} startTime={startTime} />
@@ -209,6 +219,7 @@ const JoinButton = styled(Button)`
   width: 100%;
   text-align: center;
   padding: 8px;
+  gap: 5px;
 `;
 
 export default FundraiseArea;

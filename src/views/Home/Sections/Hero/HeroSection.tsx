@@ -38,10 +38,10 @@ const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
               <Box maxWidth="218px" width="100%">
                 <PrimaryButton
                   label="Trade now"
-                  href='/trade'
+                  href='/swap'
                   onClick={(e) => {
                     e.preventDefault();
-                    router.push('/trade')
+                    router.push('/swap')
                   }}
                 />
               </Box>

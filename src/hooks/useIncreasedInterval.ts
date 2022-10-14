@@ -2,12 +2,12 @@ import { DependencyList, useCallback, useEffect, useRef, useState } from 'react'
 
 export function useRefetchIncreasedInterval(
   cb: () => Promise<void>,
-  baseInterval: number,
+  startDelay: number,
   increaseFactor: number,
   deps?: DependencyList,
 ) {
   const lastTimeoutIdRef = useRef<number>(0);
-  const increasedInterval = useRef(baseInterval);
+  const increasedInterval = useRef(startDelay);
   const [rerun, setRerun] = useState(true);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -9,9 +9,18 @@ interface HeadDetailProps {
   endTime: number;
   startTime: number;
   unit?: string;
+  isWhitelistEnabled?: boolean;
 }
 
-const HeadDetail: React.FC<HeadDetailProps> = ({ avatar, name, type, endTime, startTime, unit }) => {
+const HeadDetail: React.FC<HeadDetailProps> = ({
+  avatar,
+  name,
+  type,
+  endTime,
+  startTime,
+  unit,
+  isWhitelistEnabled,
+}) => {
   const currentTime = +new Date();
 
   return (
@@ -34,12 +43,7 @@ const HeadDetail: React.FC<HeadDetailProps> = ({ avatar, name, type, endTime, st
           </Typography>
           <FlexBox gap="15px">
             <FlexBox gap="8px" alignItems="center">
-              <Box
-                component="img"
-                src={`/icons/coins/${unit}.svg`}
-                alt={unit}
-                width="24px"
-              />
+              <Box component="img" src={`/icons/coins/${unit}.svg`} alt={unit} width="24px" />
               <Typography variant="body3Poppins" fontWeight="600" color="gray.200">
                 {unit}
               </Typography>
@@ -50,7 +54,7 @@ const HeadDetail: React.FC<HeadDetailProps> = ({ avatar, name, type, endTime, st
           {type}
         </Typography>
       </FlexBox>
-      <Box display="flex" alignItems="center">
+      <Box display="flex" alignItems="center" gap="15px">
         <Status
           sx={{
             backgroundColor: 'gray.800',
@@ -66,6 +70,20 @@ const HeadDetail: React.FC<HeadDetailProps> = ({ avatar, name, type, endTime, st
             {currentTime < startTime ? 'Coming Soon' : currentTime < endTime ? 'Sale Open' : 'Sale Closed'}
           </Typography>
         </Status>
+        {isWhitelistEnabled && (
+          <Status
+            sx={{
+              backgroundColor: 'transparent',
+              border: '1px solid',
+              borderColor: 'success.main',
+              padding: '2px 10px 4px !important',
+            }}
+          >
+            <Typography variant="captionPoppins" color="success.main" fontWeight="500">
+              Whilisted
+            </Typography>
+          </Status>
+        )}
       </Box>
     </FlexBox>
   );
