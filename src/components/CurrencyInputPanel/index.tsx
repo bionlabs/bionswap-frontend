@@ -101,12 +101,10 @@ const CurrencyInputPanel = ({
                   boxShadow: "none",
                   justifyContent: "space-between",
                   minWidth: "auto",
-                  backgroundColor: "gray.700",
-                  borderRadius: '9px',
-                  padding: "0 9px",
-
+                  backgroundColor: "gray.800",
+                  borderRadius: '8px',
                   '&:hover': {
-                    backgroundColor: "gray.700",
+                    backgroundColor: "gray.800",
                   }
                 }}
                 endIcon={
@@ -118,9 +116,9 @@ const CurrencyInputPanel = ({
                 }
               >
                 <Stack direction="row" gap='5px'>
-                  <CurrencyLogo currency={currency} size={20} />
-                  <Typography variant="body2Poppins" sx={{
-                    fontWeight: '500',
+                  <CurrencyLogo currency={currency} size={25} />
+                  <Typography sx={{
+                    fontWeight: '500', fontSize: '16px',
                     color: '#FFF3F3',
                   }}>
                     {currency?.symbol}
@@ -146,11 +144,10 @@ const CurrencyInputPanel = ({
 
 const WrapCurrencyInputPanel = styled(Box)`
   border-radius: 8px;
-  background: ${(props) => props.theme.palette.primary.dark};
+  background: ${(props) => props.theme.palette.background.default};
   padding: 15px;
   border: 1px solid;
-  border-color: ${(props) => props.theme.palette.primary.dark};
-
+  transition: .12s ease-in;
   &:hover {
     border-color: ${(props) => props.theme.palette.gray[500]};
   }

@@ -491,7 +491,7 @@ const Swap = ({}: SwapProps) => {
                 sx={{
                   width: '100%',
                   height: '100%',
-                  paddingTop: '95px',
+                  paddingTop: '80px',
                 }}
               >
                 <NoDataView />
@@ -516,7 +516,7 @@ const Swap = ({}: SwapProps) => {
               </Typography>
               <TransactionSettings />
             </FlexBox>
-            <Box mt="30px" height="calc(100% - 95px)">
+            <Box mt="15px" height="calc(100% - 80px)">
               <WrapSwapBox>
                 {/* <Autocomplete
                   disablePortal
@@ -609,12 +609,12 @@ const Swap = ({}: SwapProps) => {
                   {SwapButton}
                 </Box>
                 <Box
-                  sx={{
-                    border: '1px solid',
-                    borderColor: 'grey.800',
-                    borderRadius: '8px',
-                    mt: '15px',
-                  }}
+                  // sx={{
+                  //   border: '1px solid',
+                  //   borderColor: 'primary.main',
+                  //   borderRadius: '4px',
+                  //   mt: '15px',
+                  // }}
                 >
                   <SwapDetail trade={trade} />
                 </Box>
@@ -658,7 +658,7 @@ const top100Films = [
 const WrapSwapBox = styled(Box)`
   background-color: ${(props) => props.theme.palette.gray[900]};
   border-radius: 8px;
-  padding: 15px;
+  padding: 16px;
   height: 100%;
 `;
 const PaperItem = styled(Box)`

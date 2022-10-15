@@ -201,7 +201,7 @@ export const darkPalette: ExtendedPaletteOptions = {
   },
   primary: {
     main: "#07E0E0",
-    // light: "#ffc107",
+    light: "#242D35",
     dark: "#000000",
   },
   secondary: {
@@ -225,42 +225,34 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       h1: {
         fontFamily: "SamsungSharpSans-Bold",
         fontSize: "64px",
-        lineHeight: "80px",
       },
       h2: {
         fontFamily: "SamsungSharpSans-Bold",
         fontSize: "56px",
-        lineHeight: "80px",
       },
       h3: {
         fontWeight: "400",
         fontSize: "24px",
-        lineHeight: "180%",
       },
       h4: {
         fontWeight: "600",
         fontSize: "28px",
-        lineHeight: "180%",
       },
       h6: {
         fontWeight: "400",
         fontSize: "20px",
-        lineHeight: "30px",
       },
       subtitle1: {
         fontFamily: "AnonymousPro-Bold",
         fontSize: "20px",
-        lineHeight: "180%",
       },
       body1: {
         fontWeight: "400",
         fontSize: "16px",
-        lineHeight: "24px",
       },
       h2Samsung: {
         fontFamily: "SamsungSharpSans-Bold",
         fontSize: "48px",
-        lineHeight: "180%",
       },
       h3Samsung: {
         fontFamily: "SamsungSharpSans-Bold",
@@ -270,69 +262,53 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       h5Samsung: {
         fontFamily: 'SamsungSharpSans-Bold',
         fontSize: '24px',
-        lineHeight: '40px',
       },
       h6Samsung: {
         fontFamily: 'SamsungSharpSans-Bold',
         fontSize: '20px',
-        lineHeight: '30px',
       },
       body3Samsung: {
         fontSize: "16px",
-        lineHeight: "180%",
       },
 
       h0Poppins: {
         fontSize: "42px",
-        lineHeight: "150%",
       },
       h1Poppins: {
         fontSize: "36px",
-        lineHeight: "150%",
       },
       h3Poppins: {
         fontSize: "32px",
-        lineHeight: "180%",
       },
       h4Poppins: {
         fontSize: "28px",
-        lineHeight: "100%",
       },
       h6Poppins: {
         fontSize: "20px",
-        lineHeight: "40px",
       },
       bodyPoppins: {
         fontSize: "20px",
-        lineHeight: "180%",
       },
       body2Poppins: {
         fontSize: "18px",
-        lineHeight: "180%",
       },
       body3Poppins: {
         fontSize: "16px",
-        lineHeight: "180%",
       },
       body4Poppins: {
         fontSize: "14px",
-        lineHeight: "180%",
       },
       body6Poppins: {
         fontSize: "10px",
-        lineHeight: "180%",
       },
       subtitle2Poppins: {
         fontSize: "15px",
-        lineHeight: "180%",
       },
       captionPoppins: {
         fontSize: '12px',
-        lineHeight: '180%',
       },
       caption6Poppins: {
         fontSize: '14px',
-        lineHeight: '160%',
       },
 
       button: {
@@ -376,14 +352,10 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
             p: 1.5,
             borderRadius: "0",
             "&.Mui-selected": {
-              backgroundColor: (
-                basePalette.primary as SimplePaletteColorOptions
-              ).light,
+              backgroundColor: 'transparent',
               boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.24)",
               "&:hover": {
-                backgroundColor: (
-                  basePalette.primary as SimplePaletteColorOptions
-                ).light,
+                backgroundColor: 'transparent',
               },
             },
             "& .MuiTouchRipple-root": {

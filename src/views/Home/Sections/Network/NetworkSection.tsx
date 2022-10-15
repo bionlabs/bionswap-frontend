@@ -66,7 +66,7 @@ const NetworkSection = ({ isMobile, isTablet }: MobileProp) => {
                         </FlexBox>
                         <WrapNetworkHead>
                             <Typography variant='h2' sx={{ color: 'text.secondary', fontSize: isMobile ? '48px' : null }}>
-                                All activities on multi-chain <Box sx={{ color: 'secondary.main' }}>Multi-powers!</Box>
+                                All projects launched <Box sx={{ color: 'secondary.main' }}>Multi-powers!</Box>
                             </Typography>
                         </WrapNetworkHead>
                         <ExploreButton

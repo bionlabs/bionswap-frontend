@@ -6,7 +6,7 @@ const NoDataView = () => {
     <WrapBox>
       <img src="/icons/nodata.svg" alt="nodata" />
       <Stack flexDirection="column" gap="4px">
-        <Typography variant="body2Poppins" color="background.defaul" fontWeight="500">
+        <Typography variant="body2Poppins" color="gray.400" fontWeight="500">
           Hmm...
         </Typography>
         <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
