@@ -176,7 +176,7 @@ export const darkPalette: ExtendedPaletteOptions = {
     "600": "#4F5B67",
     "700": "#373F47",
     "800": "#242D35",
-    "900": "#0C1620",
+    "900": "#0D1B21",
   },
   darkGreen: {
     "50": "#02B0B0",
@@ -208,7 +208,7 @@ export const darkPalette: ExtendedPaletteOptions = {
     main: "#6803B8",
   },
   background: {
-    default: "#000A0D",
+    default: "#000F15",
     paper: "#fff",
   },
   text: {

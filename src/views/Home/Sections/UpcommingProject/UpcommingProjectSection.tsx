@@ -82,7 +82,7 @@ const Wrapper = styled(Box)`
         display: flex;
         flex-direction: column;
         gap: 60px;
-        background-color: #000918;
+        background-color: transparent;
 `
 const WrapItems = styled(Box)`
         display: flex;

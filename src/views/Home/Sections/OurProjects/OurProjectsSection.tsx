@@ -12,7 +12,7 @@ import { ourProjectsConfig, serviceConfig } from './config'
 const OurProjectsSection = ({ isMobile }: MobileProp) => {
     const Wrapper = styled(Box)`
         width: 100%;
-        background-color: #000918;
+        background-color: transparent;
         padding-top: ${isMobile ? '50px' : '0'};
         padding-bottom: ${isMobile ? '80px' : '90px'};
         display: flex;
@@ -31,7 +31,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
         gap: 24px;
     `
     const Item = styled(Box)`
-        background: linear-gradient(180deg, #0C1620 0%, rgba(12, 22, 32, 0) 100%);
+        background: linear-gradient(180deg, ${prop => prop.theme.palette.gray[800]} 0%, ${prop => prop.theme.palette.gray[900]} 100%);
         border: 1px solid;
         border-color: ${(props) => (props.theme.palette.primary.dark)};
         border-radius: 12px;

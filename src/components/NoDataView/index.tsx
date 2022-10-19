@@ -21,9 +21,9 @@ const WrapBox = styled(Box)`
   display: flex;
   width: 100%;
   height: 100%;
-  border: 1px solid #242d35;
+  border: 1px solid ${prop => prop.theme.palette.gray[800]};
   border-radius: 8px;
-  background-color: #0c1620;
+  background-color: ${prop => prop.theme.palette.gray[900]};
   flex-direction: column;
   align-items: center;
   gap: 16px;
