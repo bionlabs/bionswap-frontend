@@ -285,8 +285,8 @@ const StyledContained = styled(Box)`
     height: ${MENU_HEIGHT}px;
     align-items: center;
     justify-content: space-between;
-    background-color: #081319;
-    border-bottom: 1px solid #424242;
+    background-color: ${props => props.theme.palette.gray[900]};
+    border-bottom: 1px solid ${props => props.theme.palette.gray[700]};
 `
 const FlexBox = styled(Box)`
     display: flex;

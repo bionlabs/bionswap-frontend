@@ -100,7 +100,8 @@ const SidebarContainer = styled(Box)`
   min-height: 100vh;
   width: 350px;
   color: ${props => props.theme.palette.gray[600]};
-  background-color: #081319;
+  background-color: ${props => props.theme.palette.gray[900]};
+  border-right: 1px solid ${props => props.theme.palette.gray[700]};
   position: relative;
   left: 0;
   top: 0;

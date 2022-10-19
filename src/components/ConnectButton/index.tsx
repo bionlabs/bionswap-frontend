@@ -95,7 +95,7 @@ const ConnectButton = (props: Props) => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                backgroundColor: 'gray.800',
+                backgroundColor: 'gray.700',
                 height: 'inherit',
                 padding: '5px 12px',
                 borderRadius: '4px',
@@ -195,18 +195,18 @@ const ProfileButton = styled(Button)`
   font-family: inherit;
   font-weight: 500;
   align-items: center;
-  background-color: ${(prop) => (prop.theme.palette as any).primary.dark};
+  background-color: ${props => props.theme.palette.background.default};
   color: #fff;
   transition: 0.15s ease-in;
   line-height: 1;
   gap: 8px;
-  border: 1px solid ${(prop) => (prop.theme.palette as any).gray[800]};
+  border: 1px solid ${(prop) => (prop.theme.palette as any).gray[700]};
   svg {
     width: 20px;
     height: 20px;
   }
   :hover {
-    background-color: ${(prop) => (prop.theme.palette as any).gray[800]};
+    background-color: ${(prop) => (prop.theme.palette as any).gray[700]};
     box-shadow: none;
   }
 `;

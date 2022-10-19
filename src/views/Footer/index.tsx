@@ -97,11 +97,11 @@ const Footer = ({ children }: any) => {
 
 const Wrapper = styled(Box)`
     width: 100%;
-    background-color: ${(props) => props.theme.palette.background.default};
+    background-color: ${(props) => props.theme.palette.gray[900]};
     display: flex;
     padding-top: 80px;
     padding-bottom: 80px;
-    border-top: 1px solid #424242;
+    border-top: 1px solid ${props => props.theme.palette.gray[700]};
 `
 const WrapMenuItem = styled(Box)`
     display: flex;

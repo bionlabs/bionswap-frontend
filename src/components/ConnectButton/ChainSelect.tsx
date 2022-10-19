@@ -96,10 +96,10 @@ const ChainSelect = () => {
 const StyledSelect = styled(Select)`
     .MuiSelect-select {
         padding: 8.5px 24px;
-        background: #000;
+        background: ${props => props.theme.palette.background.default};
     }
     fieldset {
-        border: 1px solid ${prop => (prop.theme.palette as any).gray[800]}!important;
+        border: 1px solid ${prop => (prop.theme.palette as any).gray[700]}!important;
     }
     
 `
