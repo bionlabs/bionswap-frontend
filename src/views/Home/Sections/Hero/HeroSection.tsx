@@ -1,13 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
-import { Box, Button, Container, styled, Typography, Stack } from "@mui/material";
-import { keyframes } from "@emotion/react";
-import { MobileProp } from "configs/Type/Mobile/type";
-import Image from "next/image";
-import PrimaryButton from "components/PrimaryButton";
-import { useRouter } from "next/router";
+import React from 'react';
+import { Box, Button, Container, styled, Typography, Stack } from '@mui/material';
+import { keyframes } from '@emotion/react';
+import { MobileProp } from 'configs/Type/Mobile/type';
+import Image from 'next/image';
+import PrimaryButton from 'components/PrimaryButton';
+import { useRouter } from 'next/router';
 
-const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
+interface HeroSectionProps extends MobileProp {}
+
+const HeroSection = ({ isMobile, isTablet }: HeroSectionProps) => {
   const router = useRouter();
   return (
     <Wrapper>
@@ -15,8 +17,8 @@ const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
         <source src="/videos/H3.webm" type="video/webm" />
         <source src="/videos/H3.mp4" type="video/mp4" />
       </video>
-      <FlexBox flexDirection={isMobile ? "column" : "row"}>
-        <Box display="flex" width={isTablet ? "100%" : "50%"} p={isMobile ? "8rem 16px" : "8rem"}>
+      <FlexBox flexDirection={isMobile ? 'column' : 'row'}>
+        <Box display="flex" width={isTablet ? '100%' : '50%'} p={isMobile ? '8rem 16px' : '8rem'}>
           <WrapContentArea>
             <FlexBox gap="20px">
               <Image src="/icons/home/code_symbol.svg" alt="code_symbol" width={37} height={25} />
@@ -26,7 +28,8 @@ const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
             </FlexBox>
             <WrapHeroHead>
               <Typography variant="h1">
-                Think Different, Think <span style={{color: '#07E0E0', fontSize:'inherit', fontWeight:'inherit'}}>Bion</span>
+                Think Different, Think{' '}
+                <span style={{ color: '#07E0E0', fontSize: 'inherit', fontWeight: 'inherit' }}>Bion</span>
               </Typography>
             </WrapHeroHead>
             <WrapHeroContent>
@@ -38,16 +41,16 @@ const HeroSection = ({ isMobile, isTablet }: MobileProp) => {
               <Box maxWidth="218px" width="100%">
                 <PrimaryButton
                   label="Trade now"
-                  href='/swap'
+                  href="/swap"
                   onClick={(e) => {
                     e.preventDefault();
-                    router.push('/swap')
+                    router.push('/swap');
                   }}
                 />
               </Box>
               <Box maxWidth="218px" width="100%">
-                <PrimaryButton 
-                  variant="outlined" 
+                <PrimaryButton
+                  variant="outlined"
                   label="Learn more"
                   onClick={(e) => {
                     e.preventDefault();
@@ -101,8 +104,8 @@ const Wrapper = styled(Box)`
     object-fit: cover;
   }
 
-  ${props => props.theme.breakpoints.down("sm")} {
-    background: url("/images/home/hero_bg.png");
+  ${(props) => props.theme.breakpoints.down('sm')} {
+    background: url('/images/home/hero_bg.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: right -75px;

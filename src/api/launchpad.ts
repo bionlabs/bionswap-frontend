@@ -44,34 +44,57 @@ export async function uploadLaunchpadImage(base64: string) {
   });
 
   return result.data.data;
-} 
+}
 
-export async function getSaleList(page: number, limit: number, chainId: string, owner: string, keyword: string, sortBy: any) {
-  const result = await request.get('/launchpad/sale-list', {params: {
-    page: page,
-    limit: limit,
-    chainId: chainId,
-    owner: owner,
-    keyword: keyword,
-    sortBy: sortBy
-  }})
+export async function getSaleList(
+  page: number,
+  limit: number,
+  chainId: string,
+  owner: string,
+  keyword: string,
+  sortBy: any,
+) {
+  const result = await request.get('/launchpad/sale-list', {
+    params: {
+      page: page,
+      limit: limit,
+      chainId: chainId,
+      owner: owner,
+      keyword: keyword,
+      sortBy: sortBy,
+    },
+  });
 
   return result.data;
 }
 
 export async function getSaleDetail(saleAddress: string) {
-  const result = await request.get('/launchpad/sale-detail', {params: {
-    saleAddress: saleAddress
-  }})
+  const result = await request.get('/launchpad/sale-detail', {
+    params: {
+      saleAddress: saleAddress,
+    },
+  });
 
   return result.data.data;
 }
 
 export async function getJoinedSales(chainId: string, account: string) {
-  const result = await request.get('/launchpad/joined-sales', {params: {
-    chainId: chainId,
-    account: account,
-  }})
+  const result = await request.get('/launchpad/joined-sales', {
+    params: {
+      chainId: chainId,
+      account: account,
+    },
+  });
+
+  return result.data.data;
+}
+
+export async function getLaunchpadStats(): Promise<{
+  totalProjects: number;
+  totalSwapTransactions: number;
+  totalUsers: number;
+}> {
+  const result = await request.get('/launchpad/stats');
 
   return result.data.data;
 }
