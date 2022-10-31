@@ -10,7 +10,8 @@ import {
   Collapse,
   ListItemIcon,
   SvgIcon,
-  Link
+  Link,
+  Typography
 } from '@mui/material'
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -21,7 +22,7 @@ import Bottombar from './Bottombar';
 const Sidebar = ({ children, menuItems, rootHref }: any) => {
   const isMobile = useMediaQuery('(max-width:767px)');
   const router = useRouter();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
@@ -46,21 +47,27 @@ const Sidebar = ({ children, menuItems, rootHref }: any) => {
                           {open ? <ExpandLess /> : <ExpandMore />}
                         </Item>
                         <Collapse in={open} timeout="auto" unmountOnExit>
-                          <List component="div" disablePadding>
+                          <List component="div" disablePadding
+                           sx={{
+                            borderTop: open ? theme => `1px solid ${theme.palette.gray[700]}` : 'none'
+                           }}
+                          >
                             {
                               item.item.map((i: any) =>
                                 <Item 
                                   key={i.label}
-                                  sx={{ pl: 6 }}
+                                  sx={{ pl: 6.5 }}
                                   className={router.asPath == `${i.href}` ? 'active' : ''}
                                   onClick={(e) => {
                                     router.push(`${i.href}`)
                                     e.preventDefault();
                                   }}>
-                                  <StyledListItemIcon>
+                                  {/* <StyledListItemIcon>
                                     <SvgIcon component={i.icon} />
-                                  </StyledListItemIcon>
-                                  <ListItemText primary={i.label} />
+                                  </StyledListItemIcon> */}
+                                  <Typography>
+                                    {i.label}
+                                  </Typography>
                                 </Item>
                               )
                             }
