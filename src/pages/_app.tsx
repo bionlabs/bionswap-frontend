@@ -1,34 +1,19 @@
-import { ThemeProvider } from '@mui/material';
-import { AuthProvider, BlockNumberProvider } from 'components';
+import '../../styles/globals.css';
 import Toast from 'components/Toast';
-import { getTheme } from 'configs/theme';
-import { useDarkMode } from 'hooks';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { useEffect } from 'react';
-import { Provider as ReduxProvider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { persistor, store } from 'state';
 import { ListsUpdater } from 'state/lists/updater';
 import { MulticallUpdater } from 'state/multicall/updater';
 import { exception, GOOGLE_ANALYTICS_TRACKING_ID, pageview } from 'utils/gtag';
 import Footer from 'views/Footer';
 import Menu from 'views/Menu';
-import { WagmiConfig } from 'wagmi';
-import '../../styles/globals.css';
-import { client } from '../configs/chain';
+import NextNProgress from 'nextjs-progressbar'
+import Provider from './Provider';
 
-type StyledThemeProviderProps = {
-  children: React.ReactElement;
-};
-const StyledThemeProvider = ({ children }: StyledThemeProviderProps) => {
-  const { darkMode } = useDarkMode();
 
-  const theme = getTheme(darkMode ? 'dark' : 'light');
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
-};
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -60,7 +45,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>BionSwap</Head>
-
       {/* Global Site Tag (gtag.js) - Google Analytics */}
       <Script
         strategy="afterInteractive"
@@ -80,26 +64,16 @@ function MyApp({ Component, pageProps }: AppProps) {
           `,
         }}
       />
-
-      <WagmiConfig client={client}>
-        <ReduxProvider store={store}>
-          <PersistGate persistor={persistor}>
-            <AuthProvider>
-              <StyledThemeProvider>
-                <BlockNumberProvider>
-                  <Menu>
-                    <MulticallUpdater />
-                    <ListsUpdater />
-                    <Toast />
-                    <Component {...pageProps} />
-                    <Footer />
-                  </Menu>
-                </BlockNumberProvider>
-              </StyledThemeProvider>
-            </AuthProvider>
-          </PersistGate>
-        </ReduxProvider>
-      </WagmiConfig>
+      <Provider>
+        <Menu>
+          <MulticallUpdater />
+          <ListsUpdater />
+          <Toast />
+          <NextNProgress color="#07E0E0" stopDelayMs={500} height={3} options={{ easing: 'ease', speed: 1000 }} />
+          <Component {...pageProps} />
+          <Footer />
+        </Menu>
+      </Provider>
     </>
   );
 }

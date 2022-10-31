@@ -27,11 +27,11 @@ export const menuConfig = [
         href: '/launch',
         icon: <FaCoins/>
     },
-    // {
-    //     label: 'Game Center',
-    //     href: '/gamecenter',
-    //     icon: <GiPayMoney/>
-    // },
+    {
+        label: 'Game Center',
+        href: '/gamecenter',
+        icon: <GiPayMoney/>
+    },
     // {
     //     label: 'Stacks',
     //     href: '/stacks',

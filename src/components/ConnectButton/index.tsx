@@ -1,4 +1,4 @@
-import { Box, Button, Drawer, Stack, styled, useMediaQuery } from '@mui/material';
+import { Box, Button, Drawer, Stack, styled, useMediaQuery , Typography } from '@mui/material';
 import { useAccount, useChain, useNativeCurrencyBalances } from 'hooks';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -13,7 +13,7 @@ import SidebarProfileMenu from './SidebarProfileMenu';
 type Props = {};
 
 const ConnectButton = (props: Props) => {
-  const isMobile = useMediaQuery('(max-width:1224px)');
+  const isMobile = useMediaQuery('(max-width:700px)');
   const [openConnectorsModal, setOpenConnectorsModal] = useState(false);
   const [openChainsModal, setOpenChainsModal] = useState(false);
   const [openProfileModal, setOpenProfileModal] = useState(false);
@@ -35,17 +35,17 @@ const ConnectButton = (props: Props) => {
     setProfileSlide(open);
   };
 
-  const handleChainSwitched = (chain: Chain) => {
-    setOpenChainsModal(false);
-    gtag('event', 'Switch', {
-      event_category: 'Chain',
-      event_label: chain.name,
-    });
-  };
+  // const handleChainSwitched = (chain: Chain) => {
+  //   setOpenChainsModal(false);
+  //   gtag('event', 'Switch', {
+  //     event_category: 'Chain',
+  //     event_label: chain.name,
+  //   });
+  // };
 
-  const handleChainSelected = () => {
-    setOpenChainsModal(false);
-  };
+  // const handleChainSelected = () => {
+  //   setOpenChainsModal(false);
+  // };
 
   const handleConnectorConnected = (connector: Connector) => {
     setOpenConnectorsModal(false);
@@ -58,27 +58,10 @@ const ConnectButton = (props: Props) => {
   return (
     <>
       <Stack direction={isMobile ? 'column' : 'row'} gap={2}>
-        {/* <ChainButton
-          onClick={() => setOpenChainsModal(true)}
-          variant="contained"
-          // fullWidth={isMobile}
-          endIcon={<BsFillCaretDownFill color="#fff" />}
-        >
-          <Stack direction="row" gap={1} alignItems="center">
-            <Image
-              src={getChainIcon(chainId)?.iconUrl ? getChainIcon(chainId)?.iconUrl : '/'}
-              layout="fixed"
-              alt=""
-              width={24}
-              height={24}
-            />
-            <Box>{CHAIN_INFO_MAP[chainId]?.name}</Box>
-          </Stack>
-        </ChainButton> */}
         <ChainSelect />
         {!address ? (
           <ConnectWalletButton onClick={() => setOpenConnectorsModal(true)} variant="contained" fullWidth={isMobile}>
-            <Box>Connect Wallet</Box>
+            <Typography sx={{fontSize: '14px', color: 'inherit'}}>Connect Wallet</Typography>
           </ConnectWalletButton>
         ) : (
           <ProfileButton
@@ -95,7 +78,7 @@ const ConnectButton = (props: Props) => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                backgroundColor: 'gray.700',
+                backgroundColor: '#123238',
                 height: 'inherit',
                 padding: '5px 12px',
                 borderRadius: '4px',
@@ -111,12 +94,12 @@ const ConnectButton = (props: Props) => {
         )}
       </Stack>
 
-      <ChainOptionsModal
+      {/* <ChainOptionsModal
         open={openChainsModal}
         onClose={() => setOpenChainsModal(false)}
         onChainSelected={handleChainSelected}
         onChainSwitched={handleChainSwitched}
-      />
+      /> */}
 
       <ConnectorOptionsModal
         onClose={() => setOpenConnectorsModal(false)}
@@ -167,8 +150,6 @@ const ConnectWalletButton = styled(Button)`
   padding: 8.5px 48px;
   box-shadow: none;
   text-transform: none;
-  font-family: inherit;
-  font-weight: 500;
   align-items: center;
   min-height: 41px;
   background-color: rgba(61, 255, 255, 0.1);
@@ -188,7 +169,7 @@ const ProfileButton = styled(Button)`
   border-radius: 4px;
   min-width: fit-content;
   // padding: 5px 5px 5px 12px;
-  height: 42px;
+  height: 40px;
   padding: 0;
   box-shadow: none;
   text-transform: none;
@@ -196,17 +177,17 @@ const ProfileButton = styled(Button)`
   font-weight: 500;
   align-items: center;
   background-color: ${props => props.theme.palette.background.default};
-  color: #fff;
+  color: ${props => props.theme.palette.text.primary};
   transition: 0.15s ease-in;
   line-height: 1;
   gap: 8px;
-  border: 1px solid ${(prop) => (prop.theme.palette as any).gray[700]};
+  border: 1px solid #123238;
   svg {
     width: 20px;
     height: 20px;
   }
   :hover {
-    background-color: ${(prop) => (prop.theme.palette as any).gray[700]};
+    background-color: #123238;
     box-shadow: none;
   }
 `;

@@ -25,7 +25,7 @@ const ChainSelect = () => {
 
   const { switchNetwork } = useSwitchNetwork({});
   return (
-    <Box >
+    <Box>
         <FormControl fullWidth>
         <StyledSelect
             variant='outlined'
@@ -54,7 +54,7 @@ const ChainSelect = () => {
                     }}
                 >
                     <Box display="flex" gap="10px" alignItems="center">
-                        <Image src={getChainIcon(chain.id)?.iconUrl} layout="fixed" alt="" width={24} height={24} />
+                        <Image src={getChainIcon(chain.id)?.iconUrl} layout="fixed" alt="" width={20} height={20} />
                         <Box fontSize="0.875rem" fontWeight={500}>
                             {chain.name}
                         </Box>

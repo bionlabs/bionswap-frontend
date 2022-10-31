@@ -28,7 +28,8 @@ const SidebarProfileMenu = ({ toggleDrawer, address, balance }: any) => {
     padding-top: ${chainId !== 97 && (router.pathname == '/launchpad' || router.pathname == '/launch')
       ? MENU_HEIGHT + 58
       : MENU_HEIGHT}px;
-    background-color: #081319;
+    background-color: ${props => props.theme.palette.gray[900]};
+    border-left: 1px solid ${props => props.theme.palette.gray[700]};
     height: 100vh;
   `;
 

@@ -25,7 +25,7 @@ import { ChainId } from '@bionswap/core-sdk'
 type Anchor = 'top' | 'left' | 'bottom' | 'right'
 
 const Menu = ({ children }: any) => {
-    const isMobile = useMediaQuery('(max-width:1224px)');
+    const isMobile = useMediaQuery('(max-width:700px)');
     const router = useRouter()
     const [state, setState] = React.useState({
         top: false,
@@ -62,7 +62,7 @@ const Menu = ({ children }: any) => {
         <Box sx={{ 
             width: anchor === 'top' || anchor === 'bottom' ? 'auto' : '350px', 
             minHeight:'100vh', 
-            backgroundColor: '#081319', 
+            backgroundColor: theme => theme.palette.gray[900],
             borderLeft: '1px solid #424242', 
             paddingTop: `${chainId !== 97 ? MENU_HEIGHT + 58 : MENU_HEIGHT}px`
         }}
@@ -136,16 +136,18 @@ const Menu = ({ children }: any) => {
                                             href={item.href}
                                             sx={{
                                                 color: "gray.400",
-                                                fontSize: '16px',
+                                                fontSize: '14px',
                                                 transition: '.15s ease-in',
-                                                padding: '8px 20px',
+                                                padding: '8px 15px',
                                                 borderRadius: '4px',
                                                 backgroundColor: 'transparent',
                                                 ':hover': {
-                                                    backgroundColor: 'gray.800',
+                                                    backgroundColor: 'rgba(61, 255, 255, 0.1)',
+                                                    color: "primary.main",
                                                 },
                                                 '&.active': {
                                                     color: "primary.main",
+                                                    backgroundColor: 'rgba(61, 255, 255, 0.1)'
                                                 }
                                             }}
                                             onClick={(e:any) => {
@@ -160,10 +162,10 @@ const Menu = ({ children }: any) => {
                                     )
                                 }
                                 {
-                                    menuConfig.length > 5 &&
+                                    menuConfig.length > 4 &&
                                     <IconButton 
                                         sx={{
-                                            color:'#fff',
+                                            color: theme => theme.palette.gray[400],
                                         }}
                                         onClick={handleClick}
                                     >
