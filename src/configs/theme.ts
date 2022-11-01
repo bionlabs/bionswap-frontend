@@ -197,15 +197,16 @@ export const darkPalette: ExtendedPaletteOptions = {
     main: "#F93232"
   },
   success: {
-    main: "#2BB673"
+    main: "#2AC89F"
   },
   primary: {
     main: "#07E0E0",
     light: "#242D35",
-    dark: "#000000",
+    dark: "#081319",
   },
   secondary: {
     main: "#6803B8",
+    light: "#9A6AFF"
   },
   background: {
     default: "#000F15",
@@ -257,7 +258,6 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       h3Samsung: {
         fontFamily: "SamsungSharpSans-Bold",
         fontSize: "32px",
-        lineHeight: "180%",
       },
       h5Samsung: {
         fontFamily: 'SamsungSharpSans-Bold',

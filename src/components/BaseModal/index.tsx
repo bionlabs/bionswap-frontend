@@ -19,7 +19,7 @@ const BaseModal = ({ children, open, onClose, sx }: Props) => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            minWidth: 400,
+            minWidth: 300,
             bgcolor: "gray.900",
             boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.5)',
             p: 2,

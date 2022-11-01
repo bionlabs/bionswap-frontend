@@ -22,11 +22,6 @@ export const menuConfig = [
     //     href: '/earn',
     //     icon: <GiReceiveMoney/>
     // },
-    {
-        label: 'Start a Launch',
-        href: '/launch',
-        icon: <FaCoins/>
-    },
     // {
     //     label: 'Game Center',
     //     href: '/gamecenter',

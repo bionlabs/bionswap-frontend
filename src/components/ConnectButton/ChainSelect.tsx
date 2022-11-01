@@ -6,7 +6,8 @@ import {
     Select,
     SelectChangeEvent,
     Stack,
-    styled
+    styled,
+    useMediaQuery
 } from '@mui/material'
 import { useChain, useSwitchNetwork } from 'hooks';
 import { CHAIN_INFO_MAP } from 'configs/chain';
@@ -16,6 +17,7 @@ import Image from "next/image";
 
 const ChainSelect = () => {
   const [age, setChain] = React.useState('');
+  const isMobile = useMediaQuery('(max-width:700px)');
 
   const handleChange = (event:any) => {
     setChain(event.target.value);
@@ -33,7 +35,7 @@ const ChainSelect = () => {
             defaultValue={chainId}
             onChange={handleChange}
             sx={{
-                width: '166px'
+                // width: '166px'
             }}
         >
             {Object.entries(CHAIN_INFO_MAP).map(([, chain]) => (
@@ -42,7 +44,7 @@ const ChainSelect = () => {
                     sx={{
                         p: '8.5px 24px',
                         boxShadow: 'none',
-                        width: '166px',
+                        // width: '166px',
                         '&.MuiButtonBase-root.MuiMenuItem-root.Mui-selected' : {
                             boxShadow: 'none',
                         }
@@ -67,7 +69,7 @@ const ChainSelect = () => {
                     sx={{
                         p: '8.5px 24px',
                         boxShadow: 'none',
-                        width: '166px',
+                        // width: '166px',
                         borderTop: '1px solid #242D35',
                         '&.MuiButtonBase-root.MuiMenuItem-root.Mui-selected' : {
                             boxShadow: 'none',

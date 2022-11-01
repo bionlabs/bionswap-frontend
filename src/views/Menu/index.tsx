@@ -14,6 +14,7 @@ import {
 } from '@mui/material'
 import {HiMenu , HiX , HiMenuAlt3} from 'react-icons/hi'
 import {BsThreeDots} from 'react-icons/bs'
+import {TiPlus} from 'react-icons/ti'
 import { menuConfig, MENU_HEIGHT } from 'configs/menu/config'
 import { useRouter } from 'next/router'
 import { ConnectButton } from 'components'
@@ -21,11 +22,15 @@ import Link from 'next/link'
 import { useChain, useSwitchNetwork } from 'hooks'
 import { CHAIN_INFO_MAP } from 'configs/chain'
 import { ChainId } from '@bionswap/core-sdk'
+import ChainSelect from 'components/ConnectButton/ChainSelect'
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right'
 
 const Menu = ({ children }: any) => {
     const isMobile = useMediaQuery('(max-width:700px)');
+    const isTablet = useMediaQuery('(max-width:900px)');
+    const isDesktop = useMediaQuery('(max-width:1280px)');
+
     const router = useRouter()
     const [state, setState] = React.useState({
         top: false,
@@ -63,19 +68,11 @@ const Menu = ({ children }: any) => {
             width: anchor === 'top' || anchor === 'bottom' ? 'auto' : '350px', 
             minHeight:'100vh', 
             backgroundColor: theme => theme.palette.gray[900],
-            borderLeft: '1px solid #424242', 
-            paddingTop: `${chainId !== 97 ? MENU_HEIGHT + 58 : MENU_HEIGHT}px`
+            borderBottom: '1px solid #424242', 
+            paddingTop: `${MENU_HEIGHT + 20}px`
         }}
         >
           <FlexBox flexDirection='column' width='100%'>
-            {/* <FlexBox justifyContent='end' p='16px'>
-                <IconButton onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
-                    <HiX/>
-                </IconButton>
-            </FlexBox> */}
-            <Box p='16px'>
-                <ConnectButton/>
-            </Box>
             <FlexBox flexDirection='column' onClick={toggleDrawer(anchor, false)}>
                 {
                     menuConfig.map(item =>
@@ -88,12 +85,7 @@ const Menu = ({ children }: any) => {
                                 display: 'flex',
                                 alignItems: 'center',
                                 gap: '10px',
-                                padding: '16px',
-                                'svg':{
-                                    fill: '#707a8a',
-                                    width: '24px',
-                                    height: '24px'
-                                },
+                                padding: '16px 24px',
                                 '&.active': {
                                     color: "primary.main",
                                 }
@@ -105,7 +97,6 @@ const Menu = ({ children }: any) => {
                                 else router.push(item.href);
                             }}
                         >
-                            {item.icon}
                             {item.label}
                         </Box>
                     )
@@ -121,12 +112,19 @@ const Menu = ({ children }: any) => {
                 <StyledContained>
                     <FlexBox alignItems='center' gap='42px'>
                         <Box sx={{cursor: 'pointer'}}>
-                            <Link href='/'>
-                                <img src='/alpha.svg' alt='BionDex' width='auto' />
-                            </Link>
+                            {
+                                isMobile ?
+                                <Link href='/'>
+                                    <img src='/logo.png' alt='BionSwap' width='40px' />
+                                </Link>
+                                :
+                                <Link href='/'>
+                                    <img src='/alpha.svg' alt='BionSwap' width='auto' />
+                                </Link>
+                            }
                         </Box>
                         {
-                            !isMobile &&
+                            !isDesktop &&
                             <Box alignItems="center" display="flex" gap={0}>
                                 {
                                     menuConfig.slice(0, 4).map(item =>
@@ -222,51 +220,116 @@ const Menu = ({ children }: any) => {
                         }
                     </FlexBox>
                     <FlexBox gap='16px'>
-                        {!isMobile &&
+                        {isMobile ?
                             <>
-                                {/* <LaunchpadButton>
-                                    Create +
-                                </LaunchpadButton> */}
-                                <ConnectButton/>
+                                <LaunchpadButton
+                                    variant='contained'
+                                    href='/launch'
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        router.push('/launch')
+                                    }}
+                                >
+                                    <TiPlus/>
+                                </LaunchpadButton>
+                                <ChainSelect/>
+                                <IconButton onClick={toggleDrawer('top', !state.top)} 
+                                    sx={{
+                                        color:'#fff',
+                                    }}
+                                >
+                                    {!state.top ? <HiMenu/> : <HiMenuAlt3/>}
+                                </IconButton>
                             </>
-                        }
-                        
-                        {
-                            isMobile && 
-                            <IconButton onClick={toggleDrawer('right', !state.right)} 
-                                sx={{
-                                    color:'#fff',
-                                }}
-                            >
-                                {!state.right ? <HiMenu/> : <HiMenuAlt3/>}
-                            </IconButton>
+                            :
+                            isTablet ?
+                                <>
+                                    <LaunchpadButton
+                                        variant='contained'
+                                        href='/launch'
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            router.push('/launch')
+                                        }}
+                                    >
+                                        <TiPlus/>
+                                    </LaunchpadButton>
+                                    <ChainSelect/>
+                                    <ConnectButton/>
+                                    <IconButton onClick={toggleDrawer('top', !state.top)} 
+                                        sx={{
+                                            color:'#fff',
+                                        }}
+                                    >
+                                        {!state.top ? <HiMenu/> : <HiMenuAlt3/>}
+                                    </IconButton>
+                                </>
+                            :
+                            isDesktop ?
+                                <>
+                                    <LaunchpadButton
+                                        variant='contained'
+                                        sx={{
+                                            'svg':{
+                                                width: '15px',
+                                                height: '15px'
+                                            }
+                                        }}
+                                        href='/launch'
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            router.push('/launch')
+                                        }}
+                                    >
+                                        Launch <TiPlus/>
+                                    </LaunchpadButton>
+                                    <ChainSelect/>
+                                    <ConnectButton/>
+                                    <IconButton onClick={toggleDrawer('top', !state.top)} 
+                                        sx={{
+                                            color:'#fff',
+                                        }}
+                                    >
+                                        {!state.top ? <HiMenu/> : <HiMenuAlt3/>}
+                                    </IconButton>
+                                </>
+                            :
+                                <>
+                                    <LaunchpadButton
+                                        variant='contained'
+                                        sx={{
+                                            'svg':{
+                                                width: '15px',
+                                                height: '15px'
+                                            }
+                                        }}
+                                        href='/launch'
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            router.push('/launch')
+                                        }}
+                                    >
+                                        Launch <TiPlus/>
+                                    </LaunchpadButton>
+                                    <ChainSelect/>
+                                    <ConnectButton/>
+                                </>
                         }
                     </FlexBox>
                 </StyledContained>
-                <Drawer
-                    anchor={'right'}
-                    open={state['right']}
-                    onClose={toggleDrawer('right', false)}
-                >
-                    {list('right')}
-                </Drawer>
                 {
-                    ((chainId !== 97) && isConnected && (router.asPath == '/launch' || router.asPath == '/launchpad')) &&
-                    <WarningBanner>
-                        <img src='/icons/warning.svg' alt='' width='16px' />
-                        <Typography variant='captionPoppins' sx={{color: 'inherit'}}>
-                            This feature is not yet supported on this chain for now. Please switch to BNB Testnet
-                        </Typography>
-                        <SwitchChainButton
-                            variant='contained'
-                            onClick={() => {
-                                switchNetwork?.(97);
-                            }}
-                        >
-                            Switch Network
-                        </SwitchChainButton>
-                    </WarningBanner>
+                    isMobile &&
+                    <BottomContainer>
+                        <ConnectButton/>
+                    </BottomContainer>
                 }
+                <Drawer
+                    anchor={'top'}
+                    open={state['top']}
+                    onClose={toggleDrawer('top', false)}
+                >
+                    {list('top')}
+                </Drawer>
             </MenuContainer>
             <Box>
                 {children}
@@ -295,49 +358,36 @@ const FlexBox = styled(Box)`
 `
 const LaunchpadButton = styled(Button)`
   border-radius: 4px;
-  min-width: fit-content;
-  padding: 8.5px 48px;
+  padding: 8.5px 20px;
   box-shadow: none;
   text-transform: none;
   font-family: inherit;
-  font-weight: 600;
+  font-weight: 500;
   align-items: center;
-  min-height: 41px;
-  background-color: rgba(205, 61, 255, 0.1);
-  color: #9A6AFF;
+  height: 40px;
+  gap: 10px;
+  background-color: ${props => props.theme.palette.secondary.main};
+  color: ${props => props.theme.palette.text.primary};
   transition: 0.15s ease-in;
-  line-height: 1;
   svg {
     width: 20px;
     height: 20px;
   }
   :hover {
-    background-color: rgba(205, 61, 255, 0.15);
+    background-color: ${props => props.theme.palette.secondary.main};
     box-shadow: none;
   }
 `;
-
-const WarningBanner = styled(Box)`
-  display: flex;
-  justify-content: center;
+const BottomContainer = styled(Box)`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: ${(prop) => prop.theme.zIndex.drawer + 1};
   width: 100%;
-  color: ${prop => prop.theme.palette.warning.main};
-  background-color: #14110A;
-  padding: 15px;
-  align-items: center;
-  gap: 15px;
-`
-const SwitchChainButton = styled(Button)`
-  background: #fff;
-  color: #000;
-  padding: 8px;
-  line-height: 1;
-  font-size: 12px;
-  transition: .15s ease-in;
-  :hover {
-    background: #fff;
-    opacity: .8;
-  }
+  background-color: ${props => props.theme.palette.gray[900]};
+  color: ${props => props.theme.palette.text.primary};
+  padding: 16px;
+  border-top: 1px solid ${props => props.theme.palette.gray[700]};
 `
 
 export default Menu

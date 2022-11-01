@@ -1,4 +1,4 @@
-import { Box, IconButton, styled, Typography } from '@mui/material';
+import { Box, IconButton, styled, Typography, useMediaQuery } from '@mui/material';
 import { BaseModal } from 'components';
 import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from '@mui/lab';
@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 
 const AvatarModal = ({ open, onDismiss, avatars, handleChooseAvatar }: any) => {
   const [avatar, setAvatar] = useState<any>(null)
-
+  const isMobile = useMediaQuery('(max-width:700px)');
   useEffect(() => {
     setAvatar(null)
   }, [open])
@@ -21,8 +21,7 @@ const AvatarModal = ({ open, onDismiss, avatars, handleChooseAvatar }: any) => {
       open={open}
       sx={{
         padding: '24px',
-        maxWidth: '588px',
-        width: '100%',
+        width: isMobile ? '90%' : 'fit-content',
         overflowY: 'auto',
         minHeight: '453px',
         display: 'flex  '
@@ -35,7 +34,12 @@ const AvatarModal = ({ open, onDismiss, avatars, handleChooseAvatar }: any) => {
         <Typography variant="h5Samsung" fontWeight="700" color="text.primary">
           Change avatar
         </Typography>
-        <FlexBox gap="20px" flexWrap="wrap">
+        <Box sx={{
+          display: 'grid',
+          gridTemplateColumns: isMobile ? 'auto auto' : 'auto auto auto auto', gap: '20px',
+          justifyContent: 'center',
+          overflow: 'auto'
+        }}>
           <Avarta className={avatar === '' ? 'active' : ''} onClick={() => onChooseAvatar('')}>
             <img src={`/images/bitendoGameboy/Default.svg`} alt="Default" />
           </Avarta>
@@ -44,7 +48,7 @@ const AvatarModal = ({ open, onDismiss, avatars, handleChooseAvatar }: any) => {
               <img src={`/images/bitendoGameboy/${item.typeId}.svg`} alt={item.tokenId} />
             </Avarta>
           ))}
-        </FlexBox>
+        </Box>
         <ConfirmButton onClick={() => handleChooseAvatar(avatar?._id)}>
           <Typography variant="body3Poppins" color="#000000" fontWeight="600">
             Confirm

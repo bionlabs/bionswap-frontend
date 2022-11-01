@@ -13,7 +13,7 @@ import SidebarProfileMenu from './SidebarProfileMenu';
 type Props = {};
 
 const ConnectButton = (props: Props) => {
-  const isMobile = useMediaQuery('(max-width:700px)');
+  const isTablet = useMediaQuery('(max-width:900px)');
   const [openConnectorsModal, setOpenConnectorsModal] = useState(false);
   const [openChainsModal, setOpenChainsModal] = useState(false);
   const [openProfileModal, setOpenProfileModal] = useState(false);
@@ -57,10 +57,15 @@ const ConnectButton = (props: Props) => {
 
   return (
     <>
-      <Stack direction={isMobile ? 'column' : 'row'} gap={2}>
-        <ChainSelect />
+      <Stack direction='row' gap={2}>
+        {/* <ChainSelect /> */}
         {!address ? (
-          <ConnectWalletButton onClick={() => setOpenConnectorsModal(true)} variant="contained" fullWidth={isMobile}>
+          isTablet ?
+          <ConnectWalletButtonMobile onClick={() => setOpenConnectorsModal(true)} variant="contained" fullWidth>
+            <Typography sx={{fontWeight: '500' , fontSize: '14px', color: 'inherit'}}>Connect Wallet</Typography>
+          </ConnectWalletButtonMobile>
+          :
+          <ConnectWalletButton onClick={() => setOpenConnectorsModal(true)} variant="contained" fullWidth>
             <Typography sx={{fontSize: '14px', color: 'inherit'}}>Connect Wallet</Typography>
           </ConnectWalletButton>
         ) : (
@@ -68,21 +73,23 @@ const ConnectButton = (props: Props) => {
             // onClick={() => setOpenProfileModal(true)}
             onClick={toggleDrawer(!profileSlide)}
             variant="contained"
-            // fullWidth={isMobile}
+            fullWidth
           >
-            <Box p="5px 5px 5px 15px">
+            <Box p="5px 5px 5px 15px" width='40%'>
               {balance ? `${balance.toFixed(3)} ${balance.currency.symbol}` : 'Loading...'}
             </Box>
             <Box
               sx={{
                 display: 'flex',
+                justifyContent: 'center',
                 alignItems: 'center',
                 gap: '8px',
-                backgroundColor: '#123238',
+                backgroundColor: 'darkGreen.700',
                 height: 'inherit',
                 padding: '5px 12px',
                 borderRadius: '4px',
                 transition: '.12s ease-in',
+                width:'60%'
               }}
             >
               <Box>{shortenAddress(address ?? '')}</Box>
@@ -146,12 +153,11 @@ const ChainButton = styled(Button)`
 
 const ConnectWalletButton = styled(Button)`
   border-radius: 4px;
-  min-width: fit-content;
   padding: 8.5px 48px;
   box-shadow: none;
   text-transform: none;
   align-items: center;
-  min-height: 41px;
+  height: 40px;
   background-color: rgba(61, 255, 255, 0.1);
   color: #07e0e0;
   transition: 0.15s ease-in;
@@ -162,6 +168,27 @@ const ConnectWalletButton = styled(Button)`
   }
   :hover {
     background-color: rgba(61, 255, 255, 0.2);
+    box-shadow: none;
+  }
+`;
+
+const ConnectWalletButtonMobile = styled(Button)`
+  border-radius: 4px;
+  min-width: fit-content;
+  padding: 8.5px 48px;
+  box-shadow: none;
+  text-transform: none;
+  align-items: center;
+  height: 40px;
+  background-color: ${props => props.theme.palette.primary.main};
+  transition: 0.15s ease-in;
+  line-height: 1;
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+  :hover {
+    background-color: ${props => props.theme.palette.primary.main};
     box-shadow: none;
   }
 `;
@@ -181,13 +208,13 @@ const ProfileButton = styled(Button)`
   transition: 0.15s ease-in;
   line-height: 1;
   gap: 8px;
-  border: 1px solid #123238;
+  border: 1px solid ${props => props.theme.palette.darkGreen[700]};
   svg {
     width: 20px;
     height: 20px;
   }
   :hover {
-    background-color: #123238;
+    background-color: ${props => props.theme.palette.darkGreen[700]};
     box-shadow: none;
   }
 `;
