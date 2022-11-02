@@ -36,3 +36,7 @@ yarn-error.log*
 
 # node modules in packages
 packages/**/node_modules
+
+# env
+.env.development
+.env.production
