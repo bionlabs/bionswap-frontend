@@ -13,6 +13,7 @@ import {
     Typography
 } from '@mui/material'
 import {HiMenu , HiX , HiMenuAlt3} from 'react-icons/hi'
+import {IoClose} from 'react-icons/io5'
 import {BsThreeDots} from 'react-icons/bs'
 import {TiPlus} from 'react-icons/ti'
 import { menuConfig, MENU_HEIGHT } from 'configs/menu/config'
@@ -238,7 +239,7 @@ const Menu = ({ children }: any) => {
                                         color:'#fff',
                                     }}
                                 >
-                                    {!state.top ? <HiMenu/> : <HiMenuAlt3/>}
+                                    {!state.top ? <HiMenu/> : <IoClose/>}
                                 </IconButton>
                             </>
                             :
@@ -261,7 +262,7 @@ const Menu = ({ children }: any) => {
                                             color:'#fff',
                                         }}
                                     >
-                                        {!state.top ? <HiMenu/> : <HiMenuAlt3/>}
+                                        {!state.top ? <HiMenu/> : <IoClose/>}
                                     </IconButton>
                                 </>
                             :
@@ -290,7 +291,7 @@ const Menu = ({ children }: any) => {
                                             color:'#fff',
                                         }}
                                     >
-                                        {!state.top ? <HiMenu/> : <HiMenuAlt3/>}
+                                        {!state.top ? <HiMenu/> : <IoClose/>}
                                     </IconButton>
                                 </>
                             :
