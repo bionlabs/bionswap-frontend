@@ -18,7 +18,7 @@ const HeroSection = ({ isMobile, isTablet }: HeroSectionProps) => {
         <source src="/videos/H3.mp4" type="video/mp4" />
       </video>
       <FlexBox flexDirection={isMobile ? 'column' : 'row'}>
-        <Box display="flex" width={isTablet ? '100%' : '50%'} p={isMobile ? '8rem 16px' : '8rem'}>
+        <Box display="flex" width={isTablet ? '100%' : '50%'} p={isMobile ? '4rem 16px' : '8rem'}>
           <WrapContentArea>
             <FlexBox gap="20px">
               <Image src="/icons/home/code_symbol.svg" alt="code_symbol" width={37} height={25} />

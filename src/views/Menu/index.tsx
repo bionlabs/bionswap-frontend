@@ -358,10 +358,10 @@ const FlexBox = styled(Box)`
 `
 const LaunchpadButton = styled(Button)`
   border-radius: 4px;
-  padding: 8.5px 20px;
   box-shadow: none;
   text-transform: none;
   font-family: inherit;
+  min-width: fit-content;
   font-weight: 500;
   align-items: center;
   height: 40px;
@@ -369,10 +369,6 @@ const LaunchpadButton = styled(Button)`
   background-color: ${props => props.theme.palette.secondary.main};
   color: ${props => props.theme.palette.text.primary};
   transition: 0.15s ease-in;
-  svg {
-    width: 20px;
-    height: 20px;
-  }
   :hover {
     background-color: ${props => props.theme.palette.secondary.main};
     box-shadow: none;

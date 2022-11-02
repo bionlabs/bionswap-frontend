@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { MobileProp } from 'configs/Type/Mobile/type'
 import Card from './components/Card'
-import BioncTokenIcon from 'assets/icons/BioncTokenIcon'
+import BionTokenIcon from 'assets/icons/BionTokenIcon'
 import BionRaiseToken from 'assets/icons/BionRaiseToken'
 import Image from 'next/image'
 
@@ -23,7 +23,7 @@ const BalanceSection = ({isMobile}:MobileProp) => {
                 <SvgIcon sx={{
                     width: '50px', height: '50px'
                 }}>
-                    <BioncTokenIcon/>
+                    <BionTokenIcon/>
                 </SvgIcon>
                 <Box>
                     <Box>
@@ -33,7 +33,7 @@ const BalanceSection = ({isMobile}:MobileProp) => {
                     </Box>
                     <Box>
                         <Typography variant={isMobile ? 'body4Poppins' : 'h6Poppins'}>
-                            0.00 BIONC
+                            0.00 BION
                         </Typography>
                     </Box>
                 </Box>
@@ -46,12 +46,12 @@ const BalanceSection = ({isMobile}:MobileProp) => {
                 <SvgIcon sx={{
                     width: '50px', height: '50px'
                 }}>
-                    <BioncTokenIcon/>
+                    <BionTokenIcon/>
                 </SvgIcon>
                 <Box>
                     <Box>
                         <Typography variant='caption6Poppins' sx={{color: 'primary.main'}}>
-                            BIONC Price
+                            BION Price
                         </Typography>
                     </Box>
                     <Box>
@@ -86,7 +86,7 @@ const BalanceSection = ({isMobile}:MobileProp) => {
                 
                 <Box>
                     <Typography variant='h4Poppins' sx={{fontWeight: '600', lineHeight: '1'}}>
-                        0.00 BIONC
+                        0.00 BION
                     </Typography>
                 </Box>
                 <Box>
@@ -111,7 +111,7 @@ const BalanceSection = ({isMobile}:MobileProp) => {
                 </Box>
                 <Box>
                     <Typography variant='caption6Poppins' sx={{color: 'primary.main'}}>
-                        Total BIONC Claimed
+                        Total BION Claimed
                     </Typography>
                 </Box>
                 <Box sx={{marginBottom: '10px'}}>
@@ -120,7 +120,7 @@ const BalanceSection = ({isMobile}:MobileProp) => {
                 
                 <Box>
                     <Typography variant='h4Poppins' sx={{fontWeight: '600', lineHeight: '1'}}>
-                        0.00 BIONC
+                        0.00 BION
                     </Typography>
                 </Box>
                 <Box>

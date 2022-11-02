@@ -1,7 +1,7 @@
 import {MdSwapHorizontalCircle} from 'react-icons/md'
 import {GiPayMoney , GiReceiveMoney} from 'react-icons/gi'
 import {IoDocumentText} from 'react-icons/io5'
-import {FaCoins , FaTwitter , FaDiscord , FaGithub} from 'react-icons/fa'
+import {FaCoins , FaTwitter , FaDiscord , FaGithub, FaTelegram} from 'react-icons/fa'
 import {HiChartBar} from 'react-icons/hi'
 
 export const MENU_HEIGHT = 78;
@@ -120,8 +120,13 @@ export const socialsConfig = [
         icon: <FaTwitter/>
     },
     {
+        label: 'Telegram',
+        href: 'https://t.me/bionswap',
+        icon: <FaTelegram/>
+    },
+    {
         label: 'Discord',
-        href: '/',
+        href: 'https://discord.gg/fXpz2Jb84S',
         icon: <FaDiscord/>
     },
     {

@@ -14,7 +14,7 @@ const config = [
     {
         label: 'Telegram',
         icon: '/images/socials/telegram.png',
-        link: 'https://t.me/bionswapchat',
+        link: 'https://t.me/bionswap',
         color: '#2A73C8'
     },
     {
@@ -26,7 +26,7 @@ const config = [
     {
         label: 'Discord',
         icon: '/images/socials/discord.png',
-        link: '#',
+        link: 'https://discord.gg/fXpz2Jb84S',
         color: '#6803B8'
     },
 ]

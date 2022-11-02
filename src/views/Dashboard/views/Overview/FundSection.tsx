@@ -26,7 +26,7 @@ const FundSection = ({isMobile}:MobileProp) => {
                     </Box>
                     <Box>
                         <Typography variant='caption6Poppins' sx={{color: 'gray.400'}}>
-                            Get BIONC for multiple profits. Find a method that suits you the most.
+                            Get BION for multiple profits. Find a method that suits you the most.
                         </Typography>
                     </Box>
                 </Box>
