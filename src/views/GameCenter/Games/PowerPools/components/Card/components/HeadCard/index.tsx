@@ -9,6 +9,7 @@ interface HeadCardProps {
   filledSlots: number;
   currentRoundId: number;
   isRoundStart: boolean;
+  status: number;
 }
 
 const statuses = [
@@ -35,20 +36,8 @@ const statuses = [
   },
 ];
 
-const HeadCard = ({ totalSlots, filledSlots, currentRoundId, isRoundStart }: HeadCardProps) => {
-  const [status, setStatus] = useState(0);
+const HeadCard = ({ totalSlots, filledSlots, currentRoundId, status }: HeadCardProps) => {
   const [progress, setProgress] = useState(0);
-
-  //   Check status - 0:live - 1:drawing - 2:ended -
-  useEffect(() => {
-    if (isRoundStart) {
-      setStatus(0);
-    } else if (totalSlots === filledSlots) {
-      setStatus(1);
-    } else {
-      setStatus(2);
-    }
-  }, [isRoundStart, totalSlots, filledSlots]);
 
   //   Set value progress for component LinearProgress
   useEffect(() => {
