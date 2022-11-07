@@ -10,6 +10,7 @@ import BION_LOCK_ABI from 'constants/abis/bion-lock.json';
 import ENS_PUBLIC_RESOLVER_ABI from 'constants/abis/ens-public-resolver.json';
 import STANDARD_TOKEN_ABI from 'constants/abis/standard-token.json';
 import BION_AVATAR_ABI from 'constants/abis/bion-avatar.json'
+import BION_GAME_SLOT_ABI from 'constants/abis/bion-game-slot.json'
 import { Contract, ContractFactory } from 'ethers';
 import { useAccount, useChain, useNetwork, useProvider, useSigner } from 'hooks';
 import { useMemo } from 'react';
@@ -21,7 +22,7 @@ import {
   ROUTER_ADDRESS,
   WNATIVE_ADDRESS,
 } from '@bionswap/core-sdk';
-import { BION_AVATAR_ADDRESS, BION_LOCK_ADDRESS, PRESALE_FACTORY_ADDRESS } from 'constants/addresses';
+import { BION_AVATAR_ADDRESS, BION_LOCK_ADDRESS, BION_POWER_POOLS_ADDRESS, PRESALE_FACTORY_ADDRESS } from 'constants/addresses';
 
 // returns null on errors
 export function useContract<T extends Contract = Contract>(
@@ -141,4 +142,8 @@ export function useENSResolverContract(address: string | undefined, withSignerIf
 
 export function useBionAvatarContract() {
   return useContract(BION_AVATAR_ADDRESS, BION_AVATAR_ABI, true);
+}
+
+export function useBionGameSlotContract() {
+  return useContract(BION_POWER_POOLS_ADDRESS.bionGameSlot, BION_GAME_SLOT_ABI, true)
 }

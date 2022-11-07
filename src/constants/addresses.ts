@@ -13,3 +13,9 @@ export const BION_AVATAR_ADDRESS: AddressMap = {
   [ChainId.BSC_TESTNET]: '0xB41bD4D1eBe0D5a5238aC75d8Ce094261Ce92fcc',
   [ChainId.OKEX]: '0x61FBeCB73D67E8Bdc40657A0c4ce7D799d9087a7',
 };
+
+export const BION_POWER_POOLS_ADDRESS = {
+  bionGameSlot: {
+    [ChainId.BSC_TESTNET]: '0x8f2Ab42504db5Bc3998157ea382594462b8819AD',
+  }
+}
