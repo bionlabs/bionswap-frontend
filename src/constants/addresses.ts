@@ -16,7 +16,7 @@ export const BION_AVATAR_ADDRESS: AddressMap = {
 
 export const BION_POWER_POOLS_ADDRESS = {
   bionGameSlot: {
-    [ChainId.BSC_TESTNET]: '0x8f2Ab42504db5Bc3998157ea382594462b8819AD',
+    [ChainId.BSC_TESTNET]: '0x65905B59DE2598103cAf1e4dfFB6a0AFED0fFD4A',
   }
 }
 

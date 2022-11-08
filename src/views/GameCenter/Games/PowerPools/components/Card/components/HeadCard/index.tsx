@@ -62,7 +62,7 @@ const HeadCard = ({ totalSlots, filledSlots, currentRoundId, status }: HeadCardP
                   </Typography>
                 </Stack>
                 <Typography variant="body3Poppins" fontWeight="400" color={item.color}>
-                  #{currentRoundId}
+                  #{status === 2 && currentRoundId !=0 ? currentRoundId - 1 : currentRoundId}
                 </Typography>
               </Stack>
             </Header>
@@ -81,7 +81,6 @@ const HeadCard = ({ totalSlots, filledSlots, currentRoundId, status }: HeadCardP
 };
 
 const Header = styled(Box)`
-  background-color: #003023;
   padding: 8px 10px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;

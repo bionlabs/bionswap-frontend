@@ -6,40 +6,63 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import HeadCard from './components/HeadCard';
 import InputTicketModal from 'components/Modals/InputTicketModal';
 import ButtonCard from './components/ButtonCard';
+import YourRewardModal from 'components/Modals/YourRewardModal';
+import CountDownComponent from './components/CountDownComponent';
+import Link from 'next/link';
+import { ChainId } from '@bionswap/core-sdk';
 
 interface Props {
   contract: any;
 }
 
-const Card = ({ contract }: Props) => {
-  const { account } = useChain();
-  const [openInputTicketModal, setOpenInputTicketModal] = useState(false);
-  const [status, setStatus] = useState(0);
+const linkAddress = {
+  [ChainId.BSC_TESTNET]: {
+    address: 'https://testnet.bscscan.com/address/',
+  },
+};
 
+const Card = ({ contract }: Props) => {
+  const { account, chainId } = useChain();
+  const [openInputTicketModal, setOpenInputTicketModal] = useState(false);
+  const [openYourRewardModal, setOpenYourRewardModal] = useState(false);
+  const [status, setStatus] = useState(0);
+  const [poolPrize, setPoolPrize] = useState(0);
+  const currentTime = +new Date();
+  console.log('linkAddress==>', linkAddress);
   const totalSlots = Number(useSingleCallResult(contract, 'totalSlots')?.result?.[0] || 0);
   const currentRoundId = Number(useSingleCallResult(contract, 'currentRoundId')?.result?.[0] || 0);
-  const nPrizes = Number(useSingleCallResult(contract, 'nPrizes')?.result?.[0] || 0);
+  // const nPrizes = Number(useSingleCallResult(contract, 'nPrizes')?.result?.[0] || 0);
   const participantsAtRound = useSingleCallResult(contract, 'getParticipantsAtRound', [currentRoundId])?.result?.[0];
   const shareOf = Number(useSingleCallResult(contract, 'shareOf', [account, currentRoundId])?.result?.[0] || 0);
   const filledSlots = Number(useSingleCallResult(contract, 'filledSlots')?.result?.[0] || 0);
-  const isRoundStart = useSingleCallResult(contract, 'isRoundStart')?.result?.[0] || true;
+  const isRoundStart = useSingleCallResult(contract, 'isRoundStart')?.result?.[0];
+  const getPrizeDistributions = useSingleCallResult(contract, 'getPrizeDistributions')?.result?.[0] || [];
+  const lastDrawnTime = Number(useSingleCallResult(contract, 'lastDrawnTime')?.result?.[0] || 0) * 1000 + 90000;
 
   const toggleInputTicketModal = () => {
     setOpenInputTicketModal(!openInputTicketModal);
   };
 
+  const toggleYourRewardModal = () => {
+    setOpenYourRewardModal(!openYourRewardModal);
+  };
+
   const configs = [
-    {
-      label: 'Participaters',
-      value: `${participantsAtRound?.length}`,
-    },
+    // {
+    //   label: 'Participaters',
+    //   value: `${participantsAtRound?.length}`,
+    // },
     {
       label: 'Your deposited',
       value: `${shareOf} ${shareOf > 1 ? 'tickets' : 'ticket'}`,
     },
     {
       label: 'Pool prize',
-      value: `${nPrizes}$`,
+      value: `${poolPrize * 3}$`,
+    },
+    {
+      label: 'Filled Slots',
+      value: `${filledSlots}/${totalSlots}`,
     },
   ];
 
@@ -53,6 +76,14 @@ const Card = ({ contract }: Props) => {
       setStatus(2);
     }
   }, [isRoundStart, totalSlots, filledSlots]);
+
+  useEffect(() => {
+    let poolsP = 0;
+    getPrizeDistributions?.map((item: any) => {
+      poolsP += Number(item || 0);
+    });
+    setPoolPrize(poolsP);
+  }, [getPrizeDistributions]);
 
   return (
     <>
@@ -90,6 +121,24 @@ const Card = ({ contract }: Props) => {
           </Box>
           <Divider />
           <Stack p="20px 12px" gap="11px" width="100%">
+            {currentTime <= lastDrawnTime && (
+              <Stack flexDirection="row" width="100%" justifyContent="space-between">
+                <Typography variant="body4Poppins" fontWeight="400" color="gray.400">
+                  Next round starts
+                </Typography>
+                <CountDownComponent time={lastDrawnTime} />
+              </Stack>
+            )}
+            {currentTime >= lastDrawnTime && (
+              <Stack flexDirection="row" width="100%" justifyContent="space-between">
+                <Typography variant="body4Poppins" fontWeight="400" color="gray.400">
+                  Participaters
+                </Typography>
+                <Typography variant="body4Poppins" fontWeight="500" color="gray.200">
+                  {participantsAtRound?.length}
+                </Typography>
+              </Stack>
+            )}
             {configs?.map((item: any) => (
               <Stack key={item.label} flexDirection="row" width="100%" justifyContent="space-between">
                 <Typography variant="body4Poppins" fontWeight="400" color="gray.400">
@@ -100,9 +149,14 @@ const Card = ({ contract }: Props) => {
                 </Typography>
               </Stack>
             ))}
-            <ButtonCard shareOf={shareOf} toggleInputTicketModal={toggleInputTicketModal} status={status} />
+            <ButtonCard
+              shareOf={shareOf}
+              toggleInputTicketModal={toggleInputTicketModal}
+              status={status}
+              toggleYourRewardModal={toggleYourRewardModal}
+            />
             <Typography variant="body4Poppins" fontWeight="400" color="primary.main">
-              View on BSC
+              View on BscScan
             </Typography>
           </Stack>
         </Stack>
@@ -116,6 +170,14 @@ const Card = ({ contract }: Props) => {
         parentContract={contract}
         currentRoundId={currentRoundId}
         shareOf={shareOf}
+      />
+      <YourRewardModal
+        open={openYourRewardModal}
+        onDismiss={toggleYourRewardModal}
+        parentContract={contract}
+        currentRoundId={currentRoundId === 0 ? currentRoundId : currentRoundId - 1}
+        getPrizeDistributions={getPrizeDistributions}
+        account={account}
       />
     </>
   );

@@ -26,7 +26,7 @@
     "inputs": [
       { "indexed": true, "internalType": "uint256", "name": "roundId", "type": "uint256" },
       { "indexed": true, "internalType": "address", "name": "user", "type": "address" },
-      { "indexed": false, "internalType": "uint256", "name": "prize", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256[]", "name": "prize", "type": "uint256[]" },
       { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }
     ],
     "name": "Claim",
@@ -152,10 +152,7 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "uint256", "name": "roundId_", "type": "uint256" },
-      { "internalType": "uint256", "name": "prize", "type": "uint256" }
-    ],
+    "inputs": [{ "internalType": "uint256", "name": "roundId", "type": "uint256" }],
     "name": "claim",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -216,11 +213,11 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "user_", "type": "address" },
-      { "internalType": "uint256", "name": "roundId_", "type": "uint256" }
+      { "internalType": "uint256", "name": "roundId_", "type": "uint256" },
+      { "internalType": "address", "name": "user_", "type": "address" }
     ],
     "name": "getClaimablePrizesOfUser",
-    "outputs": [{ "internalType": "bool[]", "name": "", "type": "bool[]" }],
+    "outputs": [{ "internalType": "uint256[]", "name": "", "type": "uint256[]" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -234,6 +231,16 @@
   {
     "inputs": [],
     "name": "getPrizeDistributions",
+    "outputs": [{ "internalType": "uint256[]", "name": "", "type": "uint256[]" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "roundId_", "type": "uint256" },
+      { "internalType": "address", "name": "user_", "type": "address" }
+    ],
+    "name": "getPrizesOfUser",
     "outputs": [{ "internalType": "uint256[]", "name": "", "type": "uint256[]" }],
     "stateMutability": "view",
     "type": "function"
@@ -332,8 +339,18 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "user_", "type": "address" },
       { "internalType": "uint256", "name": "roundId_", "type": "uint256" },
+      { "internalType": "address", "name": "user_", "type": "address" }
+    ],
+    "name": "isUserClaimedPrizes",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "roundId_", "type": "uint256" },
+      { "internalType": "address", "name": "user_", "type": "address" },
       { "internalType": "uint256", "name": "prize_", "type": "uint256" }
     ],
     "name": "isWinnerOfPrize",
