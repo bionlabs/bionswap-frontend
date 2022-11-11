@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { shortenAddress } from 'utils/format';
 import CloseIcon from '@mui/icons-material/Close';
-import Link from 'next/link';
 
 const rewards = ['1st', '2nd', '2nd'];
 
@@ -49,8 +48,6 @@ const YourRewardModal = ({
 
   const claimReward = async () => {
     try {
-      console.log('currentRoundId==>', currentRoundId);
-      console.log('prize==>', prize);
       if (!parentContract || !account || !prize) return;
       setIsLoading(true);
       const tx = await parentContract.claim(currentRoundId);

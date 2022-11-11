@@ -1,11 +1,11 @@
 import { styled, Button } from '@mui/material';
 import CachedIcon from '@mui/icons-material/Cached';
 
-const ButtonCard = ({ shareOf, toggleInputTicketModal, status, toggleYourRewardModal }: any) => {
+const ButtonCard = ({ toggleInputTicketModal, status, toggleYourRewardModal }: any) => {
   return (
     <>
       {status == 0 ? (
-        <JoinPoolButton disabled={shareOf > 0} variant="contained" fullWidth onClick={toggleInputTicketModal}>
+        <JoinPoolButton variant="contained" fullWidth onClick={toggleInputTicketModal}>
           Deposit
         </JoinPoolButton>
       ) : status == 1 ?

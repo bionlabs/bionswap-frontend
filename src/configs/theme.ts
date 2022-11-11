@@ -197,7 +197,8 @@ export const darkPalette: ExtendedPaletteOptions = {
     main: "#F93232"
   },
   success: {
-    main: "#2AC89F"
+    main: "#2AC89F",
+    contrastText: "#2BB673"
   },
   primary: {
     main: "#07E0E0",

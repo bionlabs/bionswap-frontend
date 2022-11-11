@@ -28,10 +28,9 @@ const Card = ({ contract }: Props) => {
   const [status, setStatus] = useState(0);
   const [poolPrize, setPoolPrize] = useState(0);
   const currentTime = +new Date();
-  console.log('linkAddress==>', linkAddress);
+
   const totalSlots = Number(useSingleCallResult(contract, 'totalSlots')?.result?.[0] || 0);
   const currentRoundId = Number(useSingleCallResult(contract, 'currentRoundId')?.result?.[0] || 0);
-  // const nPrizes = Number(useSingleCallResult(contract, 'nPrizes')?.result?.[0] || 0);
   const participantsAtRound = useSingleCallResult(contract, 'getParticipantsAtRound', [currentRoundId])?.result?.[0];
   const shareOf = Number(useSingleCallResult(contract, 'shareOf', [account, currentRoundId])?.result?.[0] || 0);
   const filledSlots = Number(useSingleCallResult(contract, 'filledSlots')?.result?.[0] || 0);
@@ -132,10 +131,10 @@ const Card = ({ contract }: Props) => {
             {currentTime >= lastDrawnTime && (
               <Stack flexDirection="row" width="100%" justifyContent="space-between">
                 <Typography variant="body4Poppins" fontWeight="400" color="gray.400">
-                  Participaters
+                  Participate
                 </Typography>
                 <Typography variant="body4Poppins" fontWeight="500" color="gray.200">
-                  {participantsAtRound?.length}
+                  {participantsAtRound?.length || 0}
                 </Typography>
               </Stack>
             )}
@@ -150,7 +149,6 @@ const Card = ({ contract }: Props) => {
               </Stack>
             ))}
             <ButtonCard
-              shareOf={shareOf}
               toggleInputTicketModal={toggleInputTicketModal}
               status={status}
               toggleYourRewardModal={toggleYourRewardModal}

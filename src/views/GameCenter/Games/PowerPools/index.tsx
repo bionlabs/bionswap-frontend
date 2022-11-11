@@ -6,6 +6,7 @@ import Layout from './components/Layout';
 import Card from './components/Card';
 import Image from 'next/image';
 import { useBionGameSlotContract } from 'hooks/useContract';
+import FinishedRound from './components/FinishedRound';
 
 const PowerPools = () => {
   const isMobile = useMediaQuery('(max-width:700px)');
@@ -40,6 +41,7 @@ const PowerPools = () => {
             <Card key={item.label} contract={item.contract} />
           ))}
         </Grid>
+        <FinishedRound contracts={powerPoolItems} />
       </Layout>
     </Page>
   );

@@ -38,7 +38,7 @@ const inputButtonConfigs = [
   },
 ];
 
-const InputTicketModal = ({
+const PurchaseTicketModal = ({
   open,
   onDismiss,
   account,
@@ -262,4 +262,4 @@ const ButtonItem = styled(Button)`
   height: 29px;
 `;
 
-export default InputTicketModal;
+export default PurchaseTicketModal;
