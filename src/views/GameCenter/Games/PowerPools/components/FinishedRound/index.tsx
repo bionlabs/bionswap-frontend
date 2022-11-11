@@ -8,19 +8,21 @@ interface FinishedRoundProp {
 
 const FinishedRound = ({ contracts }: FinishedRoundProp) => {
   return (
-    <>
+    <Stack width='100%' gap='25px'>
       <Typography variant="h3Samsung" fontWeight="500" color="success.contrastText">
         Finished round
       </Typography>
-      <Stack>
+      <Stack width='100%'>
         {contracts?.map((item: any) => (
           <ItemTab key={item.label} contract={item} />
         ))}
       </Stack>
-      <Box>
-        <ResultBox />
+      <Box width='100%'>
+        {contracts?.map((item: any) => (
+          <ResultBox key={item.label} parentContract={item} />
+        ))}
       </Box>
-    </>
+    </Stack>
   );
 };
 

@@ -41,7 +41,9 @@ const PowerPools = () => {
             <Card key={item.label} contract={item.contract} />
           ))}
         </Grid>
-        <FinishedRound contracts={powerPoolItems} />
+        <WrapBox>
+          <FinishedRound contracts={powerPoolItems} />
+        </WrapBox>
       </Layout>
     </Page>
   );
@@ -72,5 +74,11 @@ const Grid = styled(Box)`
   margin-top: 35px;
   gap: 20px;
 `;
+const WrapBox = styled(Box)`
+  max-width: 853px;
+  margin: auto;
+  margin-top: 100px;
+  text-align: center;
+`
 
 export default PowerPools;
