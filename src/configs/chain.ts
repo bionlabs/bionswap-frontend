@@ -47,7 +47,7 @@ const bscTestnet = {
     decimals: 18,
   },
   rpcUrls: {
-    default: "https://data-seed-prebsc-1-s1.binance.org:8545/",
+    default: "https://data-seed-prebsc-1-s3.binance.org:8545",
     // default2: "https://bsc-dataseed1.defibit.io/",
     // default3: "https://bsc-dataseed1.ninicoin.io/",
   },

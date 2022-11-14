@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, styled } from '@mui/material';
 import ProfileBox from './components/ProfileBox';
 import TicketBox from './components/TicketBox';
+import History from './components/History';
 import { useBionTicket } from 'hooks/useContract';
 import { useAccount, useSingleCallResult } from 'hooks';
 
@@ -20,6 +21,7 @@ const Sidebar = () => {
     <Wrapper>
       <ProfileBox />
       <TicketBox balanceTicket={balanceOfNormalTicket} balanceAirdropTicket={balanceOfAirdropTicket} />
+      <History />
     </Wrapper>
   );
 };
