@@ -54,7 +54,7 @@ const Step02 = ({ data, setData, onNextStep, onBackStep }: any) => {
     },
   ];
 
-  const tokenContract = useToken(data.tokenContract);
+  const tokenContract = useToken(data.tokenContract, true);
   const [openModal, setOpenModal] = useState(false);
   const [errors, setErrors] = useState([]);
   const isTyped = useRef(false);
