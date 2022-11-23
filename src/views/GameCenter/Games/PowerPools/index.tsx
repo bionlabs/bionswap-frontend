@@ -14,6 +14,7 @@ const PowerPools = () => {
 
   const powerPoolItems = [
     {
+      index: 0,
       label: 'Bion Game Slot',
       contract: bionGameSlotContract,
     },
