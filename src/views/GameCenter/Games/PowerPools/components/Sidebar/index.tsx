@@ -4,24 +4,24 @@ import ProfileBox from './components/ProfileBox';
 import TicketBox from './components/TicketBox';
 import History from './components/History';
 import { useBionTicket } from 'hooks/useContract';
-import { useAccount, useSingleCallResult } from 'hooks';
+import { useAccount, useChain, useSingleCallResult } from 'hooks';
 
 const Sidebar = () => {
   const bionTicketContract = useBionTicket();
-  const { address } = useAccount();
+  const { account, chainId } = useChain();
 
   const balanceOfAirdropTicket = Number(
-    useSingleCallResult(bionTicketContract, 'balanceOf', [address, 1])?.result?.[0] || 0,
+    useSingleCallResult(bionTicketContract, 'balanceOf', [account, 1])?.result?.[0] || 0,
   );
   const balanceOfNormalTicket = Number(
-    useSingleCallResult(bionTicketContract, 'balanceOf', [address, 0])?.result?.[0] || 0,
+    useSingleCallResult(bionTicketContract, 'balanceOf', [account, 0])?.result?.[0] || 0,
   );
-  
+
   return (
     <Wrapper>
       <ProfileBox />
       <TicketBox balanceTicket={balanceOfNormalTicket} balanceAirdropTicket={balanceOfAirdropTicket} />
-      <History />
+      <History account={account} chainId={chainId} />
     </Wrapper>
   );
 };

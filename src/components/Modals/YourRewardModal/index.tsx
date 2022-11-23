@@ -26,7 +26,6 @@ const YourRewardModal = ({
     useSingleCallResult(parentContract, 'getWinnersAtRound', [currentRoundId])?.result?.[0] || [];
   const isUserClaimedPrizes = useSingleCallResult(parentContract, 'isUserClaimedPrizes', [currentRoundId, account])
     ?.result?.[0];
-  console.log('🚀 ~ file: index.tsx ~ line 27 ~ isUserClaimedPrizes', isUserClaimedPrizes);
 
   useEffect(() => {
     getWinnersAtRound?.map((item: any) => {

@@ -1,5 +1,5 @@
 import { Typography, styled, Box, Stack, FormControl, OutlinedInput, Button } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftOutlined';
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
@@ -11,14 +11,45 @@ import { useSingleCallResult } from 'hooks';
 const rewards = ['1st', '2nd', '2nd'];
 
 const ResultBox = ({ parentContract }: any) => {
-  const [roundId, setRoundId] = useState(0);
-
-  const getWinnersAtRound = useSingleCallResult(parentContract, 'getWinnersAtRound', [roundId])?.result?.[0] || [];
+  const [isInit, setIsInit] = useState(true);
   const getPrizeDistributions = useSingleCallResult(parentContract, 'getPrizeDistributions')?.result?.[0] || [];
+  const currentRoundId = Number(useSingleCallResult(parentContract, 'currentRoundId')?.result?.[0] || 0);
+  const [roundId, setRoundId] = useState(0);
+  const getWinnersAtRound = useSingleCallResult(parentContract, 'getWinnersAtRound', [roundId])?.result?.[0] || [];
 
   const handleChange = (event: any) => {
-    setRoundId(event.target.value);
+    console.log('event==>', typeof event);
+    if (typeof event === 'object') {
+      setRoundId(event?.target?.value ? event.target.value : '0');
+    } else if (typeof event === 'number') {
+      setRoundId(event);
+    }
+    if (isInit) {
+      setIsInit(false);
+    }
   };
+
+  const nextRound = () => {
+    handleChange(roundId + 1);
+  };
+
+  const lastRound = () => {
+    handleChange(currentRoundId - 1);
+  };
+
+  const prevRound = () => {
+    handleChange(roundId - 1);
+  };
+
+  const firstRound = () => {
+    handleChange(0);
+  };
+
+  useEffect(() => {
+    if (isInit) {
+      setRoundId(currentRoundId == 0 ? currentRoundId : currentRoundId - 1);
+    }
+  }, [currentRoundId, isInit]);
 
   return (
     <WrapBox>
@@ -38,31 +69,33 @@ const ResultBox = ({ parentContract }: any) => {
             </Typography>
           </Stack>
           <Stack flexDirection="row" gap="25px">
-            <Button>
+            <ActionButton disabled={roundId <= 0} onClick={firstRound}>
               <KeyboardDoubleArrowLeftOutlinedIcon color="inherit" fontSize="inherit" />
-            </Button>
-            <Button>
+            </ActionButton>
+            <ActionButton disabled={roundId <= 0} onClick={prevRound}>
               <KeyboardArrowLeftOutlinedIcon color="inherit" fontSize="inherit" />
-            </Button>
-            <Button>
+            </ActionButton>
+            <ActionButton disabled={roundId >= currentRoundId - 1} onClick={nextRound}>
               <KeyboardArrowRightOutlinedIcon color="inherit" fontSize="inherit" />
-            </Button>
-            <Button>
+            </ActionButton>
+            <ActionButton disabled={roundId >= currentRoundId - 1} onClick={lastRound}>
               <KeyboardDoubleArrowRightOutlinedIcon color="inherit" fontSize="inherit" />
-            </Button>
+            </ActionButton>
           </Stack>
         </Stack>
       </WrapHeader>
       <WrapBody>
-        <Stack width="100%" flexDirection="row" justifyContent="space-between">
+        <Stack width="100%" flexDirection="row" justifyContent="space-between" mb="20px">
           <Typography variant="bodyPoppins" fontWeight="500" color="background.paper">
             🏆 Winners
           </Typography>
-          <Latest>
-            <Typography variant="body3Poppins" fontWeight="500" color="background.paper">
-              Latest
-            </Typography>
-          </Latest>
+          {roundId === currentRoundId - 1 && (
+            <Latest>
+              <Typography variant="body3Poppins" fontWeight="500" color="background.paper">
+                Latest
+              </Typography>
+            </Latest>
+          )}
         </Stack>
         <Stack gap="15px" width="100%">
           {rewards?.map((item: any, index: number) => (
@@ -93,7 +126,7 @@ const ResultBox = ({ parentContract }: any) => {
                   </Typography>
                 </Stack>
               </Stack>
-              { index < rewards.length - 1 && <Line /> }
+              {index < rewards.length - 1 && <Line />}
             </>
           ))}
         </Stack>
@@ -154,6 +187,13 @@ const Line = styled(Box)`
   width: 100%;
   height: 1px;
   background-color: ${(props) => props.theme.palette.gray[600]};
+`;
+const ActionButton = styled(Button)`
+  color: ${(props) => props.theme.palette.gray[200]};
+  font-size: 20px;
+  padding: 0;
+  width: auto;
+  min-width: auto;
 `;
 
 export default ResultBox;
