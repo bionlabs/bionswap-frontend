@@ -4,22 +4,15 @@ import React from "react";
 
 interface PrimaryButtonProps extends ButtonProps {
   children: any;
-  label?: string;
   backgroundColor?: string;
-  labelVariant?: TypographyProps["variant"];
-  labelSx?: React.CSSProperties;
   isLoading?: boolean;
 }
 
 const PrimaryLoadingButton: React.FC<PrimaryButtonProps> = ({
   children,
-  label,
-  color = "text.secondary",
   backgroundColor = "primary.main",
   variant = "contained",
-  labelVariant,
   sx,
-  labelSx,
   isLoading = false,
   ...rest
 }) => {
@@ -30,7 +23,7 @@ const PrimaryLoadingButton: React.FC<PrimaryButtonProps> = ({
       sx={{
         backgroundColor: variant === "outlined" ? "transparent" : backgroundColor,
         border: variant === "outlined" ? "1px solid #07E0E0" : "none",
-        padding: "8px 20px",
+        padding: "5px",
         width: "100%",
         transition: "all .3s ease",
         cursor: "pointer",
