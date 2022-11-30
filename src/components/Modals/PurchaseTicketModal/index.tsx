@@ -5,8 +5,10 @@ import { useSingleCallResult } from 'hooks';
 import { useBionTicket } from 'hooks/useContract';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import CloseIcon from '@mui/icons-material/Close';  
+import CloseIcon from '@mui/icons-material/Close';
 import { toastError } from 'hooks/useToast';
+import BuyTicket from './components/BuyTicket';
+import SellTicket from './components/SellTicket';
 
 const tickets = [
   {
@@ -19,22 +21,14 @@ const tickets = [
   },
 ];
 
-const inputButtonConfigs = [
+const configs = [
   {
-    label: 'x1',
-    value: 1,
+    id: 1,
+    label: 'Buy Ticket',
   },
   {
-    label: 'x3',
-    value: 3,
-  },
-  {
-    label: 'x5',
-    value: 5,
-  },
-  {
-    label: 'Max',
-    value: 'max',
+    id: 2,
+    label: 'Sell Ticket',
   },
 ];
 
@@ -46,8 +40,10 @@ const PurchaseTicketModal = ({
   filledSlots,
   parentContract,
   currentRoundId,
-  shareOf
+  shareOf,
 }: any) => {
+  const [tab, setTab] = useState(1);
+
   const [isLoading, setIsLoading] = useState(false);
   const [ticketType, setTicketType] = useState('1');
   const [inputTicket, setInputTicket] = useState(0);
@@ -91,56 +87,8 @@ const PurchaseTicketModal = ({
     setAvaiableSlot(totalSlots - filledSlots);
   }, [totalSlots, filledSlots]);
 
-  const configs = [
-    {
-      label: 'Total deposit',
-      value: `${totalDeposit} ${totalDeposit > 1 ? 'tickets' : 'ticket'}`,
-    },
-    {
-      label: 'Win rate',
-      value: `${winRate}%`,
-    },
-    {
-      label: 'Avaiable slots',
-      value: `${avaiableSlot}`,
-    },
-  ];
-
-  const handleChange = (event: any) => {
-    setInputTicket(event.target.value);
-  };
-
-  const changeInputTicket = (value: any) => {
-    if (typeof value === 'string') {
-      balanceOf > avaiableSlot ? setInputTicket(avaiableSlot) : setInputTicket(balanceOf);
-    } else {
-      setInputTicket(value);
-    }
-  };
-
-  const changeTicketType = (value: string) => {
-    setTicketType(value);
-  };
-
-  const deposit = async () => {
-    try {
-      if (!parentContract || !account || !bionTicketContract) return;
-      if (isApprovedForAll) {
-        setIsLoading(true);
-        const tx = await parentContract.deposit(currentRoundId, ticketType, inputTicket);
-        await tx.wait();
-        setIsLoading(false);
-        onDismiss();
-      } else {
-        setIsLoading(true);
-        const tx = await bionTicketContract.setApprovalForAll(parentContract?.address, true);
-        await tx.wait();
-        setIsLoading(false);
-      }
-    } catch (error: any) {
-      setIsLoading(false);
-      toastError(error?.message);
-    }
+  const changeTab = (id: number) => {
+    setTab(id);
   };
 
   return (
@@ -148,97 +96,54 @@ const PurchaseTicketModal = ({
       <BaseModal
         open={open}
         sx={{
-          padding: '15px',
-          maxWidth: '352px',
+          padding: '0',
+          maxWidth: '516px',
           width: '100%',
           height: 'auto',
-          maxHeight: '749px',
+          maxHeight: '590px',
           overflowY: 'auto',
         }}
       >
         <IconButton onClick={onDismiss} sx={{ position: 'absolute', right: 8, top: 8 }}>
           <CloseIcon />
         </IconButton>
-        <Stack width="100%" gap="20px">
-          <Typography variant="body3Poppins" fontWeight="400" color="background.paper">
-            Input tickets
-          </Typography>
-          <Stack flexDirection="row" gap="20px" width="100%" justifyContent="flex-start">
-            {tickets?.map((item: any) => (
-              <WrapTicket
-                key={item.icon}
-                className={item.value === ticketType ? 'active' : ''}
-                onClick={() => changeTicketType(item.value)}
-              >
-                <Image src={item.icon} alt="" width="75px" height="75px" />
-              </WrapTicket>
-            ))}
-          </Stack>
-          <Stack width="100%" gap="10px">
-            <WrapBox>
-              <Stack width="100%" flexDirection="row" justifyContent="space-between">
-                <Typography variant="body4Poppins" fontWeight="400" color="success.main">
-                  Input
-                </Typography>
-                <Typography variant="body4Poppins" fontWeight="400" color="gray.400">
-                  Balance: {balanceOf}
-                </Typography>
-              </Stack>
-              <InputCustom placeholder="0" value={inputTicket} onChange={handleChange} fullWidth />
-            </WrapBox>
-            <Stack width="100%" flexDirection="row" justifyContent="space-between">
-              {inputButtonConfigs?.map((item: any) => (
-                <ButtonItem key={item.label} onClick={() => changeInputTicket(item.value)}>
-                  <Typography variant="captionPoppins" color="primary.main" fontWeight="400">
-                    {item.label}
-                  </Typography>
-                </ButtonItem>
-              ))}
-            </Stack>
-          </Stack>
-          <Stack width="100%" gap="10px">
+        <Box>
+          <Stack flexDirection="row">
             {configs?.map((item: any) => (
-              <Stack key={item.label} flexDirection="row" justifyContent="space-between" width="100%">
-                <Typography variant="body4Poppins" fontWeight="400" color="gray.400">
+              <TabHead key={item.label} className={tab === item.id ? 'active' : ''} onClick={() => changeTab(item.id)}>
+                <Typography
+                  variant="body3Poppins"
+                  lineHeight="18px"
+                  fontWeight="500"
+                  color={tab === item.id ? 'primary.main' : 'gray.500'}
+                >
                   {item.label}
                 </Typography>
-                <Typography variant="body4Poppins" fontWeight="400" color="blue.50">
-                  {item.value}
-                </Typography>
-              </Stack>
+              </TabHead>
             ))}
           </Stack>
-          <PrimaryLoadingButton onClick={deposit} isLoading={isLoading} sx={{height: '41.59px'}}>
-            <Typography variant="body3Poppins" fontWeight="600" color="#000000">
-              {isApprovedForAll ? 'Confirm' : 'Approve'}
-            </Typography>
-          </PrimaryLoadingButton>
-        </Stack>
+          <WrapBox>
+            {tab === 1 && <BuyTicket />}
+            {tab === 2 && <SellTicket />}
+          </WrapBox>
+        </Box>
       </BaseModal>
     </>
   );
 };
 
-const WrapTicket = styled(Box)`
-  border: 1px solid #242d35;
-  border-radius: 5px;
-  height: 75px;
-  width: 75px;
-  overflow: hidden;
+const TabHead = styled(Stack)`
+  width: 50%;
+  height: 65px;
   cursor: pointer;
 
   &.active {
-    border: 1px solid #07e0e0;
+    background: #004444;
   }
 `;
-const WrapBox = styled(Stack)`
-  width: 100%;
-  border-color: ${(props) => props.theme.palette.gray[800]}
-  border: 1px solid;
-  border-radius: 4px;
-  background: #000e12;
-  padding: 10px;
-  gap: 4px;
+
+const WrapBox = styled(Box)`
+  padding: 24px 20px;
 `;
 const InputCustom = styled(OutlinedInput)`
   fieldset {
