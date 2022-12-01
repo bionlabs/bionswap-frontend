@@ -27,6 +27,10 @@ const TicketBox = ({ balanceAirdropTicket, balanceTicket }: TicketBoxProps) => {
     },
   ];
 
+  const toggleOpen = () => {
+    setOpen(!open)
+  }
+
   return (
     <>
       <Stack width="100%" gap="20px">
@@ -51,7 +55,7 @@ const TicketBox = ({ balanceAirdropTicket, balanceTicket }: TicketBoxProps) => {
             {index !== configs?.length - 1 && <Divider />}
           </>
         ))}
-        <PurchaseTicketButton variant="contained" fullWidth>
+        <PurchaseTicketButton variant="contained" fullWidth onClick={toggleOpen}>
           <Typography lineHeight="100%" color="primary.main">
             <SwapHorizontalCircleIcon fontSize="inherit" color="inherit" />
           </Typography>
@@ -60,7 +64,7 @@ const TicketBox = ({ balanceAirdropTicket, balanceTicket }: TicketBoxProps) => {
           </Typography>
         </PurchaseTicketButton>
       </Stack>
-      <PurchaseTicketModal open='open' />
+      <PurchaseTicketModal open={open} onDismiss={toggleOpen} />
     </>
   );
 };
