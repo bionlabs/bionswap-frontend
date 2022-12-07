@@ -51,20 +51,20 @@ const PowerPools = () => {
 };
 
 const StyledIconButton = styled(IconButton)`
-  background-color: ${(props) => props.theme.palette.gray[900]};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   border: 1px solid ${(props) => props.theme.palette.gray[700]};
   border-radius: 8px;
   padding: 14px;
 `;
 const StyledButton = styled(Button)`
-  background-color: ${(props) => props.theme.palette.gray[900]};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   color: ${(props) => props.theme.palette.text.primary};
   border: 1px solid ${(props) => props.theme.palette.gray[700]};
   border-radius: 8px;
   padding: 14px;
   transition: 0.12s ease-in;
   :hover {
-    background-color: ${(props) => props.theme.palette.gray[900]};
+    background-color: ${(props) => (props.theme.palette as any).extra.card.background};
     box-shadow: none;
     opacity: 0.8;
   }

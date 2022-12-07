@@ -5,7 +5,7 @@ import { useState } from 'react';
 import useMediaQuery from 'hooks/useMediaQuery';
 
 const HeroSection = () => {
-  const { isXs, isSm } = useMediaQuery();
+  const { isMobile, isTablet } = useMediaQuery();
   const [email, setEmail] = useState('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,7 +15,7 @@ const HeroSection = () => {
   return (
     <Section>
       <Container maxWidth="xl">
-        <Stack flexDirection={isXs ? "column" : "row"} gap="24px" pt="60px" pb='60px'>
+        <Stack flexDirection={isMobile ? "column" : "row"} gap="24px" pt="60px" pb='60px'>
           <EventBox>
             <Stack gap="15px" alignItems="flex-start">
               <Box width="107px" height="29px" position="relative">

@@ -43,7 +43,7 @@ const FlexBox = styled(Box)`
 `;
 const WrapBox = styled(Box)`
   border-radius: 8px;
-  background-color: ${(props) => props.theme.palette.gray[900]};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   width: 100%;
   overflow: hidden;
   position: relative;

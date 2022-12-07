@@ -119,7 +119,7 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
                 p: 2,
                 width: '100%',
                 // borderBottom: "1px solid #787A9B",
-                borderRadius: '4px',
+                borderRadius: '8px',
                 ':last-child': {
                   borderBottom: 'none',
                 },
@@ -151,7 +151,7 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
   );
 };
 const Wrapper = styled(Box)`
-  background: ${(props: any) => props.theme.palette.gray[900]};
+  background: ${(props: any) => (props.theme.palette as any).extra.card.background};
   border: 2px solid #014959;
   display: flex;
   flex-direction: column;

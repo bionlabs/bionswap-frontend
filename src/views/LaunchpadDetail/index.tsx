@@ -118,7 +118,7 @@ const Section = styled(Box)`
   gap: 70px;
 `;
 const WrapService = styled(Box)`
-  background-color: ${(props) => props.theme.palette.gray[900]};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   padding: 57px 0;
 `;
 const WrapTabRecom = styled(Box)``;

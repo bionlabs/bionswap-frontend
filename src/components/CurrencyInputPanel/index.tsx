@@ -1,4 +1,4 @@
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import {BsChevronDown} from 'react-icons/bs'
 import { Box, Button, InputAdornment, Stack, styled, TextField, Typography } from "@mui/material";
 import { Currency, CurrencyAmount, JSBI } from "@bionswap/core-sdk";
 import { CurrencyLogo } from "components";
@@ -53,18 +53,21 @@ const CurrencyInputPanel = ({
     <WrapCurrencyInputPanel>
       <Stack>
         <Stack direction="row" justifyContent="space-between" width={"100%"} mb="7px">
-          <Typography variant="body3Poppins" sx={{
+          {/* <Typography variant="body3Poppins" sx={{
             color: 'gray.300',
             fontWeight: '400',
           }}>
             {`~$${usdValue?.toFixed(2) || 0}`}
-          </Typography>
-          <Typography variant="body3Poppins" sx={{
-            color: 'gray.300',
+          </Typography> */}
+          <Typography sx={{
+            color: 'text.secondary', fontSize: '14px',
             fontWeight: '400',
           }}>
             Balance: {`${currencyBalance?.toFixed(4) || 0}`}
           </Typography>
+          <Stack>
+            {isMax && <MaxButton onClick={handleMaxBalance}>Max</MaxButton>}
+          </Stack>
         </Stack>
         <TextField
           type={"number"}
@@ -92,46 +95,35 @@ const CurrencyInputPanel = ({
           }}
           InputProps={{
             endAdornment: (
-              // <InputAdornment position="end">
-
-              // </InputAdornment>
               <Button
                 onClick={() => setSearchModalOpen(true)}
                 sx={{
                   boxShadow: "none",
                   justifyContent: "space-between",
                   minWidth: "auto",
-                  backgroundColor: "gray.800",
+                  backgroundColor: theme => (theme.palette as any).extra.button.lighter,
                   borderRadius: '8px',
                   '&:hover': {
-                    backgroundColor: "gray.800",
+                    backgroundColor: theme => (theme.palette as any).extra.button.lighter,
                   }
                 }}
-                endIcon={
-                  <ArrowDropDownIcon
-                    sx={{
-                      color: "text.primary",
-                    }}
-                  />
-                }
               >
-                <Stack direction="row" gap='5px'>
-                  <CurrencyLogo currency={currency} size={25} />
+                <Stack direction="row" spacing={1} color='text.primary'>
+                  <CurrencyLogo currency={currency} size={22} />
                   <Typography sx={{
-                    fontWeight: '500', fontSize: '16px',
-                    color: '#FFF3F3',
+                    fontWeight: '500', fontSize: '14px',
+                    color: 'text.primary',
                   }}>
                     {currency?.symbol}
                   </Typography>
+                  <BsChevronDown/>
                 </Stack>
               </Button>
             ),
             disableUnderline: true,
           }}
         />
-        <Stack alignItems='flex-start' width='100%' mt='8px'>
-          {isMax && <MaxButton onClick={handleMaxBalance}>Max</MaxButton>}
-        </Stack>
+        
         <ManageCurrencyListModal
           open={searchModalOpen}
           onDismiss={handleCloseSearchModal}
@@ -144,24 +136,17 @@ const CurrencyInputPanel = ({
 
 const WrapCurrencyInputPanel = styled(Box)`
   border-radius: 8px;
-  background: ${(props) => props.theme.palette.background.default};
+  background: ${(props) => (props.theme.palette as any).extra.card.light};
   padding: 15px;
-  border: 1px solid;
+  border: none;
   transition: .12s ease-in;
-  &:hover {
-    border-color: ${(props) => props.theme.palette.gray[500]};
-  }
 `;
 const MaxButton = styled(Button)`
   color: ${(props) => props.theme.palette.primary.main};;
-  text-align: center;
   font-weight: 400;
   font-size: 12px;
   line-height: 24px;
-  font-family: "Poppins", sans-serif;
-  background: transparent;
-  border: 1px solid rgba(141, 241, 250, .5);
-  border-radius: 8px;
+  font-family: inherit;
   width: 45px;
   padding: 1px;
 `;

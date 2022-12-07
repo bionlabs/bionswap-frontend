@@ -45,16 +45,16 @@ const ChainConfigs = [
 ];
 
 const InforAndChainSection = () => {
-  const { isXs, isMd } = useMediaQuery();
+  const { isMobile, isDesktop } = useMediaQuery();
 
   return (
     <Section>
       <Container>
-        <Stack flexDirection={isMd ? 'column' : 'row'} gap="20px">
-          <Stack flexDirection="row" gap="20px" flexWrap={isXs ? 'wrap' : 'nowrap'}>
+        <Stack flexDirection={isDesktop ? 'column' : 'row'} gap="20px">
+          <Stack flexDirection="row" gap="20px" flexWrap={isMobile ? 'wrap' : 'nowrap'}>
             {InforConfigs?.map((item: any, index: number) => (
               <>
-                <Stack key={item.title} flexDirection="row" gap="8px" width={isXs ? 'calc(50% - 32px)' : 'auto'}>
+                <Stack key={item.title} flexDirection="row" gap="8px" width={isMobile ? 'calc(50% - 32px)' : 'auto'}>
                   <Typography variant="h5Poppins" color="gray.700" fontWeight="700">
                     {item.title}
                   </Typography>
@@ -62,17 +62,17 @@ const InforAndChainSection = () => {
                     {item.description}
                   </Typography>
                 </Stack>
-                {!isMd && index !== InforConfigs.length - 1 && <VerticalLine />}
+                {!isDesktop && index !== InforConfigs.length - 1 && <VerticalLine />}
               </>
             ))}
-            {isMd}
+            {isDesktop}
           </Stack>
-          <Stack width='100%' flexDirection="row" gap={isXs ? '40px' : '20px'} flexWrap={isXs ? 'wrap' : 'nowrap'}>
+          <Stack width='100%' flexDirection="row" gap={isMobile ? '40px' : '20px'} flexWrap={isMobile ? 'wrap' : 'nowrap'}>
             {ChainConfigs?.map((item: any) => (
               <Box
                 key={item.image}
                 position="relative"
-                width={isXs ? '40%' : '120px'}
+                width={isMobile ? '40%' : '120px'}
                 sx={{
                   aspectRatio: item.ratio,
                 }}

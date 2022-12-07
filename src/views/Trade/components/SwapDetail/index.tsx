@@ -29,7 +29,7 @@ const SwapDetail = ({ recipient, trade, minimumAmountOut }: Props) => {
   }, [trade]);
 
   return (
-    <Stack sx={{ width: "100%", padding: '15px 5px' }} gap='15px' alignItems='inherit'>
+    <Stack sx={{ width: "100%", padding: '0 24px 24px 24px' }} gap='15px' alignItems='inherit'>
       <Stack direction="row" justifyContent={"space-between"} width='100%'>
         <Typography variant="body4Poppins" sx={{
           fontWeight: '500',

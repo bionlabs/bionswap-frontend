@@ -11,6 +11,7 @@ import {
   useTokenComparator,
 } from 'hooks';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import {BsSearch} from 'react-icons/bs'
 import { filterTokens } from 'utils/filter';
 import { isAddress } from 'utils/validate';
 import { ManageCurrencyListModalView, useManageCurrencyListModalContext } from '.';
@@ -100,8 +101,8 @@ const CurrencySearch = ({
 
   return (
     <Stack>
-      <Stack direction="column" alignItems="flex-start" gap="20px" width="100%" padding="25px 15px 20px">
-        <Typography variant="body3Poppins" color="text.primary" fontWeight="400">
+      <Stack direction="column" alignItems="flex-start" gap="15px" width="100%" padding="20px">
+        <Typography color="text.primary" fontWeight="500" fontSize='20px'>
           Select a token
         </Typography>
         <TextField
@@ -114,15 +115,14 @@ const CurrencySearch = ({
             '.MuiInputBase-formControl': {
               borderRadius: '8px',
               padding: '13px 15px',
-              backgroundColor: 'background.default',
-              border: '1px solid',
-              borderColor: 'gray.600',
+              transition: '.12s ease-in',
+              backgroundColor: theme => (theme.palette as any).extra.card.light,
 
-              '&.Mui-focused': {
-                borderColor: '#9A6AFF',
-                boxShadow:
-                  'rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset',
-              },
+              // '&.Mui-focused': {
+              //   border: theme => `1px solid ${theme.palette.primary.main}`,
+              //   // boxShadow:
+              //   //   'rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset',
+              // },
             },
 
             input: {
@@ -132,7 +132,7 @@ const CurrencySearch = ({
             },
           }}
           InputProps={{
-            endAdornment: <img src="/images/search.png" alt="search" />,
+            endAdornment: <BsSearch/>,
             disableUnderline: true,
           }}
         />
@@ -141,7 +141,7 @@ const CurrencySearch = ({
       <Stack
         sx={{
           borderTop: '1px solid',
-          borderTopColor: 'gray.800',
+          borderTopColor: theme => (theme.palette as any).extra.card.divider,
           width: '100%',
         }}
       >
@@ -162,7 +162,7 @@ const CurrencySearch = ({
         </Stack> */}
       <ManageTokenBtn fullWidth onClick={() => setView(ManageCurrencyListModalView.manage)}>
         <img src="/images/sticky_note_2.png" alt="sticky_note_2.png" />
-        <Typography variant="body3Poppins" fontWeight="400" color="primary.main">
+        <Typography fontWeight="400" color="primary.main">
           Manage Token List
         </Typography>
       </ManageTokenBtn>
@@ -174,7 +174,7 @@ const ManageTokenBtn = styled(Button)`
   display: flex;
   gap: 10px;
   padding: 16px;
-  background-color: ${(props) => props.theme.palette.gray[800]};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.light};
 `;
 
 export default memo(CurrencySearch);

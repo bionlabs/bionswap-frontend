@@ -199,7 +199,7 @@ const FlexBox = styled(Box)`
 `;
 const WrapInforBox = styled(Box)`
   padding: 16px;
-  background-color: ${(props) => props.theme.palette.gray[900]};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   border-radius: 8px;
   border: 1px solid;
   border-color: ${(props) => props.theme.palette.gray[700]};

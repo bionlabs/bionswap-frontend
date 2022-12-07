@@ -187,7 +187,7 @@ const FlexBox = styled(Box)`
 `;
 const WrapBox = styled(Box)`
   border-radius: 8px;
-  background-color: ${(props) => props.theme.palette.gray[900]};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -218,7 +218,7 @@ const WrapText = styled(Box)`
   gap: 16px;
 `;
 const Logo = styled(Box)`
-  border: 2px solid ${(props) => props.theme.palette.gray[900]};
+  border: 2px solid ${(props) => (props.theme.palette as any).extra.card.background};
   background: #0b0b0c;
   border-radius: 8px;
   transform: matrix(-1, 0, 0, 1, 0, 0);
