@@ -574,7 +574,7 @@ const ActiveBox = styled(Box)`
   gap: 40px;
 `;
 const ProcessBox = styled(Box)`
-  background-color: ${(props) => props.theme.palette.gray[900]};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   border-radius: 4px;
   padding: 16px 16px 32px;
   display: flex;
@@ -599,7 +599,7 @@ const TabPanelCustom = styled(TabPanel)`
 `;
 const SaleBox = styled(Box)`
   padding: 16px;
-  background-color: ${(props) => props.theme.palette.gray[900]};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   border-radius: 4px;
   display: flex;
   flex-direction: column;

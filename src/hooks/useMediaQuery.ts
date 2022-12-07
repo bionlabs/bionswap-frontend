@@ -4,13 +4,13 @@ import {
 } from '@mui/material'
 
 const useMediaQuery = () => {
-    const isXs = muiUseMediaQuery('(max-width:599px)');
-    const isSm = muiUseMediaQuery('(max-width:899px)');
-    const isMd = muiUseMediaQuery('(max-width:1199px)'); 
+    const isMobile = muiUseMediaQuery('(max-width:599px)');
+    const isTablet = muiUseMediaQuery('(max-width:899px)');
+    const isDesktop = muiUseMediaQuery('(max-width:1199px)'); 
     return {
-        isXs,
-        isSm,
-        isMd
+        isMobile,
+        isTablet,
+        isDesktop
     }
 }
 

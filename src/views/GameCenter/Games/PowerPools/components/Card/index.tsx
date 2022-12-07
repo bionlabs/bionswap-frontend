@@ -183,7 +183,7 @@ const Card = ({ contract }: Props) => {
 
 const Wrapper = styled(Box)`
   border-radius: 12px;
-  background-color: ${(props) => props.theme.palette.gray[900]};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   width: 339px;
 `;
 const Divider = styled(Box)`

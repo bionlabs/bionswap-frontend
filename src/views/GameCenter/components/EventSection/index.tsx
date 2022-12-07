@@ -87,7 +87,7 @@ const WrapBox = styled(Box)`
   border: 1px solid;
   border-color: ${(props) => props.theme.palette.gray[700]};
   border-radius: 12px;
-  background-color: ${(props) => props.theme.palette.gray[900]};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   padding: 14px 24px 24px 14px;
   max-width: 315px;
   display: flex;
@@ -98,7 +98,7 @@ const Rank = styled(Box)`
   border: 1px solid;
   border-color: ${(props) => props.theme.palette.gray[700]};
   border-radius: 12px;
-  background-color: ${(props) => props.theme.palette.gray[900]};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   padding: 24px;
   display: flex;
 `;

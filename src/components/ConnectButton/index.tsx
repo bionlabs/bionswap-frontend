@@ -62,7 +62,7 @@ const ConnectButton = (props: Props) => {
         {!address ? (
           isTablet ?
           <ConnectWalletButtonMobile onClick={() => setOpenConnectorsModal(true)} variant="contained" fullWidth>
-            <Typography sx={{fontWeight: '500' , fontSize: '14px', color: 'inherit'}}>Connect Wallet</Typography>
+            <Typography sx={{fontSize: '14px', color: 'inherit'}}>Connect Wallet</Typography>
           </ConnectWalletButtonMobile>
           :
           <ConnectWalletButton onClick={() => setOpenConnectorsModal(true)} variant="contained" fullWidth>
@@ -75,28 +75,10 @@ const ConnectButton = (props: Props) => {
             variant="contained"
             fullWidth
           >
-            <Box p="5px 5px 5px 15px" width='40%'>
-              {balance ? `${balance.toFixed(3)} ${balance.currency.symbol}` : 'Loading...'}
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: '8px',
-                backgroundColor: 'darkGreen.700',
-                height: 'inherit',
-                padding: '5px 12px',
-                borderRadius: '4px',
-                transition: '.12s ease-in',
-                width:'60%'
-              }}
-            >
-              <Box>{shortenAddress(address ?? '')}</Box>
-              {activeConnector && (
-                <Image src={getConnectorIcon(activeConnector.id)} layout="fixed" alt="" width={20} height={20} />
-              )}
-            </Box>
+            <Typography fontSize='14px'>{shortenAddress(address ?? '')}</Typography>
+            {activeConnector && (
+              <Image src={getConnectorIcon(activeConnector.id)} layout="fixed" alt="" width={18} height={18} />
+            )}
           </ProfileButton>
         )}
       </Stack>
@@ -153,21 +135,15 @@ const ChainButton = styled(Button)`
 
 const ConnectWalletButton = styled(Button)`
   border-radius: 4px;
-  padding: 8.5px 48px;
   box-shadow: none;
   text-transform: none;
+  padding: 6px 25px;
   align-items: center;
-  height: 40px;
-  background-color: rgba(61, 255, 255, 0.1);
-  color: #07e0e0;
+  background-color: ${(props) => (props.theme.palette as any).extra.button.backgroundGreenOpacity};
+  color: ${(props) => props.theme.palette.primary.main};
   transition: 0.15s ease-in;
-  line-height: 1;
-  svg {
-    width: 20px;
-    height: 20px;
-  }
   :hover {
-    background-color: rgba(61, 255, 255, 0.2);
+    background-color: ${(props) => (props.theme.palette as any).extra.button.backgroundGreenOpacity};
     box-shadow: none;
   }
 `;
@@ -195,26 +171,17 @@ const ConnectWalletButtonMobile = styled(Button)`
 const ProfileButton = styled(Button)`
   border-radius: 4px;
   min-width: fit-content;
-  // padding: 5px 5px 5px 12px;
-  height: 40px;
-  padding: 0;
+  padding: 6px 20px 6px 25px;
   box-shadow: none;
   text-transform: none;
   font-family: inherit;
-  font-weight: 500;
-  align-items: center;
-  background-color: ${props => props.theme.palette.background.default};
+  background-color: ${props => (props.theme.palette as any).extra.card.light};
   color: ${props => props.theme.palette.text.primary};
-  transition: 0.15s ease-in;
+  transition: 0.12s ease-in;
+  gap: 10px;
   line-height: 1;
-  gap: 8px;
-  border: 1px solid ${props => props.theme.palette.darkGreen[700]};
-  svg {
-    width: 20px;
-    height: 20px;
-  }
   :hover {
-    background-color: ${props => props.theme.palette.darkGreen[700]};
+    background-color: ${props => (props.theme.palette as any).extra.card.hover};
     box-shadow: none;
   }
 `;

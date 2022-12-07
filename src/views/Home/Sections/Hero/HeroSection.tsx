@@ -13,63 +13,7 @@ const HeroSection = ({ isMobile, isTablet }: HeroSectionProps) => {
   const router = useRouter();
   return (
     <Wrapper>
-      <video loop muted autoPlay>
-        <source src="/videos/H3.webm" type="video/webm" />
-        <source src="/videos/H3.mp4" type="video/mp4" />
-      </video>
-      <FlexBox flexDirection={isMobile ? 'column' : 'row'}>
-        <Box display="flex" width={isTablet ? '100%' : '50%'} p={isMobile ? '4rem 16px' : '8rem'}>
-          <WrapContentArea>
-            <FlexBox gap="20px">
-              <Image src="/icons/home/code_symbol.svg" alt="code_symbol" width={37} height={25} />
-              <Typography variant="subtitle1" sx={{ color: "gray.400" }}>
-                the next-gen decentralize
-              </Typography>
-            </FlexBox>
-            <WrapHeroHead>
-              <Typography variant="h1">
-                Think Different, Think{' '}
-                <span style={{ color: '#07E0E0', fontSize: 'inherit', fontWeight: 'inherit' }}>Bion</span>
-              </Typography>
-            </WrapHeroHead>
-            <WrapHeroContent>
-              <Typography variant="h6" sx={{ color: "gray.300" }}>
-              BionSwap is a platform that allows Project Owners to self-launch their projects and  a Multichain Decentralize Exchange where users can trade tokens in the most optimal way
-              </Typography>
-            </WrapHeroContent>
-            <FlexBox gap="28px">
-              <Box maxWidth="218px" width="100%">
-                <PrimaryButton
-                  label="Trade now"
-                  href="/swap"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    router.push('/swap');
-                  }}
-                />
-              </Box>
-              <Box maxWidth="218px" width="100%">
-                <PrimaryButton
-                  variant="outlined"
-                  label="Learn more"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.open('https://docs.bionswap.com');
-                  }}
-                />
-              </Box>
-            </FlexBox>
-          </WrapContentArea>
-        </Box>
-        {/* {!isTablet && (
-          <FlexBox width="50%" justifyContent="end" position="relative">
-            <WrapGlassArea />
-            <PillBox>
-              <img src="images/home/pill.png" alt="" width="230px" />
-            </PillBox>
-          </FlexBox>
-        )} */}
-      </FlexBox>
+      
     </Wrapper>
   );
 };

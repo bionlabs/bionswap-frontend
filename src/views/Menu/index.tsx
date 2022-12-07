@@ -1,15 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import React , {useState} from 'react'
+import React , {useState , useEffect} from 'react'
 import {
     Box,
     Button,
     Drawer,
     IconButton,
-    useMediaQuery,
     styled,
-    Menu as MuiMenu,
-    MenuProps,
-    MenuItem,
     Typography
 } from '@mui/material'
 import {HiMenu , HiX , HiMenuAlt3} from 'react-icons/hi'
@@ -24,13 +20,14 @@ import { useChain, useSwitchNetwork } from 'hooks'
 import { CHAIN_INFO_MAP } from 'configs/chain'
 import { ChainId } from '@bionswap/core-sdk'
 import ChainSelect from 'components/ConnectButton/ChainSelect'
+import MobileMenu from './MobileMenu'
+import useOnScroll from 'hooks/useOnScroll'
+import useMediaQuery from 'hooks/useMediaQuery'
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right'
 
 const Menu = ({ children }: any) => {
-    const isMobile = useMediaQuery('(max-width:700px)');
-    const isTablet = useMediaQuery('(max-width:900px)');
-    const isDesktop = useMediaQuery('(max-width:1280px)');
+    const {isMobile , isTablet , isDesktop} = useMediaQuery();
 
     const router = useRouter()
     const [state, setState] = React.useState({
@@ -40,13 +37,13 @@ const Menu = ({ children }: any) => {
         right: false,
       })
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-    setAnchorEl(null);
-    };
+    // const open = Boolean(anchorEl);
+    // const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    // setAnchorEl(event.currentTarget);
+    // };
+    // const handleClose = () => {
+    // setAnchorEl(null);
+    // };
 
 
     const toggleDrawer = (anchor: Anchor, open: boolean) =>
@@ -61,56 +58,21 @@ const Menu = ({ children }: any) => {
         setState({ ...state, [anchor]: open });
     }
 
-    const { switchNetwork } = useSwitchNetwork({})
-    const {chainId , isConnected} = useChain()
+    // const { switchNetwork } = useSwitchNetwork({})
+    // const {chainId , isConnected} = useChain()
+    const scrollDir = useOnScroll();
 
-    const list = (anchor: Anchor) => (
-        <Box sx={{ 
-            width: anchor === 'top' || anchor === 'bottom' ? 'auto' : '350px', 
-            minHeight:'100vh', 
-            backgroundColor: theme => theme.palette.gray[900],
-            borderBottom: '1px solid #424242', 
-            paddingTop: `${MENU_HEIGHT + 20}px`
-        }}
-        >
-          <FlexBox flexDirection='column' width='100%'>
-            <FlexBox flexDirection='column' onClick={toggleDrawer(anchor, false)}>
-                {
-                    menuConfig.map(item =>
-                        <Box 
-                            key=''
-                            component="a"
-                            href={item.href}
-                            sx={{
-                                color: "gray.400",
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '10px',
-                                padding: '16px 24px',
-                                '&.active': {
-                                    color: "primary.main",
-                                }
-                            }}
-                            className={router.pathname == item.href ? "active" : ""}
-                            onClick={(e:any) => {
-                                e.preventDefault();
-                                if(item.newWindow) window.open(item.href);
-                                else router.push(item.href);
-                            }}
-                        >
-                            {item.label}
-                        </Box>
-                    )
-                }
-            </FlexBox>
-          </FlexBox>
-        </Box>
-      );
+    
 
     return (
         <>
             <MenuContainer>
-                <StyledContained>
+                <StyledContained
+                    sx={{
+                        backgroundColor: scrollDir > 10 ? theme => (theme.palette as any).background.default : 'transparent',
+                        boxShadow: scrollDir > 10 ? 'rgba(149, 157, 165, 0.2) 0px 8px 24px' : 'none',
+                    }}
+                >
                     <FlexBox alignItems='center' gap='42px'>
                         <Box sx={{cursor: 'pointer'}}>
                             {
@@ -125,28 +87,28 @@ const Menu = ({ children }: any) => {
                             }
                         </Box>
                         {
-                            !isDesktop &&
+                            !isTablet &&
                             <Box alignItems="center" display="flex" gap={0}>
                                 {
-                                    menuConfig.slice(0, 4).map(item =>
+                                    menuConfig.map(item =>
                                         <Box 
                                             key=''
                                             component="a"
                                             href={item.href}
                                             sx={{
-                                                color: "gray.400",
+                                                color: "text.secondary",
                                                 fontSize: '14px',
-                                                transition: '.15s ease-in',
+                                                transition: '.12s ease-in',
                                                 padding: '8px 15px',
                                                 borderRadius: '4px',
                                                 backgroundColor: 'transparent',
                                                 ':hover': {
-                                                    backgroundColor: 'rgba(61, 255, 255, 0.1)',
+                                                    backgroundColor: theme => (theme.palette as any).extra.button.backgroundGreenOpacity,
                                                     color: "primary.main",
                                                 },
                                                 '&.active': {
                                                     color: "primary.main",
-                                                    backgroundColor: 'rgba(61, 255, 255, 0.1)'
+                                                    backgroundColor: theme => (theme.palette as any).extra.button.backgroundGreenOpacity
                                                 }
                                             }}
                                             onClick={(e:any) => {
@@ -160,79 +122,12 @@ const Menu = ({ children }: any) => {
                                         </Box>
                                     )
                                 }
-                                {
-                                    menuConfig.length > 4 &&
-                                    <IconButton 
-                                        sx={{
-                                            color: theme => theme.palette.gray[400],
-                                        }}
-                                        onClick={handleClick}
-                                    >
-                                        <BsThreeDots/>
-                                    </IconButton>
-                                }
-                                
-                                <MuiMenu
-                                    anchorEl={anchorEl}
-                                    open={open}
-                                    onClose={handleClose}
-                                    sx={{
-                                        '.MuiPaper-root': {
-                                            backgroundColor: '#081319!important',
-                                            border: "1px solid #424242", borderRadius: '8px',
-                                            minWidth: '200px'
-                                        }
-                                    }}
-                                >
-                                    {
-                                        menuConfig.slice(4, menuConfig.length).map(item =>
-                                            <MenuItem 
-                                                key=''
-                                                component="a"
-                                                href={item.href}
-                                                sx={{
-                                                    color: "gray.400",
-                                                    fontWeight: '500',
-                                                    fontSize: '16px',
-                                                    padding: '10px 20px',
-                                                    transition: '.15s ease-in',
-                                                    ':hover': {
-                                                        color: 'primary.main',
-                                                    },
-                                                    '&.active': {
-                                                        color: "primary.main",
-                                                    }
-                                                }}
-                                                onClick={(e:any) => {
-                                                    e.preventDefault();
-                                                    if(item.newWindow) window.open(item.href);
-                                                    else router.push(item.href);
-                                                    handleClose();
-                                                }}
-                                                className={router.pathname == item.href ? "active" : ""}
-                                                disableRipple
-                                            >
-                                                {item.label}
-                                            </MenuItem>
-                                        )
-                                    }
-                                </MuiMenu>
                             </Box>
                         }
                     </FlexBox>
                     <FlexBox gap='16px'>
                         {isMobile ?
                             <>
-                                <LaunchpadButton
-                                    variant='contained'
-                                    href='/launch'
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        router.push('/launch')
-                                    }}
-                                >
-                                    <TiPlus/>
-                                </LaunchpadButton>
                                 <ChainSelect/>
                                 <IconButton onClick={toggleDrawer('top', !state.top)} 
                                     sx={{
@@ -245,45 +140,6 @@ const Menu = ({ children }: any) => {
                             :
                             isTablet ?
                                 <>
-                                    <LaunchpadButton
-                                        variant='contained'
-                                        href='/launch'
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            router.push('/launch')
-                                        }}
-                                    >
-                                        <TiPlus/>
-                                    </LaunchpadButton>
-                                    <ChainSelect/>
-                                    <ConnectButton/>
-                                    <IconButton onClick={toggleDrawer('top', !state.top)} 
-                                        sx={{
-                                            color:'#fff',
-                                        }}
-                                    >
-                                        {!state.top ? <HiMenu/> : <IoClose/>}
-                                    </IconButton>
-                                </>
-                            :
-                            isDesktop ?
-                                <>
-                                    <LaunchpadButton
-                                        variant='contained'
-                                        sx={{
-                                            'svg':{
-                                                width: '15px',
-                                                height: '15px'
-                                            }
-                                        }}
-                                        href='/launch'
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            router.push('/launch')
-                                        }}
-                                    >
-                                        Launch <TiPlus/>
-                                    </LaunchpadButton>
                                     <ChainSelect/>
                                     <ConnectButton/>
                                     <IconButton onClick={toggleDrawer('top', !state.top)} 
@@ -296,22 +152,6 @@ const Menu = ({ children }: any) => {
                                 </>
                             :
                                 <>
-                                    <LaunchpadButton
-                                        variant='contained'
-                                        sx={{
-                                            'svg':{
-                                                width: '15px',
-                                                height: '15px'
-                                            }
-                                        }}
-                                        href='/launch'
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            router.push('/launch')
-                                        }}
-                                    >
-                                        Launch <TiPlus/>
-                                    </LaunchpadButton>
                                     <ChainSelect/>
                                     <ConnectButton/>
                                 </>
@@ -329,7 +169,10 @@ const Menu = ({ children }: any) => {
                     open={state['top']}
                     onClose={toggleDrawer('top', false)}
                 >
-                    {list('top')}
+                    <MobileMenu
+                        anchor='top'
+                        toggleDrawer={toggleDrawer}
+                    />
                 </Drawer>
             </MenuContainer>
             <Box>
@@ -340,19 +183,20 @@ const Menu = ({ children }: any) => {
 }
 
 const MenuContainer = styled(Box)`
-    position: relative;
+    position: fixed;
     z-index: ${(prop) => prop.theme.zIndex.drawer + 1};
+    top: 0;
+    left: 0;
     width: 100%;
 `
 const StyledContained = styled(Box)`
-    padding: 0 16px;
+    padding: 0 24px;
     display: flex;
     width: 100%;
     height: ${MENU_HEIGHT}px;
     align-items: center;
     justify-content: space-between;
-    background-color: ${props => props.theme.palette.gray[900]};
-    border-bottom: 1px solid ${props => props.theme.palette.gray[700]};
+    // background-color: ${props => (props.theme.palette as any).extra.card.background};
 `
 const FlexBox = styled(Box)`
     display: flex;
@@ -381,7 +225,7 @@ const BottomContainer = styled(Box)`
   left: 0;
   z-index: ${(prop) => prop.theme.zIndex.drawer + 1};
   width: 100%;
-  background-color: ${props => props.theme.palette.gray[900]};
+  background-color: ${props => (props.theme.palette as any).extra.card.background};
   color: ${props => props.theme.palette.text.primary};
   padding: 16px;
   border-top: 1px solid ${props => props.theme.palette.gray[700]};

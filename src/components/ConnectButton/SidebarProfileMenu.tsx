@@ -25,10 +25,8 @@ const SidebarProfileMenu = ({ toggleDrawer, address, balance }: any) => {
 
   const Wrapper = styled(Box)`
     width: 350px;
-    padding-top: ${chainId !== 97 && (router.pathname == '/launchpad' || router.pathname == '/launch')
-      ? MENU_HEIGHT + 58
-      : MENU_HEIGHT}px;
-    background-color: ${props => props.theme.palette.gray[900]};
+    padding-top: ${MENU_HEIGHT}px;
+    background-color: ${props => (props.theme.palette as any).extra.card.background};
     border-left: 1px solid ${props => props.theme.palette.gray[700]};
     height: 100vh;
   `;
@@ -161,7 +159,7 @@ const WalletBox = styled(Box)`
   width: 100%;
   border-radius: 16px;
   border: 1px solid ${(prop) => prop.theme.palette.gray[700]};
-  background: ${(prop) => prop.theme.palette.gray[900]};
+  background: ${(prop) => (prop.theme.palette as any).extra.card.background};
   margin-top: 30px;
   .inside {
     border-bottom: 1px solid ${(prop) => prop.theme.palette.gray[700]};
@@ -192,11 +190,11 @@ const Card = styled(Box)`
   z-index: 2;
   margin-top: -30px;
   height: 80px;
-  color: ${(prop) => prop.theme.palette.text.secondary};
+  color: ${(prop) => prop.theme.palette.text.primary};
   padding: 15px 10px;
 `;
 const BuyCryptoButton = styled(Button)`
-  background: ${(prop) => prop.theme.palette.gray[900]};
+  background: ${(prop) => (prop.theme.palette as any).extra.card.background};
   border-radius: 4px;
   border: 1px solid ${(prop) => prop.theme.palette.gray[700]};
   width: 100%;
@@ -205,7 +203,7 @@ const BuyCryptoButton = styled(Button)`
   font-weight: 300;
   font-size: 13px;
   :hover {
-    background: ${(prop) => prop.theme.palette.gray[900]};
+    background: ${(prop) => (prop.theme.palette as any).extra.card.background};
     opacity: 0.8;
   }
 `;

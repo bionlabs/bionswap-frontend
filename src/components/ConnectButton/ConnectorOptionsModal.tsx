@@ -150,7 +150,7 @@ function ConnectorOptionsModal({ onConnectorSelected, onConnectorConnected, onCl
 }
 
 const Wrapper = styled(Box)`
-  background: ${(props: any) => props.theme.palette.gray[900]};
+  background: ${(props: any) => (props.theme.palette as any).extra.card.background};
   border: 2px solid #014959;
 `;
 

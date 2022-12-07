@@ -4,7 +4,7 @@ import {IoDocumentText} from 'react-icons/io5'
 import {FaCoins , FaTwitter , FaDiscord , FaGithub, FaTelegram} from 'react-icons/fa'
 import {HiChartBar} from 'react-icons/hi'
 
-export const MENU_HEIGHT = 78;
+export const MENU_HEIGHT = 62;
 
 export const menuConfig = [
     {

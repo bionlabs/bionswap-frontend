@@ -1,5 +1,5 @@
 import SettingsIcon from "@mui/icons-material/Settings";
-import { IconButton, OutlinedInput, Popover, Stack, Typography } from "@mui/material";
+import { Box, IconButton, OutlinedInput, Popover, Stack, Typography } from "@mui/material";
 import { Switch } from "components";
 import PrimaryButton from "components/PrimaryButton";
 import { DEFAULT_DEADLINE_FROM_NOW } from "constants/common";
@@ -55,12 +55,17 @@ const TransactionSettings = (props: Props) => {
           horizontal: "right",
         }}
       >
-        <Stack width={380} bgcolor="gray.900" px="15px" py="25px" borderRadius="8px" gap={1} sx={{
-              border:'1px solid',
-              borderColor: 'gray.700',
-              boxShadow: '0px 4px 11px #000000',
+        <Stack width={380} px="15px" py="25px" borderRadius="8px" gap={1} sx={{
+            // backgroundColor: theme => (theme.palette as any).extra.card.background
+            border: theme => `1px solid ${(theme.palette as any).extra.card.divider}`,
+            borderRadius: '12px'
         }}>
-          <Stack width="100%" alignItems="start" borderRadius="8px" sx={{ border: "1px solid rgba(32,34,49,.6)", p: 1 }}>
+          <Stack width="100%" alignItems="start" borderRadius="8px"
+            sx={{ 
+              border: theme => `1px solid ${(theme.palette as any).extra.card.divider}`,
+              p: 1.5
+            }}
+          >
             <Typography variant="body3Poppins">Transaction Settings</Typography>
 
             <Stack alignItems="start" width="100%" gap={1} mt={1}>
@@ -70,9 +75,9 @@ const TransactionSettings = (props: Props) => {
               <Stack direction="row" gap={1} width="100%">
                 <PrimaryButton
                   label="Auto"
-                  labelSx={{ fontWeight: 600 }}
+                  labelSx={{ fontWeight: 500 }}
                   variant={slippageIsDefault ? "contained" : "outlined"}
-                  sx={{ px: "23px", py: "5px", width: "auto", borderRadius: "8px" }}
+                  sx={{ px: "20px", py: "5px", width: "auto", borderRadius: "8px" }}
                   onClick={() => setUserSlippageTolerance(V2_SWAP_DEFAULT_SLIPPAGE.toFixed(2))}
                 />
                 <OutlinedInput
@@ -92,7 +97,7 @@ const TransactionSettings = (props: Props) => {
                       py: "9px",
                     },
                     height: "100%",
-                    bgcolor: "background.default",
+                    bgcolor: theme => (theme.palette as any).extra.card.light,
                     borderRadius: "8px",
                   }}
                   inputProps={{
@@ -125,7 +130,7 @@ const TransactionSettings = (props: Props) => {
                       py: "9px",
                     },
                     height: "100%",
-                    bgcolor: "background.default",
+                    bgcolor: theme => (theme.palette as any).extra.card.light,
                     borderRadius: "8px",
                     width: "30%",
                   }}
@@ -139,7 +144,12 @@ const TransactionSettings = (props: Props) => {
               </Stack>
             </Stack>
           </Stack>
-          <Stack width="100%" alignItems="start" borderRadius="8px" sx={{ border: "1px solid rgba(32,34,49,.6)", p: 1 }}>
+          <Stack width="100%" alignItems="start" borderRadius="8px"
+            sx={{ 
+              border: theme => `1px solid ${(theme.palette as any).extra.card.divider}`,
+              p: 1.5
+            }}
+          >
             <Typography variant="body3Poppins">Interface Settings</Typography>
 
             <Stack width="100%">

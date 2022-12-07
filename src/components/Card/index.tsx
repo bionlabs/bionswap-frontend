@@ -223,7 +223,7 @@ const FlexBox = styled(Box)`
 `;
 const WrapBox = styled(Box)`
   border-radius: 8px;
-  background: ${(props) => props.theme.palette.gray[900]};
+  background: ${(props) => (props.theme.palette as any).extra.card.background};
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -237,7 +237,7 @@ const WrapBox = styled(Box)`
   }
 `;
 const WrapLogo = styled(Box)`
-  border: 2.75px solid ${(props) => props.theme.palette.gray[900]};
+  border: 2.75px solid ${(props) => (props.theme.palette as any).extra.card.background};
   background-color: ${(props) => props.theme.palette.background.default};
   border-radius: 8px;
   position: relative;

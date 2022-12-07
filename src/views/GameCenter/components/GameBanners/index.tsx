@@ -57,12 +57,12 @@ const configs = [
 ];
 
 const GameBanners = () => {
-  const { isXs, isSm } = useMediaQuery();
+  const { isMobile, isTablet } = useMediaQuery();
 
   return (
     <WrapBox>
       <Container maxWidth="xl">
-        <Swiper spaceBetween={22} slidesPerView={isSm ? 1 : 2}>
+        <Swiper spaceBetween={22} slidesPerView={isTablet ? 1 : 2}>
           {configs?.map((item: any) => (
             <SwiperSlide key={item?.id}>
               <WrapBanner
