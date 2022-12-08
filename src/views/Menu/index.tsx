@@ -6,7 +6,9 @@ import {
     Drawer,
     IconButton,
     styled,
-    Typography
+    Typography,
+    Stack,
+    SvgIcon
 } from '@mui/material'
 import {HiMenu , HiX , HiMenuAlt3} from 'react-icons/hi'
 import {IoClose} from 'react-icons/io5'
@@ -16,18 +18,22 @@ import { menuConfig, MENU_HEIGHT } from 'configs/menu/config'
 import { useRouter } from 'next/router'
 import { ConnectButton } from 'components'
 import Link from 'next/link'
-import { useChain, useSwitchNetwork } from 'hooks'
+import { useChain, useDarkMode, useSwitchNetwork } from 'hooks'
 import { CHAIN_INFO_MAP } from 'configs/chain'
 import { ChainId } from '@bionswap/core-sdk'
 import ChainSelect from 'components/ConnectButton/ChainSelect'
 import MobileMenu from './MobileMenu'
 import useOnScroll from 'hooks/useOnScroll'
 import useMediaQuery from 'hooks/useMediaQuery'
+import { MdDarkMode, MdLightMode } from "react-icons/md";
+import AntSwitch from 'components/AntSwitch'
+
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right'
 
 const Menu = ({ children }: any) => {
     const {isMobile , isTablet , isDesktop} = useMediaQuery();
+    const { darkMode, toggleDarkMode } = useDarkMode();
 
     const router = useRouter()
     const [state, setState] = React.useState({
@@ -69,22 +75,15 @@ const Menu = ({ children }: any) => {
             <MenuContainer>
                 <StyledContained
                     sx={{
-                        backgroundColor: scrollDir > 10 ? theme => (theme.palette as any).background.default : 'transparent',
-                        boxShadow: scrollDir > 10 ? 'rgba(149, 157, 165, 0.2) 0px 8px 24px' : 'none',
+                        backgroundColor: (scrollDir > 10 || isMobile) ? theme => (theme.palette as any).background.default : 'transparent',
+                        borderBottom: isMobile ? theme => `1px solid ${(theme.palette as any).extra.card.divider}` : 'none'
                     }}
                 >
                     <FlexBox alignItems='center' gap='42px'>
                         <Box sx={{cursor: 'pointer'}}>
-                            {
-                                isMobile ?
-                                <Link href='/'>
-                                    <img src='/logo.png' alt='BionSwap' width='40px' />
-                                </Link>
-                                :
-                                <Link href='/'>
-                                    <img src='/alpha.svg' alt='BionSwap' width='auto' />
-                                </Link>
-                            }
+                            <Link href='/'>
+                                <img src='/alpha.svg' alt='BionSwap' width='auto' />
+                            </Link>
                         </Box>
                         {
                             !isTablet &&
@@ -128,10 +127,18 @@ const Menu = ({ children }: any) => {
                     <FlexBox gap='16px'>
                         {isMobile ?
                             <>
-                                <ChainSelect/>
+                                <Stack direction="row" spacing={1} sx={{color: 'text.primary'}}>
+                                    <MdLightMode />
+                                    <AntSwitch
+                                        defaultChecked
+                                        checked={darkMode}
+                                        onChange={toggleDarkMode}
+                                    />
+                                    <MdDarkMode/>
+                                </Stack>
                                 <IconButton onClick={toggleDrawer('top', !state.top)} 
                                     sx={{
-                                        color:'#fff',
+                                        color:'text.primary',
                                     }}
                                 >
                                     {!state.top ? <HiMenu/> : <IoClose/>}
@@ -140,8 +147,17 @@ const Menu = ({ children }: any) => {
                             :
                             isTablet ?
                                 <>
-                                    <ChainSelect/>
+                                    <Stack direction="row" spacing={1} sx={{color: 'text.primary'}}>
+                                        <MdLightMode />
+                                        <AntSwitch
+                                            defaultChecked
+                                            checked={darkMode}
+                                            onChange={toggleDarkMode}
+                                        />
+                                        <MdDarkMode/>
+                                    </Stack>
                                     <ConnectButton/>
+                                    <ChainSelect/>
                                     <IconButton onClick={toggleDrawer('top', !state.top)} 
                                         sx={{
                                             color:'#fff',
@@ -152,8 +168,17 @@ const Menu = ({ children }: any) => {
                                 </>
                             :
                                 <>
-                                    <ChainSelect/>
+                                    <Stack direction="row" spacing={1} sx={{color: 'text.primary'}}>
+                                        <MdLightMode />
+                                        <AntSwitch
+                                            defaultChecked
+                                            checked={darkMode}
+                                            onChange={toggleDarkMode}
+                                        />
+                                        <MdDarkMode/>
+                                    </Stack>
                                     <ConnectButton/>
+                                    <ChainSelect/>
                                 </>
                         }
                     </FlexBox>
@@ -161,7 +186,10 @@ const Menu = ({ children }: any) => {
                 {
                     isMobile &&
                     <BottomContainer>
-                        <ConnectButton/>
+                        <Stack direction='row' spacing={1}>
+                            <ChainSelect/>
+                            <ConnectButton/>
+                        </Stack>
                     </BottomContainer>
                 }
                 <Drawer
@@ -196,7 +224,6 @@ const StyledContained = styled(Box)`
     height: ${MENU_HEIGHT}px;
     align-items: center;
     justify-content: space-between;
-    // background-color: ${props => (props.theme.palette as any).extra.card.background};
 `
 const FlexBox = styled(Box)`
     display: flex;
@@ -225,10 +252,10 @@ const BottomContainer = styled(Box)`
   left: 0;
   z-index: ${(prop) => prop.theme.zIndex.drawer + 1};
   width: 100%;
-  background-color: ${props => (props.theme.palette as any).extra.card.background};
+  background-color: ${props => (props.theme.palette as any).background.default};
   color: ${props => props.theme.palette.text.primary};
-  padding: 16px;
-  border-top: 1px solid ${props => props.theme.palette.gray[700]};
+  padding: 16px 24px;
+  border-top: 1px solid ${props => (props.theme.palette as any).extra.card.divider}};
 `
 
 export default Menu
