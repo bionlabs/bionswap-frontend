@@ -27,7 +27,7 @@ const SidebarProfileMenu = ({ toggleDrawer, address, balance }: any) => {
     width: 350px;
     padding-top: ${MENU_HEIGHT}px;
     background-color: ${props => (props.theme.palette as any).extra.card.background};
-    border-left: 1px solid ${props => props.theme.palette.gray[700]};
+    border-left: 1px solid ${props => (props.theme.palette as any).extra.card.divider};
     height: 100vh;
   `;
 
@@ -141,7 +141,7 @@ const DisconnectButton = styled(Button)`
   }
 `;
 const Item = styled(Button)`
-  color: ${(prop) => prop.theme.palette.gray[600]};
+  color: ${(prop) => prop.theme.palette.text.secondary};
   transition: 0.12s ease-in;
   justify-content: start;
   padding: 12.5px 16px;
@@ -158,11 +158,11 @@ const Item = styled(Button)`
 const WalletBox = styled(Box)`
   width: 100%;
   border-radius: 16px;
-  border: 1px solid ${(prop) => prop.theme.palette.gray[700]};
+  border: 1px solid ${props => (props.theme.palette as any).extra.card.divider};
   background: ${(prop) => (prop.theme.palette as any).extra.card.background};
   margin-top: 30px;
   .inside {
-    border-bottom: 1px solid ${(prop) => prop.theme.palette.gray[700]};
+    border-bottom: 1px solid ${props => (props.theme.palette as any).extra.card.divider};
     padding: 0 15px;
     // :before {
     //     content: "";
@@ -171,7 +171,7 @@ const WalletBox = styled(Box)`
     //     top: 0;
     //     width: 100%;
     //     height: 40%;
-    //     border-bottom: 1px solid ${(prop) => prop.theme.palette.gray[700]};
+    //     border-bottom: 1px solid ${props => (props.theme.palette as any).extra.card.divider};
     //     border-bottom-left-radius: 50%;
     //     border-bottom-right-radius: 50%;
     // }
@@ -196,7 +196,7 @@ const Card = styled(Box)`
 const BuyCryptoButton = styled(Button)`
   background: ${(prop) => (prop.theme.palette as any).extra.card.background};
   border-radius: 4px;
-  border: 1px solid ${(prop) => prop.theme.palette.gray[700]};
+  border: 1px solid ${props => (props.theme.palette as any).extra.card.divider};
   width: 100%;
   color: ${(prop) => prop.theme.palette.text.primary};
   justify-content: space-between;

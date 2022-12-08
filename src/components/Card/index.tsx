@@ -281,7 +281,7 @@ const Line = styled(Box)`
   width: 95%;
   height: 1px;
   margin: auto;
-  background-color: ${(props) => props.theme.palette.gray[800]}; ;
+  background-color: ${(props) => props.theme.palette.background.default};
 `;
 const Tag = styled(Box)`
   border-radius: 4px;

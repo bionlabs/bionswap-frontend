@@ -7,6 +7,7 @@ import {
   useAllTokens,
   useChain,
   useCurrency,
+  useDarkMode,
   useEnsAddress,
   useIsSwapUnsupported,
   useSwapCallback,
@@ -469,13 +470,16 @@ const Swap = ({}: SwapProps) => {
     wrapType,
   ]);
 
+  const { darkMode } = useDarkMode();
+
   return (
     <Page
       sx={{
         backgroundImage: "url('/images/stackbg.png')",
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
-        objectFit: 'cover'
+        objectFit: 'cover',
+        backgroundColor: darkMode ? null : theme => (theme.palette as any).extra.background.alt
       }}
     >
       <Container maxWidth="xl">

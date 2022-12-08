@@ -1,5 +1,6 @@
-import { Box, Button, Drawer, Stack, styled, useMediaQuery , Typography } from '@mui/material';
+import { Box, Button, Drawer, Stack, styled , Typography } from '@mui/material';
 import { useAccount, useChain, useNativeCurrencyBalances } from 'hooks';
+import useMediaQuery from 'hooks/useMediaQuery';
 import Image from 'next/image';
 import { useState } from 'react';
 import { getConnectorIcon } from 'utils/connectors';
@@ -9,11 +10,13 @@ import ChainOptionsModal from './ChainOptionsModal';
 import ChainSelect from './ChainSelect';
 import ConnectorOptionsModal from './ConnectorOptionsModal';
 import SidebarProfileMenu from './SidebarProfileMenu';
+import {RiWallet3Fill} from 'react-icons/ri'
+import { useRouter } from 'next/router';
 
 type Props = {};
 
 const ConnectButton = (props: Props) => {
-  const isTablet = useMediaQuery('(max-width:900px)');
+  const {isTablet} = useMediaQuery();
   const [openConnectorsModal, setOpenConnectorsModal] = useState(false);
   const [openChainsModal, setOpenChainsModal] = useState(false);
   const [openProfileModal, setOpenProfileModal] = useState(false);
@@ -21,6 +24,7 @@ const ConnectButton = (props: Props) => {
   const { chainId } = useChain();
   const { address, connector: activeConnector } = useAccount();
   const balance = useNativeCurrencyBalances(address ? [address] : [])?.[address ?? ''];
+  const router = useRouter()
 
   const [profileSlide, setProfileSlide] = useState(false);
 
@@ -57,31 +61,31 @@ const ConnectButton = (props: Props) => {
 
   return (
     <>
-      <Stack direction='row' gap={2}>
-        {/* <ChainSelect /> */}
-        {!address ? (
-          isTablet ?
-          <ConnectWalletButtonMobile onClick={() => setOpenConnectorsModal(true)} variant="contained" fullWidth>
-            <Typography sx={{fontSize: '14px', color: 'inherit'}}>Connect Wallet</Typography>
-          </ConnectWalletButtonMobile>
-          :
-          <ConnectWalletButton onClick={() => setOpenConnectorsModal(true)} variant="contained" fullWidth>
-            <Typography sx={{fontSize: '14px', color: 'inherit'}}>Connect Wallet</Typography>
-          </ConnectWalletButton>
-        ) : (
-          <ProfileButton
-            // onClick={() => setOpenProfileModal(true)}
-            onClick={toggleDrawer(!profileSlide)}
-            variant="contained"
-            fullWidth
-          >
-            <Typography fontSize='14px'>{shortenAddress(address ?? '')}</Typography>
-            {activeConnector && (
-              <Image src={getConnectorIcon(activeConnector.id)} layout="fixed" alt="" width={18} height={18} />
-            )}
-          </ProfileButton>
-        )}
-      </Stack>
+      {!address ? (
+        <ConnectWalletButton onClick={() => setOpenConnectorsModal(true)} variant="contained" fullWidth>
+          <Typography sx={{fontSize: '14px', color: 'inherit', fontWeight: '500'}}>Connect Wallet</Typography>
+        </ConnectWalletButton>
+      ) : (
+        <ProfileButton
+          // onClick={() => setOpenProfileModal(true)}
+          // onClick={toggleDrawer(!profileSlide)}
+          href='/dashboard/overview'
+          onClick={(e) => {
+            e.preventDefault();
+            router.push('/dashboard/overview')
+          }}
+          variant="contained"
+          fullWidth
+        >
+          <Box>
+            <RiWallet3Fill/>
+          </Box>
+          <Typography fontSize='14px' fontWeight='500' color='inherit'>{shortenAddress(address ?? '')}</Typography>
+          {/* {activeConnector && (
+            <Image src={getConnectorIcon(activeConnector.id)} layout="fixed" alt="" width={18} height={18} />
+          )} */}
+        </ProfileButton>
+      )}
 
       {/* <ChainOptionsModal
         open={openChainsModal}
@@ -106,82 +110,37 @@ const ConnectButton = (props: Props) => {
   );
 };
 
-const ChainButton = styled(Button)`
-  border-radius: 4px;
-  min-width: fit-content;
-  padding: 8.5px 24px;
-  box-shadow: none;
-  min-height: 41px;
-  text-transform: none;
-  font-family: inherit;
-  font-weight: 500;
-  background-color: ${(prop) => prop.theme.palette.primary.dark};
-  align-items: center;
-  // border: 1px solid ${(prop) => (prop.theme.palette as any).warning.main};
-  border: 1px solid ${(prop) => (prop.theme.palette as any).gray[800]};
-  color: ${(prop) => prop.theme.palette.text.primary};
-  transition: 0.15s ease-in;
-  line-height: 1;
-  svg {
-    width: 12px;
-    height: 12px;
-  }
-  :hover {
-    // color: ${(prop) => prop.theme.palette.primary.main};
-    // border: 1.5px solid #066C6C;
-    background-color: ${(prop) => (prop.theme.palette as any).gray[800]};
-  }
-`;
+
 
 const ConnectWalletButton = styled(Button)`
   border-radius: 4px;
-  box-shadow: none;
   text-transform: none;
   padding: 6px 25px;
   align-items: center;
-  background-color: ${(props) => (props.theme.palette as any).extra.button.backgroundGreenOpacity};
-  color: ${(props) => props.theme.palette.primary.main};
-  transition: 0.15s ease-in;
+  border: 1.5px solid transparent;
+  background: ${(props) => (props.theme.palette as any).extra.button.linear};
+  color: ${(props) => props.theme.palette.background.default};
+  transition: 0.12s ease-in;
   :hover {
-    background-color: ${(props) => (props.theme.palette as any).extra.button.backgroundGreenOpacity};
+    background: ${(props) => (props.theme.palette as any).extra.button.linear};
+    color: ${(props) => props.theme.palette.background.default};
     box-shadow: none;
   }
 `;
 
-const ConnectWalletButtonMobile = styled(Button)`
-  border-radius: 4px;
-  min-width: fit-content;
-  padding: 8.5px 48px;
-  box-shadow: none;
-  text-transform: none;
-  align-items: center;
-  height: 40px;
-  background-color: ${props => props.theme.palette.primary.main};
-  transition: 0.15s ease-in;
-  line-height: 1;
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-  :hover {
-    background-color: ${props => props.theme.palette.primary.main};
-    box-shadow: none;
-  }
-`;
 const ProfileButton = styled(Button)`
   border-radius: 4px;
-  min-width: fit-content;
-  padding: 6px 20px 6px 25px;
-  box-shadow: none;
-  text-transform: none;
-  font-family: inherit;
-  background-color: ${props => (props.theme.palette as any).extra.card.light};
-  color: ${props => props.theme.palette.text.primary};
+  padding: 6px 20px;
+  min-height: 38px;
+  border: 1.5px solid transparent;
+  background-color: ${props => (props.theme.palette as any).extra.button.backgroundGreenOpacity};
+  color: ${props => props.theme.palette.primary.main};
   transition: 0.12s ease-in;
   gap: 10px;
   line-height: 1;
   :hover {
-    background-color: ${props => (props.theme.palette as any).extra.card.hover};
+    border-color: ${props => (props.theme.palette as any).extra.card.light};
+    background-color: ${props => (props.theme.palette as any).extra.button.backgroundGreenOpacity};
     box-shadow: none;
   }
 `;

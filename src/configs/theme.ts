@@ -113,12 +113,12 @@ export const lightPalette: ExtendedPaletteOptions = {
     light: "#9A6AFF"
   },
   background: {
-    default: "#F2F5FA",
+    default: "#FFFFFF",
     paper: "#FFFFFF",
   },
   text: {
     primary: "#121212",
-    // secondary: "#333",
+    secondary: "#4F5B67",
     disabled: "rgba(0, 0, 0, 0.38)",
   },
   success: {
@@ -133,16 +133,27 @@ export const lightPalette: ExtendedPaletteOptions = {
   extra: {
     card: {
       background: '#FFF',
-      light: '#F2F5FA',
-      hover: '#F9F9F9',
+      light: '#F1F1F1',
+      hover: '#EAEAEA',
       divider: 'rgba(255,255,255,.12)'
+    },
+    background: {
+      alt: '#F2F5FA'
     },
     button: {
       backgroundGreenOpacity: '#bff0e5',
-      lighter: 'rgba(255,255,255, .1)'
+      lighter: 'rgba(255,255,255, .1)',
+      linear: 'linear-gradient(93.49deg, #15D7A2 0.54%, #0AC6D6 100%)',
     },
     text: {
       linear: 'linear-gradient(133.2deg, #b33ee7 2.95%, #32c1ce 48.27%, #3cff5c 100%)'
+    },
+    walletModal: {
+      background: '#ffffff',
+      divider: '#ebebeb',
+      textPrimary: '#000A0D',
+      textSecondary: '#929292',
+      hover: '#f2f2f2b2'
     }
   }
 };
@@ -252,15 +263,26 @@ export const darkPalette: ExtendedPaletteOptions = {
     card: {
       background: '#0C1823',
       light: '#1B2332',
-      hover: '#222c3f',
+      hover: '#242e42',
       divider: 'rgba(255,255,255,.12)'
     },
     button: {
       backgroundGreenOpacity: 'rgba(7, 224, 224, 0.15)',
-      lighter: 'rgba(255,255,255, .1)'
+      lighter: 'rgba(255,255,255, .1)',
+      linear: 'linear-gradient(93.49deg, #15D7A2 0.54%, #0AC6D6 100%)',
+    },
+    background: {
+      alt: '#000A0D'
     },
     text: {
       linear: 'linear-gradient(133.2deg, #D184F3 2.95%, #87D3DA 48.27%, #8CF99E 100%)',
+    },
+    walletModal: {
+      background: '#ffffff',
+      divider: '#ebebeb',
+      textPrimary: '#000A0D',
+      textSecondary: '#929292',
+      hover: '#f2f2f2b2'
     }
   }
 };
@@ -363,10 +385,6 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       },
       body3Poppins: {
         fontSize: '16px',
-
-        '@media (max-width: 1199px)': {
-          fontSize: '.8rem',
-        },
       },
       body4Poppins: {
         fontSize: '14px',
@@ -385,7 +403,8 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       },
 
       button: {
-        fontStyle: 'italic',
+        // fontStyle: 'italic',
+        boxShadow: 'none'
       },
     },
     breakpoints: {
@@ -414,6 +433,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
             fontStyle: 'normal',
             '&:hover': {
               opacity: '0.9',
+              boxShadow: 'none',
             },
           },
         },

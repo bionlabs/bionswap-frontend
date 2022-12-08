@@ -14,7 +14,7 @@ import { useChain, useSwitchNetwork } from 'hooks';
 import { CHAIN_INFO_MAP } from 'configs/chain';
 import { getChainIcon } from "utils/chains";
 import Image from "next/image";
-import {RiArrowDownSLine} from 'react-icons/ri'
+import {HiChevronUpDown} from 'react-icons/hi2';
 
 
 const ChainSelect = () => {
@@ -35,7 +35,7 @@ const ChainSelect = () => {
                 variant='outlined'
                 value={chainId}
                 onChange={handleChange}
-                IconComponent={RiArrowDownSLine}
+                IconComponent={HiChevronUpDown}
             >
                 {Object.entries(CHAIN_INFO_MAP).map(([, chain]) => (
                     (chain.id !== 97) &&
@@ -101,15 +101,16 @@ const ChainSelect = () => {
 const StyledSelect = styled(Select)`
     .MuiSelect-select {
         padding: 6px 16px;
-        background: ${props => (props.theme.palette as any).extra.card.light};
         transition: .12s ease-in;
         border-radius: 4px;
+        border: 1.5px solid;
+        border-color: ${props => (props.theme.palette as any).extra.card.hover};
+        background-color: ${props => (props.theme.palette as any).extra.card.hover};
         :hover {
-            background: ${props => (props.theme.palette as any).extra.card.hover};
+            border-color: ${props => (props.theme.palette as any).primary.main};
         }
     }
     fieldset {
-        // border: 1px solid ${prop => (prop.theme.palette as any).gray[700]}!important;
         border: none;
     }
 `
