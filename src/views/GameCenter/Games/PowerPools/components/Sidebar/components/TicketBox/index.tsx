@@ -1,6 +1,8 @@
 import { Stack, Typography, Button, styled, Box } from '@mui/material';
 import Image from 'next/image';
 import SwapHorizontalCircleIcon from '@mui/icons-material/SwapHorizontalCircle';
+import PurchaseTicketModal from 'components/Modals/PurchaseTicketModal';
+import { useState } from 'react';
 
 interface TicketBoxProps {
   balanceAirdropTicket: number;
@@ -8,55 +10,62 @@ interface TicketBoxProps {
 }
 
 const TicketBox = ({ balanceAirdropTicket, balanceTicket }: TicketBoxProps) => {
+  const [open, setOpen] = useState(false);
+
   const configs = [
     {
       type: 0,
       balance: balanceTicket,
       label: `${balanceTicket > 1 ? 'Tickets' : 'Ticket'}`,
-      icon: '/images/Tickets.png'
+      icon: '/images/Tickets.png',
     },
     {
       type: 1,
       balance: balanceAirdropTicket,
       label: `${balanceTicket > 1 ? 'Airdrop tickets' : 'Airdrop ticket'}`,
-      icon: '/images/TicketsAirdrop.png'
+      icon: '/images/TicketsAirdrop.png',
     },
   ];
 
+  const toggleOpen = () => {
+    setOpen(!open)
+  }
+
   return (
-    <Stack width="100%" gap="20px">
-      {configs?.map((item: any, index: number) => (
-        <>
-        <TicketItem key={item.label}>
-          <Image src={item.icon} alt={item.label} width="80px" height="80px" />
-          <Stack alignItems="start">
-            <Typography variant="body3Poppins" fontWeight="400" color="background.paper">
-              You have:
-            </Typography>
-            <Stack direction="row" alignItems="baseline" gap="8px">
-              <Typography variant="h4Poppins" fontWeight="600" color="background.paper">
-                {item.balance}
-              </Typography>
-              <Typography variant="body2Poppins" fontWeight="600" color="yellow.500">
-                {item.label}
-              </Typography>
-            </Stack>
-          </Stack>
-        </TicketItem>
-        {
-            index !== configs?.length - 1 && <Divider />
-        }
-        </>
-      ))}
-      <PurchaseTicketButton variant="contained" fullWidth>
-        <Typography lineHeight='100%' color="primary.main">
-          <SwapHorizontalCircleIcon fontSize="inherit" color="inherit" />
-        </Typography>
-        <Typography variant="body3Poppins" fontWeight="500" color="primary.main">
-          Purchase Tickets
-        </Typography>
-      </PurchaseTicketButton>
-    </Stack>
+    <>
+      <Stack width="100%" gap="20px">
+        {configs?.map((item: any, index: number) => (
+          <>
+            <TicketItem key={item.label}>
+              <Image src={item.icon} alt={item.label} width="80px" height="80px" />
+              <Stack alignItems="start">
+                <Typography variant="body3Poppins" fontWeight="400" color="background.paper">
+                  You have:
+                </Typography>
+                <Stack direction="row" alignItems="baseline" gap="8px">
+                  <Typography variant="h4Poppins" fontWeight="600" color="background.paper">
+                    {item.balance}
+                  </Typography>
+                  <Typography variant="body2Poppins" fontWeight="600" color="yellow.500">
+                    {item.label}
+                  </Typography>
+                </Stack>
+              </Stack>
+            </TicketItem>
+            {index !== configs?.length - 1 && <Divider />}
+          </>
+        ))}
+        <PurchaseTicketButton variant="contained" fullWidth onClick={toggleOpen}>
+          <Typography lineHeight="100%" color="primary.main">
+            <SwapHorizontalCircleIcon fontSize="inherit" color="inherit" />
+          </Typography>
+          <Typography variant="body3Poppins" fontWeight="500" color="primary.main">
+            Purchase Tickets
+          </Typography>
+        </PurchaseTicketButton>
+      </Stack>
+      <PurchaseTicketModal open={open} onDismiss={toggleOpen} />
+    </>
   );
 };
 
