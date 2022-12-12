@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { styled, Box, Typography, Button } from '@mui/material';
+import { styled, Box, Typography, Button, Stack, Container, Skeleton } from '@mui/material';
 import { useAccount } from 'wagmi';
 import { shortenAddress } from 'utils/format';
 import Image from 'next/image';
@@ -8,12 +8,12 @@ import AvatarModal from 'components/AvatarModal';
 import { getMyList } from 'api/avatar';
 import { getUserInfo, updateAvatar } from 'api/user';
 import { useBionAvatarContract } from 'hooks/useContract';
-import { useChain, useSingleCallResult } from 'hooks';
+import { useChain, useDarkMode, useNativeCurrencyBalances, useSingleCallResult } from 'hooks';
 import NTFConfitmModal from 'components/NTFConfitmModal';
 import { useAppSelector } from 'state';
 
 const Header = ({ isMobile }: MobileProp) => {
-  const { address } = useAccount();
+  const { address , connector: activeConnector } = useAccount();
   const { account } = useChain();
   const [openModal, setOpenModal] = useState(false);
   const [openModalConfirm, setOpenModalConfirm] = useState(false);
@@ -102,115 +102,67 @@ const Header = ({ isMobile }: MobileProp) => {
     }
   };
 
+  const balance = useNativeCurrencyBalances(address ? [address] : [])?.[address ?? ''];
+  const {darkMode} = useDarkMode();
+
   return (
-    <Box display="flex" flexDirection="column" gap="30px">
-      {currentTime >= WHITELIST_START_TIME && !claimed && isWhitelisted && (
-        <WrapBanner>
-          <Flex flexDirection="column" gap="15px">
-            <Typography variant="h5Samsung" fontWeight="700" color="text.primary">
-              Congratulations! You have been whitelisted
-            </Typography>
-            <Typography variant="body3Samsung" fontWeight="500" color="primary.main">
-              Please claim before the rewards are exhausted: {310 - tokenIdCounter} remaining NFTs
-            </Typography>
-            <Claim onClick={handleClaimNFT} disabled={loadingClaim || tokenIdCounter === 310}>
-              <Typography variant="body3Poppins" fontWeight="600" color="#000000">
-                {loadingClaim ? 'Loading....' : 'Claim now'}
-              </Typography>
-            </Claim>
-          </Flex>
-        </WrapBanner>
-      )}
-      <Box
-        display="flex"
-        alignItems={isMobile ? 'start' : 'center'}
-        gap="15px"
-        flexDirection={isMobile ? 'column' : 'row'}
-      >
-        <AvatarBox
-          onMouseEnter={() => setHoverAvatar(true)}
-          onMouseLeave={() => setHoverAvatar(false)}
-          onClick={handleToggleModal}
-        >
-          <img
-            src={
-              userInfo?.avatar?.imageURL
-                ? `/images/bitendoGameboy/${userInfo?.avatar?.typeId}.svg`
-                : '/images/bitendoGameboy/Default.svg'
-            }
-            alt=""
-            width="120px"
-            height="120px"
-          />
-          <Box
-            sx={{
-              position: 'absolute',
-              top: '40%',
-              left: '13%',
-              display: hoverAvatar ? 'block' : 'none',
-            }}
+    <>
+      <Wrapper sx={{
+        backgroundImage: darkMode ? `url('/images/dashboard_banner_light.png')` : `url('/images/dashboard_banner_light.png')`
+      }}>
+        <Container>
+          <Stack
+            alignItems={isMobile ? 'start' : 'center'}
+            flexDirection={isMobile ? 'column' : 'row'}
+            justifyContent='start'
+            gap='15px'
+            width='100%'
           >
-            <Typography variant="captionPoppins" sx={{ color: 'primary.main' }}>
-              Change avatar
-            </Typography>
-          </Box>
-        </AvatarBox>
-        <Box>
-          <Box display="flex" alignItems="center" gap="10px">
-            <Typography variant="h6Samsung">{address ? 'Anonymous-User' : 'N/A'}</Typography>
-            <Box>
-              <Tag sx={{ backgroundColor: 'gray.700' }}>Personal</Tag>
-            </Box>
-          </Box>
-          <Flex mt="10px" gap={isMobile ? '15px' : '40px'}>
-            <Box>
-              <Box>
-                <Typography variant="captionPoppins" sx={{ color: 'gray.400' }}>
-                  Wallet Address
+            <AvatarBox
+              onMouseEnter={() => setHoverAvatar(true)}
+              onMouseLeave={() => setHoverAvatar(false)}
+              onClick={handleToggleModal}
+            >
+              <img
+                src={
+                  userInfo?.avatar?.imageURL
+                    ? `/images/bitendoGameboy/${userInfo?.avatar?.typeId}.svg`
+                    : '/images/bitendoGameboy/Default.svg'
+                }
+                alt=""
+                width="120px"
+                height="120px"
+              />
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '40%',
+                  left: '13%',
+                  display: hoverAvatar ? 'block' : 'none',
+                }}
+              >
+                <Typography variant="captionPoppins" sx={{ color: 'primary.main' }}>
+                  Change avatar
                 </Typography>
               </Box>
-              <Box>
-                <Typography sx={{ fontSize: '15px' }}>{address ? shortenAddress(address) : 'N/A'}</Typography>
-              </Box>
-            </Box>
+            </AvatarBox>
             <Box>
-              <Box>
-                <Typography variant="captionPoppins" sx={{ color: 'gray.400' }}>
-                  User Type
-                </Typography>
-              </Box>
               <Box display="flex" alignItems="center" gap="10px">
-                <Typography sx={{ fontSize: '15px' }}>{address ? 'Regular User' : 'N/A'}</Typography>
-                {/* <Box>
-                                <VerifiedIcon sx={{width: '18px',height:'18px', color: 'primary.main'}} />
-                            </Box> */}
+                <Typography fontSize='24px'>{address ? shortenAddress(address) : 'N/A'}</Typography>
               </Box>
-            </Box>
-            <Box>
-              <Box>
-                <Typography variant="captionPoppins" sx={{ color: 'gray.400' }}>
-                  Twitter
+              {
+                balance ?
+                <Typography fontSize='44px' fontWeight='700'>
+                  {balance?.toFixed(3)} {balance.currency.symbol}
                 </Typography>
-              </Box>
-              <Box display="flex" alignItems="center" gap="10px">
-                <Typography sx={{ fontSize: '15px' }}>{address ? 'not linked' : 'N/A'}</Typography>
-              </Box>
+                :
+                <Skeleton width='150px' height='50px' />
+              }
+              
             </Box>
-            {/* <Box>
-                        <Box>
-                            <Typography variant='captionPoppins' sx={{color: 'gray.400'}}>
-                            Last Connect
-                            </Typography>
-                        </Box>
-                        <Box display='flex' alignItems='center' gap='10px'>
-                            <Typography sx={{fontSize: '15px'}}>
-                                N/A
-                            </Typography>
-                        </Box>
-                    </Box> */}
-          </Flex>
-        </Box>
-      </Box>
+          </Stack>
+        </Container>
+      </Wrapper>
       <AvatarModal
         open={openModal}
         onDismiss={handleToggleModal}
@@ -218,9 +170,17 @@ const Header = ({ isMobile }: MobileProp) => {
         handleChooseAvatar={handleUpdateAvatar}
       />
       <NTFConfitmModal open={openModalConfirm} onDismiss={handleToggleConfirmModal} tokenId={tokenId} />
-    </Box>
+    </>
   );
 };
+
+const Wrapper = styled(Box)`
+  background-color: ${props => props.theme.palette.background.default};
+  padding: 3rem 0;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  object-fit: cover;
+`
 
 const Flex = styled(Box)`
   display: flex;

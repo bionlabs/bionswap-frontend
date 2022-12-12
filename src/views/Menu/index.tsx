@@ -75,14 +75,21 @@ const Menu = ({ children }: any) => {
             <MenuContainer>
                 <StyledContained
                     sx={{
-                        backgroundColor: (scrollDir > 10 || isMobile) ? theme => (theme.palette as any).background.default : 'transparent',
-                        borderBottom: isMobile ? theme => `1px solid ${(theme.palette as any).extra.card.divider}` : 'none'
+                        backgroundColor: theme => (theme.palette as any).background.default,
                     }}
                 >
                     <FlexBox alignItems='center' gap='42px'>
-                        <Box sx={{cursor: 'pointer'}}>
+                        <Box
+                            sx={{cursor: 'pointer'}}
+                            onClick={toggleDrawer('right', false)}
+                        >
                             <Link href='/'>
-                                <img src='/alpha.svg' alt='BionSwap' width='auto' />
+                                {
+                                    darkMode ?
+                                    <img src='/alpha.svg' alt='BionSwap' width='auto' />
+                                    :
+                                    <img src='/alpha-dark.svg' alt='BionSwap' width='auto' />
+                                }
                             </Link>
                         </Box>
                         {
@@ -136,12 +143,13 @@ const Menu = ({ children }: any) => {
                                     />
                                     <MdDarkMode/>
                                 </Stack>
-                                <IconButton onClick={toggleDrawer('top', !state.top)} 
+                                <IconButton onClick={toggleDrawer('right', !state.right)} 
                                     sx={{
                                         color:'text.primary',
+                                        padding: 0
                                     }}
                                 >
-                                    {!state.top ? <HiMenu/> : <IoClose/>}
+                                    {!state.right ? <HiMenu/> : <HiX/>}
                                 </IconButton>
                             </>
                             :
@@ -158,12 +166,12 @@ const Menu = ({ children }: any) => {
                                     </Stack>
                                     <ConnectButton/>
                                     <ChainSelect/>
-                                    <IconButton onClick={toggleDrawer('top', !state.top)} 
+                                    <IconButton onClick={toggleDrawer('right', !state.right)} 
                                         sx={{
                                             color:'#fff',
                                         }}
                                     >
-                                        {!state.top ? <HiMenu/> : <IoClose/>}
+                                        {!state.right ? <HiMenu/> : <HiX/>}
                                     </IconButton>
                                 </>
                             :
@@ -193,12 +201,12 @@ const Menu = ({ children }: any) => {
                     </BottomContainer>
                 }
                 <Drawer
-                    anchor={'top'}
-                    open={state['top']}
-                    onClose={toggleDrawer('top', false)}
+                    anchor={'right'}
+                    open={state['right']}
+                    onClose={toggleDrawer('right', false)}
                 >
                     <MobileMenu
-                        anchor='top'
+                        anchor='right'
                         toggleDrawer={toggleDrawer}
                     />
                 </Drawer>

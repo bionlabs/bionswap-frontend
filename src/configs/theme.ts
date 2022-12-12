@@ -119,7 +119,7 @@ export const lightPalette: ExtendedPaletteOptions = {
   text: {
     primary: "#121212",
     secondary: "#4F5B67",
-    disabled: "rgba(0, 0, 0, 0.38)",
+    disabled: "rgba(0, 0, 0, 0.2)",
   },
   success: {
     main: '#2AC89F',
@@ -128,21 +128,21 @@ export const lightPalette: ExtendedPaletteOptions = {
     main: "#EB5757",
   },
   warning: {
-    main: "rgba(255, 178, 55, 0.2)",
+    main: "#FFB21E",
   },
   extra: {
     card: {
       background: '#FFF',
       light: '#F1F1F1',
       hover: '#EAEAEA',
-      divider: 'rgba(255,255,255,.12)'
+      divider: 'rgba(0,0,0,.12)'
     },
     background: {
       alt: '#F2F5FA'
     },
     button: {
       backgroundGreenOpacity: '#bff0e5',
-      lighter: 'rgba(255,255,255, .1)',
+      lighter: 'rgba(0,0,0, .1)',
       linear: 'linear-gradient(93.49deg, #15D7A2 0.54%, #0AC6D6 100%)',
     },
     text: {
@@ -257,7 +257,7 @@ export const darkPalette: ExtendedPaletteOptions = {
   text: {
     primary: "#FFFFFF",
     secondary: "#a7a7a7",
-    disabled: "rgba(255, 255, 255, 0.5)",
+    disabled: "rgba(255, 255, 255, 0.2)",
   },
   extra: {
     card: {
@@ -267,7 +267,7 @@ export const darkPalette: ExtendedPaletteOptions = {
       divider: 'rgba(255,255,255,.12)'
     },
     button: {
-      backgroundGreenOpacity: 'rgba(7, 224, 224, 0.15)',
+      backgroundGreenOpacity: 'rgba(0, 205, 255, 0.15)',
       lighter: 'rgba(255,255,255, .1)',
       linear: 'linear-gradient(93.49deg, #15D7A2 0.54%, #0AC6D6 100%)',
     },
@@ -404,7 +404,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
 
       button: {
         // fontStyle: 'italic',
-        boxShadow: 'none'
+        fontFamily: 'inherit'
       },
     },
     breakpoints: {

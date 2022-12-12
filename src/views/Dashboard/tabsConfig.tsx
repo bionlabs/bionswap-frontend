@@ -6,7 +6,7 @@ import Allocation from "views/Dashboard/views/Allocation/Allocation"
 import Overview from "views/Dashboard/views/Overview/Overview"
 import MyProjectsIcon from "assets/icons/MyProjectsIcon"
 
-const sidebarConfig = [
+const tabsConfig = [
     {
         label: 'Overview',
         href: '/dashboard/overview',
@@ -20,28 +20,11 @@ const sidebarConfig = [
         component: <Allocation/>
     },
     {
-        label: 'Launchpad',
+        label: 'My Projects',
         href: '/dashboard/my-project',
-        icon: LaunchpadIcon,
-        item: [
-            {
-                label: 'My Project',
-                href: '/dashboard/my-project',
-                icon: MyProjectsIcon,
-                component: <MyProject/>
-            },
-            {
-                label: 'Draft',
-                href: '/dashboard/draft',
-                icon: ''
-            },
-            {
-                label: 'Create',
-                href: '/launchpad/create',
-                icon: ''
-            },
-        ]
-    }
+        icon: MyProjectsIcon,
+        component: <MyProject/>
+    },
 ]
 
-export default sidebarConfig
+export default tabsConfig

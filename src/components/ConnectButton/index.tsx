@@ -1,8 +1,8 @@
-import { Box, Button, Drawer, Stack, styled , Typography } from '@mui/material';
-import { useAccount, useChain, useNativeCurrencyBalances } from 'hooks';
+import { Box, Button, Divider, Drawer, Stack, styled , Typography } from '@mui/material';
+import { useAccount, useChain, useNativeCurrencyBalances , useDisconnect } from 'hooks';
 import useMediaQuery from 'hooks/useMediaQuery';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getConnectorIcon } from 'utils/connectors';
 import { shortenAddress } from 'utils/format';
 import { Chain, Connector } from 'wagmi';
@@ -12,11 +12,16 @@ import ConnectorOptionsModal from './ConnectorOptionsModal';
 import SidebarProfileMenu from './SidebarProfileMenu';
 import {RiWallet3Fill} from 'react-icons/ri'
 import { useRouter } from 'next/router';
+import * as HoverCard from '@radix-ui/react-hover-card';
+import { useAppDispatch, useAppSelector } from 'state';
+import { getUserInfo } from 'api/user';
+import {RiArrowRightLine , RiLogoutBoxRLine} from 'react-icons/ri'
+import { logOut } from 'state/auth/actions';
 
 type Props = {};
 
 const ConnectButton = (props: Props) => {
-  const {isTablet} = useMediaQuery();
+  const {isMobile , isTablet} = useMediaQuery();
   const [openConnectorsModal, setOpenConnectorsModal] = useState(false);
   const [openChainsModal, setOpenChainsModal] = useState(false);
   const [openProfileModal, setOpenProfileModal] = useState(false);
@@ -25,6 +30,31 @@ const ConnectButton = (props: Props) => {
   const { address, connector: activeConnector } = useAccount();
   const balance = useNativeCurrencyBalances(address ? [address] : [])?.[address ?? ''];
   const router = useRouter()
+
+  const dispatch = useAppDispatch();
+  const { disconnect } = useDisconnect({
+    onSuccess: () => {
+      dispatch(logOut());
+    },
+  });
+
+  const [userInfo, setUserInfo] = useState<any>(null);
+  const accessToken = useAppSelector((state) => state.auth.accessToken);
+
+  useEffect(() => {
+    const getUserInformation = async () => {
+      try {
+        if (!accessToken) return;
+
+        const rest = await getUserInfo();
+        setUserInfo(rest);
+      } catch (error) {
+        console.log('error====>', error);
+      }
+    };
+
+    getUserInformation();
+  }, [address, accessToken]);
 
   const [profileSlide, setProfileSlide] = useState(false);
 
@@ -58,7 +88,7 @@ const ConnectButton = (props: Props) => {
       event_label: connector.name,
     });
   };
-
+  
   return (
     <>
       {!address ? (
@@ -66,25 +96,76 @@ const ConnectButton = (props: Props) => {
           <Typography sx={{fontSize: '14px', color: 'inherit', fontWeight: '500'}}>Connect Wallet</Typography>
         </ConnectWalletButton>
       ) : (
-        <ProfileButton
-          // onClick={() => setOpenProfileModal(true)}
-          // onClick={toggleDrawer(!profileSlide)}
-          href='/dashboard/overview'
-          onClick={(e) => {
-            e.preventDefault();
-            router.push('/dashboard/overview')
-          }}
-          variant="contained"
-          fullWidth
-        >
-          <Box>
-            <RiWallet3Fill/>
-          </Box>
-          <Typography fontSize='14px' fontWeight='500' color='inherit'>{shortenAddress(address ?? '')}</Typography>
-          {/* {activeConnector && (
-            <Image src={getConnectorIcon(activeConnector.id)} layout="fixed" alt="" width={18} height={18} />
-          )} */}
-        </ProfileButton>
+        <HoverCard.Root openDelay={0.5}>
+          <HoverCard.Trigger asChild>
+            <ProfileButton
+              // onClick={() => setOpenProfileModal(true)}
+              // onClick={toggleDrawer(!profileSlide)}
+              // href='/dashboard/overview'
+              variant="contained"
+              fullWidth
+            >
+              <Box>
+                <RiWallet3Fill/>
+              </Box>
+              <Typography fontSize='14px' fontWeight='500' color='inherit'>{shortenAddress(address ?? '')}</Typography>
+              {/* {activeConnector && (
+                <Image src={getConnectorIcon(activeConnector.id)} layout="fixed" alt="" width={18} height={18} />
+              )} */}
+            </ProfileButton>
+          </HoverCard.Trigger>
+          <HoverCard.Portal>
+            <HoverCard.Content sideOffset={isMobile ? 25 : 5} align='end'>
+              <ProfileDropDown className="HoverCardContent">
+                <Stack
+                  spacing={1}
+                  width='100%'
+                  justifyContent='start'
+                  divider={<Divider flexItem sx={{borderColor: 'rgba(0,0,0,.12)'}} />}
+                >
+                  <ProfileAltButton
+                    variant='text'
+                    fullWidth
+                    onClick={(e) => {
+                      e.preventDefault();
+                      router.push('/dashboard')
+                    }}
+                  >
+                    <Stack direction='row' justifyContent='space-between' width='100%'>
+                      <Stack direction='row' spacing={1} justifyContent='start'>
+                          <img
+                            src={
+                              userInfo?.avatar?.imageURL
+                                ? `/images/bitendoGameboy/${userInfo?.avatar?.typeId}.svg`
+                                : '/images/bitendoGameboy/Default.svg'
+                            }
+                            alt=""
+                            width="40px"
+                            height="40px"
+                          />
+                          <Stack alignItems='start' justifyContent='start' >
+                            <Typography fontWeight='600' color='inherit' lineHeight='1.3'>{shortenAddress(address ?? '')}</Typography>
+                            <Typography fontSize='14px' color='#a7a7a7' lineHeight='1.3'>{activeConnector?.name ?? ''}</Typography>
+                          </Stack>
+                      </Stack>
+                      <Box>
+                          <RiArrowRightLine/>
+                      </Box>
+                    </Stack>
+                  </ProfileAltButton>
+                  <ProfileAltButton
+                   variant='text'
+                   fullWidth
+                   onClick={() => disconnect()}
+                  >
+                    <RiLogoutBoxRLine />
+                    Disconnect
+                  </ProfileAltButton>
+                </Stack>
+              </ProfileDropDown>
+            </HoverCard.Content>
+          </HoverCard.Portal>
+        </HoverCard.Root>
       )}
 
       {/* <ChainOptionsModal
@@ -144,5 +225,38 @@ const ProfileButton = styled(Button)`
     box-shadow: none;
   }
 `;
+
+const ProfileDropDown = styled(Box)`
+  border-radius: 4px;
+  padding: 16px;
+  background-color: white;
+  width: 250px;
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+  // [data-side='top'] {
+  //   animation-name: slideDownAndFade;
+  // }
+  // [data-side='right'] {
+  //   animation-name: slideLeftAndFade;
+  // }
+  // [data-side='bottom'] {
+  //   animation-name: slideUpAndFade;
+  // }
+  // [data-side='left'] {
+  //   animation-name: slideRightAndFade;
+  // }
+`
+const ProfileAltButton = styled(Button)`
+  color: #000;
+  gap: 10px;
+  justify-content: start;
+  font-size: 16px;
+  :hover {
+    background-color: ${props => (props.theme.palette as any).extra.walletModal.hover};
+  }
+`
+
 
 export default ConnectButton;
