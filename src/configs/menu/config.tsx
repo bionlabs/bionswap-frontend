@@ -10,12 +10,16 @@ export const menuConfig = [
     {
         label: 'Swap',
         href: '/swap',
-        icon: <MdSwapHorizontalCircle/>
+        icon: <MdSwapHorizontalCircle/>,
+        items: [],
+        target: ''
     },
     {
         label: 'Launchpad',
         href: '/launchpad',
-        icon: <GiPayMoney/>
+        icon: <GiPayMoney/>,
+        items: [],
+        target: ''
     },
     // {
     //     label: 'Earn',
@@ -41,7 +45,9 @@ export const menuConfig = [
         label: 'Docs',
         href: 'https://docs.bionswap.com',
         newWindow: true,
-        icon: <IoDocumentText/>
+        icon: <IoDocumentText/>,
+        items: [],
+        target: ''
     },
 ]
 

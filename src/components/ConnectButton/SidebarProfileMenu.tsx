@@ -9,7 +9,7 @@ import { shortenAddress } from 'utils/format';
 import { useChain, useDisconnect } from 'hooks';
 import { useAppDispatch } from 'state';
 import { logOut } from 'state/auth/actions';
-import sidebarConfig from 'views/Dashboard/sidebarConfig';
+import tabsConfig from 'views/Dashboard/tabsConfig';
 import { useRouter } from 'next/router';
 
 const SidebarProfileMenu = ({ toggleDrawer, address, balance }: any) => {
@@ -90,7 +90,7 @@ const SidebarProfileMenu = ({ toggleDrawer, address, balance }: any) => {
           </div>
         </WalletBox>
         <Flex flexDirection="column" gap="5px" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
-          {sidebarConfig.map((item) => (
+          {tabsConfig.map((item) => (
             <Item
               key=""
               href={`${item.href}`}

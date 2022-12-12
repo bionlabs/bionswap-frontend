@@ -202,7 +202,7 @@ const WrapInforBox = styled(Box)`
   background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   border-radius: 8px;
   border: 1px solid;
-  border-color: ${(props) => props.theme.palette.gray[700]};
+  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
   gap: 20px;
   display: flex;
   flex-direction: column;
@@ -211,7 +211,7 @@ const WrapInforBox = styled(Box)`
 const Line = styled(Box)`
   width: 100%;
   height: 1px;
-  background-color: ${(props) => props.theme.palette.gray[800]};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.light};
 `;
 const JoinButton = styled(Button)`
   border-radius: 4px;

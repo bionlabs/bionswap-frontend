@@ -321,7 +321,6 @@ const FormControlLabelCustom = styled(FormControlLabel)`
 
   .MuiTypography-root {
     padding: 6px 25px;
-    color: ${(props) => props.theme.palette.gray[600]};
     background-color: transparent;
     border-radius: 8px;
   }
@@ -336,7 +335,6 @@ const Fillter = styled(Button)`
   width: 118px;
   height: 46px;
   border: 1px solid;
-  border-color: ${(props) => props.theme.palette.gray[600]};
   border-radius: 4px;
   padding: 0;
   display: flex;
@@ -346,7 +344,6 @@ const Fillter = styled(Button)`
 `;
 const SelectCustom = styled(Select)`
   border: 1px solid;
-  border-color: ${(props) => props.theme.palette.gray[600]};
   border-radius: 4px;
 
   .MuiSelect-select {
@@ -355,7 +352,6 @@ const SelectCustom = styled(Select)`
     font-weight: 400;
     font-size: 16px;
     line-height: 27px;
-    color: ${(props) => props.theme.palette.gray[300]};
   }
 
   fieldset {

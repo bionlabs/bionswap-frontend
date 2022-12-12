@@ -16,11 +16,11 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 8,
   borderRadius: 5,
   [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor: '#000A0D',
+    backgroundColor: (theme.palette as any).extra.card.light,
   },
   [`& .${linearProgressClasses.bar}`]: {
     borderRadius: 5,
-    backgroundColor: '#22EB8A',
+    backgroundColor: theme.palette.success.main,
   },
 }));
 
@@ -55,6 +55,8 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
     handleCheckDecimal();
   }, [quoteToken, data]);
 
+  console.log(data)
+
   return (
     <WrapBox
       onClick={() => {
@@ -77,10 +79,10 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
         sx={{
           backgroundColor: 'gray.800',
           ...(currentTime > startTime && {
-            backgroundColor: '#08878E',
+            backgroundColor: 'success.main',
           }),
           ...(currentTime > endTime && {
-            backgroundColor: 'gray.500',
+            backgroundColor: 'text.secondary',
           }),
         }}
       >
@@ -111,7 +113,7 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
       >
         <FlexBox justifyContent="space-between" alignItems="center">
           <FlexBox flexDirection="column" gap="5px">
-            <Typography
+            {/* <Typography
               variant="captionPoppins"
               sx={{
                 fontWeight: '400',
@@ -119,15 +121,22 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
               }}
             >
               {data?.saleType}
-            </Typography>
+            </Typography> */}
             <Typography
-              variant="h5Samsung"
               sx={{
-                fontWeight: '700',
-                color: 'background.paper',
+                fontWeight: '600', fontSize: '24px', lineHeight: '1.2',
+                color: 'text.primary',
               }}
             >
               {data?.title}
+            </Typography>
+            <Typography
+              sx={{
+                color: 'primary.main', lineHeight: '1.2',
+                fontSize: '14px'
+              }}
+            >
+              ${data?.tokenMetadata.symbol}
             </Typography>
           </FlexBox>
           <Box>
@@ -181,7 +190,6 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
             {unit}
           </Typography>
         </FlexBox>
-        <Line />
         <FlexBox gap="12px">
           <Tag
             sx={{
@@ -223,22 +231,22 @@ const FlexBox = styled(Box)`
 `;
 const WrapBox = styled(Box)`
   border-radius: 8px;
-  background: ${(props) => (props.theme.palette as any).extra.card.background};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   width: 100%;
   overflow: hidden;
   position: relative;
   cursor: pointer;
   transition: 0.15s ease-in;
-  border: 1px solid #014959;
 
   :hover {
-    transform: scale3d(0.99, 0.99, 1);
+    transform: scale3d(1.01, 1.01, 1);
     transform-style: preserve-3d;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   }
 `;
 const WrapLogo = styled(Box)`
   border: 2.75px solid ${(props) => (props.theme.palette as any).extra.card.background};
-  background-color: ${(props) => props.theme.palette.background.default};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   border-radius: 8px;
   position: relative;
   max-width: 88px;
@@ -253,7 +261,7 @@ const WrapLogo = styled(Box)`
   img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     border-radius: 8px;
   }
 `;
@@ -261,9 +269,9 @@ const WrapTopArea = styled(Box)`
   margin-top: -38px;
 `;
 const TimeLineBg = styled(Box)`
-  background: #0B2029;
+  background: ${props => (props.theme.palette as any).extra.card.light};
   width: 100%;
-  padding: 4px 5px 6px;
+  padding: 6px;
   margin-top: -50px;
 `;
 const Status = styled(Box)`
@@ -276,12 +284,6 @@ const Status = styled(Box)`
   line-height: 1;
   top: 13px;
   right: 13px;
-`;
-const Line = styled(Box)`
-  width: 95%;
-  height: 1px;
-  margin: auto;
-  background-color: ${(props) => props.theme.palette.background.default};
 `;
 const Tag = styled(Box)`
   border-radius: 4px;
