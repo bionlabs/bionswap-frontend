@@ -252,7 +252,7 @@ export const darkPalette: ExtendedPaletteOptions = {
   },
   background: {
     default: "#000A0D",
-    paper: "#1B2332",
+    paper: "#242e42",
   },
   text: {
     primary: "#FFFFFF",
@@ -267,7 +267,7 @@ export const darkPalette: ExtendedPaletteOptions = {
       divider: 'rgba(255,255,255,.12)'
     },
     button: {
-      backgroundGreenOpacity: 'rgba(0, 205, 255, 0.15)',
+      backgroundGreenOpacity: 'rgba(0, 205, 255, 0.2)',
       lighter: 'rgba(255,255,255, .1)',
       linear: 'linear-gradient(93.49deg, #15D7A2 0.54%, #0AC6D6 100%)',
     },
