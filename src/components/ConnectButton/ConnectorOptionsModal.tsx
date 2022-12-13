@@ -92,7 +92,7 @@ function ConnectorOptionsModal({ onConnectorSelected, onConnectorConnected, onCl
       >
         <HeaderBox>
           <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Typography sx={{ color: 'inherit', fontSize: '18px'}}>
+            <Typography fontSize='18px' fontWeight='500' color='inherit'>
               Connect a wallet
             </Typography>
             <IconButton onClick={onClose} color='inherit'>
@@ -100,8 +100,8 @@ function ConnectorOptionsModal({ onConnectorSelected, onConnectorConnected, onCl
             </IconButton>
           </Box>
         </HeaderBox>
-        <Stack direction='row' alignItems='start' justifyContent='start'>
-          <LeftBox>
+        <Stack direction={isTablet ? 'column' : 'row'} alignItems='start' justifyContent='start'>
+          <LeftBox width={isTablet ? '100%' : '40%'} order={isTablet ? '2' : '1'}>
             <StyledTab
               orientation="vertical"
               variant="scrollable"
@@ -130,7 +130,7 @@ function ConnectorOptionsModal({ onConnectorSelected, onConnectorConnected, onCl
               </Typography>
             </Box>
           </LeftBox>
-          <RightBox>
+          <RightBox width={isTablet ? '100%' : '60%'} order={isTablet ? '1' : '2'}>
             {
               connectors.map((connector, index) => 
                 <TabPanel key={`tab${index}`} value={value} index={index}>
@@ -186,9 +186,6 @@ const HeaderBox = styled(Box)`
   color: ${(props: any) => (props.theme.palette as any).extra.walletModal.textPrimary};
 `
 const StyledTab = styled(Tabs)`
-    .MuiTabs-flexContainer {
-      gap: 10px;
-    }
     .MuiButtonBase-root {
         border-radius: 8px;
         text-transform: none;
@@ -212,13 +209,11 @@ const StyledTab = styled(Tabs)`
 const LeftBox = styled(Box)`
     padding: 20px;
     border-right: 1px solid ${(props) => (props.theme.palette as any).extra.walletModal.divider};
-    width: 40%;
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 20px;
 `
 const RightBox = styled(Box)`
-    width: 60%;
     padding: 20px;
 `
 const ConnectWalletButton = styled(Button)`

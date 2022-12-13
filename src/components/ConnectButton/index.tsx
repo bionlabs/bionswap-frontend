@@ -227,7 +227,7 @@ const ProfileButton = styled(Button)`
 `;
 
 const ProfileDropDown = styled(Box)`
-  border-radius: 4px;
+  border-radius: 8px;
   padding: 16px;
   background-color: white;
   width: 250px;
