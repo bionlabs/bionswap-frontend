@@ -104,7 +104,7 @@ const PurchaseTicketModal = ({
           overflowY: 'auto',
         }}
       >
-        <IconButton onClick={onDismiss} sx={{ position: 'absolute', right: 8, top: 8 }}>
+        <IconButton onClick={onDismiss} sx={{ position: 'absolute', right: 12, top: 12}}>
           <CloseIcon />
         </IconButton>
         <Box>

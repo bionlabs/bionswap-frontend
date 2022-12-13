@@ -17,13 +17,13 @@ const HistoryItem = () => {
   ];
 
   return (
-    <Stack flexDirection="row" gap="31px" width='100%' justifyContent='space-between'>
+    <Stack flexDirection="row" gap="20px" width='100%' justifyContent='space-between'>
       {config?.map((item: any) => (
         <Stack key={item.value} alignItems='flex-start'>
-          <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+          <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
             {item?.label}
           </Typography>
-          <Typography variant="body3Poppins" color="gray.300" fontWeight="600">
+          <Typography variant="body3Poppins" color="text.primary" fontWeight="600">
             {item?.value}
           </Typography>
         </Stack>

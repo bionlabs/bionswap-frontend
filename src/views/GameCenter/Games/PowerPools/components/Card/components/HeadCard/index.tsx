@@ -2,6 +2,7 @@ import { Stack, Typography, styled, Box, LinearProgress } from '@mui/material';
 import CachedIcon from '@mui/icons-material/Cached';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import PlayCircleOutlineOutlinedIcon from '@mui/icons-material/PlayCircleOutlineOutlined';
+import {CgPlayButtonO} from 'react-icons/cg'
 import { useEffect, useState } from 'react';
 
 interface HeadCardProps {
@@ -15,24 +16,24 @@ interface HeadCardProps {
 const statuses = [
   {
     id: 0,
-    label: 'LIVE',
-    icon: <PlayCircleOutlineOutlinedIcon htmlColor="#2AC89F" />,
-    color: 'success.main',
-    bgColor: '#003023',
+    label: 'Live',
+    icon: <PlayCircleOutlineOutlinedIcon />,
+    color: 'primary.main',
+    bgColor: 'extra.button.backgroundGreenOpacity',
   },
   {
     id: 1,
     label: 'Drawing',
-    icon: <CachedIcon htmlColor="#A8B0B9" />,
-    color: 'gray.400',
-    bgColor: 'gray.800',
+    icon: <CachedIcon />,
+    color: 'text.secondary',
+    bgColor: 'extra.card.light',
   },
   {
     id: 2,
     label: 'Ended',
-    icon: <CheckCircleOutlinedIcon htmlColor="#9A6AFF" />,
-    color: 'secondary.light',
-    bgColor: '#171029',
+    icon: <CheckCircleOutlinedIcon/>,
+    color: 'text.secondary',
+    bgColor: 'extra.card.light',
   },
 ];
 
@@ -55,7 +56,7 @@ const HeadCard = ({ totalSlots, filledSlots, currentRoundId, status }: HeadCardP
           item.id === status && (
             <Header key={item.label} bgcolor={item.bgColor}>
               <Stack direction="row" alignItems="center" justifyContent="space-between" width="100%">
-                <Stack direction="row" alignItems="center" spacing={1}>
+                <Stack direction="row" alignItems="center" spacing={1} color={item.color}>
                   {item.icon}
                   <Typography variant="body3Poppins" fontWeight="600" color={item.color} textTransform="uppercase">
                     {item.label}

@@ -118,7 +118,7 @@ export const lightPalette: ExtendedPaletteOptions = {
   },
   text: {
     primary: "#121212",
-    secondary: "#4F5B67",
+    secondary: "#687785",
     disabled: "rgba(0, 0, 0, 0.2)",
   },
   success: {

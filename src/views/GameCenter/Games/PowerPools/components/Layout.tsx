@@ -13,7 +13,7 @@ const Layout = ({children}:any) => {
   return (
     <Stack 
       sx={{
-        height: 'inherit',
+        height: '100%',
         minHeight: 'inherit',
         width: '100%'
       }}

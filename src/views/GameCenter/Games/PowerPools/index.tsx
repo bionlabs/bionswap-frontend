@@ -21,7 +21,11 @@ const PowerPools = () => {
   ];
 
   return (
-    <Page>
+    <Page
+      sx={{
+        backgroundColor: theme => (theme.palette as any).extra.background.alt
+      }}
+    >
       <Banner />
       <Layout>
         <Stack direction="row" alignItems="center" spacing={2} justifyContent="start">
@@ -52,19 +56,25 @@ const PowerPools = () => {
 
 const StyledIconButton = styled(IconButton)`
   background-color: ${(props) => (props.theme.palette as any).extra.card.background};
-  border: 1px solid ${(props) => props.theme.palette.gray[700]};
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
+  color: ${(props) => props.theme.palette.text.secondary};
   border-radius: 8px;
   padding: 14px;
+  :hover {
+    background-color: ${(props) => (props.theme.palette as any).extra.card.light};
+    color: ${(props) => props.theme.palette.text.primary};
+  }
 `;
 const StyledButton = styled(Button)`
   background-color: ${(props) => (props.theme.palette as any).extra.card.background};
-  color: ${(props) => props.theme.palette.text.primary};
-  border: 1px solid ${(props) => props.theme.palette.gray[700]};
+  color: ${(props) => props.theme.palette.text.secondary};
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
   border-radius: 8px;
   padding: 14px;
   transition: 0.12s ease-in;
   :hover {
-    background-color: ${(props) => (props.theme.palette as any).extra.card.background};
+    background-color: ${(props) => (props.theme.palette as any).extra.card.light};
+    color: ${(props) => props.theme.palette.text.primary};
     box-shadow: none;
     opacity: 0.8;
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, styled } from '@mui/material';
+import { Box, Stack, styled } from '@mui/material';
 import ProfileBox from './components/ProfileBox';
 import TicketBox from './components/TicketBox';
 import History from './components/History';
@@ -19,18 +19,19 @@ const Sidebar = () => {
 
   return (
     <Wrapper>
-      <ProfileBox />
-      <TicketBox balanceTicket={balanceOfNormalTicket} balanceAirdropTicket={balanceOfAirdropTicket} />
-      <History account={account} chainId={chainId} />
+      <Stack justifyContent='start' alignItems='start' spacing={2}>
+        <ProfileBox />
+        <TicketBox balanceTicket={balanceOfNormalTicket} balanceAirdropTicket={balanceOfAirdropTicket} />
+        <History account={account} chainId={chainId} />
+      </Stack>
     </Wrapper>
   );
 };
 
 const Wrapper = styled(Box)`
   min-width: 418px;
-  background-color: ${(props) => props.theme.palette.primary.dark};
-  border-left: 1px solid ${(props) => props.theme.palette.gray[800]};
-  height: inherit;
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
+  height: 100%;
   min-height: inherit;
   padding: 25px;
 `;

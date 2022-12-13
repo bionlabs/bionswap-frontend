@@ -11,7 +11,7 @@ const ProfileBox = () => {
   return (
     <Stack spacing={3} width="100%">
       <Stack direction="row" justifyContent="space-between" width="100%" alignItems="center">
-        <Typography variant="body2Poppins" fontWeight="500" color="background.paper">
+        <Typography variant="body2Poppins" fontWeight="500" color="text.primary">
           Personal
         </Typography>
         <Typography variant="body4Poppins" fontWeight="500" color="success.main" textTransform="uppercase">
@@ -24,7 +24,7 @@ const ProfileBox = () => {
           <Typography sx={{ fontWeight: '600' }}>{shortenAddress(address ?? '')}</Typography>
           <Typography
             sx={{
-              color: 'gray.500',
+              color: 'text.secondary',
               fontSize: '14px',
             }}
           >

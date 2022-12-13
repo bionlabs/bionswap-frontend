@@ -57,14 +57,14 @@ const ResultBox = ({ parentContract }: any) => {
         <Stack width="100%" flexDirection="row" alignItems="center" justifyContent="space-between">
           <Stack gap="15px" alignItems="baseline">
             <Stack flexDirection="row" gap="15px">
-              <Typography variant="h6Poppins" fontWeight="500" color="background.paper">
+              <Typography variant="h6Poppins" fontWeight="500" color="text.primary">
                 Round
               </Typography>
               <FormControl variant="outlined">
                 <OutlinedInputCustom value={roundId} onChange={handleChange} />
               </FormControl>
             </Stack>
-            <Typography variant="body4Poppins" fontWeight="400" color="gray.400">
+            <Typography variant="body4Poppins" fontWeight="400" color="text.secondary">
               Drawn Oct 21, 2022, 7:01 PM
             </Typography>
           </Stack>
@@ -85,48 +85,51 @@ const ResultBox = ({ parentContract }: any) => {
         </Stack>
       </WrapHeader>
       <WrapBody>
-        <Stack width="100%" flexDirection="row" justifyContent="space-between" mb="20px">
-          <Typography variant="bodyPoppins" fontWeight="500" color="background.paper">
+        <Stack width="100%" flexDirection="row" justifyContent="space-between" mb="40px">
+          <Typography variant="bodyPoppins" fontWeight="500" color="text.primary">
             🏆 Winners
           </Typography>
           {roundId === currentRoundId - 1 && (
             <Latest>
-              <Typography variant="body3Poppins" fontWeight="500" color="background.paper">
+              <Typography variant="body3Poppins" fontWeight="500" color="white">
                 Latest
               </Typography>
             </Latest>
           )}
         </Stack>
-        <Stack gap="15px" width="100%">
+        <Stack spacing={3} width="100%">
           {rewards?.map((item: any, index: number) => (
             <>
               <Stack
                 key={item}
-                flexDirection="row"
-                gap="12px"
+                direction="row"
+                spacing={2}
                 width="100%"
-                justifyContent="flex-start"
+                justifyContent="space-between"
                 alignItems="center"
               >
-                <Typography variant="body4Poppins" fontWeight="400" color="gray.300">
-                  {item}
-                </Typography>
-                <Image src="/images/AvatarReward.png" alt="AvatarReward" width="38px" height="38px" />
-                <Stack alignItems="flex-start">
-                  <Typography>{shortenAddress(getWinnersAtRound[index])}</Typography>
-                  <Typography>@Anomyous User</Typography>
+                <Stack direction='row' spacing={3}>
+                  <Typography variant="body4Poppins" fontWeight="400" color="text.primary">
+                    {item}
+                  </Typography>
+                  <Stack direction='row' spacing={1}>
+                    <Image src="/images/AvatarReward.png" alt="AvatarReward" width="38px" height="38px" />
+                    <Stack alignItems="flex-start">
+                      <Typography color='text.primary'>{shortenAddress(getWinnersAtRound[index])}</Typography>
+                      <Typography color='text.secondary' fontSize='14px'>@Anomyous User</Typography>
+                    </Stack>
+                  </Stack>
                 </Stack>
-                <Stack marginLeft="auto" alignItems="flex-start">
-                  <Typography variant="body4Poppins" fontWeight="400" color="success.main">
+                <Stack alignItems="flex-start">
+                  <Typography variant="body4Poppins" fontWeight="400" color="primary.main">
                     +{Number(getPrizeDistributions[index] || 0)}{' '}
                     {Number(getPrizeDistributions[index] || 0) > 1 ? 'TICKETS' : 'TICKET'}
                   </Typography>
-                  <Typography variant="body4Poppins" fontWeight="400" color="gray.400">
+                  <Typography variant="body4Poppins" fontWeight="400" color="text.secondary">
                     ~{Number(getPrizeDistributions[index] || 0) * 3}$
                   </Typography>
                 </Stack>
               </Stack>
-              {index < rewards.length - 1 && <Line />}
             </>
           ))}
         </Stack>
@@ -141,39 +144,37 @@ const ResultBox = ({ parentContract }: any) => {
 };
 
 const WrapBox = styled(Box)`
-  border: 1px solid;
-  border-color: ${(props) => props.theme.palette.gray[700]};
   border-radius: 8px;
-  background-color: #0c1620;
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   overflow: hidden;
 `;
 const WrapHeader = styled(Box)`
   padding: 25px 25px 20px;
   border-bottom: 1px solid;
-  border-color: ${(props) => props.theme.palette.gray[700]};
+  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
 `;
 const WrapBody = styled(Box)`
   padding: 25px;
 `;
 const WrapFooter = styled(Box)`
   border-top: 1px solid;
-  border-color: ${(props) => props.theme.palette.gray[700]};
+  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
   padding: 25px;
   text-align: center;
 `;
 const Latest = styled(Box)`
   padding: 10px 15px;
   border-radius: 4px;
-  background-color: ${(props) => props.theme.palette.secondary.main};
+  background-color: ${(props) => props.theme.palette.success.main};
 `;
 const OutlinedInputCustom = styled(OutlinedInput)`
   input {
     padding: 5px 20px;
-    background: #000000;
+    background: ${(props) => (props.theme.palette as any).extra.background.alt};
     font-weight: 400;
     font-size: 18px;
     line-height: 180%;
-    color: #2ac89f;
+    color: ${props => props.theme.palette.primary.main};
     max-width: 55px;
     border-radius: 8px;
     text-align: center;
@@ -186,10 +187,10 @@ const OutlinedInputCustom = styled(OutlinedInput)`
 const Line = styled(Box)`
   width: 100%;
   height: 1px;
-  background-color: ${(props) => props.theme.palette.gray[600]};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.divider};
 `;
 const ActionButton = styled(Button)`
-  color: ${(props) => props.theme.palette.gray[200]};
+  color: ${(props) => props.theme.palette.text.secondary};
   font-size: 20px;
   padding: 0;
   width: auto;
