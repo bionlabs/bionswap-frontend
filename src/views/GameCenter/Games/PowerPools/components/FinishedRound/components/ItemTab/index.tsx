@@ -19,7 +19,7 @@ const Item = styled(Button)`
   padding: 6px 25px;
 
   &.active {
-    background: rgba(7, 224, 224, 0.15);
+    background: ${(props) => (props.theme.palette as any).extra.button.backgroundGreenOpacity};
 
     span {
       color: ${(props) => props.theme.palette.primary.main};

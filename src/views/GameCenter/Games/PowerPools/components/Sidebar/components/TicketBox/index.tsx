@@ -37,29 +37,30 @@ const TicketBox = ({ balanceAirdropTicket, balanceTicket }: TicketBoxProps) => {
         {configs?.map((item: any, index: number) => (
           <>
             <TicketItem key={item.label}>
-              <Image src={item.icon} alt={item.label} width="80px" height="80px" />
+              <ImageBox>
+                <Image src={item.icon} alt={item.label} width="80px" height="80px" />
+              </ImageBox>
               <Stack alignItems="start">
-                <Typography variant="body3Poppins" fontWeight="400" color="background.paper">
+                <Typography variant="body3Poppins" fontWeight="400" color="text.secondary">
                   You have:
                 </Typography>
                 <Stack direction="row" alignItems="baseline" gap="8px">
-                  <Typography variant="h4Poppins" fontWeight="600" color="background.paper">
+                  <Typography variant="h4Poppins" fontWeight="600" color="text.primary">
                     {item.balance}
                   </Typography>
-                  <Typography variant="body2Poppins" fontWeight="600" color="yellow.500">
+                  <Typography fontSize='18px' color="primary.main">
                     {item.label}
                   </Typography>
                 </Stack>
               </Stack>
             </TicketItem>
-            {index !== configs?.length - 1 && <Divider />}
           </>
         ))}
-        <PurchaseTicketButton variant="contained" fullWidth onClick={toggleOpen}>
-          <Typography lineHeight="100%" color="primary.main">
+        <PurchaseTicketButton variant="contained" color='success' fullWidth onClick={toggleOpen}>
+          <Typography lineHeight="100%" color="inherit">
             <SwapHorizontalCircleIcon fontSize="inherit" color="inherit" />
           </Typography>
-          <Typography variant="body3Poppins" fontWeight="500" color="primary.main">
+          <Typography variant="body3Poppins" fontWeight="500" color="inherit">
             Purchase Tickets
           </Typography>
         </PurchaseTicketButton>
@@ -74,20 +75,17 @@ const TicketItem = styled(Stack)`
   flex-direction: row;
   gap: 16px;
   justify-content: flex-start;
-  background-color: ${(props) => props.theme.palette.gray[800]};
-  border-radius: 6px;
+  background-color: ${(props) => (props.theme.palette as any).extra.card.light};
+  border-radius: 8px;
   overflow: hidden;
   padding: 6px;
 `;
 const PurchaseTicketButton = styled(Button)`
-  background-color: #002828;
   box-shadow: none;
-  color: ${(props) => props.theme.palette.primary.main};
   padding: 10px 20px;
   gap: 10px;
   align-items: center;
   :hover {
-    background-color: #002828;
     box-shadow: none;
     opacity: 0.8;
   }
@@ -98,7 +96,11 @@ const PurchaseTicketButton = styled(Button)`
 `;
 const Divider = styled(Box)`
   width: 100%;
-  border-bottom: 1px solid ${(props) => props.theme.palette.gray[800]};
+  border-bottom: 1px solid ${(props) => (props.theme.palette as any).extra.card.light};
 `;
+const ImageBox = styled(Box)`
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
+  border-radius: 8px;
+`
 
 export default TicketBox;

@@ -26,9 +26,9 @@ const BaseModal = ({ children, open, onClose, sx }: Props|any) => {
             ...sx,
           }}
         >
-          <IconButton onClick={onClose} sx={{ position: "absolute", top: 12, right: 12 }}>
+          {/* <IconButton onClick={onClose} sx={{ position: "absolute", top: 12, right: 12 }}>
             <CloseIcon />
-          </IconButton>
+          </IconButton> */}
           {children}
         </Box>
       </>

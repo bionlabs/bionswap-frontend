@@ -95,11 +95,11 @@ const Card = ({ contract }: Props) => {
           status={status}
         />
         <Stack alignItems="start">
-          <Box p="20px 12px" width="100%">
-            <Stack width="100%" alignItems="start" gap="20px">
+          <Box padding='16px' width="100%">
+            <Stack width="100%" alignItems="start" spacing={2}>
               <Stack width="100%" flexDirection="row" justifyContent="space-between">
                 <Typography variant="body3Poppins" fontWeight="400" color="secondary.light" textTransform="uppercase">
-                  Explode poolsie
+                  Power up the pool
                 </Typography>
                 {shareOf > 0 && (
                   <EnteredTag>
@@ -119,44 +119,49 @@ const Card = ({ contract }: Props) => {
             </Stack>
           </Box>
           <Divider />
-          <Stack p="20px 12px" gap="11px" width="100%">
-            {currentTime <= lastDrawnTime && (
-              <Stack flexDirection="row" width="100%" justifyContent="space-between">
-                <Typography variant="body4Poppins" fontWeight="400" color="gray.400">
-                  Next round starts
-                </Typography>
-                <CountDownComponent time={lastDrawnTime} />
-              </Stack>
-            )}
-            {currentTime >= lastDrawnTime && (
-              <Stack flexDirection="row" width="100%" justifyContent="space-between">
-                <Typography variant="body4Poppins" fontWeight="400" color="gray.400">
-                  Participate
-                </Typography>
-                <Typography variant="body4Poppins" fontWeight="500" color="gray.200">
-                  {participantsAtRound?.length || 0}
-                </Typography>
-              </Stack>
-            )}
-            {configs?.map((item: any) => (
-              <Stack key={item.label} flexDirection="row" width="100%" justifyContent="space-between">
-                <Typography variant="body4Poppins" fontWeight="400" color="gray.400">
-                  {item.label}
-                </Typography>
-                <Typography variant="body4Poppins" fontWeight="500" color="gray.200">
-                  {item.value}
-                </Typography>
-              </Stack>
-            ))}
-            <ButtonCard
-              toggleInputTicketModal={toggleInputTicketModal}
-              status={status}
-              toggleYourRewardModal={toggleYourRewardModal}
-            />
-            <Typography variant="body4Poppins" fontWeight="400" color="primary.main">
-              View on BscScan
-            </Typography>
+          <Stack p="16px" spacing={3} width="100%">
+            <Stack spacing={1} width="100%">
+              {currentTime <= lastDrawnTime && (
+                <Stack flexDirection="row" width="100%" justifyContent="space-between">
+                  <Typography variant="body4Poppins" fontWeight="400" color="text.secondary">
+                    Next round starts
+                  </Typography>
+                  <CountDownComponent time={lastDrawnTime} />
+                </Stack>
+              )}
+              {currentTime >= lastDrawnTime && (
+                <Stack flexDirection="row" width="100%" justifyContent="space-between">
+                  <Typography variant="body4Poppins" fontWeight="400" color="text.secondary">
+                    Participate
+                  </Typography>
+                  <Typography variant="body4Poppins" fontWeight="500" color="text.primary">
+                    {participantsAtRound?.length || 0}
+                  </Typography>
+                </Stack>
+              )}
+              {configs?.map((item: any) => (
+                <Stack key={item.label} flexDirection="row" width="100%" justifyContent="space-between">
+                  <Typography variant="body4Poppins" fontWeight="400" color="text.secondary">
+                    {item.label}
+                  </Typography>
+                  <Typography variant="body4Poppins" fontWeight="500" color="text.primary">
+                    {item.value}
+                  </Typography>
+                </Stack>
+              ))}
+            </Stack>
+            <Stack width='100%' spacing={2}>
+              <ButtonCard
+                toggleInputTicketModal={toggleInputTicketModal}
+                status={status}
+                toggleYourRewardModal={toggleYourRewardModal}
+              />
+              <Typography fontSize='14px' color="primary.main">
+                View on BscScan
+              </Typography>
+            </Stack>
           </Stack>
+          
         </Stack>
       </Wrapper>
       <InputTicketModal
@@ -187,12 +192,12 @@ const Wrapper = styled(Box)`
   width: 339px;
 `;
 const Divider = styled(Box)`
-  border-bottom: 1px solid ${(props) => props.theme.palette.gray[700]};
   width: 100%;
+  border-bottom: 1px solid ${props => (props.theme.palette as any).extra.card.divider};
 `;
 const EnteredTag = styled(Box)`
   border-radius: 4px;
-  background-color: ${(props) => props.theme.palette.gray[800]};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.light};
   width: 98px;
   height: 26px;
   display: flex;

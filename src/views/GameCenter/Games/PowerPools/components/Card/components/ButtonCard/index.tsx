@@ -37,7 +37,6 @@ const DrawingButton = styled(Button)`
   font-weight: 600;
   transition: 0.12s ease-in;
   padding: 10px 20px;
-  background: ${(props) => props.theme.palette.gray[400]};
   display: flex;
   gap: 11px;
 `;
