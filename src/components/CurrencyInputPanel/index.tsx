@@ -60,7 +60,7 @@ const CurrencyInputPanel = ({
             {`~$${usdValue?.toFixed(2) || 0}`}
           </Typography> */}
           <Typography sx={{
-            color: 'text.secondary', fontSize: '14px',
+            color: 'text.secondary', fontSize: '13px',
             fontWeight: '400',
           }}>
             Balance: {`${currencyBalance?.toFixed(4) || 0}`}
@@ -101,11 +101,11 @@ const CurrencyInputPanel = ({
                   boxShadow: "none",
                   minWidth: "auto",
                   padding: '5px 10px',
-                  backgroundColor: theme => (theme.palette as any).extra.card.light,
+                  backgroundColor: theme => (theme.palette as any).extra.swapPanel.background,
                   borderRadius: '999px',
                   color: 'text.secondary',
                   '&:hover': {
-                    backgroundColor: theme => (theme.palette as any).extra.card.hover,
+                    backgroundColor: theme => (theme.palette as any).extra.swapPanel.hover,
                     color: 'text.primary'
                   }
                 }}
@@ -138,7 +138,7 @@ const CurrencyInputPanel = ({
 
 const WrapCurrencyInputPanel = styled(Box)`
   border-radius: 8px;
-  background: ${(props) => (props.theme.palette as any).extra.card.background};
+  background: ${(props) => (props.theme.palette as any).extra.swapPanel.panel};
   padding: 15px;
   border: none;
   transition: .12s ease-in;

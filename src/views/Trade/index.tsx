@@ -457,7 +457,7 @@ const Swap = ({}: SwapProps) => {
           },
         }}
       >
-        <Typography fontWeight={500} sx={{ color: 'white' }}>
+        <Typography fontWeight={500} sx={{ color: 'inherit' }}>
           {text}
         </Typography>
       </Button>
@@ -569,8 +569,8 @@ const Swap = ({}: SwapProps) => {
                         padding: 0,
                         minWidth: 0,
                         color: 'primary.main',
-                        backgroundColor: theme => (theme.palette as any).extra.card.background,
-                        border:  theme => `5px solid ${(theme.palette as any).extra.card.light}`,
+                        backgroundColor: theme => (theme.palette as any).extra.swapPanel.panel,
+                        border:  theme => `5px solid ${(theme.palette as any).extra.swapPanel.background}`,
                         ':hover': {
                           color: 'background.default',
                           backgroundColor: 'primary.main',
@@ -595,19 +595,14 @@ const Swap = ({}: SwapProps) => {
                     onCurrencySelect={handleOutputSelect}
                     otherCurrency={currencies[Field.INPUT]}
                   />
-                  {/* <Divider sx={{ mt: 4, mb: 1 }} /> */}
-                  <Box mt="15px">{trade && <TradePrice price={trade?.executionPrice} />}</Box>
-                  {SwapButton}
-                </Box>
-                <Box
-                  sx={{
-                    // border: '1px solid',
-                    // borderColor: 'primary.main',
-                    // borderRadius: '4px',
-                    // mt: '15px',
-                  }}
-                >
-                  <SwapDetail trade={trade} />
+                  {trade &&
+                      <MoreDetailBox>
+                        <SwapDetail trade={trade} />
+                      </MoreDetailBox>
+                  }
+                  <Box mt='16px'>
+                    {SwapButton}
+                  </Box>
                 </Box>
                 <ConfirmSwapModal
                   open={showConfirm}
@@ -652,12 +647,17 @@ const top100Films = [
   { label: 'Dogecoin', token: '0xba2ae424d960c26247dd6c32edc70b295c744c43' },
 ];
 const WrapSwapBox = styled(Box)`
-  background-color: ${(props) => (props.theme.palette as any).extra.card.light};
+  background-color: ${(props) => (props.theme.palette as any).extra.swapPanel.background};
   border-radius: 12px;
   height: 100%;
 `;
+const MoreDetailBox = styled(Box)`
+  background-color: ${(props) => (props.theme.palette as any).extra.swapPanel.panel};
+  border-radius: 8px;
+  margin-top: 10px;
+`
 const PaperItem = styled(Box)`
-  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
+  background-color: ${(props) => (props.theme.palette as any).extra.swapPanel.background};
 `;
 
 export default Swap;
