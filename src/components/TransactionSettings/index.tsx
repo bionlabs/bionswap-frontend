@@ -1,4 +1,4 @@
-import SettingsIcon from "@mui/icons-material/Settings";
+import {RiSettings4Line} from "react-icons/ri";
 import { Box, IconButton, OutlinedInput, Popover, Stack, Typography } from "@mui/material";
 import { Switch } from "components";
 import PrimaryButton from "components/PrimaryButton";
@@ -39,8 +39,17 @@ const TransactionSettings = (props: Props) => {
 
   return (
     <>
-      <IconButton onClick={handleClick}>
-        <SettingsIcon />
+      <IconButton
+        onClick={handleClick}
+        sx={{
+            padding: '0', color: 'text.secondary',
+            ':hover':{
+              color: 'text.primary',
+              backgroundColor: 'transparent'
+            }
+        }}
+      >
+        <RiSettings4Line />
       </IconButton>
       <Popover
         open={open}
