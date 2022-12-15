@@ -123,7 +123,7 @@ const ManageCurrencyListModal = ({
         open={open}
         onClose={onDismiss}
         sx={{ 
-          backgroundColor: (theme:any) => (theme.palette as any).extra.card.background, 
+          backgroundColor: (theme:any) => (theme.palette as any).extra.swapPanel.background, 
           maxWidth: "500px",
           minWidth: '200px',
           width: '90vw',

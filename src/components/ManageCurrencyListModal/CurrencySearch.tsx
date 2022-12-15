@@ -101,8 +101,8 @@ const CurrencySearch = ({
 
   return (
     <Stack>
-      <Stack direction="column" alignItems="flex-start" gap="15px" width="100%" padding="20px">
-        <Typography color="text.primary" fontWeight="500" fontSize='20px'>
+      <Stack direction="column" alignItems="flex-start" gap="15px" width="100%" padding="16px">
+        <Typography color="text.primary" fontSize='18px'>
           Select a token
         </Typography>
         <TextField
@@ -116,8 +116,8 @@ const CurrencySearch = ({
               borderRadius: '8px',
               padding: '13px 15px',
               transition: '.12s ease-in',
-              backgroundColor: theme => (theme.palette as any).extra.card.light,
-
+              backgroundColor: theme => (theme.palette as any).extra.swapPanel.panel,
+              border: theme => `1px solid ${(theme.palette as any).extra.swapPanel.divider}`
               // '&.Mui-focused': {
               //   border: theme => `1px solid ${theme.palette.primary.main}`,
               //   // boxShadow:
@@ -137,18 +137,25 @@ const CurrencySearch = ({
           }}
         />
         <CommonBases onCurrencySelect={onSelect} />
+        <Stack
+          sx={{
+            border: '1px solid',
+            borderColor: theme => (theme.palette as any).extra.card.divider,
+            width: '100%',
+            borderRadius: '8px',
+            backgroundColor: theme => (theme.palette as any).extra.swapPanel.panel
+          }}
+        >
+          {searchToken && !searchTokenIsAdded && <ImportRow token={searchToken} onClick={handleImport} />}
+          <CurrencyList currencies={filteredSortedTokensWithETH} onCurrencySelect={onSelect} />
+        </Stack>
+        <ManageTokenBtn variant='text' fullWidth onClick={() => setView(ManageCurrencyListModalView.manage)}>
+          <img src="/images/sticky_note_2.png" alt="sticky_note_2.png" />
+          <Typography fontSize='14px' color="primary.main">
+            Manage Token List
+          </Typography>
+        </ManageTokenBtn>
       </Stack>
-      <Stack
-        sx={{
-          borderTop: '1px solid',
-          borderTopColor: theme => (theme.palette as any).extra.card.divider,
-          width: '100%',
-        }}
-      >
-        {searchToken && !searchTokenIsAdded && <ImportRow token={searchToken} onClick={handleImport} />}
-        <CurrencyList currencies={filteredSortedTokensWithETH} onCurrencySelect={onSelect} />
-      </Stack>
-
       {/* <Stack>
           <Stack direction="row" alignSelf="flex-start" gap={1} mb={1}>
             <Typography fontSize={12} sx={{ color: "text.secondary" }}>
@@ -160,21 +167,13 @@ const CurrencySearch = ({
           </Stack>
 
         </Stack> */}
-      <ManageTokenBtn fullWidth onClick={() => setView(ManageCurrencyListModalView.manage)}>
-        <img src="/images/sticky_note_2.png" alt="sticky_note_2.png" />
-        <Typography fontWeight="400" color="primary.main">
-          Manage Token List
-        </Typography>
-      </ManageTokenBtn>
+      
     </Stack>
   );
 };
 
 const ManageTokenBtn = styled(Button)`
-  display: flex;
-  gap: 10px;
-  padding: 16px;
-  background-color: ${(props) => (props.theme.palette as any).extra.card.light};
+  gap: 5px;
 `;
 
 export default memo(CurrencySearch);

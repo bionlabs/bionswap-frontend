@@ -107,7 +107,6 @@ const CurrencyList = ({
     <Box sx={{
         width: "100%",
         overflow: "hidden",
-        background: theme => (theme.palette as any).extra.card.background
       }}
     >
       <FixedSizeList
