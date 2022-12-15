@@ -30,10 +30,21 @@ import TradePrice from './components/TradePrice';
 import TradingViewChart from './components/TradingViewChart';
 import {RiArrowUpDownFill , RiArrowDownLine} from 'react-icons/ri'
 import Page from 'components/Page';
+import ConnectorOptionsModal from 'components/ConnectButton/ConnectorOptionsModal';
+import { Connector } from 'wagmi';
 
 type SwapProps = {};
 
 const Swap = ({}: SwapProps) => {
+  const [openConnectorsModal, setOpenConnectorsModal] = useState(false);
+  const handleConnectorConnected = (connector: Connector) => {
+    setOpenConnectorsModal(false);
+    gtag('event', 'Connector Connected', {
+      event_category: 'Connector',
+      event_label: connector.name,
+    });
+  };
+  
   const loadedUrlParams = useDefaultsFromURLSearch();
   const [hoverSwap , setHoverSwap] = useState(false);
   const { address: account } = useAccount();
@@ -355,10 +366,12 @@ const Swap = ({}: SwapProps) => {
     let onClick;
     let disabled = false;
 
+
     if (swapIsUnsupported) {
       text = `Unsupported Asset`;
     } else if (!account) {
       text = `Connect Wallet`;
+      onClick = () => setOpenConnectorsModal(true)
     } else if (showWrap) {
       onClick = onWrap;
       if (wrapInputError) {
@@ -432,19 +445,19 @@ const Swap = ({}: SwapProps) => {
         fullWidth
         variant='contained'
         sx={{
-          marginTop: '15px',
           fontWeight: '500',
           fontSize: '14px',
           lineHeight: '175%',
           padding: '10px',
           borderRadius: '8px',
-
+          transition: '.12s ease-in',
+          background: disabled ? 'inherit' : theme =>  (theme.palette as any).extra.button.linear,
           '&:hover': {
-            backgroundColor: 'primary.main',
+            background: theme =>  (theme.palette as any).extra.button.linear,
           },
         }}
       >
-        <Typography fontWeight={500} sx={{ color: 'inherit' }}>
+        <Typography fontWeight={500} sx={{ color: 'white' }}>
           {text}
         </Typography>
       </Button>
@@ -513,35 +526,32 @@ const Swap = ({}: SwapProps) => {
               <WrapSwapBox>
                 <Stack direction='row'
                   sx={{
-                    padding: '24px',
+                    padding: '16px 24px 0 24px',
                     width: '100%',
                     justifyContent: 'space-between',
-                    borderBottom: theme => `1px solid ${(theme.palette as any).extra.card.divider}`
+                    // borderBottom: theme => `1px solid ${(theme.palette as any).extra.card.divider}`
                   }}
                 >
                   <Stack spacing={0.5} alignItems='start'>
                     <Typography
                       sx={{
-                        fontWeight: '600', fontSize: '20px',
+                        fontWeight: '500', fontSize: '18px',
                         color: 'text.primary',
                       }}
                     >
-                      Exchange
-                    </Typography>
-                    <Typography color='text.secondary'>
-                      Trade tokens in an instant
+                      Swap
                     </Typography>
                   </Stack>
                   <TransactionSettings />
                 </Stack>
-                <Box p='24px'>
+                <Box p='16px'>
                   <CurrencyInputPanel
                     value={formattedAmounts[Field.INPUT]}
                     currency={currencies[Field.INPUT]}
                     onUserInput={handleTypeInput}
                     onCurrencySelect={handleInputSelect}
                     otherCurrency={currencies[Field.OUTPUT]}
-                    isMax={true}
+                    isMax={false}
                   />
                   <Stack
                     direction="row"
@@ -560,6 +570,7 @@ const Swap = ({}: SwapProps) => {
                         minWidth: 0,
                         color: 'primary.main',
                         backgroundColor: theme => (theme.palette as any).extra.card.background,
+                        border:  theme => `5px solid ${(theme.palette as any).extra.card.light}`,
                         ':hover': {
                           color: 'background.default',
                           backgroundColor: 'primary.main',
@@ -616,6 +627,11 @@ const Swap = ({}: SwapProps) => {
           </Box>
         </Section>
       </Container>
+      <ConnectorOptionsModal
+        onClose={() => setOpenConnectorsModal(false)}
+        open={openConnectorsModal}
+        onConnectorConnected={handleConnectorConnected}
+      />
     </Page>
   );
 };
@@ -636,7 +652,7 @@ const top100Films = [
   { label: 'Dogecoin', token: '0xba2ae424d960c26247dd6c32edc70b295c744c43' },
 ];
 const WrapSwapBox = styled(Box)`
-  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.light};
   border-radius: 12px;
   height: 100%;
 `;

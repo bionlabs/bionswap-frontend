@@ -252,7 +252,7 @@ export const darkPalette: ExtendedPaletteOptions = {
   },
   background: {
     default: "#000A0D",
-    paper: "#242e42",
+    paper: "#343b4b",
   },
   text: {
     primary: "#FFFFFF",
@@ -263,7 +263,7 @@ export const darkPalette: ExtendedPaletteOptions = {
     card: {
       background: '#0C1823',
       light: '#1B2332',
-      hover: '#242e42',
+      hover: '#343b4b',
       divider: 'rgba(255,255,255,.12)'
     },
     button: {

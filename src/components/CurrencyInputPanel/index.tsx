@@ -1,4 +1,4 @@
-import {BsChevronDown} from 'react-icons/bs'
+import {BiChevronDown} from 'react-icons/bi'
 import { Box, Button, InputAdornment, Stack, styled, TextField, Typography } from "@mui/material";
 import { Currency, CurrencyAmount, JSBI } from "@bionswap/core-sdk";
 import { CurrencyLogo } from "components";
@@ -99,24 +99,26 @@ const CurrencyInputPanel = ({
                 onClick={() => setSearchModalOpen(true)}
                 sx={{
                   boxShadow: "none",
-                  justifyContent: "space-between",
                   minWidth: "auto",
-                  backgroundColor: theme => (theme.palette as any).extra.button.lighter,
-                  borderRadius: '8px',
+                  padding: '5px 10px',
+                  backgroundColor: theme => (theme.palette as any).extra.card.light,
+                  borderRadius: '999px',
+                  color: 'text.secondary',
                   '&:hover': {
-                    backgroundColor: theme => (theme.palette as any).extra.button.lighter,
+                    backgroundColor: theme => (theme.palette as any).extra.card.hover,
+                    color: 'text.primary'
                   }
                 }}
               >
-                <Stack direction="row" spacing={1} color='text.primary'>
+                <Stack direction="row" spacing={1} color='inherit'>
                   <CurrencyLogo currency={currency} size={22} />
                   <Typography sx={{
-                    fontWeight: '500', fontSize: '14px',
-                    color: 'text.primary',
+                    fontWeight: '500',
+                    color: 'inherit',
                   }}>
                     {currency?.symbol}
                   </Typography>
-                  <BsChevronDown/>
+                  <BiChevronDown/>
                 </Stack>
               </Button>
             ),
@@ -136,7 +138,7 @@ const CurrencyInputPanel = ({
 
 const WrapCurrencyInputPanel = styled(Box)`
   border-radius: 8px;
-  background: ${(props) => (props.theme.palette as any).extra.card.light};
+  background: ${(props) => (props.theme.palette as any).extra.card.background};
   padding: 15px;
   border: none;
   transition: .12s ease-in;

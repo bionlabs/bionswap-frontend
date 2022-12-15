@@ -93,7 +93,7 @@ const ConnectButton = (props: Props) => {
     <>
       {!address ? (
         <ConnectWalletButton onClick={() => setOpenConnectorsModal(true)} variant="contained" fullWidth>
-          <Typography sx={{fontSize: '14px', color: 'inherit', fontWeight: '500'}}>Connect Wallet</Typography>
+          <Typography sx={{fontSize: '14px', color: 'white', fontWeight: '500'}}>Connect Wallet</Typography>
         </ConnectWalletButton>
       ) : (
         <HoverCard.Root openDelay={0.5}>
