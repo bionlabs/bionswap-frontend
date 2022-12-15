@@ -102,7 +102,7 @@ const LaunchPadSection = ({ chainId }: any) => {
         marginBottom: { xs: '30px', md: '70px' },
       }}
     >
-      <Container maxWidth="xl">
+      <Container>
         <Wrapper>
           {/* <Section>
             <Title title="Feature Project" />
@@ -138,34 +138,35 @@ const LaunchPadSection = ({ chainId }: any) => {
                 '.MuiInputBase-root': {
                   padding: '12px',
                 },
-
                 input: {
                   fontWeight: '400',
                   fontSize: '16px',
                   lineHeight: '180%',
-                  color: '#ffffff',
-
+                  color: 'text.primary',
                   '&:placeholder': {
-                    fontWeight: '400',
-                    fontSize: '16px',
                     lineHeight: '180%',
-                    color: '#717D8A',
+                    color: 'text.secondary',
                   },
                 },
-
+                '.MuiInputBase-root.MuiInput-root:hover:not(.Mui-disabled):before': {
+                  borderBottom: theme => `1px solid ${(theme.palette as any).extra.card.divider}`,
+                },
                 '.MuiInput-root:before': {
-                  borderBottom: '2px solid #4F5B67',
+                  borderBottom: theme => `1px solid ${(theme.palette as any).extra.card.divider}`,
+                },
+                '.MuiInput-root:after': {
+                  borderWidth: '1px',
                 },
               }}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <SearchIcon sx={{ color: 'gray.500' }} />
+                    <SearchIcon sx={{ color: 'text.secondary' }} />
                   </InputAdornment>
                 ),
               }}
             />
-            <Flex alignItems="center" justifyContent="space-between">
+            {/* <Flex alignItems="center" justifyContent="space-between">
               <FormControl>
                 <SelectCustom
                   value=""
@@ -198,7 +199,7 @@ const LaunchPadSection = ({ chainId }: any) => {
                   <MenuItem value={30}>Loved by Bionswap</MenuItem>
                 </SelectCustom>
               </FormControl>
-              {/* <Box
+              <Box
                 sx={{
                   display: { xs: 'none', md: 'block' },
                 }}
@@ -219,7 +220,7 @@ const LaunchPadSection = ({ chainId }: any) => {
                     />
                   ))}
                 </RadioGroup>
-              </Box> */}
+              </Box>
               <Box>
                 <Fillter>
                   <Typography variant="body3Poppins" color="text.primary" fontWeight="400">
@@ -228,11 +229,12 @@ const LaunchPadSection = ({ chainId }: any) => {
                   <img src="/icons/launchpad/filter_list.svg" alt="filter_list" />
                 </Fillter>
               </Box>
-            </Flex>
+            </Flex> */}
             <Flex
               flexWrap="wrap"
               sx={{
                 gap: { xs: '20px', lg: '40px' },
+                justifyContent: 'center'
               }}
             >
               {launchData ? (
@@ -276,11 +278,7 @@ const Section = styled(Box)`
   gap: 30px;
 `;
 const WrapItem = styled(Box)`
-  width: calc(100% / 4 - 30px);
-
-  ${(props) => props.theme.breakpoints.down('xl')} {
-    width: calc(100% / 3 - 30px);
-  }
+  width: calc(100% / 3 - 30px);
 
   ${(props) => props.theme.breakpoints.down('lg')} {
     width: calc(100% / 3 - 14px);
@@ -293,6 +291,7 @@ const WrapItem = styled(Box)`
   ${(props) => props.theme.breakpoints.down('sm')} {
     width: 100%;
   }
+  max-width: 395px;
 `;
 const WrapSlideFeatureProject = styled(Box)`
   margin-left: -15px;
