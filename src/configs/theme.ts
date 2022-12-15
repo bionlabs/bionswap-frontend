@@ -424,7 +424,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         xs: 0,
         sm: 600,
         md: 900,
-        lg: 1200,
+        lg: 1316,
         xl: 1536,
       },
     },
@@ -492,7 +492,8 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       MuiBackdrop: {
         styleOverrides: {
           root: {
-            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            // backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            backdropFilter: 'blur(10px)'
           },
         },
       },
@@ -521,6 +522,15 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
           alignItems: 'center',
         },
       },
+      MuiModal:{
+        styleOverrides:{
+          root: {
+            '& .MuiBackdrop-root': {
+              
+            },
+          }
+        }
+      }
     },
   } as ThemeOptions;
 };

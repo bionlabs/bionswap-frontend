@@ -16,7 +16,7 @@ const Launchpad = () => {
         backgroundColor: theme => (theme.palette as any).extra.background.alt
       }}
     >
-      <Hero />
+      {/* <Hero /> */}
       {ChainId.BSC_TESTNET === chainId ? (
         <LaunchPadSection chainId={chainId} />
       ) : (

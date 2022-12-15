@@ -66,11 +66,12 @@ const TransactionSettings = (props: Props) => {
         sx={{
           '.MuiPaper-root':{
             backgroundColor: theme => (theme.palette as any).extra.swapPanel.background,
-            borderRadius: '12px'
+            borderRadius: '12px',
+            border: theme => `1px solid ${(theme.palette as any).extra.swapPanel.divider}`,
           }
         }}
       >
-        <Stack width={380} p='16px' borderRadius="8px" gap={1}>
+        <Stack p='16px' borderRadius="8px" gap={1}>
           <Stack width="100%" alignItems="start" borderRadius="8px"
             sx={{ 
               // border: theme => `1px solid ${(theme.palette as any).extra.card.divider}`,

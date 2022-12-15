@@ -197,6 +197,7 @@ const Tag = styled(Box)`
   font-size: 12px;
 `;
 const AvatarBox = styled(Box)`
+  background-color: ${props => props.theme.palette.background.default};
   * {
     transition: 0.12s ease-in;
   }
@@ -204,7 +205,7 @@ const AvatarBox = styled(Box)`
   cursor: pointer;
   :hover {
     img {
-      opacity: 0.3;
+      opacity: 0.5;
     }
   }
 

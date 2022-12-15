@@ -32,10 +32,12 @@ import {RiArrowUpDownFill , RiArrowDownLine} from 'react-icons/ri'
 import Page from 'components/Page';
 import ConnectorOptionsModal from 'components/ConnectButton/ConnectorOptionsModal';
 import { Connector } from 'wagmi';
+import useMediaQuery from 'hooks/useMediaQuery';
 
 type SwapProps = {};
 
 const Swap = ({}: SwapProps) => {
+  const {isMobile} = useMediaQuery();
   const [openConnectorsModal, setOpenConnectorsModal] = useState(false);
   const handleConnectorConnected = (connector: Connector) => {
     setOpenConnectorsModal(false);
@@ -518,12 +520,12 @@ const Swap = ({}: SwapProps) => {
           </Stack> */}
           <Box
             sx={{
-              maxWidth: '460px',
-              width: { xs: '100%', md: '30%' },
+              maxWidth: '440px',
+              // width: { xs: '100%', md: '30%' },
             }}
           >
             <Box>
-              <WrapSwapBox>
+              <WrapSwapBox minWidth={isMobile ? '90%' : '440px'}>
                 <Stack direction='row'
                   sx={{
                     padding: '16px 24px 0 24px',
@@ -635,6 +637,7 @@ const Section = styled(Box)`
   padding: 8rem 0;
   display: flex;
   justify-content: center;
+  gap: 20px;
 `;
 const FlexBox = styled(Box)`
   display: flex;

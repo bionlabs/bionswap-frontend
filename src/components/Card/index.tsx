@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
-import { Box, styled, Typography, linearProgressClasses, LinearProgress } from '@mui/material';
+import { Box, styled, Typography, linearProgressClasses, LinearProgress, Stack } from '@mui/material';
 import { useRouter } from 'next/router';
 import Countdown from './Countdown';
 import { formatEther, formatUnits } from 'ethers/lib/utils';
@@ -55,8 +55,6 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
     handleCheckDecimal();
   }, [quoteToken, data]);
 
-  console.log(data)
-
   return (
     <WrapBox
       onClick={() => {
@@ -66,7 +64,7 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
       <Box
         sx={{
           width: '100%',
-          height: '123px',
+          height: '180px',
 
           img: {
             objectFit: 'cover',
@@ -75,27 +73,6 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
       >
         <img src={data?.banner} alt={data?.title} width="100%" height="100%" />
       </Box>
-      <Status
-        sx={{
-          backgroundColor: 'gray.800',
-          ...(currentTime > startTime && {
-            backgroundColor: 'success.main',
-          }),
-          ...(currentTime > endTime && {
-            backgroundColor: 'text.secondary',
-          }),
-        }}
-      >
-        <Typography
-          variant="captionPoppins"
-          sx={{
-            color: 'background.paper',
-            fontWeight: '500',
-          }}
-        >
-          {currentTime < startTime ? 'Coming Soon' : currentTime < endTime ? 'Sale Open' : 'Sale Closed'}
-        </Typography>
-      </Status>
       <WrapTopArea>
         <WrapLogo>
           <img src={data?.logo} alt={data?.title} />
@@ -103,16 +80,42 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
         <TimeLineBg>
           <Countdown endTime={endTime} startTime={startTime} />
         </TimeLineBg>
+        <Stack width='100%' alignItems='end' p='16px 16px 0 16px'>
+          <Status
+            sx={{
+              backgroundColor: theme => (theme.palette as any).extra.button.backgroundGreenOpacity,
+              color: 'primary.main',
+              ...(currentTime > startTime && {
+                backgroundColor: 'success.main',
+                color: 'white',
+              }),
+              ...(currentTime > endTime && {
+                backgroundColor: theme => (theme.palette as any).extra.card.hover,
+                color: 'text.secondary',
+              }),
+            }}
+          >
+            <Typography
+              sx={{
+                color: 'inherit',
+                fontWeight: '600',
+                fontSize: '10px'
+              }}
+            >
+              {currentTime < startTime ? 'Coming Soon' : currentTime < endTime ? 'Sale Open' : 'Sale Closed'}
+            </Typography>
+          </Status>
+        </Stack>
       </WrapTopArea>
       <FlexBox
         flexDirection="column"
         gap="20px"
         sx={{
-          padding: '28px 15px 22px',
+          padding: '16px',
         }}
       >
-        <FlexBox justifyContent="space-between" alignItems="center">
-          <FlexBox flexDirection="column" gap="5px">
+        <FlexBox justifyContent="space-between" alignItems="start">
+          <Stack alignItems='start' spacing={1}>
             {/* <Typography
               variant="captionPoppins"
               sx={{
@@ -124,7 +127,7 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
             </Typography> */}
             <Typography
               sx={{
-                fontWeight: '600', fontSize: '24px', lineHeight: '1.2',
+                fontWeight: '700', fontSize: '24px', lineHeight: '1.2',
                 color: 'text.primary',
               }}
             >
@@ -138,15 +141,7 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
             >
               ${data?.tokenMetadata.symbol}
             </Typography>
-          </FlexBox>
-          <Box>
-            <img
-              src={`/icons/coins/${unit}.svg`}
-              alt={unit}
-              width="38px"
-              height="38px"
-            />
-          </Box>
+          </Stack>
         </FlexBox>
         <BorderLinearProgress variant="determinate" value={linearProgress} />
         <FlexBox justifyContent="space-between">
@@ -230,8 +225,9 @@ const FlexBox = styled(Box)`
   display: flex;
 `;
 const WrapBox = styled(Box)`
-  border-radius: 8px;
+  border-radius: 12px;
   background-color: ${(props) => (props.theme.palette as any).extra.card.background};
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -245,8 +241,8 @@ const WrapBox = styled(Box)`
   }
 `;
 const WrapLogo = styled(Box)`
-  border: 2.75px solid ${(props) => (props.theme.palette as any).extra.card.background};
-  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
+  border: 5px solid ${(props) => (props.theme.palette as any).extra.card.background};
+  background-color: ${(props) => (props.theme.palette as any).background.default};
   border-radius: 8px;
   position: relative;
   max-width: 88px;
@@ -259,31 +255,29 @@ const WrapLogo = styled(Box)`
   margin-left: 15px;
 
   img {
-    width: 100%;
-    height: 100%;
+    width: 80px;
+    height: 80px;
     object-fit: cover;
     border-radius: 8px;
   }
 `;
 const WrapTopArea = styled(Box)`
-  margin-top: -38px;
+  margin-top: -30px;
 `;
 const TimeLineBg = styled(Box)`
   background: ${props => (props.theme.palette as any).extra.card.light};
   width: 100%;
   padding: 6px;
-  margin-top: -50px;
+  margin-top: -60px;
 `;
 const Status = styled(Box)`
-  position: absolute;
-  padding: 4px 19px;
+  padding: 4px 12px;
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
-  top: 13px;
-  right: 13px;
+  max-width: 100px;
 `;
 const Tag = styled(Box)`
   border-radius: 4px;
