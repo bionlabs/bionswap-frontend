@@ -84,7 +84,7 @@ const LaunchpadDetail = () => {
               <FundraiseArea data={data} presaleContract={presaleContract} token={token} quoteToken={quoteToken} />
             </Stack>
           </Container>
-          <WrapService>
+          {/* <WrapService>
             <Container maxWidth="xl">
               <FlexBox
                 justifyContent="space-between"
@@ -105,7 +105,7 @@ const LaunchpadDetail = () => {
                 ))}
               </FlexBox>
             </Container>
-          </WrapService>
+          </WrapService> */}
           <WrapTabRecom>
             <TabsArea isMobile={isMobile} data={data} unit={unit} token={token} />
             {/* <RecomendProjects data={crowdfundingConfig} /> */}
