@@ -141,7 +141,7 @@ export const lightPalette: ExtendedPaletteOptions = {
       background: '#FFF',
       panel: '#F2F5FA',
       hover: '#EAEAEA',
-      divider: 'rgba(255,255,255,.12)'
+      divider: 'rgba(0,0,0,.12)'
     },
     background: {
       alt: '#F2F5FA'
@@ -272,6 +272,12 @@ export const darkPalette: ExtendedPaletteOptions = {
       hover: '#343b4b',
       divider: 'rgba(255,255,255,.12)'
     },
+    // card: {
+    //   background: '#1B2332',
+    //   light: '#27344b',
+    //   hover: '#343b4b',
+    //   divider: 'rgba(255,255,255,.12)'
+    // },
     swapPanel: {
       background: '#1B2332',
       panel: '#0C1823',

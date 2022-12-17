@@ -15,17 +15,18 @@ interface FundraiseAreaProps {
   presaleContract: any;
 }
 
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 10,
-  borderRadius: 5,
-  [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor: (theme.palette as any).extra.card.hover,
-  },
-  [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 5,
-    backgroundColor: 'success.main',
-  },
-}));
+// const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+//   height: 10,
+//   width: '100%',
+//   borderRadius: 5,
+//   [`&.${linearProgressClasses.colorPrimary}`]: {
+//     backgroundColor: (theme.palette as any).extra.card.hover,
+//   },
+//   [`& .${linearProgressClasses.bar}`]: {
+//     borderRadius: 5,
+//     backgroundColor: 'success.main',
+//   },
+// }));
 
 const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, presaleContract }) => {
   const [openModal, setOpenModal] = useState(false);
@@ -62,9 +63,10 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
 
   return (
     <>
-      <FlexBox
+      <Box
         sx={{
-          flexDirection: { xs: 'column', md: 'row' },
+          display: 'grid', width: '100%',
+          gridTemplateColumns: { xs: '12fr', md: '7fr 4fr' },
           gap: { xs: '20px', lg: '50px' },
         }}
       >
@@ -73,7 +75,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
             width: '100%',
             borderRadius: '8px',
             overflow: 'hidden',
-            height: '560px',
+            height: '508px',
           }}
         >
           <Box
@@ -87,16 +89,16 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
             }}
           />
         </Box>
-        <WrapInforBox
+        <WrapInfoBox
           sx={{
             // maxWidth: { xs: '100%', md: '365px', lg: '430px' },
           }}
         >
-          <Stack alignItems='start' mb='20px'>
+          <Stack alignItems='start' spacing={1}>
             <Typography color='text.secondary'>
               Fundraise Goal
             </Typography>
-            <Typography fontSize='40px' color="text.primary" fontWeight="700" sx={{textShadow: 'rgb(255 255 255 / 30%) 0px 0px 12px'}}>
+            <Typography fontSize='40px' color="text.primary" fontWeight="700" sx={{textShadow: 'rgb(255 255 255 / 30%) 0px 0px 12px'}} lineHeight='1'>
               {formatUnits(data?.hardCap || 0, decimals)} {unit}
             </Typography>
           </Stack>
@@ -158,7 +160,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
                 {currentCap} {unit}
               </Typography>
             </Stack>
-            <BorderLinearProgress variant="determinate" value={linearProgress} />
+            {/* <BorderLinearProgress variant="determinate" value={linearProgress} /> */}
           </Stack>
           <FlexBox>
             {startTime > currentTime ? (
@@ -178,26 +180,32 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
               </Link>
             ) : currentTime > endTime ? (
               <Link href={`/swap?inputCurrency=ETH&outputCurrency=${token?.address}`}>
-                <JoinButton sx={{ backgroundColor: 'primary.main', '&:hover': { backgroundColor: 'primary.main' } }}>
-                  <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-                    View {token?.symbol} on Bionswap
+                <JoinButton
+                  variant='contained'
+                  color='success'
+                >
+                  <Typography fontSize='18px' fontWeight="600">
+                    View ${token?.symbol} on Bionswap
                   </Typography>
-                  <img src="/images/arrow_forward.png" alt="arrow_forward" width="20px" />
                 </JoinButton>
               </Link>
             ) : whitelisteds && data?.isWhitelistEnabled ? (
-              <JoinButton disabled sx={{ backgroundColor: 'gray.200' }}>
-                <Typography variant="body3Poppins" color="gray.400" fontWeight="600">
+              <JoinButton disabled variant='contained'>
+                <Typography fontSize='18px' color="text.secondary" fontWeight="600">
                   You are not whitelisted
                 </Typography>
               </JoinButton>
             ) : (
               <JoinButton
+                variant='contained'
                 onClick={handleOpenModal}
-                sx={{ backgroundColor: 'success.main', '&:hover': { backgroundColor: 'success.main' } }}
+                sx={{
+                  background: theme => (theme.palette as any).extra.button.linear,
+                  transition: '0.12s ease-in'
+                }}
               >
-                <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-                  Join IDO Now!
+                <Typography fontSize='18px' color="white" fontWeight="600">
+                  Join Now
                 </Typography>
               </JoinButton>
             )}
@@ -205,8 +213,8 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
           <Box>
             <CountDownTime endTime={endTime} startTime={startTime} />
           </Box>
-        </WrapInforBox>
-      </FlexBox>
+        </WrapInfoBox>
+      </Box>
       <JoinIdoModal data={data} open={openModal} onDismiss={handleCloseModal} unit={unit} currentCap={currentCap} />
     </>
   );
@@ -215,24 +223,22 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
 const FlexBox = styled(Box)`
   display: flex;
 `;
-const WrapInforBox = styled(Box)`
+const WrapInfoBox = styled(Box)`
   padding: 32px;
-  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
+  background-color: ${(props) => (props.theme.palette as any).extra.swapPanel.background};
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.swapPanel.divider};
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   width: 100%;
+  gap: 30px;
 `;
-const Line = styled(Box)`
-  width: 100%;
-  height: 1px;
-  background-color: ${(props) => (props.theme.palette as any).extra.card.light};
-`;
+
 const JoinButton = styled(Button)`
   border-radius: 4px;
   width: 100%;
   text-align: center;
-  padding: 8px;
+  padding: 12px 25px;
   gap: 5px;
 `;
 
