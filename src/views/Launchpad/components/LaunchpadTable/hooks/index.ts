@@ -47,6 +47,5 @@ export function createData(
     max_allocation,
     sale_price,
     end_date,
-    quote_token
   };
 }
