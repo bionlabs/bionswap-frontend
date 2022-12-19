@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
-import { Box, styled, Typography, linearProgressClasses, LinearProgress, Stack } from '@mui/material';
+import { Box, styled, Typography, linearProgressClasses, LinearProgress, Stack, Skeleton } from '@mui/material';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Countdown from './Countdown';
 import { formatEther, formatUnits } from 'ethers/lib/utils';
 import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS } from '@bionswap/core-sdk';
@@ -30,7 +31,9 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
   const currentTime = +new Date();
   const startTime = data?.startTime * 1000;
   const endTime = data?.endTime * 1000;
-  const quoteToken = useToken(data?.quoteToken);
+  const quoteToken = useToken(data?.quoteToken, true);
+
+  const endedTime = new Date(endTime);
   // const decimals = data?.isQuoteETH ? 18 : quoteToken?.decimals;
   const [decimals, setDecimals] = useState(18);
   const currentCap = formatUnits(useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0, decimals);
@@ -56,169 +59,173 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
   }, [quoteToken, data]);
 
   return (
-    <WrapBox
-      onClick={() => {
-        router.push(`/launchpad/${data?.saleAddress}`);
-      }}
-    >
-      <Box
-        sx={{
-          width: '100%',
-          height: '180px',
-
-          img: {
-            objectFit: 'cover',
-          },
-        }}
-      >
-        <img src={data?.banner} alt={data?.title} width="100%" height="100%" />
-      </Box>
-      <WrapTopArea>
-        <WrapLogo>
-          <img src={data?.logo} alt={data?.title} />
-        </WrapLogo>
-        <TimeLineBg>
-          <Countdown endTime={endTime} startTime={startTime} />
-        </TimeLineBg>
-        <Stack width='100%' alignItems='end' p='16px 16px 0 16px'>
-          <Status
+    <Link href={`/launchpad/${data?.saleAddress}`}>
+      <WrapBox>
+        {data ? (
+          <Box
             sx={{
-              backgroundColor: theme => (theme.palette as any).extra.button.backgroundGreenOpacity,
-              color: 'primary.main',
-              ...(currentTime > startTime && {
-                backgroundColor: 'success.main',
-                color: 'white',
-              }),
-              ...(currentTime > endTime && {
-                backgroundColor: theme => (theme.palette as any).extra.card.hover,
-                color: 'text.secondary',
-              }),
+              width: '100%',
+              height: '180px',
+              img: {
+                objectFit: 'cover',
+              },
             }}
           >
-            <Typography
+            <img src={data?.banner} alt={data?.title} width="100%" height="100%" />
+          </Box>
+        ) : (
+          <Skeleton width="100%" height="180px" />
+        )}
+
+        <WrapTopArea>
+          {data ? (
+            <WrapLogo>
+              <img src={data?.logo} alt={data?.title} />
+            </WrapLogo>
+          ) : (
+            <Skeleton width="80px" height="80px" />
+          )}
+
+          <TimeLineBg>
+            <Stack alignItems="end" width="100%" pr="10px">
+              <Typography color="text.secondary" fontSize="12px">
+                Ended in {endedTime.toLocaleString()}
+              </Typography>
+            </Stack>
+          </TimeLineBg>
+          <Stack width="100%" alignItems="end" p="16px 16px 0 16px">
+            <Status
               sx={{
-                color: 'inherit',
-                fontWeight: '600',
-                fontSize: '10px'
+                backgroundColor: (theme) => (theme.palette as any).extra.button.backgroundGreenOpacity,
+                color: 'primary.main',
+                ...(currentTime > startTime && {
+                  backgroundColor: 'success.main',
+                  color: 'white',
+                }),
+                ...(currentTime > endTime && {
+                  backgroundColor: (theme) => (theme.palette as any).extra.card.hover,
+                  color: 'text.secondary',
+                }),
               }}
             >
-              {currentTime < startTime ? 'Coming Soon' : currentTime < endTime ? 'Sale Open' : 'Sale Closed'}
-            </Typography>
-          </Status>
-        </Stack>
-      </WrapTopArea>
-      <FlexBox
-        flexDirection="column"
-        gap="20px"
-        sx={{
-          padding: '16px',
-        }}
-      >
-        <FlexBox justifyContent="space-between" alignItems="start">
-          <Stack alignItems='start' spacing={1}>
-            {/* <Typography
-              variant="captionPoppins"
+              <Typography
+                sx={{
+                  color: 'inherit',
+                  fontWeight: '600',
+                  fontSize: '10px',
+                }}
+              >
+                {currentTime < startTime ? 'Coming Soon' : currentTime < endTime ? 'Sale Open' : 'Sale Closed'}
+              </Typography>
+            </Status>
+          </Stack>
+        </WrapTopArea>
+        <FlexBox
+          flexDirection="column"
+          gap="20px"
+          sx={{
+            padding: '16px',
+          }}
+        >
+          <FlexBox justifyContent="space-between" alignItems="start">
+            <Stack alignItems="start" spacing={1}>
+              <Typography
+                sx={{
+                  fontWeight: '700',
+                  fontSize: '24px',
+                  lineHeight: '1.2',
+                  color: 'text.primary',
+                }}
+              >
+                {data?.title}
+              </Typography>
+              <Typography
+                sx={{
+                  color: 'primary.main',
+                  lineHeight: '1.2',
+                  fontSize: '14px',
+                }}
+              >
+                ${data?.tokenMetadata.symbol}
+              </Typography>
+            </Stack>
+          </FlexBox>
+          <BorderLinearProgress variant="determinate" value={linearProgress} />
+          <FlexBox justifyContent="space-between">
+            <Typography
+              variant="caption6Poppins"
               sx={{
                 fontWeight: '400',
-                color: '#717D8A',
+                color: 'primary.main',
               }}
             >
-              {data?.saleType}
-            </Typography> */}
+              Total Goal
+            </Typography>
             <Typography
+              variant="caption6Poppins"
               sx={{
-                fontWeight: '700', fontSize: '24px', lineHeight: '1.2',
+                fontWeight: '600',
                 color: 'text.primary',
               }}
             >
-              {data?.title}
+              {data?.fHardCap.toFixed(2) ?? 0} {unit}
             </Typography>
+          </FlexBox>
+          <FlexBox justifyContent="space-between">
             <Typography
-              sx={{
-                color: 'primary.main', lineHeight: '1.2',
-                fontSize: '14px'
-              }}
-            >
-              ${data?.tokenMetadata.symbol}
-            </Typography>
-          </Stack>
-        </FlexBox>
-        <BorderLinearProgress variant="determinate" value={linearProgress} />
-        <FlexBox justifyContent="space-between">
-          <Typography
-            variant="caption6Poppins"
-            sx={{
-              fontWeight: '400',
-              color: 'primary.main',
-            }}
-          >
-            Total Goal
-          </Typography>
-          <Typography
-            variant="caption6Poppins"
-            sx={{
-              fontWeight: '600',
-              color: 'text.primary',
-            }}
-          >
-            {formatUnits(data?.hardCap || 0, decimals || 0)} {unit}
-          </Typography>
-        </FlexBox>
-        <FlexBox justifyContent="space-between">
-          <Typography
-            variant="caption6Poppins"
-            sx={{
-              fontWeight: '400',
-              color: 'primary.main',
-            }}
-          >
-            Allocation
-          </Typography>
-          <Typography
-            variant="caption6Poppins"
-            sx={{
-              fontWeight: '600',
-              color: 'text.primary',
-            }}
-          >
-            {formatUnits(data?.minPurchase || 0, decimals)} {unit} - {formatUnits(data?.maxPurchase || 0, decimals)}{' '}
-            {unit}
-          </Typography>
-        </FlexBox>
-        <FlexBox gap="12px">
-          <Tag
-            sx={{
-              backgroundColor: 'rgba(160, 236, 138, 0.15)',
-            }}
-          >
-            <Typography
-              variant="captionPoppins"
+              variant="caption6Poppins"
               sx={{
                 fontWeight: '400',
-                color: 'green.300',
+                color: 'primary.main',
               }}
             >
-              Verified
+              Max allocation
             </Typography>
-          </Tag>
-          <Tag
-            sx={{
-              backgroundColor: 'rgba(154, 106, 255, 0.15)',
-            }}
-          >
             <Typography
-              variant="captionPoppins"
+              variant="caption6Poppins"
               sx={{
-                fontWeight: '400',
-                color: '#9A6AFF',
+                fontWeight: '600',
+                color: 'text.primary',
               }}
             >
-              Loved by Bionswap
+              {data?.fMaxPurchase ?? 0} {unit}
             </Typography>
-          </Tag>
+          </FlexBox>
+          <FlexBox gap="12px">
+            <Tag
+              sx={{
+                backgroundColor: (theme) => (theme.palette as any).extra.button.backgroundGreenOpacity,
+              }}
+            >
+              <Typography
+                variant="captionPoppins"
+                sx={{
+                  fontWeight: '400',
+                  color: 'primary.main',
+                }}
+              >
+                Verified
+              </Typography>
+            </Tag>
+            <Tag
+              sx={{
+                backgroundColor: 'rgba(154, 106, 255, 0.15)',
+              }}
+            >
+              <Typography
+                variant="captionPoppins"
+                sx={{
+                  fontWeight: '400',
+                  color: 'secondary.light',
+                }}
+              >
+                Loved by Bionswap
+              </Typography>
+            </Tag>
+          </FlexBox>
         </FlexBox>
-      </FlexBox>
-    </WrapBox>
+      </WrapBox>
+    </Link>
   );
 };
 const FlexBox = styled(Box)`
@@ -265,7 +272,7 @@ const WrapTopArea = styled(Box)`
   margin-top: -30px;
 `;
 const TimeLineBg = styled(Box)`
-  background: ${props => (props.theme.palette as any).extra.card.light};
+  background: ${(props) => (props.theme.palette as any).extra.card.light};
   width: 100%;
   padding: 6px;
   margin-top: -60px;

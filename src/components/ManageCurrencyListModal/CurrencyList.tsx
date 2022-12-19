@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { Currency } from "@bionswap/core-sdk";
 import CurrencyLogo from "components/CurrencyLogo";
-import { WrappedTokenInfo } from "blockChainEntities/WrappedTokenInfo";
+import { WrappedTokenInfo } from "bionswap-entities/WrappedTokenInfo";
 import { useAccount, useCurrencyBalance } from "hooks";
 import { CSSProperties, useCallback } from "react";
 import { FixedSizeList, ListChildComponentProps } from "react-window";

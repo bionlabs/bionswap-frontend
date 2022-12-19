@@ -104,10 +104,10 @@ const StyledSelect = styled(Select)`
         transition: .12s ease-in;
         border-radius: 4px;
         border: 1.5px solid;
-        border-color: ${props => (props.theme.palette as any).extra.card.hover};
-        background-color: ${props => (props.theme.palette as any).extra.card.hover};
+        border-color: ${props => (props.theme.palette as any).extra.card.light};
+        background-color: ${props => (props.theme.palette as any).extra.card.light};
         :hover {
-            border-color: ${props => (props.theme.palette as any).primary.main};
+            background-color: ${props => (props.theme.palette as any).extra.card.hover};
         }
     }
     fieldset {
