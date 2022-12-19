@@ -31,7 +31,7 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
   const currentTime = +new Date();
   const startTime = data?.startTime * 1000;
   const endTime = data?.endTime * 1000;
-  const quoteToken = useToken(data?.quoteToken, true);
+  const quoteToken = useToken(data?.quoteToken);
 
   const endedTime = new Date(endTime);
   // const decimals = data?.isQuoteETH ? 18 : quoteToken?.decimals;

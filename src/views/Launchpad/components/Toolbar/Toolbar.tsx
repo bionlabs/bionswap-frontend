@@ -12,23 +12,16 @@ import {IoList , IoGrid} from 'react-icons/io5'
 
 interface ToolbarProps {
     view: string | null
-    setView: Dispatch<SetStateAction<string | null>>
+    handleChangeView: (event: React.MouseEvent<HTMLElement>, newView: string | null) => void
 }
 
 const Toolbar = ({
     view,
-    setView
+    handleChangeView
 }:ToolbarProps
 ) => {
 
-  const handleChangeView = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string|null,
-  ) => {
-    if (newAlignment !== null) {
-        setView(newAlignment);
-    }
-  };
+  
 
   return (
     <div>

@@ -1,72 +1,106 @@
-import React from 'react'
-import { 
-    Box,
-    Stack,
-    styled,
-    Pagination
-} from '@mui/material'
+import React, { useCallback, useEffect, useState } from 'react';
+import { Box, Stack, styled, Pagination } from '@mui/material';
 import Card from 'components/Card';
 import SkeletonCard from 'components/SkeletonCard';
 import NoDataView from 'components/NoDataView';
+import { getSaleList } from 'api/launchpad';
+import { useRefetchIncreasedInterval } from 'hooks';
 
 interface CardProps {
-    launchData: any
-    page: number
-    handleChangePagigation: (event: React.ChangeEvent<unknown>, value: number) => void
+  chainId: any;
+  view: string;
 }
 
-const LaunchpadCards = ({
-    launchData,
-    page,
-    handleChangePagigation
-}:CardProps) => {
+const LaunchpadCards = ({ chainId, view }: CardProps) => {
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [params, setParams] = useState<null | {}>({
+    page: page,
+    limit: 12,
+    owner: '',
+    keyword: '',
+    sortBy: '-createdAt',
+  });
+
+  const [launchData, setLaunchData]: any = useState(null);
+  const getLaunchData = useCallback(
+    async (params: any) => {
+      try {
+        const launchData = await getSaleList(
+          params.page,
+          params.limit,
+          chainId,
+          params.owner,
+          params.keyword,
+          params.sortBy,
+        );
+        setLaunchData(launchData);
+      } catch (error) {
+        setLoading(false);
+        console.log('error====>', error);
+      }
+      setLoading(false);
+    },
+    [chainId, setLoading],
+  );
+
+  useRefetchIncreasedInterval(
+    async () => {
+      await getLaunchData(params);
+    },
+    0,
+    1500,
+    [chainId, params, view],
+  );
+
+  useEffect(() => {
+    getLaunchData(params);
+  }, [params, chainId, getLaunchData, view]);
+
+  const handleChangePagigation = (event: any, value: number) => {
+    setLoading(true);
+    setParams({ ...params, page: value });
+    setPage(value);
+  };
 
   return (
     <>
-        <Stack
-            direction='row'
-            flexWrap="wrap"
-            alignItems='start'
-            width='100%'
-            sx={{
-                gap:{ xs: '20px', lg: '40px'}
-            }}
-        >
-            {launchData ? (
-            launchData.data ? (
-                launchData?.data?.map((item: any) => (
-                <WrapItem key={item?.saleAddress}>
-                    <Card data={item} />
-                </WrapItem>
-                ))
-            ) : (
-                <Box width="100%" height="40vh">
-                  <NoDataView />
-                </Box>
-            )
-            ) : (
-              <>
-                <SkeletonCard />
-                <SkeletonCard />
-                <SkeletonCard />
-              </>
-            )}
-        </Stack>
-        <Stack width='100%'>
-            <Pagination
-                count={launchData?.totalPages}
-                page={page}
-                onChange={handleChangePagigation}
-                color="primary"
-                variant='outlined'
-                shape="rounded"
-                size="large"
-                showFirstButton showLastButton
-            />
-        </Stack>
+      <Stack
+        direction="row"
+        flexWrap="wrap"
+        alignItems="start"
+        justifyContent="space-between"
+        width="100%"
+        sx={{
+          gap: { xs: '20px', lg: '40px' },
+        }}
+      >
+        {launchData && !loading ? (
+          launchData?.data?.map((item: any) => (
+            <WrapItem key={item?.saleAddress}>
+              <Card data={item} />
+            </WrapItem>
+          ))
+        ) : (
+          <SkeletonCard />
+        )}
+      </Stack>
+      <Stack width="100%">
+        <Pagination
+          count={launchData?.totalPages}
+          page={page}
+          onChange={handleChangePagigation}
+          color="primary"
+          variant="outlined"
+          shape="rounded"
+          size="large"
+          showFirstButton
+          showLastButton
+        />
+      </Stack>
     </>
-  )
-}
+  );
+};
 
 const WrapItem = styled(Box)`
   width: calc(100% / 3 - 30px);
@@ -85,4 +119,4 @@ const WrapItem = styled(Box)`
   max-width: 395px;
 `;
 
-export default LaunchpadCards
+export default LaunchpadCards;
