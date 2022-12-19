@@ -4,6 +4,7 @@ import Page from 'components/Page';
 import { useEffect, useState } from 'react';
 import Analytics from './Sections/Analytics/Analytics';
 import CommunitySection from './Sections/Community/CommunitySection';
+import Features from './Sections/Features/Features';
 import HeroSection from './Sections/Hero/HeroSection';
 import MissionSection from './Sections/Mission/MissionSection';
 import NetworkSection from './Sections/Network/NetworkSection';
@@ -35,6 +36,7 @@ const Homepage = () => {
       //  backgroundColor: theme => (theme.palette as any).extra.background.alt
     }}>
       <HeroSection isMobile={isMobile} isTablet={isTablet} />
+      <Features/>
       {/* <Analytics/>
       <NetworkSection isMobile={isMobile} isTablet={isTablet} />
       <UpcommingProjectSection />

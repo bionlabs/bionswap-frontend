@@ -151,6 +151,7 @@ export const lightPalette: ExtendedPaletteOptions = {
     },
     background: {
       alt: '#F2F5FA',
+      secondary: '#f8f8f8'
     },
     button: {
       backgroundGreenOpacity: '#bff0e5',
@@ -259,7 +260,7 @@ export const darkPalette: ExtendedPaletteOptions = {
     dark: '#059494',
   },
   secondary: {
-    main: '#6803B8',
+    main: '#9A6AFF',
     light: '#9A6AFF',
   },
   background: {
@@ -303,6 +304,7 @@ export const darkPalette: ExtendedPaletteOptions = {
     },
     background: {
       alt: '#000A0D',
+      secondary: '#0C1823'
     },
     text: {
       linear: 'linear-gradient(133.2deg, #D184F3 2.95%, #87D3DA 48.27%, #8CF99E 100%)',

@@ -7,6 +7,8 @@ import {
 } from '@mui/material'
 import FarmTable from './components/FarmTable/FarmTable'
 import Header from './components/Header/Header'
+import { useContract } from 'hooks'
+import abi from './abi.json'
 
 const Earn = () => {
   return (
