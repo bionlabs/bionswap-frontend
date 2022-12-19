@@ -22,7 +22,7 @@ const Footer = ({ children }: any) => {
 
     return (
         <Wrapper>
-            <Container maxWidth='xl'>
+            <Container>
                 <WrapMenuItem sx={{
                     flexDirection: isMobile ? 'column' : 'row'
                 }}>
