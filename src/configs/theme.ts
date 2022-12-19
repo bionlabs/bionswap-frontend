@@ -102,195 +102,207 @@ declare module '@mui/material/Typography' {
 }
 
 export const lightPalette: ExtendedPaletteOptions = {
-  mode: "light",
+  mode: 'light',
   primary: {
-    main: "#029E9E",
-    light: "#242D35",
-    dark: "#016B6B",
+    main: '#029E9E',
+    light: '#242D35',
+    dark: '#016B6B',
   },
   secondary: {
-    main: "#6803B8",
-    light: "#9A6AFF"
+    main: '#6803B8',
+    light: '#9A6AFF',
   },
   background: {
-    default: "#FFFFFF",
-    paper: "#FFFFFF",
+    default: '#FFFFFF',
+    paper: '#FFFFFF',
   },
   text: {
-    primary: "#121212",
-    secondary: "#687785",
-    disabled: "rgba(0, 0, 0, 0.2)",
+    primary: '#121212',
+    secondary: '#687785',
+    disabled: 'rgba(0, 0, 0, 0.2)',
   },
   success: {
     main: '#2AC89F',
   },
   error: {
-    main: "#EB5757",
+    main: '#EB5757',
   },
   warning: {
-    main: "#FFB21E",
+    main: '#FFB21E',
   },
   extra: {
     card: {
       background: '#FFF',
       light: '#F1F1F1',
       hover: '#EAEAEA',
-      divider: 'rgba(0,0,0,.12)'
+      divider: 'rgba(0,0,0,.12)',
     },
     swapPanel: {
       background: '#FFF',
       panel: '#F2F5FA',
       hover: '#EAEAEA',
-      divider: 'rgba(0,0,0,.12)'
+      divider: 'rgba(0,0,0,.12)',
+    },
+    table: {
+      background: '#FFF',
+      light: '#FFF',
+      hover: '#EAEAEA',
+      divider: 'rgba(0,0,0,.12)',
     },
     background: {
-      alt: '#F2F5FA'
+      alt: '#F2F5FA',
     },
     button: {
       backgroundGreenOpacity: '#bff0e5',
-      lighter: 'rgba(0,0,0, .1)',
+      lighter: 'rgba(0,0,0, .02)',
       linear: 'linear-gradient(93.49deg, #15D7A2 0.54%, #0AC6D6 100%)',
     },
     text: {
-      linear: 'linear-gradient(133.2deg, #b33ee7 2.95%, #32c1ce 48.27%, #3cff5c 100%)'
+      linear: 'linear-gradient(133.2deg, #b33ee7 2.95%, #32c1ce 48.27%, #3cff5c 100%)',
     },
     walletModal: {
       background: '#ffffff',
       divider: '#ebebeb',
       textPrimary: '#000A0D',
       textSecondary: '#929292',
-      hover: '#f2f2f2b2'
-    }
-  }
+      hover: '#f2f2f2b2',
+    },
+  },
 };
 
 export const darkPalette: ExtendedPaletteOptions = {
-  mode: "dark",
+  mode: 'dark',
   blue: {
-    '50': "#F7F7FB",
-    '100': "#D8D8FE",
-    '200': "#B3B3FD",
-    '300': "#8484F8",
-    '400': "#6E6EF7",
-    '500': "#4040F2",
-    '600': "#3333D1",
-    '700': "#2323BE",
-    '800': "#181894",
-    '900': "#0D0D54",
+    '50': '#F7F7FB',
+    '100': '#D8D8FE',
+    '200': '#B3B3FD',
+    '300': '#8484F8',
+    '400': '#6E6EF7',
+    '500': '#4040F2',
+    '600': '#3333D1',
+    '700': '#2323BE',
+    '800': '#181894',
+    '900': '#0D0D54',
   },
   green: {
-    "50": "#F6FFF0",
-    "100": "#E6FBD9",
-    "200": "#C9F884",
-    "300": "#A0EC8A",
-    "400": "#79D969",
-    "500": "#44C13C",
-    "600": "#2BA52E",
-    "700": "#1E8A29",
-    "800": "#0F5B1D",
-    "900": "#073E16",
+    '50': '#F6FFF0',
+    '100': '#E6FBD9',
+    '200': '#C9F884',
+    '300': '#A0EC8A',
+    '400': '#79D969',
+    '500': '#44C13C',
+    '600': '#2BA52E',
+    '700': '#1E8A29',
+    '800': '#0F5B1D',
+    '900': '#073E16',
   },
   yellow: {
-    "50": "#FFFEEC",
-    "100": "#FFF9CF",
-    "200": "#FFF19F",
-    "300": "#FFE86F",
-    "400": "#FFDE4B",
-    "500": "#FFCF0F",
-    "600": "#DBAD0A",
-    "700": "#B78D07",
-    "800": "#7B5C03",
-    "900": "#4F3903",
+    '50': '#FFFEEC',
+    '100': '#FFF9CF',
+    '200': '#FFF19F',
+    '300': '#FFE86F',
+    '400': '#FFDE4B',
+    '500': '#FFCF0F',
+    '600': '#DBAD0A',
+    '700': '#B78D07',
+    '800': '#7B5C03',
+    '900': '#4F3903',
   },
   red: {
-    "50": "#FFF4EC",
-    "100": "#FFE8D7",
-    "200": "#FFCCB0",
-    "300": "#FFA988",
-    "400": "#FF886B",
-    "500": "#FF513A",
-    "600": "#DB302A",
-    "700": "#B71D23",
-    "800": "#931222",
-    "900": "#7A0B21",
+    '50': '#FFF4EC',
+    '100': '#FFE8D7',
+    '200': '#FFCCB0',
+    '300': '#FFA988',
+    '400': '#FF886B',
+    '500': '#FF513A',
+    '600': '#DB302A',
+    '700': '#B71D23',
+    '800': '#931222',
+    '900': '#7A0B21',
   },
   gray: {
-    "50": "#FAFAFA",
-    "100": "#F1F1F1",
-    "200": "#EAECEE",
-    "300": "#D6DADE",
-    "400": "#A8B0B9",
-    "500": "#717A8D",
-    "600": "#4F5B67",
-    "700": "#373F47",
-    "800": "#242D35",
-    "900": "#0D1B21",
+    '50': '#FAFAFA',
+    '100': '#F1F1F1',
+    '200': '#EAECEE',
+    '300': '#D6DADE',
+    '400': '#A8B0B9',
+    '500': '#717A8D',
+    '600': '#4F5B67',
+    '700': '#373F47',
+    '800': '#242D35',
+    '900': '#0D1B21',
   },
   darkGreen: {
-    "50": "#02B0B0",
-    "100": "#029E9E",
-    "200": "#017E7E",
-    "300": "#016B6B",
-    "400": "#015858",
-    "500": "#014E4E",
-    "600": "#004545",
-    "700": "#003939",
-    "800": "#013535",
-    "900": "#012D2D",
+    '50': '#02B0B0',
+    '100': '#029E9E',
+    '200': '#017E7E',
+    '300': '#016B6B',
+    '400': '#015858',
+    '500': '#014E4E',
+    '600': '#004545',
+    '700': '#003939',
+    '800': '#013535',
+    '900': '#012D2D',
   },
   warning: {
-    main: "#FFB21E"
+    main: '#FFB21E',
   },
   error: {
-    main: "#F93232"
+    main: '#F93232',
   },
   success: {
-    main: "#2AC89F"
+    main: '#2AC89F',
   },
   primary: {
-    main: "#07E0E0",
-    light: "#242D35",
-    dark: "#059494",
+    main: '#07E0E0',
+    light: '#242D35',
+    dark: '#059494',
   },
   secondary: {
-    main: "#6803B8",
-    light: "#9A6AFF"
+    main: '#6803B8',
+    light: '#9A6AFF',
   },
   background: {
-    default: "#000A0D",
-    paper: "#343b4b",
+    default: '#000A0D',
+    paper: '#27344b',
   },
   text: {
-    primary: "#FFFFFF",
-    secondary: "#a7a7a7",
-    disabled: "rgba(255, 255, 255, 0.2)",
+    primary: '#FFFFFF',
+    secondary: '#a7a7a7',
+    disabled: 'rgba(255, 255, 255, 0.2)',
   },
   extra: {
-    card: {
-      background: '#0C1823',
-      light: '#1B2332',
-      hover: '#343b4b',
-      divider: 'rgba(255,255,255,.12)'
-    },
     // card: {
-    //   background: '#1B2332',
-    //   light: '#27344b',
+    //   background: '#0C1823',
+    //   light: '#1B2332',
     //   hover: '#343b4b',
     //   divider: 'rgba(255,255,255,.12)'
     // },
+    card: {
+      background: '#1B2332',
+      light: '#27344b',
+      hover: '#3f5173',
+      divider: 'rgba(255,255,255,.12)',
+    },
     swapPanel: {
       background: '#1B2332',
       panel: '#0C1823',
-      hover: '#343b4b',
-      divider: 'rgba(255,255,255,.12)'
+      hover: '#3f5173',
+      divider: 'rgba(255,255,255,.12)',
+    },
+    table: {
+      background: '#1B2332',
+      light: '#27344b',
+      hover: '#3f5173',
+      divider: 'rgba(255,255,255,.12)',
     },
     button: {
       backgroundGreenOpacity: 'rgba(0, 205, 255, 0.2)',
-      lighter: 'rgba(255,255,255, .1)',
+      lighter: 'rgba(255,255,255, .01)',
       linear: 'linear-gradient(93.49deg, #15D7A2 0.54%, #0AC6D6 100%)',
     },
     background: {
-      alt: '#000A0D'
+      alt: '#000A0D',
     },
     text: {
       linear: 'linear-gradient(133.2deg, #D184F3 2.95%, #87D3DA 48.27%, #8CF99E 100%)',
@@ -300,9 +312,9 @@ export const darkPalette: ExtendedPaletteOptions = {
       divider: '#ebebeb',
       textPrimary: '#000A0D',
       textSecondary: '#929292',
-      hover: '#f2f2f2b2'
-    }
-  }
+      hover: '#f2f2f2b2',
+    },
+  },
 };
 
 const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions => {
@@ -387,7 +399,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       },
       h5Poppins: {
         fontSize: '30px',
-        lineHeight: '100%'
+        lineHeight: '100%',
       },
       h4Poppins: {
         fontSize: '28px',
@@ -422,7 +434,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
 
       button: {
         // fontStyle: 'italic',
-        fontFamily: 'inherit'
+        fontFamily: 'inherit',
       },
     },
     breakpoints: {
@@ -499,7 +511,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         styleOverrides: {
           root: {
             // backgroundColor: 'rgba(0, 0, 0, 0.3)',
-            backdropFilter: 'blur(10px)'
+            backdropFilter: 'blur(10px)',
           },
         },
       },
@@ -528,15 +540,13 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
           alignItems: 'center',
         },
       },
-      MuiModal:{
-        styleOverrides:{
+      MuiModal: {
+        styleOverrides: {
           root: {
-            '& .MuiBackdrop-root': {
-              
-            },
-          }
-        }
-      }
+            '& .MuiBackdrop-root': {},
+          },
+        },
+      },
     },
   } as ThemeOptions;
 };

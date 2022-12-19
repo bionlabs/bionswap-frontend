@@ -21,6 +21,13 @@ export const menuConfig = [
         items: [],
         target: ''
     },
+    {
+        label: 'Earn',
+        href: '/earn',
+        icon: <GiPayMoney/>,
+        items: [],
+        target: ''
+    },
     // {
     //     label: 'Earn',
     //     href: '/earn',

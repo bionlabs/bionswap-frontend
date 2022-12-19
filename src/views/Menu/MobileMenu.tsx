@@ -6,7 +6,6 @@ import {
     Button,
     Container,
     Divider,
-    Link,
     Stack,
     styled,
     Typography
@@ -14,6 +13,7 @@ import {
 import { menuConfig, MENU_HEIGHT } from 'configs/menu/config';
 import { useRouter } from 'next/router';
 import { BiChevronDown } from "react-icons/bi";
+import Link from 'next/link';
 
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right'
@@ -30,7 +30,6 @@ const MobileMenu = ({toggleDrawer , anchor}:Props) => {
             width: anchor === 'top' || anchor === 'bottom' ? 'auto' : '100vw',
             minHeight:'100vh', 
             backgroundColor: theme => theme.palette.background.default,
-            borderBottom: '1px solid #424242', 
             paddingTop: `${MENU_HEIGHT}px`
         }}
         >
@@ -71,29 +70,26 @@ const MobileMenu = ({toggleDrawer , anchor}:Props) => {
                                     <Link
                                         key={i.key} 
                                         href={i.href}
-                                        underline="none"
-                                        sx={{width: '100%'}}
-                                        onClick={(e) => {
-                                        e.preventDefault();
-                                        if(i.target == '_blank') window.open(i.href);
-                                        else router.push(i.href);
-                                        }}
                                     >
-                                        <Stack spacing={1} alignItems='start'>
-                                        <Typography
-                                            fontWeight={600}
+                                        <Box
+                                            sx={{width: '100%'}}
                                         >
-                                            {i.label}
-                                        </Typography>
-                                        {i.description && (
+                                            <Stack spacing={1} alignItems='start'>
                                             <Typography
-                                            color="text.secondary"
-                                            fontSize='14px'
+                                                fontWeight={600}
                                             >
-                                            {i.description}
+                                                {i.label}
                                             </Typography>
-                                        )}
-                                        </Stack>
+                                            {i.description && (
+                                                <Typography
+                                                color="text.secondary"
+                                                fontSize='14px'
+                                                >
+                                                {i.description}
+                                                </Typography>
+                                            )}
+                                            </Stack>
+                                        </Box>
                                     </Link>
                                 ))
                             }
@@ -101,27 +97,26 @@ const MobileMenu = ({toggleDrawer , anchor}:Props) => {
                         </AccordionDetails>
                     </MenuItemMobile>
                         :
-                    <Box
-                        onClick={toggleDrawer("right", false)}
-                        width='100%'
+                    <Link
+                        key={item.label + index}
+                        href={item.href}
                     >
-                        <MenuItem
-                            href={item.href}
-                            fullWidth
-                            sx={{
-                                justifyContent: 'start', padding: '0px 16px', minHeight: '48px'
-                            }}
-                            onClick={(e:any) => {
-                                e.preventDefault();
-                                if(item?.target == '_blank') window.open(item.href);
-                                else router.push(item.href);
-                            }}
+                        <Box
+                            onClick={toggleDrawer("right", false)}
+                            width='100%'
                         >
-                            <Typography sx={{ color: "inherit" }}>
-                                {item.label}
-                            </Typography>
-                        </MenuItem>
-                    </Box>
+                            <MenuItem
+                                fullWidth
+                                sx={{
+                                    justifyContent: 'start', padding: '0px 16px', minHeight: '48px'
+                                }}
+                            >
+                                <Typography sx={{ color: "inherit" }}>
+                                    {item.label}
+                                </Typography>
+                            </MenuItem>
+                        </Box>
+                    </Link>
                 ))}
                 </Stack>
             </Container>
