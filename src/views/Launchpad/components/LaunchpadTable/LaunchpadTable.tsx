@@ -20,15 +20,68 @@ import {
 import Image from 'next/image';
 import { formatUnits } from 'ethers/lib/utils';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useChain, useToken } from 'hooks';
+import { useChain, useRefetchIncreasedInterval, useToken } from 'hooks';
 import { NATIVE } from '@bionswap/core-sdk';
 import { Data, Order, TableProps } from './type';
 import LaunchpadTableHead from './LaunchpadTableHead';
 import LaunchpadTableBody from './LaunchpadTableBody';
+import { getSaleList } from 'api/launchpad';
 
-export default function LaunchpadTable({ launchData, page, handleChangePagigation }: TableProps) {
+export default function LaunchpadTable({ chainId, view}: TableProps) {
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<keyof Data>('name');
+  const [loading, setLoading] = useState(false);
+
+
+  const [page, setPage] = useState(0);
+  const [params, setParams] = useState<null | {}>({
+    page: 1,
+    limit: 12,
+    owner: '',
+    keyword: '',
+    sortBy: '-createdAt',
+  });
+  const [launchData, setLaunchData]: any = useState(null);
+
+  const getLaunchData = useCallback(
+    async (params: any) => {
+      try {
+        const launchData = await getSaleList(
+          params.page,
+          params.limit,
+          chainId,
+          params.owner,
+          params.keyword,
+          params.sortBy,
+        );
+        setLaunchData(launchData);
+      } catch (error) {
+        setLoading(false);
+        console.log('error====>', error);
+      }
+      setLoading(false);
+    },
+    [chainId, setLoading],
+  );
+
+  useRefetchIncreasedInterval(
+    async () => {
+      await getLaunchData(params);
+    },
+    0,
+    1500,
+    [chainId, params, view],
+  );
+
+  useEffect(() => {
+    getLaunchData(params);
+  }, [params, chainId, getLaunchData, view]);
+
+  const handleChangePagigation = (event: any, value: number) => {
+    setLoading(true);
+    setParams({ ...params, page: value + 1 });
+    setPage(value);
+  };
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -66,6 +119,7 @@ export default function LaunchpadTable({ launchData, page, handleChangePagigatio
                 orderBy={orderBy}
                 page={page}
                 rowsPerPage={launchData?.limit}
+                loading={loading}
               />
             </TableBody>
           </Table>

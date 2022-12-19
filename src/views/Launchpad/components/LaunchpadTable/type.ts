@@ -10,9 +10,8 @@ export interface LaunchpadTableProps {
 }
 
 export interface TableProps {
-  launchData: any;
-  page:number,
-  handleChangePagigation: any
+  chainId: any
+  view: string|null
 }
 
 export interface Data {

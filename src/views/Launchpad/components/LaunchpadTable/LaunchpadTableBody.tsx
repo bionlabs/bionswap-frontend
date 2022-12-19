@@ -14,12 +14,13 @@ interface RowProps {
   orderBy: keyof Data;
   page: number;
   rowsPerPage: number;
+  loading: boolean
 }
 
-const LaunchpadTableBody = ({ launchpads, order, orderBy, page, rowsPerPage }: RowProps) => {
+const LaunchpadTableBody = ({ launchpads, order, orderBy, page, rowsPerPage , loading }: RowProps) => {
   return (
     <>
-      {launchpads ? (
+      {(launchpads && !loading) ? (
         // stableSort(launchpads, getComparator(order, orderBy))
         launchpads.map((item: any) => {
           return <LaunchpadTableRow key="" item={item} />;

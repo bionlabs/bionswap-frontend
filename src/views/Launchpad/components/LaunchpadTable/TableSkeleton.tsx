@@ -18,21 +18,21 @@ const TableSkeleton = () => {
         </Stack>
         </StyledTableCell>
         <StyledTableCell align="right">
-            <Skeleton width='120px' height='25px'/>
+            <Skeleton width='100%' height='25px'/>
         </StyledTableCell>
         <StyledTableCell align="right">
-            <Skeleton width='120px' height='25px'/>
+            <Skeleton width='100%' height='25px'/>
         </StyledTableCell>
         <StyledTableCell align="right">
-            <Skeleton width='120px' height='25px'/>
+            <Skeleton width='100%' height='25px'/>
         </StyledTableCell>
         <StyledTableCell align="right">
-            <Skeleton width='120px' height='25px'/>
+            <Skeleton width='100%' height='25px'/>
         </StyledTableCell>
         <StyledTableCell align="right">
         <Stack alignItems='end' spacing={1}>
-            <Skeleton width='160px' height='25px'/>
-            <Skeleton width='80px' height='25px'/>
+            <Skeleton width='100%' height='25px'/>
+            <Skeleton width='100%' height='25px'/>
         </Stack>
         
         </StyledTableCell>

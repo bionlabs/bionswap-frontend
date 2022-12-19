@@ -25,27 +25,7 @@ import Title from './components/Title/Title';
 import Toolbar from './components/Toolbar/Toolbar';
 
 const LaunchPadSection = ({ chainId }: any) => {
-  const [page, setPage] = useState(1);
-  const [tablePage, setTablePage] = useState(0);
   const [view, setView] = useState<string | null>('card');
-
-  const [params, setParams] = useState({
-    page: page,
-    limit: 12,
-    owner: '',
-    keyword: '',
-    sortBy: '-createdAt',
-  });
-
-  const [tableParams, setTableParams] = useState({
-    page: tablePage + 1,
-    limit: 12,
-    owner: '',
-    keyword: '',
-    sortBy: '-createdAt',
-  });
-
-  const [launchData, setLaunchData]: any = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   // const handleChange = (prop: any) => (event: any) => {
@@ -64,48 +44,10 @@ const LaunchPadSection = ({ chainId }: any) => {
   //   [searchQuery],
   // );
 
-  const getLaunchData = useCallback(
-    async (params: any) => {
-      try {
-        const launchData = await getSaleList(
-          params.page,
-          params.limit,
-          chainId,
-          params.owner,
-          params.keyword,
-          params.sortBy,
-        );
-        setLaunchData(launchData);
-      } catch (error) {
-        console.log('error====>', error);
-      }
-    },
-    [chainId],
-  );
-
-  useRefetchIncreasedInterval(
-    async () => {
-      if (view == 'card') await getLaunchData(params);
-      else await getLaunchData(tableParams);
-    },
-    0,
-    500,
-    [chainId, params, tableParams, view],
-  );
-
-  useEffect(() => {
-    if (view == 'card') getLaunchData(params);
-    else getLaunchData(tableParams);
-  }, [params, chainId, getLaunchData, view, tableParams]);
-
-  const handleChangePagigation = (event: any, value: number) => {
-    setParams({ ...params, page: value });
-    setPage(value);
-  };
-
-  const handleChangeTablePagigation = (event: any, value: number) => {
-    setTableParams({ ...tableParams, page: value + 1 });
-    setTablePage(value);
+  const handleChangeView = (event: React.MouseEvent<HTMLElement>, newView: string | null) => {
+    if (newView !== null) {
+      setView(newView);
+    }
   };
 
   const settings = {
@@ -118,11 +60,9 @@ const LaunchPadSection = ({ chainId }: any) => {
 
   const getViewComponent = () => {
     if (view == 'card') {
-      return <LaunchpadCards launchData={launchData} page={page} handleChangePagigation={handleChangePagigation} />;
+      return <LaunchpadCards chainId={chainId} view={view} />;
     } else {
-      return (
-        <LaunchpadTable launchData={launchData} page={tablePage} handleChangePagigation={handleChangeTablePagigation} />
-      );
+      return <LaunchpadTable chainId={chainId} view={view} />;
     }
   };
 
@@ -138,7 +78,7 @@ const LaunchPadSection = ({ chainId }: any) => {
           <Stack width="100%" alignItems="start" spacing={6}>
             <Title title="Current Projects" isCurrent currentMessage="Many ideas waiting for you to reach" />
             <Search searchKeyword={searchKeyword} />
-            <Toolbar view={view} setView={setView} />
+            <Toolbar view={view} handleChangeView={handleChangeView} />
             {getViewComponent()}
           </Stack>
         </Wrapper>
