@@ -2,6 +2,52 @@ import React from 'react';
 import { Box, styled, Typography, Stack, Container, Button } from '@mui/material';
 import useMediaQuery from 'hooks/useMediaQuery';
 import { RxCheckCircled } from 'react-icons/rx';
+import Card, { CardProps } from './Card/Card';
+
+const cards:CardProps[] = [
+  {
+    title: 'Swap token with the best swap rate',
+    content: 'Trade Multichain token for another via automated liquidity pools',
+    href: '/swap',
+    buttonLabel: 'Swap now',
+    disabled: false
+  },
+  {
+    title: 'Launch projects with a single click',
+    content: 'Create web3 assets with tools and simplify fund raising',
+    href: '/launch',
+    buttonLabel: 'Launch with us',
+    disabled: false
+  },
+  {
+    title: 'Helping early-bird projects with awesome features',
+    content: 'We are incubating in awesome projects and looking for more collaboration',
+    href: '/collaboration',
+    buttonLabel: 'Learn more',
+    disabled: false
+  },
+  {
+    title: 'DAO Governance for automated launchpad',
+    content: 'Rating Governance system to evaluate launchpad quality and reduce scam',
+    href: '',
+    buttonLabel: 'Comming soon',
+    disabled: true
+  },
+  {
+    title: 'Play and earn directly on Bionswap',
+    content: 'Joining Bion Gamecenter to earn more Bion Ticket and claim massive rewards',
+    href: '',
+    buttonLabel: 'Comming soon',
+    disabled: true
+  },
+  {
+    title: 'PalotChain powered by BionNetwork will come soon',
+    content: 'An EVM & IBC Compatible blockchain are under developing',
+    href: '',
+    buttonLabel: 'Comming soon',
+    disabled: true
+  },
+]
 
 const Features = () => {
   const { isMobile, isTablet } = useMediaQuery();
@@ -11,57 +57,21 @@ const Features = () => {
         sx={{
           display: 'flex',
           justifyContent: 'center',
-        }}
+        }}  
       >
-        <Stack spacing={4}>
-          <Typography fontSize={isMobile ? '28px' : '54px'} fontFamily={'SamsungSharpSans-Bold'} textAlign="center">
-            Use our products to enjoy
-          </Typography>
-          <Stack spacing={2}>
-            <Stack direction="row" spacing={isMobile ? 2 : 4} width="100%" justifyContent="start">
-              <Stack
-                sx={{
-                  svg: {
-                    width: isMobile ? '40px' : '80px',
-                    height: isMobile ? '40px' : '80px',
-                    color: (theme) => theme.palette.primary.main,
-                  },
-                }}
-              >
-                <RxCheckCircled />
-              </Stack>
-              <Typography fontSize={isMobile ? '18px' : '40px'}>Launch projects with a few click</Typography>
-            </Stack>
-            <Stack direction="row" spacing={isMobile ? 2 : 4} width="100%" justifyContent="start">
-              <Stack
-                sx={{
-                  svg: {
-                    width: isMobile ? '40px' : '80px',
-                    height: isMobile ? '40px' : '80px',
-                    color: (theme) => theme.palette.secondary.main,
-                  },
-                }}
-              >
-                <RxCheckCircled />
-              </Stack>
-              <Typography fontSize={isMobile ? '18px' : '40px'}>Low swap fee and fast transaction</Typography>
-            </Stack>
-            <Stack direction="row" spacing={isMobile ? 2 : 4} width="100%" justifyContent="start">
-              <Stack
-                sx={{
-                  svg: {
-                    width: isMobile ? '40px' : '80px',
-                    height: isMobile ? '40px' : '80px',
-                    color: (theme) => theme.palette.warning.main,
-                  },
-                }}
-              >
-                <RxCheckCircled />
-              </Stack>
-              <Typography fontSize={isMobile ? '18px' : '40px'}>Helping early-bird fly to the moon</Typography>
-            </Stack>
-          </Stack>
-        </Stack>
+        <Grid
+          sx={{
+            gridTemplateColumns: isMobile ? '100%' : isTablet ? '49% 49%' : '32.5% 32.5% 32.5%'
+          }}
+        >
+          {
+            cards.map(item =>
+              <Card
+                key='' title={item.title} content={item.content} href={item.href} buttonLabel={item.buttonLabel} disabled={item.disabled}            
+              />
+            )
+          }
+        </Grid>
       </Container>
     </Wrapper>
   );
@@ -71,5 +81,11 @@ const Wrapper = styled(Box)`
   padding: 4rem 0;
   background-color: ${(props) => (props.theme.palette as any).extra.background.secondary};
 `;
+const Grid = styled(Box)`
+  display: grid;
+  justify-content: space-between;
+  gap: 20px;
+`
+
 
 export default Features;
