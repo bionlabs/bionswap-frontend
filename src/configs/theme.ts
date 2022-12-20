@@ -151,6 +151,7 @@ export const lightPalette: ExtendedPaletteOptions = {
     },
     background: {
       alt: '#F2F5FA',
+      linear: '#FFF',
       secondary: '#f8f8f8'
     },
     button: {
@@ -265,7 +266,7 @@ export const darkPalette: ExtendedPaletteOptions = {
   },
   background: {
     default: '#000A0D',
-    paper: '#27344b',
+    paper: '#012129',
   },
   text: {
     primary: '#FFFFFF',
@@ -280,22 +281,22 @@ export const darkPalette: ExtendedPaletteOptions = {
     //   divider: 'rgba(255,255,255,.12)'
     // },
     card: {
-      background: '#1B2332',
-      light: '#27344b',
-      hover: '#3f5173',
+      background: '#012129',
+      light: '#00313D',
+      hover: '#005064 ',
       divider: 'rgba(255,255,255,.12)',
     },
     swapPanel: {
-      background: '#1B2332',
-      panel: '#0C1823',
-      hover: '#3f5173',
+      background: '#012129',
+      panel: '#00313D',
+      hover: '#005064 ',
       divider: 'rgba(255,255,255,.12)',
     },
     table: {
-      background: '#1B2332',
-      light: '#27344b',
+      background: '#012129',
+      light: '#00313D',
       hover: '#3f5173',
-      divider: 'rgba(255,255,255,.12)',
+      divider: '#003236',
     },
     button: {
       backgroundGreenOpacity: 'rgba(0, 205, 255, 0.2)',
@@ -304,7 +305,8 @@ export const darkPalette: ExtendedPaletteOptions = {
     },
     background: {
       alt: '#000A0D',
-      secondary: '#0C1823'
+      linear: 'linear-gradient(#000A0D 0%, rgba(10, 18, 30, 0) 100%) 0% 0% / 100% 1100px no-repeat',
+      secondary: '#161b1d'
     },
     text: {
       linear: 'linear-gradient(133.2deg, #D184F3 2.95%, #87D3DA 48.27%, #8CF99E 100%)',

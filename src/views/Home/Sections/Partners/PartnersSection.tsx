@@ -1,9 +1,15 @@
 import React from 'react';
 import { Box, styled, Typography, Stack, Container, Button } from '@mui/material';
 import useMediaQuery from 'hooks/useMediaQuery';
+import partners from 'configs/partners';
+import Image from 'next/image';
+import { useDarkMode } from 'hooks';
+ 
 
 const Partners = () => {
   const { isMobile, isTablet } = useMediaQuery();
+  const {darkMode} = useDarkMode()
+
   return (
     <Wrapper>
       <Container
@@ -12,10 +18,21 @@ const Partners = () => {
           justifyContent: 'center',
         }}  
       >
-        <Stack>
+        <Stack gap='60px'>
             <Typography fontSize={isMobile ? '28px' : '54px'} fontFamily={'SamsungSharpSans-Bold'} textAlign="center">
                 Our partners
             </Typography>
+            <Stack direction='row' gap='60px' flexWrap='wrap'>
+              {
+                partners.map(item =>
+                  <Stack
+                    key=''
+                  >
+                    <img src={`/images/partners/${darkMode ? item.logoLight : item.logo}`} alt='' width='130px' />
+                  </Stack>  
+                )
+              }
+            </Stack>
         </Stack>
       </Container>
     </Wrapper>

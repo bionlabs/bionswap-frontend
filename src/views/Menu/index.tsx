@@ -55,7 +55,7 @@ const Menu = ({ children }: any) => {
       <MenuContainer>
         <StyledContained
           sx={{
-            backgroundColor: (theme) => (theme.palette as any).background.default,
+            // backgroundColor: (theme) => (theme.palette as any).background.default,
           }}
         >
           <Stack direction="row" gap="42px">
@@ -172,6 +172,8 @@ const StyledContained = styled(Box)`
   height: ${MENU_HEIGHT}px;
   align-items: center;
   justify-content: space-between;
+  background: ${prop => (prop.theme.palette as any).extra.background.linear};
+  background-color: ${prop => prop.theme.palette.background.default};
 `;
 const LaunchpadButton = styled(Button)`
   border-radius: 4px;
