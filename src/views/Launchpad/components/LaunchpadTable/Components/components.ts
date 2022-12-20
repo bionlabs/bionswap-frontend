@@ -5,10 +5,10 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: (theme.palette as any).extra.table.light,
     color: theme.palette.text.secondary,
     '&:first-child, &:first-child': {
-      borderTopLeftRadius: '12px',
+      borderTopLeftRadius: '3px',
     },
     '&:last-child, &:last-child': {
-      borderTopRightRadius: '12px',
+      borderTopRightRadius: '3px',
     },
   },
   [`&.${tableCellClasses.body}`]: {
@@ -21,12 +21,15 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   cursor: 'pointer',
   '&:nth-of-type(odd)': {
     // backgroundColor: (theme.palette as any).extra.card.light,
+    border: 0
   },
   'td, th': {
-    border: 0,
+    // border: 0,
+    borderBottom: `0.5px solid ${(theme.palette as any).extra.table.divider}`,
   },
   // hide last border
   '&:last-child td, &:last-child th': {
-    border: 0,
+    // border: 0,
+    // borderColor: (theme.palette as any).extra.card.divider
   },
 }));

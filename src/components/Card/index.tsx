@@ -21,7 +21,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
   [`& .${linearProgressClasses.bar}`]: {
     borderRadius: 5,
-    backgroundColor: theme.palette.success.main,
+    backgroundColor: theme.palette.primary.main,
   },
 }));
 
@@ -232,7 +232,7 @@ const FlexBox = styled(Box)`
   display: flex;
 `;
 const WrapBox = styled(Box)`
-  border-radius: 12px;
+  border-radius: 8px;
   background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
   width: 100%;

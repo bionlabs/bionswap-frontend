@@ -147,13 +147,14 @@ const StyledTableWrapper = styled(Paper)`
   width: 100%;
   background-color: ${(props) => (props.theme.palette as any).extra.table.background};
   background-image: none;
-  border-radius: 12px;
-  // border: 1px solid ${(props) => (props.theme.palette as any).extra.table.divider};
+  // border-radius: 4px;
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.table.divider};
+  box-shadow: none;
   .MuiTablePagination-root {
     background-color: ${(props) => (props.theme.palette as any).extra.table.light};
     :last-child {
-      border-bottom-left-radius: 12px;
-      border-bottom-right-radius: 12px;
+      // border-bottom-left-radius: 4px;
+      // border-bottom-right-radius: 4px;
     }
   }
   .MuiTableBody-root .MuiTableRow-root {

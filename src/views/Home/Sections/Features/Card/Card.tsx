@@ -49,8 +49,8 @@ const Card = ({
 }
 
 const Wrapper = styled(Box)`
-  background-color: ${props => (props.theme.palette as any).extra.card.background};
-  border: 1px solid ${props => (props.theme.palette as any).extra.card.divider};
+  background-color: ${props => (props.theme.palette as any).background.default};
+  border: 1px solid #737373;
   padding: 24px;
   border-radius: 4px;
 `
