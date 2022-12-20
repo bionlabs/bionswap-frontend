@@ -1,101 +1,31 @@
-/* eslint-disable @next/next/no-img-element */
-import React from 'react'
-import {
-    Box,
-    Button,
-    Container,
-    styled,
-    Typography,
-    Stack
-} from '@mui/material'
-import { MobileProp } from 'configs/Type/Mobile/type'
-import Image from "next/image";
-import PrimaryButton from 'components/PrimaryButton';
-import { useRouter } from 'next/router';
+import React from 'react';
+import { Box, styled, Typography, Stack, Container, Button } from '@mui/material';
+import useMediaQuery from 'hooks/useMediaQuery';
 
-const config = [
-    {
-        label: 'All-Time Volume',
-        value: '$78.07B'
-    },
-    {
-        label: 'Total Transactions',
-        value: '14.64M'
-    },
-    {
-        label: 'Users',
-        value: '1,530,450'
-    },
-    {
-        label: 'All-Time Volumers',
-        value: '$78.07B'
-    },
-]
+const Partners = () => {
+  const { isMobile, isTablet } = useMediaQuery();
+  return (
+    <Wrapper>
+      <Container
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}  
+      >
+        <Stack>
+            <Typography fontSize={isMobile ? '28px' : '54px'} fontFamily={'SamsungSharpSans-Bold'} textAlign="center">
+                Our partners
+            </Typography>
+        </Stack>
+      </Container>
+    </Wrapper>
+  );
+};
 
-const PartnersSection = ({ isMobile, isTablet }: MobileProp) => {
-    const router = useRouter()
-    return (
-        <Wrapper padding={isMobile ? '5rem 0' : '7rem 0 4rem'}>
-            <Container maxWidth='lg'>
-                <FlexBox flexDirection={isTablet ? 'column' : 'row'} justifyContent='space-between'>
-                    <FlexBox alignItems='end' width='50%' sx={{ display: { xs: 'none', md: 'block' } }}>
-                        <WrapImage>
-                            <img src="/images/home/Group481768.png" alt="Group481768" width='290px' height='auto' />
-                        </WrapImage>
-                    </FlexBox>
-                    <FlexBox flexDirection='column' gap='24px' justifyContent='center' alignItems='center' sx={{ width: {xs: '100%', md: '50%'} }}>
-                        <FlexBox flexDirection='column' gap='24px' justifyContent='center'>
-                            <FlexBox gap='20px'>
-                                <Image src="/icons/home/partner.svg" alt="partner" width={37} height={25} />
-                                <Typography variant='subtitle1' sx={{ color: 'gray.300' }}>
-                                    For partners
-                                </Typography>
-                            </FlexBox>
-                            <WrapNetworkHead>
-                                <Typography variant='h3Samsung' fontWeight='700'>
-                                    Want to launch your
-                                    project on BionSwap ?
-                                </Typography>
-                            </WrapNetworkHead>
-                            <Box maxWidth='218px' width='100%'>
-                                <PrimaryButton
-                                    label="Create now"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        router.push('/launch')
-                                    }}
-                                />
-                            </Box>
-                        </FlexBox>
-                    </FlexBox>
-                </FlexBox>
-            </Container>
-        </Wrapper>
-    )
-}
-
-const FlexBox = styled(Box)`
-    display: flex;
-`
-const WrapImage = styled(Box)`
-    text-align: center;
-`
 const Wrapper = styled(Box)`
-    width: 100%;
-    background-color: ${(props) => props.theme.palette.background.default};
-    background-image: url('/images/home/Vector.png');
-    display: flex;
-    flex-direction: column;
-    gap: 60px;
-    justify-content: center;
-    position: relative;
-    background-repeat: no-repeat;
-    background-size: 100%;
-    
-`
-const WrapNetworkHead = styled(Box)`
-    max-width: 352px;
-    width: 100%;
-`
+  padding: 4rem 0;
+  background-color: ${(props) => (props.theme.palette as any).extra.background.secondary};
+`;
 
-export default PartnersSection
+
+export default Partners;

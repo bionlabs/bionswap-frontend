@@ -86,13 +86,13 @@ const LaunchpadTableRow = ({item}:any) => {
             </Status>
           </StyledTableCell>
           <StyledTableCell align="right">
-            {formatUnits(item?.hardCap || 0, decimals || 0)} {unit}
+            {item?.fHardCap.toFixed(2) ?? 0} {unit}
           </StyledTableCell>
           <StyledTableCell align="right">
-            {formatUnits(item?.maxPurchase || 0, decimals)} {unit}
+            {item?.fMaxPurchase ?? 0} {unit}
           </StyledTableCell>
           <StyledTableCell align="right">
-            {formatUnits(item?.price || 0, decimals)} {unit}
+            {(unit == 'BNB' ? item?.fPrice.toFixed(2) : item?.fPrice.toFixed(1)) ?? 0} {unit}
           </StyledTableCell>
           <StyledTableCell align="right">
             <Stack alignItems='end' spacing={1}>

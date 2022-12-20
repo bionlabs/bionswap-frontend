@@ -3,14 +3,11 @@ import { getLaunchpadStats } from 'api/launchpad';
 import Page from 'components/Page';
 import { useEffect, useState } from 'react';
 import Analytics from './Sections/Analytics/Analytics';
-import CommunitySection from './Sections/Community/CommunitySection';
 import Features from './Sections/Features/Features';
 import HeroSection from './Sections/Hero/HeroSection';
-import MissionSection from './Sections/Mission/MissionSection';
+import Highlight from './Sections/Highlight/Highlight';
 import NetworkSection from './Sections/Network/NetworkSection';
-import OurProjectsSection from './Sections/OurProjects/OurProjectsSection';
 import PartnersSection from './Sections/Partners/PartnersSection';
-import UpcommingProjectSection from './Sections/UpcommingProject/UpcommingProjectSection';
 
 const Homepage = () => {
   const isMobile = useMediaQuery('(max-width:700px)');
@@ -37,6 +34,8 @@ const Homepage = () => {
     }}>
       <HeroSection isMobile={isMobile} isTablet={isTablet} />
       <Features/>
+      <Highlight/>
+      <PartnersSection/>
       {/* <Analytics/>
       <NetworkSection isMobile={isMobile} isTablet={isTablet} />
       <UpcommingProjectSection />
