@@ -140,7 +140,7 @@ const WrapCurrencyInputPanel = styled(Box)`
   border-radius: 8px;
   background: ${(props) => (props.theme.palette as any).extra.swapPanel.panel};
   padding: 15px;
-  border: none;
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.swapPanel.divider};
   transition: .12s ease-in;
 `;
 const MaxButton = styled(Button)`

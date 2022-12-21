@@ -69,18 +69,18 @@ const Menu = ({ children }: any) => {
               </Box>
             </Link>
             {!isTablet && (
-              <Stack justifyContent="start" direction="row">
+              <Stack justifyContent="start" direction="row" spacing={4}>
                 {menuConfig.map((item) => (
                   <Link key={item.label} href={item.href}>
                     <MenuItem
                       sx={{
                         ':hover': {
-                          backgroundColor: (theme) => (theme.palette as any).extra.button.backgroundGreenOpacity,
-                          color: 'primary.main',
+                          // backgroundColor: (theme) => (theme.palette as any).extra.button.backgroundGreenOpacity,
+                          color: 'text.primary',
                         },
                         '&.active': {
-                          color: 'primary.main',
-                          backgroundColor: (theme) => (theme.palette as any).extra.button.backgroundGreenOpacity,
+                          color: 'text.primary',
+                          // backgroundColor: (theme) => (theme.palette as any).extra.button.backgroundGreenOpacity,
                         },
                       }}
                       className={router.pathname == item.href ? 'active' : ''}
@@ -95,11 +95,14 @@ const Menu = ({ children }: any) => {
           <Stack direction="row" gap="16px">
             {isMobile ? (
               <>
-                <Stack direction="row" spacing={1} sx={{ color: 'text.primary' }}>
+                {/* <Stack direction="row" spacing={1} sx={{ color: 'text.primary' }}>
                   <MdLightMode />
                   <AntSwitch defaultChecked checked={darkMode} onChange={toggleDarkMode} />
                   <MdDarkMode />
-                </Stack>
+                </Stack> */}
+                <IconButton sx={{color:'text.primary'}} onClick={toggleDarkMode}>
+                  {darkMode ? <MdLightMode /> : <MdDarkMode />}
+                </IconButton>
                 <IconButton
                   onClick={toggleDrawer('right', !state.right)}
                   sx={{
@@ -112,11 +115,14 @@ const Menu = ({ children }: any) => {
               </>
             ) : isTablet ? (
               <>
-                <Stack direction="row" spacing={1} sx={{ color: 'text.primary' }}>
+                {/* <Stack direction="row" spacing={1} sx={{ color: 'text.primary' }}>
                   <MdLightMode />
                   <AntSwitch defaultChecked checked={darkMode} onChange={toggleDarkMode} />
                   <MdDarkMode />
-                </Stack>
+                </Stack> */}
+                <IconButton sx={{color:'text.primary'}} onClick={toggleDarkMode}>
+                  {darkMode ? <MdLightMode /> : <MdDarkMode />}
+                </IconButton>
                 <ConnectButton />
                 <ChainSelect />
                 <IconButton
@@ -130,11 +136,14 @@ const Menu = ({ children }: any) => {
               </>
             ) : (
               <>
-                <Stack direction="row" spacing={1} sx={{ color: 'text.primary' }}>
+                {/* <Stack direction="row" spacing={1} sx={{ color: 'text.primary' }}>
                   <MdLightMode />
                   <AntSwitch defaultChecked checked={darkMode} onChange={toggleDarkMode} />
                   <MdDarkMode />
-                </Stack>
+                </Stack> */}
+                <IconButton sx={{color:'text.primary'}} onClick={toggleDarkMode}>
+                  {darkMode ? <MdLightMode /> : <MdDarkMode />}
+                </IconButton>
                 <ConnectButton />
                 <ChainSelect />
               </>
@@ -208,9 +217,6 @@ const MenuItem = styled(Box)`
   color: ${(props) => props.theme.palette.text.secondary};
   font-size: 14px;
   transition: 0.12s ease-in;
-  padding: 8px 15px;
-  border-radius: 4px;
-  background-color: transparent;
   cursor: pointer;
 `;
 

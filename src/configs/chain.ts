@@ -94,6 +94,18 @@ const supportedChains: { [name: string]: Chain } = {
     },
   },
   polygon: WagmiChain.polygon,
+  arbitrum: {
+    ...WagmiChain.arbitrum,
+    rpcUrls: {
+      default: "https://rpc.ankr.com/arbitrum",
+    },
+  },
+  optimism: {
+    ...WagmiChain.optimism,
+    rpcUrls: {
+      default: "https://rpc.ankr.com/optimism",
+    },
+  },
   bscTestnet,
 };
 
@@ -128,6 +140,14 @@ export const chainIcons = {
   [supportedChains.bscTestnet.id]: {
     iconBackground: "#0b0e11",
     iconUrl: "/images/chains/bsc.svg",
+  },
+  [supportedChains.arbitrum.id]: {
+    iconBackground: "#0b0e11",
+    iconUrl: "/images/chains/arbitrum.svg",
+  },
+  [supportedChains.optimism.id]: {
+    iconBackground: "#0b0e11",
+    iconUrl: "/images/chains/optimism.svg",
   },
 };
 

@@ -17,7 +17,6 @@ const Title = ({title, isCurrent , currentMessage}:Props) => {
     const {isMobile} = useMediaQuery()
   return (
     <Stack direction='row' spacing={2} justifyContent='start' width='100%'>
-        <Cross sx={{height: isCurrent ? '60px' : '20px'}}/>
         <Stack spacing={1} alignItems='start' width='100%'>
             <Box>
                 <Typography fontSize={isMobile ? '24px' : '28px'} fontWeight='700' color='text.primary' lineHeight='1'>

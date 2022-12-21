@@ -7,10 +7,10 @@ const pools: poolConfig[] = [
     pid: 0,
     lpSymbol: 'TRT-ADT',
     address: {
-      [ChainId.BSC_TESTNET] : '0x972B8c192561cF6D2AF36880a95D28647E2141Ac',
+      [ChainId.BSC_TESTNET] : '0x6Ddc3219Ec5061decf9eB7AD70bE9B0a8044a448',
     },
-    token: tokens.trt,
-    quoteToken: tokens.adt,
+    token: tokens.adt,
+    quoteToken: tokens.trt,
   },
 ]
 

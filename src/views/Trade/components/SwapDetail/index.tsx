@@ -33,12 +33,14 @@ const SwapDetail = ({ recipient, trade, minimumAmountOut }: Props) => {
 
 
   return (
-    <Accordion sx={{
-      background: theme => (theme.palette as any).extra.swapPanel.panel,
-      backgroundImage: 'none',
-      borderRadius: '8px!important',
-      boxShadow: 'none'
-    }}>
+    <Accordion
+      sx={{
+        background: theme => (theme.palette as any).extra.swapPanel.panel,
+        backgroundImage: 'none',
+        borderRadius: '8px!important',
+        boxShadow: 'none'
+      }}
+    >
       <AccordionSummary
         expandIcon={<HiOutlineChevronDown />}
       >

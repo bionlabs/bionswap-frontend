@@ -13,11 +13,13 @@ import BION_AVATAR_ABI from 'constants/abis/bion-avatar.json';
 import BION_GAME_SLOT_ABI from 'constants/abis/bion-game-slot.json';
 import BION_TICKET_ABI from 'constants/abis/bion-ticket.json';
 import TICKET_MACHINE_ABI  from 'constants/abis/ticket-machine.json';
+import POOL_ABI from 'constants/abis/pools.json'
 import { Contract, ContractFactory } from 'ethers';
 import { useAccount, useChain, useNetwork, useProvider, useSigner } from 'hooks';
 import { useMemo } from 'react';
 import { getContract, getContractFactory } from 'utils/contract';
 import {
+  AddressMap,
   ChainId,
   ENS_REGISTRAR_ADDRESS,
   MULTICALL2_ADDRESS,
@@ -163,4 +165,7 @@ export function useBionTicket() {
 
 export function useTicketMachine() {
   return useContract(TICKET_MACHINE_ADDRESS, TICKET_MACHINE_ABI, true);
+}
+export function usePoolContract(address: AddressMap | string) {
+  return useContract(address, POOL_ABI, true);
 }

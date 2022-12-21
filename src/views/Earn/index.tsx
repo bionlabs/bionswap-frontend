@@ -1,24 +1,20 @@
 import Page from 'components/Page'
 import React from 'react'
-import {
-  Box,
-  Container,
-  Stack
-} from '@mui/material'
-import FarmTable from './components/FarmTable/FarmTable'
-import Header from './components/Header/Header'
-import { useContract } from 'hooks'
-import abi from './abi.json'
+import { useChain, useContract, useToken } from 'hooks'
+import NotSupportSection from 'components/NotSupportSection'
+import { ChainId } from '@bionswap/core-sdk'
+import EarnSection from './EarnSection'
 
 const Earn = () => {
+  const { chainId } = useChain();
+
   return (
     <Page sx={{backgroundColor: theme => (theme.palette as any).extra.background.alt}}>
-      <Container sx={{paddingTop: '3rem', paddingBottom: '3rem'}}>
-        <Stack width='100%' alignItems='start' spacing={4}>
-          <Header/>
-          <FarmTable/>
-        </Stack>
-      </Container>
+        {ChainId.BSC_TESTNET === chainId ? (
+          <EarnSection chainId={chainId} />
+        ) : (
+          <NotSupportSection />
+        )}
     </Page>
   )
 }
