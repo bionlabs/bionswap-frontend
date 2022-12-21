@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Stack, Typography , styled, Box} from '@mui/material'
+import { Stack, Typography, styled, Box } from '@mui/material';
 import { getComparator, stableSort } from './hooks';
 import { StyledTableCell, StyledTableRow } from './Components/components';
 import Image from 'next/image';
@@ -9,18 +9,16 @@ import { formatUnits } from 'ethers/lib/utils';
 import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS } from '@bionswap/core-sdk';
 import Link from 'next/link';
 
-
-const LaunchpadTableRow = ({item}:any) => {
+const LaunchpadTableRow = ({ item }: any) => {
   const [decimals, setDecimals] = useState(18);
 
   const currentTime = +new Date();
   const startTime = item?.startTime * 1000;
   const endTime = item?.endTime * 1000;
 
-  const endedIn = new Date(endTime)
+  const endedIn = new Date(endTime);
 
   const quoteToken = useToken(item?.quoteToken);
-
 
   const map = {
     [USDT_ADDRESS[item?.chainId]?.toLowerCase()]: 'USDT',
@@ -43,69 +41,73 @@ const LaunchpadTableRow = ({item}:any) => {
 
   return (
     <Link href={`/launchpad/${item?.saleAddress}`}>
-        <StyledTableRow>
-          <StyledTableCell component="th" scope="row">
-            <Stack direction="row" justifyContent="start" spacing={2}>
-              <WrapLogo>
-                <img src={item?.logo} alt={item?.title} />
-              </WrapLogo>
-              <Stack alignItems="start">
-                <Typography fontSize="inherit" fontWeight="inherit">
-                  {item?.title}
-                </Typography>
-                <Typography fontSize="12px" color="text.secondary" fontWeight="400">
-                  ${item?.tokenMetadata.symbol}
-                </Typography>
-              </Stack>
+      <StyledTableRow>
+        <StyledTableCell component="th" scope="row">
+          <Stack direction="row" justifyContent="start" spacing={2}>
+            <WrapLogo>
+              <img src={item?.logo} alt={item?.title} />
+            </WrapLogo>
+            <Stack alignItems="start">
+              <Typography fontSize="inherit" fontWeight="inherit">
+                {item?.title}
+              </Typography>
+              <Typography fontSize="12px" color="text.secondary" fontWeight="400">
+                ${item?.tokenMetadata.symbol}
+              </Typography>
             </Stack>
-          </StyledTableCell>
-          <StyledTableCell align="right">
-            <Status
-              sx={{
-                backgroundColor: theme => (theme.palette as any).extra.button.backgroundGreenOpacity,
+          </Stack>
+        </StyledTableCell>
+        <StyledTableCell align="right">
+          <Status
+            sx={{
+              backgroundColor: (theme) => (theme.palette as any).extra.button.backgroundGreenOpacity,
+              color: 'primary.main',
+              ...(currentTime > startTime && {
+                backgroundColor: 'extra.button.backgroundGreenOpacity',
                 color: 'primary.main',
-                ...(currentTime > startTime && {
-                  backgroundColor: 'success.main',
-                  color: 'white',
-                }),
-                ...(currentTime > endTime && {
-                  backgroundColor: theme => (theme.palette as any).extra.card.light,
-                  color: 'text.secondary',
-                }),
+              }),
+              ...(currentTime > endTime && {
+                backgroundColor: (theme) => (theme.palette as any).extra.card.light,
+                color: 'text.secondary',
+              }),
+            }}
+          >
+            <Typography
+              sx={{
+                color: 'inherit',
+                fontWeight: '500',
+                fontSize: '10px',
               }}
             >
-              <Typography
-                sx={{
-                  color: 'inherit',
-                  fontWeight: '500',
-                  fontSize: '10px'
-                }}
-              >
-                {currentTime < startTime ? 'Coming Soon' : currentTime < endTime ? 'Sale Open' : 'Sale Closed'}
-              </Typography>
-            </Status>
-          </StyledTableCell>
-          <StyledTableCell align="right">
-            {item?.fHardCap.toFixed(2) ?? 0} {unit}
-          </StyledTableCell>
-          <StyledTableCell align="right">
-            {item?.fMaxPurchase ?? 0} {unit}
-          </StyledTableCell>
-          <StyledTableCell align="right">
-            {(unit == 'BNB' ? item?.fPrice.toFixed(2) : item?.fPrice.toFixed(1)) ?? 0} {unit}
-          </StyledTableCell>
-          <StyledTableCell align="right">
-            <Stack alignItems='end' spacing={1}>
-              <Typography fontSize='14px' lineHeight={1} fontWeight='inherit'>
-                {endedIn.toDateString()}
-              </Typography>
-              <Typography fontSize='14px' lineHeight={1} color='text.secondary' fontWeight='400'>
-                {endedIn.toLocaleTimeString()}
-              </Typography>
-            </Stack>
-            
-          </StyledTableCell>
-        </StyledTableRow>
+              {currentTime < startTime ? 'Coming Soon' : currentTime < endTime ? 'Sale Open' : 'Sale Closed'}
+            </Typography>
+          </Status>
+        </StyledTableCell>
+        <StyledTableCell align="right">
+          {item?.fHardCap.toFixed(2) ?? 0} {unit}
+        </StyledTableCell>
+        <StyledTableCell align="right">
+          {item?.fMaxPurchase ?? 0} {unit}
+        </StyledTableCell>
+        <StyledTableCell align="right">
+          <Stack direction="row" spacing={1} width='100%' justifyContent='end'>
+            <Image src={`/icons/coins/${unit}.svg`} alt={unit} width="20px" height="20px" />
+            <Typography fontSize="inherit" fontWeight="500" color="text.primary">
+              {(unit == 'BNB' ? item?.fPrice.toFixed(2) : item?.fPrice.toFixed(1)) ?? 0} {unit}
+            </Typography>
+          </Stack>
+        </StyledTableCell>
+        <StyledTableCell align="right">
+          <Stack alignItems="end" spacing={1}>
+            <Typography fontSize="14px" lineHeight={1} fontWeight="inherit">
+              {endedIn.toDateString()}
+            </Typography>
+            <Typography fontSize="14px" lineHeight={1} color="text.secondary" fontWeight="400">
+              {endedIn.toLocaleTimeString()}
+            </Typography>
+          </Stack>
+        </StyledTableCell>
+      </StyledTableRow>
     </Link>
   );
 };
@@ -129,10 +131,8 @@ const WrapLogo = styled(Box)`
 
 const Status = styled(Stack)`
   padding: 4px 8px;
-  border-radius: 4px;
+  border-radius: 999px;
   line-height: 1;
 `;
-
-
 
 export default LaunchpadTableRow;

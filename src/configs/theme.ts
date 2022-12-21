@@ -139,7 +139,7 @@ export const lightPalette: ExtendedPaletteOptions = {
     },
     swapPanel: {
       background: '#FFF',
-      panel: '#F2F5FA',
+      panel: '#f8f8f8',
       hover: '#EAEAEA',
       divider: 'rgba(0,0,0,.12)',
     },
@@ -150,7 +150,7 @@ export const lightPalette: ExtendedPaletteOptions = {
       divider: 'rgba(0,0,0,.12)',
     },
     background: {
-      alt: '#F2F5FA',
+      alt: '#f8f8f8',
       linear: '#FFF',
       secondary: '#f8f8f8'
     },
@@ -265,12 +265,12 @@ export const darkPalette: ExtendedPaletteOptions = {
     light: '#9A6AFF',
   },
   background: {
-    default: '#000A0D',
-    paper: '#012129',
+    default: '#000000',
+    paper: '#212526',
   },
   text: {
     primary: '#FFFFFF',
-    secondary: '#a7a7a7',
+    secondary: '#8E9092',
     disabled: 'rgba(255, 255, 255, 0.2)',
   },
   extra: {
@@ -281,22 +281,22 @@ export const darkPalette: ExtendedPaletteOptions = {
     //   divider: 'rgba(255,255,255,.12)'
     // },
     card: {
-      background: '#012129',
-      light: '#00313D',
-      hover: '#005064 ',
-      divider: 'rgba(255,255,255,.12)',
+      background: '#161819',
+      light: '#212526',
+      hover: '#2c3132 ',
+      divider: '#313334',
     },
     swapPanel: {
-      background: '#012129',
-      panel: '#00313D',
-      hover: '#005064 ',
-      divider: 'rgba(255,255,255,.12)',
+      background: '#212526',
+      panel: '#161819',
+      hover: '#2c3132 ',
+      divider: '#313334',
     },
     table: {
-      background: '#012129',
-      light: '#00313D',
-      hover: '#3f5173',
-      divider: '#003236',
+      background: '#161819',
+      light: '#212526',
+      hover: '#2c3132',
+      divider: '#313334',
     },
     button: {
       backgroundGreenOpacity: 'rgba(0, 205, 255, 0.2)',
@@ -304,9 +304,9 @@ export const darkPalette: ExtendedPaletteOptions = {
       linear: 'linear-gradient(93.49deg, #15D7A2 0.54%, #0AC6D6 100%)',
     },
     background: {
-      alt: '#000A0D',
-      linear: 'linear-gradient(#000A0D 0%, rgba(10, 18, 30, 0) 100%) 0% 0% / 100% 1100px no-repeat',
-      secondary: '#161b1d'
+      alt: '#000000',
+      linear: 'linear-gradient(#000000 0%, rgba(10, 18, 30, 0) 100%) 0% 0% / 100% 1100px no-repeat',
+      secondary: '#161819'
     },
     text: {
       linear: 'linear-gradient(133.2deg, #D184F3 2.95%, #87D3DA 48.27%, #8CF99E 100%)',

@@ -69,7 +69,7 @@ export { useSwapCallArguments, useSwapCallback } from './useSwapCallback';
 export { useToken } from './useToken';
 export { useTokenAllowance } from './useTokenAllowance';
 export { useTransactionDeadline } from './useTransactionDeadline';
-export { useUSDValue as useUSDCValue, useUSDPrice as useUSDCPrice } from './useUSDCPrice';
+export { useUSDValue as useUSDCValue, useUSDPrice as useUSDCPrice } from './useUSDPrice';
 export { useV2Pair, useV2Pairs } from './useV2Pairs';
 export { useV2TradeExactIn, useV2TradeExactOut } from './useV2Trades';
 export { useWrapCallback } from './useWrapCallback';

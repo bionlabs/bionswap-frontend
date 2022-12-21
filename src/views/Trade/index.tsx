@@ -28,7 +28,7 @@ import ConfirmSwapModal from './components/ConfirmSwapModal';
 import SwapDetail from './components/SwapDetail';
 import TradePrice from './components/TradePrice';
 import TradingViewChart from './components/TradingViewChart';
-import {RiArrowUpDownFill , RiArrowDownLine} from 'react-icons/ri'
+import { RiArrowUpDownFill, RiArrowDownLine } from 'react-icons/ri';
 import Page from 'components/Page';
 import ConnectorOptionsModal from 'components/ConnectButton/ConnectorOptionsModal';
 import { Connector } from 'wagmi';
@@ -37,7 +37,7 @@ import useMediaQuery from 'hooks/useMediaQuery';
 type SwapProps = {};
 
 const Swap = ({}: SwapProps) => {
-  const {isMobile} = useMediaQuery();
+  const { isMobile } = useMediaQuery();
   const [openConnectorsModal, setOpenConnectorsModal] = useState(false);
   const handleConnectorConnected = (connector: Connector) => {
     setOpenConnectorsModal(false);
@@ -46,9 +46,9 @@ const Swap = ({}: SwapProps) => {
       event_label: connector.name,
     });
   };
-  
+
   const loadedUrlParams = useDefaultsFromURLSearch();
-  const [hoverSwap , setHoverSwap] = useState(false);
+  const [hoverSwap, setHoverSwap] = useState(false);
   const { address: account } = useAccount();
   const defaultTokens = useAllTokens();
   const { chainId } = useChain();
@@ -368,12 +368,11 @@ const Swap = ({}: SwapProps) => {
     let onClick;
     let disabled = false;
 
-
     if (swapIsUnsupported) {
       text = `Unsupported Asset`;
     } else if (!account) {
       text = `Connect Wallet`;
-      onClick = () => setOpenConnectorsModal(true)
+      onClick = () => setOpenConnectorsModal(true);
     } else if (showWrap) {
       onClick = onWrap;
       if (wrapInputError) {
@@ -445,7 +444,7 @@ const Swap = ({}: SwapProps) => {
         disabled={disabled}
         onClick={onClick}
         fullWidth
-        variant='contained'
+        variant="contained"
         sx={{
           fontWeight: '500',
           fontSize: '14px',
@@ -453,13 +452,13 @@ const Swap = ({}: SwapProps) => {
           padding: '10px',
           borderRadius: '8px',
           transition: '.12s ease-in',
-          background: disabled ? 'inherit' : theme =>  (theme.palette as any).extra.button.linear,
+          background: disabled ? 'inherit' : (theme) => (theme.palette as any).extra.button.linear,
           '&:hover': {
-            background: theme =>  (theme.palette as any).extra.button.linear,
+            background: (theme) => (theme.palette as any).extra.button.linear,
           },
         }}
       >
-        <Typography fontWeight={500} sx={{ color: 'inherit' }}>
+        <Typography fontWeight={text == 'Swap' ? 600 : 500} sx={{ color: 'inherit' }}>
           {text}
         </Typography>
       </Button>
@@ -494,7 +493,7 @@ const Swap = ({}: SwapProps) => {
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         objectFit: 'cover',
-        backgroundColor: darkMode ? null : theme => (theme.palette as any).extra.background.alt
+        backgroundColor: darkMode ? null : (theme) => (theme.palette as any).extra.background.alt,
       }}
     >
       <Container maxWidth="xl">
@@ -526,18 +525,19 @@ const Swap = ({}: SwapProps) => {
           >
             <Box>
               <WrapSwapBox minWidth={isMobile ? '90%' : '440px'}>
-                <Stack direction='row'
+                <Stack
+                  direction="row"
                   sx={{
                     padding: '16px 24px 0 24px',
                     width: '100%',
                     justifyContent: 'space-between',
-                    // borderBottom: theme => `1px solid ${(theme.palette as any).extra.card.divider}`
                   }}
                 >
-                  <Stack spacing={0.5} alignItems='start'>
+                  <Stack spacing={0.5} alignItems="start">
                     <Typography
                       sx={{
-                        fontWeight: '500', fontSize: '18px',
+                        fontWeight: '500',
+                        fontSize: '18px',
                         color: 'text.primary',
                       }}
                     >
@@ -546,7 +546,7 @@ const Swap = ({}: SwapProps) => {
                   </Stack>
                   <TransactionSettings />
                 </Stack>
-                <Box p='16px'>
+                <Box p="16px">
                   <CurrencyInputPanel
                     value={formattedAmounts[Field.INPUT]}
                     currency={currencies[Field.INPUT]}
@@ -563,7 +563,7 @@ const Swap = ({}: SwapProps) => {
                     }}
                   >
                     <Button
-                      variant='contained'
+                      variant="contained"
                       sx={{
                         borderRadius: '50%',
                         width: 45,
@@ -571,23 +571,23 @@ const Swap = ({}: SwapProps) => {
                         padding: 0,
                         minWidth: 0,
                         color: 'primary.main',
-                        backgroundColor: theme => (theme.palette as any).extra.swapPanel.panel,
-                        border:  theme => `5px solid ${(theme.palette as any).extra.swapPanel.background}`,
+                        backgroundColor: (theme) => (theme.palette as any).extra.swapPanel.panel,
+                        border: (theme) => `5px solid ${(theme.palette as any).extra.swapPanel.background}`,
                         ':hover': {
                           color: 'background.default',
                           backgroundColor: 'primary.main',
-                          boxShadow: 'none'
+                          boxShadow: 'none',
                         },
-                        'svg': {
-                          width: '18px', height: '18px'
-                        }
-
+                        svg: {
+                          width: '18px',
+                          height: '18px',
+                        },
                       }}
                       onClick={onSwitchTokens}
                       onMouseEnter={() => setHoverSwap(true)}
                       onMouseLeave={() => setHoverSwap(false)}
                     >
-                      {hoverSwap ? <RiArrowUpDownFill/> : <RiArrowDownLine/>}
+                      {hoverSwap ? <RiArrowUpDownFill /> : <RiArrowDownLine />}
                     </Button>
                   </Stack>
                   <CurrencyInputPanel
@@ -597,14 +597,12 @@ const Swap = ({}: SwapProps) => {
                     onCurrencySelect={handleOutputSelect}
                     otherCurrency={currencies[Field.INPUT]}
                   />
-                  {trade &&
-                      <MoreDetailBox>
-                        <SwapDetail trade={trade} />
-                      </MoreDetailBox>
-                  }
-                  <Box mt='16px'>
-                    {SwapButton}
-                  </Box>
+                  {trade && (
+                    <MoreDetailBox>
+                      <SwapDetail trade={trade} />
+                    </MoreDetailBox>
+                  )}
+                  <Box mt="16px">{SwapButton}</Box>
                 </Box>
                 <ConfirmSwapModal
                   open={showConfirm}
@@ -651,14 +649,14 @@ const top100Films = [
 ];
 const WrapSwapBox = styled(Box)`
   background-color: ${(props) => (props.theme.palette as any).extra.swapPanel.background};
-  border-radius: 12px;
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.swapPanel.divider};
+  border-radius: 8px;
   height: 100%;
 `;
 const MoreDetailBox = styled(Box)`
-  background-color: ${(props) => (props.theme.palette as any).extra.swapPanel.panel};
   border-radius: 8px;
   margin-top: 10px;
-`
+`;
 const PaperItem = styled(Box)`
   background-color: ${(props) => (props.theme.palette as any).extra.swapPanel.background};
 `;

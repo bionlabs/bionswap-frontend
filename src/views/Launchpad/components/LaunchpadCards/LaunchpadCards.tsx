@@ -85,15 +85,13 @@ const LaunchpadCards = ({ chainId, view }: CardProps) => {
           <SkeletonCard />
         )}
       </Stack>
-      <Stack width="100%">
+      <Stack width="100%" alignItems='end'>
         <Pagination
           count={launchData?.totalPages}
           page={page}
           onChange={handleChangePagigation}
           color="primary"
-          variant="outlined"
           shape="rounded"
-          size="large"
           showFirstButton
           showLastButton
         />
