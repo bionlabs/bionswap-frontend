@@ -52,7 +52,8 @@ export async function getSaleList(
   chainId: string,
   owner: string,
   keyword: string,
-  sortBy: any,
+  sortBy: string,
+  filterBy: string
 ) {
   const result = await request.get('/launchpad/sale-list', {
     params: {
@@ -62,6 +63,7 @@ export async function getSaleList(
       owner: owner,
       keyword: keyword,
       sortBy: sortBy,
+      filterBy: filterBy
     },
   });
 
