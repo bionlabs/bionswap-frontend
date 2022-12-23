@@ -1,26 +1,7 @@
-import {
-  Box,
-  Button,
-  Container,
-  FormControl,
-  FormControlLabel,
-  InputAdornment,
-  MenuItem,
-  Pagination,
-  Select,
-  styled,
-  TextField,
-  Typography,
-  Stack,
-} from '@mui/material';
-import { getSaleList } from 'api/launchpad';
-import NoDataView from 'components/NoDataView';
-import { useDebounce, useRefetchIncreasedInterval } from 'hooks';
-import { useCallback, useEffect, useState } from 'react';
-import Slider from 'react-slick';
+import { Box, Button, Container, FormControlLabel, Select, styled, Stack } from '@mui/material';
+import { useState } from 'react';
 import LaunchpadCards from './components/LaunchpadCards/LaunchpadCards';
 import LaunchpadTable from './components/LaunchpadTable/LaunchpadTable';
-import Search from './components/Search/Search';
 import Title from './components/Title/Title';
 import Toolbar from './components/Toolbar/Toolbar';
 
@@ -77,8 +58,7 @@ const LaunchPadSection = ({ chainId }: any) => {
         <Wrapper>
           <Stack width="100%" alignItems="start" spacing={6}>
             <Title title="Current Projects" isCurrent currentMessage="Many ideas waiting for you to reach" />
-            <Search searchKeyword={searchKeyword} />
-            <Toolbar view={view} handleChangeView={handleChangeView} />
+            <Toolbar view={view} handleChangeView={handleChangeView} searchKeyword={searchKeyword} />
             {getViewComponent()}
           </Stack>
         </Wrapper>

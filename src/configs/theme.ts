@@ -299,7 +299,7 @@ export const darkPalette: ExtendedPaletteOptions = {
       divider: '#313334',
     },
     button: {
-      backgroundGreenOpacity: 'rgba(0, 205, 255, 0.2)',
+      backgroundGreenOpacity: '#00313D',
       lighter: 'rgba(255,255,255, .01)',
       linear: 'linear-gradient(93.49deg, #15D7A2 0.54%, #0AC6D6 100%)',
     },
@@ -515,7 +515,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         styleOverrides: {
           root: {
             // backgroundColor: 'rgba(0, 0, 0, 0.3)',
-            backdropFilter: 'blur(10px)',
+            // backdropFilter: 'blur(10px)',
           },
         },
       },

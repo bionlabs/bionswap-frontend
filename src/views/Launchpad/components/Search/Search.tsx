@@ -13,38 +13,32 @@ interface SearchProps {
 const Search = ({searchKeyword}:SearchProps) => {
   return (
     <TextField
-        variant="standard"
+        variant="outlined"
         onChange={searchKeyword}
         placeholder="Enter project name, token address or token symbol"
         fullWidth
+        focused={false}
         sx={{
         '.MuiInputBase-root': {
-            padding: '12px',
+           backgroundColor: theme => (theme.palette as any).extra.card.background,
+           borderRadius: '4px',
+           border: theme => `1px solid ${(theme.palette as any).extra.card.divider}`
+        },
+        '.MuiOutlinedInput-notchedOutline':{
+            border: 0
         },
         input: {
-            fontWeight: '400',
-            fontSize: '16px',
-            lineHeight: '180%',
+            fontSize: '14px',
             color: 'text.primary',
             '&:placeholder': {
-            lineHeight: '180%',
-            color: 'text.secondary',
+                color: 'text.secondary',
             },
-        },
-        '.MuiInputBase-root.MuiInput-root:hover:not(.Mui-disabled):before': {
-            borderBottom: theme => `1px solid ${(theme.palette as any).extra.card.divider}`,
-        },
-        '.MuiInput-root:before': {
-            borderBottom: theme => `1px solid ${(theme.palette as any).extra.card.divider}`,
-        },
-        '.MuiInput-root:after': {
-            borderWidth: '1px',
         },
         }}
         InputProps={{
-        endAdornment: (
-            <InputAdornment position="end">
-            <SearchIcon sx={{ color: 'text.secondary' }} />
+        startAdornment: (
+            <InputAdornment position="start">
+                <SearchIcon sx={{ color: 'text.secondary' }} />
             </InputAdornment>
         ),
         }}
