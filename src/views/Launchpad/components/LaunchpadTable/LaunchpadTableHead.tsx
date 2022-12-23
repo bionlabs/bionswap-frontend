@@ -56,15 +56,9 @@ const LaunchpadTableHead = (props: LaunchpadTableProps) => {
           align={headCell.numeric ? 'right' : 'left'}
           sortDirection={orderBy === headCell.id ? order : false}
         >
-          <TableSortLabel
-            active={orderBy === headCell.id}
-            direction={orderBy === headCell.id ? order : 'asc'}
-            onClick={createSortHandler(headCell.id)}
-          >
-            <Typography color="text.secondary" fontWeight="500" fontSize="14px">
-              {headCell.label}
-            </Typography>
-          </TableSortLabel>
+          <Typography color="text.secondary" fontWeight="500" fontSize="14px">
+            {headCell.label}
+          </Typography>
         </StyledTableCell>
       ))}
     </StyledTableRow>

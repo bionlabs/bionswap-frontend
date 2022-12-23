@@ -28,13 +28,6 @@ const Menu = ({ children }: any) => {
     right: false,
   });
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  // const open = Boolean(anchorEl);
-  // const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-  // setAnchorEl(event.currentTarget);
-  // };
-  // const handleClose = () => {
-  // setAnchorEl(null);
-  // };
 
   const toggleDrawer = (anchor: Anchor, open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
@@ -150,7 +143,12 @@ const Menu = ({ children }: any) => {
             )}
           </Stack>
         </StyledContained>
-        {isMobile && (
+        
+      </MenuContainer>
+      <Drawer anchor={'right'} open={state['right']} onClose={toggleDrawer('right', false)}>
+          <MobileMenu anchor="right" toggleDrawer={toggleDrawer} />
+        </Drawer>
+      {isMobile && (
           <BottomContainer>
             <Stack direction="row" spacing={1}>
               <ChainSelect />
@@ -158,10 +156,6 @@ const Menu = ({ children }: any) => {
             </Stack>
           </BottomContainer>
         )}
-        <Drawer anchor={'right'} open={state['right']} onClose={toggleDrawer('right', false)}>
-          <MobileMenu anchor="right" toggleDrawer={toggleDrawer} />
-        </Drawer>
-      </MenuContainer>
       <Box>{children}</Box>
     </>
   );

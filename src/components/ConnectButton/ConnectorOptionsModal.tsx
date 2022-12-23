@@ -112,7 +112,7 @@ function ConnectorOptionsModal({ onConnectorSelected, onConnectorConnected, onCl
                 connectors.map((connector, index) => 
                   <Tab
                     key=''
-                    icon={<Image src={getConnectorIcon(connector.id)} layout="fixed" alt="" width={24} height={24} />}
+                    icon={<Image src={getConnectorIcon(connector.id)} alt="" width={24} height={24} />}
                     iconPosition="start"
                     label={connector.name}
                     {...a11yProps(index)}
