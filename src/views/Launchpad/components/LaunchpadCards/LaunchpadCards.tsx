@@ -7,61 +7,14 @@ import { getSaleList } from 'api/launchpad';
 import { useRefetchIncreasedInterval } from 'hooks';
 
 interface CardProps {
-  chainId: any;
-  view: string;
+  launchData: any;
+  loading: boolean;
+  page: number
+  handleChangePagigation: (event: any, value: number) => void
 }
 
-const LaunchpadCards = ({ chainId, view }: CardProps) => {
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [params, setParams] = useState<null | {}>({
-    page: page,
-    limit: 12,
-    owner: '',
-    keyword: '',
-    sortBy: '-createdAt',
-  });
-
-  const [launchData, setLaunchData]: any = useState(null);
-  const getLaunchData = useCallback(
-    async (params: any) => {
-      try {
-        const launchData = await getSaleList(
-          params.page,
-          params.limit,
-          chainId,
-          params.owner,
-          params.keyword,
-          params.sortBy,
-        );
-        setLaunchData(launchData);
-      } catch (error) {
-        setLoading(false);
-        console.log('error====>', error);
-      }
-      setLoading(false);
-    },
-    [chainId, setLoading],
-  );
-
-  useRefetchIncreasedInterval(
-    async () => {
-      await getLaunchData(params);
-    },
-    0,
-    1500,
-    [chainId, params, view],
-  );
-
-  useEffect(() => {
-    getLaunchData(params);
-  }, [params, chainId, getLaunchData, view]);
-
-  const handleChangePagigation = (event: any, value: number) => {
-    setLoading(true);
-    setParams({ ...params, page: value });
-    setPage(value);
-  };
+const LaunchpadCards = ({ launchData, loading , page, handleChangePagigation }: CardProps) => {
+  
 
   return (
     <>

@@ -1,5 +1,7 @@
 import { Box, Button, Container, FormControlLabel, Select, styled, Stack } from '@mui/material';
-import { useState } from 'react';
+import { getSaleList } from 'api/launchpad';
+import { useDebounce, useRefetchIncreasedInterval } from 'hooks';
+import { useCallback, useEffect, useState } from 'react';
 import LaunchpadCards from './components/LaunchpadCards/LaunchpadCards';
 import LaunchpadTable from './components/LaunchpadTable/LaunchpadTable';
 import Title from './components/Title/Title';
@@ -7,44 +9,113 @@ import Toolbar from './components/Toolbar/Toolbar';
 
 const LaunchPadSection = ({ chainId }: any) => {
   const [view, setView] = useState<string | null>('card');
+
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
 
-  // const handleChange = (prop: any) => (event: any) => {
-  //   setParams({ ...params, [prop]: event.target.value });
-  // };
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [params, setParams] = useState<null | {}>({
+    page: page,
+    limit: 12,
+    owner: '',
+    keyword: searchQuery,
+    sortBy: '-createdAt',
+  });
 
-  const searchKeyword = (event: any) => {
-    setSearchQuery(event.target.value);
+  const [launchData, setLaunchData]: any = useState(null);
+  const getLaunchData = useCallback(
+    async (params: any) => {
+      try {
+        const launchData = await getSaleList(
+          params.page,
+          params.limit,
+          chainId,
+          params.owner,
+          params.keyword,
+          params.sortBy,
+        );
+        setLaunchData(launchData);
+      } catch (error) {
+        setLoading(false);
+        console.log('error====>', error);
+      }
+      setLoading(false);
+    },
+    [chainId, setLoading],
+  );
+
+  
+
+  useRefetchIncreasedInterval(
+    async () => {
+      await getLaunchData(params);
+    },
+    0,
+    1500,
+    [chainId, params, view],
+  );
+
+  const handleChangePagigation = (event: any, value: number) => {
+    setLoading(true);
+    setPage(view =='card' ? value : value + 1);
+    setParams({ ...params, page: view =='card' ? value : value + 1 });
+    
   };
 
-  // const [, cancelSearch] = useDebounce(
-  //   () => {
-  //     setParams({ ...params, ['keyword']: searchQuery });
-  //   },
-  //   500,
-  //   [searchQuery],
-  // );
+  const searchKeyword = (event: any) => {
+    setLoading(true);
+    setSearchQuery(event.target.value);
+    if(searchQuery == '') cancelSearch();
+  };
+
+  const [, cancelSearch] = useDebounce(
+    () => {
+      setLoading(false);
+      setParams({ ...params, ['keyword']: searchQuery });
+    },
+    500,
+    [searchQuery],
+  );
 
   const handleChangeView = (event: React.MouseEvent<HTMLElement>, newView: string | null) => {
     if (newView !== null) {
       setView(newView);
     }
+    setLoading(true);
+    setPage(1);
+    setParams({ ...params, page: 1 });
   };
 
-  const settings = {
-    arrows: false,
-    speed: 500,
-    swipeToSlide: true,
-    infinite: false,
-    variableWidth: true,
-  };
+  useEffect(() => {
+    getLaunchData(params);
+  }, [params, chainId, getLaunchData, view, searchQuery, cancelSearch]);
+
+  // const settings = {
+  //   arrows: false,
+  //   speed: 500,
+  //   swipeToSlide: true,
+  //   infinite: false,
+  //   variableWidth: true,
+  // };
 
   const getViewComponent = () => {
     if (view == 'card') {
-      return <LaunchpadCards chainId={chainId} view={view} />;
-    } else {
-      return <LaunchpadTable chainId={chainId} view={view} />;
-    }
+      return (
+        <LaunchpadCards
+          launchData={launchData}
+          loading={loading}
+          page={page}
+          handleChangePagigation={handleChangePagigation}
+        />
+      )
+    } 
+    return <LaunchpadTable
+            launchData={launchData}
+            loading={loading}
+            page={page - 1}
+            handleChangePagigation={handleChangePagigation}
+          />
   };
 
   return (
