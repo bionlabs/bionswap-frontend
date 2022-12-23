@@ -30,7 +30,7 @@ const ConnectorOptionsDrawer = ({ toggleConnectorDrawer, handleConnectorConnecte
     <Box
       sx={{
         width: '100%',
-        height: '90vh',
+        height: '80vh',
         backgroundColor: (theme) => (theme.palette as any).extra.walletModal.background,
         color: (theme) => (theme.palette as any).extra.walletModal.textPrimary,
         borderTopLeftRadius: '8px',

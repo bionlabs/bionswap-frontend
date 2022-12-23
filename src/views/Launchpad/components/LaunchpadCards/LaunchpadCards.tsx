@@ -17,12 +17,12 @@ const LaunchpadCards = ({ launchData, loading , page, handleChangePagigation }: 
   
 
   return (
-    <>
+    <Stack width='100%' justifyContent='start'>
       <Stack
         direction="row"
         flexWrap="wrap"
         alignItems="start"
-        justifyContent="space-between"
+        justifyContent="flex-start"
         width="100%"
         sx={{
           gap: { xs: '20px', lg: '40px' },
@@ -49,7 +49,7 @@ const LaunchpadCards = ({ launchData, loading , page, handleChangePagigation }: 
           showLastButton
         />
       </Stack>
-    </>
+    </Stack>
   );
 };
 

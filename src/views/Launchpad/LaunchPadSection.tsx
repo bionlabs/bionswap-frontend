@@ -71,7 +71,7 @@ const LaunchPadSection = ({ chainId }: any) => {
 
   const [, cancelSearch] = useDebounce(
     () => {
-      setLoading(false);
+      setLoading(true);
       setParams({ ...params, ['keyword']: searchQuery });
     },
     500,
