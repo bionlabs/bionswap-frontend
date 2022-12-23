@@ -13,6 +13,27 @@ const LaunchPadSection = ({ chainId }: any) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
 
+  const [filter, setFilter] = useState('');
+  const filterParams = [
+    {
+      id: '',
+      label: 'All sales'
+    },
+    {
+      id: 'upcoming',
+      label: 'Up coming'
+    },
+    {
+      id: 'live',
+      label: 'Sales open'
+    },
+    {
+      id: 'ended',
+      label: 'Sales closed'
+    },
+  ];
+  
+
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [params, setParams] = useState<null | {}>({
@@ -21,31 +42,42 @@ const LaunchPadSection = ({ chainId }: any) => {
     owner: '',
     keyword: searchQuery,
     sortBy: '-createdAt',
+    filterBy: filter
   });
+
+  const [, cancel] = useDebounce(
+    () => {
+      setLoading(true);
+      setParams({ ...params, ['keyword']: searchQuery});
+    },
+    500,
+    [searchQuery],
+  );
 
   const [launchData, setLaunchData]: any = useState(null);
   const getLaunchData = useCallback(
     async (params: any) => {
       try {
-        const launchData = await getSaleList(
+        const data = await getSaleList(
           params.page,
           params.limit,
           chainId,
           params.owner,
           params.keyword,
           params.sortBy,
+          params.filterBy
         );
-        setLaunchData(launchData);
+        setLaunchData(data);
       } catch (error) {
         setLoading(false);
+        cancel();
         console.log('error====>', error);
       }
       setLoading(false);
+      cancel()
     },
-    [chainId, setLoading],
+    [cancel, chainId],
   );
-
-  
 
   useRefetchIncreasedInterval(
     async () => {
@@ -66,17 +98,9 @@ const LaunchPadSection = ({ chainId }: any) => {
   const searchKeyword = (event: any) => {
     setLoading(true);
     setSearchQuery(event.target.value);
-    if(searchQuery == '') cancelSearch();
   };
 
-  const [, cancelSearch] = useDebounce(
-    () => {
-      setLoading(true);
-      setParams({ ...params, ['keyword']: searchQuery });
-    },
-    500,
-    [searchQuery],
-  );
+
 
   const handleChangeView = (event: React.MouseEvent<HTMLElement>, newView: string | null) => {
     if (newView !== null) {
@@ -87,9 +111,15 @@ const LaunchPadSection = ({ chainId }: any) => {
     setParams({ ...params, page: 1 });
   };
 
+  const handleChangeFilter = (event:any) => {
+    setLoading(true);
+    setFilter(event.target.value);
+    setParams({ ...params, filterBy: filter });
+  };
+
   useEffect(() => {
     getLaunchData(params);
-  }, [params, chainId, getLaunchData, view, searchQuery, cancelSearch]);
+  }, [params, chainId, getLaunchData, view, searchQuery, filter]);
 
   // const settings = {
   //   arrows: false,
@@ -118,6 +148,8 @@ const LaunchPadSection = ({ chainId }: any) => {
           />
   };
 
+  console.log(launchData)
+
   return (
     <Box
       sx={{
@@ -129,7 +161,14 @@ const LaunchPadSection = ({ chainId }: any) => {
         <Wrapper>
           <Stack width="100%" alignItems="start" spacing={6}>
             <Title title="Current Projects" isCurrent currentMessage="Many ideas waiting for you to reach" />
-            <Toolbar view={view} handleChangeView={handleChangeView} searchKeyword={searchKeyword} />
+            <Toolbar
+              view={view}
+              handleChangeView={handleChangeView}
+              searchKeyword={searchKeyword}
+              filter={filter}
+              filterParams={filterParams}
+              handleChangeFilter={handleChangeFilter}
+            />
             {getViewComponent()}
           </Stack>
         </Wrapper>

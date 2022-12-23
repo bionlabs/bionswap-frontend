@@ -17,7 +17,7 @@ const LaunchpadCards = ({ launchData, loading , page, handleChangePagigation }: 
   
 
   return (
-    <Stack width='100%' justifyContent='start'>
+    <Stack width='100%' justifyContent='start' gap='40px'>
       <Stack
         direction="row"
         flexWrap="wrap"

@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { Box, styled, Stack, Typography, IconButton, ToggleButtonGroup, ToggleButton } from '@mui/material';
+import { Box, styled, Stack, Typography, IconButton, ToggleButtonGroup, ToggleButton, SelectChangeEvent } from '@mui/material';
 import { IoList, IoGrid } from 'react-icons/io5';
 import ToggleView from './ToggleView/ToggleView';
 import SortTool from './SortTool/SortTool';
@@ -11,9 +11,12 @@ interface ToolbarProps {
   view: string | null;
   handleChangeView: (event: React.MouseEvent<HTMLElement>, newView: string | null) => void;
   searchKeyword: (event: any) => void;
+  filter: string;
+  filterParams: any[];
+  handleChangeFilter: (event: SelectChangeEvent) => void;
 }
 
-const Toolbar = ({ view, handleChangeView, searchKeyword }: ToolbarProps) => {
+const Toolbar = ({ view, handleChangeView, searchKeyword, filter, filterParams , handleChangeFilter }: ToolbarProps) => {
   const { isTablet } = useMediaQuery();
 
   return (
@@ -23,7 +26,7 @@ const Toolbar = ({ view, handleChangeView, searchKeyword }: ToolbarProps) => {
         <Search searchKeyword={searchKeyword} />
       </Stack>
       <Stack direction="row" justifyContent="start" gap='20px' alignItems="end" width={isTablet ? '100%' : 'auto'} order={isTablet ? 1 : 2}>
-        <FilterTool />
+        <FilterTool filter={filter} filterParams={filterParams} handleChangeFilter={handleChangeFilter} />
         <SortTool />
       </Stack>
     </Stack>
