@@ -1,26 +1,20 @@
-import React, { useState } from 'react';
-import { FormControl, Stack, Select, MenuItem, SelectChangeEvent , Typography } from '@mui/material';
+import React from 'react';
+import { FormControl, Stack, Select, MenuItem, Typography } from '@mui/material';
 
-const SortTool = () => {
-  const [age, setAge] = useState('10');
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
-  };
+interface Props {
+  sort: string;
+  sortParams: any[];
+  handleChangeSort: (event: any, value: string) => void;
+}
+const SortTool = ({ sort, sortParams, handleChangeSort }: Props) => {
   return (
-    <Stack
-        spacing={1}
-        alignItems='start'
-        width='auto'
-    >
-        <Typography color='text.secondary'>
-            Sort By
-        </Typography>
-      <FormControl focused={false} variant="outlined" sx={{minWidth: 200 }}>
+    <Stack spacing={1} alignItems="start" width="auto">
+      <Typography color="text.secondary">Sort By</Typography>
+      <FormControl focused={false} variant="outlined" sx={{ minWidth: 200 }}>
         <Select
-          value={age}
-          onChange={handleChange}
-          label="Age"
+          value={sort}
+          onChange={(e) => handleChangeSort(e, e.target.value)}
+          displayEmpty
           sx={{
             '.MuiInputBase-input': {
               backgroundColor: (theme) => (theme.palette as any).extra.card.background,
@@ -31,16 +25,18 @@ const SortTool = () => {
               lineHeight: '1',
               display: 'flex',
               alignItems: 'center',
-              border: theme => `1px solid ${(theme.palette as any).extra.card.divider}`
+              border: (theme) => `1px solid ${(theme.palette as any).extra.card.divider}`,
             },
             '.MuiOutlinedInput-notchedOutline': {
               border: 0,
             },
           }}
         >
-          <MenuItem value={10}>All Network</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {sortParams.map((item) => (
+            <MenuItem key={item} value={item.id}>
+              {item.label}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </Stack>
