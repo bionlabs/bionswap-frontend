@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { FormControl, Stack, Select, MenuItem, SelectChangeEvent, Typography } from '@mui/material';
+import React from 'react';
+import { FormControl, Stack, Select, MenuItem, Typography } from '@mui/material';
 import useMediaQuery from 'hooks/useMediaQuery';
 
 interface FilterProps {
   filter: string;
   filterParams: any[];
-  handleChangeFilter: (event: SelectChangeEvent) => void;
+  handleChangeFilter: (event: any, value: string) => void;
 }
 
 const SortTool = ({ filter, filterParams, handleChangeFilter }: FilterProps) => {
@@ -16,7 +16,7 @@ const SortTool = ({ filter, filterParams, handleChangeFilter }: FilterProps) => 
       <FormControl focused={false} variant="outlined" sx={{ minWidth: isTablet ? '100%' : 200 }}>
         <Select
           value={filter}
-          onChange={handleChangeFilter}
+          onChange={(e) => handleChangeFilter(e, e.target.value)}
           displayEmpty
           sx={{
             '.MuiInputBase-input': {

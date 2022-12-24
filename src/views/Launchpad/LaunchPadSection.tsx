@@ -17,22 +17,41 @@ const LaunchPadSection = ({ chainId }: any) => {
   const filterParams = [
     {
       id: '',
-      label: 'All sales'
+      label: 'All sales',
     },
     {
       id: 'upcoming',
-      label: 'Up coming'
+      label: 'Up coming',
     },
     {
       id: 'live',
-      label: 'Sales open'
+      label: 'Sales open',
     },
     {
       id: 'ended',
-      label: 'Sales closed'
+      label: 'Sales closed',
     },
   ];
-  
+
+  const [sort, setSort] = useState('-createdAt');
+  const sortParams = [
+    {
+      id: '-createdAt',
+      label: 'Date ASC',
+    },
+    {
+      id: '+createdAt',
+      label: 'Date DESC',
+    },
+    {
+      id: '-updatedAt',
+      label: 'Last updated',
+    },
+    {
+      id: '+updatedAt',
+      label: 'Previous updated',
+    },
+  ];
 
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -41,14 +60,14 @@ const LaunchPadSection = ({ chainId }: any) => {
     limit: 12,
     owner: '',
     keyword: searchQuery,
-    sortBy: '-createdAt',
-    filterBy: filter
+    sortBy: sort,
+    filterBy: filter,
   });
 
   const [, cancel] = useDebounce(
     () => {
       setLoading(true);
-      setParams({ ...params, ['keyword']: searchQuery});
+      setParams({ ...params, ['keyword']: searchQuery });
     },
     500,
     [searchQuery],
@@ -65,7 +84,7 @@ const LaunchPadSection = ({ chainId }: any) => {
           params.owner,
           params.keyword,
           params.sortBy,
-          params.filterBy
+          params.filterBy,
         );
         setLaunchData(data);
       } catch (error) {
@@ -74,7 +93,7 @@ const LaunchPadSection = ({ chainId }: any) => {
         console.log('error====>', error);
       }
       setLoading(false);
-      cancel()
+      cancel();
     },
     [cancel, chainId],
   );
@@ -85,22 +104,19 @@ const LaunchPadSection = ({ chainId }: any) => {
     },
     0,
     1500,
-    [chainId, params, view],
+    [chainId, params, view, filter, sort],
   );
 
   const handleChangePagigation = (event: any, value: number) => {
     setLoading(true);
-    setPage(view =='card' ? value : value + 1);
-    setParams({ ...params, page: view =='card' ? value : value + 1 });
-    
+    setPage(view == 'card' ? value : value + 1);
+    setParams({ ...params, page: view == 'card' ? value : value + 1 });
   };
 
   const searchKeyword = (event: any) => {
     setLoading(true);
     setSearchQuery(event.target.value);
   };
-
-
 
   const handleChangeView = (event: React.MouseEvent<HTMLElement>, newView: string | null) => {
     if (newView !== null) {
@@ -111,15 +127,21 @@ const LaunchPadSection = ({ chainId }: any) => {
     setParams({ ...params, page: 1 });
   };
 
-  const handleChangeFilter = (event:any) => {
+  const handleChangeFilter = (event: any, value: string) => {
     setLoading(true);
     setFilter(event.target.value);
-    setParams({ ...params, filterBy: filter });
+    setParams({ ...params, filterBy: value });
+  };
+
+  const handleChangeSort = (event: any, value: string) => {
+    setLoading(true);
+    setSort(event.target.value);
+    setParams({ ...params, sortBy: value });
   };
 
   useEffect(() => {
     getLaunchData(params);
-  }, [params, chainId, getLaunchData, view, searchQuery, filter]);
+  }, [params, chainId, getLaunchData, view, searchQuery, filter, sort]);
 
   // const settings = {
   //   arrows: false,
@@ -138,17 +160,19 @@ const LaunchPadSection = ({ chainId }: any) => {
           page={page}
           handleChangePagigation={handleChangePagigation}
         />
-      )
-    } 
-    return <LaunchpadTable
-            launchData={launchData}
-            loading={loading}
-            page={page - 1}
-            handleChangePagigation={handleChangePagigation}
-          />
+      );
+    }
+    return (
+      <LaunchpadTable
+        launchData={launchData}
+        loading={loading}
+        page={page - 1}
+        handleChangePagigation={handleChangePagigation}
+      />
+    );
   };
 
-  console.log(launchData)
+  console.log(params);
 
   return (
     <Box
@@ -168,6 +192,9 @@ const LaunchPadSection = ({ chainId }: any) => {
               filter={filter}
               filterParams={filterParams}
               handleChangeFilter={handleChangeFilter}
+              sort={sort}
+              sortParams={sortParams}
+              handleChangeSort={handleChangeSort}
             />
             {getViewComponent()}
           </Stack>
@@ -182,74 +209,6 @@ const Wrapper = styled(Box)`
   display: flex;
   flex-direction: column;
   gap: 62px;
-`;
-const Flex = styled(Box)`
-  display: flex;
-`;
-
-const WrapSlideFeatureProject = styled(Box)`
-  margin-left: -15px;
-  margin-right: -15px;
-
-  .slick-track {
-    margin: 0px;
-    display: flex;
-  }
-`;
-const Items = styled(Box)`
-  padding-left: 15px;
-  padding-right: 15px;
-  width: 423px !important;
-
-  ${(props) => props.theme.breakpoints.down('sm')} {
-    width: 100% !important;
-  }
-`;
-const FormControlLabelCustom = styled(FormControlLabel)`
-  margin: 0;
-
-  .MuiRadio-root {
-    display: none;
-  }
-
-  .MuiTypography-root {
-    padding: 6px 25px;
-    background-color: transparent;
-    border-radius: 8px;
-  }
-
-  .Mui-checked + .MuiTypography-root {
-    background: rgba(7, 224, 224, 0.15);
-    font-weight: 600;
-    color: #07e0e0;
-  }
-`;
-const Fillter = styled(Button)`
-  width: 118px;
-  height: 46px;
-  border: 1px solid;
-  border-radius: 4px;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-`;
-const SelectCustom = styled(Select)`
-  border: 1px solid;
-  border-radius: 4px;
-
-  .MuiSelect-select {
-    font-family: 'Poppins', sans-serif;
-    padding: 9.5px 20px;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 27px;
-  }
-
-  fieldset {
-    display: none;
-  }
 `;
 
 export default LaunchPadSection;
