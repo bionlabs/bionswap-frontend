@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, FormControl, MenuItem, Select, Stack, styled, Typography } from '@mui/material';
 import { useChain, useSwitchNetwork } from 'hooks';
 import { CHAIN_INFO_MAP } from 'configs/chain';
@@ -10,26 +10,39 @@ import useMediaQuery from 'hooks/useMediaQuery';
 const ChainSelect = () => {
   const [chain, setChain] = React.useState('');
   const { isMobile } = useMediaQuery();
+  const [focus, setFocus] = useState(false);
 
   const handleChange = (event: any) => {
     setChain(event.target.value);
   };
 
-  const { chainId, isConnected } = useChain();
+  const { chainId } = useChain();
 
   const { switchNetwork } = useSwitchNetwork({});
   return (
     <Box>
       <FormControl fullWidth>
-        <StyledSelect variant="outlined" value={chainId} onChange={handleChange} IconComponent={HiChevronUpDown}>
+        <StyledSelect
+          variant="outlined"
+          value={chainId}
+          onChange={handleChange}
+          IconComponent={HiChevronUpDown}
+          open={focus}
+          onClose={() => setFocus(false)}
+          onOpen={() => setFocus(true)}
+          sx={{
+            backgroundColor: theme => focus ? (theme.palette as any).extra.card.hover : (theme.palette as any).extra.card.background
+          }}
+          
+        >
           {Object.entries(CHAIN_INFO_MAP).map(
             ([, chain]) =>
               chain.id !== 97 && (
                 <MenuItem
                   sx={{
-                    p: '8.5px 20px',
+                    p: '6px 20px',
                     boxShadow: 'none',
-                    // width: '166px',
+                    color: 'text.secondary',
                     '&.MuiButtonBase-root.MuiMenuItem-root.Mui-selected': {
                       boxShadow: 'none',
                     },
@@ -40,12 +53,14 @@ const ChainSelect = () => {
                     switchNetwork?.(chain?.id);
                   }}
                 >
-                  <Box display="flex" gap="10px" alignItems="center">
+                  <Stack direction="row" spacing={1}>
                     <Stack>
                       <Image src={getChainIcon(chain.id)?.iconUrl} layout="fixed" alt="" width={18} height={18} />
                     </Stack>
-                    <Typography fontSize="14px">{chain.name}</Typography>
-                  </Box>
+                    <Typography fontSize="14px" color="inherit">
+                      {chain.name}
+                    </Typography>
+                  </Stack>
                 </MenuItem>
               ),
           )}
@@ -54,9 +69,9 @@ const ChainSelect = () => {
               chain.id === 97 && (
                 <MenuItem
                   sx={{
-                    p: '8.5px 20px',
+                    p: '6px 20px',
                     boxShadow: 'none',
-                    // width: '166px',
+                    color: 'text.secondary',
                     borderTop: (theme) => `1px solid ${(theme.palette as any).extra.card.divider}`,
                     '&.MuiButtonBase-root.MuiMenuItem-root.Mui-selected': {
                       boxShadow: 'none',
@@ -68,12 +83,14 @@ const ChainSelect = () => {
                     switchNetwork?.(chain?.id);
                   }}
                 >
-                  <Box display="flex" gap="10px" alignItems="center">
+                  <Stack direction="row" spacing={1}>
                     <Stack>
                       <Image src={getChainIcon(chain.id)?.iconUrl} layout="fixed" alt="" width={18} height={18} />
                     </Stack>
-                    <Box fontSize="14px">{chain.name}</Box>
-                  </Box>
+                    <Typography fontSize="14px" color="inherit">
+                      {chain.name}
+                    </Typography>
+                  </Stack>
                 </MenuItem>
               ),
           )}
@@ -85,12 +102,10 @@ const ChainSelect = () => {
 
 const StyledSelect = styled(Select)`
   .MuiSelect-select {
-    padding: 6px 16px;
+    padding: 6px 20px;
     transition: 0.12s ease-in;
-    border-radius: 4px;
-    border: 1.5px solid;
-    border-color: ${(props) => (props.theme.palette as any).extra.card.hover};
-    background-color: ${(props) => (props.theme.palette as any).extra.card.hover};
+    border: 1px solid;
+    border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
     :hover {
       background-color: ${(props) => (props.theme.palette as any).extra.card.hover};
     }

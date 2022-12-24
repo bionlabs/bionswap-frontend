@@ -108,7 +108,7 @@ const BoxItem = styled(Box)`
     max-width: 92px;
 `
 const TimeBox = styled(Box)`
-    background: ${props => (props.theme.palette as any).extra.swapPanel.hover};
+    background: ${props => (props.theme.palette as any).extra.card.light};
     border-radius: 6px;
     width: 100%;
     display: flex;
