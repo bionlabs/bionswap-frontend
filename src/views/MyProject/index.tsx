@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Box, styled, Typography } from '@mui/material';
 import Page from 'components/Page';
 import ProjectCard from 'components/ProjectCard';
@@ -19,10 +19,11 @@ const MyProject = () => {
     chainId: chainId,
     owner: account,
     keyword: '',
-    sortBy: null,
+    sortBy: '',
+    filterBy: ''
   });
 
-  const getLaunchData = async () => {
+  const getLaunchData = useCallback(async () => {
     try {
       const launchData = await getSaleList(
         params.page,
@@ -31,16 +32,17 @@ const MyProject = () => {
         params.owner || '',
         params.keyword,
         params.sortBy,
+        params.filterBy
       );
       setLaunchData(launchData);
     } catch (error) {
       console.log('error====>', error);
     }
-  };
+  },[]);
 
   useEffect(() => {
     getLaunchData();
-  }, [params]);
+  }, [getLaunchData, params]);
 
   return (
     <Wrapper>
