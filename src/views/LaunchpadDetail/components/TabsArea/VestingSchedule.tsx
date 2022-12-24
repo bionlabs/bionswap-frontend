@@ -144,8 +144,8 @@ const FlexBox = styled(Box)`
   display: flex;
 `;
 const ContentItem = styled(Box)`
-  background-color: ${(props) => (props.theme.palette as any).extra.swapPanel.background};
-  border: 1px solid ${(props) => (props.theme.palette as any).extra.swapPanel.divider};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
   border-radius: 4px;
   padding: 14px 25px;
   width: 100%;
@@ -159,7 +159,7 @@ const ContentItem = styled(Box)`
   }
 `;
 const Line = styled(Box)`
-  background-color: ${(props) => (props.theme.palette as any).extra.swapPanel.divider};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.divider};
   width: 100%;
   height: 1px;
 `;

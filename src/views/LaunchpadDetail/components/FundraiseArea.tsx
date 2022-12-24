@@ -225,8 +225,8 @@ const FlexBox = styled(Box)`
 `;
 const WrapInfoBox = styled(Box)`
   padding: 32px;
-  background-color: ${(props) => (props.theme.palette as any).extra.swapPanel.background};
-  border: 1px solid ${(props) => (props.theme.palette as any).extra.swapPanel.divider};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.background};
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
   border-radius: 8px;
   display: flex;
   flex-direction: column;

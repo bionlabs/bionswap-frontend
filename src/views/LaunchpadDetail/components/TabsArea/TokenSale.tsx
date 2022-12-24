@@ -66,17 +66,17 @@ const TokenSale: React.FC<TokenSaleProps> = ({ data, isMobile = false, unit, tok
         <Box
           sx={{
             border: '1px solid',
-            borderColor: theme => (theme.palette as any).extra.swapPanel.divider,
+            borderColor: theme => (theme.palette as any).extra.card.divider,
             borderRadius: '4px',
             width: '100%',
             overflow: 'hidden',
-            backgroundColor: theme => (theme.palette as any).extra.swapPanel.background,
+            backgroundColor: theme => (theme.palette as any).extra.card.background,
           }}
         >
           <Box
             sx={{
               padding: '15px 20px',
-              backgroundColor: theme => (theme.palette as any).extra.swapPanel.hover,
+              backgroundColor: theme => (theme.palette as any).extra.card.light,
             }}
           >
             <Typography fontWeight="500" color="text.primary">

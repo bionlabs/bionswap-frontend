@@ -202,7 +202,7 @@ const Wrapper = styled(Box)`
   display: flex;
   flex-direction: column;
   gap: 15px;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 16px;
 `;
 const WalletDetail = styled(Stack)`
@@ -212,7 +212,7 @@ const WalletDetail = styled(Stack)`
 `
 const ChangeWalletButton = styled(Button)`
   font-size: 12px;
-  border-radius: 999px;
+  border-radius: 8px;
   background-color: ${props => (props.theme.palette as any).extra.button.backgroundGreenOpacity};
   color: ${props => props.theme.palette.primary.main};
   box-shadow: none;

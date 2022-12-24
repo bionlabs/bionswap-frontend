@@ -266,7 +266,7 @@ export const darkPalette: ExtendedPaletteOptions = {
   },
   background: {
     default: '#000000',
-    paper: '#212526',
+    paper: '#161819',
   },
   text: {
     primary: '#FFFFFF',
@@ -296,7 +296,7 @@ export const darkPalette: ExtendedPaletteOptions = {
       background: '#161819',
       light: '#212526',
       hover: '#2c3132',
-      divider: '#313334',
+      divider: '#212121',
     },
     button: {
       backgroundGreenOpacity: '#00313D',
@@ -477,13 +477,16 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
           root: {
             width: '100%',
             p: 1.5,
-            borderRadius: '0',
             '&.Mui-selected': {
-              // backgroundColor: 'transparent',
+              backgroundColor: (basePalette.extra as any).card.hover,
+              color: (basePalette.text as any).primary,
               // boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.24)',
               '&:hover': {
-                // backgroundColor: 'transparent',
+                backgroundColor: (basePalette.extra as any).card.hover,
               },
+            },
+            '&:hover':{
+              color: (basePalette.text as any).primary,
             },
             '& .MuiTouchRipple-root': {
               color: (basePalette.primary as SimplePaletteColorOptions).main,
