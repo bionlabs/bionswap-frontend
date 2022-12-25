@@ -67,7 +67,7 @@ const LaunchPadSection = ({ chainId }: any) => {
   const [, cancel] = useDebounce(
     () => {
       setLoading(true);
-      setParams({ ...params, ['keyword']: searchQuery });
+      setParams({ ...params, keyword: searchQuery });
     },
     500,
     [searchQuery],
@@ -89,13 +89,11 @@ const LaunchPadSection = ({ chainId }: any) => {
         setLaunchData(data);
       } catch (error) {
         setLoading(false);
-        cancel();
         console.log('error====>', error);
       }
       setLoading(false);
-      cancel();
     },
-    [cancel, chainId],
+    [chainId],
   );
 
   useRefetchIncreasedInterval(
@@ -141,7 +139,7 @@ const LaunchPadSection = ({ chainId }: any) => {
 
   useEffect(() => {
     getLaunchData(params);
-  }, [params, chainId, getLaunchData, view, searchQuery, filter, sort]);
+  }, [params, chainId, getLaunchData, view, searchQuery]);
 
   // const settings = {
   //   arrows: false,
@@ -171,8 +169,6 @@ const LaunchPadSection = ({ chainId }: any) => {
       />
     );
   };
-
-  console.log(params);
 
   return (
     <Box
