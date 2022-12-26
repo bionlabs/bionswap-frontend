@@ -305,7 +305,6 @@ export const darkPalette: ExtendedPaletteOptions = {
     },
     background: {
       alt: '#000000',
-      linear: 'linear-gradient(#000000 0%, rgba(10, 18, 30, 0) 100%) 0% 0% / 100% 1100px no-repeat',
       secondary: '#161819'
     },
     text: {
