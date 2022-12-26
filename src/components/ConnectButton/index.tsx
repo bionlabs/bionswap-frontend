@@ -133,7 +133,7 @@ const ConnectButton = () => {
 const ConnectWalletButton = styled(Button)`
   border-radius: 4px;
   text-transform: none;
-  padding: 6px 25px;
+  padding: 8px 25px;
   align-items: center;
   border: 1.5px solid transparent;
   background: ${(props) => (props.theme.palette as any).extra.button.linear};
@@ -148,7 +148,7 @@ const ConnectWalletButton = styled(Button)`
 
 const ProfileButton = styled(Button)`
   border-radius: 4px;
-  padding: 6px 20px;
+  padding: 8px 25px;
   min-height: 38px;
   border: 1.5px solid transparent;
   background-color: ${(props) => (props.theme.palette as any).extra.button.backgroundGreenOpacity};

@@ -28,6 +28,13 @@ export const menuConfig = [
         items: [],
         target: ''
     },
+    {
+        label: 'Start a Launch',
+        href: '/launch',
+        icon: <GiPayMoney/>,
+        items: [],
+        target: ''
+    },
     // {
     //     label: 'Earn',
     //     href: '/earn',

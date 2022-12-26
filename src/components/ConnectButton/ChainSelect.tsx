@@ -31,7 +31,7 @@ const ChainSelect = () => {
           onClose={() => setFocus(false)}
           onOpen={() => setFocus(true)}
           sx={{
-            backgroundColor: theme => focus ? (theme.palette as any).extra.card.hover : (theme.palette as any).extra.card.background
+            backgroundColor: theme => focus ? (theme.palette as any).extra.card.hover : 'transparent'
           }}
           
         >
@@ -40,7 +40,7 @@ const ChainSelect = () => {
               chain.id !== 97 && (
                 <MenuItem
                   sx={{
-                    p: '6px 20px',
+                    p: '8px 20px',
                     boxShadow: 'none',
                     color: 'text.secondary',
                     '&.MuiButtonBase-root.MuiMenuItem-root.Mui-selected': {
@@ -69,7 +69,7 @@ const ChainSelect = () => {
               chain.id === 97 && (
                 <MenuItem
                   sx={{
-                    p: '6px 20px',
+                    p: '8px 20px',
                     boxShadow: 'none',
                     color: 'text.secondary',
                     borderTop: (theme) => `1px solid ${(theme.palette as any).extra.card.divider}`,
@@ -102,10 +102,9 @@ const ChainSelect = () => {
 
 const StyledSelect = styled(Select)`
   .MuiSelect-select {
-    padding: 6px 20px;
+    padding: 8px 20px;
     transition: 0.12s ease-in;
-    border: 1px solid;
-    border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
+    border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
     :hover {
       background-color: ${(props) => (props.theme.palette as any).extra.card.hover};
     }
