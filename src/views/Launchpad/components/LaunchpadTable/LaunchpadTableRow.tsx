@@ -58,30 +58,32 @@ const LaunchpadTableRow = ({ item }: any) => {
           </Stack>
         </StyledTableCell>
         <StyledTableCell align="right">
-          <Status
-            sx={{
-              backgroundColor: (theme) => (theme.palette as any).extra.button.backgroundGreenOpacity,
-              color: 'primary.main',
-              ...(currentTime > startTime && {
-                backgroundColor: 'extra.button.backgroundGreenOpacity',
-                color: 'primary.main',
-              }),
-              ...(currentTime > endTime && {
-                backgroundColor: (theme) => (theme.palette as any).extra.card.light,
-                color: 'text.secondary',
-              }),
-            }}
-          >
-            <Typography
+          <Stack width='100%' alignItems='end'>
+            <Status
               sx={{
-                color: 'inherit',
-                fontWeight: '500',
-                fontSize: '10px',
+                backgroundColor: (theme) => (theme.palette as any).extra.button.backgroundGreenOpacity,
+                color: 'primary.main',
+                ...(currentTime > startTime && {
+                  backgroundColor: 'success.main',
+                  color: '#FFF',
+                }),
+                ...(currentTime > endTime && {
+                  backgroundColor: (theme) => (theme.palette as any).extra.table.disable,
+                  color: 'text.secondary',
+                }),
               }}
             >
-              {currentTime < startTime ? 'Coming Soon' : currentTime < endTime ? 'Sale Open' : 'Sale Closed'}
-            </Typography>
-          </Status>
+              <Typography
+                sx={{
+                  color: 'inherit',
+                  fontWeight: '500',
+                  fontSize: '10px',
+                }}
+              >
+                {currentTime < startTime ? 'Coming Soon' : currentTime < endTime ? 'Sale Open' : 'Sale Closed'}
+              </Typography>
+            </Status>
+          </Stack>
         </StyledTableCell>
         <StyledTableCell align="right">
           {item?.fHardCap.toFixed(2) ?? 0} {unit}
@@ -131,7 +133,7 @@ const WrapLogo = styled(Box)`
 
 const Status = styled(Stack)`
   padding: 4px 8px;
-  border-radius: 999px;
+  border-radius: 4px;
   line-height: 1;
 `;
 

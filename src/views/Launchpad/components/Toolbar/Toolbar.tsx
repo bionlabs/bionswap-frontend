@@ -32,20 +32,22 @@ const Toolbar = ({
   const { isTablet } = useMediaQuery();
 
   return (
-    <Stack direction={isTablet ? 'column' : 'row'} width="100%" justifyContent="start" gap="15px" alignItems={isTablet ? 'start' : "end"}>
-      <Stack direction={isTablet ? 'column' : "row"} width="100%" justifyContent="start" gap="15px" alignItems={isTablet ? 'start' :"end"}>
-        <ToggleView view={view} handleChangeView={handleChangeView} />
-        <Search searchKeyword={searchKeyword} />
-      </Stack>
-      <Stack
-        direction="row"
-        justifyContent="start"
-        gap="15px"
-        alignItems="end"
-        width={isTablet ? '100%' : 'auto'}
-      >
-        <FilterTool filter={filter} filterParams={filterParams} handleChangeFilter={handleChangeFilter} />
-        <SortTool sort={sort} sortParams={sortParams} handleChangeSort={handleChangeSort} />
+    <Stack width='100%' spacing={3}>
+      <Search searchKeyword={searchKeyword} />
+      <Stack direction={isTablet ? 'column' : 'row'} width="100%" justifyContent="start" gap="15px" alignItems={isTablet ? 'start' : "end"}>
+        <Stack direction={isTablet ? 'column' : "row"} width="100%" justifyContent="start" gap="15px" alignItems={isTablet ? 'start' :"end"}>
+          <ToggleView view={view} handleChangeView={handleChangeView} />
+        </Stack>
+        <Stack
+          direction="row"
+          justifyContent="start"
+          gap="15px"
+          alignItems="end"
+          width={isTablet ? '100%' : 'auto'}
+        >
+          <FilterTool filter={filter} filterParams={filterParams} handleChangeFilter={handleChangeFilter} />
+          <SortTool sort={sort} sortParams={sortParams} handleChangeSort={handleChangeSort} />
+        </Stack>
       </Stack>
     </Stack>
   );

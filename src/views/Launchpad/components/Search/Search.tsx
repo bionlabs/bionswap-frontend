@@ -13,31 +13,25 @@ interface SearchProps {
 const Search = ({searchKeyword}:SearchProps) => {
   return (
     <TextField
-        variant="outlined"
+        variant="standard"
         onChange={searchKeyword}
         placeholder="Enter project name, token address or token symbol"
         fullWidth
-        focused={false}
         sx={{
-        '.MuiInputBase-root': {
-           backgroundColor: theme => (theme.palette as any).extra.card.background,
-           borderRadius: '4px',
-           border: theme => `1px solid ${(theme.palette as any).extra.card.divider}`
-        },
         '.MuiOutlinedInput-notchedOutline':{
             border: 0
         },
         input: {
-            fontSize: '14px',
             color: 'text.primary',
+            padding: '8px 0 15px',
             '&:placeholder': {
                 color: 'text.secondary',
             },
         },
         }}
         InputProps={{
-        startAdornment: (
-            <InputAdornment position="start">
+        endAdornment: (
+            <InputAdornment position="end">
                 <SearchIcon sx={{ color: 'text.secondary' }} />
             </InputAdornment>
         ),

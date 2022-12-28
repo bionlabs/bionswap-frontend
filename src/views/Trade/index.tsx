@@ -489,11 +489,11 @@ const Swap = ({}: SwapProps) => {
   return (
     <Page
       sx={{
-        backgroundImage: "url('/images/stackbg.png')",
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        objectFit: 'cover',
-        backgroundColor: darkMode ? null : (theme) => (theme.palette as any).extra.background.alt,
+        // backgroundImage: "url('/images/stackbg.png')",
+        // backgroundRepeat: 'no-repeat',
+        // backgroundSize: 'cover',
+        // objectFit: 'cover',
+        // backgroundColor: darkMode ? null : (theme) => (theme.palette as any).extra.background.alt,
       }}
     >
       <Container maxWidth="xl">
@@ -574,7 +574,7 @@ const Swap = ({}: SwapProps) => {
                         backgroundColor: (theme) => (theme.palette as any).extra.swapPanel.panel,
                         border: (theme) => `5px solid ${(theme.palette as any).extra.swapPanel.background}`,
                         ':hover': {
-                          color: 'background.default',
+                          color: '#fff',
                           backgroundColor: 'primary.main',
                           boxShadow: 'none',
                         },
@@ -649,7 +649,7 @@ const top100Films = [
 ];
 const WrapSwapBox = styled(Box)`
   background-color: ${(props) => (props.theme.palette as any).extra.swapPanel.background};
-  border: 1px solid ${(props) => (props.theme.palette as any).extra.swapPanel.divider};
+  box-shadow: ${(props) => (props.theme.palette as any).extra.swapPanel.boxShadow};
   border-radius: 8px;
   height: 100%;
 `;

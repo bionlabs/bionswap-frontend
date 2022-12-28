@@ -1,4 +1,4 @@
-import { Box, Button, Drawer, styled, Typography } from '@mui/material';
+import { Box, Button, Drawer, styled, Typography, Stack } from '@mui/material';
 import { useAccount, useNativeCurrencyBalances, useDisconnect } from 'hooks';
 import useMediaQuery from 'hooks/useMediaQuery';
 import { useEffect, useState } from 'react';
@@ -89,9 +89,9 @@ const ConnectButton = () => {
           variant="contained"
           fullWidth
         >
-          <Box>
+          <Stack>
             <RiWallet3Fill />
-          </Box>
+          </Stack>
           <Typography fontSize="14px" fontWeight="500" color="inherit">
             {shortenAddress(address ?? '')}
           </Typography>
@@ -133,33 +133,35 @@ const ConnectButton = () => {
 const ConnectWalletButton = styled(Button)`
   border-radius: 4px;
   text-transform: none;
-  padding: 8px 25px;
+  padding: 10px 25px;
   align-items: center;
-  border: 1.5px solid transparent;
-  background: ${(props) => (props.theme.palette as any).extra.button.linear};
-  color: ${(props) => props.theme.palette.background.default};
+  background: ${(props) => (props.theme.palette as any).extra.primaryButton.background};
+  color: ${(props) => (props.theme.palette as any).extra.primaryButton.color};
   transition: 0.12s ease-in;
   :hover {
-    background: ${(props) => (props.theme.palette as any).extra.button.linear};
-    color: ${(props) => props.theme.palette.background.default};
+    background: ${(props) => (props.theme.palette as any).extra.primaryButton.background};
+    color: ${(props) => (props.theme.palette as any).extra.primaryButton.color};
     box-shadow: none;
   }
 `;
 
 const ProfileButton = styled(Button)`
   border-radius: 4px;
-  padding: 8px 25px;
-  min-height: 38px;
-  border: 1.5px solid transparent;
-  background-color: ${(props) => (props.theme.palette as any).extra.button.backgroundGreenOpacity};
-  color: ${(props) => props.theme.palette.primary.main};
+  text-transform: none;
+  padding: 10px 25px;
+  gap: 8px;
+  align-items: center;
+  background: ${(props) => (props.theme.palette as any).extra.primaryButton.background};
+  color: ${(props) => (props.theme.palette as any).extra.primaryButton.color};
   transition: 0.12s ease-in;
-  gap: 10px;
-  line-height: 1;
   :hover {
-    border-color: ${(props) => (props.theme.palette as any).extra.card.light};
-    background-color: ${(props) => (props.theme.palette as any).extra.button.backgroundGreenOpacity};
+    background: ${(props) => (props.theme.palette as any).extra.primaryButton.background};
+    color: ${(props) => (props.theme.palette as any).extra.primaryButton.color};
     box-shadow: none;
+  }
+  svg {
+    width: 20px;
+    height: 20px;
   }
 `;
 

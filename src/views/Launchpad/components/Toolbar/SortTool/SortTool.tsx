@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { FormControl, Stack, Select, MenuItem, Typography } from '@mui/material';
 import useMediaQuery from 'hooks/useMediaQuery';
+import {IoFilter} from 'react-icons/io5'
 
 interface Props {
   sort: string;
@@ -13,10 +14,7 @@ const SortTool = ({ sort, sortParams, handleChangeSort }: Props) => {
   
   return (
     <Stack spacing={1} alignItems="start" width="100%">
-      {
-        !isTablet && <Typography color="text.secondary">Sort By</Typography>
-      }
-      <FormControl focused={false} variant="outlined" sx={{ minWidth: isTablet ? '100%' : 180 }}>
+      <FormControl focused={false} variant="outlined" sx={{ minWidth: isTablet ? '100%' : 170 }}>
         <Select
           value={sort}
           onChange={(e) => handleChangeSort(e, e.target.value)}
@@ -26,16 +24,17 @@ const SortTool = ({ sort, sortParams, handleChangeSort }: Props) => {
           onClose={() => setFocus(false)}
           sx={{
             '.MuiInputBase-input': {
-              backgroundColor: (theme) => focus ? (theme.palette as any).extra.card.hover : (theme.palette as any).extra.card.background,
-              fontSize: '14px',
-              color: 'text.secondary',
-              height: 'fit-content',
-              lineHeight: '1',
+              padding: '14px',
+              backgroundColor: (theme) => focus ? (theme.palette as any).extra.button.backgroundGreenOpacity : theme.palette.background.default,
+              transition: '.12s ease-in',
+              color: focus ? 'primary.main' : 'text.secondary',
               display: 'flex',
               alignItems: 'center',
-              border: (theme) => `1px solid ${(theme.palette as any).extra.card.divider}`,
+              border: (theme) => focus ? `1px solid ${theme.palette.primary.main}` : `1px solid ${(theme.palette as any).extra.card.divider}`,
               '&:hover':{
-                backgroundColor: theme => (theme.palette as any).extra.card.hover
+                backgroundColor: theme => (theme.palette as any).extra.button.backgroundGreenOpacity,
+                color: 'primary.main',
+                border: theme => `1px solid ${theme.palette.primary.main}`
               }
             },
             '.MuiOutlinedInput-notchedOutline': {
@@ -44,7 +43,7 @@ const SortTool = ({ sort, sortParams, handleChangeSort }: Props) => {
           }}
         >
           {sortParams.map((item) => (
-            <MenuItem key={item} value={item.id} sx={{fontSize: '14px', color: 'text.secondary'}}>
+            <MenuItem key={item} value={item.id} sx={{color: 'text.secondary'}}>
               {item.label}
             </MenuItem>
           ))}
