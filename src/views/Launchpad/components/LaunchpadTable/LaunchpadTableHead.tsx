@@ -56,7 +56,7 @@ const LaunchpadTableHead = (props: LaunchpadTableProps) => {
           align={headCell.numeric ? 'right' : 'left'}
           sortDirection={orderBy === headCell.id ? order : false}
         >
-          <Typography color="text.secondary" fontWeight="500" fontSize="14px">
+          <Typography color="inherit" fontWeight="500" fontSize="14px">
             {headCell.label}
           </Typography>
         </StyledTableCell>

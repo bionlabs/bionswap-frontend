@@ -11,11 +11,7 @@ const Launchpad = () => {
   const { chainId } = useChain();
 
   return (
-    <Page
-      sx={{
-        backgroundColor: theme => (theme.palette as any).extra.background.alt
-      }}
-    >
+    <Page>
       {/* <Hero /> */}
       {ChainId.BSC_TESTNET === chainId ? (
         <LaunchPadSection chainId={chainId} />

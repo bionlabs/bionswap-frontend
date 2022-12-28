@@ -37,11 +37,11 @@ const LaunchPadSection = ({ chainId }: any) => {
   const sortParams = [
     {
       id: '-createdAt',
-      label: 'Date ASC',
+      label: 'Last date',
     },
     {
       id: '+createdAt',
-      label: 'Date DESC',
+      label: 'Previous date',
     },
     {
       id: '-updatedAt',

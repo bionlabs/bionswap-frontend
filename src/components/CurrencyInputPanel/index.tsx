@@ -103,10 +103,10 @@ const CurrencyInputPanel = ({
                   padding: '5px 10px',
                   backgroundColor: theme => (theme.palette as any).extra.swapPanel.background,
                   borderRadius: '999px',
-                  color: 'text.secondary',
+                  color: 'text.primary',
                   '&:hover': {
-                    backgroundColor: theme => (theme.palette as any).extra.swapPanel.hover,
-                    color: 'text.primary'
+                    backgroundColor: theme => (theme.palette as any).extra.swapPanel.background,
+                    opacity: '.8'
                   }
                 }}
               >
@@ -140,7 +140,6 @@ const WrapCurrencyInputPanel = styled(Box)`
   border-radius: 8px;
   background: ${(props) => (props.theme.palette as any).extra.swapPanel.panel};
   padding: 15px;
-  border: 1px solid ${(props) => (props.theme.palette as any).extra.swapPanel.divider};
   transition: .12s ease-in;
 `;
 const MaxButton = styled(Button)`

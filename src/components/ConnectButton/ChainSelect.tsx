@@ -1,116 +1,85 @@
 import React, { useState } from 'react';
-import { Box, FormControl, MenuItem, Select, Stack, styled, Typography } from '@mui/material';
+import { Box, FormControl, MenuItem, Select, Stack, styled, Typography, Button, Modal, Drawer } from '@mui/material';
 import { useChain, useSwitchNetwork } from 'hooks';
 import { CHAIN_INFO_MAP } from 'configs/chain';
 import { getChainIcon } from 'utils/chains';
 import Image from 'next/image';
-import { HiChevronUpDown } from 'react-icons/hi2';
 import useMediaQuery from 'hooks/useMediaQuery';
+import ChainOptionsModal from './ChainOptionsModal';
+import { Chain } from 'wagmi';
+import ChainDrawer from './ChainDrawer';
 
 const ChainSelect = () => {
-  const [chain, setChain] = React.useState('');
+  const [chain, setChain] = useState('');
   const { isMobile } = useMediaQuery();
-  const [focus, setFocus] = useState(false);
-
-  const handleChange = (event: any) => {
-    setChain(event.target.value);
-  };
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const { chainId } = useChain();
+  const [chainDrawer, setChainDrawer] = useState(false);
+  const toggleChainDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+    if (
+      event.type === 'keydown' &&
+      ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
+    ) {
+      return;
+    }
 
-  const { switchNetwork } = useSwitchNetwork({});
+    setChainDrawer(open);
+  };
+
   return (
-    <Box>
-      <FormControl fullWidth>
-        <StyledSelect
-          variant="outlined"
-          value={chainId}
-          onChange={handleChange}
-          IconComponent={HiChevronUpDown}
-          open={focus}
-          onClose={() => setFocus(false)}
-          onOpen={() => setFocus(true)}
-          sx={{
-            backgroundColor: theme => focus ? (theme.palette as any).extra.card.hover : 'transparent'
-          }}
-          
-        >
-          {Object.entries(CHAIN_INFO_MAP).map(
-            ([, chain]) =>
-              chain.id !== 97 && (
-                <MenuItem
-                  sx={{
-                    p: '8px 20px',
-                    boxShadow: 'none',
-                    color: 'text.secondary',
-                    '&.MuiButtonBase-root.MuiMenuItem-root.Mui-selected': {
-                      boxShadow: 'none',
-                    },
-                  }}
-                  key={chain.id}
-                  value={chain.id}
-                  onClick={() => {
-                    switchNetwork?.(chain?.id);
-                  }}
-                >
-                  <Stack direction="row" spacing={1}>
-                    <Stack>
-                      <Image src={getChainIcon(chain.id)?.iconUrl} layout="fixed" alt="" width={18} height={18} />
-                    </Stack>
-                    <Typography fontSize="14px" color="inherit">
-                      {chain.name}
-                    </Typography>
-                  </Stack>
-                </MenuItem>
-              ),
-          )}
-          {Object.entries(CHAIN_INFO_MAP).map(
-            ([, chain]) =>
-              chain.id === 97 && (
-                <MenuItem
-                  sx={{
-                    p: '8px 20px',
-                    boxShadow: 'none',
-                    color: 'text.secondary',
-                    borderTop: (theme) => `1px solid ${(theme.palette as any).extra.card.divider}`,
-                    '&.MuiButtonBase-root.MuiMenuItem-root.Mui-selected': {
-                      boxShadow: 'none',
-                    },
-                  }}
-                  key={chain.id}
-                  value={chain.id}
-                  onClick={() => {
-                    switchNetwork?.(chain?.id);
-                  }}
-                >
-                  <Stack direction="row" spacing={1}>
-                    <Stack>
-                      <Image src={getChainIcon(chain.id)?.iconUrl} layout="fixed" alt="" width={18} height={18} />
-                    </Stack>
-                    <Typography fontSize="14px" color="inherit">
-                      {chain.name}
-                    </Typography>
-                  </Stack>
-                </MenuItem>
-              ),
-          )}
-        </StyledSelect>
-      </FormControl>
+    <Box width='100%'>
+      <ChainSelectButton variant="contained" fullWidth onClick={isMobile ? toggleChainDrawer(true) : handleOpen}>
+        <Stack direction="row" spacing={1} justifyContent='start'>
+          <Stack>
+            <Image src={getChainIcon(CHAIN_INFO_MAP[chainId].id)?.iconUrl} layout="fixed" alt="" width={18} height={18} />
+          </Stack>
+          <Typography fontSize="14px" fontWeight='500' color="inherit">
+            {CHAIN_INFO_MAP[chainId].name}
+          </Typography>
+        </Stack>
+      </ChainSelectButton>
+      <ChainOptionsModal
+        open={open}
+        onClose={handleClose}
+      />
+      <Drawer
+        anchor={'bottom'}
+        open={chainDrawer}
+        onClose={toggleChainDrawer(false)}
+        sx={{
+          '&.MuiModal-root.MuiDrawer-root': {
+            zIndex: '1300',
+            '.MuiPaper-root': {
+              borderTopLeftRadius: '8px',
+              borderTopRightRadius: '8px',
+            },
+          },
+        }}
+      >
+        <ChainDrawer
+          toggleChainDrawer={toggleChainDrawer}
+        />
+      </Drawer>
     </Box>
   );
 };
 
-const StyledSelect = styled(Select)`
-  .MuiSelect-select {
-    padding: 8px 20px;
-    transition: 0.12s ease-in;
-    border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
-    :hover {
-      background-color: ${(props) => (props.theme.palette as any).extra.card.hover};
-    }
-  }
-  fieldset {
-    border: none;
+const ChainSelectButton = styled(Button)`
+  border-radius: 4px;
+  text-transform: none;
+  padding: 10px 20px;
+  align-items: center;
+  white-space:nowrap;
+  background: ${(props) => (props.theme.palette as any).extra.plainButton.background};
+  color: ${(props) => (props.theme.palette as any).extra.plainButton.color};
+  transition: 0.12s ease-in;
+  :hover {
+    background: ${(props) => (props.theme.palette as any).extra.plainButton.background};
+    color: ${(props) => (props.theme.palette as any).extra.plainButton.color};
+    box-shadow: none;
   }
 `;
 

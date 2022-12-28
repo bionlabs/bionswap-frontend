@@ -13,11 +13,13 @@ const ToggleView = ({ view, handleChangeView }: ViewProps) => {
       value={view}
       exclusive
       onChange={handleChangeView}
+      color='primary'
       sx={{
         backgroundColor: (theme) => theme.palette.background.default,
-        '.MuiButtonBase-root.MuiToggleButton-root.Mui-selected': {
-          backgroundColor: (theme) => (theme.palette as any).extra.card.light,
-        },
+        // '.MuiButtonBase-root.MuiToggleButton-root.Mui-selected': {
+        //   backgroundColor: (theme) => (theme.palette as any).extra.button.backgroundGreenOpacity,
+        //   color: theme => theme.palette.primary.main
+        // },
       }}
     >
       <StyledIconButton value="card" aria-label="card">
@@ -32,7 +34,6 @@ const ToggleView = ({ view, handleChangeView }: ViewProps) => {
 
 const StyledIconButton = styled(ToggleButton)`
   padding: 16.5px 18px;
-  border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
   svg {
     width: 20px;
     height: 20px;

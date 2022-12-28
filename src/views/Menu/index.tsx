@@ -88,14 +88,14 @@ const Menu = ({ children }: any) => {
           <Stack direction="row" gap="16px">
             {isMobile ? (
               <>
-                {/* <Stack direction="row" spacing={1} sx={{ color: 'text.primary' }}>
+                <Stack direction="row" sx={{ color: 'text.primary' }}>
                   <MdLightMode />
                   <AntSwitch defaultChecked checked={darkMode} onChange={toggleDarkMode} />
                   <MdDarkMode />
-                </Stack> */}
-                <IconButton sx={{color:'text.primary'}} onClick={toggleDarkMode}>
+                </Stack>
+                {/* <IconButton sx={{color:'text.primary'}} onClick={toggleDarkMode}>
                   {darkMode ? <MdLightMode /> : <MdDarkMode />}
-                </IconButton>
+                </IconButton> */}
                 <IconButton
                   onClick={toggleDrawer('right', !state.right)}
                   sx={{
@@ -108,14 +108,14 @@ const Menu = ({ children }: any) => {
               </>
             ) : isTablet ? (
               <>
-                {/* <Stack direction="row" spacing={1} sx={{ color: 'text.primary' }}>
+                <Stack direction="row" sx={{ color: 'text.primary' }}>
                   <MdLightMode />
                   <AntSwitch defaultChecked checked={darkMode} onChange={toggleDarkMode} />
                   <MdDarkMode />
-                </Stack> */}
-                <IconButton sx={{color:'text.primary'}} onClick={toggleDarkMode}>
+                </Stack>
+                {/* <IconButton sx={{color:'text.primary'}} onClick={toggleDarkMode}>
                   {darkMode ? <MdLightMode /> : <MdDarkMode />}
-                </IconButton>
+                </IconButton> */}
                 <ConnectButton />
                 <ChainSelect />
                 <IconButton
@@ -129,14 +129,14 @@ const Menu = ({ children }: any) => {
               </>
             ) : (
               <>
-                {/* <Stack direction="row" spacing={1} sx={{ color: 'text.primary' }}>
+                <Stack direction="row" sx={{ color: 'text.primary' }}>
                   <MdLightMode />
                   <AntSwitch defaultChecked checked={darkMode} onChange={toggleDarkMode} />
                   <MdDarkMode />
-                </Stack> */}
-                <IconButton sx={{color:'text.primary'}} onClick={toggleDarkMode}>
+                </Stack>
+                {/* <IconButton sx={{color:'text.primary'}} onClick={toggleDarkMode}>
                   {darkMode ? <MdLightMode /> : <MdDarkMode />}
-                </IconButton>
+                </IconButton> */}
                 <ConnectButton />
                 <ChainSelect />
               </>
