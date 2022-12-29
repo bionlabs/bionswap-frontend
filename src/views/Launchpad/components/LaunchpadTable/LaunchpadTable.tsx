@@ -96,9 +96,7 @@ const StyledTableWrapper = styled(Paper)`
   background-color: ${(props) => (props.theme.palette as any).extra.table.background};
   background-image: none;
   // border-radius: 4px;
-  border: 1px solid transparent;
-  background: ${(props) => (props.theme.palette as any).extra.card.linearDivider};
-  box-shadow: none;
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.table.divider};
   .MuiTablePagination-root {
     background-color: ${(props) => (props.theme.palette as any).extra.table.background};
     :last-child {

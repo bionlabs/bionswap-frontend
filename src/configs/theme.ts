@@ -104,9 +104,9 @@ declare module '@mui/material/Typography' {
 export const lightPalette: ExtendedPaletteOptions = {
   mode: 'light',
   primary: {
-    main: '#0463CA',
+    main: '#3671E9',
     light: '#B0D6F5',
-    dark: '#0487E2',
+    dark: '#00A3FF',
   },
   secondary: {
     main: '#09B1EC',
@@ -132,7 +132,7 @@ export const lightPalette: ExtendedPaletteOptions = {
   },
   extra: {
     primaryButton: {
-      background: 'linear-gradient(93.49deg, #09B1EC 0.54%, #0463CA 100%)',
+      background: 'linear-gradient(93.49deg, #0463CA 0.54%, #00A3FF 100%)',
       color: '#ffffff'
     },
     plainButton: {
@@ -169,7 +169,7 @@ export const lightPalette: ExtendedPaletteOptions = {
     button: {
       backgroundGreenOpacity: '#dffffd',
       lighter: 'rgba(0,0,0, .02)',
-      linear: 'linear-gradient(93.49deg, #09B1EC 0.54%, #0463CA 100%)',
+      linear: 'linear-gradient(93.49deg, #0463CA 0.54%, #00A3FF 100%)',
       divider: 'rgba(0,0,0,.12)'
     },
     text: {
@@ -197,17 +197,17 @@ export const darkPalette: ExtendedPaletteOptions = {
     main: '#2AC89F',
   },
   primary: {
-    main: '#0463CA',
+    main: '#3671E9',
     light: '#B0D6F5',
-    dark: '#0487E2',
+    dark: '#00A3FF',
   },
   secondary: {
     main: '#09B1EC',
     light: '#65C2F5',
   },
   background: {
-    default: '#000000',
-    paper: '#0C1620',
+    default: '#080808',
+    paper: '#222325',
   },
   text: {
     primary: '#FFFFFF',
@@ -216,7 +216,7 @@ export const darkPalette: ExtendedPaletteOptions = {
   },
   extra: {
     primaryButton: {
-      background: 'linear-gradient(93.49deg, #09B1EC 0.54%, #0463CA 100%)',
+      background: 'linear-gradient(93.49deg, #0463CA 0.54%, #00A3FF 100%)',
       color: '#ffffff'
     },
     plainButton: {
@@ -224,36 +224,37 @@ export const darkPalette: ExtendedPaletteOptions = {
       color: '#000000'
     },
     card: {
-      background: '#121519',
-      light: '#1C2026',
-      hover: '#2c3132 ',
-      divider: '#20242D',
+      background: '#222325',
+      light: '#2b2c30',
+      hover: '#222325 ',
+      divider: '#3D3F40',
       disable: '#4F5B67',
-      boxShadow: '0 1px 8px rgba(255,255,255, .04), 0 4px 20px rgba(255,255,255, .02)'
+      opacityBackground: 'rgba(0, 163, 255, 0.05)',
+      boxShadow: '0 1px 8px rgba(61, 63, 64, .05), 0 4px 20px rgba(61, 63, 64, .05)'
     },
     swapPanel: {
-      background: '#121519',
-      panel: '#1C2026',
-      hover: '#1C2026 ',
-      divider: '#20242D',
-      boxShadow: '0 1px 8px rgba(255,255,255, .04), 0 4px 20px rgba(255,255,255, .02)'
+      background: '#222325',
+      panel: '#151515',
+      hover: '#222325 ',
+      divider: '#3D3F40',
+      boxShadow: '0 1px 8px rgba(61, 63, 64, .05), 0 4px 20px rgba(61, 63, 64, .05)'
     },
     table: {
-      background: '#0C1620',
-      light: '#132436',
+      background: '#222325',
+      light: '#2b2c30',
       hover: '#2c3132',
-      divider: '#002B34',
-      disable: '#242D35'
+      divider: '#3D3F40',
+      disable: '#3D3F40'
     },
     button: {
       backgroundGreenOpacity: '#00313D',
       lighter: 'rgba(255,255,255, .01)',
-      linear: 'linear-gradient(93.49deg, #09B1EC 0.54%, #0463CA 100%)',
+      linear: 'linear-gradient(93.49deg, #0463CA 0.54%, #00A3FF 100%)',
       divider: '#4F5B67'
     },
     background: {
-      alt: '#000000',
-      secondary: '#161819'
+      alt: '#080808',
+      secondary: '#121318'
     },
     text: {
       linear: 'linear-gradient(133.2deg, #D184F3 2.95%, #87D3DA 48.27%, #8CF99E 100%)',

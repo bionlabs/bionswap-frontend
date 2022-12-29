@@ -135,12 +135,12 @@ const ConnectWalletButton = styled(Button)`
   text-transform: none;
   padding: 10px 25px;
   align-items: center;
-  background: ${(props) => (props.theme.palette as any).extra.primaryButton.background};
-  color: ${(props) => (props.theme.palette as any).extra.primaryButton.color};
+  // background: ${(props) => (props.theme.palette as any).extra.primaryButton.background};
+  // color: ${(props) => (props.theme.palette as any).extra.primaryButton.color};
   transition: 0.12s ease-in;
   :hover {
-    background: ${(props) => (props.theme.palette as any).extra.primaryButton.background};
-    color: ${(props) => (props.theme.palette as any).extra.primaryButton.color};
+    // background: ${(props) => (props.theme.palette as any).extra.primaryButton.background};
+    // color: ${(props) => (props.theme.palette as any).extra.primaryButton.color};
     box-shadow: none;
   }
 `;
@@ -151,12 +151,12 @@ const ProfileButton = styled(Button)`
   padding: 10px 25px;
   gap: 8px;
   align-items: center;
-  background: ${(props) => (props.theme.palette as any).extra.primaryButton.background};
-  color: ${(props) => (props.theme.palette as any).extra.primaryButton.color};
+  // background: ${(props) => (props.theme.palette as any).extra.primaryButton.background};
+  // color: ${(props) => (props.theme.palette as any).extra.primaryButton.color};
   transition: 0.12s ease-in;
   :hover {
-    background: ${(props) => (props.theme.palette as any).extra.primaryButton.background};
-    color: ${(props) => (props.theme.palette as any).extra.primaryButton.color};
+    // background: ${(props) => (props.theme.palette as any).extra.primaryButton.background};
+    // color: ${(props) => (props.theme.palette as any).extra.primaryButton.color};
     box-shadow: none;
   }
   svg {
