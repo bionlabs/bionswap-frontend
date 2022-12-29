@@ -452,9 +452,9 @@ const Swap = ({}: SwapProps) => {
           padding: '10px',
           borderRadius: '8px',
           transition: '.12s ease-in',
-          background: disabled ? 'inherit' : (theme) => (theme.palette as any).extra.button.linear,
+          // background: disabled ? 'inherit' : (theme) => (theme.palette as any).extra.button.linear,
           '&:hover': {
-            background: (theme) => (theme.palette as any).extra.button.linear,
+            // background: (theme) => (theme.palette as any).extra.button.linear,
           },
         }}
       >
@@ -649,6 +649,7 @@ const top100Films = [
 ];
 const WrapSwapBox = styled(Box)`
   background-color: ${(props) => (props.theme.palette as any).extra.swapPanel.background};
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.swapPanel.divider};
   box-shadow: ${(props) => (props.theme.palette as any).extra.swapPanel.boxShadow};
   border-radius: 8px;
   height: 100%;

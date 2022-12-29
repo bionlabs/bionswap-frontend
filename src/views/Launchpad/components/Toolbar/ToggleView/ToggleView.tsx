@@ -13,7 +13,6 @@ const ToggleView = ({ view, handleChangeView }: ViewProps) => {
       value={view}
       exclusive
       onChange={handleChangeView}
-      color='primary'
       sx={{
         backgroundColor: (theme) => theme.palette.background.default,
         // '.MuiButtonBase-root.MuiToggleButton-root.Mui-selected': {

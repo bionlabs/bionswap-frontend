@@ -8,7 +8,7 @@ import { formatEther, formatUnits } from 'ethers/lib/utils';
 import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS } from '@bionswap/core-sdk';
 import { useSingleCallResult, useToken } from 'hooks';
 import { usePresaleContract } from 'hooks/useContract';
-import {BsStarFill, BsStarHalf} from 'react-icons/bs'
+import { BsStarFill, BsStarHalf } from 'react-icons/bs';
 import Image from 'next/image';
 
 interface ProjectItemProps {
@@ -17,6 +17,7 @@ interface ProjectItemProps {
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 8,
+  width: '100%',
   borderRadius: 5,
   [`&.${linearProgressClasses.colorPrimary}`]: {
     backgroundColor: (theme.palette as any).extra.card.light,
@@ -49,8 +50,6 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
   };
   const unit = data?.isQuoteETH ? 'BNB' : map[data?.quoteToken];
 
-  
-
   useEffect(() => {
     const handleCheckDecimal = () => {
       if (data?.isQuoteETH) {
@@ -70,25 +69,31 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
           <Stack
             sx={{
               width: '100%',
-              height: '180px',
+              height: '140px',
               position: 'relative',
               img: {
                 objectFit: 'cover',
-                borderRadius: '7px 7px 0 0'
+                borderRadius: '7px 7px 0 0',
               },
             }}
           >
-            <Box width='100%' height='inherit'>
+            <Box width="100%" height="inherit">
               <img src={data?.banner} alt={data?.title} width="100%" height="100%" />
             </Box>
-            <Box sx={{
-              position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-              background: 'linear-gradient(rgba(9, 11, 20, 0.4) 0%, rgba(11, 14, 19, 0) 30.22%)'
-            }} />
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                background: 'linear-gradient(rgba(9, 11, 20, 0.4) 0%, rgba(11, 14, 19, 0) 30.22%)',
+              }}
+            />
             <Status
               sx={{
-                backgroundColor: (theme) => (theme.palette as any).extra.button.backgroundGreenOpacity,
-                color: 'primary.main',
+                backgroundColor: 'primary.main',
+                color: '#FFF',
                 ...(currentTime > startTime && {
                   backgroundColor: 'success.main',
                   color: '#FFF',
@@ -123,22 +128,16 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
             <Skeleton width="80px" height="80px" />
           )}
 
-          {/* <TimeLineBg>
+          <TimeLineBg>
             <Stack alignItems="end" width="100%" pr="10px">
-              <Typography color="primary.main" fontSize="12px">
+              <Typography color="text.secondary" fontSize="12px">
                 Ended in {endedTime.toLocaleString()}
               </Typography>
             </Stack>
-          </TimeLineBg> */}
+          </TimeLineBg>
         </WrapTopArea>
-        <FlexBox
-          flexDirection="column"
-          gap="20px"
-          sx={{
-            padding: '16px',
-          }}
-        >
-          <Stack direction='row' width='100%' justifyContent="space-between" spacing={4} alignItems='start'>
+        <Stack width="100%" gap="20px" padding="16px" alignItems="start">
+          <Stack direction="row" width="100%" justifyContent="space-between" spacing={2} alignItems="start">
             <Stack alignItems="start" spacing={1}>
               <Typography
                 sx={{
@@ -150,26 +149,27 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
               >
                 {data?.title}
               </Typography>
-              <Typography
-                sx={{
-                  color: 'primary.main',
-                  lineHeight: '1',
-                  fontSize: '14px',
-                }}
-              >
-                ${data?.tokenMetadata.symbol}
+              <Typography fontSize="12px" color="text.secondary" lineHeight={1}>
+                ${data?.tokenMetadata.symbol} token
               </Typography>
             </Stack>
             <Box>
-              <Image
-                src={`/icons/coins/${unit}.svg`}
-                alt={unit}
-                width="30px"
-                height="30px"
-              />
+              <Image src={`/icons/coins/${unit}.svg`} alt={unit} width="20px" height="20px" />
             </Box>
           </Stack>
-          <Stack width='100%' alignItems='start' spacing={1}>
+          <Stack spacing={1} width="100%" alignItems="start">
+            <Stack direction="row" width="100%" justifyContent="space-between">
+              <Typography fontSize="14px" color="text.secondary">
+                Current raised:
+              </Typography>
+              <Typography fontWeight={500} fontSize="14px">
+                {linearProgress}%
+              </Typography>
+            </Stack>
+
+            <BorderLinearProgress variant="determinate" value={linearProgress} />
+          </Stack>
+          <Stack width="100%" alignItems="start" spacing={1}>
             <FlexBox justifyContent="space-between">
               <Typography
                 sx={{
@@ -209,7 +209,10 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
               </Typography>
             </FlexBox>
           </Stack>
-        </FlexBox>
+          {/* <Footer direction="row">
+            <VerifiedTag>Verified</VerifiedTag>
+          </Footer> */}
+        </Stack>
       </WrapBox>
     </Link>
   );
@@ -252,14 +255,15 @@ const WrapLogo = styled(Box)`
   }
 `;
 const WrapTopArea = styled(Box)`
-  margin-top: -45px;
-  // margin-bottom: 25px;
+  margin-top: -38px;
+  margin-bottom: 15px;
 `;
-const TimeLineBg = styled(Box)`
-  background: ${(props) => (props.theme.palette as any).extra.button.backgroundGreenOpacity};
+const TimeLineBg = styled(Stack)`
+  background: ${(props) => (props.theme.palette as any).extra.card.light};
   width: 100%;
-  padding: 6px;
-  margin-top: -60px;
+  height: 32px;
+  padding: 0 6px;
+  margin-top: -50px;
 `;
 const Status = styled(Box)`
   position: absolute;
@@ -272,6 +276,21 @@ const Status = styled(Box)`
   justify-content: center;
   line-height: 1;
   max-width: 100px;
+`;
+const Footer = styled(Stack)`
+  width: 100%;
+  border-top: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
+  padding: 10px 0 0;
+  justify-content: start;
+`;
+const VerifiedTag = styled(Stack)`
+  background-color: ${(props) => props.theme.palette.primary.main};
+  color: #fff;
+  padding: 8px 10px;
+  border-radius: 4px;
+  line-height: 1;
+  font-size: 10px;
+  font-weight: 500;
 `;
 
 export default Card;

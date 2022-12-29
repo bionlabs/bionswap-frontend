@@ -138,7 +138,8 @@ const CurrencyInputPanel = ({
 
 const WrapCurrencyInputPanel = styled(Box)`
   border-radius: 8px;
-  background: ${(props) => (props.theme.palette as any).extra.swapPanel.panel};
+  background-color: ${(props) => (props.theme.palette as any).extra.swapPanel.panel};
+  // border: 1px solid ${(props) => (props.theme.palette as any).extra.swapPanel.divider};
   padding: 15px;
   transition: .12s ease-in;
 `;
