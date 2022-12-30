@@ -1,5 +1,5 @@
 import { ChainId, Currency, JSBI, Percent, Token, Trade as V2Trade, TradeType } from '@bionswap/core-sdk';
-import { Box, Button, Container, Stack, styled, Typography } from '@mui/material';
+import { Box, Button, Container, Stack, styled, SwipeableDrawer, Typography } from '@mui/material';
 import { CurrencyInputPanel, TransactionSettings } from 'components';
 import NoDataView from 'components/NoDataView';
 import {
@@ -33,6 +33,7 @@ import Page from 'components/Page';
 import ConnectorOptionsModal from 'components/ConnectButton/ConnectorOptionsModal';
 import { Connector } from 'wagmi';
 import useMediaQuery from 'hooks/useMediaQuery';
+import ConnectorOptionsDrawer from 'components/ConnectButton/ConnectorOptionsDrawer';
 
 type SwapProps = {};
 
@@ -363,6 +364,20 @@ const Swap = ({}: SwapProps) => {
     }
   }, [priceImpactSeverity]);
 
+  const [connectorDrawer, setConnectorDrawer] = useState(false);
+
+  const toggleConnectorDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
+    ) {
+      return;
+    }
+
+    setConnectorDrawer(open);
+  };
+
   const SwapButton = useMemo(() => {
     let text = '';
     let onClick;
@@ -372,7 +387,11 @@ const Swap = ({}: SwapProps) => {
       text = `Unsupported Asset`;
     } else if (!account) {
       text = `Connect Wallet`;
-      onClick = () => setOpenConnectorsModal(true);
+      if (isMobile) {
+        onClick = toggleConnectorDrawer(true);
+      } else {
+        onClick = () => setOpenConnectorsModal(true);
+      }
     } else if (showWrap) {
       onClick = onWrap;
       if (wrapInputError) {
@@ -471,6 +490,7 @@ const Swap = ({}: SwapProps) => {
     handleApprove,
     handleSwap,
     isExpertMode,
+    isMobile,
     isValid,
     onWrap,
     priceImpactSeverity,
@@ -488,13 +508,15 @@ const Swap = ({}: SwapProps) => {
 
   return (
     <Page
-      sx={{
-        // backgroundImage: "url('/images/stackbg.png')",
-        // backgroundRepeat: 'no-repeat',
-        // backgroundSize: 'cover',
-        // objectFit: 'cover',
-        // backgroundColor: darkMode ? null : (theme) => (theme.palette as any).extra.background.alt,
-      }}
+      sx={
+        {
+          // backgroundImage: "url('/images/stackbg.png')",
+          // backgroundRepeat: 'no-repeat',
+          // backgroundSize: 'cover',
+          // objectFit: 'cover',
+          // backgroundColor: darkMode ? null : (theme) => (theme.palette as any).extra.background.alt,
+        }
+      }
     >
       <Container maxWidth="xl">
         <Section>
@@ -627,6 +649,26 @@ const Swap = ({}: SwapProps) => {
         open={openConnectorsModal}
         onConnectorConnected={handleConnectorConnected}
       />
+      <SwipeableDrawer
+        anchor={'bottom'}
+        open={connectorDrawer}
+        onClose={toggleConnectorDrawer(false)}
+        onOpen={toggleConnectorDrawer(true)}
+        sx={{
+          '&.MuiModal-root.MuiDrawer-root': {
+            zIndex: '1300',
+            '.MuiPaper-root': {
+              borderTopLeftRadius: '8px',
+              borderTopRightRadius: '8px',
+            },
+          },
+        }}
+      >
+        <ConnectorOptionsDrawer
+          toggleConnectorDrawer={toggleConnectorDrawer}
+          handleConnectorConnected={handleConnectorConnected}
+        />
+      </SwipeableDrawer>
     </Page>
   );
 };

@@ -24,7 +24,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
   [`& .${linearProgressClasses.bar}`]: {
     borderRadius: 5,
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.success.main,
   },
 }));
 
@@ -80,16 +80,6 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
             <Box width="100%" height="inherit">
               <img src={data?.banner} alt={data?.title} width="100%" height="100%" />
             </Box>
-            <Box
-              sx={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                background: 'linear-gradient(rgba(9, 11, 20, 0.4) 0%, rgba(11, 14, 19, 0) 30.22%)',
-              }}
-            />
             <Status
               sx={{
                 backgroundColor: 'primary.main',

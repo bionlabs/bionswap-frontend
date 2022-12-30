@@ -6,6 +6,7 @@ import { DEFAULT_DEADLINE_FROM_NOW } from "constants/common";
 import React, { useEffect, useMemo, useState } from "react";
 import { SlippageError, useExpertModeManager, useUserSlippageTolerance, useUserTransactionTTL } from "state/user/hooks";
 import { V2_SWAP_DEFAULT_SLIPPAGE } from "state/user/reducer";
+import AntSwitch from "components/AntSwitch";
 
 type Props = {};
 
@@ -168,7 +169,7 @@ const TransactionSettings = (props: Props) => {
                 <Typography fontSize='14px' color="text.primary">
                   Expert Mode ?
                 </Typography>
-                <Switch checked={expertMode} onChange={() => toggleExpertMode()} />
+                <AntSwitch checked={expertMode} onChange={() => toggleExpertMode()} />
               </Stack>
             </Stack>
           </Stack>

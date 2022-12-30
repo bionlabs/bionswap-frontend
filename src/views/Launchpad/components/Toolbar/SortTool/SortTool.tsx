@@ -24,17 +24,17 @@ const SortTool = ({ sort, sortParams, handleChangeSort }: Props) => {
           onClose={() => setFocus(false)}
           sx={{
             '.MuiInputBase-input': {
-              padding: '14px',
-              backgroundColor: (theme) => focus ? (theme.palette as any).extra.button.backgroundGreenOpacity : theme.palette.background.default,
+              padding: '10px 14px',
+              backgroundColor: (theme) => focus ? (theme.palette as any).extra.card.light : (theme.palette as any).extra.darkest.main,
               transition: '.12s ease-in',
-              color: focus ? 'primary.main' : 'text.secondary',
+              color: focus ? 'text.primary' : 'text.secondary',
               display: 'flex',
               alignItems: 'center',
-              border: (theme) => focus ? `1px solid ${theme.palette.primary.main}` : `1px solid ${(theme.palette as any).extra.card.divider}`,
+              // border: (theme) => `1px solid ${(theme.palette as any).extra.card.divider}`,
               '&:hover':{
-                backgroundColor: theme => (theme.palette as any).extra.button.backgroundGreenOpacity,
-                color: 'primary.main',
-                border: theme => `1px solid ${theme.palette.primary.main}`
+                backgroundColor: theme => (theme.palette as any).extra.card.hover,
+                // color: 'primary.main',
+                // border: theme => `1px solid ${theme.palette.primary.main}`
               }
             },
             '.MuiOutlinedInput-notchedOutline': {

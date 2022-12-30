@@ -61,10 +61,10 @@ const LaunchpadTableRow = ({ item }: any) => {
           <Stack width='100%' alignItems='end'>
             <Status
               sx={{
-                backgroundColor: 'success.main',
+                backgroundColor: 'primary.main',
                 color: '#fff',
                 ...(currentTime > startTime && {
-                  backgroundColor: 'primary.main',
+                  backgroundColor: 'success.main',
                   color: '#FFF',
                 }),
                 ...(currentTime > endTime && {
