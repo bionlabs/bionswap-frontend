@@ -1,4 +1,4 @@
-import { Box, Button, Drawer, styled, Typography, Stack } from '@mui/material';
+import { Box, Button, SwipeableDrawer, styled, Typography, Stack } from '@mui/material';
 import { useAccount, useNativeCurrencyBalances, useDisconnect } from 'hooks';
 import useMediaQuery from 'hooks/useMediaQuery';
 import { useEffect, useState } from 'react';
@@ -12,6 +12,8 @@ import { getUserInfo } from 'api/user';
 import { logOut } from 'state/auth/actions';
 import ProfileModal from './ProfileModal';
 import ConnectorOptionsDrawer from './ConnectorOptionsDrawer';
+import { getConnectorIcon } from 'utils/connectors';
+import Image from 'next/image';
 
 type Props = {};
 
@@ -21,20 +23,24 @@ const ConnectButton = () => {
   const [openChainsModal, setOpenChainsModal] = useState(false);
   const [openProfileModal, setOpenProfileModal] = useState(false);
 
-  const { address } = useAccount();
+  const { address , connector: activeConnector } = useAccount();
 
   const [connectorDrawer, setConnectorDrawer] = useState(false);
 
-  const toggleConnectorDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-    if (
-      event.type === 'keydown' &&
-      ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
-    ) {
-      return;
-    }
+  const toggleConnectorDrawer =
+    (open: boolean) =>
+    (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event &&
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
+      ) {
+        return;
+      }
 
-    setConnectorDrawer(open);
-  };
+      setConnectorDrawer(open);
+    };
 
   const dispatch = useAppDispatch();
   const { disconnect } = useDisconnect({
@@ -79,7 +85,7 @@ const ConnectButton = () => {
           variant="contained"
           fullWidth
         >
-          <Typography sx={{ fontSize: 'inherit', color: 'inherit', fontWeight: '500' }}>Connect Wallet</Typography>
+          <Typography sx={{ fontSize: '14px', color: 'inherit', fontWeight: '500' }}>Connect Wallet</Typography>
         </ConnectWalletButton>
       ) : (
         <ProfileButton
@@ -89,9 +95,9 @@ const ConnectButton = () => {
           variant="contained"
           fullWidth
         >
-          <Stack>
-            <RiWallet3Fill />
-          </Stack>
+          {activeConnector && (
+            <Image src={getConnectorIcon(activeConnector.id)} layout="fixed" alt="" width={18} height={18} />
+          )}
           <Typography fontSize="14px" fontWeight="500" color="inherit">
             {shortenAddress(address ?? '')}
           </Typography>
@@ -107,10 +113,11 @@ const ConnectButton = () => {
         onConnectorConnected={handleConnectorConnected}
       />
       <ProfileModal onClose={() => setOpenProfileModal(false)} open={openProfileModal} />
-      <Drawer
+      <SwipeableDrawer
         anchor={'bottom'}
         open={connectorDrawer}
         onClose={toggleConnectorDrawer(false)}
+        onOpen={toggleConnectorDrawer(true)}
         sx={{
           '&.MuiModal-root.MuiDrawer-root': {
             zIndex: '1300',
@@ -125,7 +132,7 @@ const ConnectButton = () => {
           toggleConnectorDrawer={toggleConnectorDrawer}
           handleConnectorConnected={handleConnectorConnected}
         />
-      </Drawer>
+      </SwipeableDrawer>
     </>
   );
 };
@@ -133,8 +140,10 @@ const ConnectButton = () => {
 const ConnectWalletButton = styled(Button)`
   border-radius: 4px;
   text-transform: none;
-  padding: 10px 25px;
+  padding: 12px 25px;
+  height: 42px;
   align-items: center;
+  white-space: nowrap;
   // background: ${(props) => (props.theme.palette as any).extra.primaryButton.background};
   // color: ${(props) => (props.theme.palette as any).extra.primaryButton.color};
   transition: 0.12s ease-in;
@@ -148,15 +157,17 @@ const ConnectWalletButton = styled(Button)`
 const ProfileButton = styled(Button)`
   border-radius: 4px;
   text-transform: none;
-  padding: 10px 25px;
+  padding: 12px 25px;
+  height: 42px;
   gap: 8px;
   align-items: center;
-  // background: ${(props) => (props.theme.palette as any).extra.primaryButton.background};
-  // color: ${(props) => (props.theme.palette as any).extra.primaryButton.color};
+  white-space: nowrap;
+  background: ${(props) => (props.theme.palette as any).extra.profileButton.background};
+  color: ${(props) => props.theme.palette.text.primary};
   transition: 0.12s ease-in;
   :hover {
-    // background: ${(props) => (props.theme.palette as any).extra.primaryButton.background};
-    // color: ${(props) => (props.theme.palette as any).extra.primaryButton.color};
+    background: ${(props) => (props.theme.palette as any).extra.profileButton.background};
+    color: ${(props) => props.theme.palette.text.primary};
     box-shadow: none;
   }
   svg {

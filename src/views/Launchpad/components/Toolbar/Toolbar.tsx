@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack } from '@mui/material';
+import { Box, Stack, styled } from '@mui/material';
 import ToggleView from './ToggleView/ToggleView';
 import SortTool from './SortTool/SortTool';
 import Search from '../Search/Search';
@@ -38,19 +38,22 @@ const Toolbar = ({
         <Stack direction={isTablet ? 'column' : "row"} width="100%" justifyContent="start" gap="15px" alignItems={isTablet ? 'start' :"end"}>
           <ToggleView view={view} handleChangeView={handleChangeView} />
         </Stack>
-        <Stack
+        <DropdownBox
           direction="row"
-          justifyContent="start"
-          gap="15px"
-          alignItems="end"
           width={isTablet ? '100%' : 'auto'}
         >
           <FilterTool filter={filter} filterParams={filterParams} handleChangeFilter={handleChangeFilter} />
           <SortTool sort={sort} sortParams={sortParams} handleChangeSort={handleChangeSort} />
-        </Stack>
+        </DropdownBox>
       </Stack>
     </Stack>
   );
 };
+
+const DropdownBox = styled(Stack)`
+  justify-content: start;
+  align-items: end;
+  gap: 15px;
+`
 
 export default Toolbar;

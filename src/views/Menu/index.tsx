@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { HiMenu, HiX } from 'react-icons/hi';
 import { menuConfig, MENU_HEIGHT } from 'configs/menu/config';
 import { useRouter } from 'next/router';
-import { ConnectButton } from 'components';
+import { ConnectButton, Switch } from 'components';
 import { useChain, useDarkMode, useSwitchNetwork } from 'hooks';
 import ChainSelect from 'components/ConnectButton/ChainSelect';
 import MobileMenu from './MobileMenu';
@@ -89,9 +89,7 @@ const Menu = ({ children }: any) => {
             {isMobile ? (
               <>
                 <Stack direction="row" sx={{ color: 'text.primary' }}>
-                  <MdLightMode />
-                  <AntSwitch defaultChecked checked={darkMode} onChange={toggleDarkMode} />
-                  <MdDarkMode />
+                  <Switch defaultChecked checked={darkMode} onChange={toggleDarkMode} />
                 </Stack>
                 {/* <IconButton sx={{color:'text.primary'}} onClick={toggleDarkMode}>
                   {darkMode ? <MdLightMode /> : <MdDarkMode />}
@@ -109,9 +107,7 @@ const Menu = ({ children }: any) => {
             ) : isTablet ? (
               <>
                 <Stack direction="row" sx={{ color: 'text.primary' }}>
-                  <MdLightMode />
-                  <AntSwitch defaultChecked checked={darkMode} onChange={toggleDarkMode} />
-                  <MdDarkMode />
+                  <Switch defaultChecked checked={darkMode} onChange={toggleDarkMode} />
                 </Stack>
                 {/* <IconButton sx={{color:'text.primary'}} onClick={toggleDarkMode}>
                   {darkMode ? <MdLightMode /> : <MdDarkMode />}
@@ -130,9 +126,7 @@ const Menu = ({ children }: any) => {
             ) : (
               <>
                 <Stack direction="row" sx={{ color: 'text.primary' }}>
-                  <MdLightMode />
-                  <AntSwitch defaultChecked checked={darkMode} onChange={toggleDarkMode} />
-                  <MdDarkMode />
+                  <Switch defaultChecked checked={darkMode} onChange={toggleDarkMode} />
                 </Stack>
                 {/* <IconButton sx={{color:'text.primary'}} onClick={toggleDarkMode}>
                   {darkMode ? <MdLightMode /> : <MdDarkMode />}

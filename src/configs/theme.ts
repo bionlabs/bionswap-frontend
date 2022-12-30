@@ -105,8 +105,8 @@ export const lightPalette: ExtendedPaletteOptions = {
   mode: 'light',
   primary: {
     main: '#3671E9',
-    light: '#B0D6F5',
-    dark: '#00A3FF',
+    light: '#00A3FF',
+    dark: '#3671E9',
   },
   secondary: {
     main: '#09B1EC',
@@ -131,6 +131,9 @@ export const lightPalette: ExtendedPaletteOptions = {
     main: '#FFB21E',
   },
   extra: {
+    darkest: {
+      main: '#f2f2f2b2'
+    },
     primaryButton: {
       background: 'linear-gradient(93.49deg, #0463CA 0.54%, #00A3FF 100%)',
       color: '#ffffff'
@@ -167,10 +170,13 @@ export const lightPalette: ExtendedPaletteOptions = {
       secondary: '#f8f8f8'
     },
     button: {
-      backgroundGreenOpacity: '#dffffd',
+      backgroundGreenOpacity: 'rgba(54, 113, 233, .1)',
       lighter: 'rgba(0,0,0, .02)',
       linear: 'linear-gradient(93.49deg, #0463CA 0.54%, #00A3FF 100%)',
       divider: 'rgba(0,0,0,.12)'
+    },
+    profileButton: {
+      background: '#f2f2f2b2',
     },
     text: {
       linear: 'linear-gradient(133.2deg, #b33ee7 2.95%, #32c1ce 48.27%, #3cff5c 100%)',
@@ -198,16 +204,16 @@ export const darkPalette: ExtendedPaletteOptions = {
   },
   primary: {
     main: '#3671E9',
-    light: '#B0D6F5',
-    dark: '#00A3FF',
+    light: '#00A3FF',
+    dark: '#3671E9',
   },
   secondary: {
     main: '#09B1EC',
     light: '#65C2F5',
   },
   background: {
-    default: '#080808',
-    paper: '#222325',
+    default: '#18181C',
+    paper: '#23242A',
   },
   text: {
     primary: '#FFFFFF',
@@ -215,6 +221,9 @@ export const darkPalette: ExtendedPaletteOptions = {
     disabled: 'rgba(255, 255, 255, 0.2)',
   },
   extra: {
+    darkest: {
+      main: '#000000'
+    },
     primaryButton: {
       background: 'linear-gradient(93.49deg, #0463CA 0.54%, #00A3FF 100%)',
       color: '#ffffff'
@@ -224,36 +233,39 @@ export const darkPalette: ExtendedPaletteOptions = {
       color: '#000000'
     },
     card: {
-      background: '#222325',
-      light: '#2b2c30',
-      hover: '#222325 ',
-      divider: '#3D3F40',
+      background: '#23242A',
+      light: '#2E3038',
+      hover: '#32353D',
+      divider: '#393B44',
       disable: '#4F5B67',
       opacityBackground: 'rgba(0, 163, 255, 0.05)',
       boxShadow: '0 1px 8px rgba(61, 63, 64, .05), 0 4px 20px rgba(61, 63, 64, .05)'
     },
     swapPanel: {
-      background: '#222325',
-      panel: '#151515',
-      hover: '#222325 ',
-      divider: '#3D3F40',
+      background: '#23242A',
+      panel: '#2E3038',
+      hover: '#32353D',
+      divider: '#393B44',
       boxShadow: '0 1px 8px rgba(61, 63, 64, .05), 0 4px 20px rgba(61, 63, 64, .05)'
     },
     table: {
-      background: '#222325',
-      light: '#2b2c30',
-      hover: '#2c3132',
-      divider: '#3D3F40',
-      disable: '#3D3F40'
+      background: '#23242A',
+      light: '#2E3038',
+      hover: '#32353D',
+      divider: '#393B44',
+      disable: '#4F5B67'
     },
     button: {
-      backgroundGreenOpacity: '#00313D',
+      backgroundGreenOpacity: 'rgba(54, 113, 233, .2)',
       lighter: 'rgba(255,255,255, .01)',
       linear: 'linear-gradient(93.49deg, #0463CA 0.54%, #00A3FF 100%)',
       divider: '#4F5B67'
     },
+    profileButton: {
+      background: '#32353D',
+    },
     background: {
-      alt: '#080808',
+      alt: '#18181C',
       secondary: '#121318'
     },
     text: {
@@ -382,11 +394,6 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
       },
       caption6Poppins: {
         fontSize: '14px',
-      },
-
-      button: {
-        // fontStyle: 'italic',
-        fontFamily: 'inherit',
       },
     },
     breakpoints: {

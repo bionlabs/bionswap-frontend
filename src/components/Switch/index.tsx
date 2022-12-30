@@ -1,70 +1,70 @@
 import React from "react";
-import { Switch as MuiSwitch, SwitchProps, styled } from "@mui/material";
+import { Switch as MuiSwitch, styled } from "@mui/material";
+import { MdDarkMode, MdLightMode } from 'react-icons/md';
 
-type Props = {};
 
-const Switch = styled((props: SwitchProps) => (
-  <MuiSwitch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
-))(({ theme }) => ({
-  width: 55,
-  height: 26,
+const Switch = styled(MuiSwitch)(({ theme }) => ({
+  width: 70,
+  height: 32,
   padding: 0,
-  "& .MuiSwitch-switchBase": {
+  borderRadius: '999px',
+  '& .MuiSwitch-switchBase': {
+    margin: 4.5,
     padding: 0,
-    margin: 2,
-    transitionDuration: "300ms",
-    "&.Mui-checked": {
-      transform: "translateX(30px)",
-
-      "& + .MuiSwitch-track": {
-        backgroundColor: (theme.palette as any).extra.button.backgroundGreenOpacity,
-        opacity: 1,
-        border: 0,
-        "&:before": {
-          content: '"On"',
-          color: theme.palette.primary.main,
-          left: 10,
-        },
-        "&:after": {
-          content: '""',
-          color: theme.palette.text.secondary,
-          right: 10,
-        },
+    transform: 'translateX(2px)',
+    '&.Mui-checked': {
+      color: '#fff',
+      transform: 'translateX(28px)',
+      '& .MuiSwitch-thumb:before': {
+        backgroundImage: `url('/icons/moon.svg')`,
       },
-
-      "& .MuiSwitch-thumb": {
-        color: theme.palette.primary.main,
+      '& + .MuiSwitch-track': {
+        opacity: 1,
+        backgroundColor: theme.palette.mode === 'dark' ? (theme.palette as any).extra.darkest.main : '#aab4be',
       },
     },
   },
-  "& .MuiSwitch-thumb": {
-    boxSizing: "border-box",
-    width: 22,
-    height: 22,
-    color: (theme.palette as any).extra.card.hover,
+  '& .MuiSwitch-thumb': {
+    backgroundColor: theme.palette.mode === 'dark' ? '#3671E9' : (theme.palette as any).extra.card.background,
+    width: 32,
+    height: 24,
+    borderRadius: '999px',
+    '&:before': {
+      content: "''",
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      left: 0,
+      top: 0,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
+        '#000',
+      )}" d="M9.305 1.667V3.75h1.389V1.667h-1.39zm-4.707 1.95l-.982.982L5.09 6.072l.982-.982-1.473-1.473zm10.802 0L13.927 5.09l.982.982 1.473-1.473-.982-.982zM10 5.139a4.872 4.872 0 00-4.862 4.86A4.872 4.872 0 0010 14.862 4.872 4.872 0 0014.86 10 4.872 4.872 0 0010 5.139zm0 1.389A3.462 3.462 0 0113.471 10a3.462 3.462 0 01-3.473 3.472A3.462 3.462 0 016.527 10 3.462 3.462 0 0110 6.528zM1.665 9.305v1.39h2.083v-1.39H1.666zm14.583 0v1.39h2.084v-1.39h-2.084zM5.09 13.928L3.616 15.4l.982.982 1.473-1.473-.982-.982zm9.82 0l-.982.982 1.473 1.473.982-.982-1.473-1.473zM9.305 16.25v2.083h1.389V16.25h-1.39z"/></svg>')`,
+    },
   },
-  "& .MuiSwitch-track": {
-    borderRadius: 26 / 2,
-    backgroundColor: (theme.palette as any).extra.card.hover,
-    transition: theme.transitions.create(["background-color"], {
-      duration: 500,
-    }),
-    "&:before, &:after": {
+  '& .MuiSwitch-track': {
+    opacity: 1,
+    backgroundColor: theme.palette.mode === 'dark' ? (theme.palette as any).extra.darkest.main : '#EAEAEA',
+    borderRadius: 20 / 2,
+    '&:before, &:after': {
       content: '""',
-      position: "absolute",
-      top: "50%",
-      transform: "translateY(-50%)",
+      position: 'absolute',
+      top: '50%',
+      transform: 'translateY(-50%)',
       width: 16,
       height: 16,
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      fontSize: "12px",
+      backgroundSize: 'contain'
     },
-    "&:after": {
-      content: '"Off"',
-      color: theme.palette.text.secondary,
-      right: 10,
+    '&:before': {
+      backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
+        '#565656',
+      )}" d="M9.305 1.667V3.75h1.389V1.667h-1.39zm-4.707 1.95l-.982.982L5.09 6.072l.982-.982-1.473-1.473zm10.802 0L13.927 5.09l.982.982 1.473-1.473-.982-.982zM10 5.139a4.872 4.872 0 00-4.862 4.86A4.872 4.872 0 0010 14.862 4.872 4.872 0 0014.86 10 4.872 4.872 0 0010 5.139zm0 1.389A3.462 3.462 0 0113.471 10a3.462 3.462 0 01-3.473 3.472A3.462 3.462 0 016.527 10 3.462 3.462 0 0110 6.528zM1.665 9.305v1.39h2.083v-1.39H1.666zm14.583 0v1.39h2.084v-1.39h-2.084zM5.09 13.928L3.616 15.4l.982.982 1.473-1.473-.982-.982zm9.82 0l-.982.982 1.473 1.473.982-.982-1.473-1.473zM9.305 16.25v2.083h1.389V16.25h-1.39z"/></svg>')`,
+      left: 12,
+    },
+    '&:after': {
+      backgroundImage: `url('/icons/moon-light.svg')`,
+      right: 12,
     },
   },
 }));

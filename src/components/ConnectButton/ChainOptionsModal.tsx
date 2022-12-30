@@ -47,10 +47,10 @@ const ChainOptionsModal = ({ onClose, open = false, onChainSwitched }: Props) =>
           </IconButton>
         </CloseButton>
         <Box display="flex" flexDirection="column" gap="10px">
-          <Typography variant='h5Samsung'>
+          <Typography variant='h5Samsung' color='extra.walletModal.textPrimary'>
             Connect a blockchain
           </Typography>
-          <Box color="text.secondary" fontSize="14px">
+          <Box color="extra.walletModal.textSecondary" fontSize="14px">
             Connect with one of our available blockchain providers.
           </Box>
         </Box>
@@ -67,6 +67,9 @@ const ChainOptionsModal = ({ onClose, open = false, onChainSwitched }: Props) =>
                   p: 2,
                   width: "100%",
                   borderRadius: '4px',
+                  ':hover':{
+                    backgroundColor: theme => (theme.palette as any).extra.walletModal.hover
+                  }
                 }}
                 key={chain.id}
                 onClick={() => {
@@ -87,7 +90,7 @@ const ChainOptionsModal = ({ onClose, open = false, onChainSwitched }: Props) =>
                   <Box display="flex" width="100%" alignItems="center" justifyContent="space-between">
                     <Stack direction='row' gap="10px">
                       <Image src={getChainIcon(chain.id)?.iconUrl} layout="fixed" alt="" width={24} height={24} />
-                      <Typography fontSize="14px" fontWeight={500}>
+                      <Typography fontSize="14px" fontWeight={500} color='extra.walletModal.textPrimary'>
                         {chain.name}
                       </Typography>
                     </Stack>
@@ -103,7 +106,7 @@ const ChainOptionsModal = ({ onClose, open = false, onChainSwitched }: Props) =>
 };
 
 const Wrapper = styled(Box)`
-  background: ${(props:any) => (props.theme.palette as any).extra.card.background};
+  background-color: ${(props:any) => (props.theme.palette as any).extra.walletModal.background};
 `
 const CloseButton = styled(Box)`
   position: absolute;
