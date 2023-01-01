@@ -25,7 +25,7 @@ const SortTool = ({ sort, sortParams, handleChangeSort }: Props) => {
           sx={{
             '.MuiInputBase-input': {
               padding: '10px 14px',
-              backgroundColor: (theme) => focus ? (theme.palette as any).extra.card.light : (theme.palette as any).extra.darkest.main,
+              backgroundColor: (theme) => focus ? (theme.palette as any).extra.card.light : (theme.palette as any).extra.toggle.background,
               transition: '.12s ease-in',
               color: focus ? 'text.primary' : 'text.secondary',
               display: 'flex',

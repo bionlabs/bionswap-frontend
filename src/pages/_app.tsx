@@ -45,7 +45,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Head>BionSwap</Head>
+      <Head>
+        <title>BionSwap - Multichain Decentralized Trading Platform and Automation Launchpad</title>
+      </Head>
       {/* Global Site Tag (gtag.js) - Google Analytics */}
       <Script
         strategy="afterInteractive"
@@ -70,7 +72,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <MulticallUpdater />
           <ListsUpdater />
           <Toast />
-          <NextNProgress color="#07E0E0" stopDelayMs={500} height={3} options={{ easing: 'ease', speed: 1000 }} />
+          <NextNProgress color="#3671E9" stopDelayMs={500} height={3} options={{ easing: 'ease', speed: 1000 }} />
           <Component {...pageProps} />
           <Footer />
         </Menu>

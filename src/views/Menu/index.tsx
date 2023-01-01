@@ -55,9 +55,9 @@ const Menu = ({ children }: any) => {
             <Link href="/">
               <Box sx={{ cursor: 'pointer' }} onClick={toggleDrawer('right', false)}>
                 {darkMode ? (
-                  <img src="/alpha.svg" alt="BionSwap" width="auto" />
+                  <img src="/logo_light.svg" alt="BionSwap" width="130px" />
                 ) : (
-                  <img src="/alpha-dark.svg" alt="BionSwap" width="auto" />
+                  <img src="/logo.svg" alt="BionSwap" width="130px" />
                 )}
               </Box>
             </Link>

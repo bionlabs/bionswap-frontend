@@ -179,7 +179,7 @@ const LaunchPadSection = ({ chainId }: any) => {
     >
       <Container>
         <Wrapper>
-          <Stack width="100%" alignItems="start" spacing={6}>
+          <Stack width="100%" alignItems="center" spacing={6}>
             <Title title="Current Projects" isCurrent currentMessage="Many ideas waiting for you to reach" />
             <Toolbar
               view={view}
@@ -205,6 +205,7 @@ const Wrapper = styled(Box)`
   display: flex;
   flex-direction: column;
   gap: 62px;
+  width: 100%;
 `;
 
 export default LaunchPadSection;

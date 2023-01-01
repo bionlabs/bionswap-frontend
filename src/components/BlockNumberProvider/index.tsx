@@ -1,4 +1,4 @@
-import { useChain, useIsWindowVisible } from "hooks";
+import { useChain, useDynamicChain, useIsWindowVisible } from "hooks";
 import {
   createContext,
   ReactNode,
@@ -26,6 +26,69 @@ export function useBlockNumberContext() {
     );
   }
   return blockNumber;
+}
+
+export const useGetCurrentBlock = (
+  inputChainId : number
+) => {
+  const {chainId: activeChainId, provider: library} = useDynamicChain(inputChainId);
+  const [{ chainId, block }, setChainBlock] = useState<{
+    chainId?: number;
+    block?: number;
+  }>({ chainId: activeChainId });
+
+  const onBlock = useCallback(
+    (block: number) => {
+      setChainBlock((chainBlock) => {
+        if (chainBlock.chainId === activeChainId) {
+          if (!chainBlock.block || chainBlock.block < block) {
+            return { chainId: activeChainId, block };
+          }
+        }
+        return chainBlock;
+      });
+    },
+    [activeChainId, setChainBlock]
+  );
+
+  const windowVisible = useIsWindowVisible();
+  useEffect(() => {
+    if (library && activeChainId && windowVisible) {
+      // If chainId hasn't changed, don't clear the block. This prevents re-fetching still valid data.
+      setChainBlock((chainBlock) =>
+        chainBlock.chainId === activeChainId
+          ? chainBlock
+          : { chainId: activeChainId }
+      );
+
+      library
+        .getBlockNumber()
+        .then(onBlock)
+        .catch((error: any) => {
+          console.error(
+            `Failed to get block number for chainId ${activeChainId}`,
+            error
+          );
+        });
+
+      library.on("block", onBlock);
+      return () => {
+        library.removeListener("block", onBlock);
+      };
+    }
+    return undefined;
+  }, [activeChainId, library, onBlock, setChainBlock, windowVisible]);
+
+  const value = useMemo(
+    () => ({
+      value: chainId === activeChainId ? block : undefined,
+      fastForward: (block: number) =>
+        setChainBlock({ chainId: activeChainId, block }),
+    }),
+    [activeChainId, block, chainId]
+  );
+
+  return value;
 }
 
 export default function BlockNumberProvider({

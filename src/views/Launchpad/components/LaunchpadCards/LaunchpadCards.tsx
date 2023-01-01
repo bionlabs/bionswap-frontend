@@ -17,15 +17,15 @@ const LaunchpadCards = ({ launchData, loading , page, handleChangePagigation }: 
   
 
   return (
-    <Stack width='100%' justifyContent='start' gap='40px'>
+    <>
       <Stack
         direction="row"
         flexWrap="wrap"
         alignItems="start"
-        justifyContent="flex-start"
+        justifyContent="center"
         width="100%"
         sx={{
-          gap: { xs: '20px', lg: '40px' },
+          gap: '20px',
         }}
       >
         {launchData && !loading ? (
@@ -49,25 +49,12 @@ const LaunchpadCards = ({ launchData, loading , page, handleChangePagigation }: 
           showLastButton
         />
       </Stack>
-    </Stack>
+    </>
   );
 };
 
 const WrapItem = styled(Box)`
-  width: calc(100% / 3 - 30px);
-
-  ${(props) => props.theme.breakpoints.down('lg')} {
-    width: calc(100% / 3 - 14px);
-  }
-
-  ${(props) => props.theme.breakpoints.down('md')} {
-    width: calc(100% / 2 - 10px);
-  }
-
-  ${(props) => props.theme.breakpoints.down('sm')} {
-    width: 100%;
-  }
-  max-width: 395px;
+  width: 370px;
 `;
 
 export default LaunchpadCards;
