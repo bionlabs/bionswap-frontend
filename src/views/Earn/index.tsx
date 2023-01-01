@@ -9,12 +9,13 @@ const Earn = () => {
   const { chainId } = useChain();
 
   return (
-    <Page sx={{backgroundColor: theme => (theme.palette as any).extra.background.alt}}>
-        {ChainId.BSC_TESTNET === chainId ? (
+    <Page>
+        {/* {ChainId.BSC_TESTNET === chainId ? (
           <EarnSection chainId={chainId} />
         ) : (
           <NotSupportSection />
-        )}
+        )} */}
+        <EarnSection chainId={chainId} />
     </Page>
   )
 }

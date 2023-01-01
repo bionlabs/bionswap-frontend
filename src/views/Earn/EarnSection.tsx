@@ -1,6 +1,6 @@
 import { Box, Button, Container, FormControlLabel, Select, styled, Stack } from '@mui/material';
 import { useState } from 'react';
-import EarnTable from './components/FarmTable/EarnTable';
+import EarnTable from './components/EarnTable/EarnTable';
 import Header from './components/Header/Header';
 //   import LaunchpadCards from './components/LaunchpadCards/LaunchpadCards';
 //   import Search from './components/Search/Search';

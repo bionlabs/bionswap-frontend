@@ -5,10 +5,10 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: (theme.palette as any).extra.table.light,
     color: theme.palette.text.secondary,
     '&:first-child, &:first-child': {
-      borderTopLeftRadius: '3px',
+      borderTopLeftRadius: '8px',
     },
     '&:last-child, &:last-child': {
-      borderTopRightRadius: '3px',
+      borderTopRightRadius: '8px',
     },
   },
   [`&.${tableCellClasses.body}`]: {

@@ -39,6 +39,7 @@ export {
 export {
   useMultipleContractSingleData,
   useSingleCallResult,
+  useSingleCallResultDynamicChain,
   useSingleContractMultipleData,
   useSingleContractWithCallData,
 } from './useCall';
@@ -77,7 +78,7 @@ export { useENSContentHash } from './useENSContentHash';
 export { useHttpLocations } from './useHttpLocations';
 export { useTokenComparator } from './useTokenComparator';
 export { useSortedTokensByQuery } from './useSortedTokensByQuery';
-export { useChain } from './useChain';
+export { useChain , useDynamicChain } from './useChain';
 export { useSwitchNetwork } from './useSwitchNetwork';
 export { useBlockNumber } from './useBlockNumber';
 export { useRefetchIncreasedInterval } from './useIncreasedInterval';

@@ -132,7 +132,7 @@ export const lightPalette: ExtendedPaletteOptions = {
   },
   extra: {
     darkest: {
-      main: '#f2f2f2b2'
+      main: '#EAEAEA'
     },
     primaryButton: {
       background: 'linear-gradient(93.49deg, #0463CA 0.54%, #00A3FF 100%)',
@@ -165,7 +165,7 @@ export const lightPalette: ExtendedPaletteOptions = {
       disable: '#D6DADE',
     },
     background: {
-      alt: '#f8f8f8',
+      alt: '#f2f5fa',
       linear: '#FFF',
       secondary: '#f8f8f8'
     },
@@ -188,6 +188,11 @@ export const lightPalette: ExtendedPaletteOptions = {
       textSecondary: '#929292',
       hover: '#f2f2f2b2',
     },
+    toggle: {
+      background: '#F5F5F5',
+      selected: '#FFFFFF',
+      color: '#000000'
+    }
   },
 };
 
@@ -278,6 +283,11 @@ export const darkPalette: ExtendedPaletteOptions = {
       textSecondary: '#929292',
       hover: '#f2f2f2b2',
     },
+    toggle: {
+      background: '#000000',
+      selected: '#2E3038',
+      color: '#FFFFFF'
+    }
   },
 };
 
@@ -396,15 +406,15 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         fontSize: '14px',
       },
     },
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: 600,
-        md: 900,
-        lg: 1316,
-        xl: 1536,
-      },
-    },
+    // breakpoints: {
+    //   values: {
+    //     xs: 0,
+    //     sm: 600,
+    //     md: 900,
+    //     lg: 1316,
+    //     xl: 1536,
+    //   },
+    // },
     components: {
       MuiButtonBase: {
         defaultProps: {
@@ -426,6 +436,13 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
             },
           },
         },
+      },
+      MuiContainer:{
+        styleOverrides:{
+          root: {
+            padding: '0 24px'
+          }
+        }
       },
       MuiMenuItem: {
         styleOverrides: {

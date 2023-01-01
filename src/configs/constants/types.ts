@@ -12,7 +12,8 @@ export interface Token {
 export interface poolConfig {
   pid: number;
   lpSymbol: string;
-  address: AddressMap;
+  chainId: number;
+  address: string;
   token: Token;
   quoteToken: Token;
   multiplier?: string;

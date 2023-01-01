@@ -1,32 +1,22 @@
 import * as React from 'react';
-import { alpha } from '@mui/material/styles';
 import {
-  Stack,
   styled,
   Typography,
   Box,
   Table,
   TableBody,
-  TableCell,
-  tableCellClasses,
   TableContainer,
   TableHead,
   TablePagination,
-  TableRow,
-  TableSortLabel,
-  Pagination,
   Paper,
 } from '@mui/material';
-import Image from 'next/image';
-import { formatUnits } from 'ethers/lib/utils';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useChain, useRefetchIncreasedInterval, useToken } from 'hooks';
-import { NATIVE } from '@bionswap/core-sdk';
+import { useState } from 'react';
 import { Data, Order, TableProps } from './types';
 import EarnTableHead from './EarnTableHead';
 import EarnTableBody from './EarnTableBody';
-import { getSaleList } from 'api/launchpad';
 import pools from 'configs/constants/mining/pools';
+import { getChainIds } from 'hooks/useCall';
+import { useChain } from 'hooks';
 
 export default function EarnTable({ chainId, view}: TableProps) {
   const [order, setOrder] = useState<Order>('asc');
@@ -143,14 +133,13 @@ const StyledTableWrapper = styled(Paper)`
   width: 100%;
   background-color: ${(props) => (props.theme.palette as any).extra.table.background};
   background-image: none;
-  // border-radius: 4px;
-  border: 1px solid ${(props) => (props.theme.palette as any).extra.table.divider};
-  box-shadow: none;
+  border-radius: 8px;
+  // border: 1px solid ${(props) => (props.theme.palette as any).extra.table.divider};
   .MuiTablePagination-root {
     background-color: ${(props) => (props.theme.palette as any).extra.table.light};
     :last-child {
-      // border-bottom-left-radius: 4px;
-      // border-bottom-right-radius: 4px;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
     }
   }
   .MuiTableBody-root .MuiTableRow-root {

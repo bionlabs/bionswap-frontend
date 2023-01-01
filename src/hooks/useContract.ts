@@ -15,7 +15,7 @@ import BION_TICKET_ABI from 'constants/abis/bion-ticket.json';
 import TICKET_MACHINE_ABI  from 'constants/abis/ticket-machine.json';
 import POOL_ABI from 'constants/abis/pools.json'
 import { Contract, ContractFactory } from 'ethers';
-import { useAccount, useChain, useNetwork, useProvider, useSigner } from 'hooks';
+import { useAccount, useChain, useDynamicChain, useNetwork, useProvider, useSigner } from 'hooks';
 import { useMemo } from 'react';
 import { getContract, getContractFactory } from 'utils/contract';
 import {
@@ -42,6 +42,28 @@ export function useContract<T extends Contract = Contract>(
   withSignerIfPossible = true,
 ): T | null {
   const { chainId, signer, provider, account } = useChain();
+  return useMemo(() => {
+    if (!addressOrAddressMap || !ABI || !provider || !chainId) return null;
+    let contractAddress: string | undefined;
+    if (typeof addressOrAddressMap === 'string') contractAddress = addressOrAddressMap;
+    else contractAddress = addressOrAddressMap[chainId];
+    if (!contractAddress) return null;
+    try {
+      return getContract(contractAddress, ABI, withSignerIfPossible && account ? signer : provider);
+    } catch (error) {
+      console.error('Failed to get contract', error);
+      return null;
+    }
+  }, [addressOrAddressMap, ABI, provider, chainId, withSignerIfPossible, account, signer]) as T;
+}
+
+export function useDynamicChainContract<T extends Contract = Contract>(
+  addressOrAddressMap: string | { [chainId: number]: string } | undefined,
+  inputChainId: number,
+  ABI: any,
+  withSignerIfPossible = true,
+): T | null {
+  const { chainId, signer, provider, account } = useDynamicChain(inputChainId);
 
   return useMemo(() => {
     if (!addressOrAddressMap || !ABI || !provider || !chainId) return null;
@@ -166,6 +188,6 @@ export function useBionTicket() {
 export function useTicketMachine() {
   return useContract(TICKET_MACHINE_ADDRESS, TICKET_MACHINE_ABI, true);
 }
-export function usePoolContract(address: AddressMap | string) {
-  return useContract(address, POOL_ABI, true);
+export function usePoolContract(address: AddressMap | string, chainId: number) {
+  return useDynamicChainContract(address, chainId , POOL_ABI, true);
 }

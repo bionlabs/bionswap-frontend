@@ -16,14 +16,10 @@ import CurrencyLogo from 'components/CurrencyLogo';
 const LaunchpadTableRow = ({pool , loading}:any) => {
   const [decimals, setDecimals] = useState(18);
   const {chainId} = useChain();
-  const contractData = usePools(pool.address);
-
-
-  // console.log(stakingTokenLogo)
-
+  const contractData = usePools(pool.address, pool.chainId);
 
   return (
-    <Link href={`/earn/${getAddress(pool.address, chainId)}`}>
+    <Link href={`/earn/${pool.chainId}/${pool.address}`}>
         <StyledTableRow>
           <StyledTableCell component="th" scope="row">
             <Stack direction="row" justifyContent="start" spacing={2}>
@@ -39,7 +35,7 @@ const LaunchpadTableRow = ({pool , loading}:any) => {
                 <Typography fontSize="inherit" fontWeight="inherit">
                   {pool.token.symbol}/{pool.quoteToken.symbol}
                 </Typography>
-                <Typography fontSize="12px" color="text.secondary" fontWeight="400">
+                <Typography fontSize="10px" color="text.secondary" fontWeight="400">
                   Classic
                 </Typography>
               </Stack>
@@ -69,7 +65,7 @@ const WrapLogo = styled(Box)`
   aspect-ratio: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
 `;
 
 const Status = styled(Stack)`

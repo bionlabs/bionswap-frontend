@@ -1,15 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect, useCallback } from 'react';
-import { Box, styled, Typography, linearProgressClasses, LinearProgress, Stack, Skeleton } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, styled, Typography, linearProgressClasses, LinearProgress, Stack } from '@mui/material';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import Countdown from './Countdown';
-import { formatEther, formatUnits } from 'ethers/lib/utils';
+import { formatUnits } from 'ethers/lib/utils';
 import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS } from '@bionswap/core-sdk';
 import { useSingleCallResult, useToken } from 'hooks';
 import { usePresaleContract } from 'hooks/useContract';
-import { BsStarFill, BsStarHalf } from 'react-icons/bs';
-import Image from 'next/image';
 
 interface ProjectItemProps {
   data: any;
@@ -24,7 +21,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
   [`& .${linearProgressClasses.bar}`]: {
     borderRadius: 5,
-    backgroundColor: theme.palette.success.main,
+    backgroundColor: theme.palette.primary.main,
   },
 }));
 
@@ -65,69 +62,43 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
   return (
     <Link href={`/launchpad/${data?.saleAddress}`}>
       <WrapBox>
-        {data ? (
-          <Stack
+        <BannerBox
+          sx={{
+            backgroundImage: `url(${data?.banner})`,
+          }}
+        />
+        <Status
+          sx={{
+            backgroundColor: 'primary.main',
+            color: '#FFF',
+            ...(currentTime > startTime && {
+              backgroundColor: 'success.main',
+              color: '#FFF',
+            }),
+            ...(currentTime > endTime && {
+              backgroundColor: (theme) => (theme.palette as any).extra.card.disable,
+              color: 'text.secondary',
+            }),
+          }}
+        >
+          <Typography
             sx={{
-              width: '100%',
-              height: '140px',
-              position: 'relative',
-              img: {
-                objectFit: 'cover',
-                borderRadius: '7px 7px 0 0',
-              },
+              color: 'inherit',
+              fontWeight: '500',
+              fontSize: '10px',
             }}
           >
-            <Box width="100%" height="inherit">
-              <img src={data?.banner} alt={data?.title} width="100%" height="100%" />
-            </Box>
-            <Status
-              sx={{
-                backgroundColor: 'primary.main',
-                color: '#FFF',
-                ...(currentTime > startTime && {
-                  backgroundColor: 'success.main',
-                  color: '#FFF',
-                }),
-                ...(currentTime > endTime && {
-                  backgroundColor: (theme) => (theme.palette as any).extra.card.disable,
-                  color: 'text.secondary',
-                }),
-              }}
-            >
-              <Typography
-                sx={{
-                  color: 'inherit',
-                  fontWeight: '500',
-                  fontSize: '10px',
-                }}
-              >
-                {currentTime < startTime ? 'Coming Soon' : currentTime < endTime ? 'Sale Open' : 'Sale Closed'}
-              </Typography>
-            </Status>
-          </Stack>
-        ) : (
-          <Skeleton width="100%" height="180px" />
-        )}
+            {currentTime < startTime ? 'Coming Soon' : currentTime < endTime ? 'Sale Open' : 'Sale Closed'}
+          </Typography>
+        </Status>
 
-        <WrapTopArea>
-          {data ? (
-            <WrapLogo>
-              <img src={data?.logo} alt={data?.title} />
-            </WrapLogo>
-          ) : (
-            <Skeleton width="80px" height="80px" />
-          )}
-
-          <TimeLineBg>
-            <Stack alignItems="end" width="100%" pr="10px">
-              <Typography color="text.secondary" fontSize="12px">
-                Ended in {endedTime.toLocaleString()}
-              </Typography>
-            </Stack>
-          </TimeLineBg>
-        </WrapTopArea>
-        <Stack width="100%" gap="20px" padding="16px" alignItems="start">
-          <Stack direction="row" width="100%" justifyContent="space-between" spacing={2} alignItems="start">
+        <WrapDetail alignItems="start">
+          <Stack direction="row" width="100%" justifyContent="start" spacing={2} alignItems="center">
+            <WrapTopArea>
+              <WrapLogo>
+                <img src={data?.logo} alt={data?.title} />
+              </WrapLogo>
+            </WrapTopArea>
             <Stack alignItems="start" spacing={1}>
               <Typography
                 sx={{
@@ -143,9 +114,9 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
                 ${data?.tokenMetadata.symbol} token
               </Typography>
             </Stack>
-            <Box>
+            {/* <Box>
               <Image src={`/icons/coins/${unit}.svg`} alt={unit} width="20px" height="20px" />
-            </Box>
+            </Box> */}
           </Stack>
           <Stack spacing={1} width="100%" alignItems="start">
             <Stack direction="row" width="100%" justifyContent="space-between">
@@ -202,7 +173,14 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
           {/* <Footer direction="row">
             <VerifiedTag>Verified</VerifiedTag>
           </Footer> */}
-        </Stack>
+        </WrapDetail>
+        <TimeLineBg>
+          <Stack alignItems="end" width="100%">
+            <Typography color="text.secondary" fontSize="12px" lineHeight={1}>
+              Ended in: {endedTime.toUTCString()}
+            </Typography>
+          </Stack>
+        </TimeLineBg>
       </WrapBox>
     </Link>
   );
@@ -215,7 +193,7 @@ const WrapBox = styled(Box)`
   border-radius: 8px;
   background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   box-shadow: ${(props) => (props.theme.palette as any).extra.card.boxShadow};
-  border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
+
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -226,34 +204,56 @@ const WrapBox = styled(Box)`
     transform-style: preserve-3d;
   }
 `;
+const BannerBox = styled(Box)`
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-top: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
+  border-right: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
+  border-left: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
+  border-radius: 8px 8px 0 0;
+`;
+const WrapDetail = styled(Stack)`
+  border-left: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
+  border-right: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
+  width: 100%;
+  gap: 20px;
+  padding: 16px;
+`;
 const WrapLogo = styled(Box)`
-  border: 4px solid ${(props) => (props.theme.palette as any).extra.card.background};
-  background-color: ${(props) => (props.theme.palette as any).background.default};
+  // border: 4px solid ${(props) => (props.theme.palette as any).extra.card.background};
+  // background-color: ${(props) => (props.theme.palette as any).background.default};
   border-radius: 8px;
   position: relative;
   width: fit-content;
-  margin-left: 12px;
+  // margin-left: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
 
   img {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     object-fit: cover;
     border-radius: 6px;
   }
 `;
 const WrapTopArea = styled(Box)`
-  margin-top: -38px;
-  margin-bottom: 15px;
+  // margin-top: -38px;
+  // margin-bottom: 15px;
 `;
 const TimeLineBg = styled(Stack)`
   background: ${(props) => (props.theme.palette as any).extra.card.light};
   width: 100%;
-  height: 32px;
-  padding: 0 6px;
-  margin-top: -50px;
+  height: auto;
+  padding: 10px 16px;
+  border-bottom: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
+  border-right: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
+  border-left: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
+  border-radius: 0 0 8px 8px;
 `;
 const Status = styled(Box)`
   position: absolute;
@@ -272,15 +272,6 @@ const Footer = styled(Stack)`
   border-top: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
   padding: 10px 0 0;
   justify-content: start;
-`;
-const VerifiedTag = styled(Stack)`
-  background-color: ${(props) => props.theme.palette.primary.main};
-  color: #fff;
-  padding: 8px 10px;
-  border-radius: 4px;
-  line-height: 1;
-  font-size: 10px;
-  font-weight: 500;
 `;
 
 export default Card;

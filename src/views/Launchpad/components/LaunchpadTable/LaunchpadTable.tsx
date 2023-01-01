@@ -95,13 +95,13 @@ const StyledTableWrapper = styled(Paper)`
   width: 100%;
   background-color: ${(props) => (props.theme.palette as any).extra.table.background};
   background-image: none;
-  // border-radius: 4px;
-  border: 1px solid ${(props) => (props.theme.palette as any).extra.table.divider};
+  border-radius: 8px;
+  // border: 1px solid ${(props) => (props.theme.palette as any).extra.table.divider};
   .MuiTablePagination-root {
     background-color: ${(props) => (props.theme.palette as any).extra.table.background};
     :last-child {
-      // border-bottom-left-radius: 4px;
-      // border-bottom-right-radius: 4px;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
     }
   }
   .MuiTableBody-root .MuiTableRow-root {
