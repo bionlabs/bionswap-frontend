@@ -11,6 +11,8 @@ import {
   Select,
   styled,
   Typography,
+  Stack,
+  Divider,
 } from '@mui/material';
 import CreateTokenModal from 'components/CreateTokenModal';
 import { ethers } from 'ethers';
@@ -20,6 +22,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { setPresaleForm } from 'state/presale/action';
 import Joi, { CustomHelpers, CustomValidator } from 'joi';
 import HeaderSection from '../HeaderSection';
+import { DescribeText, ErrorLabel, InputCustom, NextBackButton, RequireSymbol, Title, TitleText, WrapLine } from '..';
 
 const currencyOpts = [
   {
@@ -88,7 +91,6 @@ const Step02 = ({ data, setData, onNextStep, onBackStep }: any) => {
         currency: Joi.string().required().label('Currency'),
         saleFee: Joi.required().label('Sale fee option'),
       });
-
 
       const value = await schemaStep02.validateAsync(
         {
@@ -179,27 +181,21 @@ const Step02 = ({ data, setData, onNextStep, onBackStep }: any) => {
       <HeaderSection data={data} activeStep={1} onBackStep={onBackStep} onNextStep={handleNextStep} />
       <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
         <FlexBox flexDirection="column" alignItems="center">
-          <Typography variant="h3" color="text.primary" fontWeight="400">
-            2. Verify token
-          </Typography>
-          <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
-            Enter the token address and verify
-          </Typography>
+          <Title>2. Verify token</Title>
+          <Typography color="text.secondary">Enter the token address and verify</Typography>
         </FlexBox>
         <FlexBox flexDirection="column">
           <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                Token contract
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                You don’t have one? <Button onClick={handleOpenModal}>Create token now</Button>
-              </Typography>
+              <TitleText>Token contract</TitleText>
+              <DescribeText>
+                You don&apos;t have one? <Button onClick={handleOpenModal}>Create token now</Button>
+              </DescribeText>
             </WrapDescription>
             <WrapValue>
               <WrapForm fullWidth>
-                <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-                  Contract <RequireSymbol component="span">*</RequireSymbol>
+                <Typography component="label" fontWeight="500">
+                  Contract <RequireSymbol>*</RequireSymbol>
                 </Typography>
                 <InputCustom
                   fullWidth
@@ -208,55 +204,47 @@ const Step02 = ({ data, setData, onNextStep, onBackStep }: any) => {
                   onChange={handleChangeInput('tokenContract')}
                   placeholder="Enter contract token"
                 />
-                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                  {parseErrorMessage('tokenContract')}
-                </Typography>
+                <ErrorLabel>{parseErrorMessage('tokenContract')}</ErrorLabel>
               </WrapForm>
               {tokenContract && (
-                <FlexBox flexDirection="column" gap="9px">
+                <Stack width="100%" spacing={1} divider={<Divider flexItem />}>
                   <ContractItem>
-                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                    <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                       Name
                     </Typography>
-                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                    <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                       {tokenContract?.name}
                     </Typography>
                   </ContractItem>
-                  <Line />
                   <ContractItem>
-                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                    <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                       Symbol
                     </Typography>
-                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                    <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                       {tokenContract?.symbol}
                     </Typography>
                   </ContractItem>
-                  <Line />
                   <ContractItem>
-                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                    <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                       Decimal
                     </Typography>
-                    <Typography variant="body4Poppins" color="gray.400" fontWeight="400">
+                    <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                       {tokenContract?.decimals}
                     </Typography>
                   </ContractItem>
-                </FlexBox>
+                </Stack>
               )}
             </WrapValue>
           </WrapLine>
           <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                Which currency will you want to take
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                Users will pay with the currency they choose for your token
-              </Typography>
+              <TitleText>Which currency will you want to take</TitleText>
+              <DescribeText>Users will pay with the currency they choose for your token</DescribeText>
             </WrapDescription>
             <WrapValue>
               <FormControl fullWidth>
-                <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-                  Currency <RequireSymbol component="span">*</RequireSymbol>
+                <Typography component="label" fontWeight="500" mb="10px">
+                  Currency <RequireSymbol>*</RequireSymbol>
                 </Typography>
                 <Select
                   value={data.currency}
@@ -278,19 +266,10 @@ const Step02 = ({ data, setData, onNextStep, onBackStep }: any) => {
               </FormControl>
             </WrapValue>
           </WrapLine>
-          <WrapLine
-            sx={{
-              borderBottom: '1px solid',
-              borderColor: 'gray.600',
-            }}
-          >
+          <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                Sale fee option
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                This is the fee that you are required to pay to veify your token.
-              </Typography>
+              <TitleText>Sale fee option</TitleText>
+              <DescribeText>This is the fee that you are required to pay to veify your token.</DescribeText>
             </WrapDescription>
             <WrapValue>
               <FormControl fullWidth>
@@ -306,11 +285,7 @@ const Step02 = ({ data, setData, onNextStep, onBackStep }: any) => {
                       key={item.value}
                       value={item.value}
                       label={
-                        <Typography
-                          variant="body4Poppins"
-                          color={data.saleFee == item.value ? 'gray.300' : 'gray.700'}
-                          fontWeight="400"
-                        >
+                        <Typography color={data.saleFee == item.value ? 'text.primary' : 'text.secondary'}>
                           {item.label}
                         </Typography>
                       }
@@ -335,16 +310,12 @@ const Step02 = ({ data, setData, onNextStep, onBackStep }: any) => {
           </WrapLine>
         </FlexBox>
         <FlexBox justifyContent="flex-end" gap="14px">
-          <Back onClick={onBackStep}>
-            <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
-              Back
-            </Typography>
-          </Back>
-          <Next onClick={handleNextStep}>
-            <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-              Next
-            </Typography>
-          </Next>
+          <NextBackButton variant="contained" onClick={onBackStep}>
+            Back
+          </NextBackButton>
+          <NextBackButton variant="contained" onClick={handleNextStep}>
+            Next
+          </NextBackButton>
         </FlexBox>
       </FlexBox>
       <CreateTokenModal
@@ -360,14 +331,7 @@ const Step02 = ({ data, setData, onNextStep, onBackStep }: any) => {
 const FlexBox = styled(Box)`
   display: flex;
 `;
-const WrapLine = styled(Box)`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  padding: 30px 0;
-  border-top: 1px solid;
-  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
-`;
+
 const WrapDescription = styled(Box)`
   display: flex;
   flex-direction: column;
@@ -381,29 +345,11 @@ const WrapValue = styled(Box)`
   flex-direction: column;
   gap: 24px;
 `;
-const Next = styled(Button)`
-  max-width: 200px;
-  width: 100%;
-  height: 45px;
-  align-item: center;
-  justify-content: center;
-  display: flex;
-  background-color: ${(props) => props.theme.palette.primary.main};
-  border-radius: 4px;
-`;
-const Back = styled(Button)`
-  max-width: 200px;
-  width: 100%;
-  height: 45px;
-  align-item: center;
-  justify-content: center;
-  display: flex;
-  background-color: rgba(7, 224, 224, 0.15);
-  border-radius: 4px;
-`;
+
 const ContractItem = styled(Box)`
   display: flex;
   justify-content: space-between;
+  width: 100%;
 `;
 const Line = styled(Box)`
   background-color: ${(props) => (props.theme.palette as any).extra.card.divider};
@@ -414,48 +360,6 @@ const WrapForm = styled(FormControl)`
   display: flex;
   flex-direction: column;
   gap: 6px;
-`;
-const InputCustom = styled(OutlinedInput)`
-  fieldset {
-    display: none;
-  }
-
-  input {
-    font-family: 'Poppins', sans-serif;
-    padding: 12px 16px;
-    border: 1px solid;
-    border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
-    border-radius: 4px;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 180%;
-    color: ${(props) => props.theme.palette.text.primary};
-
-    &::placeholder {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 180%;
-      color: ${(props) => props.theme.palette.text.secondary};
-      opacity: 1;
-    }
-  }
-
-  &.Mui-focused {
-    input {
-      border-color: #9a6aff;
-      box-shadow: rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px,
-        rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-    }
-  }
-
-  &.onError {
-    input {
-      box-shadow: none;
-    }
-  }
-`;
-const RequireSymbol = styled(Box)`
 `;
 
 export default Step02;

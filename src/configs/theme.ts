@@ -165,7 +165,7 @@ export const lightPalette: ExtendedPaletteOptions = {
       disable: '#D6DADE',
     },
     background: {
-      alt: '#f2f5fa',
+      alt: '#f5f5f5',
       linear: '#FFF',
       secondary: '#f8f8f8'
     },

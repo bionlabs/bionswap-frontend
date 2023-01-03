@@ -72,8 +72,7 @@ const Next = styled(LoadingButton)`
   border-radius: 4px;
 `;
 const Preview = styled(Button)`
-  width: 140px;
-  height: 35px;
+  border-radius: 4px;
 `;
 
 export default HeaderSection;

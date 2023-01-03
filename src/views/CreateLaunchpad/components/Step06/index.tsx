@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Box, Typography, styled, Button } from '@mui/material';
+import { Box, Typography, styled, Button, Stack } from '@mui/material';
 import { useToken } from 'hooks/useToken';
 import { withCatch } from 'utils/error';
 import { useChain } from 'hooks';
@@ -10,9 +10,12 @@ import { useRouter } from 'next/router';
 import { LoadingButton } from '@mui/lab';
 import HeaderSection from '../HeaderSection';
 import { clearPresaleForm } from 'state/presale/action';
+import { DescribeText, NextBackButton, Title, TitleText, WrapLine } from '..';
+import {IoCopyOutline} from 'react-icons/io5'
+import Link from 'next/link';
 
 const Description = ({ html }: any) => {
-  return <Box dangerouslySetInnerHTML={{ __html: html }} />;
+  return <Box mt='20px' p='0 16px' dangerouslySetInnerHTML={{ __html: html }} />;
 };
 
 export const minimizeAddressSmartContract = (str: string) => {
@@ -275,22 +278,22 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
         isReady={isReady}
       />
       {onpenDescription ? (
-        <Box>
-          <FlexBox onClick={showDescription} sx={{ cursor: 'pointer' }} gap="16px">
+        <Box pt="20px" pb="40px">
+          <Stack direction='row' onClick={showDescription} sx={{ cursor: 'pointer' }} spacing={2} justifyContent='start'>
             <img src="/icons/keyboard_arrow_left.svg" alt="keyboard_arrow_left" />
-            <Typography variant="h3" fontWeight="500" color="text.primary">
+            <Typography fontSize='24px' lineHeight={1} fontWeight="500" color="text.primary">
               Description
             </Typography>
-          </FlexBox>
+          </Stack>
           <Description html={data.description} />
         </Box>
       ) : (
         <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
           <FlexBox flexDirection="column" alignItems="center">
-            <Typography variant="h3" color="text.primary" fontWeight="400">
+            <Title>
               6. Preview and Confirm Project
-            </Typography>
-            <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
+            </Title>
+            <Typography color='text.secondary'>
               Get ready to launch your project
             </Typography>
           </FlexBox>
@@ -298,18 +301,18 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
             {projectReview.map((item) => (
               <WrapLine key={item.head}>
                 <WrapDescription>
-                  <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
+                  <TitleText>
                     {item.head}
-                  </Typography>
-                  <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+                  </TitleText>
+                  <DescribeText>
                     {item.subHead}
-                  </Typography>
+                  </DescribeText>
                 </WrapDescription>
                 <WrapValue>
                   <FlexBox flexDirection="column" gap="12px">
                     {item?.items?.map((i) => (
                       <BoxItem key={i?.label}>
-                        <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                        <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                           {i?.label}
                         </Typography>
                         {i.label === 'Address' ? (
@@ -317,10 +320,10 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
                             <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
                               {minimizeAddressSmartContract(i?.value)}
                             </Typography>
-                            <img src="/icons/content_copy.svg" alt="content_copy" />
+                            <IoCopyOutline />
                           </FlexBox>
                         ) : item.head === 'Community' ? (
-                          <a href={i?.value} target="_blank" rel="noreferrer">
+                          <Link href={i?.value} target="_blank">
                             <Typography
                               variant="body4Poppins"
                               color="text.primary"
@@ -329,7 +332,7 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
                             >
                               {i?.value}
                             </Typography>
-                          </a>
+                          </Link>
                         ) : (
                           <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
                             {i?.value}
@@ -338,7 +341,7 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
                       </BoxItem>
                     ))}
                     {item?.description && (
-                      <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                      <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                         {item?.description}
                         <Button onClick={showDescription}>
                           <Typography variant="body4Poppins" color="text.primary" fontWeight="400">
@@ -358,13 +361,13 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
                 <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
                   Fee
                 </Typography>
-                <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                   All the fees you have to pay for create launchpad
                 </Typography>
               </FlexBox>
               <FlexBox flexDirection="column" mt="32px" gap="8px">
                 <BoxItem>
-                  <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                  <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                     Pool create fee
                   </Typography>
                   <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
@@ -373,7 +376,7 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
                 </BoxItem>
                 {data?.saleFee === '0' ? (
                   <BoxItem>
-                    <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                    <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                       5% {data?.currency} raised only
                     </Typography>
                     <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
@@ -383,7 +386,7 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
                 ) : (
                   <>
                     <BoxItem>
-                      <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                      <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                         2% {data?.currency} rasied
                       </Typography>
                       <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
@@ -391,7 +394,7 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
                       </Typography>
                     </BoxItem>
                     <BoxItem>
-                      <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                      <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                         2% {tokenContract?.symbol} sold
                       </Typography>
                       <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
@@ -407,13 +410,13 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
                 <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
                   Token for sale
                 </Typography>
-                <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                   Number of tokens for sale and add liquidity
                 </Typography>
               </FlexBox>
               <FlexBox flexDirection="column" mt="32px" gap="8px">
                 <BoxItem>
-                  <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                  <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                     {tokenContract?.symbol} for sale
                   </Typography>
                   <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
@@ -423,7 +426,7 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
                 {data.listing === '1' && (
                   <>
                     <BoxItem>
-                      <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                      <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                         {tokenContract?.symbol} for add liquidity
                       </Typography>
                       <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
@@ -432,7 +435,7 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
                     </BoxItem>
 
                     <BoxItem>
-                      <Typography variant="body4Poppins" color="#717D8A" fontWeight="400">
+                      <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                         {data?.currency} for add liquidity
                       </Typography>
                       <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
@@ -445,16 +448,12 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
             </WrapTag>
           </FlexBox>
           <FlexBox justifyContent="flex-end" gap="14px">
-            <Back onClick={onBackStep}>
-              <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
-                Back
-              </Typography>
-            </Back>
-            <Next onClick={() => handleCreateSale(data)} disabled={loadingSubmit || !isReady} sx={{}}>
-              <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-                {loadingSubmit ? 'Loading…' : 'Submit'}
-              </Typography>
-            </Next>
+            <NextBackButton variant='contained' onClick={onBackStep}>
+              Back
+            </NextBackButton>
+            <NextBackButton variant='contained' onClick={() => handleCreateSale(data)} disabled={loadingSubmit || !isReady} sx={{}}>
+              {loadingSubmit ? 'Loading…' : 'Submit'}
+            </NextBackButton>
           </FlexBox>
         </FlexBox>
       )}
@@ -465,14 +464,7 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
 const FlexBox = styled(Box)`
   display: flex;
 `;
-const WrapLine = styled(Box)`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  padding: 30px 0;
-  border-top: 1px solid;
-  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
-`;
+
 const WrapDescription = styled(Box)`
   display: flex;
   flex-direction: column;
@@ -486,32 +478,7 @@ const WrapValue = styled(Box)`
   flex-direction: column;
   gap: 24px;
 `;
-const Next = styled(LoadingButton)`
-  max-width: 200px;
-  width: 100%;
-  height: 45px;
-  align-item: center;
-  justify-content: center;
-  display: flex;
-  background-color: ${(props) => props.theme.palette.primary.main};
-  border-radius: 4px;
 
-  &.Mui-disabled {
-    color: rgba(255, 255, 255, 0.3);
-    box-shadow: none;
-    background-color: rgba(255, 255, 255, 0.12);
-  }
-`;
-const Back = styled(Button)`
-  max-width: 200px;
-  width: 100%;
-  height: 45px;
-  align-item: center;
-  justify-content: center;
-  display: flex;
-  background-color: rgba(7, 224, 224, 0.15);
-  border-radius: 4px;
-`;
 const BoxItem = styled(Box)`
   display: flex;
   justify-content: space-between;
@@ -521,9 +488,9 @@ const BoxItem = styled(Box)`
   border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
 `;
 const WrapTag = styled(Box)`
-  border: 1px solid #373f47;
+  border: 1px solid ${props => (props.theme.palette as any).extra.card.divider};
   border-radius: 4px;
-  background: #0c1620;
+  background: ${props => (props.theme.palette as any).extra.card.light};
   padding: 20px;
   width: 50%;
 `;
