@@ -14,6 +14,7 @@ import NotSupportSection from 'components/NotSupportSection';
 import { ChainId } from '@bionswap/core-sdk';
 import { useChain, useCurrencyBalance, useToken } from 'hooks';
 import ConnectWalletSection from './components/ConnectWalletSection';
+import Page from 'components/Page';
 
 const CreateLaunchpad = () => {
   const { chainId, account } = useChain();
@@ -41,7 +42,7 @@ const CreateLaunchpad = () => {
   };
 
   return (
-    <Section>
+    <Page>
       {ChainId.BSC_TESTNET !== chainId ? (
         <NotSupportSection />
       ) : !account ? (
@@ -49,7 +50,7 @@ const CreateLaunchpad = () => {
       ) : (
         <>
           <Container maxWidth="lg">
-            <Box sx={{ width: '100%' }} pt="150px">
+            <Box sx={{ width: '100%' }}>
               <WrapStep sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Stepper activeStep={activeStep}>
                   {steps.map((item, index) => {
@@ -57,11 +58,9 @@ const CreateLaunchpad = () => {
                       <StepCustom key={item.title} className={activeStep === index ? 'activeStep' : ''}>
                         <FlexBox flexDirection="column" gap="13px" alignItems="center">
                           <Typography
-                            variant="body4Poppins"
                             textTransform="uppercase"
-                            fontWeight={activeStep === index ? '500' : '400'}
-                            color={activeStep === index ? 'primary.main' : 'gray.600'}
-                            fontStyle="initial"
+                            fontWeight={activeStep === index ? '600' : '400'}
+                            color={activeStep === index ? 'primary.main' : 'text.secondary'}
                           >
                             {item.step}. {item.title}
                           </Typography>
@@ -101,16 +100,12 @@ const CreateLaunchpad = () => {
           </Container>
         </>
       )}
-    </Section>
+    </Page>
   );
 };
 
 const FlexBox = styled(Box)`
   display: flex;
-`;
-const Section = styled(Box)`
-  background-color: ${(props) => props.theme.palette.background.default};
-  min-height: 100vh;
 `;
 const WapIcon = styled(Box)`
   width: 34px;
@@ -154,7 +149,7 @@ const StepCustom = styled(Step)`
 
   &.Mui-completed {
     span {
-      color: ${(props) => props.theme.palette.gray[400]};
+      color: ${(props) => props.theme.palette.text.secondary};
     }
 
     .MuiBox-root {

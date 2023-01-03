@@ -83,7 +83,7 @@ const WrapLine = styled(Box)`
   border-top: 1px solid;
   flex-direction: column;
   gap: 50px;
-  border-color: ${(props) => props.theme.palette.gray[600]};
+  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
 `;
 const WrapDescription = styled(Box)`
   display: flex;
