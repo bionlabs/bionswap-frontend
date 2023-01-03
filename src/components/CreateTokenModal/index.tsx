@@ -20,6 +20,7 @@ import { parseEther } from 'ethers/lib/utils';
 import { useChain } from 'hooks';
 import { useStandardTokenContractFactory } from 'hooks/useContract';
 import { useCallback, useState } from 'react';
+import { ErrorLabel, InputCustom, RequireSymbol } from 'views/CreateLaunchpad/components';
 
 const tokenTypes = [
   {
@@ -119,7 +120,7 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
       sx={{
         padding: '24px',
         maxWidth: '556px',
-        width: '100%',
+        width: '90%',
         height: '90vh',
         overflowY: 'auto',
       }}
@@ -131,12 +132,12 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
         <Typography variant="h6Poppins" color="text.primary" fontWeight="500">
           Create token
         </Typography>
-        <Typography variant="body4Poppins" color="red.500" fontWeight="500">
+        <Typography variant="body4Poppins" color="error.main" fontWeight="500">
           (*) is required field.
         </Typography>
         <WrapForm fullWidth>
-          <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-            Token Type <RequireSymbol component="span">*</RequireSymbol>
+          <Typography component="label" fontWeight="500">
+            Token Type <RequireSymbol>*</RequireSymbol>
           </Typography>
           {/* <InputCustom fullWidth
                         className={parseErrorMessage('tokenType') ? 'onError' : ''}
@@ -155,16 +156,16 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
               </MenuItem>
             ))}
           </Select>
-          <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+          <ErrorLabel>
             {parseErrorMessage('tokenType')}
-          </Typography>
+          </ErrorLabel>
           <Typography variant="captionPoppins" color="primary.main" fontWeight="400">
             Fee: {TOKEN_CREATION_FEE[chainId]} {NATIVE[chainId].symbol}
           </Typography>
         </WrapForm>
         <WrapForm fullWidth>
-          <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-            Name <RequireSymbol component="span">*</RequireSymbol>
+          <Typography component="label" fontWeight="500">
+            Name <RequireSymbol>*</RequireSymbol>
           </Typography>
           <InputCustom
             fullWidth
@@ -173,13 +174,13 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
             onChange={handleChange('name')}
             placeholder="Enter token name"
           />
-          <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+          <ErrorLabel>
             {parseErrorMessage('name')}
-          </Typography>
+          </ErrorLabel>
         </WrapForm>
         <WrapForm fullWidth>
-          <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-            Symbol <RequireSymbol component="span">*</RequireSymbol>
+          <Typography component="label" fontWeight="500">
+            Symbol <RequireSymbol>*</RequireSymbol>
           </Typography>
           <InputCustom
             fullWidth
@@ -188,13 +189,13 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
             onChange={handleChange('symbol')}
             placeholder="Enter token symbol"
           />
-          <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+          <ErrorLabel>
             {parseErrorMessage('symbol')}
-          </Typography>
+          </ErrorLabel>
         </WrapForm>
         <WrapForm fullWidth>
-          <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-            Decimals <RequireSymbol component="span">*</RequireSymbol>
+          <Typography component="label" fontWeight="500">
+            Decimals <RequireSymbol>*</RequireSymbol>
           </Typography>
           <InputCustom
             type="number"
@@ -204,13 +205,13 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
             onChange={handleChange('decimal')}
             placeholder="Enter decimal"
           />
-          <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+          <ErrorLabel>
             {parseErrorMessage('decimal')}
-          </Typography>
+          </ErrorLabel>
         </WrapForm>
         <WrapForm fullWidth>
-          <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-            Total supply <RequireSymbol component="span">*</RequireSymbol>
+          <Typography component="label" fontWeight="500">
+            Total supply <RequireSymbol>*</RequireSymbol>
           </Typography>
           <InputCustom
             type="number"
@@ -220,9 +221,9 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
             onChange={handleChange('totalSupply')}
             placeholder="Enter token supply"
           />
-          <Typography variant="captionPoppins" color="red.500" fontWeight="400">
+          <ErrorLabel>
             {parseErrorMessage('totalSupply')}
-          </Typography>
+          </ErrorLabel>
         </WrapForm>
         <FormGroup>
           <FormControlLabel
@@ -234,10 +235,8 @@ const CreateTokenModal = ({ open, onDismiss, onTokenCreated }: any) => {
             }
           />
         </FormGroup>
-        <CreateToken onClick={onCreateToken} disabled={isCreating}>
-          <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-            {isCreating ? 'Creating Token...' : 'Create Token'}
-          </Typography>
+        <CreateToken variant='contained' onClick={onCreateToken} disabled={isCreating}>
+          {isCreating ? 'Creating Token...' : 'Create Token'}
         </CreateToken>
       </FlexBox>
     </BaseModal>
@@ -252,67 +251,14 @@ const WrapForm = styled(FormControl)`
   flex-direction: column;
   gap: 6px;
 `;
-const RequireSymbol = styled(Box)`
-  color: ${(props) => props.theme.palette.red[500]};
-`;
-const InputCustom = styled(OutlinedInput)`
-  fieldset {
-    display: none;
-  }
 
-  input {
-    font-family: 'Poppins', sans-serif;
-    padding: 12px 16px;
-    border: 1px solid;
-    border-color: ${(props) => props.theme.palette.gray[700]};
-    border-radius: 4px;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 180%;
-    color: ${(props) => props.theme.palette.text.primary};
-
-    &::placeholder {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 180%;
-      color: ${(props) => props.theme.palette.gray[700]};
-      opacity: 1;
-    }
-  }
-
-  &.Mui-focused {
-    input {
-      border-color: #9a6aff;
-      box-shadow: rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px,
-        rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-    }
-  }
-
-  &.onError {
-    input {
-      border-color: ${(props) => props.theme.palette.red[500]};
-      box-shadow: none;
-    }
-  }
-`;
 const CheckboxCustom = styled(Checkbox)`
-  color: ${(props) => props.theme.palette.gray[400]};
+  color: ${(props) => props.theme.palette.text.primary};
 `;
 const CreateToken = styled(Button)`
   width: 100%;
   height: 52px;
-  align-item: center;
-  justify-content: center;
-  display: flex;
-  background-color: ${(props) => props.theme.palette.primary.main};
   border-radius: 4px;
-
-  &.Mui-disabled {
-    color: rgba(255, 255, 255, 0.3);
-    box-shadow: none;
-    background-color: rgba(255, 255, 255, 0.12);
-  }
 `;
 
 export default CreateTokenModal;

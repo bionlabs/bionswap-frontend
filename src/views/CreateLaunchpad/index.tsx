@@ -48,7 +48,7 @@ const CreateLaunchpad = () => {
       ) : !account ? (
         <ConnectWalletSection />
       ) : (
-        <>
+        <Box p='4rem 0'>
           <Container maxWidth="lg">
             <Box sx={{ width: '100%' }}>
               <WrapStep sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -98,7 +98,7 @@ const CreateLaunchpad = () => {
               )}
             </Box>
           </Container>
-        </>
+        </Box>
       )}
     </Page>
   );

@@ -11,12 +11,14 @@ import {
   Radio,
   TextField,
 } from '@mui/material';
+import { BsLightbulb } from 'react-icons/bs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { setPresaleForm } from 'state/presale/action';
 import Joi, { CustomHelpers, CustomValidator } from 'joi';
 import HeaderSection from '../HeaderSection';
+import { CurrencyText, DescribeText, ErrorLabel, InputCustom, NextBackButton, RequireSymbol, Title, TitleText, WrapLine } from '..';
 
 const whitelistOpts = [
   {
@@ -262,27 +264,21 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
       <HeaderSection data={data} activeStep={2} onBackStep={onBackStep} onNextStep={handleNextStep} />
       <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
         <FlexBox flexDirection="column" alignItems="center">
-          <Typography variant="h3" color="text.primary" fontWeight="400">
-            3. Pool sale info
-          </Typography>
-          <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
+          <Title>3. Pool sale info</Title>
+          <Typography color="text.secondary">
             Enter the launchpad information that you want to raise , that should be enter all details about your presale
           </Typography>
         </FlexBox>
         <FlexBox flexDirection="column">
           <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                At which price are you want to sale
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                The rate of currency that buyers have to pay for your token.
-              </Typography>
+              <TitleText>At which price are you want to sale</TitleText>
+              <DescribeText>The rate of currency that buyers have to pay for your token.</DescribeText>
             </WrapDescription>
             <WrapValue>
               <WrapForm fullWidth>
-                <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-                  Token price <RequireSymbol component="span">*</RequireSymbol>
+                <Typography component="label" fontWeight="500">
+                  Token price <RequireSymbol>*</RequireSymbol>
                 </Typography>
                 <InputCustom
                   fullWidth
@@ -293,27 +289,21 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                   type="number"
                   startAdornment={
                     <WrapStartAdornment>
-                      <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
-                        {data.currency}
-                      </Typography>
+                      <CurrencyText>{data.currency}</CurrencyText>
                     </WrapStartAdornment>
                   }
                 />
-                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                  {parseErrorMessage('tokenPrice')}
-                </Typography>
+                <ErrorLabel>{parseErrorMessage('tokenPrice')}</ErrorLabel>
               </WrapForm>
             </WrapValue>
           </WrapLine>
           <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                Whitelist
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+              <TitleText>Whitelist</TitleText>
+              <DescribeText>
                 Choose &ldquo;Enable&ldquo; if you have a whitelist of presale contributors. You can enable/disable
                 whitelist anytime
-              </Typography>
+              </DescribeText>
             </WrapDescription>
             <WrapValue>
               <FormControl fullWidth>
@@ -325,7 +315,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                       label={
                         <Typography
                           variant="body4Poppins"
-                          color={data.whitelist == item.value ? 'gray.300' : 'gray.700'}
+                          color={data.whitelist == item.value ? 'text.primary' : 'text.secondary'}
                           fontWeight="400"
                         >
                           {item.label}
@@ -334,9 +324,9 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                       control={
                         <Radio
                           sx={{
-                            color: 'gray.700',
+                            color: 'text.secondary',
                             '&.Mui-checked': {
-                              color: 'blue.500',
+                              color: 'primary.main',
                             },
                           }}
                         />
@@ -345,25 +335,19 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                   ))}
                 </RadioGroup>
               </FormControl>
-              <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                {parseErrorMessage('whitelist')}
-              </Typography>
+              <ErrorLabel>{parseErrorMessage('whitelist')}</ErrorLabel>
             </WrapValue>
           </WrapLine>
           <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                How much are you looking to raise with Bionswap?
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                Set an achievable goal that covers what you need to complete your project.
-              </Typography>
+              <TitleText>How much are you looking to raise with Bionswap?</TitleText>
+              <DescribeText>Set an achievable goal that covers what you need to complete your project.</DescribeText>
             </WrapDescription>
             <WrapValue gap="10px !important">
               <FlexBox justifyContent="space-between">
                 <WrapForm fullWidth sx={{ maxWidth: '300px', width: '100%' }}>
-                  <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-                    Minimum goal <RequireSymbol component="span">*</RequireSymbol>
+                  <Typography component="label" fontWeight="500">
+                    Minimum goal <RequireSymbol>*</RequireSymbol>
                   </Typography>
                   <InputCustom
                     fullWidth
@@ -374,20 +358,16 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                     type="number"
                     startAdornment={
                       <WrapStartAdornment>
-                        <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
-                          {data.currency}
-                        </Typography>
+                        <CurrencyText>{data.currency}</CurrencyText>
                       </WrapStartAdornment>
                     }
                   />
-                  <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                    {parseErrorMessage('minGoal')}
-                  </Typography>
+                  <ErrorLabel>{parseErrorMessage('minGoal')}</ErrorLabel>
                 </WrapForm>
                 <WrapForm fullWidth sx={{ maxWidth: '300px', width: '100%' }}>
-                  <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-                    Maximum goal <RequireSymbol component="span">*</RequireSymbol>
-                  </Typography>
+                  <TitleText>
+                    Maximum goal <RequireSymbol>*</RequireSymbol>
+                  </TitleText>
                   <InputCustom
                     fullWidth
                     className={parseErrorMessage('maxGoal') ? 'onError' : ''}
@@ -397,15 +377,11 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                     type="number"
                     startAdornment={
                       <WrapStartAdornment>
-                        <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
-                          {data.currency}
-                        </Typography>
+                        <CurrencyText>{data.currency}</CurrencyText>
                       </WrapStartAdornment>
                     }
                   />
-                  <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                    {parseErrorMessage('maxGoal')}
-                  </Typography>
+                  <ErrorLabel>{parseErrorMessage('maxGoal')}</ErrorLabel>
                 </WrapForm>
               </FlexBox>
               <Typography
@@ -414,28 +390,24 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                 color="primary.main"
                 sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}
               >
-                <img src="/icons/lightbulb_outline.svg" alt="lightbulb_outline" />
+                <BsLightbulb />
                 Give backers the best first impression of your project with great titles. Learn more...
               </Typography>
-              <Typography variant="body6Poppins" fontWeight="400" color="blue.400">
-                &#8226; Minimum goal must be greater than or equal 50% of Maximum goal
+              <Typography variant="body6Poppins" fontWeight="400" color="primary.main">
+                Minimum goal must be greater than or equal 50% of Maximum goal
               </Typography>
             </WrapValue>
           </WrapLine>
           <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                Sale allocation
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                The limit rate when the buyer want to hold your token
-              </Typography>
+              <TitleText>Sale allocation</TitleText>
+              <DescribeText>The limit rate when the buyer want to hold your token</DescribeText>
             </WrapDescription>
             <WrapValue gap="10px !important">
               <FlexBox justifyContent="space-between">
                 <WrapForm fullWidth sx={{ maxWidth: '300px', width: '100%' }}>
-                  <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-                    Minimum buy <RequireSymbol component="span">*</RequireSymbol>
+                  <Typography component="label" fontWeight="500">
+                    Minimum buy <RequireSymbol>*</RequireSymbol>
                   </Typography>
                   <InputCustom
                     fullWidth
@@ -446,19 +418,15 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                     type="number"
                     startAdornment={
                       <WrapStartAdornment>
-                        <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
-                          {data.currency}
-                        </Typography>
+                        <CurrencyText>{data.currency}</CurrencyText>
                       </WrapStartAdornment>
                     }
                   />
-                  <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                    {parseErrorMessage('minSale')}
-                  </Typography>
+                  <ErrorLabel>{parseErrorMessage('minSale')}</ErrorLabel>
                 </WrapForm>
                 <WrapForm fullWidth sx={{ maxWidth: '300px', width: '100%' }}>
-                  <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-                    Maximum buy <RequireSymbol component="span">*</RequireSymbol>
+                  <Typography component="label" fontWeight="500">
+                    Maximum buy <RequireSymbol>*</RequireSymbol>
                   </Typography>
                   <InputCustom
                     fullWidth
@@ -469,30 +437,24 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                     type="number"
                     startAdornment={
                       <WrapStartAdornment>
-                        <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
-                          {data.currency}
-                        </Typography>
+                        <CurrencyText>{data.currency}</CurrencyText>
                       </WrapStartAdornment>
                     }
                   />
-                  <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                    {parseErrorMessage('maxSale')}
-                  </Typography>
+                  <ErrorLabel>{parseErrorMessage('maxSale')}</ErrorLabel>
                 </WrapForm>
               </FlexBox>
             </WrapValue>
           </WrapLine>
           <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                When would you like to launch?
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                We’ll provide you with recommendations on when to complete steps that may take a few days to process.
+              <TitleText>When would you like to launch?</TitleText>
+              <DescribeText>
+                We will provide you with recommendations on when to complete steps that may take a few days to process.
                 You can edit this date up until the moment you launch your project, which must always be done manually.
-              </Typography>
+              </DescribeText>
             </WrapDescription>
-            <WrapValue gap="10px !important">
+            <WrapValue>
               <WrapForm className={parseErrorMessage('launchTime') ? 'onError datepicker' : 'datepicker'}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
@@ -506,20 +468,16 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                     }}
                   />
                 </LocalizationProvider>
-                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                  {parseErrorMessage('launchTime')}
-                </Typography>
+                <ErrorLabel>{parseErrorMessage('launchTime')}</ErrorLabel>
               </WrapForm>
             </WrapValue>
           </WrapLine>
           <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                Pre-sale end time
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+              <TitleText>Pre-sale end time</TitleText>
+              <DescribeText>
                 Set a time limit for your pre-sale. You won’t be able to change this after you launch.
-              </Typography>
+              </DescribeText>
             </WrapDescription>
             <WrapValue gap="10px !important">
               <WrapForm className={parseErrorMessage('endTime') ? 'onError datepicker' : 'datepicker'}>
@@ -535,22 +493,18 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                     }}
                   />
                 </LocalizationProvider>
-                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                  {parseErrorMessage('endTime')}
-                </Typography>
+                <ErrorLabel>{parseErrorMessage('endTime')}</ErrorLabel>
               </WrapForm>
             </WrapValue>
           </WrapLine>
           <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                Unsold token
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+              <TitleText>Unsold token</TitleText>
+              <DescribeText>
                 After the end of the token sale, the remaining tokens that are not sold can be refunded or burned.
-              </Typography>
+              </DescribeText>
             </WrapDescription>
-            <WrapValue gap="10px !important">
+            <WrapValue>
               <WrapForm>
                 <FormControl fullWidth>
                   <RadioGroup
@@ -565,7 +519,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                         label={
                           <Typography
                             variant="body4Poppins"
-                            color={data.unsoldToken == item.value ? 'gray.300' : 'gray.700'}
+                            color={data.unsoldToken == item.value ? 'text.primary' : 'text.secondary'}
                             fontWeight="400"
                           >
                             {item.label}
@@ -574,9 +528,9 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                         control={
                           <Radio
                             sx={{
-                              color: 'gray.700',
+                              color: 'text.secondary',
                               '&.Mui-checked': {
-                                color: 'blue.500',
+                                color: 'primary.main',
                               },
                             }}
                           />
@@ -585,22 +539,16 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                     ))}
                   </RadioGroup>
                 </FormControl>
-                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                  {parseErrorMessage('unsoldToken')}
-                </Typography>
+                <ErrorLabel>{parseErrorMessage('unsoldToken')}</ErrorLabel>
               </WrapForm>
             </WrapValue>
           </WrapLine>
           <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                Token distribution date
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                Notice to people the date and time that your token will be launched
-              </Typography>
+              <TitleText>Token distribution date</TitleText>
+              <DescribeText>Notice to people the date and time that your token will be launched</DescribeText>
             </WrapDescription>
-            <WrapValue gap="10px !important">
+            <WrapValue>
               <WrapForm className={parseErrorMessage('tokenDistributionTime') ? 'onError datepicker' : 'datepicker'}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
@@ -614,29 +562,24 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                     }}
                   />
                 </LocalizationProvider>
-                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                  {parseErrorMessage('tokenDistributionTime')}
-                </Typography>
+                <ErrorLabel>{parseErrorMessage('tokenDistributionTime')}</ErrorLabel>
               </WrapForm>
             </WrapValue>
           </WrapLine>
           <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                Vesting token
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+              <TitleText>Vesting token</TitleText>
+              <DescribeText>
                 How many tokens will be released each cycle following the First Token Release batch and how long, in
                 days, between each batch of vested tokens is released.
-              </Typography>
+              </DescribeText>
             </WrapDescription>
-            <WrapValue gap="10px !important">
+            <WrapValue>
               <WrapForm>
                 <FormControl fullWidth>
                   <RadioGroup
                     value={data.vestingToken}
                     onChange={handleChangeInput('vestingToken')}
-                    name="radio-buttons-group"
                     sx={{ gap: '25px' }}
                   >
                     {vestingTokens?.map((item) => (
@@ -646,7 +589,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                           label={
                             <Typography
                               variant="body4Poppins"
-                              color={data.vestingToken == item.value ? 'gray.300' : 'gray.700'}
+                              color={data.vestingToken == item.value ? 'text.primary' : 'text.secondary'}
                               fontWeight="400"
                             >
                               {item.label}
@@ -655,15 +598,15 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                           control={
                             <Radio
                               sx={{
-                                color: 'gray.700',
+                                color: 'text.primary',
                                 '&.Mui-checked': {
-                                  color: 'blue.500',
+                                  color: 'primary.main',
                                 },
                               }}
                             />
                           }
                         />
-                        <Typography variant="captionPoppins" color="gray.300">
+                        <Typography variant="captionPoppins" color="text.primary">
                           {item.description}
                         </Typography>
                         {item.value == data.vestingToken && (
@@ -673,12 +616,12 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                             sx={{
                               paddingTop: '24px',
                               marginTop: '24px',
-                              borderTop: '1px solid #373F47',
+                              borderTop: (theme) => `1px solid ${(theme.palette as any).extra.card.divider}`,
                             }}
                           >
                             <WrapForm className={parseErrorMessage('tgeDate') ? 'onError datepicker' : 'datepicker'}>
-                              <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-                                First release date <RequireSymbol component="span">*</RequireSymbol>
+                              <Typography component="label" fontWeight="500">
+                                First release date <RequireSymbol>*</RequireSymbol>
                               </Typography>
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DateTimePicker
@@ -692,20 +635,13 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                                   }}
                                 />
                               </LocalizationProvider>
-                              <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                                {parseErrorMessage('tgeDate')}
-                              </Typography>
+                              <ErrorLabel>{parseErrorMessage('tgeDate')}</ErrorLabel>
                             </WrapForm>
                             {item.value == '1' && data.vestingToken === '1' && (
                               <>
                                 <WrapForm fullWidth>
-                                  <Typography
-                                    component="label"
-                                    variant="body4Poppins"
-                                    color="gray.300"
-                                    fontWeight="500"
-                                  >
-                                    First release percent <RequireSymbol component="span">*</RequireSymbol>
+                                  <Typography component="label" fontWeight="500">
+                                    First release percent <RequireSymbol>*</RequireSymbol>
                                   </Typography>
                                   <InputCustom
                                     fullWidth
@@ -716,14 +652,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                                     type="number"
                                     startAdornment={
                                       <WrapStartAdornment>
-                                        <Typography
-                                          variant="body4Poppins"
-                                          color="#2AC89F"
-                                          fontWeight="400"
-                                          textTransform="uppercase"
-                                        >
-                                          %
-                                        </Typography>
+                                        <CurrencyText>%</CurrencyText>
                                       </WrapStartAdornment>
                                     }
                                   />
@@ -732,13 +661,8 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                                   </Typography>
                                 </WrapForm>
                                 <WrapForm fullWidth>
-                                  <Typography
-                                    component="label"
-                                    variant="body4Poppins"
-                                    color="gray.300"
-                                    fontWeight="500"
-                                  >
-                                    Vesting period each cycle <RequireSymbol component="span">*</RequireSymbol>
+                                  <Typography component="label" fontWeight="500">
+                                    Vesting period each cycle <RequireSymbol>*</RequireSymbol>
                                   </Typography>
                                   <InputCustom
                                     fullWidth
@@ -749,14 +673,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                                     type="number"
                                     startAdornment={
                                       <WrapStartAdornment>
-                                        <Typography
-                                          variant="body4Poppins"
-                                          color="#2AC89F"
-                                          fontWeight="400"
-                                          textTransform="uppercase"
-                                        >
-                                          Days
-                                        </Typography>
+                                        <CurrencyText>Days</CurrencyText>
                                       </WrapStartAdornment>
                                     }
                                   />
@@ -765,13 +682,8 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                                   </Typography>
                                 </WrapForm>
                                 <WrapForm fullWidth>
-                                  <Typography
-                                    component="label"
-                                    variant="body4Poppins"
-                                    color="gray.300"
-                                    fontWeight="500"
-                                  >
-                                    Token release each cycle <RequireSymbol component="span">*</RequireSymbol>
+                                  <Typography component="label" fontWeight="500">
+                                    Token release each cycle <RequireSymbol>*</RequireSymbol>
                                   </Typography>
                                   <InputCustom
                                     fullWidth
@@ -782,20 +694,11 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
                                     type="number"
                                     startAdornment={
                                       <WrapStartAdornment>
-                                        <Typography
-                                          variant="body4Poppins"
-                                          color="#2AC89F"
-                                          fontWeight="400"
-                                          textTransform="uppercase"
-                                        >
-                                          %
-                                        </Typography>
+                                        <CurrencyText>%</CurrencyText>
                                       </WrapStartAdornment>
                                     }
                                   />
-                                  <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                                    {parseErrorMessage('tokenReleaseEachCycle')}
-                                  </Typography>
+                                  <ErrorLabel>{parseErrorMessage('tokenReleaseEachCycle')}</ErrorLabel>
                                 </WrapForm>
                               </>
                             )}
@@ -810,16 +713,12 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
           </WrapLine>
         </FlexBox>
         <FlexBox justifyContent="flex-end" gap="14px">
-          <Back onClick={onBackStep}>
-            <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
-              Back
-            </Typography>
-          </Back>
-          <Next onClick={handleNextStep}>
-            <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-              Next
-            </Typography>
-          </Next>
+          <NextBackButton variant="contained" onClick={onBackStep}>
+            Back
+          </NextBackButton>
+          <NextBackButton variant="contained" onClick={handleNextStep}>
+            Next
+          </NextBackButton>
         </FlexBox>
       </FlexBox>
     </>
@@ -829,14 +728,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
 const FlexBox = styled(Box)`
   display: flex;
 `;
-const WrapLine = styled(Box)`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  padding: 30px 0;
-  border-top: 1px solid;
-  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
-`;
+
 const WrapDescription = styled(Box)`
   display: flex;
   flex-direction: column;
@@ -849,26 +741,6 @@ const WrapValue = styled(Box)`
   display: flex;
   flex-direction: column;
   gap: 24px;
-`;
-const Next = styled(Button)`
-  max-width: 200px;
-  width: 100%;
-  height: 45px;
-  align-item: center;
-  justify-content: center;
-  display: flex;
-  background-color: ${(props) => props.theme.palette.primary.main};
-  border-radius: 4px;
-`;
-const Back = styled(Button)`
-  max-width: 200px;
-  width: 100%;
-  height: 45px;
-  align-item: center;
-  justify-content: center;
-  display: flex;
-  background-color: rgba(7, 224, 224, 0.15);
-  border-radius: 4px;
 `;
 const WrapStartAdornment = styled(Box)`
   max-width: 67px;
@@ -895,12 +767,6 @@ const WrapForm = styled(FormControl)`
       border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
       border-radius: 4px;
 
-      &.Mui-focused {
-        border-color: #9a6aff;
-        box-shadow: rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px,
-          rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-      }
-
       input {
         font-family: 'Poppins', sans-serif;
         padding: 12px 16px;
@@ -914,66 +780,21 @@ const WrapForm = styled(FormControl)`
           font-weight: 400;
           font-size: 14px;
           line-height: 180%;
-          color: ${(props) => (props.theme.palette as any).extra.card.divider};
+          color: ${(props) => props.theme.palette.text.secondary};
           opacity: 1;
         }
       }
     }
-
-    &.onError {
-      .MuiOutlinedInput-root {
-        // border-color: ${(props) => props.theme.palette.red[500]};
-        box-shadow: none;
-      }
-    }
   }
 `;
-const InputCustom = styled(OutlinedInput)`
-  padding: 0;
-  border: 1px solid;
-  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
-  border-radius: 4px;
 
-  fieldset {
-    display: none;
-  }
-
-  input {
-    font-family: 'Poppins', sans-serif;
-    padding: 12px 16px;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 180%;
-    color: ${(props) => props.theme.palette.text.primary};
-
-    &::placeholder {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 180%;
-      color: ${(props) => props.theme.palette.text.secondary};
-      opacity: 1;
-    }
-  }
-
-  &.Mui-focused {
-    border-color: #9a6aff;
-    box-shadow: rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px,
-      rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-  }
-
-  &.onError {
-    box-shadow: none;
-  }
-`;
-const RequireSymbol = styled(Box)`
-`;
 const BoxRadioButtonItem = styled(Box)`
-  border: 1px solid #373f47;
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
   border-radius: 4px;
   padding: 24px;
   display: flex;
   flex-direction: column;
 `;
+
 
 export default Step03;

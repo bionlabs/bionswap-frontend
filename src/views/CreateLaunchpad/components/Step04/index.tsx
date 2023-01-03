@@ -24,6 +24,17 @@ import { useEffect, useRef, useState } from 'react';
 import { setPresaleForm } from 'state/presale/action';
 import { PreSaleState } from 'state/presale/reducer';
 import { tryParseAmount } from 'utils/parse';
+import {
+  InputCustom,
+  NextBackButton,
+  RequireSymbol,
+  CurrencyText,
+  TitleText,
+  Title,
+  DescribeText,
+  ErrorLabel,
+  WrapLine
+} from '..';
 import HeaderSection from '../HeaderSection';
 
 const listingOpts = [
@@ -136,7 +147,9 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
 
   const handleCheckBalanceToken = () => {
     if (Number(balance) < tokenInTotal) {
-      toastWarn(`Not enough balance in your wallet. Need ${tokenInTotal} ${token?.symbol} to create launchpad. (Your balance: ${balance} ${token?.symbol})`)
+      toastWarn(
+        `Not enough balance in your wallet. Need ${tokenInTotal} ${token?.symbol} to create launchpad. (Your balance: ${balance} ${token?.symbol})`,
+      );
       return false;
     }
     return true;
@@ -200,22 +213,14 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
       />
       <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
         <FlexBox flexDirection="column" alignItems="center">
-          <Typography variant="h3" color="text.primary" fontWeight="400">
-            4. Add Liquidity
-          </Typography>
-          <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
-            You need to add liquidity on a Dex to list that token
-          </Typography>
+          <Title>4. Add Liquidity</Title>
+          <Typography color="text.secondary">You need to add liquidity on a Dex to list that token</Typography>
         </FlexBox>
         <FlexBox flexDirection="column">
           <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                Listings options
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                You can choose to list your token by yourself or we can help you.
-              </Typography>
+              <TitleText>Listings options</TitleText>
+              <DescribeText>You can choose to list your token by yourself or we can help you.</DescribeText>
             </WrapDescription>
             <WrapValue>
               <FormControl fullWidth>
@@ -233,7 +238,7 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
                           <>
                             <Typography
                               variant="body4Poppins"
-                              color={data.listing == item.value ? 'gray.300' : 'gray.700'}
+                              color={data.listing == item.value ? 'text.primary' : 'text.secondary'}
                               fontWeight="400"
                             >
                               {item.label}
@@ -243,9 +248,9 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
                         control={
                           <Radio
                             sx={{
-                              color: 'gray.700',
+                              color: 'text.secondary',
                               '&.Mui-checked': {
-                                color: 'blue.500',
+                                color: 'primary.main',
                               },
                             }}
                           />
@@ -253,16 +258,14 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
                       />
                       <Typography
                         variant="captionPoppins"
-                        color={data.listing == item.value ? 'gray.300' : 'gray.700'}
+                        color={data.listing == item.value ? 'text.primary' : 'text.secondary'}
                         fontWeight="400"
                       >
                         {item.description}
                       </Typography>
                     </BoxRadioButtonItem>
                   ))}
-                  <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                    {parseErrorMessage('listing')}
-                  </Typography>
+                  <ErrorLabel>{parseErrorMessage('listing')}</ErrorLabel>
                 </RadioGroup>
               </FormControl>
             </WrapValue>
@@ -271,49 +274,34 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
             <>
               <WrapLine>
                 <WrapDescription>
-                  <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                    Which Dex will your token be listed on ?
-                  </Typography>
-                  <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                    You need to add liquidity on a Dex to list that token
-                  </Typography>
+                  <TitleText>Which Dex will your token be listed on ?</TitleText>
+                  <DescribeText>You need to add liquidity on a Dex to list that token</DescribeText>
                 </WrapDescription>
                 <WrapValue>
                   <FormControl fullWidth>
-                    <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-                      Dex <RequireSymbol component="span">*</RequireSymbol>
+                    <Typography component="label" fontWeight="500">
+                      Dex <RequireSymbol>*</RequireSymbol>
                     </Typography>
-                    <SelectCustom
-                      value={data.dex}
-                      onChange={handleChange('dex')}
-                      displayEmpty
-                      inputProps={{ 'aria-label': 'Without label' }}
-                    >
+                    <SelectCustom value={data.dex} onChange={handleChange('dex')} displayEmpty>
                       {dexs?.map((item) => (
                         <MenuItem key={item.value} value={item.value}>
                           {item.label}
                         </MenuItem>
                       ))}
                     </SelectCustom>
-                    <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                      {parseErrorMessage('dex')}
-                    </Typography>
+                    <ErrorLabel>{parseErrorMessage('dex')}</ErrorLabel>
                   </FormControl>
                 </WrapValue>
               </WrapLine>
               <WrapLine>
                 <WrapDescription>
-                  <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                    Listing price
-                  </Typography>
-                  <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                    Set a listing price for your token
-                  </Typography>
+                  <TitleText>Listing price</TitleText>
+                  <DescribeText>Set a listing price for your token</DescribeText>
                 </WrapDescription>
                 <WrapValue>
                   <WrapForm fullWidth>
-                    <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-                      Listing price <RequireSymbol component="span">*</RequireSymbol>
+                    <Typography component="label" fontWeight="500">
+                      Listing price <RequireSymbol>*</RequireSymbol>
                     </Typography>
                     <InputCustom
                       fullWidth
@@ -324,31 +312,25 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
                       type="number"
                       startAdornment={
                         <WrapStartAdornment>
-                          <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
-                            {data.currency}
-                          </Typography>
+                          <CurrencyText>{data.currency}</CurrencyText>
                         </WrapStartAdornment>
                       }
                     />
-                    <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                      {parseErrorMessage('listingPrice')}
-                    </Typography>
+                    <ErrorLabel>{parseErrorMessage('listingPrice')}</ErrorLabel>
                   </WrapForm>
                 </WrapValue>
               </WrapLine>
               <WrapLine>
                 <WrapDescription>
-                  <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                    How much percentage of fund raised are you wish to spend on listing your token
-                  </Typography>
-                  <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+                  <TitleText>How much percentage of fund raised are you wish to spend on listing your token</TitleText>
+                  <DescribeText>
                     Enter the percentage of raised funds that should be allocated to liquidity on {dexs[data.dex].label}
-                  </Typography>
+                  </DescribeText>
                 </WrapDescription>
-                <WrapValue gap="10px !important">
+                <WrapValue>
                   <WrapForm fullWidth>
-                    <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-                      Liquidity percentage <RequireSymbol component="span">*</RequireSymbol>
+                    <Typography component="label" fontWeight="500">
+                      Liquidity percentage <RequireSymbol>*</RequireSymbol>
                     </Typography>
                     <InputCustom
                       fullWidth
@@ -359,34 +341,26 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
                       type="number"
                       startAdornment={
                         <WrapStartAdornment>
-                          <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
-                            %
-                          </Typography>
+                          <CurrencyText>%</CurrencyText>
                         </WrapStartAdornment>
                       }
                     />
-                    <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                      {parseErrorMessage('liquidityPercentage')}
-                    </Typography>
+                    <ErrorLabel>{parseErrorMessage('liquidityPercentage')}</ErrorLabel>
                   </WrapForm>
-                  <Typography variant="body6Poppins" fontWeight="400" color="blue.400">
-                    &#8226; Need to greater than 50%
+                  <Typography variant="body6Poppins" fontWeight="400" color="primary.main">
+                    Need to greater than 50%
                   </Typography>
                 </WrapValue>
               </WrapLine>
               <WrapLine>
                 <WrapDescription>
-                  <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                    Liquidity lockup
-                  </Typography>
-                  <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                    Set a lock-up time for liquidity pool
-                  </Typography>
+                  <TitleText>Liquidity lockup</TitleText>
+                  <DescribeText>Set a lock-up time for liquidity pool</DescribeText>
                 </WrapDescription>
                 <WrapValue gap="10px !important">
                   <WrapForm fullWidth>
-                    <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-                      Lockup time <RequireSymbol component="span">*</RequireSymbol>
+                    <Typography component="label" fontWeight="500">
+                      Lockup time <RequireSymbol>*</RequireSymbol>
                     </Typography>
                     <InputCustom
                       fullWidth
@@ -397,18 +371,14 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
                       type="number"
                       startAdornment={
                         <WrapStartAdornment>
-                          <Typography variant="body4Poppins" color="#2AC89F" fontWeight="400" textTransform="uppercase">
-                            Days
-                          </Typography>
+                          <CurrencyText>Days</CurrencyText>
                         </WrapStartAdornment>
                       }
                     />
-                    <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                      {parseErrorMessage('lockupTime')}
-                    </Typography>
+                    <ErrorLabel>{parseErrorMessage('lockupTime')}</ErrorLabel>
                   </WrapForm>
-                  <Typography variant="body6Poppins" fontWeight="400" color="blue.400">
-                    &#8226; Lock up time must be greater than 15 days
+                  <Typography variant="body6Poppins" fontWeight="400" color="primary.main">
+                    Lock up time must be greater than 15 days
                   </Typography>
                 </WrapValue>
               </WrapLine>
@@ -418,54 +388,32 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
             <WrapDescription></WrapDescription>
             <WrapValue>
               <FlexBox flexDirection="column" gap="10px">
-                <Typography variant="body4Poppins" color="gray.300" fontWeight="400">
-                  {token?.symbol} Token needed to launch
-                </Typography>
-                <Typography variant="captionPoppins" color="#717D8A" fontWeight="400">
-                  Token for sale:{' '}
-                  <Typography variant="captionPoppins" color="gray.300">
-                    {tokenForSale}
-                  </Typography>
-                </Typography>
-                <Typography variant="captionPoppins" color="#717D8A" fontWeight="400">
-                  Token for Auto liquidity:{' '}
-                  <Typography variant="captionPoppins" color="gray.300">
-                    {tokenForLiquidity}
-                  </Typography>
-                </Typography>
-                <Typography variant="captionPoppins" color="#717D8A" fontWeight="400">
-                  Token for fee:{' '}
-                  <Typography variant="captionPoppins" color="gray.300">
-                    {tokenForFee}
-                  </Typography>
-                </Typography>
+                <TitleText>{token?.symbol} Token needed to launch</TitleText>
+                <DescribeText>Token for sale: {tokenForSale}</DescribeText>
+                <DescribeText>Token for Auto liquidity: {tokenForLiquidity}</DescribeText>
+                <DescribeText>Token for fee: {tokenForFee}</DescribeText>
                 <Line />
-                <Typography variant="captionPoppins" color="#717D8A" fontWeight="400">
-                  In total:{' '}
-                  <Typography variant="captionPoppins" color="primary.main">
-                    {tokenInTotal} {token?.symbol}
-                  </Typography>
+                <Typography color="primary.main">
+                  Total: {tokenInTotal} {token?.symbol}
                 </Typography>
               </FlexBox>
             </WrapValue>
           </WrapLine>
         </FlexBox>
         <FlexBox justifyContent="flex-end" gap="14px">
-          <Back onClick={onBackStep}>
-            <Typography variant="body3Poppins" color="primary.main" fontWeight="600">
-              Back
-            </Typography>
-          </Back>
-          <Next
+          <NextBackButton variant="contained" onClick={onBackStep}>
+            Back
+          </NextBackButton>
+          <LoadingButton
+            variant="contained"
+            component={LoadingButton}
             loading={pending && approvalState === ApprovalState.NOT_APPROVED}
             onClick={approvalState === ApprovalState.APPROVED ? handleNextStep : handleApprove}
           >
             {!(pending && approvalState === ApprovalState.NOT_APPROVED) && (
-              <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-                {approvalState === ApprovalState.APPROVED ? 'Next' : 'Enable'}
-              </Typography>
+              <>{approvalState === ApprovalState.APPROVED ? 'Next' : 'Enable'}</>
             )}
-          </Next>
+          </LoadingButton>
         </FlexBox>
       </FlexBox>
     </>
@@ -475,14 +423,7 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
 const FlexBox = styled(Box)`
   display: flex;
 `;
-const WrapLine = styled(Box)`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  padding: 30px 0;
-  border-top: 1px solid;
-  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
-`;
+
 const WrapDescription = styled(Box)`
   display: flex;
   flex-direction: column;
@@ -496,32 +437,7 @@ const WrapValue = styled(Box)`
   flex-direction: column;
   gap: 24px;
 `;
-const Next = styled(LoadingButton)`
-  max-width: 200px;
-  width: 100%;
-  height: 45px;
-  align-item: center;
-  justify-content: center;
-  display: flex;
-  background-color: ${(props) => props.theme.palette.primary.main};
-  border-radius: 4px;
 
-  &.Mui-disabled {
-    color: rgba(255, 255, 255, 0.3);
-    box-shadow: none;
-    background-color: rgba(255, 255, 255, 0.12);
-  }
-`;
-const Back = styled(Button)`
-  max-width: 200px;
-  width: 100%;
-  height: 45px;
-  align-item: center;
-  justify-content: center;
-  display: flex;
-  background-color: rgba(7, 224, 224, 0.15);
-  border-radius: 4px;
-`;
 const WrapStartAdornment = styled(Box)`
   max-width: 67px;
   width: 100%;
@@ -537,46 +453,7 @@ const WrapForm = styled(FormControl)`
   flex-direction: column;
   gap: 6px;
 `;
-const InputCustom = styled(OutlinedInput)`
-  padding: 0;
-  border: 1px solid;
-  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
-  border-radius: 4px;
 
-  fieldset {
-    display: none;
-  }
-
-  input {
-    font-family: 'Poppins', sans-serif;
-    padding: 12px 16px;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 180%;
-    color: ${(props) => props.theme.palette.text.primary};
-
-    &::placeholder {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 180%;
-      color: ${(props) => props.theme.palette.text.secondary};
-      opacity: 1;
-    }
-  }
-
-  &.Mui-focused {
-    border-color: #9a6aff;
-    box-shadow: rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px,
-      rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-  }
-
-  &.onError {
-    box-shadow: none;
-  }
-`;
-const RequireSymbol = styled(Box)`
-`;
 const BoxRadioButtonItem = styled(Box)`
   border: 1px solid #373f47;
   border-radius: 4px;

@@ -5,6 +5,7 @@ import ImageUploading from 'react-images-uploading';
 import { uploadLaunchpadImage } from 'api/launchpad';
 import Joi, { CustomHelpers, CustomValidator } from 'joi';
 import HeaderSection from '../HeaderSection';
+import { DescribeText, ErrorLabel, InputCustom, NextBackButton, RequireSymbol, Title, TitleText } from '..';
 
 const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
   const [projectLogo, setProjectLogo] = useState(
@@ -126,9 +127,9 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
       <HeaderSection data={data} activeStep={0} onBackStep={onBackStep} onNextStep={handleNextStep} />
       <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
         <FlexBox flexDirection="column" alignItems="center">
-          <Typography fontFamily='"SamsungSharpSans-Bold"' fontSize="24px">
+          <Title>
             1. Start with the basics
-          </Typography>
+          </Title>
           <Typography color="text.secondary">Make it easy for people to learn about your project.</Typography>
         </FlexBox>
         <FlexBox flexDirection="column">
@@ -182,7 +183,7 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
                     ) : (
                       imageList?.map((image, index) => (
                         <div key={index} className="image-item">
-                          <img src={image['data_url']} alt="" width="100%" height="auto" />
+                          <img src={image['data_url']} alt="" width="100px" height="auto" />
                         </div>
                       ))
                     )}
@@ -310,9 +311,9 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
           </WrapLine>
         </FlexBox>
         <FlexBox justifyContent="flex-end">
-          <Next variant="contained" onClick={handleNextStep}>
+          <NextBackButton variant="contained" onClick={handleNextStep}>
             Next
-          </Next>
+          </NextBackButton>
         </FlexBox>
       </FlexBox>
     </>
@@ -341,61 +342,18 @@ const WrapValue = styled(Box)`
   flex-direction: column;
   gap: 24px;
 `;
-const Next = styled(Button)`
-  max-width: 200px;
-  height: 45px;
-`;
+
 const WrapForm = styled(FormControl)`
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
-const InputCustom = styled(OutlinedInput)`
-  fieldset {
-    // display: none;
-  }
 
-  input {
-    padding: 12px 16px;
-    border: 1px solid;
-    border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
-    border-radius: 4px;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 180%;
-    color: ${(props) => props.theme.palette.text.primary};
 
-    &::placeholder {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 180%;
-      color: ${(props) => (props.theme.palette as any).extra.card.divider};
-      opacity: 1;
-    }
-  }
-
-  &.Mui-focused {
-    input {
-      // border-color: #9a6aff;
-      // box-shadow: rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px,
-      //   rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-    }
-  }
-
-  &.onError {
-    input {
-      box-shadow: none;
-    }
-  }
-`;
-const RequireSymbol = styled(Typography)`
-  color: ${(props) => props.theme.palette.error.main};
-`;
 const BoxImageUpload = styled(Box)`
   width: 100%;
   min-height: 191px;
-  background: ${(props) => (props.theme.palette as any).extra.card.background};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.light};
   border: 1px dashed;
   border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
   display: flex;
@@ -412,17 +370,6 @@ const BoxImageUpload = styled(Box)`
   }
 `;
 
-const TitleText = styled(Typography)`
-  font-size: 18px;
-  font-weight: 500;
-`;
-const DescribeText = styled(Typography)`
-  font-size: 14px;
-  color: ${(props) => props.theme.palette.text.secondary};
-`;
-const ErrorLabel = styled(Typography)`
-  color: ${(props) => props.theme.palette.error.main};
-  font-size: 10px;
-`;
+
 
 export default Step01;
