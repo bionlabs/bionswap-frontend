@@ -835,7 +835,7 @@ const WrapLine = styled(Box)`
   justify-content: space-between;
   padding: 30px 0;
   border-top: 1px solid;
-  border-color: ${(props) => props.theme.palette.gray[600]};
+  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
 `;
 const WrapDescription = styled(Box)`
   display: flex;
@@ -878,7 +878,7 @@ const WrapStartAdornment = styled(Box)`
   align-items: center;
   justify-content: center;
   border-right: 1px solid;
-  border-color: ${(props) => props.theme.palette.gray[700]};
+  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
 `;
 const WrapForm = styled(FormControl)`
   display: flex;
@@ -892,7 +892,7 @@ const WrapForm = styled(FormControl)`
 
     .MuiOutlinedInput-root {
       border: 1px solid;
-      border-color: ${(props) => props.theme.palette.gray[700]};
+      border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
       border-radius: 4px;
 
       &.Mui-focused {
@@ -914,7 +914,7 @@ const WrapForm = styled(FormControl)`
           font-weight: 400;
           font-size: 14px;
           line-height: 180%;
-          color: ${(props) => props.theme.palette.gray[700]};
+          color: ${(props) => (props.theme.palette as any).extra.card.divider};
           opacity: 1;
         }
       }
@@ -922,7 +922,7 @@ const WrapForm = styled(FormControl)`
 
     &.onError {
       .MuiOutlinedInput-root {
-        border-color: ${(props) => props.theme.palette.red[500]};
+        // border-color: ${(props) => props.theme.palette.red[500]};
         box-shadow: none;
       }
     }
@@ -931,7 +931,7 @@ const WrapForm = styled(FormControl)`
 const InputCustom = styled(OutlinedInput)`
   padding: 0;
   border: 1px solid;
-  border-color: ${(props) => props.theme.palette.gray[700]};
+  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
   border-radius: 4px;
 
   fieldset {
@@ -951,7 +951,7 @@ const InputCustom = styled(OutlinedInput)`
       font-weight: 400;
       font-size: 14px;
       line-height: 180%;
-      color: ${(props) => props.theme.palette.gray[700]};
+      color: ${(props) => props.theme.palette.text.secondary};
       opacity: 1;
     }
   }
@@ -963,12 +963,10 @@ const InputCustom = styled(OutlinedInput)`
   }
 
   &.onError {
-    border-color: ${(props) => props.theme.palette.red[500]};
     box-shadow: none;
   }
 `;
 const RequireSymbol = styled(Box)`
-  color: ${(props) => props.theme.palette.red[500]};
 `;
 const BoxRadioButtonItem = styled(Box)`
   border: 1px solid #373f47;

@@ -471,7 +471,7 @@ const WrapLine = styled(Box)`
   justify-content: space-between;
   padding: 30px 0;
   border-top: 1px solid;
-  border-color: ${(props) => props.theme.palette.gray[600]};
+  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
 `;
 const WrapDescription = styled(Box)`
   display: flex;
@@ -518,7 +518,7 @@ const BoxItem = styled(Box)`
   width: 100%;
   padding-bottom: 12px;
   border-bottom: 1px solid;
-  border-color: ${(props) => props.theme.palette.gray[800]};
+  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
 `;
 const WrapTag = styled(Box)`
   border: 1px solid #373f47;

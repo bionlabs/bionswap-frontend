@@ -126,28 +126,24 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
       <HeaderSection data={data} activeStep={0} onBackStep={onBackStep} onNextStep={handleNextStep} />
       <FlexBox flexDirection="column" gap="46px" pt="40px" pb="40px">
         <FlexBox flexDirection="column" alignItems="center">
-          <Typography variant="h3" color="text.primary" fontWeight="400">
+          <Typography fontFamily='"SamsungSharpSans-Bold"' fontSize="24px">
             1. Start with the basics
           </Typography>
-          <Typography variant="body3Poppins" color="gray.400" fontWeight="400">
-            Make it easy for people to learn about your project.
-          </Typography>
+          <Typography color="text.secondary">Make it easy for people to learn about your project.</Typography>
         </FlexBox>
         <FlexBox flexDirection="column">
           <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                Project title
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                Write a clear, brief title to help people quickly understand your project. Both will appear on your
+              <TitleText>Project title</TitleText>
+              <DescribeText>
+                Write a clear brief title to help people quickly understand your project. Both will appear on your
                 project and pre-launch pages.
-              </Typography>
+              </DescribeText>
             </WrapDescription>
             <WrapValue>
               <WrapForm fullWidth>
-                <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-                  Title <RequireSymbol component="span">*</RequireSymbol>
+                <Typography component="label" fontWeight="500">
+                  Title <RequireSymbol>*</RequireSymbol>
                 </Typography>
                 <InputCustom
                   placeholder="Enter project title"
@@ -156,20 +152,14 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
                   onChange={handleChange('projectTitle')}
                   fullWidth
                 />
-                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                  {parseErrorMessage('projectTitle')}
-                </Typography>
+                <ErrorLabel>{parseErrorMessage('projectTitle')}</ErrorLabel>
               </WrapForm>
             </WrapValue>
           </WrapLine>
           <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                Project logo
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                Make it easy for people to learn about your project.
-              </Typography>
+              <TitleText>Project logo</TitleText>
+              <DescribeText>Make it easy for people to learn about your project.</DescribeText>
             </WrapDescription>
             <WrapValue>
               <ImageUploading value={projectLogo} onChange={handleChangeProjectLogo} dataURLKey="data_url">
@@ -182,10 +172,10 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
                     {imageList[0]?.data_url === '' ? (
                       <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
                         <img src="/icons/AddFile.svg" alt="Add File" />
-                        <Typography variant="captionPoppins" color="gray.300" fontWeight="400" mt="14px">
+                        <Typography variant="captionPoppins" color="text.secondary" fontWeight="400" mt="14px">
                           Drop an image here or select a file
                         </Typography>
-                        <Typography variant="body6Poppins" color="gray.600" fontWeight="400">
+                        <Typography variant="body6Poppins" color="text.secondary" fontWeight="400">
                           It must be a JPG, PNG, GIF, TIFF, or BMP, no larger than 200 MB.
                         </Typography>
                       </FlexBox>
@@ -199,19 +189,13 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
                   </BoxImageUpload>
                 )}
               </ImageUploading>
-              <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                {parseErrorMessage('projectLogo')}
-              </Typography>
+              <ErrorLabel>{parseErrorMessage('projectLogo')}</ErrorLabel>
             </WrapValue>
           </WrapLine>
           <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                Sale banner
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                Make it easy for people to learn about your project.
-              </Typography>
+              <TitleText>Sale banner</TitleText>
+              <DescribeText>Make it easy for people to learn about your project.</DescribeText>
             </WrapDescription>
             <WrapValue>
               <ImageUploading value={saleBanner} onChange={handleChangeSaleBanner} dataURLKey="data_url">
@@ -224,10 +208,10 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
                     {imageList[0]?.data_url === '' ? (
                       <FlexBox flexDirection="column" alignItems="center" justifyContent="center">
                         <img src="/icons/AddFile.svg" alt="Add File" />
-                        <Typography variant="captionPoppins" color="gray.300" fontWeight="400" mt="14px">
+                        <Typography variant="captionPoppins" color="text.secondary" fontWeight="400" mt="14px">
                           Drop an image here or select a file
                         </Typography>
-                        <Typography variant="body6Poppins" color="gray.600" fontWeight="400">
+                        <Typography variant="body6Poppins" color="text.secondary" fontWeight="400">
                           It must be a JPG, PNG, GIF, TIFF, or BMP, no larger than 200 MB.
                         </Typography>
                       </FlexBox>
@@ -241,17 +225,13 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
                   </BoxImageUpload>
                 )}
               </ImageUploading>
-              <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                {parseErrorMessage('saleBanner')}
-              </Typography>
+              <ErrorLabel>{parseErrorMessage('saleBanner')}</ErrorLabel>
             </WrapValue>
           </WrapLine>
           <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                Video promo (optional)
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
+              <TitleText>Video promo (optional)</TitleText>
+              <DescribeText>
                 Add a video that describes your project.
                 <br />
                 <br />
@@ -261,11 +241,11 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
                 <br />
                 After you’ve uploaded your video, use our editor to add captions and subtitles so your project is more
                 accessible to everyone.
-              </Typography>
+              </DescribeText>
             </WrapDescription>
             <WrapValue>
               <WrapForm fullWidth>
-                <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
+                <Typography component="label" fontWeight="500">
                   Video URL
                 </Typography>
                 <InputCustom
@@ -277,24 +257,15 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
               </WrapForm>
             </WrapValue>
           </WrapLine>
-          <WrapLine
-            sx={{
-              borderBottom: '1px solid',
-              borderColor: 'gray.600',
-            }}
-          >
+          <WrapLine>
             <WrapDescription>
-              <Typography variant="body2Poppins" color="text.primary" fontWeight="400">
-                Community
-              </Typography>
-              <Typography variant="body4Poppins" className="content" color="#717D8A" fontWeight="400">
-                Make it easy for people to learn about your project.
-              </Typography>
+              <TitleText>Community</TitleText>
+              <DescribeText>Make it easy for people to learn about your project.</DescribeText>
             </WrapDescription>
             <WrapValue>
               <WrapForm fullWidth>
-                <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
-                  Website <RequireSymbol component="span">*</RequireSymbol>
+                <Typography component="label" fontWeight="500">
+                  Website <RequireSymbol>*</RequireSymbol>
                 </Typography>
                 <InputCustom
                   fullWidth
@@ -303,12 +274,10 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
                   value={communities.website}
                   onChange={handleChangeCommunities('website')}
                 />
-                <Typography variant="captionPoppins" color="red.500" fontWeight="400">
-                  {parseErrorMessage('website')}
-                </Typography>
+                <ErrorLabel>{parseErrorMessage('website')}</ErrorLabel>
               </WrapForm>
               <WrapForm fullWidth>
-                <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
+                <Typography component="label" fontWeight="500">
                   Telegram
                 </Typography>
                 <InputCustom
@@ -323,7 +292,7 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
               </Typography> */}
               </WrapForm>
               <WrapForm fullWidth>
-                <Typography component="label" variant="body4Poppins" color="gray.300" fontWeight="500">
+                <Typography component="label" fontWeight="500">
                   Discord
                 </Typography>
                 <InputCustom
@@ -341,10 +310,8 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
           </WrapLine>
         </FlexBox>
         <FlexBox justifyContent="flex-end">
-          <Next onClick={handleNextStep}>
-            <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-              Next
-            </Typography>
+          <Next variant="contained" onClick={handleNextStep}>
+            Next
           </Next>
         </FlexBox>
       </FlexBox>
@@ -360,8 +327,6 @@ const WrapLine = styled(Box)`
   width: 100%;
   justify-content: space-between;
   padding: 30px 0;
-  border-top: 1px solid;
-  border-color: ${(props) => props.theme.palette.gray[600]};
 `;
 const WrapDescription = styled(Box)`
   display: flex;
@@ -378,29 +343,22 @@ const WrapValue = styled(Box)`
 `;
 const Next = styled(Button)`
   max-width: 200px;
-  width: 100%;
   height: 45px;
-  align-item: center;
-  justify-content: center;
-  display: flex;
-  background-color: ${(props) => props.theme.palette.primary.main};
-  border-radius: 4px;
 `;
 const WrapForm = styled(FormControl)`
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
 `;
 const InputCustom = styled(OutlinedInput)`
   fieldset {
-    display: none;
+    // display: none;
   }
 
   input {
-    font-family: 'Poppins', sans-serif;
     padding: 12px 16px;
     border: 1px solid;
-    border-color: ${(props) => props.theme.palette.gray[700]};
+    border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
     border-radius: 4px;
     font-weight: 400;
     font-size: 14px;
@@ -412,46 +370,59 @@ const InputCustom = styled(OutlinedInput)`
       font-weight: 400;
       font-size: 14px;
       line-height: 180%;
-      color: ${(props) => props.theme.palette.gray[700]};
+      color: ${(props) => (props.theme.palette as any).extra.card.divider};
       opacity: 1;
     }
   }
 
   &.Mui-focused {
     input {
-      border-color: #9a6aff;
-      box-shadow: rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px,
-        rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+      // border-color: #9a6aff;
+      // box-shadow: rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px,
+      //   rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
     }
   }
 
   &.onError {
     input {
-      border-color: ${(props) => props.theme.palette.red[500]};
       box-shadow: none;
     }
   }
 `;
-const RequireSymbol = styled(Box)`
-  color: ${(props) => props.theme.palette.red[500]};
+const RequireSymbol = styled(Typography)`
+  color: ${(props) => props.theme.palette.error.main};
 `;
 const BoxImageUpload = styled(Box)`
   width: 100%;
   min-height: 191px;
-  background: rgba(12, 22, 32, 0.5);
+  background: ${(props) => (props.theme.palette as any).extra.card.background};
   border: 1px dashed;
-  border-color: ${(props) => props.theme.palette.gray[700]};
+  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   padding: 20px;
+  border-radius: 8px;
 
   &.onError {
-    border-color: ${(props) => props.theme.palette.red[500]};
+    border-color: ${(props) => props.theme.palette.error.main};
     box-shadow: none;
   }
+`;
+
+const TitleText = styled(Typography)`
+  font-size: 18px;
+  font-weight: 500;
+`;
+const DescribeText = styled(Typography)`
+  font-size: 14px;
+  color: ${(props) => props.theme.palette.text.secondary};
+`;
+const ErrorLabel = styled(Typography)`
+  color: ${(props) => props.theme.palette.error.main};
+  font-size: 10px;
 `;
 
 export default Step01;
