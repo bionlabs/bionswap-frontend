@@ -18,39 +18,38 @@ const Toast = () => {
 };
 
 const StyledToastContainer = styled(ToastContainer)`
-  // background-color: #0c1620;
 
-  .Toastify__toast {
-    background-color: #0c1620;
-    box-shadow: 0px 0px 7px 3px rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-
-    &.Toastify__toast--info {
-      border-left: 6px solid #1890ff;
-    }
-
-    &.Toastify__toast--success {
-      border-left: 6px solid #2BB673;
-    }
-
-    &.Toastify__toast--warn {
-      border-left: 6px solid #FBB03B;
-    }
-
-    &.Toastify__toast--error {
-      border-left: 6px solid #E9113A;
-    }
-  }
-
-  .Toastify__toast-body {
-    div {
-      font-family: 'Poppins', sans-serif;
-      color: #d6dade;
-      font-weight: 400;
-      font-size: 12px;
-      line-height: 140%;
-    }
-  }
 `;
+// .Toastify__toast {
+//   background-color: ${props => (props.theme.palette as any).extra.card.background};
+//   box-shadow: 0px 0px 7px 3px rgba(255, 255, 255, 0.1);
+//   border-radius: 4px;
+
+//   &.Toastify__toast--info {
+//     border-left: 6px solid ${props => props.theme.palette.primary.main};
+//   }
+
+//   &.Toastify__toast--success {
+//     border-left: 6px solid ${props => props.theme.palette.success.main};
+//   }
+
+//   &.Toastify__toast--warn {
+//     border-left: 6px solid ${props => props.theme.palette.warning.main};
+//   }
+
+//   &.Toastify__toast--error {
+//     border-left: 6px solid ${props => props.theme.palette.error.main};
+//   }
+// }
+
+// .Toastify__toast-body {
+//   div {
+//     font-family: 'Poppins', sans-serif;
+//     color: ${props => props.theme.palette.text.secondary};
+//     font-weight: 400;
+//     font-size: 12px;
+//     line-height: 140%;
+//   }
+// }
 
 export default Toast;

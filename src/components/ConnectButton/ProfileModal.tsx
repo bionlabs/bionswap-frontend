@@ -28,6 +28,7 @@ import { logOut } from 'state/auth/actions';
 import useMediaQuery from 'hooks/useMediaQuery';
 import { useEffect, useState } from 'react';
 import { getUserInfo } from 'api/user';
+import { toastError } from 'hooks/useToast';
 
 type Props = {
   onClose?: () => void;
@@ -58,6 +59,7 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
         const rest = await getUserInfo();
         setUserInfo(rest);
       } catch (error) {
+        toastError(error)
         console.log('error====>', error);
       }
     };

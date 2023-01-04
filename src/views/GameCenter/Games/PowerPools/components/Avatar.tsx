@@ -11,6 +11,7 @@ import {
     Stack,
     Typography
 } from '@mui/material'
+import { toastError } from 'hooks/useToast';
 
 const Avatar = () => {
     const [openModal, setOpenModal] = useState(false);
@@ -33,6 +34,7 @@ const Avatar = () => {
             const res = await getMyList(address || '');
             setAvatars(res);
         } catch (error) {
+            toastError(error);
             console.log('error====>', error);
         }
         };
@@ -49,6 +51,7 @@ const Avatar = () => {
                 const rest = await getUserInfo();
                 setUserInfo(rest);
             } catch (error) {
+                toastError(error);
                 console.log('error====>', error);
             }
             };
@@ -61,7 +64,8 @@ const Avatar = () => {
             const res = await updateAvatar(param);
             setOpenModal(false);
             } catch (error) {
-            console.log('error====>', error);
+                toastError(error);
+                console.log('error====>', error);
             }
         };
   return (

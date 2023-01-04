@@ -10,6 +10,8 @@ import {
   FormControlLabel,
   Radio,
   TextField,
+  Stack,
+  Divider,
 } from '@mui/material';
 import { BsLightbulb } from 'react-icons/bs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -269,7 +271,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
             Enter the launchpad information that you want to raise , that should be enter all details about your presale
           </Typography>
         </FlexBox>
-        <FlexBox flexDirection="column">
+        <Stack width='100%' alignItems='start' divider={<Divider flexItem/>}>
           <WrapLine>
             <WrapDescription>
               <TitleText>At which price are you want to sale</TitleText>
@@ -711,7 +713,7 @@ const Step03 = ({ data, setData, onNextStep, onBackStep }: any) => {
               </WrapForm>
             </WrapValue>
           </WrapLine>
-        </FlexBox>
+        </Stack>
         <FlexBox justifyContent="flex-end" gap="14px">
           <NextBackButton variant="contained" onClick={onBackStep}>
             Back

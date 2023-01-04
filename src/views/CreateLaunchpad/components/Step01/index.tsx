@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Box, Typography, styled, FormControl, OutlinedInput, Button } from '@mui/material';
+import { Box, Typography, styled, FormControl, OutlinedInput, Button, Stack, Divider } from '@mui/material';
 import { setPresaleForm } from 'state/presale/action';
 import ImageUploading from 'react-images-uploading';
 import { uploadLaunchpadImage } from 'api/launchpad';
 import Joi, { CustomHelpers, CustomValidator } from 'joi';
 import HeaderSection from '../HeaderSection';
 import { DescribeText, ErrorLabel, InputCustom, NextBackButton, RequireSymbol, Title, TitleText } from '..';
+import { toastError } from 'hooks/useToast';
 
 const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
   const [projectLogo, setProjectLogo] = useState(
@@ -85,6 +86,7 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
       setProjectLogo(imageList);
       setData(setPresaleForm({ ['projectLogo']: imageLogo.url }));
     } catch (error) {
+      toastError(error);
       console.log(error);
     }
   };
@@ -96,6 +98,7 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
       setSaleBanner(imageList);
       setData(setPresaleForm({ ['saleBanner']: imageLogo.url }));
     } catch (error) {
+      toastError(error);
       console.log(error);
     }
   };
@@ -132,7 +135,7 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
           </Title>
           <Typography color="text.secondary">Make it easy for people to learn about your project.</Typography>
         </FlexBox>
-        <FlexBox flexDirection="column">
+        <Stack width='100%' alignItems='start' divider={<Divider flexItem/>}>
           <WrapLine>
             <WrapDescription>
               <TitleText>Project title</TitleText>
@@ -309,7 +312,7 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
               </WrapForm>
             </WrapValue>
           </WrapLine>
-        </FlexBox>
+        </Stack>
         <FlexBox justifyContent="flex-end">
           <NextBackButton variant="contained" onClick={handleNextStep}>
             Next

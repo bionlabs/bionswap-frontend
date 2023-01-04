@@ -30,9 +30,9 @@ const Footer = ({ children }: any) => {
                         <Link href='/'>
                             {
                                 darkMode ?
-                                <img src='/alpha.svg' alt='BionSwap' width='200px' />
+                                <img src='/logo_light.svg' alt='BionSwap' width='150px' />
                                 :
-                                <img src='/alpha-dark.svg' alt='BionSwap' width='200px' />
+                                <img src='/logo.svg' alt='BionSwap' width='150px' />
                             }
                         </Link>
                         <Typography

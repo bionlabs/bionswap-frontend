@@ -184,7 +184,7 @@ const Step02 = ({ data, setData, onNextStep, onBackStep }: any) => {
           <Title>2. Verify token</Title>
           <Typography color="text.secondary">Enter the token address and verify</Typography>
         </FlexBox>
-        <FlexBox flexDirection="column">
+        <Stack width='100%' alignItems='start' divider={<Divider flexItem/>}>
           <WrapLine>
             <WrapDescription>
               <TitleText>Token contract</TitleText>
@@ -308,7 +308,7 @@ const Step02 = ({ data, setData, onNextStep, onBackStep }: any) => {
               </Typography>
             </WrapValue>
           </WrapLine>
-        </FlexBox>
+        </Stack>
         <FlexBox justifyContent="flex-end" gap="14px">
           <NextBackButton variant="contained" onClick={onBackStep}>
             Back

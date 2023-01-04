@@ -5,7 +5,7 @@ import { NEVER_RELOAD } from 'state/multicall';
 import { parseStringOrBytes32 } from 'utils/parse';
 import { isAddress } from 'utils/validate';
 
-export function useToken(tokenAddress?: string | null, reload?: boolean): Token | undefined | null {
+export function useToken(tokenAddress?: string | null, reload = true): Token | undefined | null {
   const { chainId } = useChain();
 
   const tokens = useAllTokens();
