@@ -38,7 +38,7 @@ function TabPanel(props: TabPanelProps) {
     );
 }
 
-const Dashboard = ({children}:any) => {
+const Dashboard = () => {
     const {isMobile} = useMediaQuery();
     const [value, setValue] = useState(0);
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {

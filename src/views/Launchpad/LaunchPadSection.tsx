@@ -1,6 +1,7 @@
 import { Box, Button, Container, FormControlLabel, Select, styled, Stack } from '@mui/material';
 import { getSaleList } from 'api/launchpad';
 import { useDebounce, useRefetchIncreasedInterval } from 'hooks';
+import { toastError } from 'hooks/useToast';
 import { useCallback, useEffect, useState } from 'react';
 import LaunchpadCards from './components/LaunchpadCards/LaunchpadCards';
 import LaunchpadTable from './components/LaunchpadTable/LaunchpadTable';
@@ -89,6 +90,7 @@ const LaunchPadSection = ({ chainId }: any) => {
         setLaunchData(data);
       } catch (error) {
         setLoading(false);
+        toastError(error);
         console.log('error====>', error);
       }
       setLoading(false);

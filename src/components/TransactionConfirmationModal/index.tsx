@@ -119,22 +119,17 @@ const TransactionConfirmationModal = ({
 
   return (
     <BaseModal open={open} sx={{ 
-      backgroundColor: "gray.900", 
       minWidth: '200px',
-      maxWidth: "556px",
-      width: "90vW",
-      border: '1px solid',
-      borderColor: 'gray.700',
-      borderRadius: '8px',
-      boxShadow: '0px 4px 11px #000000',
+      maxWidth: "400px",
+      width: "90%",
       padding: '25px 15px 15px',
     }}>
       <IconButton onClick={onDismiss} sx={{ position: "absolute", right: 8, top: 8 }}>
         <CloseIcon />
       </IconButton>
-      <Stack sx={{ minWidth: 200 }}>
-        <Stack justifyContent="flex-start" direction="row" sx={{ width: "100%", mb: 3 }}>
-          <Typography variant="body3Poppins" fontWeight={400} color='text.primary'>
+      <Stack sx={{ minWidth: 200 }} spacing={2}>
+        <Stack justifyContent="flex-start" direction="row" sx={{ width: "100%"}}>
+          <Typography fontSize='18px' fontWeight={500} color='text.primary'>
             {title}
           </Typography>
         </Stack>

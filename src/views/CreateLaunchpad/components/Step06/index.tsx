@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Box, Typography, styled, Button, Stack } from '@mui/material';
+import { Box, Typography, styled, Button, Stack, Divider } from '@mui/material';
 import { useToken } from 'hooks/useToken';
 import { withCatch } from 'utils/error';
 import { useChain } from 'hooks';
@@ -13,6 +13,7 @@ import { clearPresaleForm } from 'state/presale/action';
 import { DescribeText, NextBackButton, Title, TitleText, WrapLine } from '..';
 import {IoCopyOutline} from 'react-icons/io5'
 import Link from 'next/link';
+import { toastError, toastSuccess } from 'hooks/useToast';
 
 const Description = ({ html }: any) => {
   return <Box mt='20px' p='0 16px' dangerouslySetInnerHTML={{ __html: html }} />;
@@ -227,7 +228,7 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
       );
 
       if (errorEstimate) {
-        // TODO: toast
+        toastError(errorEstimate.message, errorEstimate.code);
         return;
       }
 
@@ -239,7 +240,7 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
       );
 
       if (error) {
-        // TODO: toast
+        toastError(error.message, error.code)
         setLoadingSubmit(false);
         return;
       }
@@ -249,9 +250,9 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
           value: ethers.utils.parseEther('0.1'),
         }),
       );
-
+      
       if (errorCreateSale) {
-        // TODO: toast
+        toastError(errorCreateSale.message, errorCreateSale.code);
         setLoadingSubmit(false);
         return;
       }
@@ -259,7 +260,7 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
       const receipt = await (tx as any)?.wait();
 
       setLoadingSubmit(false);
-
+      toastSuccess('Congratulation, you have successfully created a Launchpad');
       router.push('/dashboard/my-project');
 
       setData(clearPresaleForm());
@@ -297,7 +298,7 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
               Get ready to launch your project
             </Typography>
           </FlexBox>
-          <FlexBox flexDirection="column">
+          <Stack width='100%' alignItems='start' divider={<Divider flexItem/>}>
             {projectReview.map((item) => (
               <WrapLine key={item.head}>
                 <WrapDescription>
@@ -354,7 +355,7 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
                 </WrapValue>
               </WrapLine>
             ))}
-          </FlexBox>
+          </Stack>
           <FlexBox gap="24px">
             <WrapTag>
               <FlexBox flexDirection="column">
@@ -451,7 +452,7 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
             <NextBackButton variant='contained' onClick={onBackStep}>
               Back
             </NextBackButton>
-            <NextBackButton variant='contained' onClick={() => handleCreateSale(data)} disabled={loadingSubmit || !isReady} sx={{}}>
+            <NextBackButton variant='contained' onClick={() => handleCreateSale(data)} disabled={loadingSubmit || !isReady}>
               {loadingSubmit ? 'Loading…' : 'Submit'}
             </NextBackButton>
           </FlexBox>

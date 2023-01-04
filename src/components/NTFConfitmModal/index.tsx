@@ -3,6 +3,7 @@ import { BaseModal } from 'components';
 import CloseIcon from '@mui/icons-material/Close';
 import { getMetaData } from 'api/avatar';
 import { useEffect, useState } from 'react';
+import { toastError } from 'hooks/useToast';
 
 // const avatars = [
 
@@ -17,6 +18,7 @@ const NTFConfitmModal = ({ open, onDismiss, tokenId }: any) => {
         const data = await getMetaData(tokenId);
         setDataClaim(data);
       } catch (error) {
+        toastError(error);
         console.log('error===>', error);
       }
     };

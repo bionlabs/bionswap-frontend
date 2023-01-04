@@ -14,6 +14,7 @@ import ProfileModal from './ProfileModal';
 import ConnectorOptionsDrawer from './ConnectorOptionsDrawer';
 import { getConnectorIcon } from 'utils/connectors';
 import Image from 'next/image';
+import { toastError } from 'hooks/useToast';
 
 type Props = {};
 
@@ -60,6 +61,7 @@ const ConnectButton = () => {
         const rest = await getUserInfo();
         setUserInfo(rest);
       } catch (error) {
+        toastError(error);
         console.log('error====>', error);
       }
     };

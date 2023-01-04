@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { shortenAddress } from 'utils/format';
 import CloseIcon from '@mui/icons-material/Close';
+import { toastError } from 'hooks/useToast';
 
 const rewards = ['1st', '2nd', '2nd'];
 
@@ -53,6 +54,7 @@ const YourRewardModal = ({
       await tx.wait();
       setIsLoading(false);
     } catch (error) {
+      toastError(error)
       console.log('error===>', error);
       setIsLoading(false);
     }

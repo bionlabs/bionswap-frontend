@@ -12,6 +12,7 @@ import {
   FormControlLabel,
   Radio,
   TextField,
+  Stack,
 } from '@mui/material';
 import { setPresaleForm } from 'state/presale/action';
 import 'react-quill/dist/quill.snow.css';
@@ -39,7 +40,7 @@ const Step05 = ({ data, setData, onNextStep, onBackStep }: any) => {
           </Typography>
         </FlexBox>
         <FlexBox flexDirection="column">
-          <WrapLine>
+          <Stack width='100%' alignItems='start' spacing={2}>
             <WrapDescription>
               <TitleText>
                 Project description
@@ -54,7 +55,7 @@ const Step05 = ({ data, setData, onNextStep, onBackStep }: any) => {
             <WrapValue>
               <ReactQuill value={data.description} onChange={handleChange('description')} />
             </WrapValue>
-          </WrapLine>
+          </Stack>
         </FlexBox>
         <FlexBox justifyContent="flex-end" gap="14px">
           <NextBackButton variant='contained' onClick={onBackStep}>

@@ -16,6 +16,7 @@ import { useChain } from 'hooks';
 import NotSupportSection from 'components/NotSupportSection';
 import Page from 'components/Page';
 import useMediaQuery from 'hooks/useMediaQuery';
+import { toastError } from 'hooks/useToast';
 
 const config = [
   {
@@ -53,6 +54,7 @@ const LaunchpadDetail = () => {
       const res = await getSaleDetail(saleAddress || '');
       setData(res);
     } catch (error) {
+      toastError(error);
       console.log('error==>', error);
     }
   };

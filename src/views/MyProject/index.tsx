@@ -8,6 +8,7 @@ import { ChainId } from '@bionswap/core-sdk';
 import NotSupportSection from 'components/NotSupportSection';
 import SkeletonCard from 'components/SkeletonCard';
 import useMediaQuery from 'hooks/useMediaQuery';
+import { toastError } from 'hooks/useToast';
 
 const MyProject = () => {
   const {isMobile , isTablet} = useMediaQuery();
@@ -36,9 +37,10 @@ const MyProject = () => {
       );
       setLaunchData(launchData);
     } catch (error) {
+      toastError(error);
       console.log('error====>', error);
     }
-  },[]);
+  },[params.chainId, params.filterBy, params.keyword, params.limit, params.owner, params.page, params.sortBy]);
 
   useEffect(() => {
     getLaunchData();

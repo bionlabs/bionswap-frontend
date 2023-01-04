@@ -76,6 +76,7 @@ const BuyTicket = () => {
       }
     } catch (error) {
       setIsLoading(false);
+      toastError(error);
       console.log(error);
     }
   };

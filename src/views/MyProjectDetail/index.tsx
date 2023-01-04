@@ -31,6 +31,7 @@ import ListContributorModal from 'components/ListContributorModal';
 import Page from 'components/Page';
 import useMediaQuery from 'hooks/useMediaQuery';
 import { shortenAddress } from 'utils/format';
+import { toastError } from 'hooks/useToast';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
@@ -153,6 +154,7 @@ const MyProjectDetail = () => {
       const res = await getSaleDetail(saleAddress);
       setData(res);
     } catch (error) {
+      toastError(error);
       console.log('error==>', error);
     }
   };
@@ -284,6 +286,7 @@ const MyProjectDetail = () => {
       setUnlockLPLoading(false);
     } catch (error: any) {
       setUnlockLPLoading(false);
+      toastError(error);
       console.log('error===>', error);
     }
   };

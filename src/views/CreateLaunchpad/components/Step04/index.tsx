@@ -3,6 +3,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Box,
   Button,
+  Divider,
   FormControl,
   FormControlLabel,
   MenuItem,
@@ -10,6 +11,7 @@ import {
   Radio,
   RadioGroup,
   Select,
+  Stack,
   styled,
   Typography,
 } from '@mui/material';
@@ -216,7 +218,7 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
           <Title>4. Add Liquidity</Title>
           <Typography color="text.secondary">You need to add liquidity on a Dex to list that token</Typography>
         </FlexBox>
-        <FlexBox flexDirection="column">
+        <Stack width='100%' alignItems='start' divider={<Divider flexItem/>}>
           <WrapLine>
             <WrapDescription>
               <TitleText>Listings options</TitleText>
@@ -399,7 +401,7 @@ const Step04 = ({ data, setData, onNextStep, onBackStep }: any) => {
               </FlexBox>
             </WrapValue>
           </WrapLine>
-        </FlexBox>
+        </Stack>
         <FlexBox justifyContent="flex-end" gap="14px">
           <NextBackButton variant="contained" onClick={onBackStep}>
             Back

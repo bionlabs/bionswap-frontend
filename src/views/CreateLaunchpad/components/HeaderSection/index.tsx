@@ -62,7 +62,6 @@ const HeaderSection = ({
 
 const WrapHead = styled(Box)`
   justify-content: space-between;
-  border-bottom: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
   padding: 32px 0;
   width: 100%;
   display: flex;
