@@ -1,15 +1,15 @@
-import React from 'react'
-import Allocation from "views/Dashboard/views/Allocation/Allocation";
-import { useRouter } from 'next/router';
-import Sidebar from 'components/Sidebar';
 import MyProject from 'views/MyProject';
-import tabsConfig from 'views/Dashboard/tabsConfig';
 
-const AssetRef = () => {
+import { NextPageWithLayout } from 'pages/_app';
+import { ReactElement } from 'react';
+import DashboardLayout from 'views/Dashboard/layout';
 
-  return (
-    <MyProject />
-  )
-}
+const MyProjectPage: NextPageWithLayout = () => {
+  return <MyProject />;
+};
 
-export default AssetRef
+MyProjectPage.getLayout = function getLayout(page: ReactElement) {
+  return <DashboardLayout>{page}</DashboardLayout>;
+};
+
+export default MyProjectPage;

@@ -10,15 +10,24 @@ import { MulticallUpdater } from 'state/multicall/updater';
 import { exception, GOOGLE_ANALYTICS_TRACKING_ID, pageview } from 'utils/gtag';
 import Footer from 'views/Footer';
 import Menu from 'views/Menu';
-import NextNProgress from 'nextjs-progressbar'
+import NextNProgress from 'nextjs-progressbar';
 import Provider from './Provider';
-
+import type { ReactElement, ReactNode } from 'react';
+import type { NextPage } from 'next';
 // Import Swiper styles
 import 'swiper/css';
 
-function MyApp({ Component, pageProps }: AppProps) {
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const router = useRouter();
   const { locale, events } = router;
+  const getLayout = Component.getLayout ?? ((page) => page);
 
   useEffect(() => {
     // @ts-ignore TYPE NEEDS FIXING
@@ -46,7 +55,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>BionSwap - Multichain Decentralized Trading Platform and Automation Launchpad</title>
       </Head>
       {/* Global Site Tag (gtag.js) - Google Analytics */}
@@ -74,7 +83,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <ListsUpdater />
           <Toast />
           <NextNProgress color="#3671E9" stopDelayMs={500} height={3} options={{ easing: 'ease', speed: 1000 }} />
-          <Component {...pageProps} />
+          {getLayout(<Component {...pageProps} />)}
           <Footer />
         </Menu>
       </Provider>
