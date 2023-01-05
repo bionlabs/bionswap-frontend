@@ -35,7 +35,7 @@ const ChainDrawer = ({ toggleChainDrawer }: Props) => {
           direction="row"
           justifyContent="space-between"
           width="100%"
-          p="12.5px 16px"
+          p="16px 24px"
           sx={{
             borderBottom: (theme) => `1px solid ${(theme.palette as any).extra.walletModal.divider}`,
           }}
@@ -50,11 +50,11 @@ const ChainDrawer = ({ toggleChainDrawer }: Props) => {
             <HiX />
           </IconButton>
         </Stack>
-        <Stack width="100%" height="100%" alignItems="start" justifyContent="start" p="16px" overflow='auto'>
+        <Stack width="100%" height="100%" alignItems="start" justifyContent="start" p="16px 24px" overflow='auto'>
           <Box
             onClick={toggleChainDrawer(false)}
             sx={{
-                display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px',
+                display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px',
                 width: '100%'
             }}
             >

@@ -35,7 +35,7 @@ const ChainSelect = () => {
 
   return (
     <Box width='100%'>
-      <ChainSelectButton variant="outlined" fullWidth onClick={isMobile ? toggleChainDrawer(true) : handleOpen}>
+      <ChainSelectButton variant="contained" fullWidth onClick={isMobile ? toggleChainDrawer(true) : handleOpen}>
         <Stack direction="row" spacing={1} justifyContent='start'>
           <Stack>
             <Image src={getChainIcon(CHAIN_INFO_MAP[chainId].id)?.iconUrl} layout="fixed" alt="" width={18} height={18} />

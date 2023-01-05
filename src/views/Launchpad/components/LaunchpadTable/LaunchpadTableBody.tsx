@@ -23,7 +23,7 @@ const LaunchpadTableBody = ({ launchpads, order, orderBy, page, rowsPerPage , lo
       {(launchpads && !loading) ? (
         // stableSort(launchpads, getComparator(order, orderBy))
         launchpads.map((item: any) => {
-          return <LaunchpadTableRow key="" item={item} />;
+          return <LaunchpadTableRow key={item.title} item={item} />;
         })
       ) : (
         <TableSkeleton />

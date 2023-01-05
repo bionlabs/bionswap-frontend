@@ -60,15 +60,14 @@ const HeadDetail: React.FC<HeadDetailProps> = ({
       <Box display="flex" alignItems="center" gap="15px">
         <Status
           sx={{
-            backgroundColor: theme => (theme.palette as any).extra.button.backgroundGreenOpacity,
-            color: 'primary.main',
-            border: '1px solid transparent',
+            backgroundColor: 'primary.main',
+            color: '#fff',
             ...(currentTime > startTime && {
               backgroundColor: 'success.main',
               color: 'white',
             }),
             ...(currentTime > endTime && {
-              backgroundColor: theme => (theme.palette as any).extra.card.hover,
+              backgroundColor: theme => (theme.palette as any).extra.card.disable,
               color: 'text.secondary',
             }),
           }}
@@ -76,7 +75,7 @@ const HeadDetail: React.FC<HeadDetailProps> = ({
           <Typography sx={{
             color: 'inherit',
             fontWeight: '500',
-            fontSize: '16px',
+            fontSize: '12px',
           }}>
             {currentTime < startTime ? 'Coming Soon' : currentTime < endTime ? 'Sale Open' : 'Sale Closed'}
           </Typography>
@@ -84,18 +83,16 @@ const HeadDetail: React.FC<HeadDetailProps> = ({
         {isWhitelistEnabled && (
           <Status
             sx={{
-              backgroundColor: 'transparent',
-              border: '1px solid',
-              borderColor: 'success.main',
-              color: 'success.main'
+              backgroundColor: 'success.main',
+              color: '#fff'
             }}
           >
             <Typography sx={{
               color: 'inherit',
               fontWeight: '500',
-              fontSize: '16px',
+              fontSize: '12px',
             }}>
-              Whitelisted
+              Whitelist Sale
             </Typography>
           </Status>
         )}
@@ -108,7 +105,7 @@ const FlexBox = styled(Box)`
   display: flex;
 `;
 const Status = styled(Box)`
-  padding: 8px 25px;
+  padding: 8px 16px;
   border-radius: 8px;
   display: flex;
   align-items: center;

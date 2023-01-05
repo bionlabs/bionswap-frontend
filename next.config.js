@@ -11,6 +11,7 @@ const nextConfig = {
   },
   images: {
     domains: [
+      'bionswap.sgp1.cdn.digitaloceanspaces.com'
       // "gemini.com",
       // "assets.coingecko.com",
       // "s2.coinmarketcap.com",
@@ -23,6 +24,14 @@ const nextConfig = {
     ],
     // loader: "cloudinary",
     // path: "https://res.cloudinary.com/demo/image/fetch/",
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'bionswap.sgp1.cdn.digitaloceanspaces.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   },
 };
 

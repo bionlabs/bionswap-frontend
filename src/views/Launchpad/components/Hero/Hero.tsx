@@ -30,13 +30,13 @@ const Hero = () => {
                 Create
               </StyledBox>
               <ImageArrow>
-                <Image src='/images/launchpad/arrow.svg' alt='' width='35px' height='20px' />
+                <Image src='/images/launchpad/arrow.svg' alt='' width={35} height={20} />
               </ImageArrow>
               <StyledBox>
                 Subcription
               </StyledBox>
               <ImageArrow>
-                <Image src='/images/launchpad/arrow.svg' alt='' width='35px' height='20px' />
+                <Image src='/images/launchpad/arrow.svg' alt='' width={35} height={20} />
               </ImageArrow>
               <StyledBox>
                 Distribution

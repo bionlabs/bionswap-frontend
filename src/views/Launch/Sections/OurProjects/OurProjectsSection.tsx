@@ -53,7 +53,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                                 ourProjectsConfig.map((item, index) => (
                                     index < 8
                                         ?
-                                        <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
+                                        <Item key={item.name} display='flex' gap="10px" alignItems="center" justifyContent="center" >
                                             <Box component='img' src={item.logo} alt={item.name} />
                                             <Typography variant='body3Poppins' color='gray.300' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
                                                 {item.name}
@@ -74,7 +74,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                                 ourProjectsConfig.map((item, index) => (
                                     index < 8
                                         ?
-                                        <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
+                                        <Item key={item.name} display='flex' gap="10px" alignItems="center" justifyContent="center" >
                                             <Box component='img' src={item.logo} alt={item.name} />
                                             <Typography variant='body3Poppins' color='gray.300' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
                                                 {item.name}
@@ -97,7 +97,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                                 ourProjectsConfig.map((item, index) => (
                                     (index >= 8 && index < 15) || index === 7
                                         ?
-                                        <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
+                                        <Item key={item.name} display='flex' gap="10px" alignItems="center" justifyContent="center" >
                                             <Box component='img' src={item.logo} alt={item.name} />
                                             <Typography variant='body3Poppins' color='gray.300' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
                                                 {item.name}
@@ -118,7 +118,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                                 ourProjectsConfig.map((item, index) => (
                                     (index >= 8 && index < 15) || index === 7
                                         ?
-                                        <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
+                                        <Item key={item.name} display='flex' gap="10px" alignItems="center" justifyContent="center" >
                                             <Box component='img' src={item.logo} alt={item.name} />
                                             <Typography variant='body3Poppins' color='gray.300' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
                                                 {item.name}
@@ -141,7 +141,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                                 ourProjectsConfig.map((item, index) => (
                                     index >= 15 || index === 1
                                         ?
-                                        <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
+                                        <Item key={item.name} display='flex' gap="10px" alignItems="center" justifyContent="center" >
                                             <Box component='img' src={item.logo} alt={item.name} />
                                             <Typography variant='body3Poppins' color='gray.300' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
                                                 {item.name}
@@ -162,7 +162,7 @@ const OurProjectsSection = ({ isMobile }: MobileProp) => {
                                 ourProjectsConfig.map((item, index) => (
                                     index >= 15 || index === 1
                                         ?
-                                        <Item display='flex' gap="10px" alignItems="center" justifyContent="center" >
+                                        <Item key={item.name} display='flex' gap="10px" alignItems="center" justifyContent="center" >
                                             <Box component='img' src={item.logo} alt={item.name} />
                                             <Typography variant='body3Poppins' color='gray.300' fontWeight='600' fontFamily='Inter' whiteSpace='nowrap'>
                                                 {item.name}

@@ -145,8 +145,8 @@ const Menu = ({ children }: any) => {
       {isMobile && (
           <BottomContainer>
             <Stack direction="row" spacing={1}>
-              <ChainSelect />
               <ConnectButton />
+              <ChainSelect />
             </Stack>
           </BottomContainer>
         )}

@@ -139,15 +139,15 @@ export const lightPalette: ExtendedPaletteOptions = {
       color: '#ffffff'
     },
     plainButton: {
-      background: '#000',
-      color: '#ffffff'
+      background: '#f2f2f2b2',
+      color: '#000000'
     },
     card: {
       background: '#FFF',
       light: '#F1F1F1',
       hover: '#EAEAEA',
       divider: '#ebebeb',
-      disable: '#242D35',
+      disable: '#D6DADE',
       boxShadow: '0 1px 8px rgba(29,32,35, .04), 0 4px 20px rgba(29,32,35, .02)'
     },
     swapPanel: {
@@ -165,7 +165,7 @@ export const lightPalette: ExtendedPaletteOptions = {
       disable: '#D6DADE',
     },
     background: {
-      alt: '#f5f5f5',
+      alt: '#f7f9fd',
       linear: '#FFF',
       secondary: '#f8f8f8'
     },
@@ -189,7 +189,7 @@ export const lightPalette: ExtendedPaletteOptions = {
       hover: '#f2f2f2b2',
     },
     toggle: {
-      background: '#F5F5F5',
+      background: '#f2f2f2b2',
       selected: '#FFFFFF',
       color: '#000000'
     }
@@ -234,8 +234,8 @@ export const darkPalette: ExtendedPaletteOptions = {
       color: '#ffffff'
     },
     plainButton: {
-      background: '#ffffff',
-      color: '#000000'
+      background: '#32353D',
+      color: '#FFFFFF'
     },
     card: {
       background: '#23242A',
@@ -406,15 +406,15 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         fontSize: '14px',
       },
     },
-    // breakpoints: {
-    //   values: {
-    //     xs: 0,
-    //     sm: 600,
-    //     md: 900,
-    //     lg: 1316,
-    //     xl: 1536,
-    //   },
-    // },
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 900,
+        lg: 1244,
+        xl: 1536,
+      },
+    },
     components: {
       MuiButtonBase: {
         defaultProps: {

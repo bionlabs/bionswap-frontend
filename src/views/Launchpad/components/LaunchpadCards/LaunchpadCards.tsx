@@ -5,6 +5,7 @@ import SkeletonCard from 'components/SkeletonCard';
 import NoDataView from 'components/NoDataView';
 import { getSaleList } from 'api/launchpad';
 import { useRefetchIncreasedInterval } from 'hooks';
+import useMediaQuery from 'hooks/useMediaQuery';
 
 interface CardProps {
   launchData: any;
@@ -14,18 +15,14 @@ interface CardProps {
 }
 
 const LaunchpadCards = ({ launchData, loading , page, handleChangePagigation }: CardProps) => {
-  
+  const {isMobile} = useMediaQuery();
 
   return (
     <>
-      <Stack
-        direction="row"
-        flexWrap="wrap"
-        alignItems="start"
-        justifyContent="center"
-        width="100%"
+      <Box
         sx={{
-          gap: '20px',
+          gap: isMobile ? '20px' : '30px', display: 'grid', width: '100%',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(325px, 1fr))'
         }}
       >
         {launchData && !loading ? (
@@ -37,7 +34,7 @@ const LaunchpadCards = ({ launchData, loading , page, handleChangePagigation }: 
         ) : (
           <SkeletonCard />
         )}
-      </Stack>
+      </Box>
       <Stack width="100%" alignItems='end'>
         <Pagination
           count={launchData?.totalPages}
@@ -54,7 +51,7 @@ const LaunchpadCards = ({ launchData, loading , page, handleChangePagigation }: 
 };
 
 const WrapItem = styled(Box)`
-  width: 370px;
+  width: 100%;
 `;
 
 export default LaunchpadCards;

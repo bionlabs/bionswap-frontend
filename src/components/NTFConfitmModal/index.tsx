@@ -18,7 +18,6 @@ const NTFConfitmModal = ({ open, onDismiss, tokenId }: any) => {
         const data = await getMetaData(tokenId);
         setDataClaim(data);
       } catch (error) {
-        toastError(error);
         console.log('error===>', error);
       }
     };

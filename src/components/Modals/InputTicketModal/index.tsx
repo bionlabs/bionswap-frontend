@@ -170,7 +170,7 @@ const InputTicketModal = ({
                 className={item.value === ticketType ? 'active' : ''}
                 onClick={() => changeTicketType(item.value)}
               >
-                <Image src={item.icon} alt="" width="75px" height="75px" />
+                <Image src={item.icon} alt="" width={75} height={75} />
               </WrapTicket>
             ))}
           </Stack>

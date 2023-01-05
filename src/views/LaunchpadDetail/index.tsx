@@ -54,7 +54,6 @@ const LaunchpadDetail = () => {
       const res = await getSaleDetail(saleAddress || '');
       setData(res);
     } catch (error) {
-      toastError(error);
       console.log('error==>', error);
     }
   };
