@@ -95,7 +95,7 @@ const CommunitySection = ({ isMobile, isTablet }: MobileProp) => {
                 borderRadius="12px"
                 sx={{ backgroundColor: '#535353', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
               >
-                <Image src={item.icon} alt="" width="32px" height="32px" />
+                <Image src={item.icon} alt="" width={32} height={32} />
               </Box>
               <Box>
                 <Typography variant="h4">+{item.number}</Typography>
@@ -123,7 +123,7 @@ const CommunitySection = ({ isMobile, isTablet }: MobileProp) => {
               flexDirection={isTablet ? 'column' : 'row'}
               maxWidth="323px"
             >
-              <Image src={item.icon} alt="" width="60px" height="60px" />
+              <Image src={item.icon} alt="" width={60} height={60} />
               <FlexBox flexDirection="column">
                 <Typography variant="h6" sx={{ color: item.color }}>
                   {item.label}

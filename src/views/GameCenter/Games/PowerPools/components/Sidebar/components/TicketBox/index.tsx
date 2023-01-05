@@ -38,7 +38,7 @@ const TicketBox = ({ balanceAirdropTicket, balanceTicket }: TicketBoxProps) => {
           <>
             <TicketItem key={item.label}>
               <ImageBox>
-                <Image src={item.icon} alt={item.label} width="80px" height="80px" />
+                <Image src={item.icon} alt={item.label} width={80} height={80} />
               </ImageBox>
               <Stack alignItems="start">
                 <Typography variant="body3Poppins" fontWeight="400" color="text.secondary">

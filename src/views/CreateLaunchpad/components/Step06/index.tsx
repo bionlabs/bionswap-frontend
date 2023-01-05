@@ -35,7 +35,6 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
 
   const quoteToken = useToken(data?.quoteToken);
   const [isReady, setIsReady] = useState(false);
-  const [decimals, setDecimals] = useState(18);
 
   const tokenFeePercent = data.saleFee === '1' ? 2 : 0;
   const tokenForSale = Number(data.maxGoal) / Number(data.tokenPrice) || 0;
@@ -200,15 +199,15 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
         isQuoteETH: data.isQuoteETH,
         isWhitelistEnabled: !!Number(data.whitelist),
         isBurnUnsold: !!Number(data.unsoldToken),
-        price: ethers.utils.parseUnits(data.tokenPrice, decimals).toString(),
-        listingPrice: ethers.utils.parseUnits(data.listingPrice, decimals).toString(),
-        minPurchase: ethers.utils.parseUnits(data.minSale, decimals).toString(),
-        maxPurchase: ethers.utils.parseUnits(data.maxSale, decimals).toString(),
+        price: ethers.utils.parseUnits(data.tokenPrice, quoteToken?.decimals || 18).toString(),
+        listingPrice: ethers.utils.parseUnits(data.listingPrice, quoteToken?.decimals || 18).toString(),
+        minPurchase: ethers.utils.parseUnits(data.minSale, quoteToken?.decimals || 18).toString(),
+        maxPurchase: ethers.utils.parseUnits(data.maxSale, quoteToken?.decimals || 18).toString(),
         startTime: Number(data.launchTime) / 1000,
         endTime: Number(data.endTime) / 1000,
         lpPercent: Number(data.liquidityPercentage) * 100,
-        softCap: ethers.utils.parseUnits(data.minGoal, decimals).toString(),
-        hardCap: ethers.utils.parseUnits(data.maxGoal, decimals).toString(),
+        softCap: ethers.utils.parseUnits(data.minGoal, quoteToken?.decimals || 18).toString(),
+        hardCap: ethers.utils.parseUnits(data.maxGoal, quoteToken?.decimals || 18).toString(),
         isAutoListing: data.isAutoListing,
         baseFee: data.baseFee,
         tokenFee: data.tokenFee,
@@ -261,11 +260,11 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
 
       setLoadingSubmit(false);
       toastSuccess('Congratulation, you have successfully created a Launchpad');
-      router.push('/dashboard/my-project');
+      router.push('/dashboard');
 
       setData(clearPresaleForm());
     },
-    [account, chainId, decimals, presaleFactoryContract, router, setData],
+    [account, chainId, presaleFactoryContract, quoteToken?.decimals, router, setData],
   );
 
   return (

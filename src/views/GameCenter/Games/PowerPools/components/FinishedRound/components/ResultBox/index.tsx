@@ -113,7 +113,7 @@ const ResultBox = ({ parentContract }: any) => {
                     {item}
                   </Typography>
                   <Stack direction='row' spacing={1}>
-                    <Image src="/images/AvatarReward.png" alt="AvatarReward" width="38px" height="38px" />
+                    <Image src="/images/AvatarReward.png" alt="AvatarReward" width={38} height={38} />
                     <Stack alignItems="flex-start">
                       <Typography color='text.primary'>{shortenAddress(getWinnersAtRound[index])}</Typography>
                       <Typography color='text.secondary' fontSize='14px'>@Anomyous User</Typography>

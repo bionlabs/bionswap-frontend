@@ -46,6 +46,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>BionSwap - Multichain Decentralized Trading Platform and Automation Launchpad</title>
       </Head>
       {/* Global Site Tag (gtag.js) - Google Analytics */}

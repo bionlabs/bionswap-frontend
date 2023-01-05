@@ -6,7 +6,6 @@ import { uploadLaunchpadImage } from 'api/launchpad';
 import Joi, { CustomHelpers, CustomValidator } from 'joi';
 import HeaderSection from '../HeaderSection';
 import { DescribeText, ErrorLabel, InputCustom, NextBackButton, RequireSymbol, Title, TitleText } from '..';
-import { toastError } from 'hooks/useToast';
 
 const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
   const [projectLogo, setProjectLogo] = useState(
@@ -86,7 +85,6 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
       setProjectLogo(imageList);
       setData(setPresaleForm({ ['projectLogo']: imageLogo.url }));
     } catch (error) {
-      toastError(error);
       console.log(error);
     }
   };
@@ -98,7 +96,6 @@ const Step01 = ({ data, setData, onNextStep, onBackStep }: any) => {
       setSaleBanner(imageList);
       setData(setPresaleForm({ ['saleBanner']: imageLogo.url }));
     } catch (error) {
-      toastError(error);
       console.log(error);
     }
   };

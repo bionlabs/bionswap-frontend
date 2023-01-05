@@ -7,6 +7,9 @@ import { formatUnits } from 'ethers/lib/utils';
 import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS } from '@bionswap/core-sdk';
 import { useSingleCallResult, useToken } from 'hooks';
 import { usePresaleContract } from 'hooks/useContract';
+import { nFormatter } from 'utils/format';
+import Image from 'next/image';
+import useMediaQuery from 'hooks/useMediaQuery';
 
 interface ProjectItemProps {
   data: any;
@@ -26,6 +29,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 const Card: React.FC<ProjectItemProps> = ({ data }) => {
+  const {isMobile} = useMediaQuery();
   const presaleContract = usePresaleContract(data?.saleAddress);
   const router = useRouter();
   const currentTime = +new Date();
@@ -62,11 +66,20 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
   return (
     <Link href={`/launchpad/${data?.saleAddress}`}>
       <WrapBox>
-        <BannerBox
+        <Stack
           sx={{
-            backgroundImage: `url(${data?.banner})`,
+            width: '100%',
+            height: '100%',
+            position: 'relative',
+            objectFit: 'cover',
           }}
-        />
+        >
+          <BannerBox />
+          <BannerImage>
+            <Image src={data?.banner} alt="" fill />
+          </BannerImage>
+          {/* <ShadeBox/> */}
+        </Stack>
         <Status
           sx={{
             backgroundColor: 'primary.main',
@@ -91,39 +104,38 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
             {currentTime < startTime ? 'Coming Soon' : currentTime < endTime ? 'Sale Open' : 'Sale Closed'}
           </Typography>
         </Status>
-
+        <WrapTopArea>
+          <WrapLogo>
+            <img src={data?.logo} alt={data?.title} />
+          </WrapLogo>
+        </WrapTopArea>
         <WrapDetail alignItems="start">
-          <Stack direction="row" width="100%" justifyContent="start" spacing={2} alignItems="center">
-            <WrapTopArea>
-              <WrapLogo>
-                <img src={data?.logo} alt={data?.title} />
-              </WrapLogo>
-            </WrapTopArea>
-            <Stack alignItems="start" spacing={1}>
+          <Stack direction="row" width="100%" spacing={2} justifyContent="space-between" alignItems='start'>
+            <Stack alignItems="start">
               <Typography
                 sx={{
                   fontWeight: '700',
-                  fontSize: '24px',
+                  fontSize: isMobile ? '24px' :  '28px',
                   lineHeight: '1',
                   color: 'text.primary',
                 }}
               >
                 {data?.title}
               </Typography>
-              <Typography fontSize="12px" color="text.secondary" lineHeight={1}>
-                ${data?.tokenMetadata.symbol} token
+              <Typography fontSize="14px" color="primary.main" fontWeight={500}>
+                ${data?.tokenMetadata.symbol}
               </Typography>
             </Stack>
-            {/* <Box>
-              <Image src={`/icons/coins/${unit}.svg`} alt={unit} width="20px" height="20px" />
-            </Box> */}
+            <Box>
+              <Image src={`/icons/coins/${unit}.svg`} alt={unit} width={30} height={30} />
+            </Box>
           </Stack>
           <Stack spacing={1} width="100%" alignItems="start">
             <Stack direction="row" width="100%" justifyContent="space-between">
-              <Typography fontSize="14px" color="text.secondary">
+              <Typography color="text.secondary">
                 Current raised:
               </Typography>
-              <Typography fontWeight={500} fontSize="14px">
+              <Typography fontWeight={500}>
                 {linearProgress}%
               </Typography>
             </Stack>
@@ -134,7 +146,6 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
             <FlexBox justifyContent="space-between">
               <Typography
                 sx={{
-                  fontSize: '14px',
                   color: 'text.secondary',
                 }}
               >
@@ -143,17 +154,15 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
               <Typography
                 sx={{
                   fontWeight: '600',
-                  fontSize: '14px',
                   color: 'text.primary',
                 }}
               >
-                {data?.fHardCap.toFixed(2) ?? 0} {unit}
+                {nFormatter(data?.fHardCap.toFixed(2) ?? 0)} {unit}
               </Typography>
             </FlexBox>
             <FlexBox justifyContent="space-between">
               <Typography
                 sx={{
-                  fontSize: '14px',
                   color: 'text.secondary',
                 }}
               >
@@ -162,11 +171,10 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
               <Typography
                 sx={{
                   fontWeight: '600',
-                  fontSize: '14px',
                   color: 'text.primary',
                 }}
               >
-                {currentCap} {unit}
+                {nFormatter(currentCap)} {unit}
               </Typography>
             </FlexBox>
           </Stack>
@@ -193,7 +201,7 @@ const WrapBox = styled(Box)`
   border-radius: 8px;
   background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   box-shadow: ${(props) => (props.theme.palette as any).extra.card.boxShadow};
-
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -205,54 +213,46 @@ const WrapBox = styled(Box)`
   }
 `;
 const BannerBox = styled(Box)`
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  border-top: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
-  border-right: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
-  border-left: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
-  border-radius: 8px 8px 0 0;
+  display: block;
+  width: initial;
+  height: initial;
+  background: none;
+  opacity: 1;
+  margin: 0px;
+  padding: 50% 0px 0px;
 `;
 const WrapDetail = styled(Stack)`
-  border-left: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
-  border-right: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
   width: 100%;
-  gap: 20px;
-  padding: 16px;
+  gap: 15px;
+  padding: 16px 20px;
 `;
 const WrapLogo = styled(Box)`
-  // border: 4px solid ${(props) => (props.theme.palette as any).extra.card.background};
-  // background-color: ${(props) => (props.theme.palette as any).background.default};
-  border-radius: 8px;
+  border: 4px solid ${(props) => (props.theme.palette as any).extra.card.background};
+  background-color: ${(props) => (props.theme.palette as any).background.default};
+  border-radius: 50%;
   position: relative;
-  width: fit-content;
-  // margin-left: 12px;
+  width: 88px;
+  height: 88px;
   display: flex;
   align-items: center;
   justify-content: center;
 
   img {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 50%;
   }
 `;
 const WrapTopArea = styled(Box)`
-  // margin-top: -38px;
-  // margin-bottom: 15px;
+  margin-top: -46px;
+  margin-left: 16px;
 `;
 const TimeLineBg = styled(Stack)`
   background: ${(props) => (props.theme.palette as any).extra.card.light};
   width: 100%;
   height: auto;
   padding: 10px 16px;
-  border-bottom: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
-  border-right: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
-  border-left: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
   border-radius: 0 0 8px 8px;
 `;
 const Status = styled(Box)`
@@ -267,11 +267,31 @@ const Status = styled(Box)`
   line-height: 1;
   max-width: 100px;
 `;
-const Footer = styled(Stack)`
-  width: 100%;
-  border-top: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
-  padding: 10px 0 0;
-  justify-content: start;
+const BannerImage = styled(Box)`
+  img {
+    position: absolute;
+    inset: 0px;
+    box-sizing: border-box;
+    padding: 0px;
+    border: none;
+    margin: auto;
+    display: block;
+    width: 0px;
+    height: 0px;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
 `;
+const ShadeBox = styled(Box)`
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(9, 11, 20, 0.3) 0%, rgba(11, 14, 19, 0) 30.22%);
+`
 
 export default Card;

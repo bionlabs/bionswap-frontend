@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Box, styled, Stack, Typography, Button } from '@mui/material';
 import Image from 'next/image';
 import { useChain, useSingleCallResult } from 'hooks';
@@ -113,7 +113,7 @@ const Card = ({ contract }: Props) => {
                 )}
               </Stack>
               <Stack direction="row" alignItems="center" gap="12px">
-                <Image src="/images/gamecenter/powerpools/ticketicon.png" alt="" width="47.8px" height="47.8px" />
+                <Image src="/images/gamecenter/powerpools/ticketicon.png" alt="" width={47.8} height={47.8} />
                 <Typography variant="h3Samsung">x{totalSlots} pool</Typography>
               </Stack>
             </Stack>

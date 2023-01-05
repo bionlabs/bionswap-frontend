@@ -30,10 +30,10 @@ const PowerPools = () => {
       <Layout>
         <Stack direction="row" alignItems="center" spacing={2} justifyContent="start">
           <StyledIconButton>
-            <Image src="/icons/message-question.svg" alt="" width="21px" height="21px" />
+            <Image src="/icons/message-question.svg" alt="" width={21} height={21} />
           </StyledIconButton>
           <StyledIconButton>
-            <Image src="/icons/cup.svg" alt="" width="21px" height="21px" />
+            <Image src="/icons/cup.svg" alt="" width={21} height={21} />
           </StyledIconButton>
           <StyledButton variant="contained">Your rewards</StyledButton>
         </Stack>

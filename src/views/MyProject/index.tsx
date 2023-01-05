@@ -37,7 +37,6 @@ const MyProject = () => {
       );
       setLaunchData(launchData);
     } catch (error) {
-      toastError(error);
       console.log('error====>', error);
     }
   },[params.chainId, params.filterBy, params.keyword, params.limit, params.owner, params.page, params.sortBy]);

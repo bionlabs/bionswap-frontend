@@ -9,7 +9,6 @@ import { getUserInfo } from 'api/user';
 import { useBionAvatarContract } from 'hooks/useContract';
 import { useChain, useDarkMode, useNativeCurrencyBalances, useSingleCallResult } from 'hooks';
 import { useAppSelector } from 'state';
-import { toastError } from 'hooks/useToast';
 
 const Header = ({ isMobile }: MobileProp) => {
   const { address } = useAccount();
@@ -40,7 +39,6 @@ const Header = ({ isMobile }: MobileProp) => {
         const res = await getMyList(address || '');
         setAvatars(res);
       } catch (error) {
-        toastError(error);
         console.log('error====>', error);
       }
     };
@@ -56,7 +54,6 @@ const Header = ({ isMobile }: MobileProp) => {
         const rest = await getUserInfo();
         setUserInfo(rest);
       } catch (error) {
-        toastError(error);
         console.log('error====>', error);
       }
     };
@@ -73,7 +70,6 @@ const Header = ({ isMobile }: MobileProp) => {
     try {
       setOpenModal(false);
     } catch (error) {
-      toastError(error);
       console.log('error====>', error);
     }
   };

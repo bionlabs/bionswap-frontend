@@ -49,7 +49,7 @@ export default function LaunchpadTable({ launchData, loading , page, handleChang
     <Box sx={{ width: '100%' }}>
       <StyledTableWrapper>
         <TableContainer>
-          <Table sx={{ minWidth: 750 }}>
+          <Table sx={{ width: '100%' }}>
             <TableHead>
               {launchData && (
                 <LaunchpadTableHead

@@ -37,7 +37,7 @@ class MyDocument extends Document {
           />
           <link rel="shortcut icon" href="/favicon.ico" />
           <link rel="apple-touch-icon" href="/logo.png" />
-          <link rel="manifest" href="/manifest.json" />
+          {/* <link rel="manifest" href="/manifest.json" /> */}
         </Head>
         <body>
           <Main />

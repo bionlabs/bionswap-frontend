@@ -42,7 +42,7 @@ const ConnectorOptionsDrawer = ({ toggleConnectorDrawer, handleConnectorConnecte
           direction="row"
           justifyContent="space-between"
           width="100%"
-          p="12.5px 16px"
+          p="16px 24px"
           sx={{
             borderBottom: (theme) => `1px solid ${(theme.palette as any).extra.walletModal.divider}`,
           }}
@@ -57,7 +57,7 @@ const ConnectorOptionsDrawer = ({ toggleConnectorDrawer, handleConnectorConnecte
             <HiX />
           </IconButton>
         </Stack>
-        <Stack width="100%" height="100%" alignItems="start" justifyContent="space-between" p="16px">
+        <Stack width="100%" height="100%" alignItems="start" justifyContent="space-between" p="16px 24px">
           <Stack width="100%" spacing={2} onClick={toggleConnectorDrawer(false)}>
             {connectors.map((connector) => (
               <DrawerConnectorItemButton

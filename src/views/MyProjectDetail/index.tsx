@@ -154,7 +154,6 @@ const MyProjectDetail = () => {
       const res = await getSaleDetail(saleAddress);
       setData(res);
     } catch (error) {
-      toastError(error);
       console.log('error==>', error);
     }
   };
@@ -286,7 +285,6 @@ const MyProjectDetail = () => {
       setUnlockLPLoading(false);
     } catch (error: any) {
       setUnlockLPLoading(false);
-      toastError(error);
       console.log('error===>', error);
     }
   };

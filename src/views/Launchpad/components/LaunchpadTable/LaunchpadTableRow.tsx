@@ -8,6 +8,7 @@ import { useToken } from 'hooks';
 import { formatUnits } from 'ethers/lib/utils';
 import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS } from '@bionswap/core-sdk';
 import Link from 'next/link';
+import { nFormatter } from 'utils/format';
 
 const LaunchpadTableRow = ({ item }: any) => {
   const [decimals, setDecimals] = useState(18);
@@ -40,7 +41,7 @@ const LaunchpadTableRow = ({ item }: any) => {
   }, [quoteToken, item]);
 
   return (
-    <Link href={`/launchpad/${item?.saleAddress}`}>
+    <Link href={`/launchpad/${item?.saleAddress}`} legacyBehavior>
       <StyledTableRow>
         <StyledTableCell component="th" scope="row">
           <Stack direction="row" justifyContent="start" spacing={2}>
@@ -86,16 +87,16 @@ const LaunchpadTableRow = ({ item }: any) => {
           </Stack>
         </StyledTableCell>
         <StyledTableCell align="right">
-          {item?.fHardCap.toFixed(2) ?? 0} {unit}
+          {nFormatter(item?.fHardCap.toFixed(2) ?? 0)} {unit}
         </StyledTableCell>
         <StyledTableCell align="right">
-          {item?.fMaxPurchase ?? 0} {unit}
+          {nFormatter(item?.fMaxPurchase ?? 0)} {unit}
         </StyledTableCell>
         <StyledTableCell align="right">
           <Stack direction="row" spacing={1} width='100%' justifyContent='end'>
-            <Image src={`/icons/coins/${unit}.svg`} alt={unit} width="20px" height="20px" />
+            <Image src={`/icons/coins/${unit}.svg`} alt={unit} width={20} height={20} />
             <Typography fontSize="inherit" fontWeight="500" color="text.primary">
-              {(unit == 'BNB' ? item?.fPrice.toFixed(2) : item?.fPrice.toFixed(1)) ?? 0} {unit}
+              {(unit == 'BNB' ? nFormatter(item?.fPrice.toFixed(2)) : nFormatter(item?.fPrice.toFixed(1))) ?? 0} {unit}
             </Typography>
           </Stack>
         </StyledTableCell>

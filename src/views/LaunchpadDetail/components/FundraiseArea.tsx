@@ -7,6 +7,8 @@ import React, { useEffect, useState } from 'react';
 import { useChain } from 'hooks';
 import Link from 'next/link';
 import useMediaQuery from 'hooks/useMediaQuery';
+import { nFormatter } from 'utils/format';
+import Image from 'next/image';
 
 interface FundraiseAreaProps {
   data: any;
@@ -30,7 +32,7 @@ interface FundraiseAreaProps {
 
 const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, presaleContract }) => {
   const [openModal, setOpenModal] = useState(false);
-  const {isMobile} = useMediaQuery();
+  const {isMobile, isTablet, isDesktop} = useMediaQuery();
   const { account } = useChain();
   const [decimals, setDecimals] = useState(18);
   const currentCap = formatUnits(useSingleCallResult(presaleContract, 'currentCap')?.result?.[0] || 0, decimals);
@@ -66,32 +68,23 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
       <Box
         sx={{
           display: 'grid', width: '100%',
-          gridTemplateColumns: { xs: '12fr', md: '7fr 4fr' },
-          gap: { xs: '20px', lg: '50px' },
+          gridTemplateColumns: isDesktop ? '1fr' : '7fr 4fr',
+          gap: '20px'
         }}
       >
-        <Box
-          sx={{
-            width: '100%',
-            borderRadius: '8px',
-            overflow: 'hidden',
-            height: '508px',
-          }}
-        >
-          <Box
-            width="100%"
-            height="100%"
-            component="img"
-            src={data?.banner}
-            alt={data?.title}
-            sx={{
-              objectFit: 'cover',
-            }}
-          />
-        </Box>
+        <ImageContainer>
+          <ImagePositioningBox/>
+          <ImageBox>
+            <Image
+              src={data?.banner}
+              alt={data?.title}
+              fill
+            />
+          </ImageBox>
+        </ImageContainer>
         <WrapInfoBox
           sx={{
-            // maxWidth: { xs: '100%', md: '365px', lg: '430px' },
+            maxWidth: '100%',
           }}
         >
           <Stack alignItems='start' spacing={1}>
@@ -99,7 +92,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
               Fundraise Goal
             </Typography>
             <Typography fontSize='40px' color="text.primary" fontWeight="700" sx={{textShadow: 'rgb(255 255 255 / 30%) 0px 0px 12px'}} lineHeight='1'>
-              {formatUnits(data?.hardCap || 0, decimals)} {unit}
+              {nFormatter(formatUnits(data?.hardCap || 0, decimals))} {unit}
             </Typography>
           </Stack>
           <Stack alignItems='start' spacing={1} width='100%'>
@@ -117,7 +110,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
                 {unit}
               </Typography> */}
               <Typography fontSize='19px' color="text.primary">
-                {formatUnits(data?.maxPurchase || 0, decimals)}{' '}
+                {nFormatter(formatUnits(data?.maxPurchase || 0, decimals))}{' '}
                 {unit}
               </Typography>
             </Stack>
@@ -131,7 +124,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
                 Price per token
               </Typography>
               <Typography fontSize='19px' color="text.primary">
-                {formatUnits(data?.price || 0, decimals)} {unit}
+                {nFormatter(formatUnits(data?.price || 0, decimals))} {unit}
               </Typography>
             </Stack>
             {/* <FlexBox
@@ -157,24 +150,20 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
                 Current raised
               </Typography>
               <Typography fontSize='19px' color="text.primary">
-                {currentCap} {unit}
+                {nFormatter(currentCap)} {unit}
               </Typography>
             </Stack>
             {/* <BorderLinearProgress variant="determinate" value={linearProgress} /> */}
           </Stack>
           <FlexBox>
             {startTime > currentTime ? (
-              <JoinButton disabled sx={{ backgroundColor: 'gray.200' }}>
-                <Typography variant="body3Poppins" color="gray.400" fontWeight="600">
-                  Not Available
-                </Typography>
+              <JoinButton variant='contained' disabled>
+                Not Available
               </JoinButton>
-            ) : Number(yourPurchased) !== 0 ? (
+            ) : Number(yourPurchased) !== 0 ? ( 
               <Link href={'/dashboard/allocation'}>
-                <JoinButton sx={{ backgroundColor: 'primary.main', '&:hover': { backgroundColor: 'primary.main' } }}>
-                  <Typography variant="body3Poppins" color="#000000" fontWeight="600">
-                    View your allocation
-                  </Typography>
+                <JoinButton variant='contained'>
+                  View your allocation
                   <img src="/images/arrow_forward.png" alt="arrow_forward" width="20px" />
                 </JoinButton>
               </Link>
@@ -182,18 +171,13 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
               <Link href={`/swap?inputCurrency=ETH&outputCurrency=${token?.address}`}>
                 <JoinButton
                   variant='contained'
-                  color='success'
                 >
-                  <Typography fontSize='18px' fontWeight="600">
-                    View ${token?.symbol} on Bionswap
-                  </Typography>
+                  View ${token?.symbol} on Bionswap
                 </JoinButton>
               </Link>
             ) : whitelisteds && data?.isWhitelistEnabled ? (
               <JoinButton disabled variant='contained'>
-                <Typography fontSize='18px' color="text.secondary" fontWeight="600">
-                  You are not whitelisted
-                </Typography>
+                You are not whitelisted
               </JoinButton>
             ) : (
               <JoinButton
@@ -204,9 +188,7 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
                   transition: '0.12s ease-in'
                 }}
               >
-                <Typography fontSize='18px' color="white" fontWeight="600">
-                  Join Now
-                </Typography>
+                Join Now
               </JoinButton>
             )}
           </FlexBox>
@@ -235,11 +217,56 @@ const WrapInfoBox = styled(Box)`
 `;
 
 const JoinButton = styled(Button)`
-  border-radius: 4px;
+  border-radius: 8px;
   width: 100%;
   text-align: center;
   padding: 12px 25px;
   gap: 5px;
 `;
+const ImageContainer = styled(Box)`
+  box-sizing: border-box;
+  display: block;
+  overflow: hidden;
+  width: initial;
+  height: initial;
+  background: none;
+  opacity: 1;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  position: relative;
+`
+const ImagePositioningBox = styled(Box)`
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  height: initial;
+  background: none;
+  opacity: 1;
+  border: 0px;
+  margin: 0px;
+  padding: 56.1358% 0px 0px;
+`
+const ImageBox = styled(Box)`
+  img {
+    position: absolute;
+    inset: 0px;
+    box-sizing: border-box;
+    padding: 0px;
+    border: none;
+    margin: auto;
+    display: block;
+    width: 0px;
+    height: 0px;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    aspect-ratio: 16 / 9;
+    border: 1px solid ${props => (props.theme.palette as any).extra.card.divider};
+  }
+`
 
 export default FundraiseArea;

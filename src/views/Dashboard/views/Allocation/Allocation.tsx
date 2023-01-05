@@ -21,7 +21,6 @@ const Allocation = () => {
         const res = await getJoinedSales(chainId.toString(), account || '');
         setData(res);
       } catch (error) {
-        toastError(error);
         console.log('error===>', error);
       }
     };

@@ -54,13 +54,13 @@ const MissionSection = () => {
                 </FlexBox>
                 <Box mt='128px' sx={{position: 'relative'}}>
                     <WrapLogo>
-                        <Image src='/images/home/Frame481747.png' alt='Frame481747' width='103px' height='74px' />
+                        <Image src='/images/home/Frame481747.png' alt='Frame481747' width={103} height={74} />
                     </WrapLogo>
                     <FlexBox justifyContent='flex-end' sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
                         <ItemConfig sx={{ backgroundColor: 'background.default' }}>
                             <FlexBox flexDirection='column' gap='19px' alignItems='baseline'>
                                 <WrapIcon sx={{ backgroundColor: '#272727' }}>
-                                    <Image src='/images/home/arrange-circle.png' alt='Swap token with low gas fee and  fast. transaction' width='29px' height='29px' />
+                                    <Image src='/images/home/arrange-circle.png' alt='Swap token with low gas fee and  fast. transaction' width={29} height={29} />
                                 </WrapIcon>
                                 <Typography variant='bodyPoppins' fontWeight='600'>
                                     Swap token with low gas fee and  fast. transaction
@@ -76,7 +76,7 @@ const MissionSection = () => {
                         <ItemConfig sx={{ backgroundColor: 'background.paper' }}>
                             <FlexBox flexDirection='column' gap='19px' alignItems='baseline'>
                                 <WrapIcon sx={{ backgroundColor: '#D9D9D9' }}>
-                                    <Image src='/images/home/additem.png' alt='additem' width='29px' height='29px' />
+                                    <Image src='/images/home/additem.png' alt='additem' width={29} height={29} />
                                 </WrapIcon>
                                 <Box>
                                     <Typography variant='body3Poppins' fontWeight='500' sx={{ color: 'secondary.main' }}>
@@ -106,7 +106,7 @@ const MissionSection = () => {
                         <ItemConfig sx={{ backgroundColor: 'primary.main' }}>
                             <FlexBox flexDirection='column' gap='19px' alignItems='baseline'>
                                 <WrapIcon sx={{ backgroundColor: '#82FFFF' }}>
-                                    <Image src='/images/home/award.png' alt='award' width='29px' height='29px' />
+                                    <Image src='/images/home/award.png' alt='award' width={29} height={29} />
                                 </WrapIcon>
                                 <Box>
                                     <Typography variant='body3Poppins' fontWeight='500' sx={{ color: 'secondary.main' }}>

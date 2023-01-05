@@ -54,7 +54,6 @@ const YourRewardModal = ({
       await tx.wait();
       setIsLoading(false);
     } catch (error) {
-      toastError(error)
       console.log('error===>', error);
       setIsLoading(false);
     }
@@ -99,7 +98,7 @@ const YourRewardModal = ({
                   <Typography variant="body4Poppins" fontWeight="400" color="gray.300">
                     {item}
                   </Typography>
-                  <Image src="/images/AvatarReward.png" alt="AvatarReward" width="38px" height="38px" />
+                  <Image src="/images/AvatarReward.png" alt="AvatarReward" width={38} height={38} />
                   <Stack alignItems="flex-start">
                     <Typography>{shortenAddress(getWinnersAtRound[index])}</Typography>
                     <Typography>@Anomyous User</Typography>
@@ -138,7 +137,7 @@ const YourRewardModal = ({
                     Congratulations, you have won
                   </Typography>
                 </Stack>
-                <Image src="/images/1ticket.png" alt="1ticket.png" width="123px" height="123px" />
+                <Image src="/images/1ticket.png" alt="1ticket.png" width={123} height={123} />
               </Stack>
             )}
           </WrapBox>

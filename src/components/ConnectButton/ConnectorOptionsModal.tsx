@@ -134,7 +134,7 @@ function ConnectorOptionsModal({ onConnectorSelected, onConnectorConnected, onCl
             {
               connectors.map((connector, index) => 
                 <TabPanel key={`tab${index}`} value={value} index={index}>
-                  <Stack spacing={2} height='100%'>
+                  <Stack spacing={2} height='100%' onClick={onClose}>
                     <Box>
                       <Image src={getConnectorIcon(connector.id)} layout="fixed" alt="" width={80} height={80} />
                     </Box>

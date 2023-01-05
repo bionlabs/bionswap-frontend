@@ -34,7 +34,6 @@ const Avatar = () => {
             const res = await getMyList(address || '');
             setAvatars(res);
         } catch (error) {
-            toastError(error);
             console.log('error====>', error);
         }
         };
@@ -51,7 +50,6 @@ const Avatar = () => {
                 const rest = await getUserInfo();
                 setUserInfo(rest);
             } catch (error) {
-                toastError(error);
                 console.log('error====>', error);
             }
             };
@@ -64,7 +62,6 @@ const Avatar = () => {
             const res = await updateAvatar(param);
             setOpenModal(false);
             } catch (error) {
-                toastError(error);
                 console.log('error====>', error);
             }
         };
