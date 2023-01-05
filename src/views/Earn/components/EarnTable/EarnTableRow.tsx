@@ -19,7 +19,7 @@ const LaunchpadTableRow = ({pool , loading}:any) => {
   const contractData = usePools(pool.address, pool.chainId);
 
   return (
-    <Link href={`/earn/${pool.chainId}/${pool.address}`}>
+    <Link href={`/earn/${pool.chainId}/${pool.address}`} legacyBehavior>
         <StyledTableRow>
           <StyledTableCell component="th" scope="row">
             <Stack direction="row" justifyContent="start" spacing={2}>

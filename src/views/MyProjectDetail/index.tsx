@@ -296,19 +296,19 @@ const MyProjectDetail = () => {
   return (
     <Page sx={{backgroundColor: theme => (theme.palette as any).extra.background.alt}}>
       <HeadArea>
-        <WrapContain maxWidth='xl'>
+        <WrapContain>
           <FlexBox gap="10px" alignItems="center">
             <Typography variant="h3Samsung" color="text.primary" fontWeight="700">
               {data?.title}
             </Typography>
             <Status
               sx={{
-                backgroundColor: 'gray.500',
+                backgroundColor: theme => (theme.palette as any).extra.card.disable,
                 ...(currentTime < startTime && {
-                  backgroundColor: 'gray.800',
+                  backgroundColor: 'success.main',
                 }),
                 ...(currentTime < endTime && {
-                  backgroundColor: 'success.main',
+                  backgroundColor: 'primary.main',
                 }),
               }}
             >
@@ -323,7 +323,7 @@ const MyProjectDetail = () => {
               </Typography>
             </Status>
           </FlexBox>
-          <Typography variant="body2Poppins" color="gray.400" fontWeight="400">
+          <Typography variant="body2Poppins" color="text.secondary" fontWeight="400">
             The next level decentralized
           </Typography>
           {/* <FlexBox gap="16px" mt="24px">
@@ -343,7 +343,7 @@ const MyProjectDetail = () => {
         </WrapContain>
       </HeadArea>
       <BodyArea>
-        <Container maxWidth='xl'>
+        <Container>
           <Box mb='20px'>
             <Typography fontSize='24px' color="text.primary" fontWeight="600">
               Sale Progress
@@ -447,7 +447,7 @@ const MyProjectDetail = () => {
               }}
             >
               <SaleBox gap="18px">
-                <Typography variant="body2Poppins" color="gray.50" fontWeight="500">
+                <Typography variant="body2Poppins" color="text.primary" fontWeight="500">
                   Sale action
                 </Typography>
                 <FlexBox gap="15px" flexDirection="column">
@@ -456,9 +456,7 @@ const MyProjectDetail = () => {
                     onClick={handleFinalize}
                     disabled={saleStatus !== 0 || currentTime < endTime}
                   >
-                    <Typography variant="body3Poppins" color="inherit" fontWeight="500">
-                      Complete and Release token
-                    </Typography>
+                    Complete and Release token
                   </ButtonInLine>
                   <ButtonInLine
                     variant='contained'
@@ -466,23 +464,19 @@ const MyProjectDetail = () => {
                     color='error'
                     disabled={saleStatus !== 0 || currentTime < endTime}
                   >
-                    <Typography variant="body3Poppins" color="inherit" fontWeight="500">
-                      Cancel
-                    </Typography>
+                    Cancel
                   </ButtonInLine>
                   <ButtonOutLine
                     variant='outlined'
                     onClick={handleListModal}
                     color='success'
                   >
-                    <Typography variant="body3Poppins" color="inherit">
-                      Contributors list
-                    </Typography>
+                    Contributors list
                   </ButtonOutLine>
                 </FlexBox>
               </SaleBox>
               <SaleBox gap="18px">
-                <Typography variant="body2Poppins" color="gray.50" fontWeight="500">
+                <Typography variant="body2Poppins" color="text.primary" fontWeight="500">
                   Sale Mode
                 </Typography>
                 <FormControl fullWidth>
@@ -494,7 +488,7 @@ const MyProjectDetail = () => {
                         label={
                           <Typography
                             variant="body3Poppins"
-                            color={isWhitelistEnabled === item.value ? 'gray.300' : 'gray.700'}
+                            color={isWhitelistEnabled === item.value ? 'text.primary' : 'text.secondary'}
                             fontWeight="400"
                           >
                             {item.label}
@@ -503,7 +497,7 @@ const MyProjectDetail = () => {
                         control={
                           <Radio
                             sx={{
-                              color: 'text.disabled',
+                              color: 'text.secondary',
                               '&.Mui-checked': {
                                 color: 'primary.main',
                               },
@@ -562,7 +556,7 @@ const FlexBox = styled(Box)`
   display: flex;
 `;
 const HeadArea = styled(Box)`
-  padding: 5rem 0;
+  padding: 5rem 0 0;
   // background-image: url('/images/Group.png');
   // background-position: center;
   // background-repeat: no-repeat;
