@@ -13,7 +13,7 @@ function a11yProps(index: number) {
 const TabSection = ({ value, handleChange }: any) => {
   return (
     <Wrapper>
-      <StyledTabs value={value} variant="scrollable" scrollButtons="auto">
+      <StyledTabs value={value} onChange={handleChange} variant="scrollable" scrollButtons="auto">
         {tabsConfig.map((item, index) => (
           <Tab
             key={item.label}
@@ -22,7 +22,7 @@ const TabSection = ({ value, handleChange }: any) => {
             {...a11yProps(index)}
             LinkComponent={Link}
             href={item.href}
-          />  
+          />
         ))}
       </StyledTabs>
     </Wrapper>
@@ -41,7 +41,7 @@ const StyledTabs = styled(Tabs)`
     transition: 0.12s ease-in;
   }
   .MuiButtonBase-root.MuiTab-root.Mui-selected {
-      color: #ffffff;
+    color: #ffffff;
   }
   .MuiTabs-indicator {
     background-color: ${(props) => props.theme.palette.primary.main};
