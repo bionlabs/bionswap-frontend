@@ -61,7 +61,6 @@ const ConnectButton = () => {
         const rest = await getUserInfo();
         setUserInfo(rest);
       } catch (error) {
-        toastError(error);
         console.log('error====>', error);
       }
     };
