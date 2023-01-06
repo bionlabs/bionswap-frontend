@@ -15,14 +15,14 @@ function TabPanel(props: TabPanelProps) {
   const { children, ...other } = props;
 
   return (
-    <Box role="tabpanel" {...other} width='100%'>
-      <Box width='100%'>{children}</Box>
+    <Box role="tabpanel" {...other} width="100%">
+      <Box width="100%">{children}</Box>
     </Box>
   );
 }
 
 const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isMobile , isTablet } = useMediaQuery();
+  const { isMobile, isTablet } = useMediaQuery();
   const [value, setValue] = useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -40,15 +40,14 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
 
     setValue(newValue);
   }, [router.route]);
-  
+
   return (
     <Page>
-      <Header/>
-      <Container maxWidth='xl' sx={{position:'relative', zIndex: '1'}}>
-        <Stack width='100%' direction={isTablet ? 'column' : 'row'} alignItems='start' gap='60px'>
-          <Profile/>
-          <Stack width='100%' alignItems='start' justifyContent='start' gap='40px' marginTop='30px'>
-            <TabSection value={value}/>
+      <Container maxWidth="xl">
+        <Stack width="100%" direction={isTablet ? 'column' : 'row'} alignItems="start" gap="60px" p="8rem 0">
+          <Header isMobile={isMobile} />
+          <Stack width="100%" alignItems="start" justifyContent="start" gap="40px">
+            <TabSection value={value} handleChange={handleChange} />
             <TabPanel>{children}</TabPanel>
           </Stack>
         </Stack>
