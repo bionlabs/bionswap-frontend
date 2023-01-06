@@ -4,6 +4,7 @@ import useMediaQuery from 'hooks/useMediaQuery';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Header from './components/Header';
+import Profile from './components/Profile';
 import TabSection from './components/TabSection';
 
 interface TabPanelProps {
@@ -42,10 +43,11 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
   
   return (
     <Page>
-      <Container maxWidth='xl'>
-        <Stack width='100%' direction={isTablet ? 'column' : 'row'} alignItems='start' gap='60px' p='8rem 0'>
-          <Header isMobile={isMobile} />
-          <Stack width='100%' alignItems='start' justifyContent='start' gap='40px'>
+      <Header/>
+      <Container maxWidth='xl' sx={{position:'relative', zIndex: '1'}}>
+        <Stack width='100%' direction={isTablet ? 'column' : 'row'} alignItems='start' gap='60px'>
+          <Profile/>
+          <Stack width='100%' alignItems='start' justifyContent='start' gap='40px' marginTop='30px'>
             <TabSection value={value}/>
             <TabPanel>{children}</TabPanel>
           </Stack>
