@@ -13,41 +13,40 @@ function a11yProps(index: number) {
 const TabSection = ({ value, handleChange }: any) => {
   return (
     <Wrapper>
-      <Container>
-        <StyledTabs value={value} variant="scrollable" scrollButtons="auto">
-          {tabsConfig.map((item, index) => (
-            <Tab
-              key={item.label}
-              disableRipple
-              label={item.label}
-              {...a11yProps(index)}
-              LinkComponent={Link}
-              href={item.href}
-            />
-          ))}
-        </StyledTabs>
-      </Container>
+      <StyledTabs value={value} variant="scrollable" scrollButtons="auto">
+        {tabsConfig.map((item, index) => (
+          <Tab
+            key={item.label}
+            disableRipple
+            label={item.label}
+            {...a11yProps(index)}
+            LinkComponent={Link}
+            href={item.href}
+          />  
+        ))}
+      </StyledTabs>
     </Wrapper>
   );
 };
 
 const Wrapper = styled(Box)`
-  background-color: ${(props) => (props.theme.palette as any).background.default};
   width: 100%;
-  padding: 1rem 0;
 `;
 const StyledTabs = styled(Tabs)`
   .MuiButtonBase-root {
-    border-radius: 8px;
+    border-radius: 999px;
     text-transform: none;
     position: relative;
     z-index: 2;
-    transition: 0.15s ease-in;
+    transition: 0.12s ease-in;
+  }
+  .MuiButtonBase-root.MuiTab-root.Mui-selected {
+      color: #ffffff;
   }
   .MuiTabs-indicator {
-    background-color: ${(props) => (props.theme.palette as any).extra.button.backgroundGreenOpacity};
+    background-color: ${(props) => props.theme.palette.primary.main};
     height: 100%;
-    border-radius: 8px;
+    border-radius: 999px;
     z-index: 1;
   }
 `;

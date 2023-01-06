@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box, Container, Stack } from '@mui/material';
 import Page from 'components/Page';
 import useMediaQuery from 'hooks/useMediaQuery';
 import { useRouter } from 'next/router';
@@ -14,14 +14,14 @@ function TabPanel(props: TabPanelProps) {
   const { children, ...other } = props;
 
   return (
-    <div role="tabpanel" {...other}>
-      <Container sx={{ paddingTop: '40px' }}>{children}</Container>
-    </div>
+    <Box role="tabpanel" {...other} width='100%'>
+      <Box width='100%'>{children}</Box>
+    </Box>
   );
 }
 
 const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isMobile } = useMediaQuery();
+  const { isMobile , isTablet } = useMediaQuery();
   const [value, setValue] = useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -39,12 +39,18 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
 
     setValue(newValue);
   }, [router.route]);
-  console.log(router);
+  
   return (
-    <Page sx={{ backgroundColor: (theme) => (theme.palette as any).extra.background.alt }}>
-      <Header isMobile={isMobile} />
-      <TabSection value={value} handleChange={handleChange} />
-      <TabPanel>{children}</TabPanel>
+    <Page>
+      <Container maxWidth='xl'>
+        <Stack width='100%' direction={isTablet ? 'column' : 'row'} alignItems='start' gap='60px' p='8rem 0'>
+          <Header isMobile={isMobile} />
+          <Stack width='100%' alignItems='start' justifyContent='start' gap='40px'>
+            <TabSection value={value}/>
+            <TabPanel>{children}</TabPanel>
+          </Stack>
+        </Stack>
+      </Container>
     </Page>
   );
 };
