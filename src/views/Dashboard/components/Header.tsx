@@ -4,12 +4,18 @@ import {
   styled
 } from '@mui/material'
 import Image from "next/image";
+import useMediaQuery from "hooks/useMediaQuery";
 
 const Header = () => {
-
+  const {isMobile} = useMediaQuery()
   return (
     <Wrapper>
-      <Image src='/images/dashboard-banner-default.png' alt='' fill />
+      <ImageWrapper>
+        {
+          !isMobile && <img src='/images/dashboard-banner-default.png' alt='' width='100%' />
+        }
+        
+      </ImageWrapper>
     </Wrapper>
   );
 };
@@ -17,12 +23,14 @@ const Header = () => {
 const Wrapper = styled(Box)`
   height: 184px;
   background-color: ${props => props.theme.palette.background.default};
-  overflow: hidden;
   display: flex;
   align-items: center;
   width: 100%;
-  position: relative;
-  z-index: 0;
+`
+const ImageWrapper = styled(Box)`
+  img {
+    object-fit: cover;
+  }
 `
 
 

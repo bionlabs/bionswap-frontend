@@ -31,6 +31,7 @@ const TabSection = ({ value, handleChange }: any) => {
 
 const Wrapper = styled(Box)`
   width: 100%;
+  // border-bottom: 1px solid ${props => (props.theme.palette as any).extra.card.divider};
 `;
 const StyledTabs = styled(Tabs)`
   .MuiButtonBase-root {

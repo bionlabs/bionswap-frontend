@@ -7,6 +7,9 @@ import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS } from '@bionswap/core-sdk';
 import { useSingleCallResult, useToken } from 'hooks';
 import { usePresaleContract } from 'hooks/useContract';
 import { withCatch } from 'utils/error';
+import Image from 'next/image';
+import useMediaQuery from 'hooks/useMediaQuery';
+import Link from 'next/link';
 
 interface ProjectItemProps {
   data: any;
@@ -14,6 +17,7 @@ interface ProjectItemProps {
 }
 
 const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
+  const {isDesktop} = useMediaQuery()
   const [claimLoading, setClaimLoading] = useState(false);
   const [vestingNextTime, setVestingNextTime] = useState<any>([]);
   const currentTime = +new Date();
@@ -60,7 +64,7 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
 
   const configData = [
     {
-      label: 'Available Now',
+      label: 'Available to claim',
       value: `${calcClaimableTokenAmount} ${token?.symbol}`,
     },
     {
@@ -68,19 +72,9 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
       value: `${tokenAmountClaimed} ${token?.symbol}`,
     },
     {
-      label: 'Total',
+      label: 'Your allocation',
       value: `${calcPurchasedTokenAmount} ${token?.symbol}`,
-    },
-    {
-      label:
-        currentTime < +new Date(vestingTime) || Number(data?.sale?.tgeReleasePercent || 0) / 100 == 100
-          ? 'Claim in'
-          : 'Next Claim in',
-      value:
-        currentTime < +new Date(vestingTime) || Number(data?.sale?.tgeReleasePercent || 0) / 100 == 100
-          ? new Date(vestingTime).toLocaleString()
-          : new Date(vestingNextTime[currentCycle]).toLocaleString(),
-    },
+    }
   ];
 
   useEffect(() => {
@@ -93,7 +87,7 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
     };
 
     CalculateCycle();
-  }, [nCycles, vestingTime]);
+  }, [data?.sale?.cycleDuration, data?.sale?.tgeDate, nCycles, vestingTime]);
 
   const handleClaim = async () => {
     try {
@@ -107,10 +101,26 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
   };
 
   return (
-    <WrapBox>
-      <Avatar>
-        <img src={data?.sale?.banner} alt={data?.sale?.title} />
-      </Avatar>
+    <Link href={`/launchpad/${data.saleAddress}`} legacyBehavior>
+    <WrapBox flexDirection={isDesktop ? 'column' : 'row'}>
+      <Box position='relative'>
+        <Avatar>
+          <img src={data?.sale?.banner} alt={data?.sale?.title} width={isDesktop ? '100%' : 380} height='222px' />
+        </Avatar>
+        <Status
+          sx={{
+            backgroundColor: theme => (theme.palette as any).extra.card.disable,
+            ...(currentTime >= vestingTime && {
+              backgroundColor: 'success.main',
+            }),
+            ...(currentTime >= vestingNextTime[nCycles - 1] && {
+              backgroundColor: theme => (theme.palette as any).extra.card.disable,
+            }),
+          }}
+        >
+          {currentTime > vestingNextTime[nCycles - 1] ? 'Closed' : currentTime >= vestingTime ? 'Open' : 'Waiting'}
+        </Status>
+      </Box>
       <WrapText>
         <FlexBox justifyContent="space-between" width="100%" alignItems="center">
           <FlexBox gap="10px" alignItems="center">
@@ -126,23 +136,20 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
               </Typography>
             </FlexBox>
           </FlexBox>
-          <Status
-            sx={{
-              backgroundColor: 'warning.main',
-              ...(currentTime >= vestingTime && {
-                backgroundColor: 'success.main',
-              }),
-              ...(currentTime >= vestingNextTime[nCycles - 1] && {
-                backgroundColor: '#717D8A',
-              }),
-            }}
-          >
-            <Typography variant="captionPoppins" color="text.primary" fontWeight="500">
-              {currentTime > vestingNextTime[nCycles - 1] ? 'Closed' : currentTime >= vestingTime ? 'Open' : 'Waiting'}
+          <Stack alignItems='end'>
+            <Typography fontWeight={500}>
+              {currentTime < +new Date(vestingTime) || Number(data?.sale?.tgeReleasePercent || 0) / 100 == 100
+          ? 'Claim in'
+          : 'Next Claim in'}
             </Typography>
-          </Status>
+            <Typography color='text.secondary' fontSize={14}>
+              {currentTime < +new Date(vestingTime) || Number(data?.sale?.tgeReleasePercent || 0) / 100 == 100
+          ? new Date(vestingTime).toLocaleString()
+          : new Date(vestingNextTime[currentCycle]).toLocaleString()}
+            </Typography>
+          </Stack>
         </FlexBox>
-        <Stack justifyContent='start' alignItems='start' spacing={2} width='100%'>
+        <Stack justifyContent='start' alignItems='start' gap='15px' width='100%'>
           {configData.map((item) => (
               (item.label !== 'Claim in' && item.label !== 'Next Claim in' || tokenAmountClaimed !== calcPurchasedTokenAmount)
             &&
@@ -175,6 +182,8 @@ const AllocationCard: React.FC<ProjectItemProps> = ({ data, account }) => {
         )}
       </WrapText>
     </WrapBox>
+    </Link>
+    
   );
 };
 const FlexBox = styled(Box)`
@@ -183,13 +192,16 @@ const FlexBox = styled(Box)`
 const WrapBox = styled(Box)`
   border-radius: 8px;
   background-color: ${(props) => (props.theme.palette as any).extra.card.background};
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
   width: 100%;
   overflow: hidden;
   position: relative;
   cursor: pointer;
   transition: 0.15s ease-in;
   width: 100%;
-
+  display: flex;
+  padding: 16px;
+  gap: 16px;
   :hover {
     transform: scale3d(1.01, 1.01, 1);
     transform-style: preserve-3d;
@@ -197,56 +209,45 @@ const WrapBox = styled(Box)`
   }
 `;
 const Avatar = styled(Box)`
-  width: 100%;
-  height: 140px;
-
+  position: relative;
   img {
-    width: 100%;
-    height: 100%;
     object-fit: cover;
+    border-radius: 8px;
   }
 `;
 const WrapText = styled(Box)`
   display: flex;
-  padding: 16px 16px 32px;
+  width: 100%;
   flex-direction: column;
-  gap: 40px;
+  gap: 16px;
 `;
-const Logo = styled(Box)`
-  border: 2px solid ${(props) => (props.theme.palette as any).extra.card.background};
+const Logo = styled(Stack)`
   background: ${(props) => (props.theme.palette as any).extra.card.background};
-  border-radius: 8px;
-  transform: matrix(-1, 0, 0, 1, 0, 0);
   max-width: 88px;
   width: 100%;
   height: 100%;
-  aspect-ratio: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 68px;
-  height: 68px;
-  object-fit: cover;
   img {
-    width: 100%;
-    height: 100%;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
     object-fit: cover;
   }
 `;
 
 const Status = styled(Box)`
   border-radius: 4px;
-  width: 100px;
-  height: 30px;
+  padding: 5px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 12px;
+  position: absolute;
+  top: 8px;
+  left: 8px;
 `;
 const CTA = styled(Button)`
-  width: 100%;
   border-radius: 4px;
-  width: 100%;
-  height: 52px;
+  padding: 8px 20px;
 `;
 
 export default AllocationCard;
