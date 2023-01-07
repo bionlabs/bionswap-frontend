@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { styled, Box, Typography, Stack, Container, Skeleton, Button } from '@mui/material';
+import { styled, Box, Typography, Stack, Container, Skeleton, Button, Popover } from '@mui/material';
 import { useAccount } from 'wagmi';
 import { shortenAddress } from 'utils/format';
-import { MobileProp } from 'configs/Type/Mobile/type';
+import { AiOutlineInfoCircle } from 'react-icons/ai';
 import AvatarModal from 'components/AvatarModal';
 import { getMyList } from 'api/avatar';
 import { getUserInfo } from 'api/user';
@@ -75,6 +75,16 @@ const Profile = () => {
 
   const balance = useNativeCurrencyBalances(address ? [address] : [])?.[address ?? ''];
   const { darkMode } = useDarkMode();
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+  const open = Boolean(anchorEl);
+
   return (
     <Wrapper p={'0 32px 32px'}>
       <Stack width="100%" spacing={3}>
@@ -96,10 +106,10 @@ const Profile = () => {
           </Typography>
           <Typography fontSize="18px">@{address ? shortenAddress(address) : 'N/A'}</Typography>
         </Stack>
-        <Stack width="100%" spacing={2}>
-          <VerifyButton variant="contained" fullWidth disabled>
-            Request for verification
-          </VerifyButton>
+        <VerifyButton variant="contained" fullWidth disabled>
+          Request for verification
+        </VerifyButton>
+        <Stack width="100%" gap="5px">
           <Stack direction="row" width="100%" justifyContent="space-between">
             <Typography fontSize={14} color="text.secondary">
               Gas balance:
@@ -111,6 +121,51 @@ const Profile = () => {
             ) : (
               <Skeleton width="150px" height="50px" />
             )}
+          </Stack>
+          <Stack direction="row" width="100%" justifyContent="space-between">
+            <Typography fontSize={14} color="text.secondary">
+              Rank:
+            </Typography>
+            <Stack direction="row" spacing={0.5}>
+              <Stack>
+                <Image src="/ranks/icons/oval.svg" alt="" width={20} height={20} />
+              </Stack>
+              <Typography fontWeight={500} sx={{color: theme => (theme.palette as any).extra.ranks.oval}}>Oval</Typography>
+            </Stack>
+          </Stack>
+
+          <Stack direction="row" width="100%" justifyContent="space-between">
+            <Stack direction="row" spacing={0.5}>
+              <Stack onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}>
+                <AiOutlineInfoCircle />
+              </Stack>
+              <Typography fontSize={14} color="text.secondary">
+                Bion Point:
+              </Typography>
+              <Popover
+                sx={{
+                  pointerEvents: 'none',
+                  overflow: 'none',
+                }}
+                open={open}
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                transformOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                onClose={handlePopoverClose}
+                disableRestoreFocus
+              >
+                <Box p="8px 20px">
+                  <Typography fontSize={12}>Get BP by playing in Game Center and airdrops</Typography>
+                </Box>
+              </Popover>
+            </Stack>
+            <Typography>0 BP</Typography>
           </Stack>
         </Stack>
       </Stack>

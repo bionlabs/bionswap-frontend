@@ -48,6 +48,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     dispatch(setAccessToken(undefined));
   }, [account, dispatch]);
 
+  console.log(sig)
+
   return <>{children}</>;
 };
 

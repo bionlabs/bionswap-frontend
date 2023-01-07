@@ -157,20 +157,20 @@ const FundraiseArea: React.FC<FundraiseAreaProps> = ({ data, token, quoteToken, 
           </Stack>
           <FlexBox>
             {startTime > currentTime ? (
-              <JoinButton variant='contained' disabled>
+              <JoinButton variant='contained' disabled fullWidth>
                 Not Available
               </JoinButton>
             ) : Number(yourPurchased) !== 0 ? ( 
-              <Link href={'/dashboard/allocation'}>
-                <JoinButton variant='contained'>
+              <Link href={'/dashboard/allocation'} legacyBehavior>
+                <JoinButton variant='contained' fullWidth>
                   View your allocation
-                  <img src="/images/arrow_forward.png" alt="arrow_forward" width="20px" />
                 </JoinButton>
               </Link>
             ) : currentTime > endTime ? (
-              <Link href={`/swap?inputCurrency=ETH&outputCurrency=${token?.address}`}>
+              <Link href={`/swap?inputCurrency=ETH&outputCurrency=${token?.address}`} legacyBehavior>
                 <JoinButton
                   variant='contained'
+                  fullWidth
                 >
                   View ${token?.symbol} on Bionswap
                 </JoinButton>

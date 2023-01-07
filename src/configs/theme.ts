@@ -192,6 +192,13 @@ export const lightPalette: ExtendedPaletteOptions = {
       background: '#f2f2f2b2',
       selected: '#FFFFFF',
       color: '#000000'
+    },
+    ranks: {
+      oval: '#2BB673',
+      axeton: '#EF5DA8',
+      viserium: '#F93232',
+      nemesis: '#1890FF',
+      immortal: '#FFB21E'
     }
   },
 };
@@ -271,7 +278,7 @@ export const darkPalette: ExtendedPaletteOptions = {
     },
     background: {
       alt: '#18181C',
-      secondary: '#121318'
+      secondary: '#23242A'
     },
     text: {
       linear: 'linear-gradient(133.2deg, #D184F3 2.95%, #87D3DA 48.27%, #8CF99E 100%)',
@@ -287,6 +294,13 @@ export const darkPalette: ExtendedPaletteOptions = {
       background: '#000000',
       selected: '#2E3038',
       color: '#FFFFFF'
+    },
+    ranks: {
+      oval: '#2BB673',
+      axeton: '#EF5DA8',
+      viserium: '#F93232',
+      nemesis: '#1890FF',
+      immortal: '#FFB21E'
     }
   },
 };

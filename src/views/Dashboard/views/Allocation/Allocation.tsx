@@ -60,19 +60,7 @@ const Item = styled(Box)`
   width: 100%;
 `;
 const WrapItem = styled(Box)`
-  width: calc(100% / 3 - 30px);
-
-  ${(props) => props.theme.breakpoints.down('lg')} {
-    width: calc(100% / 3 - 14px);
-  }
-
-  ${(props) => props.theme.breakpoints.down('md')} {
-    width: calc(100% / 2 - 10px);
-  }
-
-  ${(props) => props.theme.breakpoints.down('sm')} {
-    width: 100%;
-  }
+  width: 100%;
 `;
 const Grid = styled(Box)`
   display: grid;

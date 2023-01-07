@@ -24,14 +24,7 @@ const BalanceSection = ({ isMobile }: MobileProp) => {
         }}
       >
         <Flex alignItems="center" gap="16px" flexWrap="wrap">
-          <SvgIcon
-            sx={{
-              width: '50px',
-              height: '50px',
-            }}
-          >
-            <BionTokenIcon />
-          </SvgIcon>
+          <Image src='/bionicon.svg' alt='' width={50} height={50} />
           <Box>
             <Box>
               <Typography variant="caption6Poppins" color="text.secondary">
@@ -51,14 +44,7 @@ const BalanceSection = ({ isMobile }: MobileProp) => {
         }}
       >
         <Flex alignItems="center" gap="16px" flexWrap="wrap">
-          <SvgIcon
-            sx={{
-              width: '50px',
-              height: '50px',
-            }}
-          >
-            <BionTokenIcon />
-          </SvgIcon>
+          <Image src='/bionicon.svg' alt='' width={50} height={50} />
           <Box>
             <Box>
               <Typography variant="caption6Poppins" color="text.secondary">

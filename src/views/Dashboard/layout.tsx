@@ -45,7 +45,7 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
     <Page>
       <Header/>
       <Container maxWidth="xl" sx={{position:'relative', zIndex: '1'}}>
-        <Stack width="100%" direction={isTablet ? 'column' : 'row'} alignItems="start" gap="60px" p="8rem 0">
+        <Stack width="100%" direction={isTablet ? 'column' : 'row'} alignItems="start" gap="60px">
           <Profile/>
           <Stack width="100%" alignItems="start" justifyContent="start" gap="40px">
             <TabSection value={value} handleChange={handleChange} />
