@@ -64,7 +64,7 @@ const Card: React.FC<ProjectItemProps> = ({ data }) => {
   }, [quoteToken, data, getCurrentCap, decimals]);
 
   return (
-    <Link href={`/launchpad/${data?.saleAddress}`}>
+    <Link href={`/launchpad/${data?.saleAddress}`} legacyBehavior>
       <WrapBox>
         <Stack
           sx={{

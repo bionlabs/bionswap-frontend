@@ -323,7 +323,7 @@ const Step06 = ({ data, onBackStep, setData, parseErrorMessage, handleSubmit }: 
                             <IoCopyOutline />
                           </FlexBox>
                         ) : item.head === 'Community' ? (
-                          <Link href={i?.value} target="_blank">
+                          <Link href={i?.value} target="_blank" legacyBehavior>
                             <Typography
                               variant="body4Poppins"
                               color="text.primary"

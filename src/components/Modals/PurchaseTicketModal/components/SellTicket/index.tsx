@@ -24,7 +24,7 @@ const SellTicket = () => {
       <Typography variant="body3Poppins" color="gray.300" fontWeight="400" lineHeight="180%">
         NFT game tickets already have quite significant trade volume. Now, if you want to, you can sell them towards
         these flatform.{' '}
-        <Link href="">
+        <Link href="" legacyBehavior>
           <Typography
             variant="body3Poppins"
             color="primary.main"
@@ -54,7 +54,7 @@ const SellTicket = () => {
               </Typography>
             </Typography>
           </Stack>
-          <Link href={item.link} target="_blank">
+          <Link href={item.link} target="_blank" legacyBehavior>
             <Box ml='auto'>
               <OpenInNewIcon color='primary' />
             </Box>

@@ -3,12 +3,12 @@ import React from 'react'
 import {
     Box,
     Container,
-    Link,
     Stack,
     styled,
     SvgIcon,
     Typography,
 } from '@mui/material'
+import Link from 'next/link'
 import { footerMenuConfig, socialsConfig } from 'configs/menu/config'
 import { useRouter } from 'next/router'
 import useMediaQuery from 'hooks/useMediaQuery'
@@ -27,7 +27,7 @@ const Footer = ({ children }: any) => {
                     flexDirection: isMobile ? 'column' : 'row'
                 }}>
                     <Stack spacing={2} alignItems='start'>
-                        <Link href='/'>
+                        <Link href='/' legacyBehavior>
                             {
                                 darkMode ?
                                 <img src='/logo_light.svg' alt='BionSwap' width='150px' />

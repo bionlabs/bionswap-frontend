@@ -17,7 +17,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ name }) => {
     <Box marginBottom="17px">
       <Stack direction='row' spacing={1}>
         <Box sx={{ cursor: 'pointer' }}>
-          <Link href="/launchpad">
+          <Link href="/launchpad" legacyBehavior>
             <Typography fontSize='14px' color="text.secondary">
               Projects
             </Typography>
