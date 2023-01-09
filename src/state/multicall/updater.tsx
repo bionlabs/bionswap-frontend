@@ -1,18 +1,30 @@
-import { useBlockNumber, useChain, useMulticallContract } from "hooks";
-import multicall from ".";
+import { useDynamicBlockNumber } from 'hooks/useBlockNumber';
+import { useMulticallDynamicContract } from 'hooks/useContract';
+import multicall from '.';
 
-export function MulticallUpdater() {
-  const { chainId } = useChain();
-  const latestBlockNumber = useBlockNumber();
+interface Props {
+  chain: number;
+}
 
-  const contract = useMulticallContract();
+export function MulticallUpdater({ chain }: Props) {
+  // const { chainId } = useChain();
+  // const latestBlockNumber = useBlockNumber();
+  // const contract = useMulticallContract();
 
   return (
-    <multicall.Updater
-      chainId={chainId}
-      latestBlockNumber={latestBlockNumber}
-      contract={contract}
-      // listenerOptions={{ blocksPerFetch: 10 }}
-    />
+    <>
+      {/* <multicall.Updater
+        chainId={chainId}
+        latestBlockNumber={latestBlockNumber}
+        contract={contract}
+        // listenerOptions={{ blocksPerFetch: 10 }}
+      /> */}
+      <multicall.Updater
+        chainId={chain}
+        latestBlockNumber={useDynamicBlockNumber(chain)}
+        contract={useMulticallDynamicContract(chain)}
+        // listenerOptions={{ blocksPerFetch: 10 }}
+      />
+    </>
   );
 }

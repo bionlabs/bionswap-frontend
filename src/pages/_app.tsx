@@ -16,6 +16,8 @@ import type { ReactElement, ReactNode } from 'react';
 import type { NextPage } from 'next';
 // Import Swiper styles
 import 'swiper/css';
+import { getChainIds } from 'hooks/useCall';
+import { ChainId } from '@bionswap/core-sdk';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -52,6 +54,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     };
   }, [events]);
 
+  const chainIdArray = getChainIds(ChainId).filter(item => !Number.isNaN(item));
+
   return (
     <>
       <Head>
@@ -79,7 +83,11 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       />
       <Provider>
         <Menu>
-          <MulticallUpdater />
+          {
+            chainIdArray.map(item =>
+              <MulticallUpdater key={`chain:${item}`} chain={item} />
+            )
+          }
           <ListsUpdater />
           <Toast />
           <NextNProgress color="#3671E9" stopDelayMs={500} height={3} options={{ easing: 'ease', speed: 1000 }} />

@@ -1,29 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, {  } from 'react';
 import { Stack, Typography , styled, Box} from '@mui/material'
 import { StyledTableCell, StyledTableRow } from './components/components';
-import Image from 'next/image';
-import { Data, Order } from './types';
-import { useChain } from 'hooks';
-import {useToken} from 'hooks/useToken'
-import { formatUnits } from 'ethers/lib/utils';
-import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS } from '@bionswap/core-sdk';
 import Link from 'next/link';
-import getAddress from 'utils/getAddress';
+import Image from 'next/image';
 import usePools from 'hooks/usePools';
 import CurrencyLogo from 'components/CurrencyLogo';
+import { getChainIcon } from 'utils/chains';
+import { CHAIN_INFO_MAP } from 'configs/chain';
 
 
 const LaunchpadTableRow = ({pool , loading}:any) => {
-  const [decimals, setDecimals] = useState(18);
-  const {chainId} = useChain();
   const contractData = usePools(pool.address, pool.chainId);
 
   return (
     <Link href={`/earn/${pool.chainId}/${pool.address}`} legacyBehavior>
         <StyledTableRow>
           <StyledTableCell component="th" scope="row">
-            <Stack direction="row" justifyContent="start" spacing={2}>
-              <Stack direction='row'>
+            <Stack width='fit-content'>
+              <Image src={getChainIcon(CHAIN_INFO_MAP[pool.chainId].id)?.iconUrl} layout="fixed" alt="" width={18} height={18} />
+            </Stack>
+          </StyledTableCell>
+          <StyledTableCell component="th" scope="row">
+            <Stack direction="row" justifyContent="start" spacing={1}>
+              <Stack direction='row' justifyContent='start'>
                 <WrapLogo>
                   <CurrencyLogo currency={contractData.stakingToken} size='30px'/>
                 </WrapLogo>

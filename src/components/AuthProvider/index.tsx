@@ -1,6 +1,7 @@
-import React, { ReactNode, useEffect, useRef } from 'react';
+import React, { ReactNode, useCallback, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from 'state';
 import { useChain, useSignMessage } from 'hooks';
+import { useCookies } from 'react-cookie';
 import { setAccessToken, SIGN_MESSAGE } from 'state/auth/actions';
 import { connectSign } from 'api/auth';
 
@@ -11,6 +12,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const accessToken = useAppSelector((state) => state.auth.accessToken);
   const dispatch = useAppDispatch();
   const isSigningRef = useRef(false);
+  const [cookies, setCookie, removeCookie] = useCookies(['signature', 'sigToken'])
 
   const {
     data: sig,
@@ -24,6 +26,16 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   });
   const { account, signer } = useChain();
 
+  const login = useCallback(async() => {
+    if(account && signer && sig){
+      const { token } = await connectSign(account, sig);
+      setCookie('signature', sig);
+      setCookie('sigToken', token);
+    }
+  }
+  ,[account, setCookie, sig, signer]
+  )
+
   useEffect(() => {
     if (signer && !isSigningRef.current && !accessToken) {
       isSigningRef.current = true;
@@ -32,23 +44,20 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [accessToken, signMessage, signer, triggerSignMessage]);
 
   useEffect(() => {
-    if (!account || !sig) {
-      return;
+    if(!cookies.sigToken || !cookies.signature || !signer){
+      login();
     }
-
-    const login = async () => {
-      const { token } = await connectSign(account, sig);
-      dispatch(setAccessToken(token));
-    };
-
-    login();
-  }, [account, dispatch, sig]);
+    if(!account && !signer){
+      removeCookie('sigToken');
+      removeCookie('signature');
+    }
+  }, [account, cookies.sigToken, cookies.signature, dispatch, login, removeCookie, setCookie, sig, signer]);
 
   useEffect(() => {
-    dispatch(setAccessToken(undefined));
-  }, [account, dispatch]);
+    dispatch(setAccessToken(cookies.sigToken));
+  }, [account, cookies.sigToken, dispatch]);
 
-  console.log(sig)
+  console.log(signer)
 
   return <>{children}</>;
 };

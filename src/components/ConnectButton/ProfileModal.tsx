@@ -29,6 +29,7 @@ import useMediaQuery from 'hooks/useMediaQuery';
 import { useEffect, useState } from 'react';
 import { getUserInfo } from 'api/user';
 import { toastError } from 'hooks/useToast';
+import { useCookies } from 'react-cookie';
 
 type Props = {
   onClose?: () => void;
@@ -65,6 +66,9 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
 
     getUserInformation();
   }, [address, accessToken]);
+
+  const [cookies, setCookie, removeCookie] = useCookies(['signature', 'sigToken'])
+
 
   return (
     <Modal
@@ -181,7 +185,9 @@ const ProfileModal = ({ onClose, open = false }: Props) => {
                 backgroundColor: theme => (theme.palette as any).extra.button.backgroundGreenOpacity
               }
             }}
-            onClick={() => disconnect()}
+            onClick={() => {
+              disconnect();
+            }}
           >
             <Stack direction='row' width='100%' justifyContent='start' spacing={1}>
               <Stack color='inherit'>

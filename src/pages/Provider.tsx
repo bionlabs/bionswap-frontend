@@ -1,5 +1,6 @@
 import React from 'react'
 import { WagmiConfig } from 'wagmi';
+import { CookiesProvider } from 'react-cookie';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { AuthProvider, BlockNumberProvider } from 'components';
@@ -25,13 +26,15 @@ const Provider = ({children}:any) => {
     <WagmiConfig client={client}>
         <ReduxProvider store={store}>
             <PersistGate persistor={persistor}>
+              <CookiesProvider>
                 <AuthProvider>
-                    <StyledThemeProvider>
-                        <BlockNumberProvider>
-                            {children}
-                        </BlockNumberProvider>
-                    </StyledThemeProvider>
-                </AuthProvider>
+                      <StyledThemeProvider>
+                          <BlockNumberProvider>
+                              {children}
+                          </BlockNumberProvider>
+                      </StyledThemeProvider>
+                  </AuthProvider>
+              </CookiesProvider>
             </PersistGate>
         </ReduxProvider>
     </WagmiConfig>

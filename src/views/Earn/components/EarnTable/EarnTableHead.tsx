@@ -5,6 +5,12 @@ import { StyledTableCell, StyledTableRow } from './components/components';
 
 const headCells: readonly HeadCell[] = [
   {
+    id: 'network',
+    numeric: false,
+    disablePadding: true,
+    label: 'Network',
+  },
+  {
     id: 'name',
     numeric: false,
     disablePadding: true,

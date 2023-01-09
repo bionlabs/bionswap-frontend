@@ -42,22 +42,25 @@ const Profile = () => {
         console.log('error====>', error);
       }
     };
-
     getAvatars();
   }, [address, claimed, accessToken]);
 
   useEffect(() => {
+    if(!accessToken){
+      setAvatars([]);
+      setUserInfo(null);
+    }
+
     const getUserInformation = async () => {
       try {
         if (!accessToken) return;
-
         const rest = await getUserInfo();
         setUserInfo(rest);
       } catch (error) {
         console.log('error====>', error);
       }
     };
-
+    
     getUserInformation();
   }, [address, accessToken, account, openModal]);
 

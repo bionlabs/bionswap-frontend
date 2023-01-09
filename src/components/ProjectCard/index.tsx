@@ -1,21 +1,26 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react';
-import { Box, Button, styled, Typography , Stack } from '@mui/material';
+import { Box, Button, styled, Typography, Stack } from '@mui/material';
 import { useRouter } from 'next/router';
 import { formatEther, formatUnits } from 'ethers/lib/utils';
 import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS } from '@bionswap/core-sdk';
 import { useChain, useSingleCallResult, useToken } from 'hooks';
 import { usePresaleContract } from 'hooks/useContract';
+import Link from 'next/link';
+import useMediaQuery from 'hooks/useMediaQuery';
+import { nFormatter } from 'utils/format';
 
 interface ProjectItemProps {
   data: any;
 }
 
 const ProjectCard: React.FC<ProjectItemProps> = ({ data }) => {
+  const {isDesktop} = useMediaQuery();
   const router = useRouter();
-  const token = useToken(data?.token , true);
+  const token = useToken(data?.token, true);
   const presaleContract = usePresaleContract(data?.saleAddress || '');
   const quoteToken = useToken(data?.quoteToken);
+  const unit = data?.isQuoteETH ? 'BNB' : quoteToken?.symbol;
   const { account, chainId } = useChain();
   const [decimals, setDecimals] = useState(18);
   const [vestingNextTime, setVestingNextTime] = useState<any>([]);
@@ -33,10 +38,8 @@ const ProjectCard: React.FC<ProjectItemProps> = ({ data }) => {
     handleCheckDecimal();
   }, [quoteToken, data]);
 
-
   const vestingTime = data?.tgeDate * 1000;
   const currentCycle = Math.ceil((currentTime - vestingTime) / (data?.cycleDuration * 1000));
-
 
   const calcClaimableTokenAmount = formatUnits(
     useSingleCallResult(presaleContract, 'calcClaimableTokenAmount', [account])?.result?.[0] || 0,
@@ -51,19 +54,18 @@ const ProjectCard: React.FC<ProjectItemProps> = ({ data }) => {
     decimals,
   );
 
-  
   const configData = [
     {
       label: 'Hard Cap',
-      value: `${(data?.hardCap)/10e18} ${token?.symbol}`,
+      value: `${nFormatter(data?.fHardCap)} ${token?.symbol}`,
     },
     {
-      label: 'Claimed',
-      value: `${tokenAmountClaimed} ${token?.symbol}`,
+      label: 'Sale price',
+      value: `${data.fPrice} ${unit}`,
     },
     {
-      label: 'Total',
-      value: `${calcPurchasedTokenAmount} ${token?.symbol}`,
+      label: 'Created at',
+      value: `${(data?.createdAt)}`,
     },
     {
       label:
@@ -77,49 +79,46 @@ const ProjectCard: React.FC<ProjectItemProps> = ({ data }) => {
     },
   ];
 
+  console.log(data)
+
   return (
-    <WrapBox onClick={() => {
-      router.push(`/dashboard/my-project/${data?.saleAddress}`);
-    }}>
-      <Avatar>
-        <img
-          src={data.banner}
-          alt={data.title}
-        />
-      </Avatar>
-      <WrapText>
-        <Stack direction='row' gap="10px" justifyContent='start'>
-          <Logo>
-            <img src={data?.logo} alt={data?.title} />
-          </Logo>
-          <Stack direction='column' justifyContent='start' alignItems='start'>
-            <Typography fontSize='24px' fontWeight="500">
-              {data?.title}
-            </Typography>
-            <Typography fontSize='14px' color="primary.main">
-              ${token?.symbol}
-            </Typography>
-          </Stack>
-        </Stack>
-        {/* <Stack justifyContent='start' alignItems='start' spacing={2} width='100%'>
-          {configData.map((item) => (
-              (item.label !== 'Claim in' && item.label !== 'Next Claim in' || tokenAmountClaimed !== calcPurchasedTokenAmount)
-            &&
-            <Stack width='100%' direction='row' key={item.label} justifyContent="space-between">
-              <Typography fontSize='14px' color="text.secondary" lineHeight='1'>
-                {item.label}
+    <Link href={`/dashboard/my-project/${data?.saleAddress}`} legacyBehavior>
+      <WrapBox flexDirection={isDesktop ? 'column' : 'row'}>
+        <Avatar>
+          <img src={data.banner} alt={data.title} width={isDesktop ? '100%' : 380} height='222px'/>
+        </Avatar>
+        <WrapText>
+          <Stack direction="row" gap="10px" justifyContent="start">
+            <Logo>
+              <img src={data?.logo} alt={data?.title} />
+            </Logo>
+            <Stack direction="column" justifyContent="start" alignItems="start">
+              <Typography fontSize="24px" fontWeight="500">
+                {data?.title}
               </Typography>
-              <Typography color="text.primary" lineHeight='1'>
-                {item.value}
+              <Typography fontSize="14px" color="primary.main">
+                ${token?.symbol}
               </Typography>
             </Stack>
-          ))}
-        </Stack> */}
-        <CTA variant='contained'>
-          Continue Editing
-        </CTA>
-      </WrapText>
-    </WrapBox>
+          </Stack>
+          <Stack justifyContent='start' alignItems='start' spacing={2} width='100%'>
+            {configData.map((item) => (
+                (item.label !== 'Claim in' && item.label !== 'Next Claim in' || tokenAmountClaimed !== calcPurchasedTokenAmount)
+              &&
+              <Stack width='100%' direction='row' key={item.label} justifyContent="space-between">
+                <Typography fontSize='14px' color="text.secondary" lineHeight='1'>
+                  {item.label}
+                </Typography>
+                <Typography color="text.primary" lineHeight='1'>
+                  {item.value}
+                </Typography>
+              </Stack>
+            ))}
+          </Stack>
+          <CTA variant="contained">Continue Editing</CTA>
+        </WrapText>
+      </WrapBox>
+    </Link>
   );
 };
 const WrapBox = styled(Box)`
@@ -127,10 +126,14 @@ const WrapBox = styled(Box)`
   background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   width: 100%;
   overflow: hidden;
+  gap: 16px;
   position: relative;
   cursor: pointer;
   transition: 0.15s ease-in;
+  display: flex;
+  align-items: center;
   width: 100%;
+  padding: 16px;
 
   :hover {
     transform: scale3d(1.01, 1.01, 1);
@@ -139,13 +142,10 @@ const WrapBox = styled(Box)`
   }
 `;
 const Avatar = styled(Box)`
-  width: 100%;
-  height: 140px;
-
+  position: relative;
   img {
-    width: 100%;
-    height: 100%;
     object-fit: cover;
+    border-radius: 8px;
   }
 `;
 const Logo = styled(Box)`
@@ -171,15 +171,12 @@ const Logo = styled(Box)`
 `;
 const WrapText = styled(Box)`
   display: flex;
-  padding: 16px 16px 32px;
   flex-direction: column;
-  gap: 30px;
+  width: 100%;
+  gap: 16px;
 `;
 const CTA = styled(Button)`
-  width: 100%;
-  border-radius: 4px;
-  width: 100%;
-  height: 44px;
+  padding: 8px 20px;
 `;
 
 export default ProjectCard;

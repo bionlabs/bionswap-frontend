@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Box, styled, Typography } from '@mui/material';
+import { Box, Stack, styled, Typography } from '@mui/material';
 import Page from 'components/Page';
 import ProjectCard from 'components/ProjectCard';
 import { getSaleList } from 'api/launchpad';
@@ -48,10 +48,7 @@ const MyProject = () => {
   return (
     <Wrapper>
       {ChainId.BSC_TESTNET === chainId ? (
-        <Box sx={{
-          display: 'flex', flexWrap: 'wrap',
-          gap: { xs: '20px', lg: '40px' },
-        }}>
+        <Stack width='100%' alignItems='start' justifyContent='start' gap='20px'>
           {launchData && launchData.data ? (
             launchData?.data?.map((item: any) => (
               <WrapItem key={item.title}>
@@ -61,7 +58,7 @@ const MyProject = () => {
           ) : (
             <SkeletonCard />
           )}
-        </Box>
+        </Stack>
       ) : (
         <NotSupportSection />
       )}
@@ -73,19 +70,7 @@ const Wrapper = styled(Box)`
   width: 100%;
 `;
 const WrapItem = styled(Box)`
-  width: calc(100% / 3 - 30px);
-
-  ${(props) => props.theme.breakpoints.down('lg')} {
-    width: calc(100% / 3 - 14px);
-  }
-
-  ${(props) => props.theme.breakpoints.down('md')} {
-    width: calc(100% / 2 - 10px);
-  }
-
-  ${(props) => props.theme.breakpoints.down('sm')} {
-    width: 100%;
-  }
+  width: 100%;
 `;
 const Grid = styled(Box)`
   display: grid;
