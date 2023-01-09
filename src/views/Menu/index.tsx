@@ -47,12 +47,14 @@ const Menu = ({ children }: any) => {
     <>
       <MenuContainer>
         <StyledContained
-          sx={{
-            // backgroundColor: (theme) => (theme.palette as any).background.default,
-          }}
+          sx={
+            {
+              // backgroundColor: (theme) => (theme.palette as any).background.default,
+            }
+          }
         >
           <Stack direction="row" gap="42px">
-            <Link href="/">
+            <Link href="/" legacyBehavior>
               <Box sx={{ cursor: 'pointer' }} onClick={toggleDrawer('right', false)}>
                 {darkMode ? (
                   <img src="/logo_light.svg" alt="BionSwap" width="130px" />
@@ -64,7 +66,7 @@ const Menu = ({ children }: any) => {
             {!isTablet && (
               <Stack justifyContent="start" direction="row" spacing={4}>
                 {menuConfig.map((item) => (
-                  <Link key={item.label} href={item.href}>
+                  <Link key={item.label} href={item.href} legacyBehavior>
                     <MenuItem
                       sx={{
                         ':hover': {
@@ -137,19 +139,18 @@ const Menu = ({ children }: any) => {
             )}
           </Stack>
         </StyledContained>
-        
       </MenuContainer>
       <Drawer anchor={'right'} open={state['right']} onClose={toggleDrawer('right', false)}>
-          <MobileMenu anchor="right" toggleDrawer={toggleDrawer} />
-        </Drawer>
+        <MobileMenu anchor="right" toggleDrawer={toggleDrawer} />
+      </Drawer>
       {isMobile && (
-          <BottomContainer>
-            <Stack direction="row" spacing={1}>
-              <ConnectButton />
-              <ChainSelect />
-            </Stack>
-          </BottomContainer>
-        )}
+        <BottomContainer>
+          <Stack direction="row" spacing={1}>
+            <ConnectButton />
+            <ChainSelect />
+          </Stack>
+        </BottomContainer>
+      )}
       <Box>{children}</Box>
     </>
   );
@@ -169,7 +170,7 @@ const StyledContained = styled(Box)`
   height: ${MENU_HEIGHT}px;
   align-items: center;
   justify-content: space-between;
-  background-color: ${prop => prop.theme.palette.background.default};
+  background-color: ${(prop) => prop.theme.palette.background.default};
 `;
 const LaunchpadButton = styled(Button)`
   border-radius: 4px;

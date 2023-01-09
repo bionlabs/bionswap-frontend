@@ -1,6 +1,7 @@
 import { Token } from "@bionswap/core-sdk";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Box, Button, IconButton, Link, Stack, styled, Typography } from "@mui/material";
+import { Box, Button, IconButton, Stack, styled, Typography } from "@mui/material";
+import Link from "next/link";
 import CurrencyLogo from "components/CurrencyLogo";
 import { useChain } from "hooks";
 import { useAddUserToken } from "state/user/hooks";
@@ -90,9 +91,8 @@ const ImportToken = ({ tokens, onBack }: Props) => {
                 <Box>
                   <Link
                     href={getExplorerLink(chainId, token.address, "address")}
-                    underline="none"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    legacyBehavior
                   >
                     <img src="/images/Launch_1.png" alt="Launch_1" />
                   </Link>

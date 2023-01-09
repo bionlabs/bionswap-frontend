@@ -28,11 +28,13 @@ const HeroSection = ({ isMobile, isTablet }: HeroSectionProps) => {
 
   return (
     <Wrapper>
-      <Container maxWidth="xl" sx={{zIndex: '1', position: 'relative'}}>
+      <Container maxWidth="xl" sx={{ zIndex: '1', position: 'relative' }}>
         <Stack spacing={4} textAlign="center">
           <Stack spacing={6}>
-            <Stack spacing={1} maxWidth='1162px'>
-              <HeroText fontSize={isMobile ? '32px' : '72px'}>Automated Launching Protocols on Multichain AMM Exchange</HeroText>
+            <Stack spacing={1} maxWidth="1162px">
+              <HeroText fontSize={isMobile ? '32px' : '72px'}>
+                Automated Launching Protocols on Multichain AMM Exchange
+              </HeroText>
               {/* <HeroText fontSize={isMobile ? '32px' : '72px'}>
                 Protocols on{' '}
                 <HeroText
@@ -56,7 +58,7 @@ const HeroSection = ({ isMobile, isTablet }: HeroSectionProps) => {
               users created on our launchpad
             </Typography>
           </Stack>
-          <Link href="/launchpad">
+          <Link href="/launchpad" legacyBehavior>
             <StyledButton variant="outlined" color="success">
               <Typography fontSize={isMobile ? '14px' : '18px'} color="inherit" fontWeight="inherit">
                 Explore projects
@@ -66,12 +68,11 @@ const HeroSection = ({ isMobile, isTablet }: HeroSectionProps) => {
         </Stack>
       </Container>
       <ImageBox mt={isMobile ? 0 : '-90px'}>
-        {
-          isMobile ?
-          <img src="/images/hero_line_mobile.svg" alt="" width='100%' />
-          :
-          <img src="/images/hero_line.svg" alt="" width='1162px' />
-        }
+        {isMobile ? (
+          <img src="/images/hero_line_mobile.svg" alt="" width="100%" />
+        ) : (
+          <img src="/images/hero_line.svg" alt="" width="1162px" />
+        )}
       </ImageBox>
     </Wrapper>
   );
@@ -106,6 +107,6 @@ const ImageBox = styled(Box)`
   justify-content: flex-end;
   align-items: stretch;
   text-align: right;
-`
+`;
 
 export default HeroSection;
