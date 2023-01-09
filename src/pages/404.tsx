@@ -13,7 +13,8 @@ const ErrorPage = () => {
   return (
     <Page>
         <Box sx={{
-            color: 'rgba(7, 224, 224, 0.1)', fontWeight: '700', fontSize: isMobile ? '45vw' : '25vw', lineHeight: '1',
+            color: theme => (theme.palette as any).extra.card.light,
+            fontWeight: '700', fontSize: isMobile ? '45vw' : '25vw', lineHeight: '1',
             display: 'flex', justifyContent: 'center', alignItems:'center', width: '100%', height: '100vh',
             position: 'absolute', top: '0', left: '0', zIndex: '1'
         }}>

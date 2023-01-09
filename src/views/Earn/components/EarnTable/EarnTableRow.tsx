@@ -20,8 +20,8 @@ const LaunchpadTableRow = ({ pool, loading }: any) => {
               src={getChainIcon(CHAIN_INFO_MAP[pool.chainId].id)?.iconUrl}
               layout="fixed"
               alt=""
-              width={18}
-              height={18}
+              width={25}
+              height={25}
             />
           </Stack>
         </StyledTableCell>

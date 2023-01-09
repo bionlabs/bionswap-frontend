@@ -1,9 +1,9 @@
-import React, { ReactNode, useCallback, useEffect, useRef } from 'react';
+import React, { ReactNode, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from 'state';
 import { useChain, useSignMessage } from 'hooks';
-import { useCookies } from 'react-cookie';
 import { setAccessToken, SIGN_MESSAGE } from 'state/auth/actions';
 import { connectSign } from 'api/auth';
+import { useCookies } from 'react-cookie';
 
 type Props = {};
 
@@ -12,7 +12,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const accessToken = useAppSelector((state) => state.auth.accessToken);
   const dispatch = useAppDispatch();
   const isSigningRef = useRef(false);
-  const [cookies, setCookie, removeCookie] = useCookies(['signature', 'sigToken'])
+  const { account, signer } = useChain();
+
+  const [cookies, setCookie, removeCookie] = useCookies(['sigToken'])
+
 
   const {
     data: sig,
@@ -23,19 +26,11 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     onSettled: () => {
       isSigningRef.current = false;
     },
-  });
-  const { account, signer } = useChain();
+    onSuccess: () => {
 
-  const login = useCallback(async() => {
-    if(account && signer && sig){
-      const { token } = await connectSign(account, sig);
-      setCookie('signature', sig);
-      setCookie('sigToken', token);
     }
-  }
-  ,[account, setCookie, sig, signer]
-  )
-
+  });
+  
   useEffect(() => {
     if (signer && !isSigningRef.current && !accessToken) {
       isSigningRef.current = true;
@@ -44,20 +39,24 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [accessToken, signMessage, signer, triggerSignMessage]);
 
   useEffect(() => {
-    if(!cookies.sigToken || !cookies.signature || !signer){
-      login();
+    if (!account || !sig) {
+      return;
     }
-    if(!account && !signer){
-      removeCookie('sigToken');
-      removeCookie('signature');
-    }
-  }, [account, cookies.sigToken, cookies.signature, dispatch, login, removeCookie, setCookie, sig, signer]);
+
+    const login = async () => {
+      const { token } = await connectSign(account, sig);
+      setCookie('sigToken', token);
+    };
+    login();
+  }, [account, cookies.sigToken, dispatch, removeCookie, setCookie, sig]);
 
   useEffect(() => {
     dispatch(setAccessToken(cookies.sigToken));
-  }, [account, cookies.sigToken, dispatch]);
-
-  console.log(signer)
+    if(!account){
+      removeCookie('sigToken');
+      dispatch(setAccessToken(undefined));
+    }
+  }, [account, cookies.sigToken, dispatch, removeCookie]);
 
   return <>{children}</>;
 };
