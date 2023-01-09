@@ -41,10 +41,8 @@ const ChainOptionsModal = ({ onClose, open = false, onChainSwitched }: Props) =>
           p: 4,
         }}
       >
-        <CloseButton>
-          <IconButton onClick={onClose}>
-            <HiX />
-          </IconButton>
+        <CloseButton onClick={onClose} sx={{color: theme => (theme.palette as any).extra.walletModal.textPrimary}}>
+          <HiX />
         </CloseButton>
         <Box display="flex" flexDirection="column" gap="10px">
           <Typography variant='h5Samsung' color='extra.walletModal.textPrimary'>
@@ -108,10 +106,10 @@ const ChainOptionsModal = ({ onClose, open = false, onChainSwitched }: Props) =>
 const Wrapper = styled(Box)`
   background-color: ${(props:any) => (props.theme.palette as any).extra.walletModal.background};
 `
-const CloseButton = styled(Box)`
+const CloseButton = styled(IconButton)`
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 8px;
+  right: 8px;
 `
 
 export default ChainOptionsModal;

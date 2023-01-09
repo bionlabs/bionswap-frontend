@@ -46,11 +46,6 @@ const Profile = () => {
   }, [address, claimed, accessToken]);
 
   useEffect(() => {
-    if(!accessToken){
-      setAvatars([]);
-      setUserInfo(null);
-    }
-
     const getUserInformation = async () => {
       try {
         if (!accessToken) return;
@@ -63,6 +58,13 @@ const Profile = () => {
     
     getUserInformation();
   }, [address, accessToken, account, openModal]);
+
+  useEffect(() => {
+    if(!accessToken){
+      setUserInfo(null);
+    }
+  }, [accessToken])
+  
 
   const handleToggleModal = () => {
     setOpenModal(!openModal);

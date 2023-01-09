@@ -127,7 +127,7 @@ export const chainIcons = {
   },
   [supportedChains.okc.id]: {
     iconBackground: "#0b0e11",
-    iconUrl: "/images/chains/okc.png",
+    iconUrl: "/images/chains/okc.svg",
   },
   [supportedChains.ethereum.id]: {
     iconBackground: "#5C6BC0",
