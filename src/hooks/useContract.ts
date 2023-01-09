@@ -141,6 +141,10 @@ export function useMulticallContract(): Contract | null | undefined {
   return useContract(MULTICALL_ADDRESS, MULTICALL_ABI, false);
 }
 
+export function useMulticallDynamicContract(chainId:number): Contract | null | undefined {
+  return useDynamicChainContract(MULTICALL_ADDRESS, chainId , MULTICALL_ABI, false);
+}
+
 export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
   return useContract(tokenAddress, ERC20_ABI, withSignerIfPossible);
 }

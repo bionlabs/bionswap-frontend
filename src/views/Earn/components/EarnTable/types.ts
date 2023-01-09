@@ -14,6 +14,7 @@ export interface TableProps {
 }
 
 export interface Data {
+  network: any,
   name: string;
   TVL: number;
   staked: number;
@@ -21,8 +22,9 @@ export interface Data {
   APR: number;
 }
 
-export function createData(name: string, TVL: number, staked: number, earned: number, APR: number): Data {
+export function createData(network:any,name: string, TVL: number, staked: number, earned: number, APR: number): Data {
   return {
+    network,
     name,
     TVL,
     staked,

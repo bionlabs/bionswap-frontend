@@ -20,7 +20,7 @@ const EarnTableBody = ({ pools, order, orderBy, page, rowsPerPage , loading }: R
     <>
       {
         pools.map((item: any) => {
-          return <EarnTableRow key="" pool={item} loading={loading} />;
+          return <EarnTableRow key={item.pid} pool={item} loading={loading} />;
         })
       }
     </>
