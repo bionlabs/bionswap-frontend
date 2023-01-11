@@ -149,8 +149,16 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
   return useContract(tokenAddress, ERC20_ABI, withSignerIfPossible);
 }
 
+export function useTokenContractWithChainId(tokenAddress: string, chainId:number, withSignerIfPossible?: boolean): Contract | null {
+  return useDynamicChainContract(tokenAddress, chainId, ERC20_ABI, withSignerIfPossible);
+}
+
 export function useBytes32TokenContract(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
   return useContract(tokenAddress, ERC20_BYTES32_ABI, withSignerIfPossible);
+}
+
+export function useBytes32TokenContractWithChainId(tokenAddress: string, chainId:number , withSignerIfPossible?: boolean): Contract | null {
+  return useDynamicChainContract(tokenAddress, chainId , ERC20_BYTES32_ABI, withSignerIfPossible);
 }
 
 // export function useEIP2612Contract(tokenAddress?: string): Contract | null {

@@ -1,8 +1,9 @@
 import { Box, Container, Stack } from '@mui/material';
 import Page from 'components/Page';
+import SkeletonCard from 'components/SkeletonCard';
 import useMediaQuery from 'hooks/useMediaQuery';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import Header from './components/Header';
 import Profile from './components/Profile';
 import TabSection from './components/TabSection';
@@ -49,7 +50,11 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
           <Profile/>
           <Stack width="100%" alignItems="start" justifyContent="start" gap="40px">
             <TabSection value={value} handleChange={handleChange} />
-            <TabPanel>{children}</TabPanel>
+            <TabPanel>
+              <Suspense fallback={<SkeletonCard/>}>
+                {children}
+              </Suspense>
+            </TabPanel>
           </Stack>
         </Stack>
       </Container>

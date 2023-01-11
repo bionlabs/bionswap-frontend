@@ -161,8 +161,9 @@ export const lightPalette: ExtendedPaletteOptions = {
       background: '#FFF',
       light: '#FFF',
       hover: '#EAEAEA',
-      divider: 'rgba(0,0,0,.12)',
+      divider: '#ebebeb',
       disable: '#D6DADE',
+      boxShadow: '0 1px 8px rgba(29,32,35, .04), 0 4px 20px rgba(29,32,35, .02)'
     },
     background: {
       alt: '#f7f9fd',
@@ -258,14 +259,15 @@ export const darkPalette: ExtendedPaletteOptions = {
       panel: '#2E3038',
       hover: '#32353D',
       divider: '#393B44',
-      boxShadow: '0 1px 8px rgba(61, 63, 64, .05), 0 4px 20px rgba(61, 63, 64, .05)'
+      boxShadow: '0 1px 8px rgba(61, 63, 64, .05), 0 4px 20px rgba(61, 63, 64, .05)',
     },
     table: {
       background: '#23242A',
       light: '#2E3038',
       hover: '#32353D',
       divider: '#393B44',
-      disable: '#4F5B67'
+      disable: '#4F5B67',
+      boxShadow: '0 1px 8px rgba(61, 63, 64, .05), 0 4px 20px rgba(61, 63, 64, .05)'
     },
     button: {
       backgroundGreenOpacity: 'rgba(54, 113, 233, .2)',
@@ -444,6 +446,7 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
             textTransform: 'none',
             boxShadow: 'none',
             fontStyle: 'normal',
+            transition: '.12s ease-in',
             '&:hover': {
               opacity: '0.9',
               boxShadow: 'none',

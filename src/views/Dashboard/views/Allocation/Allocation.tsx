@@ -12,7 +12,7 @@ import { toastError } from 'hooks/useToast';
 
 const Allocation = () => {
   const { account, chainId } = useChain();
-  const {isMobile , isTablet} = useMediaQuery();
+  const { isMobile, isTablet } = useMediaQuery();
   const [data, setData] = useState<[]>([]);
 
   useEffect(() => {
@@ -31,19 +31,18 @@ const Allocation = () => {
   return (
     <Wrapper>
       {ChainId.BSC_TESTNET === chainId ? (
-        <Box sx={{
-          display: 'flex', flexWrap: 'wrap',
-          gap: { xs: '20px', lg: '40px' },
-        }}>
-          {data && data.length && account ? (
-            data?.map((item: any) => (
-              <WrapItem key={item.saleAddress}>
-                <AllocationCard data={item} account={account || ''} />
-              </WrapItem>
-            ))
-          ) : (
-            <SkeletonCard />
-          )}
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: { xs: '20px', lg: '40px' },
+          }}
+        >
+          {data?.map((item: any) => (
+            <WrapItem key={item.saleAddress}>
+              <AllocationCard data={item} account={account || ''} />
+            </WrapItem>
+          ))}
         </Box>
       ) : (
         <NotSupportSection />
@@ -66,6 +65,5 @@ const Grid = styled(Box)`
   display: grid;
   justify-content: space-between;
 `;
-
 
 export default Allocation;

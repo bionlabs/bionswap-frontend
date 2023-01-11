@@ -15,6 +15,7 @@ export const STABLECOIN_AMOUNT_OUT: {
   [ChainId.MATIC]: CurrencyAmount.fromRawAmount(USD[ChainId.MATIC], 100_000e6),
   [ChainId.FANTOM]: CurrencyAmount.fromRawAmount(USD[ChainId.FANTOM], 100_000e6),
   [ChainId.BSC]: CurrencyAmount.fromRawAmount(USD[ChainId.BSC], 10_000e18),
+  [ChainId.BSC_TESTNET]: CurrencyAmount.fromRawAmount(USD[ChainId.BSC_TESTNET], 10_000e18),
   [ChainId.HARMONY]: CurrencyAmount.fromRawAmount(USD[ChainId.HARMONY], 100_000e6),
   [ChainId.HECO]: CurrencyAmount.fromRawAmount(USD[ChainId.HECO], 100_000e6),
   [ChainId.OKEX]: CurrencyAmount.fromRawAmount(USD[ChainId.OKEX], 100_000e18),

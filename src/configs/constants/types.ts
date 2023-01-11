@@ -12,10 +12,12 @@ export interface Token {
 export interface poolConfig {
   pid: number;
   lpSymbol: string;
+  type: string;
   chainId: number;
   address: string;
   token: Token;
-  quoteToken: Token;
+  quoteToken?: Token;
+  rewardToken: Token;
   multiplier?: string;
   isCommunity?: boolean;
   dual?: {

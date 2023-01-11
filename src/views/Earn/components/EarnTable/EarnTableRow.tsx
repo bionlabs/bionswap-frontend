@@ -12,7 +12,7 @@ const LaunchpadTableRow = ({ pool, loading }: any) => {
   const contractData = usePools(pool.address, pool.chainId);
 
   return (
-    <Link href={`/earn/${pool.chainId}/${pool.address}`} legacyBehavior>
+    <Link href={`/earn/${pool.chainId}?address=${pool.address}`} legacyBehavior>
       <StyledTableRow>
         <StyledTableCell component="th" scope="row">
           <Stack width="fit-content">
@@ -31,16 +31,24 @@ const LaunchpadTableRow = ({ pool, loading }: any) => {
               <WrapLogo>
                 <CurrencyLogo currency={contractData.stakingToken} size="30px" />
               </WrapLogo>
-              <WrapLogo sx={{ marginLeft: '-12.5%' }}>
-                <CurrencyLogo currency={contractData.rewardsToken} size="30px" />
-              </WrapLogo>
+              {pool.quoteToken && (
+                <WrapLogo sx={{ marginLeft: '-12.5%' }}>
+                  <CurrencyLogo currency={contractData.rewardsToken} size="30px" />
+                </WrapLogo>
+              )}
             </Stack>
             <Stack alignItems="start">
               <Typography fontSize="inherit" fontWeight="inherit">
-                {pool.token.symbol}/{pool.quoteToken.symbol}
+                {pool.quoteToken ? (
+                  <>
+                    {pool.token.symbol}/{pool.quoteToken.symbol}
+                  </>
+                ) : (
+                  <>{pool.token.symbol}</>
+                )}
               </Typography>
               <Typography fontSize="10px" color="text.secondary" fontWeight="400">
-                Classic
+                {pool.type}
               </Typography>
             </Stack>
           </Stack>

@@ -11,7 +11,7 @@ import useMediaQuery from 'hooks/useMediaQuery';
 import { toastError } from 'hooks/useToast';
 
 const MyProject = () => {
-  const {isMobile , isTablet} = useMediaQuery();
+  const { isMobile, isTablet } = useMediaQuery();
   const { account, chainId } = useChain();
   const [launchData, setLaunchData] = useState<any>(null);
   const [params, setParams] = useState({
@@ -21,7 +21,7 @@ const MyProject = () => {
     owner: account,
     keyword: '',
     sortBy: '',
-    filterBy: ''
+    filterBy: '',
   });
 
   const getLaunchData = useCallback(async () => {
@@ -33,13 +33,13 @@ const MyProject = () => {
         params.owner || '',
         params.keyword,
         params.sortBy,
-        params.filterBy
+        params.filterBy,
       );
       setLaunchData(launchData);
     } catch (error) {
       console.log('error====>', error);
     }
-  },[params.chainId, params.filterBy, params.keyword, params.limit, params.owner, params.page, params.sortBy]);
+  }, [params.chainId, params.filterBy, params.keyword, params.limit, params.owner, params.page, params.sortBy]);
 
   useEffect(() => {
     getLaunchData();
@@ -48,16 +48,12 @@ const MyProject = () => {
   return (
     <Wrapper>
       {ChainId.BSC_TESTNET === chainId ? (
-        <Stack width='100%' alignItems='start' justifyContent='start' gap='20px'>
-          {launchData && launchData.data ? (
-            launchData?.data?.map((item: any) => (
-              <WrapItem key={item.title}>
-                <ProjectCard data={item} />
-              </WrapItem>
-            ))
-          ) : (
-            <SkeletonCard />
-          )}
+        <Stack width="100%" alignItems="start" justifyContent="start" gap="20px">
+          {launchData?.data?.map((item: any) => (
+            <WrapItem key={item.title}>
+              <ProjectCard data={item} />
+            </WrapItem>
+          ))}
         </Stack>
       ) : (
         <NotSupportSection />
