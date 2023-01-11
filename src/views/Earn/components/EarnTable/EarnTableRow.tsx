@@ -29,11 +29,11 @@ const LaunchpadTableRow = ({ pool, loading }: any) => {
           <Stack direction="row" justifyContent="start" spacing={1}>
             <Stack direction="row" justifyContent="start">
               <WrapLogo>
-                <CurrencyLogo currency={contractData.stakingToken} size="30px" />
+                <CurrencyLogo currency={pool.stakingToken} size="30px" />
               </WrapLogo>
               {pool.quoteToken && (
                 <WrapLogo sx={{ marginLeft: '-12.5%' }}>
-                  <CurrencyLogo currency={contractData.rewardsToken} size="30px" />
+                  <CurrencyLogo currency={pool.rewardToken} size="30px" />
                 </WrapLogo>
               )}
             </Stack>
