@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { ListsUpdater } from 'state/lists/updater';
 import { MulticallUpdater } from 'state/multicall/updater';
 import { exception, GOOGLE_ANALYTICS_TRACKING_ID, pageview } from 'utils/gtag';
@@ -18,6 +18,9 @@ import type { NextPage } from 'next';
 import 'swiper/css';
 import { getChainIds } from 'hooks/useCall';
 import { ChainId } from '@bionswap/core-sdk';
+import CookieConsent from 'components/CookieConsent/CookieConsent';
+import { useCookies } from 'react-cookie';
+import LoadingPage from 'components/LoadingPage/LoadingPage';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -30,6 +33,14 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const router = useRouter();
   const { locale, events } = router;
   const getLayout = Component.getLayout ?? ((page) => page);
+  const [cookies , setCookie , removeCookie] = useCookies(['cookieConsent']);
+
+  const handleAcceptCookieConsent = () => {
+    setCookie('cookieConsent', 1)
+  }
+  const handleRejectCookieConsent = () => {
+    setCookie('cookieConsent', 0)
+  }
 
   useEffect(() => {
     // @ts-ignore TYPE NEEDS FIXING
@@ -90,9 +101,15 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           }
           <ListsUpdater />
           <Toast />
+          {
+            !cookies.cookieConsent &&
+            <CookieConsent handleAccept={handleAcceptCookieConsent} handleReject={handleRejectCookieConsent} />
+          }
           <NextNProgress color="#3671E9" stopDelayMs={500} height={3} options={{ easing: 'ease', speed: 1000 }} />
-          {getLayout(<Component {...pageProps} />)}
-          <Footer />
+          <Suspense fallback={<LoadingPage/>}>
+            {getLayout(<Component {...pageProps} />)}
+            <Footer />
+          </Suspense>
         </Menu>
       </Provider>
     </>

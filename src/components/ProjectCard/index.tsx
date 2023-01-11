@@ -79,8 +79,6 @@ const ProjectCard: React.FC<ProjectItemProps> = ({ data }) => {
     },
   ];
 
-  console.log(data)
-
   return (
     <Link href={`/dashboard/my-project/${data?.saleAddress}`} legacyBehavior>
       <WrapBox flexDirection={isDesktop ? 'column' : 'row'}>
@@ -124,6 +122,7 @@ const ProjectCard: React.FC<ProjectItemProps> = ({ data }) => {
 const WrapBox = styled(Box)`
   border-radius: 12px;
   background-color: ${(props) => (props.theme.palette as any).extra.card.background};
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
   width: 100%;
   overflow: hidden;
   gap: 16px;

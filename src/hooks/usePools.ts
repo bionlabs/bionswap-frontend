@@ -17,8 +17,8 @@ const usePools = (addressOrAddressMap: AddressMap | string, chainId:number) => {
     const rewardPerToken = useSingleCallResultDynamicChain(chainId, getContract , "rewardPerToken");
 
     return {
-        stakingToken: stakingToken.result ? stakingToken.result[0] : undefined,
-        rewardsToken: rewardsToken.result ? rewardsToken.result[0] : undefined,
+        // stakingToken: stakingToken.result ? stakingToken.result[0] : undefined,
+        // rewardsToken: rewardsToken.result ? rewardsToken.result[0] : undefined,
         apr: apr.result ? formatUnits(apr.result[0]) : undefined,
         currentStaking: currentStaking.result ? formatUnits(currentStaking.result[0]) : undefined,
         totalSupply: totalSupply.result ? formatUnits(totalSupply.result[0]) : undefined,

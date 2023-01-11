@@ -68,6 +68,7 @@ export { useIsWindowVisible } from './useIsWindowVisible';
 export { useParsedQueryString } from './useParsedQueryString';
 export { useSwapCallArguments, useSwapCallback } from './useSwapCallback';
 export { useToken } from './useToken';
+export {useTokenWithChainId} from './useToken'
 export { useTokenAllowance } from './useTokenAllowance';
 export { useTransactionDeadline } from './useTransactionDeadline';
 export { useUSDValue as useUSDCValue, useUSDPrice as useUSDCPrice } from './useUSDPrice';

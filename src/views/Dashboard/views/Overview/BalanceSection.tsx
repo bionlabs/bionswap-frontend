@@ -48,11 +48,11 @@ const BalanceSection = ({ isMobile }: MobileProp) => {
           <Box>
             <Box>
               <Typography variant="caption6Poppins" color="text.secondary">
-                BION Price
+                Your sBION
               </Typography>
             </Box>
             <Box>
-              <Typography variant={isMobile ? 'body4Poppins' : 'h6Poppins'}>$0.00</Typography>
+              <Typography variant={isMobile ? 'body4Poppins' : 'h6Poppins'}>0.00 sBION</Typography>
             </Box>
           </Box>
         </Flex>
@@ -106,7 +106,7 @@ const BalanceSection = ({ isMobile }: MobileProp) => {
           </Box>
           <Box>
             <Typography variant="caption6Poppins" color='text.secondary'>
-              Total BION Claimed
+              Total sBION power
             </Typography>
           </Box>
           <Box sx={{ marginBottom: '10px' }}>
@@ -115,7 +115,7 @@ const BalanceSection = ({ isMobile }: MobileProp) => {
 
           <Box>
             <Typography variant="h4Poppins" sx={{ fontWeight: '600', lineHeight: '1' }}>
-              0.00 BION
+              0.00
             </Typography>
           </Box>
           <Box>
