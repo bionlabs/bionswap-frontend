@@ -57,7 +57,7 @@ const Menu = ({ children }: any) => {
                 )}
               </Box>
             </Link>
-            {!isTablet && (
+            {!isDesktop && (
               <Stack justifyContent="start" direction="row" spacing={4}>
                 {menuConfig.map((item) => (
                   <Link key={item.label} href={item.href} legacyBehavior>
@@ -100,7 +100,7 @@ const Menu = ({ children }: any) => {
                   {!state.right ? <HiMenu /> : <HiX />}
                 </IconButton>
               </>
-            ) : isTablet ? (
+            ) : isDesktop ? (
               <>
                 <Stack direction="row" sx={{ color: 'text.primary' }}>
                   <Switch defaultChecked checked={darkMode} onChange={toggleDarkMode} />

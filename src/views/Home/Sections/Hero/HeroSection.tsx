@@ -59,7 +59,7 @@ const HeroSection = ({ isMobile, isTablet }: HeroSectionProps) => {
             </Typography>
           </Stack>
           <Link href="/launchpad" legacyBehavior>
-            <StyledButton variant="outlined" color="success">
+            <StyledButton variant="outlined">
               <Typography fontSize={isMobile ? '14px' : '18px'} color="inherit" fontWeight="inherit">
                 Explore projects
               </Typography>
