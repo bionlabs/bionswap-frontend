@@ -36,7 +36,6 @@ const Card = ({
         </Stack>
         <StyledButton
           variant='contained'
-          color='success'
           disabled={disabled}
         >
             <Typography fontWeight='500' color='inherit' fontSize='14px'>
