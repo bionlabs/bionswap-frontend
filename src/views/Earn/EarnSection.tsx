@@ -52,7 +52,7 @@ const EarnSection = ({ chainId }: any) => {
           <Stack width="100%" alignItems="start" spacing={6}>
             <Header />
             {/* <Search searchKeyword={searchKeyword} /> */}
-            <Toolbar view={view} handleChangeView={handleChangeView} />
+            {/* <Toolbar view={view} handleChangeView={handleChangeView} /> */}
             <EarnTable chainId={chainId} view={view} />
           </Stack>
         </Wrapper>

@@ -46,13 +46,7 @@ const Menu = ({ children }: any) => {
   return (
     <>
       <MenuContainer>
-        <StyledContained
-          sx={
-            {
-              // backgroundColor: (theme) => (theme.palette as any).background.default,
-            }
-          }
-        >
+        <StyledContained>
           <Stack direction="row" gap="42px">
             <Link href="/" legacyBehavior>
               <Box sx={{ cursor: 'pointer' }} onClick={toggleDrawer('right', false)}>
