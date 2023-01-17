@@ -14,7 +14,7 @@ const Highlight = () => {
         }}
       >
         <Stack spacing={4}>
-          <Typography fontSize={isMobile ? '28px' : '54px'} fontFamily={'SamsungSharpSans-Bold'} textAlign="center">
+          <Typography fontSize={isMobile ? '28px' : '54px'} fontFamily={'SamsungSharpSans'} textAlign="center" fontWeight={700}>
             Use our products to enjoy
           </Typography>
           <Stack spacing={2}>

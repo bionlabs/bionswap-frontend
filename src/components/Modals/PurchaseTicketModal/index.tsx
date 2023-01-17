@@ -152,11 +152,10 @@ const InputCustom = styled(OutlinedInput)`
 
   input {
     padding: 0;
-    font-weight: 500;
+    font-weight: 700;
     font-size: 28px;
     line-height: 45px;
-    color: ${(props) => props.theme.palette.gray[200]};
-    font-family: 'SamsungSharpSans-Bold';
+    font-family: 'SamsungSharpSans';
   }
 `;
 const ButtonItem = styled(Button)`
