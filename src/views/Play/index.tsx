@@ -3,6 +3,7 @@ import Page from 'components/Page'
 import {Box , Container, Stack} from '@mui/material'
 import FeaturedGames from './views/FeaturedGames'
 import ProfileSection from './views/ProfileSection'
+import AllGame from './views/AllGame'
 
 const GameCenter = () => {
   return (
@@ -10,8 +11,9 @@ const GameCenter = () => {
       <Box p='4rem 0'>
         <Container>
           <Stack width='100%' alignItems='start' gap='60px' justifyContent='start'>
-            <FeaturedGames/>
+            {/* <FeaturedGames/> */}
             <ProfileSection/>
+            <AllGame/>
           </Stack>
             
         </Container>

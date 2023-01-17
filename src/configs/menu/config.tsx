@@ -37,8 +37,8 @@ export const menuConfig = [
     items: [],
   },
   {
-    label: 'Game Center',
-    href: '/gamecenter',
+    label: 'Play',
+    href: '/play',
     items: [],
   },
   // {
