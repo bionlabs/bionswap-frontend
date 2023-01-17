@@ -122,7 +122,7 @@ export const lightPalette: ExtendedPaletteOptions = {
     disabled: 'rgba(0, 0, 0, 0.2)',
   },
   success: {
-    main: '#2AC89F',
+    main: '#2BB673',
   },
   error: {
     main: '#EB5757',
