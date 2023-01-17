@@ -25,7 +25,7 @@ const FeaturedGames = () => {
       >
         <Stack height='100%' width={isTablet ? '100%' : '50%'} alignItems='start' gap='24px'>
           <Stack alignItems='start'>
-            <Typography fontSize={isTablet ? 32 : 40} fontFamily='SamsungSharpSans-Bold' textTransform='uppercase' color='#FFF'>
+            <Typography fontSize={isTablet ? 32 : 40} fontFamily='SamsungSharpSans' textTransform='uppercase' color='#FFF' fontWeight={700}>
               Spin Drop
             </Typography>
             <Typography color='#A8B0B9'>
@@ -51,7 +51,7 @@ const FeaturedGames = () => {
         <Stack height='100%' width='100%' alignItems='end'>
           <Stack height='100%' width={isTablet ? '100%' : '50%'} alignItems='end' gap='24px'>
             <Stack alignItems='end' textAlign='end'>
-              <Typography fontSize={isTablet ? 32 : 40} fontFamily='SamsungSharpSans-Bold' textTransform='uppercase' color='#FFF'>
+              <Typography fontSize={isTablet ? 32 : 40} fontFamily='SamsungSharpSans' textTransform='uppercase' color='#FFF' fontWeight={700}>
                 Spin Drop
               </Typography>
               <Typography color='#FAFAFA'>

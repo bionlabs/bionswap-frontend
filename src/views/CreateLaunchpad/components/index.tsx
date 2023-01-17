@@ -1,7 +1,8 @@
 import { styled, OutlinedInput, Typography, Button, Box } from '@mui/material';
 
 export const Title = styled(Typography)`
-  font-family: 'SamsungSharpSans-Bold';
+  font-family: 'SamsungSharpSans';
+  font-weight: 700;
   font-size: 24px;
 `
 

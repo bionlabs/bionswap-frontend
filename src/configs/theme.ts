@@ -312,11 +312,13 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
     typography: {
       fontFamily: "'Poppins', sans-serif",
       h1: {
-        fontFamily: 'SamsungSharpSans-Bold',
+        fontFamily: 'SamsungSharpSans',
+        fontWeight: '700',
         fontSize: '64px',
       },
       h2: {
-        fontFamily: 'SamsungSharpSans-Bold',
+        fontFamily: 'SamsungSharpSans',
+        fontWeight: '700',
         fontSize: '56px',
       },
       h3: {
@@ -340,11 +342,13 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         fontSize: '16px',
       },
       h2Samsung: {
-        fontFamily: 'SamsungSharpSans-Bold',
+        fontFamily: 'SamsungSharpSans',
+        fontWeight: '700',
         fontSize: '48px',
       },
       h4Samsung: {
-        fontFamily: 'SamsungSharpSans-Bold',
+        fontFamily: 'SamsungSharpSans',
+        fontWeight: '700',
         fontSize: '40px',
         lineHeight: '100%',
 
@@ -353,24 +357,29 @@ const getComponentTheme = (basePalette: ExtendedPaletteOptions): ThemeOptions =>
         },
       },
       h3Samsung: {
-        fontFamily: 'SamsungSharpSans-Bold',
+        fontFamily: 'SamsungSharpSans',
+        fontWeight: '700',
         fontSize: '32px',
       },
       h5Samsung: {
-        fontFamily: 'SamsungSharpSans-Bold',
+        fontFamily: 'SamsungSharpSans',
+        fontWeight: '700',
         fontSize: '24px',
       },
       h6Samsung: {
-        fontFamily: 'SamsungSharpSans-Bold',
+        fontFamily: 'SamsungSharpSans',
+        fontWeight: '700',
         fontSize: '20px',
       },
       h7Samsung: {
-        fontFamily: 'SamsungSharpSans-Bold',
+        fontFamily: 'SamsungSharpSans',
+        fontWeight: '700',
         fontSize: '28px',
         lineHeight: '100%',
       },
       h8Samsung: {
-        fontFamily: 'SamsungSharpSans-Bold',
+        fontFamily: 'SamsungSharpSans',
+        fontWeight: '700',
         fontSize: '30px',
         lineHeight: '100%',
       },

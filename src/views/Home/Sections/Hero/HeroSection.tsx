@@ -85,7 +85,7 @@ const Wrapper = styled(Box)`
 const HeroText = styled(Typography)`
   font-weight: 700;
   line-height: 1.2;
-  font-family: 'SamsungSharpSans-Bold';
+  font-family: 'SamsungSharpSans';
 `;
 const Line = styled(Box)`
   width: 151px;

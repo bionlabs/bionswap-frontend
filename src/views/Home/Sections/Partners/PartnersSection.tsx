@@ -19,7 +19,7 @@ const Partners = () => {
         }}  
       >
         <Stack gap='60px'>
-            <Typography fontSize={isMobile ? '28px' : '54px'} fontFamily={'SamsungSharpSans-Bold'} textAlign="center">
+            <Typography fontSize={isMobile ? '28px' : '54px'} fontFamily={'SamsungSharpSans'} textAlign="center" fontWeight={700}>
                 Our partners
             </Typography>
             <Stack direction='row' gap='60px' flexWrap='wrap'>
