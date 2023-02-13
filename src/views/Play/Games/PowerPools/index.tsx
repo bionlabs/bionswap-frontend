@@ -21,7 +21,9 @@ const PowerPools = () => {
   ];
 
   return (
-    <Page>
+    <Page sx={{
+      backgroundColor: (theme) => (theme.palette as any).extra.background.alt,
+    }}>
       <Banner />
       <Layout>
         <Stack direction="row" alignItems="center" spacing={2} justifyContent="start">

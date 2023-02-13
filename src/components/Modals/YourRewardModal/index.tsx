@@ -98,7 +98,7 @@ const YourRewardModal = ({
                   <Image src="/images/AvatarReward.png" alt="AvatarReward" width={38} height={38} />
                   <Stack alignItems="flex-start">
                     <Typography fontWeight={500}>{shortenAddress(getWinnersAtRound[index])}</Typography>
-                    <Typography fontSize={12}>@Anomyous</Typography>
+                    <Typography fontSize={12}>@Anonymous</Typography>
                   </Stack>
                   <Stack marginLeft="auto" alignItems="flex-start">
                     <Typography variant="body4Poppins" fontWeight="400" color="success.main">
