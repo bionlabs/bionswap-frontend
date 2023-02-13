@@ -23,6 +23,9 @@ class MyDocument extends Document {
           />
           <link rel="shortcut icon" href="/favicon.ico" />
           <link rel="apple-touch-icon" href="/logo.png" />
+          <meta property="og:title" content="Bionswap" />
+          <meta property="og:description" content="Automated Launching Protocols on Multichain AMM Exchange" />
+          <meta property="og:image" content="/og.png" />
           {/* <link rel="manifest" href="/manifest.json" /> */}
         </Head>
         <body>
