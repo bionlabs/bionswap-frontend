@@ -5,7 +5,7 @@ import { useSingleCallResult } from 'hooks';
 import { useBionTicket } from 'hooks/useContract';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import CloseIcon from '@mui/icons-material/Close';  
+import CloseIcon from '@mui/icons-material/Close';
 import { toastError } from 'hooks/useToast';
 
 const tickets = [
@@ -46,7 +46,7 @@ const InputTicketModal = ({
   filledSlots,
   parentContract,
   currentRoundId,
-  shareOf
+  shareOf,
 }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [ticketType, setTicketType] = useState('1');
@@ -159,9 +159,9 @@ const InputTicketModal = ({
         <IconButton onClick={onDismiss} sx={{ position: 'absolute', right: 8, top: 8 }}>
           <CloseIcon />
         </IconButton>
-        <Stack width="100%" gap="20px">
-          <Typography variant="body3Poppins" fontWeight="400" color="background.paper">
-            Input tickets
+        <Stack alignItems="start" width="100%" gap="20px">
+          <Typography variant="body3Poppins" fontWeight="400" color="text.primary">
+            Deposite tickets
           </Typography>
           <Stack flexDirection="row" gap="20px" width="100%" justifyContent="flex-start">
             {tickets?.map((item: any) => (
@@ -177,41 +177,39 @@ const InputTicketModal = ({
           <Stack width="100%" gap="10px">
             <WrapBox>
               <Stack width="100%" flexDirection="row" justifyContent="space-between">
-                <Typography variant="body4Poppins" fontWeight="400" color="success.main">
-                  Input
+                <Typography variant="body4Poppins" fontWeight="400" color="text.primary">
+                  Deposite
                 </Typography>
-                <Typography variant="body4Poppins" fontWeight="400" color="gray.400">
+                <Typography variant="body4Poppins" fontWeight="400" color="text.secondary">
                   Balance: {balanceOf}
                 </Typography>
               </Stack>
               <InputCustom placeholder="0" value={inputTicket} onChange={handleChange} fullWidth />
             </WrapBox>
-            <Stack width="100%" flexDirection="row" justifyContent="space-between">
+            <Stack width="100%" flexDirection="row" justifyContent="space-between" gap="10px">
               {inputButtonConfigs?.map((item: any) => (
-                <ButtonItem key={item.label} onClick={() => changeInputTicket(item.value)}>
-                  <Typography variant="captionPoppins" color="primary.main" fontWeight="400">
+                <Button key={item.label} variant="outlined" onClick={() => changeInputTicket(item.value)} fullWidth>
+                  <Typography variant="captionPoppins" color="inherit" fontWeight="400">
                     {item.label}
                   </Typography>
-                </ButtonItem>
+                </Button>
               ))}
             </Stack>
           </Stack>
           <Stack width="100%" gap="10px">
             {configs?.map((item: any) => (
               <Stack key={item.label} flexDirection="row" justifyContent="space-between" width="100%">
-                <Typography variant="body4Poppins" fontWeight="400" color="gray.400">
+                <Typography variant="body4Poppins" fontWeight="400" color="text.secondary">
                   {item.label}
                 </Typography>
-                <Typography variant="body4Poppins" fontWeight="400" color="blue.50">
+                <Typography fontWeight="500" color="text.primary">
                   {item.value}
                 </Typography>
               </Stack>
             ))}
           </Stack>
-          <PrimaryLoadingButton onClick={deposit} isLoading={isLoading} sx={{height: '41.59px'}}>
-            <Typography variant="body3Poppins" fontWeight="600" color="#000000">
-              {isApprovedForAll ? 'Confirm' : 'Approve'}
-            </Typography>
+          <PrimaryLoadingButton onClick={deposit} isLoading={isLoading} sx={{height: '41px'}}>
+            {isApprovedForAll ? 'Confirm' : 'Approve'}
           </PrimaryLoadingButton>
         </Stack>
       </BaseModal>
@@ -220,7 +218,7 @@ const InputTicketModal = ({
 };
 
 const WrapTicket = styled(Box)`
-  border: 1px solid #242d35;
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
   border-radius: 5px;
   height: 75px;
   width: 75px;
@@ -228,16 +226,16 @@ const WrapTicket = styled(Box)`
   cursor: pointer;
 
   &.active {
-    border: 1px solid #07e0e0;
+    border: 1px solid ${(props) => props.theme.palette.primary.main};
+    background-color: ${(props) => (props.theme.palette as any).extra.button.backgroundGreenOpacity};
   }
 `;
 const WrapBox = styled(Stack)`
   width: 100%;
-  border-color: ${(props) => props.theme.palette.gray[800]}
-  border: 1px solid;
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
   border-radius: 4px;
-  background: #000e12;
-  padding: 10px;
+  background: ${(props) => (props.theme.palette as any).extra.card.light};
+  padding: 12px;
   gap: 4px;
 `;
 const InputCustom = styled(OutlinedInput)`
@@ -252,13 +250,6 @@ const InputCustom = styled(OutlinedInput)`
     line-height: 45px;
     font-family: 'SamsungSharpSans';
   }
-`;
-const ButtonItem = styled(Button)`
-  border: 1px solid rgba(141, 241, 250, 0.5);
-  border-radius: 8px;
-  max-width: 72px;
-  width: 100%;
-  height: 29px;
 `;
 
 export default InputTicketModal;

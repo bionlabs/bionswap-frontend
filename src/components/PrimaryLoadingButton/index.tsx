@@ -22,7 +22,7 @@ const PrimaryLoadingButton: React.FC<PrimaryButtonProps> = ({
       loading={isLoading}
       sx={{
         backgroundColor: variant === "outlined" ? "transparent" : backgroundColor,
-        border: variant === "outlined" ? "1px solid #07E0E0" : "none",
+        border: theme => variant === "outlined" ? `1px solid ${theme.palette.primary.main}`  : "none",
         padding: "5px",
         width: "100%",
         transition: "all .3s ease",

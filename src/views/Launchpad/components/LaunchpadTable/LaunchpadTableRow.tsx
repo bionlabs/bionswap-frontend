@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Stack, Typography, styled, Box } from '@mui/material';
-import { getComparator, stableSort } from './hooks';
-import { StyledTableCell, StyledTableRow } from './Components/components';
 import Image from 'next/image';
-import { Data, Order } from './type';
 import { useToken } from 'hooks';
-import { formatUnits } from 'ethers/lib/utils';
 import { BUSD_ADDRESS, USDT_ADDRESS, USDC_ADDRESS } from '@bionswap/core-sdk';
 import Link from 'next/link';
 import { nFormatter } from 'utils/format';
+import { StyledTableCell, StyledTableRow } from 'components/Table';
 
 const LaunchpadTableRow = ({ item }: any) => {
   const [decimals, setDecimals] = useState(18);
@@ -59,7 +56,7 @@ const LaunchpadTableRow = ({ item }: any) => {
           </Stack>
         </StyledTableCell>
         <StyledTableCell align="right">
-          <Stack width='100%' alignItems='end'>
+          <Stack width="100%" alignItems="end">
             <Status
               sx={{
                 backgroundColor: 'primary.main',
@@ -93,7 +90,7 @@ const LaunchpadTableRow = ({ item }: any) => {
           {nFormatter(item?.fMaxPurchase ?? 0)} {unit}
         </StyledTableCell>
         <StyledTableCell align="right">
-          <Stack direction="row" spacing={1} width='100%' justifyContent='end'>
+          <Stack direction="row" spacing={1} width="100%" justifyContent="end">
             <Image src={`/icons/coins/${unit}.svg`} alt={unit} width={20} height={20} />
             <Typography fontSize="inherit" fontWeight="500" color="text.primary">
               {(unit == 'BNB' ? nFormatter(item?.fPrice.toFixed(2)) : nFormatter(item?.fPrice.toFixed(1))) ?? 0} {unit}

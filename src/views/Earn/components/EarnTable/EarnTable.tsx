@@ -15,14 +15,12 @@ import { Data, Order, TableProps } from './types';
 import EarnTableHead from './EarnTableHead';
 import EarnTableBody from './EarnTableBody';
 import pools from 'configs/constants/mining/pools';
-import { getChainIds } from 'hooks/useCall';
-import { useChain } from 'hooks';
+import { StyledTableWrapper } from 'components/Table';
 
-export default function EarnTable({ chainId, view}: TableProps) {
+export default function EarnTable({ chainId, view }: TableProps) {
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<keyof Data>('name');
   const [loading, setLoading] = useState(false);
-
 
   const [page, setPage] = useState(0);
   const [params, setParams] = useState<null | {}>({
@@ -94,11 +92,7 @@ export default function EarnTable({ chainId, view}: TableProps) {
         <TableContainer>
           <Table sx={{ minWidth: 750 }}>
             <TableHead>
-              <EarnTableHead
-                order={order}
-                orderBy={orderBy}
-                rowCount={pools.length}
-              />
+              <EarnTableHead order={order} orderBy={orderBy} rowCount={pools.length} />
             </TableHead>
             <TableBody>
               <EarnTableBody
@@ -128,25 +122,3 @@ export default function EarnTable({ chainId, view}: TableProps) {
     </Box>
   );
 }
-
-const StyledTableWrapper = styled(Paper)`
-  width: 100%;
-  background-color: ${(props) => (props.theme.palette as any).extra.table.background};
-  background-image: none;
-  border-radius: 8px;
-  box-shadow: ${(props) => (props.theme.palette as any).extra.table.boxShadow};
-  border: 1px solid ${(props) => (props.theme.palette as any).extra.table.divider};
-  .MuiTablePagination-root {
-    background-color: ${(props) => (props.theme.palette as any).extra.table.light};
-    :last-child {
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
-    }
-  }
-  .MuiTableBody-root .MuiTableRow-root {
-    :hover {
-      background-color: ${(props) => (props.theme.palette as any).extra.button.lighter};
-      opacity: 0.8;
-    }
-  }
-`;

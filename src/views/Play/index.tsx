@@ -4,6 +4,7 @@ import {Box , Container, Stack} from '@mui/material'
 import FeaturedGames from './views/FeaturedGames'
 import ProfileSection from './views/ProfileSection'
 import AllGame from './views/AllGame'
+import Leaderboard from './views/Leaderboard/Leaderboard'
 
 const GameCenter = () => {
   return (
@@ -14,6 +15,7 @@ const GameCenter = () => {
             {/* <FeaturedGames/> */}
             <ProfileSection/>
             <AllGame/>
+            <Leaderboard/>
           </Stack>
             
         </Container>

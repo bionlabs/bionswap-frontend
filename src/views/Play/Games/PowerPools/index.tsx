@@ -21,11 +21,7 @@ const PowerPools = () => {
   ];
 
   return (
-    <Page
-      sx={{
-        backgroundColor: theme => (theme.palette as any).extra.background.alt
-      }}
-    >
+    <Page>
       <Banner />
       <Layout>
         <Stack direction="row" alignItems="center" spacing={2} justifyContent="start">
@@ -39,7 +35,7 @@ const PowerPools = () => {
         </Stack>
         <Grid
           sx={{
-            gridTemplateColumns: isMobile ? 'auto' : 'auto auto auto',
+            gridTemplateColumns: isMobile ? '100%' : '1fr 1fr 1fr',
           }}
         >
           {powerPoolItems?.map((item: any) => (

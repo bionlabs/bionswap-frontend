@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Box, styled, Stack, Typography, Button } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, styled, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useChain, useSingleCallResult } from 'hooks';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import HeadCard from './components/HeadCard';
 import InputTicketModal from 'components/Modals/InputTicketModal';
 import ButtonCard from './components/ButtonCard';
 import YourRewardModal from 'components/Modals/YourRewardModal';
 import CountDownComponent from './components/CountDownComponent';
-import Link from 'next/link';
 import { ChainId } from '@bionswap/core-sdk';
 
 interface Props {
@@ -95,19 +93,21 @@ const Card = ({ contract }: Props) => {
           status={status}
         />
         <Stack alignItems="start">
-          <Box padding='16px' width="100%">
+          <Box padding="16px" width="100%">
             <Stack width="100%" alignItems="start" spacing={2}>
               <Stack width="100%" flexDirection="row" justifyContent="space-between">
-                <Typography variant="body3Poppins" fontWeight="400" color="secondary.light" textTransform="uppercase">
+                <Typography
+                  fontFamily="SamsungSharpSans"
+                  fontWeight="500"
+                  color="text.secondary"
+                  textTransform="uppercase"
+                >
                   Power up the pool
                 </Typography>
                 {shareOf > 0 && (
                   <EnteredTag>
-                    <Typography fontSize="12px" lineHeight="100%">
-                      <CheckCircleIcon color="success" fontSize="inherit" />
-                    </Typography>
-                    <Typography variant="body6Poppins" fontWeight="600" color="success.main">
-                      Entered
+                    <Typography fontSize={12} fontWeight="500" color="success.main">
+                      Joined
                     </Typography>
                   </EnteredTag>
                 )}
@@ -150,18 +150,17 @@ const Card = ({ contract }: Props) => {
                 </Stack>
               ))}
             </Stack>
-            <Stack width='100%' spacing={2}>
+            <Stack width="100%" spacing={2}>
               <ButtonCard
                 toggleInputTicketModal={toggleInputTicketModal}
                 status={status}
                 toggleYourRewardModal={toggleYourRewardModal}
               />
-              <Typography fontSize='14px' color="primary.main">
+              <Typography fontSize="12px" color="text.secondary">
                 View on BscScan
               </Typography>
             </Stack>
           </Stack>
-          
         </Stack>
       </Wrapper>
       <InputTicketModal
@@ -190,16 +189,17 @@ const Wrapper = styled(Box)`
   border-radius: 12px;
   background-color: ${(props) => (props.theme.palette as any).extra.card.background};
   width: 339px;
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
 `;
 const Divider = styled(Box)`
   width: 100%;
-  border-bottom: 1px solid ${props => (props.theme.palette as any).extra.card.divider};
+  border-bottom: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
 `;
 const EnteredTag = styled(Box)`
   border-radius: 4px;
   background-color: ${(props) => (props.theme.palette as any).extra.card.light};
-  width: 98px;
-  height: 26px;
+  padding: 6px 16px;
+  height: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;

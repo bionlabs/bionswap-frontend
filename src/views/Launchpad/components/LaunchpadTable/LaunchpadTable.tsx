@@ -1,31 +1,19 @@
 import * as React from 'react';
-import { alpha } from '@mui/material/styles';
 import {
-  Stack,
   styled,
   Typography,
   Box,
   Table,
   TableBody,
-  TableCell,
-  tableCellClasses,
   TableContainer,
   TableHead,
   TablePagination,
-  TableRow,
-  TableSortLabel,
-  Pagination,
-  Paper,
 } from '@mui/material';
-import Image from 'next/image';
-import { formatUnits } from 'ethers/lib/utils';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useChain, useRefetchIncreasedInterval, useToken } from 'hooks';
-import { NATIVE } from '@bionswap/core-sdk';
+import { useState } from 'react';
 import { Data, Order, TableProps } from './type';
 import LaunchpadTableHead from './LaunchpadTableHead';
 import LaunchpadTableBody from './LaunchpadTableBody';
-import { getSaleList } from 'api/launchpad';
+import { StyledTableWrapper } from 'components/Table';
 
 export default function LaunchpadTable({ launchData, loading , page, handleChangePagigation}: TableProps) {
   const [order, setOrder] = useState<Order>('asc');
@@ -90,25 +78,3 @@ export default function LaunchpadTable({ launchData, loading , page, handleChang
     </Box>
   );
 }
-
-const StyledTableWrapper = styled(Paper)`
-  width: 100%;
-  background-color: ${(props) => (props.theme.palette as any).extra.table.background};
-  background-image: none;
-  border-radius: 8px;
-  border: 1px solid ${(props) => (props.theme.palette as any).extra.table.divider};
-  box-shadow: ${(props) => (props.theme.palette as any).extra.table.boxShadow};
-  .MuiTablePagination-root {
-    background-color: ${(props) => (props.theme.palette as any).extra.table.background};
-    :last-child {
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
-    }
-  }
-  .MuiTableBody-root .MuiTableRow-root {
-    :hover {
-      background-color: ${(props) => (props.theme.palette as any).extra.button.lighter};
-      opacity: 0.8;
-    }
-  }
-`;
