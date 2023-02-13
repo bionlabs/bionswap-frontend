@@ -5,7 +5,7 @@ const ButtonCard = ({ toggleInputTicketModal, status, toggleYourRewardModal }: a
   return (
     <>
       {status == 0 ? (
-        <JoinPoolButton variant="contained" fullWidth onClick={toggleInputTicketModal}>
+        <JoinPoolButton variant="contained" fullWidth onClick={toggleYourRewardModal}>
           Deposit
         </JoinPoolButton>
       ) : status == 1 ?

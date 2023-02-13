@@ -3,37 +3,29 @@ import {
     Box,
     styled,
     Stack,
-    useMediaQuery,
     Container
 } from '@mui/material'
 import Sidebar from './Sidebar';
+import useMediaQuery from 'hooks/useMediaQuery';
 
 const Layout = ({children}:any) => {
-  const isMobile = useMediaQuery('(max-width:700px)');
   return (
     <Stack 
       sx={{
         height: '100%',
         minHeight: 'inherit',
-        width: '100%'
+        width: '100%',
+        marginTop: '40px'
       }}
       direction='row'
       alignItems='start'
     >
-        <ContentBox>
-          <StyledContainer>
-            {children}
-          </StyledContainer>
-        </ContentBox>
-        <Sidebar />
+        <Container>
+          {children}
+        </Container>
+        {/* <Sidebar /> */}
     </Stack>
   )
 }
-const ContentBox = styled(Box)`
-    width: 100%;
-`
-const StyledContainer = styled(Container)`
-  margin-top: 35px;
-`
 
 export default Layout

@@ -84,6 +84,49 @@ const okc = {
   },
 };
 
+const gnosis = {
+  id: 100,
+  name: "Gnosis",
+  network: "gnosis",
+  testnet: false,
+  nativeCurrency: {
+    name: "xDai",
+    symbol: "xDai",
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: "https://rpc.gnosischain.com",
+  },
+  blockExplorers: {
+    default: {
+      name: "Gnosis Explorer",
+      url: "https://gnosisscan.io",
+    },
+  },
+};
+
+//give me a configuration object of klaytn chain
+const klaytn = {
+  id: 8217,
+  name: "Klaytn",
+  network: "klaytn",
+  testnet: false,
+  nativeCurrency: {
+    name: "KLAY",
+    symbol: "KLAY",
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: "https://api.baobab.klaytn.net:8651",
+  },
+  blockExplorers: {
+    default: {
+      name: "Klaytn Explorer",
+      url: "https://baobab.scope.klaytn.com/",
+    },
+  },
+};
+
 const supportedChains: { [name: string]: Chain } = {
   bsc,
   okc,
@@ -106,8 +149,11 @@ const supportedChains: { [name: string]: Chain } = {
       default: "https://rpc.ankr.com/optimism",
     },
   },
+  gnosis,
+  klaytn,
   bscTestnet,
 };
+
 
 const { chains, provider, webSocketProvider } = configureChains(
   [...Object.entries(supportedChains).map(([_, value]) => value)],
@@ -148,6 +194,14 @@ export const chainIcons = {
   [supportedChains.optimism.id]: {
     iconBackground: "#0b0e11",
     iconUrl: "/images/chains/optimism.svg",
+  },
+  [supportedChains.gnosis.id]: {
+    iconBackground: "#0b0e11",
+    iconUrl: "/images/chains/gnosis.svg",
+  },
+  [supportedChains.klaytn.id]: {
+    iconBackground: "#0b0e11",
+    iconUrl: "/images/chains/klaytn.png",
   },
 };
 

@@ -186,7 +186,7 @@ const InputTicket = styled(Stack)`
 const Line = styled(Box)`
   width: 100%;
   height: 1px;
-  background-color: ${(props) => props.theme.palette.gray[700]};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.divider};
 `;
 const ConfirmButton = styled(PrimaryLoadingButton)`
   height: 52px;

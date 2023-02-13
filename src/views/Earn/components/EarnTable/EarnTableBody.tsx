@@ -1,10 +1,6 @@
-import { Stack, styled, Typography } from '@mui/material';
-import React, { useCallback, useEffect, useState } from 'react';
-import { createData, Data, Order } from './types';
-import { useToken } from 'hooks';
-import { formatUnits } from 'ethers/lib/utils';
+import React, {  } from 'react';
+import { Data, Order } from './types';
 import EarnTableRow from './EarnTableRow';
-import TableSkeleton from './TableSkeleton';
 
 interface RowProps {
   pools: any;
@@ -12,17 +8,15 @@ interface RowProps {
   orderBy: keyof Data;
   page: number;
   rowsPerPage: number;
-  loading: boolean
+  loading: boolean;
 }
 
-const EarnTableBody = ({ pools, order, orderBy, page, rowsPerPage , loading }: RowProps) => {
+const EarnTableBody = ({ pools, order, orderBy, page, rowsPerPage, loading }: RowProps) => {
   return (
     <>
-      {
-        pools.map((item: any) => {
-          return <EarnTableRow key={item.pid} pool={item} loading={loading} />;
-        })
-      }
+      {pools.map((item: any) => {
+        return <EarnTableRow key={item.pid} pool={item} loading={loading} />;
+      })}
     </>
   );
 };

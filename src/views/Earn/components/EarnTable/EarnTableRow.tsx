@@ -1,6 +1,6 @@
 import React from 'react';
 import { Stack, Typography, styled, Box } from '@mui/material';
-import { StyledTableCell, StyledTableRow } from './components/components';
+import { StyledTableCell, StyledTableRow } from 'components/Table';
 import Link from 'next/link';
 import Image from 'next/image';
 import usePools from 'hooks/usePools';

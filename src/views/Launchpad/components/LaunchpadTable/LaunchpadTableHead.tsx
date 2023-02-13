@@ -1,7 +1,7 @@
 import React from 'react';
 import { TableHead, TableSortLabel, Typography } from '@mui/material';
 import { Data, HeadCell, LaunchpadTableProps } from './type';
-import { StyledTableCell, StyledTableRow } from './Components/components';
+import { StyledTableCell, StyledTableRow } from 'components/Table';
 
 const headCells: readonly HeadCell[] = [
   {

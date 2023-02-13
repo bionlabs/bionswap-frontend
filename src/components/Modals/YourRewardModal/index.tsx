@@ -1,4 +1,4 @@
-import { Typography, styled, Box, Stack, IconButton } from '@mui/material';
+import { Typography, styled, Box, Stack, IconButton, Divider } from '@mui/material';
 import BaseModal from 'components/BaseModal';
 import PrimaryLoadingButton from 'components/PrimaryLoadingButton';
 import { useSingleCallResult } from 'hooks';
@@ -64,27 +64,24 @@ const YourRewardModal = ({
       <BaseModal
         open={open}
         sx={{
-          padding: '0',
           maxWidth: '600px',
           width: '100%',
           height: 'auto',
-          maxHeight: '749px',
-          overflowY: 'auto',
         }}
       >
         <IconButton onClick={onDismiss} sx={{ position: 'absolute', right: 8, top: 8 }}>
           <CloseIcon />
         </IconButton>
         <WrapHeader>
-          <Typography variant="h6Poppins" fontWeight="500" color="background.paper">
+          <Typography variant="h6Poppins" fontWeight="500" color="text.primary">
             Round {currentRoundId}#
           </Typography>
         </WrapHeader>
         <WrapBody>
-          <Typography variant="h6Poppins" fontWeight="500" color="background.paper">
+          <Typography variant="h6Poppins" fontWeight="500" color="text.primary">
             Winners
           </Typography>
-          <Stack gap="15px" width="100%">
+          <Stack gap="15px" width="100%" divider={<Divider flexItem />}>
             {rewards?.map((item: any, index: number) => (
               <>
                 <Stack
@@ -95,34 +92,30 @@ const YourRewardModal = ({
                   justifyContent="flex-start"
                   alignItems="center"
                 >
-                  <Typography variant="body4Poppins" fontWeight="400" color="gray.300">
+                  <Typography variant="body4Poppins" fontWeight="400" color="text.secondary">
                     {item}
                   </Typography>
                   <Image src="/images/AvatarReward.png" alt="AvatarReward" width={38} height={38} />
                   <Stack alignItems="flex-start">
-                    <Typography>{shortenAddress(getWinnersAtRound[index])}</Typography>
-                    <Typography>@Anomyous User</Typography>
+                    <Typography fontWeight={500}>{shortenAddress(getWinnersAtRound[index])}</Typography>
+                    <Typography fontSize={12}>@Anomyous</Typography>
                   </Stack>
                   <Stack marginLeft="auto" alignItems="flex-start">
                     <Typography variant="body4Poppins" fontWeight="400" color="success.main">
                       +{Number(getPrizeDistributions[index] || 0)}{' '}
                       {Number(getPrizeDistributions[index] || 0) > 1 ? 'TICKETS' : 'TICKET'}
                     </Typography>
-                    <Typography variant="body4Poppins" fontWeight="400" color="gray.400">
+                    <Typography variant="body4Poppins" fontWeight="400" color="text.secondary">
                       ~{Number(getPrizeDistributions[index] || 0) * 3}$
                     </Typography>
                   </Stack>
                 </Stack>
-                <Line />
               </>
             ))}
           </Stack>
-          <Typography variant="h6Poppins" fontWeight="500" color="success.main">
-            Your status
-          </Typography>
           <WrapBox>
             {!isWinner ? (
-              <Typography variant="body3Poppins" fontWeight="500" color="gray.400">
+              <Typography variant="body3Poppins" fontWeight="500" color="text.secondary">
                 No prizes to claim...
                 <br />
                 Better luck next time!
@@ -130,14 +123,14 @@ const YourRewardModal = ({
             ) : (
               <Stack width="100%" flexDirection="row" justifyContent="space-between">
                 <Stack gap="11px" alignItems="flex-start">
-                  <Typography variant="h5Samsung" color="primary.main">
+                  <Typography variant="h5Samsung" color="warning.main">
                     🎁 Winner chicken dinner!
                   </Typography>
-                  <Typography variant="body3Poppins" color="gray.300" fontWeight="500">
+                  <Typography variant="body3Poppins" color="text.primary" fontWeight="500">
                     Congratulations, you have won
                   </Typography>
                 </Stack>
-                <Image src="/images/1ticket.png" alt="1ticket.png" width={123} height={123} />
+                <Image src="/images/1ticket.png" alt="1ticket.png" width={80} height={80} />
               </Stack>
             )}
           </WrapBox>
@@ -146,28 +139,27 @@ const YourRewardModal = ({
               disabled={isUserClaimedPrizes}
               onClick={claimReward}
               isLoading={isLoading}
-              sx={{ height: '55px' }}
+              sx={{ height: '50px' }}
             >
-              <Typography variant="body3Poppins" fontWeight="600" color="#000000">
+              <Typography variant="body3Poppins" fontWeight="500" color="inherit">
                 {!isUserClaimedPrizes ? 'Claim reward' : 'Claimed'}
               </Typography>
             </PrimaryLoadingButton>
           )}
+          <Stack width="100%">
+            <Typography variant="body4Poppins" fontWeight="400" color="text.secondary">
+              View on BscScan
+            </Typography>
+          </Stack>
         </WrapBody>
-        <WrapFooter>
-          <Typography variant="body4Poppins" fontWeight="400" color="primary.main">
-            View on BscScan
-          </Typography>
-        </WrapFooter>
       </BaseModal>
     </>
   );
 };
 
 const WrapHeader = styled(Box)`
-  padding: 28px 25px 20px;
-  border-bottom: 1px solid;
-  border-color: ${(props) => props.theme.palette.gray[600]};
+  padding: 16px 24px;
+  border-bottom: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
 `;
 const WrapBody = styled(Stack)`
   padding: 25px;
@@ -178,24 +170,19 @@ const WrapBody = styled(Stack)`
 const WrapFooter = styled(Box)`
   padding: 28px 25px 20px;
   border-top: 1px solid;
-  border-color: ${(props) => props.theme.palette.gray[600]};
+  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
   text-align: center;
-`;
-const Line = styled(Box)`
-  width: 100%;
-  height: 1px;
-  background-color: ${(props) => props.theme.palette.gray[600]};
 `;
 const WrapBox = styled(Box)`
   width: 100%;
-  height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  padding: 15px;
+  padding: 16px;
   border: 1px solid;
-  border-color: ${(props) => props.theme.palette.gray[700]};
+  border-color: ${(props) => (props.theme.palette as any).extra.card.divider};
+  background-color: ${(props) => (props.theme.palette as any).extra.card.light};
 `;
 
 export default YourRewardModal;
