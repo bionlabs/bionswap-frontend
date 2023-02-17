@@ -1,25 +1,26 @@
-import { Currency, Token } from "@bionswap/core-sdk";
-import { WrappedTokenInfo } from "bionswap-entities/WrappedTokenInfo";
-import { useChain, useNetwork } from "hooks";
-import { useMemo } from "react";
+import { Currency, Token } from '@bionswap/core-sdk';
+import { WrappedTokenInfo } from 'bionswap-entities/WrappedTokenInfo';
+import { useChain, useNetwork } from 'hooks';
+import { useMemo } from 'react';
 import {
   TokenAddressMap,
   useAllLists,
   useCombinedActiveList,
   useInactiveListUrls,
   useUnsupportedTokenList,
-} from "state/lists/hooks";
-import { useUserAddedTokens } from "state/user/hooks";
-import { createTokenFilterFunction } from "utils/filter";
+} from 'state/lists/hooks';
+import { useUserAddedTokens } from 'state/user/hooks';
+import { createTokenFilterFunction } from 'utils/filter';
 
 // reduce token map into standard address <-> Token mapping, optionally include user added tokens
 function useTokensFromMap(
   tokenMap: TokenAddressMap,
-  includeUserAdded: boolean
+  includeUserAdded: boolean,
+  chainIdValue = 56,
 ): { [address: string]: Token } {
-  const { chainId } = useChain();
+  // const { chainId } = useChain();
   const userAddedTokens = useUserAddedTokens();
-
+  const chainId = 42161;
   return useMemo(() => {
     if (!chainId) return {};
 
@@ -42,7 +43,42 @@ function useTokensFromMap(
             },
             // must make a copy because reduce modifies the map, and we do not
             // want to make a copy in every iteration
-            { ...mapWithoutUrls }
+            { ...mapWithoutUrls },
+          )
+      );
+    }
+
+    return mapWithoutUrls;
+  }, [chainId, userAddedTokens, tokenMap, includeUserAdded]);
+}
+
+function useTokensFromMapWithCustomChainId(
+  tokenMap: TokenAddressMap,
+  includeUserAdded: boolean,
+  chainId: number,
+): { [address: string]: Token } {
+  const userAddedTokens = useUserAddedTokens();
+  return useMemo(() => {
+    // reduce to just tokens
+    const mapWithoutUrls = Object.keys(tokenMap[chainId] ?? {}).reduce<{
+      [address: string]: Token;
+    }>((newMap, address) => {
+      newMap[address] = tokenMap[chainId][address].token;
+      return newMap;
+    }, {});
+
+    if (includeUserAdded) {
+      return (
+        userAddedTokens
+          // reduce into all ALL_TOKENS filtered by the current chain
+          .reduce<{ [address: string]: Token }>(
+            (tokenMap, token) => {
+              tokenMap[token.address] = token;
+              return tokenMap;
+            },
+            // must make a copy because reduce modifies the map, and we do not
+            // want to make a copy in every iteration
+            { ...mapWithoutUrls },
           )
       );
     }
@@ -53,7 +89,13 @@ function useTokensFromMap(
 
 export function useAllTokens(): { [address: string]: Token } {
   const allTokens = useCombinedActiveList();
+  console.log('all token', allTokens);
   return useTokensFromMap(allTokens, true);
+}
+
+export function useAllTokensWithCustomChainId(chainId: number): { [address: string]: Token } {
+  const allTokens = useCombinedActiveList();
+  return useTokensFromMapWithCustomChainId(allTokens, true, chainId);
 }
 
 export function useTokens(): { [address: string]: Token } {
@@ -66,10 +108,7 @@ export function useUnsupportedTokens(): { [address: string]: Token } {
   return useTokensFromMap(unsupportedTokensMap, false);
 }
 
-export function useSearchInactiveTokenLists(
-  search: string | undefined,
-  minResults = 10
-): WrappedTokenInfo[] {
+export function useSearchInactiveTokenLists(search: string | undefined, minResults = 10): WrappedTokenInfo[] {
   const lists = useAllLists();
   const inactiveUrls = useInactiveListUrls();
   const { chainId } = useChain();
@@ -86,10 +125,7 @@ export function useSearchInactiveTokenLists(
         if (tokenInfo.chainId === chainId && tokenFilter(tokenInfo)) {
           // @ts-ignore TYPE NEEDS FIXING
           const wrapped = new WrappedTokenInfo(tokenInfo, list);
-          if (
-            !(wrapped.address in activeTokens) &&
-            !addressSet[wrapped.address]
-          ) {
+          if (!(wrapped.address in activeTokens) && !addressSet[wrapped.address]) {
             addressSet[wrapped.address] = true;
             result.push(wrapped);
             if (result.length >= minResults) return result;
@@ -112,9 +148,7 @@ export function useIsTokenActive(token: Token | undefined | null): boolean {
 }
 
 // Check if currency is included in custom list from user storage
-export function useIsUserAddedToken(
-  currency: Currency | undefined | null
-): boolean {
+export function useIsUserAddedToken(currency: Currency | undefined | null): boolean {
   const userAddedTokens = useUserAddedTokens();
 
   if (!currency) {
