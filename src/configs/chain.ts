@@ -1,157 +1,56 @@
-import { Chain, chain as WagmiChain, configureChains, createClient } from "wagmi";
+import { Chain, configureChains, createClient } from "wagmi";
+import {
+  mainnet,
+  bsc,
+  bscTestnet,
+  arbitrum,
+  okc,
+  gnosis,
+  optimism,
+  celo,
+  polygon,
+  avalanche
+} from 'wagmi/chains';
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { publicProvider } from "wagmi/providers/public";
 import { OKXWalletConnector } from "./connectors/OKXConnector";
 
-const bsc = {
-  id: 56,
-  name: "BNB Chain",
-  network: "bsc",
-  // iconUrl:
-  //   "https://assets-cdn.trustwallet.com/blockchains/smartchain/info/logo.png",
-  testnet: false,
-  nativeCurrency: {
-    name: "BNB",
-    symbol: "BNB",
-    decimals: 18,
-  },
-  rpcUrls: {
-    default: "https://rpc.ankr.com/bsc",
-    // default2: "https://bsc-dataseed1.defibit.io/",
-    // default3: "https://bsc-dataseed1.ninicoin.io/",
-  },
-  blockExplorers: {
-    etherscan: {
-      name: "BNB Chain Explorer",
-      url: "https://bscscan.com",
-    },
-    default: {
-      name: "BNB Chain Explorer",
-      url: "https://bscscan.com",
-    },
-  },
-};
-
-const bscTestnet = {
-  id: 97,
-  name: "BNB Testnet",
-  network: "bsc-testnet",
-  // iconUrl:
-  //   "https://assets-cdn.trustwallet.com/blockchains/smartchain/info/logo.png",
-  testnet: true,
-  nativeCurrency: {
-    name: "BNB",
-    symbol: "BNB",
-    decimals: 18,
-  },
-  rpcUrls: {
-    default: "https://rpc.ankr.com/bsc_testnet_chapel",
-    // default2: "https://bsc-dataseed1.defibit.io/",
-    // default3: "https://bsc-dataseed1.ninicoin.io/",
-  },
-  blockExplorers: {
-    etherscan: {
-      name: "BNB Chain Explorer",
-      url: "https://testnet.bscscan.com",
-    },
-    default: {
-      name: "BNB Chain Explorer",
-      url: "https://testnet.bscscan.com",
-    },
-  },
-};
-
-const okc = {
-  id: 66,
-  name: "OKC",
-  network: "bsc",
-  testnet: false,
-  nativeCurrency: {
-    name: "OKT",
-    symbol: "OKT",
-    decimals: 18,
-  },
-  rpcUrls: {
-    default: "https://exchainrpc.okex.org",
-  },
-  blockExplorers: {
-    default: {
-      name: "OKC Explorer",
-      url: "https://www.oklink.com/okc/",
-    },
-  },
-};
-
-const gnosis = {
-  id: 100,
-  name: "Gnosis",
-  network: "gnosis",
-  testnet: false,
-  nativeCurrency: {
-    name: "xDai",
-    symbol: "xDai",
-    decimals: 18,
-  },
-  rpcUrls: {
-    default: "https://rpc.gnosischain.com",
-  },
-  blockExplorers: {
-    default: {
-      name: "Gnosis Explorer",
-      url: "https://gnosisscan.io",
-    },
-  },
-};
-
-//give me a configuration object of klaytn chain
 const klaytn = {
   id: 8217,
-  name: "Klaytn",
-  network: "klaytn",
-  testnet: false,
+  name: 'Klaytn',
+  network: 'klaytn',
   nativeCurrency: {
-    name: "KLAY",
-    symbol: "KLAY",
     decimals: 18,
+    name: 'Klaytn',
+    symbol: 'KLAY',
   },
   rpcUrls: {
-    default: "https://api.baobab.klaytn.net:8651",
+    public: { http: ['https://klaytn-mainnet-rpc.allthatnode.com:8551'] },
+    default: { http: ['https://klaytn-mainnet-rpc.allthatnode.com:8551'] },
   },
   blockExplorers: {
-    default: {
-      name: "Klaytn Explorer",
-      url: "https://baobab.scope.klaytn.com/",
-    },
+    etherscan: { name: 'KlaytnScope', url: 'https://scope.klaytn.com/' },
+    default: { name: 'KlaytnScope', url: 'https://scope.klaytn.com/' },
   },
-};
+}
 
 const supportedChains: { [name: string]: Chain } = {
+  ethereum: mainnet,
   bsc,
+  bscTestnet: {
+    ...bscTestnet,
+    name: 'BSC Testnet'
+  },
+  arbitrum,
   okc,
-  ethereum: {
-    ...WagmiChain.mainnet,
-    rpcUrls: {
-      default: "https://rpc.ankr.com/eth",
-    },
-  },
-  polygon: WagmiChain.polygon,
-  arbitrum: {
-    ...WagmiChain.arbitrum,
-    rpcUrls: {
-      default: "https://rpc.ankr.com/arbitrum",
-    },
-  },
-  optimism: {
-    ...WagmiChain.optimism,
-    rpcUrls: {
-      default: "https://rpc.ankr.com/optimism",
-    },
-  },
   gnosis,
+  optimism,
   klaytn,
-  bscTestnet,
+  // celo,
+  polygon,
+  // avalanche
 };
 
 
@@ -161,7 +60,7 @@ const { chains, provider, webSocketProvider } = configureChains(
   [publicProvider()]
 );
 
-export const CHAIN_INFO_MAP: { [chainId: number]: Chain } = chains.reduce((o, chain) => {
+export const CHAIN_INFO_MAP: { [chainId: number]: Chain } = chains.reduce((o, chain:any) => {
   o[chain.id] = chain;
   return o;
 }, {} as any);

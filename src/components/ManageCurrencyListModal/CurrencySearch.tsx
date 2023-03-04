@@ -18,6 +18,7 @@ import { ManageCurrencyListModalView, useManageCurrencyListModalContext } from '
 import CommonBases from './CommonBases';
 import CurrencyList from './CurrencyList';
 import ImportRow from './ImportRow';
+import {AiFillSetting} from 'react-icons/ai'
 
 type Props = {
   otherSelectedCurrency?: Currency | null;
@@ -150,8 +151,11 @@ const CurrencySearch = ({
           <CurrencyList currencies={filteredSortedTokensWithETH} onCurrencySelect={onSelect} />
         </Stack>
         <ManageTokenBtn variant='text' fullWidth onClick={() => setView(ManageCurrencyListModalView.manage)}>
-          <img src="/images/sticky_note_2.png" alt="sticky_note_2.png" />
-          <Typography fontSize='14px' color="primary.main">
+          <Stack sx={{'svg':{width: '20px',height:'20px'}}}>
+            <AiFillSetting/>
+          </Stack>
+         
+          <Typography color="inherit">
             Manage Token List
           </Typography>
         </ManageTokenBtn>

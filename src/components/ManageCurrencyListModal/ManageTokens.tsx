@@ -1,22 +1,23 @@
-import { Token } from "@bionswap/core-sdk";
-import { Box, Button, IconButton, OutlinedInput, Stack, styled, TextField, Typography } from "@mui/material";
-import { CurrencyLogo } from "components";
-import { useChain, useToken } from "hooks";
-import React, { useCallback, useMemo, useState } from "react";
-import { useRemoveUserAddedToken, useUserAddedTokens } from "state/user/hooks";
-import { isAddress } from "utils/validate";
-import { ManageCurrencyListModalView, useManageCurrencyListModalContext } from ".";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { getExplorerLink } from "utils/explorer";
-import ImportRow from "./ImportRow";
+import { Token } from '@bionswap/core-sdk';
+import { Box, Button, IconButton, OutlinedInput, Stack, styled, TextField, Typography, Divider } from '@mui/material';
+import { CurrencyLogo } from 'components';
+import { useChain, useToken } from 'hooks';
+import React, { useCallback, useMemo, useState } from 'react';
+import { useRemoveUserAddedToken, useUserAddedTokens } from 'state/user/hooks';
+import { isAddress } from 'utils/validate';
+import { ManageCurrencyListModalView, useManageCurrencyListModalContext } from '.';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { getExplorerLink } from 'utils/explorer';
+import ImportRow from './ImportRow';
+import {AiOutlineSearch} from 'react-icons/ai'
 
 type Props = {};
 
 const ManageTokens = (props: Props) => {
   const { setView, setImportToken } = useManageCurrencyListModalContext();
   const { chainId } = useChain();
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   // manage focus on modal show
   const handleInput = useCallback((event: any) => {
@@ -64,19 +65,25 @@ const ManageTokens = (props: Props) => {
         //     </IconButton>
         //   </Stack>
         // </Stack>
-        <Stack key={token.address} direction="row" justifyContent="space-between" width="100%" sx={{ pl: '15px', pr: '15px' }}>
+        <Stack
+          key={token.address}
+          direction="row"
+          justifyContent="space-between"
+          width="100%"
+          sx={{ pl: '15px', pr: '15px' }}
+        >
           <Stack direction="row">
-            <CurrencyLogo currency={token} size='26px' />
-            <Stack sx={{ ml: '10px', alignItems: "flex-start" }}>
-              <Stack direction="row" gap='4px'>
-                <Typography variant="body4Poppins" color='text.primary' fontWeight='500'>
+            <CurrencyLogo currency={token} size="26px" />
+            <Stack sx={{ ml: '10px', alignItems: 'flex-start' }}>
+              <Stack direction="row" gap="4px">
+                <Typography variant="body4Poppins" color="text.primary" fontWeight="500">
                   {token.symbol}
                 </Typography>
-                <Typography variant="body6Poppins" color='#9A6AFF' fontWeight='500'>
+                <Typography variant="body6Poppins" color="primary.main" fontWeight="500">
                   {token.name}
                 </Typography>
               </Stack>
-              <Typography variant="body4Poppins" color='#717D8A' fontWeight='400'>
+              <Typography variant="body4Poppins" color="text.secondary" fontWeight="400">
                 Unknown Source
               </Typography>
             </Stack>
@@ -85,10 +92,16 @@ const ManageTokens = (props: Props) => {
             <IconButton onClick={() => removeToken(chainId, token.address)}>
               <DeleteOutlineIcon />
             </IconButton>
-            <IconButton href={getExplorerLink(chainId, token.address, "address")} target="_blank" rel="noopener noreferrer">
-              <OpenInNewIcon sx={{
-                color: "#9A6AFF",
-              }} />
+            <IconButton
+              href={getExplorerLink(chainId, token.address, 'address')}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <OpenInNewIcon
+                sx={{
+                  color: 'primary.main',
+                }}
+              />
             </IconButton>
           </Stack>
         </Stack>
@@ -105,8 +118,8 @@ const ManageTokens = (props: Props) => {
   }, [searchToken, setImportToken, setView]);
 
   return (
-    <Stack width="100%" gap='20px' paddingBottom='23px'>
-      <Box pl='15px' pr='15px' width='100%'>
+    <Stack width="100%" gap="20px" paddingBottom="23px" divider={<Divider flexItem />}>
+      <Box pl="15px" pr="15px" width="100%">
         <TextField
           variant="standard"
           placeholder="Enter token name / address..."
@@ -114,41 +127,38 @@ const ManageTokens = (props: Props) => {
           value={searchQuery}
           onChange={handleInput}
           sx={{
-
             '.MuiInputBase-formControl': {
               borderRadius: '8px',
               padding: '13px 15px',
-              backgroundColor: 'background.default',
-              border: '1px solid',
-              borderColor: 'gray.600',
+              border: '2px solid',
+              borderColor: theme => (theme.palette as any).extra.card.divider,
 
               '&.Mui-focused': {
-                borderColor: '#9A6AFF',
-                boxShadow: 'rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset',
-              }
+                borderColor: 'primary.main',
+              },
             },
 
-            'input': {
+            input: {
               fontWeight: '400',
               fontSize: '16px',
               lineHeight: '180%',
-            }
+            },
           }}
           InputProps={{
-            endAdornment: <img src="/images/search.png" alt="search" />,
+            endAdornment: <AiOutlineSearch/>,
             disableUnderline: true,
           }}
         />
       </Box>
-      <Line />
-      <Stack direction="row" justifyContent="space-between" pl='15px' pr='15px' width="100%">
-        <Typography variant="body3Poppins" color='gray.400' fontWeight='500'>
-          {userAddedTokens?.length} Custom {userAddedTokens.length === 1 ? "Token" : "Tokens"}
+
+      <Stack direction="row" justifyContent="space-between" pl="15px" pr="15px" width="100%">
+        <Typography variant="body3Poppins" color="text.secondary" fontWeight="500">
+          {userAddedTokens?.length} Custom {userAddedTokens.length === 1 ? 'Token' : 'Tokens'}
         </Typography>
-        <Button onClick={handleRemoveAll} sx={{
-          padding: '0'
-        }}>
-          <Typography variant="body3Poppins" color='#9A6AFF' fontWeight='400'>
+        <Button
+          onClick={handleRemoveAll}
+        >
+          <Typography variant="body3Poppins" color="primary.main" fontWeight="400">
             Clear all
           </Typography>
         </Button>
@@ -158,11 +168,5 @@ const ManageTokens = (props: Props) => {
     </Stack>
   );
 };
-
-const Line = styled(Box)`
-  width: 100%;
-  height: 1px;
-  background-color: ${(props) => props.theme.palette.gray[800]};
-`
 
 export default ManageTokens;

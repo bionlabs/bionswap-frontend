@@ -270,7 +270,7 @@ export const darkPalette: ExtendedPaletteOptions = {
       boxShadow: '0 1px 8px rgba(61, 63, 64, .05), 0 4px 20px rgba(61, 63, 64, .05)'
     },
     button: {
-      backgroundGreenOpacity: 'rgba(54, 113, 233, .2)',
+      backgroundGreenOpacity: 'rgba(54, 113, 233, .18)',
       lighter: 'rgba(255,255,255, .01)',
       linear: 'linear-gradient(93.49deg, #0463CA 0.54%, #00A3FF 100%)',
       divider: '#4F5B67'

@@ -20,14 +20,14 @@ const Manage = (props: Props) => {
           }}>
             <ArrowBackIcon />
           </IconButton>
-          <Typography variant="bodyPoppins" margin='auto' fontWeight='400' color='text.primary'>
+          <Typography margin='auto' fontSize={18} color='text.primary'>
             Manage
           </Typography>
         </Stack>
         <WrapTab direction="row" gap={1} sx={{ width: "100%" }}>
           {["Lists", "Tokens"].map((label, i) => (
-            <Button className={selectedTab === i ? 'active': undefined} key={i} onClick={() => setSelectedTab(i)} fullWidth>
-              <Typography variant="body3Poppins" color={selectedTab === i ? 'primary.dark' : '#717D8A'} fontWeight='500'>
+            <Button variant={selectedTab === i ? 'contained' : 'text'} key={i} onClick={() => setSelectedTab(i)} fullWidth>
+              <Typography variant="body3Poppins" fontWeight='500'>
                 {label}
               </Typography>
             </Button>
@@ -41,14 +41,9 @@ const Manage = (props: Props) => {
 };
 
 const WrapTab = styled(Stack)`
-  background: #000A0D;
+  background: ${props => props.theme.palette.background.default};
   border-radius: 8px;
   padding: 5px;
-
-  .active {
-    background: #07E0E0;
-    border-radius: 5px;
-  }
 `
 
 export default Manage;

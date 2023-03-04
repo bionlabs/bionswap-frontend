@@ -346,6 +346,7 @@ export function queryParametersToSwapState(parsedQs: ParsedQs, chainId: ChainId 
   const eth = chainId === ChainId.CELO ? WNATIVE_ADDRESS[chainId] : "ETH";
   // const sushi = SUSHI_ADDRESS[chainId];
   const stableCoin = USD[chainId].address;
+
   if (inputCurrency === "" && outputCurrency === "") {
     inputCurrency = eth;
     outputCurrency = stableCoin;
