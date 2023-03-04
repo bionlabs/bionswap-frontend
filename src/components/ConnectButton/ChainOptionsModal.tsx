@@ -17,6 +17,8 @@ const ChainOptionsModal = ({ onClose, open = false, onChainSwitched }: Props) =>
 
   const { switchNetwork } = useSwitchNetwork({});
 
+  console.log(CHAIN_INFO_MAP)
+
   return (
     <Modal
       onClose={onClose}

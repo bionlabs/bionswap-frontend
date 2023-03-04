@@ -29,11 +29,14 @@ const CookieConsent = ({handleAccept, handleReject}:Props) => {
     setExpand(!expand);
   };
 
-  console.log(expand);
-
   return (
     <Wrapper
       divider={<Divider flexItem sx={{ borderColor: (theme) => (theme.palette as any).extra.walletModal.divider }} />}
+      sx={{
+        '.MuiAccordion-root:before': {
+          display: 'none',
+        },
+      }}
     >
       <Stack
         direction={isTablet ? 'column' : 'row'}

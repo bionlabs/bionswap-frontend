@@ -1,5 +1,4 @@
-import { Box, Button, OutlinedInput, Stack, TextField, Typography } from '@mui/material';
-import { Switch } from 'components';
+import { Box, Button, OutlinedInput, Stack, Switch, Typography } from '@mui/material';
 import { TokenList } from '@uniswap/token-lists';
 import ListLogo from 'components/ListLogo';
 import { UNSUPPORTED_LIST_URLS } from 'configs/token-lists';
@@ -73,8 +72,8 @@ const ListRow = memo(({ listUrl }: { listUrl: string }) => {
       justifyContent="start"
       gap="10px"
       sx={{
-        background: 'rgba(160, 236, 138, 0.15)',
-        border: '1px solid #44C13C',
+        background: theme => (theme.palette as any).extra.button.backgroundGreenOpacity,
+        border: theme => `1px solid ${theme.palette.primary.main}`,
         borderRadius: '8px',
         padding: '15px',
       }}
@@ -84,7 +83,7 @@ const ListRow = memo(({ listUrl }: { listUrl: string }) => {
         <Typography variant="body4Poppins" fontWeight="500" color="text.primary">
           {list.name} <Typography component="span">{listVersionLabel(list.version)}</Typography>
         </Typography>
-        <Typography variant="body4Poppins" fontWeight="400" color="gray.300">
+        <Typography variant="body4Poppins" fontWeight="400" color="text.secondary">
           {list.tokens.length} tokens
         </Typography>
       </Stack>
@@ -191,15 +190,12 @@ const ManageLists = (props: Props) => {
           placeholder="Enter token name / address..."
           onChange={handleInput}
           sx={{
-            background: 'primary.dark',
             border: '1px solid',
-            borderColor: 'gray.600',
+            borderColor: theme => (theme.palette as any).extra.swapPanel.divider,
             borderRadius: '8px',
 
             '&.Mui-focused': {
-              borderColor: '#9A6AFF',
-              boxShadow:
-                'rgba(175, 137, 255, 0.4) 0px 0px 0px 2px, rgba(175, 137, 255, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset',
+              borderColor: theme => theme.palette.primary.main,
             },
 
             fieldset: {
@@ -216,9 +212,12 @@ const ManageLists = (props: Props) => {
           }}
         />
         {addError ? (
-          <Typography color="error" title={addError}>
-            {addError}
-          </Typography>
+          <Box p='5px 10px 0'>
+            <Typography fontSize={14} color="error" title={addError}>
+              {addError}
+            </Typography>
+          </Box>
+          
         ) : null}
       </Box>
       {tempList && !addError && (
@@ -248,7 +247,7 @@ const ManageLists = (props: Props) => {
         width="100%"
         sx={{
           borderTop: '1px solid',
-          borderTopColor: 'gray.800',
+          borderTopColor: theme => (theme.palette as any).extra.card.divider,
           padding: '15px',
           maxHeight: '370px',
           overflowY: 'auto',
