@@ -1,17 +1,14 @@
 import { ChainId } from "@bionswap/core-sdk";
+import { SwitchNetworkArgs } from "@wagmi/core";
 import { useChain } from "hooks";
 import { useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "state";
 import { switchChain } from "state/chains/actions";
 import { useSwitchNetwork as useWagmiSwitchNetwork } from "wagmi";
-import {
-  UseSwitchNetworkArgs,
-  UseSwitchNetworkConfig,
-} from "wagmi/dist/declarations/src/hooks/accounts/useSwitchNetwork";
 
 export function useSwitchNetwork({
   ...args
-}: UseSwitchNetworkArgs & UseSwitchNetworkConfig): ReturnType<
+}): ReturnType<
   typeof useWagmiSwitchNetwork
 > {
   const { switchNetwork: wagmiSwitchNetwork, ...returns } =
