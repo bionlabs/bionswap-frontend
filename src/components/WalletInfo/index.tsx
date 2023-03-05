@@ -11,7 +11,7 @@ const WalletInfo = (props: Props) => {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const { data: balance } = useBalance({
-    addressOrName: address,
+    address: address,
   });
 
   return address ? (

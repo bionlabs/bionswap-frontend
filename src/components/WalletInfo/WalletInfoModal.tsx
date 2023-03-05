@@ -9,7 +9,7 @@ type Props = {
 const WalletInfoModal = ({ open = false, onClose }: Props) => {
   const { address } = useAccount();
   const { data: balance } = useBalance({
-    addressOrName: address,
+    address: address,
   });
   const { chain: connectedChain } = useNetwork();
 

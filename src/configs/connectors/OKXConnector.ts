@@ -1,5 +1,5 @@
-import { InjectedConnectorOptions } from "@wagmi/core/dist/declarations/src/connectors";
-import { Ethereum } from "@wagmi/core/dist/declarations/src/types";
+import { InjectedConnectorOptions } from "@wagmi/core";
+import { Ethereum } from "@wagmi/core";
 import { client } from "configs/chain";
 import { Chain, ConnectorNotFoundError, ResourceUnavailableError, RpcError, UserRejectedRequestError } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
