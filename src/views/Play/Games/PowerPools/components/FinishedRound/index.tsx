@@ -16,7 +16,7 @@ const FinishedRound = ({ contracts }: FinishedRoundProp) => {
 
   return (
     <Stack width="100%" gap="25px">
-      <Typography variant="h3Samsung" fontWeight="500" color="success.main">
+      <Typography variant="h3Samsung" fontWeight="600" color="primary.main">
         Finished round
       </Typography>
       <Stack width="100%">

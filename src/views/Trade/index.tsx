@@ -52,6 +52,7 @@ const Swap = ({}: SwapProps) => {
   const [hoverSwap, setHoverSwap] = useState(false);
   const { address: account } = useAccount();
   const defaultTokens = useAllTokens();
+
   const { chainId } = useChain();
 
   const [isExpertMode] = useExpertModeManager();

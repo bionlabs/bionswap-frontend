@@ -32,4 +32,6 @@ export enum ChainKey {
   OPTIMISM = 'optimism',
   KAVA = 'kava',
   METIS = 'metis',
+  KLAYTN = 'klaytn',
+  GNOSIS = 'gnosis',
 }

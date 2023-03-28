@@ -14,7 +14,7 @@ const ItemTab = ({ contract, index, poolIndex, handleChangePool }: any) => {
 };
 
 const Item = styled(Button)`
-  background-color: #0c1620;
+  background-color: ${props => (props.theme.palette as any).extra.card.background};
   border-radius: 8px;
   padding: 6px 25px;
 

@@ -34,4 +34,5 @@ export enum ChainId {
   KAVA = 2222,
   METIS = 1088,
   KLAYTN = 8217,
+  GNOSIS = 100
 }
