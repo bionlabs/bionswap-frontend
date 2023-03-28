@@ -146,6 +146,7 @@ const ResultBox = ({ parentContract }: any) => {
 const WrapBox = styled(Box)`
   border-radius: 8px;
   background-color: ${(props) => (props.theme.palette as any).extra.card.background};
+  border: 1px solid ${(props) => (props.theme.palette as any).extra.card.divider};
   overflow: hidden;
 `;
 const WrapHeader = styled(Box)`
@@ -170,8 +171,8 @@ const Latest = styled(Box)`
 const OutlinedInputCustom = styled(OutlinedInput)`
   input {
     padding: 5px 20px;
-    background: ${(props) => (props.theme.palette as any).extra.background.alt};
-    font-weight: 400;
+    background: ${(props) => (props.theme.palette as any).extra.card.light};
+    font-weight: 600;
     font-size: 18px;
     line-height: 180%;
     color: ${props => props.theme.palette.primary.main};

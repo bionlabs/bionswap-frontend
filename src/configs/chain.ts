@@ -45,9 +45,9 @@ const supportedChains: { [name: string]: Chain } = {
   },
   arbitrum,
   okc,
-  gnosis,
-  optimism,
-  klaytn,
+  // gnosis,
+  // optimism,
+  // klaytn,
   // celo,
   polygon,
   // avalanche
@@ -90,18 +90,18 @@ export const chainIcons = {
     iconBackground: "#0b0e11",
     iconUrl: "/images/chains/arbitrum.svg",
   },
-  [supportedChains.optimism.id]: {
-    iconBackground: "#0b0e11",
-    iconUrl: "/images/chains/optimism.svg",
-  },
-  [supportedChains.gnosis.id]: {
-    iconBackground: "#0b0e11",
-    iconUrl: "/images/chains/gnosis.svg",
-  },
-  [supportedChains.klaytn.id]: {
-    iconBackground: "#0b0e11",
-    iconUrl: "/images/chains/klaytn.png",
-  },
+  // [supportedChains.optimism.id]: {
+  //   iconBackground: "#0b0e11",
+  //   iconUrl: "/images/chains/optimism.svg",
+  // },
+  // [supportedChains.gnosis.id]: {
+  //   iconBackground: "#0b0e11",
+  //   iconUrl: "/images/chains/gnosis.svg",
+  // },
+  // [supportedChains.klaytn.id]: {
+  //   iconBackground: "#0b0e11",
+  //   iconUrl: "/images/chains/klaytn.png",
+  // },
 };
 
 // Set up client

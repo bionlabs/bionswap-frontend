@@ -33,14 +33,14 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const router = useRouter();
   const { locale, events } = router;
   const getLayout = Component.getLayout ?? ((page) => page);
-  const [cookies , setCookie , removeCookie] = useCookies(['cookieConsent']);
+  // const [cookies , setCookie , removeCookie] = useCookies(['cookieConsent']);
 
-  const handleAcceptCookieConsent = () => {
-    setCookie('cookieConsent', 1)
-  }
-  const handleRejectCookieConsent = () => {
-    setCookie('cookieConsent', 0)
-  }
+  // const handleAcceptCookieConsent = () => {
+  //   setCookie('cookieConsent', 1)
+  // }
+  // const handleRejectCookieConsent = () => {
+  //   setCookie('cookieConsent', 0)
+  // }
 
   useEffect(() => {
     // @ts-ignore TYPE NEEDS FIXING
@@ -101,10 +101,10 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           }
           <ListsUpdater />
           <Toast />
-          {
+          {/* {
             !cookies.cookieConsent &&
             <CookieConsent handleAccept={handleAcceptCookieConsent} handleReject={handleRejectCookieConsent} />
-          }
+          } */}
           <NextNProgress color="#3671E9" stopDelayMs={500} height={3} options={{ easing: 'ease', speed: 1000 }} />
           <Suspense fallback={<LoadingPage/>}>
             {getLayout(<Component {...pageProps} />)}

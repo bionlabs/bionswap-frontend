@@ -193,10 +193,6 @@ a {
   text-decoration: none;
 }
 
-.specialFont {
-  font-family: 'Grifter';
-}
-
 .subtitle {
   color: #0b0b0b;
 }
@@ -233,21 +229,6 @@ span {
   font-weight: 400;
   font-size: 16px;
   line-height: 160%;
-}
-
-::-webkit-input-placeholder {
-  color: #4F5B67;
-  font-weight: 400;
-}
-
-:-ms-input-placeholder {
-  color: #4F5B67;
-  font-weight: 400;
-}
-
-::placeholder {
-  color: #4F5B67;
-  font-weight: 400;
 }
 
 @keyframes animatedBackground {

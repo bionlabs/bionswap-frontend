@@ -31,5 +31,7 @@ export declare enum ChainKey {
     MOONBEAM = "moonbeam",
     OPTIMISM = "optimism",
     KAVA = "kava",
-    METIS = "metis"
+    METIS = "metis",
+    KLAYTN = "klaytn",
+    GNOSIS = "gnosis"
 }

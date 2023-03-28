@@ -32,5 +32,7 @@ export declare enum ChainId {
     MOONBEAM = 1284,
     OPTIMISM = 10,
     KAVA = 2222,
-    METIS = 1088
+    METIS = 1088,
+    KLAYTN = 8217,
+    GNOSIS = 100
 }

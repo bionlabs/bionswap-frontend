@@ -46,6 +46,8 @@ var solidity = require('@ethersproject/solidity');
   ChainId[ChainId["OPTIMISM"] = 10] = "OPTIMISM";
   ChainId[ChainId["KAVA"] = 2222] = "KAVA";
   ChainId[ChainId["METIS"] = 1088] = "METIS";
+  ChainId[ChainId["KLAYTN"] = 8217] = "KLAYTN";
+  ChainId[ChainId["GNOSIS"] = 100] = "GNOSIS";
 })(exports.ChainId || (exports.ChainId = {}));
 
 (function (ChainKey) {
@@ -82,6 +84,8 @@ var solidity = require('@ethersproject/solidity');
   ChainKey["OPTIMISM"] = "optimism";
   ChainKey["KAVA"] = "kava";
   ChainKey["METIS"] = "metis";
+  ChainKey["KLAYTN"] = "klaytn";
+  ChainKey["GNOSIS"] = "gnosis";
 })(exports.ChainKey || (exports.ChainKey = {}));
 
 (function (Rounding) {

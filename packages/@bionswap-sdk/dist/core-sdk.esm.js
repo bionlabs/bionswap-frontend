@@ -45,6 +45,8 @@ var ChainId;
   ChainId[ChainId["OPTIMISM"] = 10] = "OPTIMISM";
   ChainId[ChainId["KAVA"] = 2222] = "KAVA";
   ChainId[ChainId["METIS"] = 1088] = "METIS";
+  ChainId[ChainId["KLAYTN"] = 8217] = "KLAYTN";
+  ChainId[ChainId["GNOSIS"] = 100] = "GNOSIS";
 })(ChainId || (ChainId = {}));
 
 var ChainKey;
@@ -83,6 +85,8 @@ var ChainKey;
   ChainKey["OPTIMISM"] = "optimism";
   ChainKey["KAVA"] = "kava";
   ChainKey["METIS"] = "metis";
+  ChainKey["KLAYTN"] = "klaytn";
+  ChainKey["GNOSIS"] = "gnosis";
 })(ChainKey || (ChainKey = {}));
 
 var Rounding;
