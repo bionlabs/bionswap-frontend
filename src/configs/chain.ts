@@ -47,7 +47,7 @@ const bscTestnet = {
     decimals: 18,
   },
   rpcUrls: {
-    default: "https://rpc.ankr.com/bsc_testnet_chapel",
+    default: "https://bsc-dataseed1.binance.org/",
     // default2: "https://bsc-dataseed1.defibit.io/",
     // default3: "https://bsc-dataseed1.ninicoin.io/",
   },
