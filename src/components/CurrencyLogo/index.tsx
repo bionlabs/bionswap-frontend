@@ -113,6 +113,7 @@ const LOGO: Record<ChainId, string> = {
   [ChainId.OPTIMISM]: EthereumLogo,
   [ChainId.KAVA]: KavaLogo,
   [ChainId.METIS]: MetisLogo,
+  [ChainId.KLAYTN]: ''
 };
 
 export interface CurrencyLogoProps {
