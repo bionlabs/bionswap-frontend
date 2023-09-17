@@ -1,22 +1,19 @@
-import { Currency, Token } from "@bionswap/core-sdk";
-import { WrappedTokenInfo } from "entities/WrappedTokenInfo";
-import { useChain, useNetwork } from "hooks";
-import { useMemo } from "react";
+import { Currency, Token } from '@bionswap/core-sdk';
+import { WrappedTokenInfo } from 'custom-entities/WrappedTokenInfo';
+import { useChain, useNetwork } from 'hooks';
+import { useMemo } from 'react';
 import {
   TokenAddressMap,
   useAllLists,
   useCombinedActiveList,
   useInactiveListUrls,
   useUnsupportedTokenList,
-} from "state/lists/hooks";
-import { useUserAddedTokens } from "state/user/hooks";
-import { createTokenFilterFunction } from "utils/filter";
+} from 'state/lists/hooks';
+import { useUserAddedTokens } from 'state/user/hooks';
+import { createTokenFilterFunction } from 'utils/filter';
 
 // reduce token map into standard address <-> Token mapping, optionally include user added tokens
-function useTokensFromMap(
-  tokenMap: TokenAddressMap,
-  includeUserAdded: boolean
-): { [address: string]: Token } {
+function useTokensFromMap(tokenMap: TokenAddressMap, includeUserAdded: boolean): { [address: string]: Token } {
   const { chainId } = useChain();
   const userAddedTokens = useUserAddedTokens();
 
@@ -42,7 +39,7 @@ function useTokensFromMap(
             },
             // must make a copy because reduce modifies the map, and we do not
             // want to make a copy in every iteration
-            { ...mapWithoutUrls }
+            { ...mapWithoutUrls },
           )
       );
     }
@@ -66,10 +63,7 @@ export function useUnsupportedTokens(): { [address: string]: Token } {
   return useTokensFromMap(unsupportedTokensMap, false);
 }
 
-export function useSearchInactiveTokenLists(
-  search: string | undefined,
-  minResults = 10
-): WrappedTokenInfo[] {
+export function useSearchInactiveTokenLists(search: string | undefined, minResults = 10): WrappedTokenInfo[] {
   const lists = useAllLists();
   const inactiveUrls = useInactiveListUrls();
   const { chainId } = useChain();
@@ -86,10 +80,7 @@ export function useSearchInactiveTokenLists(
         if (tokenInfo.chainId === chainId && tokenFilter(tokenInfo)) {
           // @ts-ignore TYPE NEEDS FIXING
           const wrapped = new WrappedTokenInfo(tokenInfo, list);
-          if (
-            !(wrapped.address in activeTokens) &&
-            !addressSet[wrapped.address]
-          ) {
+          if (!(wrapped.address in activeTokens) && !addressSet[wrapped.address]) {
             addressSet[wrapped.address] = true;
             result.push(wrapped);
             if (result.length >= minResults) return result;
@@ -112,9 +103,7 @@ export function useIsTokenActive(token: Token | undefined | null): boolean {
 }
 
 // Check if currency is included in custom list from user storage
-export function useIsUserAddedToken(
-  currency: Currency | undefined | null
-): boolean {
+export function useIsUserAddedToken(currency: Currency | undefined | null): boolean {
   const userAddedTokens = useUserAddedTokens();
 
   if (!currency) {

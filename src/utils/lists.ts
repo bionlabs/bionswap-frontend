@@ -1,11 +1,11 @@
-import { TokenInfo, TokenList, Version } from "@uniswap/token-lists";
-import schema from "@uniswap/token-lists/src/tokenlist.schema.json";
-import Ajv from "ajv";
-import { DEFAULT_LIST_OF_LISTS } from "configs/token-lists";
-import { WrappedTokenInfo } from "entities/WrappedTokenInfo";
-import { ChainTokenMap, TokenAddressMap } from "state/lists/hooks";
-import { contenthashToUri, uriToHttp } from "./convert";
-import { parseENSAddress } from "./ens";
+import { TokenInfo, TokenList, Version } from '@uniswap/token-lists';
+import schema from '@uniswap/token-lists/src/tokenlist.schema.json';
+import Ajv from 'ajv';
+import { DEFAULT_LIST_OF_LISTS } from 'configs/token-lists';
+import { WrappedTokenInfo } from 'custom-entities/WrappedTokenInfo';
+import { ChainTokenMap, TokenAddressMap } from 'state/lists/hooks';
+import { contenthashToUri, uriToHttp } from './convert';
+import { parseENSAddress } from './ens';
 
 const tokenListValidator = new Ajv({ allErrors: true }).compile(schema);
 
@@ -13,7 +13,7 @@ type Mutable<T> = {
   -readonly [P in keyof T]: Mutable<T[P]>;
 };
 
-const mapCache = typeof WeakMap !== "undefined" ? new WeakMap<TokenList | TokenInfo[], ChainTokenMap>() : null;
+const mapCache = typeof WeakMap !== 'undefined' ? new WeakMap<TokenList | TokenInfo[], ChainTokenMap>() : null;
 
 export function tokensToChainTokenMap(tokens: TokenList | TokenInfo[]): ChainTokenMap {
   const cached = mapCache?.get(tokens);
@@ -37,7 +37,7 @@ export function tokensToChainTokenMap(tokens: TokenList | TokenInfo[]): ChainTok
 }
 
 const listCache: WeakMap<TokenList, TokenAddressMap> | null =
-  typeof WeakMap !== "undefined" ? new WeakMap<TokenList, TokenAddressMap>() : null;
+  typeof WeakMap !== 'undefined' ? new WeakMap<TokenList, TokenAddressMap>() : null;
 
 export function listToTokenMap(list: TokenList): TokenAddressMap {
   const result = listCache?.get(list);
@@ -84,7 +84,7 @@ export function combineMaps(map1: TokenAddressMap, map2: TokenAddressMap): Token
       .reduce<{ [chainId: string]: true }>((memo, value) => {
         memo[value] = true;
         return memo;
-      }, {})
+      }, {}),
   ).map((id) => parseInt(id));
 
   return chainIds.reduce<Mutable<TokenAddressMap>>((memo, chainId) => {
@@ -174,7 +174,7 @@ export function sortByListPriority(urlA: string, urlB: string) {
  */
 export async function getTokenList(
   listUrl: string,
-  resolveENSContentHash: (ensName: string) => Promise<string>
+  resolveENSContentHash: (ensName: string) => Promise<string>,
 ): Promise<TokenList> {
   const parsedENS = parseENSAddress(listUrl);
   let urls: string[];
@@ -190,10 +190,10 @@ export async function getTokenList(
     try {
       translatedUri = contenthashToUri(contentHashUri);
     } catch (error) {
-      console.debug("Failed to translate contenthash to URI", contentHashUri);
+      console.debug('Failed to translate contenthash to URI', contentHashUri);
       throw new Error(`Failed to translate contenthash to URI: ${contentHashUri}`);
     }
-    urls = uriToHttp(`${translatedUri}${parsedENS.ensPath ?? ""}`);
+    urls = uriToHttp(`${translatedUri}${parsedENS.ensPath ?? ''}`);
   } else {
     urls = uriToHttp(listUrl);
   }
@@ -204,7 +204,7 @@ export async function getTokenList(
     try {
       response = await fetch(url);
     } catch (error) {
-      console.debug("Failed to fetch list", listUrl, error);
+      console.debug('Failed to fetch list', listUrl, error);
       if (isLast) throw new Error(`Failed to download list ${listUrl}`);
       continue;
     }
@@ -218,14 +218,14 @@ export async function getTokenList(
     if (!tokenListValidator(json)) {
       const validationErrors: string =
         tokenListValidator.errors?.reduce<string>((memo, error) => {
-          const add = `${error.dataPath} ${error.message ?? ""}`;
+          const add = `${error.dataPath} ${error.message ?? ''}`;
           return memo.length > 0 ? `${memo}; ${add}` : `${add}`;
-        }, "") ?? "unknown error";
+        }, '') ?? 'unknown error';
       throw new Error(`Token list failed validation: ${validationErrors}`);
     }
     return json as any;
   }
-  throw new Error("Unrecognized list URL protocol.");
+  throw new Error('Unrecognized list URL protocol.');
 }
 
 export function listVersionLabel(version: Version): string {

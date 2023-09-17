@@ -1,6 +1,6 @@
 import { ChainId, Currency, WNATIVE } from '@bionswap/core-sdk';
 import { Logo } from 'components';
-import { WrappedTokenInfo } from 'entities/WrappedTokenInfo';
+import { WrappedTokenInfo } from 'custom-entities/WrappedTokenInfo';
 
 import { useHttpLocations } from 'hooks';
 import { FunctionComponent, useMemo } from 'react';
@@ -113,6 +113,7 @@ const LOGO: Record<ChainId, string> = {
   [ChainId.OPTIMISM]: EthereumLogo,
   [ChainId.KAVA]: KavaLogo,
   [ChainId.METIS]: MetisLogo,
+  [ChainId.KLAYTN]: EthereumLogo,
 };
 
 export interface CurrencyLogoProps {
